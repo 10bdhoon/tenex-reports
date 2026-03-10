@@ -55,7 +55,7 @@ a{text-decoration:none;color:inherit}
     <span class="brand">🎯 테넥스 | 카리나</span>
   </div>
   <h1>테넥스 리포트</h1>
-  <p>전략 · 시스템 · 제품 · CRM — 전체 문서 모음</p>
+  <p>A 제품 · B 콘텐츠 · C 의료계 · D 마케팅 · E 앱/CRM · F 자금 · G 채용 · H 운영 · I AI</p>
   <div class="header-stats">
     <div class="stat-box"><div class="num" id="total-count">0</div><div class="label">총 문서</div></div>
     <div class="stat-box"><div class="num" id="cat-count">0</div><div class="label">카테고리</div></div>
@@ -66,40 +66,49 @@ a{text-decoration:none;color:inherit}
 
 <script>
 var reports = [
-  // 🌏 글로벌 전략
-  {cat:"글로벌 전략",icon:"🌏",title:"해외 진출 국가별 심층 분석 (15개국)",desc:"시장규모·난이도·매출·인증 맥킨지급 분석",path:"reports/marketing/2026-03-10-global-market-country-analysis.html",date:"2026-03-10",cardIcon:"🗺️"},
-  {cat:"글로벌 전략",icon:"🌏",title:"글로벌 전략 맥킨지급 분석",desc:"국내 vs 해외 vs 투트랙 3시나리오",path:"reports/marketing/2026-03-10-global-strategy-mckinsey.html",date:"2026-03-10",cardIcon:"📊"},
-  {cat:"글로벌 전략",icon:"🌏",title:"APR(에이피알) 미국 진출 벤치마크",desc:"창업~매출 1조 전 과정 + 키네메디칼 적용",path:"reports/marketing/2026-03-10-apr-us-expansion-benchmark.html",date:"2026-03-10",cardIcon:"🇺🇸"},
+  // A 제품 — 목 문제의 근본적인 해결책이 될 수 있는 솔루션 개발에 성공한다
+  {cat:"A 제품",icon:"🔬",title:"1분도수 앱 — 전체 기능 상세 명세서",desc:"18개 소스 분석 풀스펙",path:"reports/app/2026-02-23-app-full-spec.html",date:"2026-02-23",cardIcon:"📱"},
+  {cat:"A 제품",icon:"🔬",title:"1분도수 앱 — 시스템 아키텍처",desc:"앱 기술 아키텍처",path:"reports/app/2026-02-23-app-architecture.html",date:"2026-02-23",cardIcon:"🏗️"},
 
-  // 🤖 AI 시스템
-  {cat:"AI 시스템",icon:"🤖",title:"AI 에이전트 구조 — 카리나 시스템",desc:"카리나 AI 비서 전체 아키텍처",path:"reports/architecture/2026-02-23-agent-architecture.html",date:"2026-02-23",cardIcon:"🧠"},
-  {cat:"AI 시스템",icon:"🤖",title:"데이터 순환 파이프라인",desc:"테넥스 지식 시스템 설계",path:"reports/architecture/2026-02-23-data-pipeline.html",date:"2026-02-23",cardIcon:"🔄"},
-  {cat:"AI 시스템",icon:"🤖",title:"RAG 시스템 설계서",desc:"지식 순환 파이프라인 4계층",path:"reports/architecture/2026-02-23-rag-system-design.html",date:"2026-02-23",cardIcon:"📚"},
+  // B 콘텐츠/채널 — 목이 아프면 1분도수가 떠오르도록 만든다
+  {cat:"B 콘텐츠/채널",icon:"🎬",title:"1분도수 유튜브/인스타 채널 현황",desc:"채널 성과 분석",path:"reports/marketing/2026-02-23-content-channel-analysis.html",date:"2026-02-23",cardIcon:"📺"},
 
-  // 📦 제품
-  {cat:"제품",icon:"📦",title:"1분도수 앱 — 전체 기능 상세 명세서",desc:"18개 소스 분석 풀스펙",path:"reports/app/2026-02-23-app-full-spec.html",date:"2026-02-23",cardIcon:"📱"},
-  {cat:"제품",icon:"📦",title:"1분도수 앱 — 시스템 아키텍처",desc:"앱 기술 아키텍처",path:"reports/app/2026-02-23-app-architecture.html",date:"2026-02-23",cardIcon:"🏗️"},
+  // C 의료계 파트너십 — 의료계가 인정하는 경추 치료 솔루션
+  // (아직 문서 없음)
 
-  // 📈 마케팅
-  {cat:"마케팅",icon:"📈",title:"제품별 광고 크리에이티브 전략",desc:"CS-25, ES-808, WS-200 광고 전략",path:"reports/marketing/2026-02-23-ad-creative-strategy.html",date:"2026-02-23",cardIcon:"🎨"},
-  {cat:"마케팅",icon:"📈",title:"마케팅 전략 로드맵",desc:"콘텐츠 · D2C · 7채널 배포",path:"reports/marketing/2026-02-23-marketing-roadmap.html",date:"2026-02-23",cardIcon:"🗺️"},
-  {cat:"마케팅",icon:"📈",title:"광고 성과 분석 — 2월 누적",desc:"메타 광고 성과 리포트",path:"reports/marketing/2026-02-23-feb-ad-performance.html",date:"2026-02-23",cardIcon:"📊"},
-  {cat:"마케팅",icon:"📈",title:"1분도수 유튜브/인스타 채널 현황",desc:"채널 성과 분석",path:"reports/marketing/2026-02-23-content-channel-analysis.html",date:"2026-02-23",cardIcon:"📺"},
-  {cat:"마케팅",icon:"📈",title:"와디즈 프리오더 검토",desc:"크라우드펀딩 검토 보고서",path:"reports/marketing/2026-02-23-wadiz-preorder-review.html",date:"2026-02-23",cardIcon:"🏷️"},
-  {cat:"마케팅",icon:"📈",title:"일일 매출 리포트 샘플",desc:"2/21 실데이터 기반",path:"reports/marketing/2026-02-21-daily-sales-report-sample.html",date:"2026-02-21",cardIcon:"💰"},
+  // D 마케팅/광고 — 대한민국이 열광하는 경추 치료 솔루션
+  {cat:"D 마케팅/광고",icon:"📈",title:"제품별 광고 크리에이티브 전략",desc:"CS-25, ES-808, WS-200 광고 전략",path:"reports/marketing/2026-02-23-ad-creative-strategy.html",date:"2026-02-23",cardIcon:"🎨"},
+  {cat:"D 마케팅/광고",icon:"📈",title:"마케팅 전략 로드맵",desc:"콘텐츠 · D2C · 7채널 배포",path:"reports/marketing/2026-02-23-marketing-roadmap.html",date:"2026-02-23",cardIcon:"🗺️"},
+  {cat:"D 마케팅/광고",icon:"📈",title:"광고 성과 분석 — 2월 누적",desc:"메타 광고 성과 리포트",path:"reports/marketing/2026-02-23-feb-ad-performance.html",date:"2026-02-23",cardIcon:"📊"},
+  {cat:"D 마케팅/광고",icon:"📈",title:"와디즈 프리오더 검토",desc:"크라우드펀딩 검토 보고서",path:"reports/marketing/2026-02-23-wadiz-preorder-review.html",date:"2026-02-23",cardIcon:"🏷️"},
+  {cat:"D 마케팅/광고",icon:"📈",title:"일일 매출 리포트 샘플",desc:"2/21 실데이터 기반",path:"reports/marketing/2026-02-21-daily-sales-report-sample.html",date:"2026-02-21",cardIcon:"💰"},
+  {cat:"D 마케팅/광고",icon:"📈",title:"APR(에이피알) 미국 진출 벤치마크",desc:"창업~매출 1.5조 전 과정 + 키네메디칼 적용",path:"reports/marketing/2026-03-10-apr-us-expansion-benchmark.html",date:"2026-03-10",cardIcon:"🇺🇸"},
+  {cat:"D 마케팅/광고",icon:"📈",title:"글로벌 전략 맥킨지급 분석",desc:"국내 vs 해외 vs 투트랙 3시나리오",path:"reports/marketing/2026-03-10-global-strategy-mckinsey.html",date:"2026-03-10",cardIcon:"📊"},
+  {cat:"D 마케팅/광고",icon:"📈",title:"해외 진출 국가별 심층 분석 (15개국)",desc:"시장규모·난이도·매출·인증 맥킨지급 분석",path:"reports/marketing/2026-03-10-global-market-country-analysis.html",date:"2026-03-10",cardIcon:"🗺️"},
 
-  // 🏢 아키텍처
-  {cat:"아키텍처",icon:"🏢",title:"키네메디칼 비즈니스 전체 현황",desc:"사업 대시보드",path:"reports/architecture/2026-02-23-business-dashboard.html",date:"2026-02-23",cardIcon:"📋"},
-  {cat:"아키텍처",icon:"🏢",title:"Cafe24 + Meta Ads API 연동",desc:"API 아키텍처 설계",path:"reports/architecture/2026-02-23-api-architecture.html",date:"2026-02-23",cardIcon:"🔌"},
-  {cat:"아키텍처",icon:"🏢",title:"Cafe24 멀티몰 운영 가이드",desc:"멀티샵 운영 매뉴얼",path:"reports/architecture/2026-02-23-cafe24-operations-guide.html",date:"2026-02-23",cardIcon:"🛒"},
-  {cat:"아키텍처",icon:"🏢",title:"Render Cron Job 운영 가이드",desc:"인프라 운영 매뉴얼",path:"reports/architecture/2026-02-23-render-cron-guide.html",date:"2026-02-23",cardIcon:"⚙️"},
+  // E 앱/CRM — 구매자가 실제로 회복하고 평생 팬이 되는 구조
+  // (앱 관련은 A 제품에, CRM 문서 추가 시 여기)
 
-  // 📝 태스크 & 리뷰
-  {cat:"태스크 & 리뷰",icon:"📝",title:"팀 운영 현황 & 채용 계획",desc:"팀 구조 분석",path:"reports/task/2026-02-23-team-operations.html",date:"2026-02-23",cardIcon:"👥"},
-  {cat:"태스크 & 리뷰",icon:"📝",title:"PR #99 상세 코드 리뷰",desc:"3파일 628줄 분석",path:"reports/review/2026-02-23-pr99-code-review-detail.html",date:"2026-02-23",cardIcon:"🔍"},
-  {cat:"태스크 & 리뷰",icon:"📝",title:"PR #99 코드 리뷰",desc:"버그 4건 수정",path:"reports/review/2026-02-21-pr99-review.html",date:"2026-02-21",cardIcon:"✅"},
-  {cat:"태스크 & 리뷰",icon:"📝",title:"PR #99 릴리스 보고서",desc:"홈 가이드 + 회복점수 + 프로필 + 슬랙",path:"reports/release/2026-02-21-pr99-release.html",date:"2026-02-21",cardIcon:"🚀"},
-  {cat:"태스크 & 리뷰",icon:"📝",title:"일일 매출 리포트 자동화 태스크",desc:"자동화 태스크 설계",path:"reports/task/2026-02-21-daily-report-task.html",date:"2026-02-21",cardIcon:"⏰"}
+  // F 자금조달 — 성장에 필요한 자금을 지분 희석 없이 확보
+  // (아직 문서 없음)
+
+  // G 채용 — 태훈이 전략/제품에 집중할 수 있는 팀 구축
+  {cat:"G 채용",icon:"👥",title:"팀 운영 현황 & 채용 계획",desc:"팀 구조 분석",path:"reports/task/2026-02-23-team-operations.html",date:"2026-02-23",cardIcon:"👥"},
+
+  // H 운영 — 매출이 커져도 흔들리지 않는 운영 체계
+  {cat:"H 운영",icon:"⚙️",title:"키네메디칼 비즈니스 전체 현황",desc:"사업 대시보드",path:"reports/architecture/2026-02-23-business-dashboard.html",date:"2026-02-23",cardIcon:"📋"},
+  {cat:"H 운영",icon:"⚙️",title:"Cafe24 멀티몰 운영 가이드",desc:"멀티샵 운영 매뉴얼",path:"reports/architecture/2026-02-23-cafe24-operations-guide.html",date:"2026-02-23",cardIcon:"🛒"},
+  {cat:"H 운영",icon:"⚙️",title:"일일 매출 리포트 자동화 태스크",desc:"자동화 태스크 설계",path:"reports/task/2026-02-21-daily-report-task.html",date:"2026-02-21",cardIcon:"⏰"},
+
+  // I AI 시스템 — 반복 업무를 자동화하여 적은 인원으로 최대 성과
+  {cat:"I AI 시스템",icon:"🤖",title:"AI 에이전트 구조 — 카리나 시스템",desc:"카리나 AI 비서 전체 아키텍처",path:"reports/architecture/2026-02-23-agent-architecture.html",date:"2026-02-23",cardIcon:"🧠"},
+  {cat:"I AI 시스템",icon:"🤖",title:"데이터 순환 파이프라인",desc:"테넥스 지식 시스템 설계",path:"reports/architecture/2026-02-23-data-pipeline.html",date:"2026-02-23",cardIcon:"🔄"},
+  {cat:"I AI 시스템",icon:"🤖",title:"RAG 시스템 설계서",desc:"지식 순환 파이프라인 4계층",path:"reports/architecture/2026-02-23-rag-system-design.html",date:"2026-02-23",cardIcon:"📚"},
+  {cat:"I AI 시스템",icon:"🤖",title:"Cafe24 + Meta Ads API 연동",desc:"API 아키텍처 설계",path:"reports/architecture/2026-02-23-api-architecture.html",date:"2026-02-23",cardIcon:"🔌"},
+  {cat:"I AI 시스템",icon:"🤖",title:"Render Cron Job 운영 가이드",desc:"인프라 운영 매뉴얼",path:"reports/architecture/2026-02-23-render-cron-guide.html",date:"2026-02-23",cardIcon:"⚙️"},
+  {cat:"I AI 시스템",icon:"🤖",title:"PR #99 상세 코드 리뷰",desc:"3파일 628줄 분석",path:"reports/review/2026-02-23-pr99-code-review-detail.html",date:"2026-02-23",cardIcon:"🔍"},
+  {cat:"I AI 시스템",icon:"🤖",title:"PR #99 코드 리뷰",desc:"버그 4건 수정",path:"reports/review/2026-02-21-pr99-review.html",date:"2026-02-21",cardIcon:"✅"},
+  {cat:"I AI 시스템",icon:"🤖",title:"PR #99 릴리스 보고서",desc:"홈 가이드 + 회복점수 + 프로필 + 슬랙",path:"reports/release/2026-02-21-pr99-release.html",date:"2026-02-21",cardIcon:"🚀"}
 ];
 
 // Render
