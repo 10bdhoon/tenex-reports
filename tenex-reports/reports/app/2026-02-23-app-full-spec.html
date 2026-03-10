@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>1분도수 앱 — 전체 기능 상세 명세서</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}body{font-family:-apple-system,BlinkMacSystemFont,'Pretendard',sans-serif;background:#f8f9fa;color:#333;line-height:1.7}.header{background:linear-gradient(135deg,#0a0a0a 0%,#1a1a2e 100%);color:#fff;padding:32px;max-width:960px;margin:0 auto}.header h1{font-size:22px;font-weight:700}.header .meta{font-size:13px;color:#8b8ba7;margin-top:8px;display:flex;gap:16px;flex-wrap:wrap}.body{max-width:960px;margin:0 auto;padding:24px 16px}h2{font-size:18px;font-weight:700;margin:32px 0 16px;padding-bottom:8px;border-bottom:2px solid #e5e7eb}h3{font-size:15px;font-weight:600;margin:20px 0 10px;color:#1a1a2e}h4{font-size:14px;font-weight:600;margin:14px 0 8px;color:#333}p,li{font-size:14px}ul{padding-left:20px;margin:8px 0}.section-box{background:#fff;border-radius:10px;padding:20px;margin:16px 0;box-shadow:0 1px 3px rgba(0,0,0,0.08)}.flow{background:#1a1a2e;color:#fff;border-radius:10px;padding:20px;margin:16px 0;font-family:monospace;font-size:13px;line-height:2;white-space:pre-wrap}table{width:100%;border-collapse:collapse;margin:12px 0;font-size:13px}th{background:#f1f3f5;padding:8px 12px;text-align:left;font-weight:600;border-bottom:2px solid #dee2e6}td{padding:8px 12px;border-bottom:1px solid #eee}.tag{display:inline-block;padding:2px 8px;border-radius:4px;font-size:11px;font-weight:600;margin-right:4px}.tag.good{background:#d4edda;color:#155724}.tag.warn{background:#fff3cd;color:#856404}.tag.bad{background:#f8d7da;color:#721c24}.tag.info{background:#cce5ff;color:#004085}.back{display:inline-block;margin-bottom:16px;color:#e94560;font-size:13px;text-decoration:none;font-weight:600}.footer{text-align:center;font-size:12px;color:#999;margin-top:40px;padding:20px}
+</style>
+</head>
+<body>
+<div class="header">
+  <h1>📱 1분도수 앱 — 전체 기능 상세 명세서</h1>
+  <div class="meta">
+    <span>📅 2026년 2월 23일</span>
+    <span>🏗️ 1min-dosu v3</span>
+    <span>📊 18개 소스 파일 기반 분석</span>
+  </div>
+</div>
+<div class="body">
+<a class="back" href="../../index.html">← 전체 보고서</a>
+
+<h2>1. 전체 화면 구조</h2>
+<div class="flow">
+┌──────────────────────────────────────────────┐
+│                 _layout.tsx                   │
+│  Stack Navigator (인증/온보딩/메인 라우팅)       │
+├──────────────────────────────────────────────┤
+│                                              │
+│  🔐 auth/login  →  📋 onboarding (6단계)      │
+│                       │                      │
+│                       ▼                      │
+│  ┌─────────────────────────────────────────┐ │
+│  │           (tabs) — 하단 탭 네비게이션       │ │
+│  │                                         │ │
+│  │  🏠 홈    ❤️ 회복    👥 커뮤니티           │ │
+│  │  🛒 스토어   👤 프로필                    │ │
+│  └─────────────────────────────────────────┘ │
+│                                              │
+│  📄 notifications  (독립 스크린)               │
+│  📄 community/[id]  (게시물 상세)              │
+│  📄 community/create (글쓰기)                 │
+│  📄 community/edit/[id] (수정)               │
+│  📄 terms, privacy  (약관)                   │
+└──────────────────────────────────────────────┘
+</div>
+
+<div class="section-box">
+<h3>라우팅 흐름 (_layout.tsx)</h3>
+<ul>
+  <li><strong>미인증 + 온보딩 미완료</strong> → <code>/auth/login</code> (카카오 로그인)</li>
+  <li><strong>인증 완료 + 온보딩 미완료</strong> → <code>/onboarding/welcome</code></li>
+  <li><strong>온보딩 완료</strong> → <code>/(tabs)</code> 홈</li>
+  <li>온보딩 완료 시 auth/onboarding 화면에서 자동 리다이렉트</li>
+</ul>
+<p><span class="tag info">참고</span> 온보딩 완료된 비로그인 사용자도 홈 접근 허용 (둘러보기 모드)</p>
+</div>
+
+<h2>2. 온보딩 플로우 (6단계)</h2>
+<div class="section-box">
+<table>
+<tr><th>단계</th><th>화면</th><th>수집 데이터</th><th>상태 관리</th></tr>
+<tr><td>1/6</td><td>welcome.tsx — 환영</td><td>없음 (소개)</td><td>setCurrentStep(2)</td></tr>
+<tr><td>2/6</td><td>pain-area — 통증 부위</td><td>PainArea[] (목/어깨, 손목, 허리, 무릎, 발목, 기타)</td><td>togglePainArea()</td></tr>
+<tr><td>3/6</td><td>pain-level — 통증 정도</td><td>PainLevel ('급성' | '만성')</td><td>setPainLevel()</td></tr>
+<tr><td>4/6</td><td>products — 보유 제품</td><td>Product[] ('CS-25' | 'ES-808' | 'WS-200' | '없음')</td><td>toggleProduct()</td></tr>
+<tr><td>5/6</td><td>delivery — 배송 상태</td><td>DeliveryStatus ('received' | 'shipping')</td><td>setDeliveryStatus()</td></tr>
+<tr><td>6/6</td><td>challenge.tsx — 챌린지 선택</td><td>ChallengeType ('14일' | '21일')</td><td>setChallengeType()</td></tr>
+</table>
+<p><span class="tag good">완료 시</span> completeOnboarding() → Supabase에 pain_duration_type, pain_areas 저장 + challenges 테이블에 레코드 생성</p>
+</div>
+
+<h2>3. 홈 화면 (index.tsx)</h2>
+<div class="section-box">
+<h3>3.1 핵심 기능</h3>
+
+<h4>① 오늘의 상태 체크 팝업</h4>
+<ul>
+  <li>앱 진입 시 pain_score 미입력이면 바텀시트 모달 자동 표시</li>
+  <li>1~10점 선택 (1=많이 아픔, 10=괜찮음)</li>
+  <li>점수 제출 → savePainScore() → +10P 적립 (status_check)</li>
+  <li>점수 범위별 루틴 분기: ≤3 (회복 집중), 4~6 (회복+교정), ≥7 (교정+운동)</li>
+</ul>
+
+<h4>② 맞춤 루틴 시스템</h4>
+<table>
+<tr><th>점수</th><th>루틴 구성</th><th>설명</th></tr>
+<tr><td>1~3점</td><td>WS-200 찜질 → ES-808 자극 → 가벼운 스트레칭 영상</td><td>회복 집중</td></tr>
+<tr><td>4~6점</td><td>WS-200 찜질(선택) → CS-25 교정 → 목 스트레칭 영상</td><td>회복+교정</td></tr>
+<tr><td>7~10점</td><td>CS-25 교정 → 1분 운동 영상 → 마무리 스트레칭 영상</td><td>교정+운동</td></tr>
+</table>
+<ul>
+  <li>제품 미보유 시 "구매하기" 버튼 표시 (자사몰 WebBrowser)</li>
+  <li>보유 시 "지금하기" → ProductGuideModal로 사용 가이드 제공</li>
+  <li>모든 루틴 완료 시 +30P (routine_complete)</li>
+</ul>
+
+<h4>③ 오늘의 1분 운동 영상</h4>
+<ul>
+  <li>유튜브 숏츠 5개 중 랜덤 선택 (react-native-youtube-iframe)</li>
+  <li>영상 끝까지 시청 시 markVideoWatched() → +100P (exercise_complete)</li>
+  <li>체크인 자동 처리 + 스트릭 업데이트</li>
+</ul>
+
+<h4>④ 챌린지 진행률 카드</h4>
+<ul>
+  <li>온보딩에서 선택한 14일/21일 챌린지 기반</li>
+  <li>연속 일수, 남은 일수, 달성률(%) 표시</li>
+  <li>프로그레스 바 시각화</li>
+</ul>
+
+<h4>⑤ 크로스셀 추천 제품</h4>
+<ul>
+  <li>Supabase products 테이블에서 보유 제품 제외 → display_order 순 첫 번째</li>
+  <li>모든 제품 보유 시 표시 안 함</li>
+  <li>클릭 → expo-web-browser로 자사몰 오픈</li>
+</ul>
+
+<h3>3.2 상태 관리</h3>
+<ul>
+  <li><code>useAuthStore</code> — user, isAuthenticated</li>
+  <li><code>usePointStore</code> — points, earnPoints, checkDailyLogin, checkStreakRewards</li>
+  <li><code>useOnboardingStore</code> — challengeType, products (보유 제품)</li>
+  <li><code>useProductGuideModal</code> — 가이드 모달 open/close 통합 훅</li>
+</ul>
+
+<h3>3.3 API 호출</h3>
+<table>
+<tr><th>함수</th><th>출처</th><th>용도</th></tr>
+<tr><td>getTodayLog(userId)</td><td>dailyLogService</td><td>오늘 일일 로그 조회</td></tr>
+<tr><td>savePainScore(userId, score)</td><td>dailyLogService</td><td>통증 점수 저장</td></tr>
+<tr><td>markVideoWatched(userId)</td><td>dailyLogService</td><td>영상 시청 완료 기록</td></tr>
+<tr><td>addProductUsed(userId, productId)</td><td>dailyLogService</td><td>제품 사용 기록 추가</td></tr>
+<tr><td>getStreakDays(userId)</td><td>dailyLogService</td><td>연속 달성일 계산</td></tr>
+<tr><td>syncLocalLogsToSupabase(userId)</td><td>dailyLogService</td><td>로컬→Supabase 동기화</td></tr>
+<tr><td>ensureUserExists(userId)</td><td>pointService</td><td>users 테이블 존재 보장</td></tr>
+<tr><td>hasEarnedPointToday(userId, type)</td><td>pointService</td><td>오늘 포인트 중복 체크</td></tr>
+<tr><td>supabase.from('products')</td><td>Supabase</td><td>추천 제품 조회</td></tr>
+</table>
+</div>
+
+<h2>4. 회복 점수 화면 (recovery.tsx)</h2>
+<div class="section-box">
+<h3>4.1 주요 섹션 (상→하 스크롤)</h3>
+
+<h4>① 오늘의 상태 체크</h4>
+<ul>
+  <li>1~10점 선택 UI (홈과 동일한 슬라이더)</li>
+  <li>체크 완료 후 "탭하여 수정" 기능 (isEditingScore)</li>
+  <li>수정 시 포인트 추가 적립 없음 (중복 방지)</li>
+</ul>
+
+<h4>② 나의 회복 여정</h4>
+<ul>
+  <li>총 운동 일수 (journeyData.totalDays)</li>
+  <li>연속 참여 일수 (weeklyScores 기반 계산)</li>
+  <li>누적 포인트 (formatPoints)</li>
+</ul>
+
+<h4>③ 내 통증 부위</h4>
+<ul>
+  <li>온보딩에서 선택한 통증 부위 뱃지 표시</li>
+  <li>탭하여 수정 가능 (painAreaModal)</li>
+  <li>부위별 이모지: 목/어깨🦴, 손목✋, 허리🔙, 무릎🦵, 발목🦶, 기타📌</li>
+</ul>
+
+<h4>④ 통증 추이 그래프</h4>
+<ul>
+  <li>최근 7일 바 차트 (점수별 색상: 1-3 빨강, 4-6 노랑, 7-10 초록)</li>
+  <li>지난주 대비 변화량 뱃지 (↑개선 / ↓악화)</li>
+  <li>첫 주 vs 최근 7일 평균 비교 카드</li>
+</ul>
+
+<h4>⑤ 오늘의 회복 팁</h4>
+<ul>
+  <li>통증 점수 기반 개인화 팁 (3개)</li>
+  <li>통증 부위 기반 추가 팁 (목/어깨, 허리, 손목 등)</li>
+  <li>제품 미보유 시 구매 유도 팁</li>
+</ul>
+
+<h4>⑥ 내 제품 관리</h4>
+<ul>
+  <li>보유 제품: 가이드 모달 → 사용 인증 (사진+메모 필수)</li>
+  <li>미보유 제품: "보유중" 토글 + "구매" 버튼</li>
+  <li>인증 완료 시 커뮤니티 '챌린지 인증' 카테고리에 자동 게시 (+50P)</li>
+</ul>
+
+<h3>4.2 제품 사용 인증 플로우</h3>
+<div class="flow">
+제품 카드 "가이드" 탭
+  → ProductGuideModal 표시 (사용법, 권장시간, 주의사항)
+    → "사용 완료하기 +50P" 클릭
+      → 인증 모달 (사진 촬영/갤러리 + 한줄 메모)
+        → addProductUsed() + 커뮤니티 자동 게시
+          → +50P 적립 (product_use)
+</div>
+</div>
+
+<h2>5. 커뮤니티 화면 (community.tsx)</h2>
+<div class="section-box">
+<h3>5.1 구조</h3>
+<ul>
+  <li><strong>헤더:</strong> "커뮤니티" + 아이콘</li>
+  <li><strong>탭 필터:</strong> 전체 | 회복 후기 | 챌린지 | Q&A</li>
+  <li><strong>공지사항 섹션:</strong> notices 테이블에서 최신 3개 (빨간 왼쪽 보더)</li>
+  <li><strong>베스트 회복 후기:</strong> is_best=true인 게시물 (골드 보더)</li>
+  <li><strong>피드:</strong> FlatList + pull-to-refresh</li>
+  <li><strong>FAB:</strong> 우하단 + 버튼 → /community/create</li>
+</ul>
+
+<h3>5.2 게시물 카드 (Post)</h3>
+<ul>
+  <li>작성자 아바타(이니셜) + 닉네임 + 카테고리 뱃지 + 시간</li>
+  <li>본문 (최대 4줄) + 미디어 (이미지/비디오)</li>
+  <li>좋아요/댓글 수 + 좋아요/댓글/공유 액션</li>
+  <li>내 게시물: ⋯ 메뉴 → 수정/삭제</li>
+</ul>
+
+<h3>5.3 게시물 상세 ([id].tsx)</h3>
+<ul>
+  <li>전체 본문 + 미디어 캐러셀 (다중 이미지/비디오, 페이지 인디케이터)</li>
+  <li>좋아요 토글 (optimistic update + DB 트리거 카운트)</li>
+  <li>댓글 목록 + 댓글 입력 (비로그인: 익명 안내)</li>
+  <li>KeyboardAvoidingView로 입력 UX 최적화</li>
+</ul>
+
+<h3>5.4 글쓰기 (create.tsx)</h3>
+<ul>
+  <li>카테고리 선택: 챌린지 인증 | Q&A | 회복 후기</li>
+  <li>미디어: 사진 최대 5장, 동영상 최대 1개 (60초)</li>
+  <li>갤러리/카메라/비디오 촬영 버튼</li>
+  <li>게시 시 +30P (post_create) 적립</li>
+  <li>비로그인 시 익명 글 작성 (미디어 첨부 불가)</li>
+</ul>
+
+<h3>5.5 상태 관리 (communityStore.ts)</h3>
+<table>
+<tr><th>액션</th><th>설명</th><th>Supabase 쿼리</th></tr>
+<tr><td>fetchPosts</td><td>게시물 목록 + 작성자 join</td><td>posts + users + likes + challenges</td></tr>
+<tr><td>fetchBestPost</td><td>베스트 후기 1개</td><td>is_best=true, category='recovery'</td></tr>
+<tr><td>fetchNotices</td><td>공지 3개</td><td>category='notice' limit 3</td></tr>
+<tr><td>createPost</td><td>게시물 생성 + 미디어 업로드</td><td>insert posts + storage upload</td></tr>
+<tr><td>toggleLike</td><td>좋아요 토글</td><td>insert/delete likes (DB 트리거로 count)</td></tr>
+<tr><td>addComment</td><td>댓글 작성</td><td>insert comments (DB 트리거로 count)</td></tr>
+<tr><td>uploadMedia</td><td>미디어 업로드</td><td>post-images/post-videos 버킷</td></tr>
+</table>
+</div>
+
+<h2>6. 스토어 화면 (store.tsx)</h2>
+<div class="section-box">
+<h3>6.1 구조</h3>
+<ul>
+  <li><strong>포인트 카드:</strong> 사용 가능 포인트 + "1P = 1원 적립금 전환" 안내</li>
+  <li><strong>전환 버튼:</strong> 10,000P 이상 시 카카오톡 채널로 전환 신청</li>
+  <li><strong>추천 제품:</strong> 보유 제품 제외 첫 번째 → 상세 카드 + "지금 구매하기"</li>
+  <li><strong>전체 제품:</strong> 2열 그리드 (Supabase products 테이블)</li>
+  <li><strong>자사몰 배너:</strong> korea.kinemedical.co.kr 링크</li>
+</ul>
+
+<h3>6.2 제품 데이터</h3>
+<table>
+<tr><th>코드</th><th>제품명</th><th>가격</th><th>용도</th></tr>
+<tr><td>CS-25</td><td>자동 경추 마사지기</td><td>₩398,000</td><td>교정</td></tr>
+<tr><td>ES-808</td><td>EMS/TENS 자극기</td><td>₩129,000</td><td>회복</td></tr>
+<tr><td>WS-200</td><td>근적외선 찜질기</td><td>₩128,000</td><td>회복</td></tr>
+<tr><td>CREAM</td><td>글루코사민 마사지 크림</td><td>₩9,900</td><td>케어</td></tr>
+</table>
+<p><span class="tag info">Fallback</span> Supabase 조회 실패 시 하드코딩된 fallbackProducts 사용</p>
+</div>
+
+<h2>7. 프로필/마이페이지 (profile.tsx)</h2>
+<div class="section-box">
+<h3>7.1 기능</h3>
+<ul>
+  <li><strong>프로필 카드:</strong> 아바타 + 닉네임 + 전화번호(마스킹) + 수정 버튼</li>
+  <li><strong>포인트 요약:</strong> 보유 포인트 | 누적 포인트</li>
+  <li><strong>프로필 수정:</strong> 닉네임 변경 + 아바타 업로드 (Supabase Storage avatars 버킷)</li>
+  <li><strong>알림 설정:</strong> 푸시 알림 on/off + 아침(7시)/저녁(9시) 개별 토글</li>
+  <li><strong>건의함:</strong> 제목+내용 → Supabase suggestions 테이블 + Slack 알림 (Edge Function)</li>
+  <li><strong>고객센터:</strong> 카카오톡 채널 (pf.kakao.com/_CwrSn)</li>
+  <li><strong>이용약관/개인정보처리방침</strong></li>
+  <li><strong>로그아웃</strong></li>
+</ul>
+
+<h3>7.2 미인증 상태</h3>
+<p>로그인 유도 화면 표시 ("로그인하면 모든 기능을 이용할 수 있어요")</p>
+</div>
+
+<h2>8. 알림 화면 (notifications.tsx)</h2>
+<div class="section-box">
+<ul>
+  <li>포인트 히스토리 → 알림 카드로 변환 (최근 20건)</li>
+  <li>시스템 알림: 오늘의 운동 리마인더, 챌린지 진행 알림</li>
+  <li>시간순 정렬, 미읽음 표시 (왼쪽 파란 보더)</li>
+  <li>이벤트 타입별 아이콘/색상 매핑 (daily_login, exercise_complete, streak_7 등)</li>
+</ul>
+</div>
+
+<h2>9. 데이터 구조 (Supabase)</h2>
+<div class="section-box">
+<h3>9.1 주요 테이블</h3>
+<table>
+<tr><th>테이블</th><th>주요 컬럼</th><th>용도</th></tr>
+<tr><td>users</td><td>id, phone, nickname, avatar_url, pain_areas[], pain_level, points</td><td>사용자 프로필</td></tr>
+<tr><td>daily_logs</td><td>user_id, log_date, video_watched, exercise_done, products_used[], pain_score</td><td>일일 활동 로그</td></tr>
+<tr><td>challenges</td><td>user_id, type(14day/21day), streak, status, start_date, end_date</td><td>챌린지 관리</td></tr>
+<tr><td>posts</td><td>user_id, category, content, image_url, media_urls[], likes_count, comments_count, is_best</td><td>커뮤니티 게시물</td></tr>
+<tr><td>comments</td><td>post_id, user_id, content</td><td>댓글</td></tr>
+<tr><td>likes</td><td>post_id, user_id</td><td>좋아요 (DB 트리거로 count 동기화)</td></tr>
+<tr><td>products</td><td>code, name, price, url, badge, is_recommended, display_order</td><td>제품 카탈로그</td></tr>
+<tr><td>suggestions</td><td>user_id, title, content, user_nickname, user_phone</td><td>건의함</td></tr>
+</table>
+
+<h3>9.2 Storage 버킷</h3>
+<table>
+<tr><th>버킷</th><th>용도</th><th>구조</th></tr>
+<tr><td>avatars</td><td>프로필 사진</td><td>{user_id}/{timestamp}.{ext}</td></tr>
+<tr><td>post-images</td><td>게시물 이미지</td><td>{user_id}/{timestamp}_{random}.{ext}</td></tr>
+<tr><td>post-videos</td><td>게시물 동영상</td><td>{user_id}/{timestamp}_{random}.{ext}</td></tr>
+</table>
+
+<h3>9.3 미디어 제한</h3>
+<ul>
+  <li>이미지: 최대 5장 (quality 0.8)</li>
+  <li>동영상: 최대 1개 (60초 이내)</li>
+  <li>총 미디어: 최대 6개</li>
+</ul>
+</div>
+
+<h2>10. 서비스 레이어</h2>
+<div class="section-box">
+<h3>10.1 dailyLogService.ts (핵심)</h3>
+<table>
+<tr><th>함수</th><th>역할</th><th>특이사항</th></tr>
+<tr><td>getTodayLog()</td><td>오늘 일일 로그 조회</td><td>Supabase 실패 → AsyncStorage 폴백</td></tr>
+<tr><td>saveDailyLog()</td><td>일일 로그 저장/업데이트</td><td>세션 만료 시 로컬 저장</td></tr>
+<tr><td>savePainScore()</td><td>통증 점수 저장</td><td>saveDailyLog 래퍼</td></tr>
+<tr><td>markVideoWatched()</td><td>영상 시청 완료</td><td>saveDailyLog 래퍼</td></tr>
+<tr><td>addProductUsed()</td><td>제품 사용 추가</td><td>중복 체크 (isNew 반환)</td></tr>
+<tr><td>getStreakDays()</td><td>연속 달성일 계산</td><td>exercise_done 기반</td></tr>
+<tr><td>syncLocalLogsToSupabase()</td><td>로컬→서버 동기화</td><td>로그인 시 호출</td></tr>
+<tr><td>getLast7DaysPainScores()</td><td>최근 7일 점수</td><td>그래프용</td></tr>
+<tr><td>getRecoveryJourneyData()</td><td>회복 여정 데이터</td><td>첫주 vs 최근 평균 비교</td></tr>
+<tr><td>getMilestones()</td><td>마일스톤 달성 현황</td><td>7일 연속, 5점 돌파 등</td></tr>
+</table>
+
+<p><span class="tag warn">핵심 설계</span> <strong>오프라인 퍼스트:</strong> 모든 데이터 작업은 Supabase 실패 시 AsyncStorage에 저장 → 다음 로그인 시 syncLocalLogsToSupabase()로 동기화</p>
+
+<h3>10.2 pointService.ts</h3>
+<ul>
+  <li>ensureUserExists() — users 테이블에 행 보장</li>
+  <li>hasEarnedPointToday() — 이벤트별 일일 중복 적립 방지</li>
+  <li>earnPoints() — 포인트 적립 + 이벤트 기록</li>
+  <li>getPointHistory() — 포인트 내역 조회</li>
+</ul>
+</div>
+
+<h2>11. 제품 가이드 시스템</h2>
+<div class="section-box">
+<h3>11.1 constants/products.ts</h3>
+<p>제품별 사용 가이드 데이터를 중앙 관리:</p>
+<table>
+<tr><th>제품</th><th>사용법 단계</th><th>권장 시간</th><th>주의사항</th><th>영상 URL</th></tr>
+<tr><td>CS-25</td><td>누워서 → 다리 세우기 → 헤드픽서 → 강도 조절</td><td>10~30분</td><td>하루 2회 초과 금지</td><td>유튜브 재생목록</td></tr>
+<tr><td>ES-808</td><td>크림 도포 → 기기 켜기 → 모드 선택 → 강도 조절</td><td>5~15분</td><td>심장 근처 금지</td><td>유튜브 재생목록</td></tr>
+<tr><td>WS-200</td><td>부위 밀착 → 30분 자동 종료</td><td>10~30분</td><td>화상 주의</td><td>없음</td></tr>
+<tr><td>CREAM</td><td>적당량 도포 → 마사지</td><td>수시</td><td>상처/눈 주의</td><td>없음</td></tr>
+</table>
+
+<h3>11.2 ProductGuideModal 컴포넌트</h3>
+<ul>
+  <li>바텀시트 모달 (85% 높이)</li>
+  <li>제품 이미지 + 설명 + 단계별 사용법 + 권장 시간 + 추천 상황 + 주의사항</li>
+  <li>하단: "사용법 영상 보기" (유튜브) + "사용 완료하기" 버튼</li>
+  <li>recovery.tsx에서는 +50P 뱃지 표시, index.tsx에서는 표시 안 함</li>
+</ul>
+
+<h3>11.3 useProductGuideModal 훅</h3>
+<ul>
+  <li>visible, productId, routineId 상태 통합 관리</li>
+  <li>openGuideModal(productId, routineId?) / closeGuideModal()</li>
+  <li>index.tsx 루틴 시스템과 연동 (routineId로 완료 상태 추적)</li>
+</ul>
+</div>
+
+<h2>12. 외부 연동</h2>
+<div class="section-box">
+<table>
+<tr><th>서비스</th><th>용도</th><th>연동 방식</th></tr>
+<tr><td>Supabase Auth</td><td>카카오 로그인</td><td>@supabase/supabase-js</td></tr>
+<tr><td>Supabase Database</td><td>모든 데이터 CRUD</td><td>RLS 기반 보안</td></tr>
+<tr><td>Supabase Storage</td><td>이미지/비디오 업로드</td><td>avatars, post-images, post-videos 버킷</td></tr>
+<tr><td>Supabase Edge Functions</td><td>건의함 → 슬랙 알림</td><td>send-slack-notification (Deno)</td></tr>
+<tr><td>Mixpanel</td><td>앱 이벤트 트래킹</td><td>d0062845... 토큰</td></tr>
+<tr><td>Slack (Bot Token)</td><td>건의함 접수 알림</td><td>chat.postMessage API</td></tr>
+<tr><td>YouTube</td><td>1분 운동 영상 재생</td><td>react-native-youtube-iframe</td></tr>
+<tr><td>Cafe24 자사몰</td><td>제품 구매 링크</td><td>expo-web-browser (인앱 브라우저)</td></tr>
+<tr><td>카카오톡 채널</td><td>고객센터, 적립금 전환</td><td>Linking.openURL</td></tr>
+</table>
+</div>
+
+<h2>13. 포인트 시스템</h2>
+<div class="section-box">
+<table>
+<tr><th>이벤트</th><th>포인트</th><th>조건</th></tr>
+<tr><td>daily_login</td><td>+10P</td><td>일일 1회</td></tr>
+<tr><td>status_check</td><td>+10P</td><td>오늘 상태 체크 (일일 1회)</td></tr>
+<tr><td>exercise_complete</td><td>+100P</td><td>영상 끝까지 시청</td></tr>
+<tr><td>routine_complete</td><td>+30P</td><td>맞춤 루틴 전체 완료</td></tr>
+<tr><td>product_use</td><td>+50P</td><td>제품 사용 인증 (사진+메모)</td></tr>
+<tr><td>post_create</td><td>+30P</td><td>커뮤니티 글 작성</td></tr>
+<tr><td>streak_7</td><td>보너스</td><td>7일 연속</td></tr>
+<tr><td>streak_14</td><td>보너스</td><td>14일 연속</td></tr>
+<tr><td>streak_21</td><td>보너스</td><td>21일 연속</td></tr>
+<tr><td>challenge_complete</td><td>1,000~2,000P</td><td>챌린지 완주</td></tr>
+</table>
+<p><span class="tag good">전환</span> 10,000P 이상 적립 시 카카오톡 채널로 자사몰 적립금 전환 신청 가능 (1P = 1원)</p>
+</div>
+
+<h2>14. 기술 스택</h2>
+<div class="section-box">
+<table>
+<tr><th>분류</th><th>기술</th><th>버전/비고</th></tr>
+<tr><td>프레임워크</td><td>React Native + Expo</td><td>Expo Router (파일 기반 라우팅)</td></tr>
+<tr><td>네비게이션</td><td>expo-router + @react-navigation</td><td>Stack + Tab 네비게이터</td></tr>
+<tr><td>상태 관리</td><td>Zustand + persist</td><td>AsyncStorage 영속화</td></tr>
+<tr><td>백엔드</td><td>Supabase</td><td>Auth + Database + Storage + Edge Functions</td></tr>
+<tr><td>UI</td><td>expo-linear-gradient, @expo/vector-icons</td><td>Ionicons, FontAwesome, MaterialCommunityIcons</td></tr>
+<tr><td>미디어</td><td>expo-image-picker, expo-av</td><td>사진/동영상 촬영 및 재생</td></tr>
+<tr><td>영상</td><td>react-native-youtube-iframe</td><td>YouTube 숏츠 재생</td></tr>
+<tr><td>브라우저</td><td>expo-web-browser</td><td>인앱 브라우저 (자사몰)</td></tr>
+<tr><td>분석</td><td>Mixpanel</td><td>이벤트 트래킹</td></tr>
+<tr><td>알림</td><td>expo-notifications</td><td>푸시 알림 (아침/저녁/밤)</td></tr>
+<tr><td>파일시스템</td><td>expo-file-system</td><td>이미지 base64 변환 (업로드용)</td></tr>
+<tr><td>빌드</td><td>EAS Build</td><td>iOS/Android 빌드</td></tr>
+</table>
+</div>
+
+<h2>15. 주요 설계 패턴</h2>
+<div class="section-box">
+<ul>
+  <li><span class="tag good">오프라인 퍼스트</span> 모든 데이터 작업에 AsyncStorage 폴백 → Supabase 장애 시에도 앱 정상 작동</li>
+  <li><span class="tag good">Optimistic Update</span> 좋아요/댓글 수를 즉시 UI 반영 후 서버 동기화 (communityStore)</li>
+  <li><span class="tag good">DB 트리거</span> likes_count, comments_count는 DB 트리거로 자동 동기화 (클라이언트 집계 불필요)</li>
+  <li><span class="tag good">세션 복구</span> Supabase 세션 만료 시 자동 refreshSession() 시도 → 실패해도 로컬 저장</li>
+  <li><span class="tag good">중앙 상수</span> 제품 정보/가이드/이미지를 constants/products.ts에 통합 → 중복 제거</li>
+  <li><span class="tag good">통합 훅</span> useProductGuideModal로 가이드 모달 상태를 하나로 관리 → 홈/회복 화면 공유</li>
+  <li><span class="tag warn">Fallback</span> Supabase 제품 조회 실패 시 하드코딩된 fallbackProducts 사용</li>
+</ul>
+</div>
+
+<div class="footer">1분도수 앱 — 전체 기능 상세 명세서 | 1min-dosu v3 | 2026-02-23<br>18개 소스 파일 기반 분석 by 카리나 (AI 비서)</div>
+</div>
+</body>
+</html>

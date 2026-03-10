@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>데이터 순환 파이프라인 — 테넥스 지식 시스템</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}body{font-family:-apple-system,BlinkMacSystemFont,'Pretendard',sans-serif;background:#f8f9fa;color:#333;line-height:1.7}.header{background:linear-gradient(135deg,#0a0a0a 0%,#1a1a2e 100%);color:#fff;padding:32px;max-width:960px;margin:0 auto}.header h1{font-size:22px;font-weight:700}.header .meta{font-size:13px;color:#8b8ba7;margin-top:8px;display:flex;gap:16px;flex-wrap:wrap}.body{max-width:960px;margin:0 auto;padding:24px 16px}h2{font-size:18px;font-weight:700;margin:32px 0 16px;padding-bottom:8px;border-bottom:2px solid #e5e7eb}h3{font-size:15px;font-weight:600;margin:20px 0 10px;color:#1a1a2e}p,li{font-size:14px}ul{padding-left:20px;margin:8px 0}.section-box{background:#fff;border-radius:10px;padding:20px;margin:16px 0;box-shadow:0 1px 3px rgba(0,0,0,0.08)}.flow{background:#1a1a2e;color:#fff;border-radius:10px;padding:20px;margin:16px 0;font-family:monospace;font-size:13px;line-height:2;white-space:pre-wrap}table{width:100%;border-collapse:collapse;margin:12px 0;font-size:13px}th{background:#f1f3f5;padding:8px 12px;text-align:left;font-weight:600;border-bottom:2px solid #dee2e6}td{padding:8px 12px;border-bottom:1px solid #eee}.tag{display:inline-block;padding:2px 8px;border-radius:4px;font-size:11px;font-weight:600;margin-right:4px}.tag.good{background:#d4edda;color:#155724}.tag.warn{background:#fff3cd;color:#856404}.tag.bad{background:#f8d7da;color:#721c24}.tag.info{background:#cce5ff;color:#004085}.back{display:inline-block;margin-bottom:16px;color:#e94560;font-size:13px;text-decoration:none;font-weight:600}.footer{text-align:center;font-size:12px;color:#999;margin-top:40px;padding:20px}
+</style>
+</head>
+<body>
+<div class="header">
+  <h1>🔄 데이터 순환 파이프라인 — 테넥스 지식 시스템</h1>
+  <div class="meta">
+    <span>📅 2026년 2월 23일</span>
+    <span>🏗️ AI System</span>
+    <span>🔗 스미스 교육 + 모찌 RAG 참고 설계</span>
+  </div>
+</div>
+<div class="body">
+<a class="back" href="../../index.html">← 전체 보고서</a>
+
+<h2>1. 핵심 요약</h2>
+<div class="section-box">
+<p>테넥스의 모든 비즈니스 데이터(매출, 광고, VOC, 미팅, 콘텐츠)를 <strong>수집 → AI 처리 → 지식창고 → 활용 → 재순환</strong>하는 자기강화 지식 시스템.</p>
+<p style="margin-top:8px">스미스(Smith) 멘토의 QA Helpdesk 순환 파이프라인과 모찌(Mochi)의 RAG 4계층 구조를 키네메디칼 비즈니스에 맞게 재설계.</p>
+</div>
+
+<h2>2. 전체 순환 구조도</h2>
+<div class="flow">
+① 수집 COLLECT — 데이터 입구 5개
+
+📊 매출 데이터      Cafe24 API (주문/취소/반품)
+📈 광고 데이터      Meta Ads API (spend/ROAS/CTR)
+🎙️ 미팅/교육       Plaud 녹음 → Gemini 전사
+💬 VOC/CS          고객 문의, 리뷰, 반품 사유
+📝 콘텐츠          1분도수 유튜브/인스타 성과
+
+② 처리 PROCESS — AI가 지식으로 가공
+
+✂️ 청킹 → 📢 임베딩 (Gemini) → 📋 요약 (Claude/Gemini)
+
+③ 저장 STORE — 지식창고
+
+🗃️ 매출/광고 DB (일별 집계)
+🧠 지식 벡터 DB (미팅/VOC/콘텐츠 임베딩)
+📋 메모리 파일 (MEMORY.md, memory/*.md)
+
+④ 활용 USE — 3가지 방향
+
+💬 일일 리포트     매출/광고/공헌이익 자동 생성
+📊 진단 대시보드   제품별/채널별 성과 분석
+🤖 팀 슬랙봇      팀원 질문에 지식 기반 자동 답변
+
+⑤ 순환 LOOP — 생성물이 다시 지식창고로
+
+↺ 일일 리포트 인사이트 → 재임베딩
+↺ 진단 결과 → 의사결정 기록 → 재학습
+↺ VOC 패턴 → 제품 개선 → 새 데이터 생성
+</div>
+
+<h2>3. RAG 4계층 구조 (모찌 참고 → 테넥스 버전)</h2>
+<div class="section-box">
+<p>모찌(Mochi) 시스템의 RAG 4계층을 키네메디칼 비즈니스에 맞게 재설계한 구조:</p>
+
+<h3>Layer 0 — 정적 지식 (Static Knowledge)</h3>
+<table>
+<tr><th>모찌</th><th>테넥스</th><th>상태</th></tr>
+<tr><td>강의 자료, 교재 PDF</td><td>제품 매뉴얼 (CS-25, ES-808, WS-200)</td><td><span class="tag warn">수동 관리</span></td></tr>
+<tr><td>FAQ 데이터베이스</td><td>고객 FAQ + 반품 사유 패턴</td><td><span class="tag bad">미구현</span></td></tr>
+<tr><td>—</td><td>Cafe24 API 문서, Meta Ads 가이드</td><td><span class="tag good">참고용 보유</span></td></tr>
+</table>
+
+<h3>Layer 1 — 구조화 데이터 (Structured Data)</h3>
+<table>
+<tr><th>모찌</th><th>테넥스</th><th>상태</th></tr>
+<tr><td>수강생 DB (진도, 과제)</td><td>매출 DB (Cafe24 주문/취소/반품 일별 집계)</td><td><span class="tag good">운영 중</span></td></tr>
+<tr><td>결제/구독 데이터</td><td>광고 DB (Meta spend/ROAS/CTR 일별)</td><td><span class="tag good">운영 중</span></td></tr>
+<tr><td>—</td><td>공헌이익 계산 데이터 (제품별 마진)</td><td><span class="tag good">운영 중</span></td></tr>
+<tr><td>—</td><td>1분도수 앱 사용자 데이터 (Supabase)</td><td><span class="tag good">운영 중</span></td></tr>
+</table>
+
+<h3>Layer 2 — 비구조화 지식 (Unstructured → Embedded)</h3>
+<table>
+<tr><th>모찌</th><th>테넥스</th><th>상태</th></tr>
+<tr><td>강의 영상 전사본 → 임베딩</td><td>미팅 전사본 (Plaud → Gemini) → 임베딩</td><td><span class="tag warn">전사만 완료</span></td></tr>
+<tr><td>커뮤니티 질문/답변</td><td>VOC/CS (고객 문의, 리뷰)</td><td><span class="tag bad">미구현</span></td></tr>
+<tr><td>블로그/SNS 콘텐츠</td><td>1분도수 유튜브/인스타 콘텐츠 메타데이터</td><td><span class="tag bad">미구현</span></td></tr>
+<tr><td>—</td><td>일일 리포트 아카이브 (인사이트 축적)</td><td><span class="tag warn">파일 기반</span></td></tr>
+</table>
+
+<h3>Layer 3 — 실시간 컨텍스트 (Live Context)</h3>
+<table>
+<tr><th>모찌</th><th>테넥스</th><th>상태</th></tr>
+<tr><td>실시간 채팅 컨텍스트</td><td>태훈↔카리나 텔레그램 대화 컨텍스트</td><td><span class="tag good">운영 중</span></td></tr>
+<tr><td>현재 세션 메모리</td><td>MEMORY.md + memory/*.md 파일</td><td><span class="tag good">운영 중</span></td></tr>
+<tr><td>—</td><td>오늘의 매출/광고 실시간 스냅샷</td><td><span class="tag good">Cafe24+Meta 실시간</span></td></tr>
+</table>
+</div>
+
+<h2>4. 콘텐츠 큐레이션 대시보드 (목표)</h2>
+<div class="section-box">
+<p>콘텐츠 소재 선정부터 임베딩까지의 파이프라인을 체계화:</p>
+
+<div class="flow">
+콘텐츠 큐레이션 파이프라인 (목표 시스템)
+
+① 수집 — 데이터 소스 자동 스캔
+   ├── 유튜브 인기 영상 (키워드: 목디스크, 자세교정, 도수치료)
+   ├── 인스타 트렌드 해시태그
+   ├── 네이버 건강 카테고리 인기글
+   └── 경쟁사 콘텐츠 모니터링
+
+② AI 분석 — 자동 평가
+   ├── 주제 분류 (교정/회복/제품/운동)
+   ├── 키네메디칼 관련도 점수 (0-100)
+   ├── 트렌드 점수 (검색량/조회수 기반)
+   └── 콘텐츠 형태 추천 (숏츠/릴스/블로그/카드뉴스)
+
+③ 중요도 산정 — 우선순위 큐
+   ├── 관련도 × 트렌드 = 종합 점수
+   ├── 제품별 매핑 (CS-25, ES-808 등)
+   └── 시즌 가중치 (겨울=찜질, 여름=운동)
+
+④ 선택 — 사람의 최종 판단
+   ├── 대시보드에서 후보 목록 확인
+   ├── 승인/거부/수정 워크플로우
+   └── 주간 콘텐츠 캘린더 편성
+
+⑤ 생성 — AI 초안 + 사람 편집
+   ├── Claude/Gemini가 초안 작성
+   ├── 제품 사용법 연결 (constants/products.ts 참고)
+   └── 1분도수 영상 시나리오 생성
+
+⑥ 임베딩 — 지식창고 반영
+   ├── 완성 콘텐츠 → 벡터 DB 저장
+   ├── 성과 데이터 연결 (조회수, 전환율)
+   └── 다음 큐레이션 피드백 루프
+</div>
+</div>
+
+<h2>5. 현재 구현 상태 vs 목표 (상세 GAP 분석)</h2>
+<table>
+<tr><th>파이프라인</th><th>현재</th><th>목표</th><th>GAP 상세</th><th>예상 공수</th></tr>
+<tr><td>매출 수집 (Cafe24)</td><td><span class="tag good">완료</span></td><td>자동 수집</td><td>없음</td><td>—</td></tr>
+<tr><td>광고 수집 (Meta)</td><td><span class="tag good">완료</span></td><td>자동 수집</td><td>없음</td><td>—</td></tr>
+<tr><td>일일 리포트</td><td><span class="tag good">완료</span></td><td>Slack + Telegram 자동</td><td>Telegram 자동 발송 연동</td><td>0.5일</td></tr>
+<tr><td>미팅 전사</td><td><span class="tag good">완료</span></td><td>Plaud → 자동 임베딩</td><td>전사본→청킹→Gemini 임베딩 파이프라인</td><td>2일</td></tr>
+<tr><td>VOC 수집</td><td><span class="tag bad">미구현</span></td><td>자동 수집 + 분류</td><td>Cafe24 게시판/문의 API 연동 + AI 분류</td><td>3일</td></tr>
+<tr><td>지식 벡터 DB</td><td><span class="tag bad">미구현</span></td><td>Supabase pgvector</td><td>스키마 설계 + 임베딩 함수 + 검색 API</td><td>3일</td></tr>
+<tr><td>콘텐츠 큐레이션</td><td><span class="tag bad">미구현</span></td><td>자동 수집+AI분석+대시보드</td><td>유튜브/인스타 API + 스코어링 + Vercel 대시보드</td><td>5일</td></tr>
+<tr><td>진단 대시보드</td><td><span class="tag bad">미구현</span></td><td>Vercel 웹 대시보드</td><td>Next.js 대시보드 + 차트 + 실시간 데이터</td><td>5일</td></tr>
+<tr><td>슬랙봇 RAG</td><td><span class="tag bad">미구현</span></td><td>RAG 기반 자동 답변</td><td>벡터 DB 의존 → 벡터 DB 완료 후 2일</td><td>2일</td></tr>
+<tr><td>순환 재임베딩</td><td><span class="tag bad">미구현</span></td><td>생성물 자동 재임베딩</td><td>리포트/진단결과 → 자동 청킹+임베딩 cron</td><td>2일</td></tr>
+</table>
+
+<h2>6. 구현 로드맵</h2>
+<div class="section-box">
+<h3>Phase 0 — 현재 (완료)</h3>
+<ul>
+  <li>Cafe24 + Meta Ads API 연동</li>
+  <li>일일 매출 리포트 자동 생성 (Render cron → Slack)</li>
+  <li>Plaud 녹음 → Gemini 전사 → 텔레그램 전달</li>
+  <li>파일 기반 메모리 시스템 (MEMORY.md)</li>
+</ul>
+
+<h3>Phase 1 — 단기 (2주)</h3>
+<ul>
+  <li>VOC 자동 수집 (Cafe24 게시판/문의 API)</li>
+  <li>미팅 전사본 자동 임베딩 (청킹 → Gemini embedding)</li>
+  <li>Supabase 지식 벡터 DB 구축 (pgvector extension)</li>
+  <li>일일 리포트 Telegram 자동 발송</li>
+</ul>
+
+<h3>Phase 2 — 중기 (1개월)</h3>
+<ul>
+  <li>키네메디칼 진단 대시보드 (Vercel + Next.js)</li>
+  <li>콘텐츠 큐레이션 대시보드 (수집→분석→선택→생성)</li>
+  <li>슬랙봇 — 팀원 질문 RAG 답변</li>
+  <li>콘텐츠 성과 자동 수집 (유튜브 API)</li>
+</ul>
+
+<h3>Phase 3 — 장기 (분기)</h3>
+<ul>
+  <li>순환 파이프라인 완성 — 생성물 재임베딩 자동화</li>
+  <li>AI 콘텐츠 자동 생성 (1분도수 영상 시나리오)</li>
+  <li>고객 세그먼트별 자동 마케팅</li>
+  <li>해외(미국) 시장 데이터 파이프라인</li>
+</ul>
+</div>
+
+<h2>7. 스미스/모찌 시스템과 비교</h2>
+<table>
+<tr><th>스미스 (QA Helpdesk)</th><th>모찌 (Agent Team)</th><th>테넥스 버전</th></tr>
+<tr><td>수강생 QA 자동 답변</td><td>PM이 에이전트팀 조율</td><td>팀원 질문 RAG 자동 답변 (슬랙봇)</td></tr>
+<tr><td>총가치각도기 (광고 진단)</td><td>데이터 분석 에이전트</td><td>키네메디칼 매출/광고 진단 대시보드</td></tr>
+<tr><td>강의 RAG</td><td>RAG 4계층 (Layer 0-3)</td><td>미팅/VOC/콘텐츠 RAG (4계층 적용)</td></tr>
+<tr><td>정보공유 콘텐츠 생성</td><td>콘텐츠 자동 생성</td><td>1분도수 콘텐츠 큐레이션+생성</td></tr>
+<tr><td>벤치마크 (수강생 평균)</td><td>—</td><td>자사 제품별/기간별 벤치마크</td></tr>
+<tr><td>에이전트: 모찌+팬덤+Claude</td><td>PM+리더+프론트+백엔드+리뷰어</td><td>카리나(PM) + 서브에이전트</td></tr>
+</table>
+
+<div class="footer">데이터 순환 파이프라인 — 테넥스 지식 시스템 | AI System | 2026-02-23<br>스미스 교육 + 모찌 RAG 참고 설계 by 카리나 (AI 비서)</div>
+</div>
+</body>
+</html>

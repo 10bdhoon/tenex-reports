@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>일일 매출 리포트 자동화 태스크</title>
+<style>*{margin:0;padding:0;box-sizing:border-box}body{font-family:-apple-system,BlinkMacSystemFont,'Pretendard',sans-serif;background:#f8f9fa;color:#333;line-height:1.7}.header{background:linear-gradient(135deg,#0a0a0a 0%,#1a1a2e 100%);color:#fff;padding:32px;max-width:960px;margin:0 auto}.header h1{font-size:22px;font-weight:700}.header .meta{font-size:13px;color:#8b8ba7;margin-top:8px;display:flex;gap:16px;flex-wrap:wrap}.body{max-width:960px;margin:0 auto;padding:24px 16px}h2{font-size:18px;font-weight:700;margin:32px 0 16px;padding-bottom:8px;border-bottom:2px solid #e5e7eb}h3{font-size:15px;font-weight:600;margin:20px 0 10px}p,li{font-size:14px}ul{padding-left:20px;margin:8px 0}.section-box{background:#fff;border-radius:10px;padding:20px;margin:16px 0;box-shadow:0 1px 3px rgba(0,0,0,0.08)}.flow{background:#1a1a2e;color:#fff;border-radius:10px;padding:20px;margin:16px 0;font-family:monospace;font-size:13px;line-height:2;white-space:pre-wrap}table{width:100%;border-collapse:collapse;margin:12px 0;font-size:13px}th{background:#f1f3f5;padding:8px 12px;text-align:left;font-weight:600;border-bottom:2px solid #dee2e6}td{padding:8px 12px;border-bottom:1px solid #eee}.tag{display:inline-block;padding:2px 8px;border-radius:4px;font-size:11px;font-weight:600}.tag.good{background:#d4edda;color:#155724}.back{display:inline-block;margin-bottom:16px;color:#e94560;font-size:13px;text-decoration:none;font-weight:600}.footer{text-align:center;font-size:12px;color:#999;margin-top:40px;padding:20px}</style>
+</head>
+<body>
+<div class="header">
+  <h1>📋 일일 매출 리포트 자동화 태스크</h1>
+  <div class="meta">
+    <span>📅 2026년 2월 21일</span>
+    <span>🏗️ Daily Report</span>
+    <span>🎯 Cafe24 + Meta Ads → Slack/Telegram</span>
+  </div>
+</div>
+<div class="body">
+<a class="back" href="../../index.html">← 전체 보고서</a>
+
+<h2>목표</h2>
+<div class="section-box">
+<p>매일 아침 자동으로 전일 매출/광고 데이터를 수집해 팀에게 브리핑하는 시스템 구축.</p>
+</div>
+
+<h2>완료 항목</h2>
+<div class="section-box">
+<table>
+<tr><th>태스크</th><th>상태</th><th>상세</th></tr>
+<tr><td>Cafe24 API 연동</td><td><span class="tag good">완료</span></td><td>shop_no=5,6 주문 조회, 토큰 갱신 자동화</td></tr>
+<tr><td>Meta Ads API 연동</td><td><span class="tag good">완료</span></td><td>ES-808, CS-25 adset 성과 수집</td></tr>
+<tr><td>공헌이익 계산 로직</td><td><span class="tag good">완료</span></td><td>제품별 원가/배송/수수료 자동 계산</td></tr>
+<tr><td>리포트 포맷 확정</td><td><span class="tag good">완료</span></td><td>총매출→취소→순매출→공헌이익→광고비</td></tr>
+<tr><td>Render 크론 배포</td><td><span class="tag good">완료</span></td><td>매일 7AM Slack 자동 브리핑</td></tr>
+<tr><td>텔레그램 수동 생성</td><td><span class="tag good">완료</span></td><td>카리나가 API 호출 → 텔레그램 전달</td></tr>
+</table>
+</div>
+
+<h2>리포트 포맷</h2>
+<div class="flow">
+📊 키네메디칼 일일 매출 리포트 (2026-02-21)
+
+[일일 성과]
+총매출: 3,752,800원 (20건)
+취소/반품: 0원
+순매출: 3,752,800원
+공헌이익: 2,024,012원 (54.0%)
+총 광고비: 507,702원 (13.5%)
+
+[제품별]
+CS-25: X건 / X원
+ES-808: X건 / X원
+WS-200: X건 / X원
+
+[채널별]
+자사몰 (shop_no=5): X원
+유튜브쇼핑 (shop_no=6): X원
+
+[Meta 광고]
+ES-808: spend X / ROAS X / CTR X%
+CS-25: spend X / ROAS X / CTR X%
+
+─────────────────────
+
+[2월 누적]
+순매출: 63,010,000원 (422건)
+공헌이익: 52.2%
+총 광고비: 12,480,000원 (19.8%)
+</div>
+
+<div class="footer">일일 매출 리포트 자동화 태스크 | Daily Report | 2026-02-21<br>by 카리나 (AI 비서)</div>
+</div>
+</body>
+</html>

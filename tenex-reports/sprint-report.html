@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TENEX 2주 스프린트 리포트 | 2026.02.10 - 02.23</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#0a0a0f;color:#e0e0e0;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;line-height:1.6}
+.container{max-width:900px;margin:0 auto;padding:24px 20px}
+header{text-align:center;padding:60px 0 40px;border-bottom:1px solid #1a1a2e}
+header h1{font-size:clamp(1.4rem,4vw,2.2rem);font-weight:700;background:linear-gradient(135deg,#667eea,#764ba2);-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:8px}
+header .subtitle{color:#888;font-size:.95rem}
+.section{margin:48px 0}
+.section-title{font-size:1.4rem;font-weight:700;margin-bottom:24px;padding-left:16px;border-left:4px solid #667eea;color:#fff}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:16px;margin-bottom:32px}
+.card{background:#12121f;border:1px solid #1e1e35;border-radius:12px;padding:24px;text-align:center}
+.card .value{font-size:1.8rem;font-weight:800;background:linear-gradient(135deg,#667eea,#764ba2);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.card .label{color:#888;font-size:.8rem;margin-top:4px}
+.block{background:#12121f;border:1px solid #1e1e35;border-radius:12px;padding:24px;margin-bottom:16px}
+.block h3{color:#667eea;font-size:1rem;margin-bottom:12px;display:flex;align-items:center;gap:8px}
+.block ul{list-style:none;padding:0}
+.block li{padding:6px 0;padding-left:20px;position:relative;font-size:.9rem;color:#bbb}
+.block li::before{content:'→';position:absolute;left:0;color:#667eea}
+.tag{display:inline-block;background:#667eea22;color:#667eea;font-size:.7rem;padding:2px 8px;border-radius:99px;margin-left:8px;font-weight:600}
+.priority-high{border-left:3px solid #f093fb}
+.priority-mid{border-left:3px solid #667eea}
+.priority-low{border-left:3px solid #4a4a6a}
+footer{text-align:center;padding:48px 0 32px;border-top:1px solid #1a1a2e;margin-top:48px}
+footer .name{font-size:1.1rem;font-weight:700;color:#fff}
+footer .role{color:#888;font-size:.85rem}
+</style>
+</head>
+<body>
+<div class="container">
+<header>
+<h1>TENEX 2주 스프린트 리포트</h1>
+<div class="subtitle">2026.02.10 — 02.23</div>
+</header>
+
+<section class="section">
+<h2 class="section-title">📊 핵심 성과 지표</h2>
+<div class="cards">
+<div class="card"><div class="value">6,301만</div><div class="label">월 순매출 (422건)</div></div>
+<div class="card"><div class="value">19.8%</div><div class="label">광고비 비율 (1,248만)</div></div>
+<div class="card"><div class="value">~375만</div><div class="label">일 순매출 평균</div></div>
+</div>
+<div class="cards">
+<div class="card"><div class="value">8건</div><div class="label">앱 버그수정 + 리팩토링</div></div>
+<div class="card"><div class="value">30+</div><div class="label">자동 생성 보고서</div></div>
+<div class="card"><div class="value">30분→1분</div><div class="label">매출 리포트 자동화</div></div>
+<div class="card"><div class="value">43개</div><div class="label">멘토 시스템 분석 리포트</div></div>
+</div>
+</section>
+
+<section class="section">
+<h2 class="section-title">🛠 2주간 한 업무</h2>
+
+<div class="block">
+<h3>🤖 AI 비서 시스템 구축</h3>
+<ul>
+<li>OpenClaw + Claude Opus 기반 24시간 AI 비서 세팅</li>
+<li>텔레그램 연동 완료 — 실시간 양방향 소통</li>
+<li>Cafe24 API + Meta Ads API 연동 → 자동 매출/광고 데이터 수집</li>
+<li>일일 매출 리포트 자동화 파이프라인 구축 (Render cron)</li>
+</ul>
+</div>
+
+<div class="block">
+<h3>📱 1분도수 앱 개발</h3>
+<ul>
+<li>PR #99: 버그 4건 수정 <span class="tag">홈 루틴</span><span class="tag">회복 점수</span><span class="tag">프로필</span><span class="tag">슬랙</span></li>
+<li>PR #106: 코드 리뷰 기반 리팩토링 — 데이터 분리, 컴포넌트 모듈화, 메모리 최적화</li>
+<li>커뮤니티 기능 추가 (16커밋)</li>
+<li>EAS 빌드 파이프라인 정비</li>
+</ul>
+</div>
+
+<div class="block">
+<h3>📋 TENEX Reports 포탈 구축</h3>
+<ul>
+<li>tenex-reports.vercel.app 배포</li>
+<li>30+ 보고서: 아키텍처, 마케팅, 앱, 코드리뷰, 릴리스, 태스크</li>
+<li>RAG 시스템 설계서 작성</li>
+</ul>
+</div>
+
+<div class="block">
+<h3>🔍 스미스 멘토 시스템 분석</h3>
+<ul>
+<li>mozzi-reports.vercel.app 43개 리포트 전수 분석</li>
+<li>핵심 구조 파악: 에이전트 분리, RAG 파이프라인, 데이터 순환, 리포트 시스템</li>
+<li>자사교 5기 교육 녹음 전사 + 핵심 7가지 주제 추출</li>
+</ul>
+</div>
+
+<div class="block">
+<h3>⚙️ 데이터/운영 인프라</h3>
+<ul>
+<li>Plaud Note API 연동 — 녹음 자동 다운로드 + 로컬 전사</li>
+<li>메모리 시스템 구축 (일별 로그 + 장기 기억 파일)</li>
+<li>API 크레덴셜 통합 관리 체계</li>
+</ul>
+</div>
+</section>
+
+<section class="section">
+<h2 class="section-title">✅ 성과 상세</h2>
+
+<div class="block">
+<h3>💰 매출</h3>
+<ul>
+<li>월 순매출 6,301만원 (422건) — 일평균 ~375만원</li>
+<li>공헌이익률 52.2% / 광고비 1,248만원 (매출 대비 19.8%)</li>
+</ul>
+</div>
+
+<div class="block">
+<h3>📱 앱 개발</h3>
+<ul>
+<li>버그 4건 + 리팩토링 4건 = 총 8건 개선</li>
+<li>코드 리뷰 프로세스 도입 (AI 자동 리뷰 → 리팩토링 → 머지)</li>
+<li>커뮤니티 기능 신규 추가</li>
+</ul>
+</div>
+
+<div class="block">
+<h3>🔄 시스템 자동화</h3>
+<ul>
+<li>일일 매출 리포트: 수동 30분 → 자동 1분</li>
+<li>Cafe24 멀티몰 대응 (키네메디칼 shop_no=5, 유튜브쇼핑 shop_no=6)</li>
+<li>30+ 보고서 자동 생성 포탈</li>
+</ul>
+</div>
+</section>
+
+<section class="section">
+<h2 class="section-title">🎯 다음 2주 계획</h2>
+
+<div class="block priority-high">
+<h3>🔴 최우선</h3>
+<ul>
+<li>스미스 시스템 구조 직접 적용 (에이전트 분리, RAG 파이프라인, 데이터 순환)</li>
+<li>앱 빌드 안정화 + production 배포</li>
+<li>초창패 준비 (D-2)</li>
+</ul>
+</div>
+
+<div class="block priority-mid">
+<h3>🔵 구조 설계</h3>
+<ul>
+<li>Supabase pgvector RAG 파이프라인 구축</li>
+<li>에이전트 역할 분리 (슬랙 채널별)</li>
+<li>콘텐츠 자동 배포 시스템 (1콘텐츠 → 7채널)</li>
+</ul>
+</div>
+
+<div class="block priority-low">
+<h3>🟣 마케팅</h3>
+<ul>
+<li>메타 광고 총가치각도기 적용</li>
+<li>오가닉 마케팅 강화 (뉴스레터 1,200+ 활용)</li>
+<li>와디즈 프리오더 검토 (ES-808)</li>
+</ul>
+</div>
+</section>
+
+<footer>
+<div class="name">김태훈</div>
+<div class="role">TENEX CEO</div>
+</footer>
+</div>
+</body>
+</html>

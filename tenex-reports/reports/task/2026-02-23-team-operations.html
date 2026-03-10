@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>팀 운영 현황 & 채용 계획</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,'Pretendard',sans-serif;background:#f8f9fa;color:#333;line-height:1.7}
+.header{background:linear-gradient(135deg,#0a0a0a 0%,#1a1a2e 100%);color:#fff;padding:32px;max-width:960px;margin:0 auto}
+.header h1{font-size:22px;font-weight:700}
+.header .meta{font-size:13px;color:#8b8ba7;margin-top:8px;display:flex;gap:16px;flex-wrap:wrap}
+.header .meta span{display:flex;align-items:center;gap:4px}
+.body{max-width:960px;margin:0 auto;padding:24px 16px}
+h2{font-size:18px;font-weight:700;margin:32px 0 16px;padding-bottom:8px;border-bottom:2px solid #e5e7eb}
+h3{font-size:15px;font-weight:600;margin:20px 0 10px;color:#1a1a2e}
+p,li{font-size:14px}
+ul{padding-left:20px;margin:8px 0}
+.kpi-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;margin:16px 0}
+.kpi{background:#fff;border-radius:10px;padding:16px;box-shadow:0 1px 3px rgba(0,0,0,0.08);text-align:center}
+.kpi .label{font-size:12px;color:#666;font-weight:500}
+.kpi .value{font-size:24px;font-weight:700;color:#1a1a2e;margin:4px 0}
+.kpi .sub{font-size:11px;color:#888}
+.kpi.highlight{border:2px solid #e94560}
+.kpi.warn{border:2px solid #f59e0b}
+.section-box{background:#fff;border-radius:10px;padding:20px;margin:16px 0;box-shadow:0 1px 3px rgba(0,0,0,0.08)}
+.tag{display:inline-block;padding:2px 8px;border-radius:4px;font-size:11px;font-weight:600;margin-right:4px}
+.tag.good{background:#d4edda;color:#155724}
+.tag.warn{background:#fff3cd;color:#856404}
+.tag.bad{background:#f8d7da;color:#721c24}
+.tag.info{background:#cce5ff;color:#004085}
+.tag.purple{background:#f3e8ff;color:#6b21a8}
+table{width:100%;border-collapse:collapse;margin:12px 0;font-size:13px}
+th{background:#f1f3f5;padding:8px 12px;text-align:left;font-weight:600;border-bottom:2px solid #dee2e6}
+td{padding:8px 12px;border-bottom:1px solid #eee}
+.flow{background:#1a1a2e;color:#fff;border-radius:10px;padding:20px;margin:16px 0;font-family:monospace;font-size:13px;line-height:2;white-space:pre-wrap}
+.back{display:inline-block;margin-bottom:16px;color:#e94560;font-size:13px;text-decoration:none;font-weight:600}
+.footer{text-align:center;font-size:12px;color:#999;margin-top:40px;padding:20px}
+.person-card{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px;margin:16px 0}
+.person{background:#fff;border-radius:10px;padding:20px;box-shadow:0 1px 3px rgba(0,0,0,0.08)}
+.person .name{font-size:16px;font-weight:700;margin-bottom:4px}
+.person .role{font-size:13px;color:#e94560;font-weight:600;margin-bottom:8px}
+.person ul{font-size:13px;color:#555}
+</style>
+</head>
+<body>
+<div class="header">
+  <h1>👥 팀 운영 현황 & 채용 계획</h1>
+  <div class="meta">
+    <span>📅 2026년 2월 23일</span>
+    <span>🏗️ TENEX</span>
+    <span>📊 코어팀 · AI 활용 · 채용 · 역할 분담</span>
+  </div>
+</div>
+<div class="body">
+<a class="back" href="../../index.html">← 전체 보고서</a>
+
+<h2>1. 팀 현황 요약</h2>
+<div class="kpi-grid">
+  <div class="kpi highlight"><div class="label">코어팀</div><div class="value">3명</div><div class="sub">태훈 · 인규 · 나현</div></div>
+  <div class="kpi"><div class="label">AI 비서</div><div class="value">카리나</div><div class="sub">Claude Opus · OpenClaw</div></div>
+  <div class="kpi warn"><div class="label">공백 포지션</div><div class="value">2개</div><div class="sub">파트너십 · 숏폼</div></div>
+  <div class="kpi"><div class="label">매출/인</div><div class="value">6,700만</div><div class="sub">월 2억 ÷ 3명</div></div>
+</div>
+
+<h2>2. 코어팀 상세</h2>
+<div class="person-card">
+  <div class="person">
+    <div class="name">👨‍💼 태훈 (CEO)</div>
+    <div class="role">전략 총괄</div>
+    <ul>
+      <li>제품 기획 · 소싱</li>
+      <li>마케팅/광고 전략 (Meta Ads)</li>
+      <li>앱/CRM 개발 디렉션</li>
+      <li>자금 조달 · 투자</li>
+      <li>채용 · 팀 빌딩</li>
+      <li>AI 시스템 구축 · 카리나 운영</li>
+    </ul>
+  </div>
+  <div class="person">
+    <div class="name">🎬 인규</div>
+    <div class="role">콘텐츠 총괄</div>
+    <ul>
+      <li>1분도수 채널 운영 (유튜브 9만+)</li>
+      <li>전문 콘텐츠 기획 · 출연</li>
+      <li>운영 (CS · 고객 관리)</li>
+      <li>물리치료사 전문성 → 신뢰 콘텐츠</li>
+    </ul>
+  </div>
+  <div class="person">
+    <div class="name">🎨 나현</div>
+    <div class="role">브랜드 확산</div>
+    <ul>
+      <li>콘텐츠 확산 · 배포</li>
+      <li>PR · 언론 대응</li>
+      <li>디자인 (크리에이티브)</li>
+      <li>인스타그램 3.6만+ 운영</li>
+    </ul>
+  </div>
+</div>
+
+<h2>3. 영복 퇴사 — 공백 분석</h2>
+<div class="section-box">
+<p><span class="tag bad">퇴사</span> <strong>영복</strong> — 2026년 2월 퇴사</p>
+<h3>발생한 공백</h3>
+<table>
+<tr><th>영역</th><th>영향도</th><th>현재 대응</th><th>목표 대응</th></tr>
+<tr><td><strong>파트너십</strong></td><td><span class="tag bad">높음</span></td><td>태훈이 일부 커버</td><td>전담 채용 or 자동화</td></tr>
+<tr><td><strong>숏폼 콘텐츠</strong></td><td><span class="tag bad">높음</span></td><td>생산 중단</td><td>채용 or AI 자동 생성</td></tr>
+<tr><td><strong>외부 영업</strong></td><td><span class="tag warn">중간</span></td><td>보류 중</td><td>Q2 채용</td></tr>
+</table>
+<p style="margin-top:12px"><strong>긴급도:</strong> 숏폼은 유튜브/인스타 알고리즘상 지속 생산 필수. 2주 이상 공백 시 도달 하락 시작.</p>
+</div>
+
+<h2>4. AI(카리나) 활용 현황</h2>
+<div class="section-box">
+<h3>카리나가 담당하는 업무</h3>
+<table>
+<tr><th>업무</th><th>도구</th><th>빈도</th><th>효과</th></tr>
+<tr><td><strong>일일 매출 리포트</strong></td><td>Cafe24 + Meta Ads API</td><td>매일 7AM</td><td>수동 집계 제거 (30분/일 절감)</td></tr>
+<tr><td><strong>데이터 분석</strong></td><td>Claude Opus</td><td>수시</td><td>광고 성과, 공헌이익 분석</td></tr>
+<tr><td><strong>앱 개발</strong></td><td>React Native + Expo</td><td>PR 단위</td><td>풀스택 개발 (PR #99 등)</td></tr>
+<tr><td><strong>코드 리뷰</strong></td><td>GitHub PR 분석</td><td>PR마다</td><td>버그 사전 발견, 아키텍처 검토</td></tr>
+<tr><td><strong>보고서 생성</strong></td><td>TENEX Reports</td><td>수시</td><td>비즈니스 현황 시각화</td></tr>
+<tr><td><strong>지식 관리</strong></td><td>RAG + 임베딩</td><td>자동</td><td>2,119 chunks 관리 (BS CAMP)</td></tr>
+</table>
+
+<h3>AI 활용 레버리지</h3>
+<div style="background:#f0fdf4;border-radius:8px;padding:16px;margin-top:12px">
+<p>💡 <strong>3인 팀이 월 2억 매출을 만드는 비결:</strong> AI가 데이터 분석, 개발, 콘텐츠 가공, 리포팅을 담당하면서 인력 3-5명분의 업무를 처리. 팀원은 전략적 의사결정과 크리에이티브에 집중.</p>
+</div>
+</div>
+
+<h2>5. 채용 우선순위</h2>
+<div class="section-box">
+<table>
+<tr><th>순위</th><th>포지션</th><th>핵심 역할</th><th>시급도</th><th>예상 시기</th></tr>
+<tr><td><span class="tag bad">P0</span></td><td><strong>숏폼 에디터</strong></td><td>유튜브 쇼츠 · 릴스 제작<br>주 5개+ 생산</td><td><span class="tag bad">긴급</span></td><td>즉시</td></tr>
+<tr><td><span class="tag warn">P1</span></td><td><strong>파트너십 매니저</strong></td><td>의료기관 납품 · 외부 제휴<br>영복 후임</td><td><span class="tag warn">높음</span></td><td>2026 Q1</td></tr>
+<tr><td><span class="tag info">P2</span></td><td><strong>퍼포먼스 마케터</strong></td><td>Meta Ads 전담 운영<br>ROAS 최적화</td><td><span class="tag info">중간</span></td><td>2026 Q2</td></tr>
+<tr><td><span class="tag purple">P3</span></td><td><strong>CS/운영 매니저</strong></td><td>고객 대응 · 물류 관리<br>인규 업무 분리</td><td><span class="tag info">중간</span></td><td>2026 H2</td></tr>
+</table>
+
+<h3>숏폼 에디터 대안 검토</h3>
+<table>
+<tr><th>옵션</th><th>장점</th><th>단점</th><th>비용</th></tr>
+<tr><td>정규직 채용</td><td>전담 · 품질 관리</td><td>인건비 · 관리</td><td>250-350만/월</td></tr>
+<tr><td>프리랜서</td><td>유연 · 빠른 시작</td><td>퀄리티 편차</td><td>건당 5-10만</td></tr>
+<tr><td>AI 자동 생성</td><td>비용 최소 · 24시간</td><td>품질 한계 · 셋업 필요</td><td>API 비용 ~10만/월</td></tr>
+<tr><td><strong>하이브리드</strong></td><td>AI 초안 + 사람 편집</td><td>워크플로 설계 필요</td><td>150-200만/월</td></tr>
+</table>
+</div>
+
+<h2>6. 역할 재분배 (현재 vs 목표)</h2>
+<div class="flow">
+<strong>현재 (3인 + AI)</strong>
+
+태훈 ── 전략 · 제품 · 마케팅 · 앱 · AI · 채용 · 파트너십(임시)
+인규 ── 콘텐츠 · CS · 촬영 · 고객관리
+나현 ── 디자인 · PR · 확산 · 인스타
+카리나 ── 데이터 · 개발 · 리포트 · 지식관리
+
+<strong>목표 (5인 + AI)</strong>
+
+태훈 ── 전략 · 제품 · 투자 · AI
+인규 ── 콘텐츠 기획 · 촬영
+나현 ── 브랜드 · PR · 디자인
+신규① ── 숏폼 편집 · 콘텐츠 생산
+신규② ── 파트너십 · 외부 영업
+카리나 ── 데이터 · 개발 · 마케팅 자동화
+</div>
+
+<div class="footer">팀 운영 현황 & 채용 계획 | TENEX | 2026-02-23<br>by 카리나 (AI 비서)</div>
+</div>
+</body>
+</html>
