@@ -29,6 +29,7 @@ a{text-decoration:none;color:inherit}
 .cat-icon{font-size:18px}
 .cat-title{font-size:16px;font-weight:700;color:#fff}
 .cat-count{background:#1e293b;color:#94a3b8;font-size:11px;font-weight:600;padding:2px 8px;border-radius:10px}
+.cat-desc{font-size:12px;color:#6b7280;margin-left:auto;font-weight:400}
 
 /* Cards Grid */
 .cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:10px}
@@ -55,7 +56,7 @@ a{text-decoration:none;color:inherit}
     <span class="brand">🎯 테넥스 | 카리나</span>
   </div>
   <h1>테넥스 리포트</h1>
-  <p>A 제품 · B 콘텐츠 · C 의료계 · D 마케팅 · E 앱/CRM · F 자금 · G 채용 · H 운영 · I AI</p>
+  <p>A 제품 · B 콘텐츠 · C 의료계 · D 마케팅 · E 앱/CRM · F 자금 · G 채용 · H 운영 · I AI · J 교육</p>
   <div class="header-stats">
     <div class="stat-box"><div class="num" id="total-count">0</div><div class="label">총 문서</div></div>
     <div class="stat-box"><div class="num" id="cat-count">0</div><div class="label">카테고리</div></div>
@@ -66,25 +67,28 @@ a{text-decoration:none;color:inherit}
 
 <script>
 var reports = [
+  // ★ 전략 — 테넥스 전체 전략
+  {cat:"★ 전략",icon:"🎯",title:"TENEX 핵심전략 2026",desc:"테넥스 전략 문서",path:"tenex-strategy.html",date:"2026-02-23",cardIcon:"🎯"},
+  {cat:"★ 전략",icon:"🎯",title:"글로벌 전략 맥킨지급 분석",desc:"국내 vs 해외 vs 투트랙 3시나리오",path:"reports/marketing/2026-03-10-global-strategy-mckinsey.html",date:"2026-03-10",cardIcon:"📊"},
+  {cat:"★ 전략",icon:"🎯",title:"APR(에이피알) 미국 진출 벤치마크",desc:"창업~매출 1.5조 전 과정 + 키네메디칼 적용",path:"reports/marketing/2026-03-10-apr-us-expansion-benchmark.html",date:"2026-03-10",cardIcon:"🇺🇸"},
+  {cat:"★ 전략",icon:"🎯",title:"해외 진출 국가별 심층 분석 (15개국)",desc:"시장규모·난이도·매출·인증 맥킨지급 분석",path:"reports/marketing/2026-03-10-global-market-country-analysis.html",date:"2026-03-10",cardIcon:"🗺️"},
+
   // A 제품 — 목 문제의 근본적인 해결책이 될 수 있는 솔루션 개발에 성공한다
   {cat:"A 제품",icon:"🔬",title:"제품별 광고 크리에이티브 전략",desc:"CS-25, ES-808, WS-200 제품별 전략",path:"reports/marketing/2026-02-23-ad-creative-strategy.html",date:"2026-02-23",cardIcon:"🎨"},
   {cat:"A 제품",icon:"🔬",title:"와디즈 프리오더 검토",desc:"크라우드펀딩 검토 보고서",path:"reports/marketing/2026-02-23-wadiz-preorder-review.html",date:"2026-02-23",cardIcon:"🏷️"},
 
-  // B 콘텐츠/채널 — 목이 아프면 1분도수가 떠오르도록 만든다
+  // B 콘텐츠/채널 — 전 국민의 마인드에 목이 아프면 ⇒ 1분도수가 떠오르도록 만든다
   {cat:"B 콘텐츠/채널",icon:"🎬",title:"1분도수 유튜브/인스타 채널 현황",desc:"채널 성과 분석",path:"reports/marketing/2026-02-23-content-channel-analysis.html",date:"2026-02-23",cardIcon:"📺"},
 
-  // C 의료계 파트너십 — 의료계가 인정하는 경추 치료 솔루션
+  // C 의료계 파트너십 — 의료계가 인정하는 경추 치료 솔루션으로 자리잡는다
   // (아직 문서 없음)
 
-  // D 마케팅/광고 — 대한민국이 열광하는 경추 치료 솔루션
+  // D 마케팅/광고 — 대한민국이 열광하는 경추 치료 솔루션으로 자리잡는다
   {cat:"D 마케팅/광고",icon:"📈",title:"마케팅 전략 로드맵",desc:"콘텐츠 · D2C · 7채널 배포",path:"reports/marketing/2026-02-23-marketing-roadmap.html",date:"2026-02-23",cardIcon:"🗺️"},
   {cat:"D 마케팅/광고",icon:"📈",title:"광고 성과 분석 — 2월 누적",desc:"메타 광고 성과 리포트",path:"reports/marketing/2026-02-23-feb-ad-performance.html",date:"2026-02-23",cardIcon:"📊"},
   {cat:"D 마케팅/광고",icon:"📈",title:"일일 매출 리포트 샘플",desc:"2/21 실데이터 기반",path:"reports/marketing/2026-02-21-daily-sales-report-sample.html",date:"2026-02-21",cardIcon:"💰"},
-  {cat:"D 마케팅/광고",icon:"📈",title:"APR(에이피알) 미국 진출 벤치마크",desc:"창업~매출 1.5조 전 과정 + 키네메디칼 적용",path:"reports/marketing/2026-03-10-apr-us-expansion-benchmark.html",date:"2026-03-10",cardIcon:"🇺🇸"},
-  {cat:"D 마케팅/광고",icon:"📈",title:"글로벌 전략 맥킨지급 분석",desc:"국내 vs 해외 vs 투트랙 3시나리오",path:"reports/marketing/2026-03-10-global-strategy-mckinsey.html",date:"2026-03-10",cardIcon:"📊"},
-  {cat:"D 마케팅/광고",icon:"📈",title:"해외 진출 국가별 심층 분석 (15개국)",desc:"시장규모·난이도·매출·인증 맥킨지급 분석",path:"reports/marketing/2026-03-10-global-market-country-analysis.html",date:"2026-03-10",cardIcon:"🗺️"},
 
-  // E 앱/CRM — 구매자가 실제로 회복하고, 평생 팬이 되는 구조를 만든다
+  // E 앱/CRM — 구매자가 실제로 회복하고, 평생 팬이 되는 구조를 만든다 (커뮤니티)
   {cat:"E 앱/CRM",icon:"📱",title:"1분도수 앱 — 전체 기능 상세 명세서",desc:"18개 소스 분석 풀스펙",path:"reports/app/2026-02-23-app-full-spec.html",date:"2026-02-23",cardIcon:"📱"},
   {cat:"E 앱/CRM",icon:"📱",title:"1분도수 앱 — 시스템 아키텍처",desc:"앱 기술 아키텍처",path:"reports/app/2026-02-23-app-architecture.html",date:"2026-02-23",cardIcon:"🏗️"},
   {cat:"E 앱/CRM",icon:"📱",title:"CRM 플레이북",desc:"고객 CRM 전략 & 자동화",path:"crm-playbook.html",date:"2026-02-23",cardIcon:"📋"},
@@ -92,18 +96,18 @@ var reports = [
   {cat:"E 앱/CRM",icon:"📱",title:"CRM 체크리스트",desc:"CRM 실행 체크리스트",path:"crm-checklist.html",date:"2026-02-23",cardIcon:"✅"},
   {cat:"E 앱/CRM",icon:"📱",title:"CRM 현황",desc:"CRM 진행 상황 대시보드",path:"crm-status.html",date:"2026-02-23",cardIcon:"📊"},
 
-  // F 자금조달 — 성장에 필요한 자금을 지분 희석 없이 확보
+  // F 자금조달 — 성장에 필요한 자금을 지분 희석 없이 확보한다
   // (아직 문서 없음)
 
-  // G 채용 — 태훈이 전략/제품에 집중할 수 있는 팀 구축
+  // G 채용 — 태훈이 전략/제품에 집중할 수 있는 팀을 구축한다
   {cat:"G 채용",icon:"👥",title:"팀 운영 현황 & 채용 계획",desc:"팀 구조 분석",path:"reports/task/2026-02-23-team-operations.html",date:"2026-02-23",cardIcon:"👥"},
 
-  // H 운영 — 매출이 커져도 흔들리지 않는 운영 체계
+  // H 운영 — 매출이 커져도 흔들리지 않는 운영 체계를 유지한다
   {cat:"H 운영",icon:"⚙️",title:"키네메디칼 비즈니스 전체 현황",desc:"사업 대시보드",path:"reports/architecture/2026-02-23-business-dashboard.html",date:"2026-02-23",cardIcon:"📋"},
   {cat:"H 운영",icon:"⚙️",title:"Cafe24 멀티몰 운영 가이드",desc:"멀티샵 운영 매뉴얼",path:"reports/architecture/2026-02-23-cafe24-operations-guide.html",date:"2026-02-23",cardIcon:"🛒"},
   {cat:"H 운영",icon:"⚙️",title:"일일 매출 리포트 자동화 태스크",desc:"자동화 태스크 설계",path:"reports/task/2026-02-21-daily-report-task.html",date:"2026-02-21",cardIcon:"⏰"},
 
-  // I AI 시스템 — 반복 업무를 자동화하여 적은 인원으로 최대 성과
+  // I AI 시스템 — 반복 업무를 자동화하여 적은 인원으로 최대 성과를 낸다
   {cat:"I AI 시스템",icon:"🤖",title:"AI 에이전트 구조 — 카리나 시스템",desc:"카리나 AI 비서 전체 아키텍처",path:"reports/architecture/2026-02-23-agent-architecture.html",date:"2026-02-23",cardIcon:"🧠"},
   {cat:"I AI 시스템",icon:"🤖",title:"데이터 순환 파이프라인",desc:"테넥스 지식 시스템 설계",path:"reports/architecture/2026-02-23-data-pipeline.html",date:"2026-02-23",cardIcon:"🔄"},
   {cat:"I AI 시스템",icon:"🤖",title:"RAG 시스템 설계서",desc:"지식 순환 파이프라인 4계층",path:"reports/architecture/2026-02-23-rag-system-design.html",date:"2026-02-23",cardIcon:"📚"},
@@ -113,38 +117,51 @@ var reports = [
   {cat:"I AI 시스템",icon:"🤖",title:"PR #99 코드 리뷰",desc:"버그 4건 수정",path:"reports/review/2026-02-21-pr99-review.html",date:"2026-02-21",cardIcon:"✅"},
   {cat:"I AI 시스템",icon:"🤖",title:"PR #99 릴리스 보고서",desc:"홈 가이드 + 회복점수 + 프로필 + 슬랙",path:"reports/release/2026-02-21-pr99-release.html",date:"2026-02-21",cardIcon:"🚀"},
 
-  // 📚 교육 — 수제자 2기(모사모) + 자사교 5기
-  {cat:"📚 교육",icon:"📚",title:"수제자 2기 — 1강 첫 라이브",desc:"해일이형 수제자 2기",path:"edu-01.html",date:"2026-02-23",cardIcon:"🎓"},
-  {cat:"📚 교육",icon:"📚",title:"수제자 2기 — 2강-1 보너스 (파트1)",desc:"해일이형 수제자 2기",path:"edu-02-1.html",date:"2026-02-23",cardIcon:"🎓"},
-  {cat:"📚 교육",icon:"📚",title:"수제자 2기 — 2강-2 보너스 (파트2)",desc:"해일이형 수제자 2기",path:"edu-02-2.html",date:"2026-02-23",cardIcon:"🎓"},
-  {cat:"📚 교육",icon:"📚",title:"수제자 2기 — 3강-1 (파트1)",desc:"해일이형 수제자 2기",path:"edu-03-1.html",date:"2026-02-23",cardIcon:"🎓"},
-  {cat:"📚 교육",icon:"📚",title:"수제자 2기 — 3강-2 (파트2)",desc:"해일이형 수제자 2기",path:"edu-03-2.html",date:"2026-02-23",cardIcon:"🎓"},
-  {cat:"📚 교육",icon:"📚",title:"수제자 2기 — 4강 보너스",desc:"해일이형 수제자 2기",path:"edu-04.html",date:"2026-02-23",cardIcon:"🎓"},
-  {cat:"📚 교육",icon:"📚",title:"수제자 2기 — 5강",desc:"해일이형 수제자 2기",path:"edu-05.html",date:"2026-02-23",cardIcon:"🎓"},
-  {cat:"📚 교육",icon:"📚",title:"수제자 2기 — 6강 보너스",desc:"해일이형 수제자 2기",path:"edu-06.html",date:"2026-02-23",cardIcon:"🎓"},
-  {cat:"📚 교육",icon:"📚",title:"수제자 2기 — 7강 보너스",desc:"해일이형 수제자 2기",path:"edu-07.html",date:"2026-02-23",cardIcon:"🎓"},
-  {cat:"📚 교육",icon:"📚",title:"수제자 2기 — 8강-1 (파트1)",desc:"해일이형 수제자 2기",path:"edu-08-1.html",date:"2026-02-23",cardIcon:"🎓"},
-  {cat:"📚 교육",icon:"📚",title:"수제자 2기 — 8강-2 (파트2)",desc:"해일이형 수제자 2기",path:"edu-08-2.html",date:"2026-02-23",cardIcon:"🎓"},
-  {cat:"📚 교육",icon:"📚",title:"수제자 2기 — 8강-3 (파트3)",desc:"해일이형 수제자 2기",path:"edu-08-3.html",date:"2026-02-23",cardIcon:"🎓"},
-  {cat:"📚 교육",icon:"📚",title:"수제자 2기 — 9강 보너스",desc:"해일이형 수제자 2기",path:"edu-09.html",date:"2026-02-23",cardIcon:"🎓"},
-  {cat:"📚 교육",icon:"📚",title:"수제자 2기 — 10강 보너스",desc:"해일이형 수제자 2기",path:"edu-10.html",date:"2026-02-23",cardIcon:"🎓"},
-  {cat:"📚 교육",icon:"📚",title:"수제자 2기 — 11강-1 보너스 (파트1)",desc:"해일이형 수제자 2기",path:"edu-11-1.html",date:"2026-02-23",cardIcon:"🎓"},
-  {cat:"📚 교육",icon:"📚",title:"수제자 2기 — 11강-2 보너스 (파트2)",desc:"해일이형 수제자 2기",path:"edu-11-2.html",date:"2026-02-23",cardIcon:"🎓"},
-  {cat:"📚 교육",icon:"📚",title:"수제자 2기 — 12강-1 (파트1)",desc:"해일이형 수제자 2기",path:"edu-12-1.html",date:"2026-02-23",cardIcon:"🎓"},
-  {cat:"📚 교육",icon:"📚",title:"수제자 2기 — 12강-2 (파트2)",desc:"해일이형 수제자 2기",path:"edu-12-2.html",date:"2026-02-23",cardIcon:"🎓"},
-  {cat:"📚 교육",icon:"📚",title:"수제자 2기 — 13강-1 (파트1)",desc:"해일이형 수제자 2기",path:"edu-13-1.html",date:"2026-02-23",cardIcon:"🎓"},
-  {cat:"📚 교육",icon:"📚",title:"수제자 2기 — 13강-2 (파트2)",desc:"해일이형 수제자 2기",path:"edu-13-2.html",date:"2026-02-23",cardIcon:"🎓"},
-  {cat:"📚 교육",icon:"📚",title:"수제자 2기 — 14강",desc:"해일이형 수제자 2기",path:"edu-14.html",date:"2026-02-23",cardIcon:"🎓"},
-  {cat:"📚 교육",icon:"📚",title:"수제자 2기 — 15강-1 보너스 (파트1)",desc:"해일이형 수제자 2기",path:"edu-15-1.html",date:"2026-02-23",cardIcon:"🎓"},
-  {cat:"📚 교육",icon:"📚",title:"수제자 2기 — 15강-2 보너스 (파트2)",desc:"해일이형 수제자 2기",path:"edu-15-2.html",date:"2026-02-23",cardIcon:"🎓"},
-  {cat:"📚 교육",icon:"📚",title:"수제자 2기 — 16강",desc:"해일이형 수제자 2기",path:"edu-16.html",date:"2026-02-23",cardIcon:"🎓"},
-  {cat:"📚 교육",icon:"📚",title:"수제자 2기 — 17강-1 (파트1)",desc:"해일이형 수제자 2기",path:"edu-17-1.html",date:"2026-02-23",cardIcon:"🎓"},
-  {cat:"📚 교육",icon:"📚",title:"수제자 2기 — 17강-2 (파트2)",desc:"해일이형 수제자 2기",path:"edu-17-2.html",date:"2026-02-23",cardIcon:"🎓"},
-  {cat:"📚 교육",icon:"📚",title:"수제자 2기 — 17강-3 (파트3)",desc:"해일이형 수제자 2기",path:"edu-17-3.html",date:"2026-02-23",cardIcon:"🎓"},
-  {cat:"📚 교육",icon:"📚",title:"수제자 2기 — 전체 전사본",desc:"해일이형 수제자 2기 전체",path:"education.html",date:"2026-02-23",cardIcon:"📖"},
-  {cat:"📚 교육",icon:"📚",title:"자사교 5기 — 메타 광고 강의 핵심 정리",desc:"자사교 5기 메타 광고",path:"meta-education.html",date:"2026-02-23",cardIcon:"📚"},
-  {cat:"📚 교육",icon:"📚",title:"TENEX 핵심전략 2026",desc:"테넥스 전략 문서",path:"tenex-strategy.html",date:"2026-02-23",cardIcon:"🎯"}
+  // J 교육 — 성장에 필요한 모든 교육. 성공한 사람들의 경험을 사서, 우리 비즈니스에 적용한다
+  {cat:"J 교육",icon:"📚",title:"수제자 2기 — 1강 첫 라이브",desc:"해일이형 수제자 2기",path:"edu-01.html",date:"2026-02-23",cardIcon:"🎓"},
+  {cat:"J 교육",icon:"📚",title:"수제자 2기 — 2강-1 보너스 (파트1)",desc:"해일이형 수제자 2기",path:"edu-02-1.html",date:"2026-02-23",cardIcon:"🎓"},
+  {cat:"J 교육",icon:"📚",title:"수제자 2기 — 2강-2 보너스 (파트2)",desc:"해일이형 수제자 2기",path:"edu-02-2.html",date:"2026-02-23",cardIcon:"🎓"},
+  {cat:"J 교육",icon:"📚",title:"수제자 2기 — 3강-1 (파트1)",desc:"해일이형 수제자 2기",path:"edu-03-1.html",date:"2026-02-23",cardIcon:"🎓"},
+  {cat:"J 교육",icon:"📚",title:"수제자 2기 — 3강-2 (파트2)",desc:"해일이형 수제자 2기",path:"edu-03-2.html",date:"2026-02-23",cardIcon:"🎓"},
+  {cat:"J 교육",icon:"📚",title:"수제자 2기 — 4강 보너스",desc:"해일이형 수제자 2기",path:"edu-04.html",date:"2026-02-23",cardIcon:"🎓"},
+  {cat:"J 교육",icon:"📚",title:"수제자 2기 — 5강",desc:"해일이형 수제자 2기",path:"edu-05.html",date:"2026-02-23",cardIcon:"🎓"},
+  {cat:"J 교육",icon:"📚",title:"수제자 2기 — 6강 보너스",desc:"해일이형 수제자 2기",path:"edu-06.html",date:"2026-02-23",cardIcon:"🎓"},
+  {cat:"J 교육",icon:"📚",title:"수제자 2기 — 7강 보너스",desc:"해일이형 수제자 2기",path:"edu-07.html",date:"2026-02-23",cardIcon:"🎓"},
+  {cat:"J 교육",icon:"📚",title:"수제자 2기 — 8강-1 (파트1)",desc:"해일이형 수제자 2기",path:"edu-08-1.html",date:"2026-02-23",cardIcon:"🎓"},
+  {cat:"J 교육",icon:"📚",title:"수제자 2기 — 8강-2 (파트2)",desc:"해일이형 수제자 2기",path:"edu-08-2.html",date:"2026-02-23",cardIcon:"🎓"},
+  {cat:"J 교육",icon:"📚",title:"수제자 2기 — 8강-3 (파트3)",desc:"해일이형 수제자 2기",path:"edu-08-3.html",date:"2026-02-23",cardIcon:"🎓"},
+  {cat:"J 교육",icon:"📚",title:"수제자 2기 — 9강 보너스",desc:"해일이형 수제자 2기",path:"edu-09.html",date:"2026-02-23",cardIcon:"🎓"},
+  {cat:"J 교육",icon:"📚",title:"수제자 2기 — 10강 보너스",desc:"해일이형 수제자 2기",path:"edu-10.html",date:"2026-02-23",cardIcon:"🎓"},
+  {cat:"J 교육",icon:"📚",title:"수제자 2기 — 11강-1 보너스 (파트1)",desc:"해일이형 수제자 2기",path:"edu-11-1.html",date:"2026-02-23",cardIcon:"🎓"},
+  {cat:"J 교육",icon:"📚",title:"수제자 2기 — 11강-2 보너스 (파트2)",desc:"해일이형 수제자 2기",path:"edu-11-2.html",date:"2026-02-23",cardIcon:"🎓"},
+  {cat:"J 교육",icon:"📚",title:"수제자 2기 — 12강-1 (파트1)",desc:"해일이형 수제자 2기",path:"edu-12-1.html",date:"2026-02-23",cardIcon:"🎓"},
+  {cat:"J 교육",icon:"📚",title:"수제자 2기 — 12강-2 (파트2)",desc:"해일이형 수제자 2기",path:"edu-12-2.html",date:"2026-02-23",cardIcon:"🎓"},
+  {cat:"J 교육",icon:"📚",title:"수제자 2기 — 13강-1 (파트1)",desc:"해일이형 수제자 2기",path:"edu-13-1.html",date:"2026-02-23",cardIcon:"🎓"},
+  {cat:"J 교육",icon:"📚",title:"수제자 2기 — 13강-2 (파트2)",desc:"해일이형 수제자 2기",path:"edu-13-2.html",date:"2026-02-23",cardIcon:"🎓"},
+  {cat:"J 교육",icon:"📚",title:"수제자 2기 — 14강",desc:"해일이형 수제자 2기",path:"edu-14.html",date:"2026-02-23",cardIcon:"🎓"},
+  {cat:"J 교육",icon:"📚",title:"수제자 2기 — 15강-1 보너스 (파트1)",desc:"해일이형 수제자 2기",path:"edu-15-1.html",date:"2026-02-23",cardIcon:"🎓"},
+  {cat:"J 교육",icon:"📚",title:"수제자 2기 — 15강-2 보너스 (파트2)",desc:"해일이형 수제자 2기",path:"edu-15-2.html",date:"2026-02-23",cardIcon:"🎓"},
+  {cat:"J 교육",icon:"📚",title:"수제자 2기 — 16강",desc:"해일이형 수제자 2기",path:"edu-16.html",date:"2026-02-23",cardIcon:"🎓"},
+  {cat:"J 교육",icon:"📚",title:"수제자 2기 — 17강-1 (파트1)",desc:"해일이형 수제자 2기",path:"edu-17-1.html",date:"2026-02-23",cardIcon:"🎓"},
+  {cat:"J 교육",icon:"📚",title:"수제자 2기 — 17강-2 (파트2)",desc:"해일이형 수제자 2기",path:"edu-17-2.html",date:"2026-02-23",cardIcon:"🎓"},
+  {cat:"J 교육",icon:"📚",title:"수제자 2기 — 17강-3 (파트3)",desc:"해일이형 수제자 2기",path:"edu-17-3.html",date:"2026-02-23",cardIcon:"🎓"},
+  {cat:"J 교육",icon:"📚",title:"수제자 2기 — 전체 전사본",desc:"해일이형 수제자 2기 전체",path:"education.html",date:"2026-02-23",cardIcon:"📖"},
+  {cat:"J 교육",icon:"📚",title:"자사교 5기 — 메타 광고 강의 핵심 정리",desc:"자사교 5기 메타 광고",path:"meta-education.html",date:"2026-02-23",cardIcon:"📚"}
 ];
+
+var catDescs = {
+  "★ 전략": "테넥스 전체 전략 · 해외 진출 · 벤치마크",
+  "A 제품": "목 문제의 근본적인 해결책이 될 수 있는 솔루션 개발에 성공한다",
+  "B 콘텐츠/채널": "전 국민의 마인드에 목이 아프면 ⇒ 1분도수가 떠오르도록 만든다",
+  "C 의료계 파트너십": "의료계가 인정하는 경추 치료 솔루션으로 자리잡는다",
+  "D 마케팅/광고": "대한민국이 열광하는 경추 치료 솔루션으로 자리잡는다",
+  "E 앱/CRM": "구매자가 실제로 회복하고, 평생 팬이 되는 구조를 만든다 (커뮤니티)",
+  "F 자금조달": "성장에 필요한 자금을 지분 희석 없이 확보한다",
+  "G 채용": "태훈이 전략/제품에 집중할 수 있는 팀을 구축한다",
+  "H 운영": "매출이 커져도 흔들리지 않는 운영 체계를 유지한다",
+  "I AI 시스템": "반복 업무를 자동화하여 적은 인원으로 최대 성과를 낸다",
+  "J 교육": "성장에 필요한 모든 교육. 성공한 사람들의 경험을 사서, 우리 비즈니스에 적용한다"
+};
 
 // Render
 var cats = [];
@@ -156,10 +173,11 @@ document.getElementById('cat-count').textContent = cats.length;
 var html = cats.map(function(cat){
   var items = reports.filter(function(r){return r.cat===cat});
   var icon = items[0].icon;
+  var desc = catDescs[cat] || '';
   var cards = items.map(function(r){
     return '<a href="'+r.path+'"><div class="card"><div class="card-icon">'+r.cardIcon+'</div><h3>'+r.title+'</h3><div class="desc">'+r.desc+'</div><div class="date">'+r.date+'</div></div></a>';
   }).join('');
-  return '<div class="category"><div class="cat-header"><span class="cat-icon">'+icon+'</span><span class="cat-title">'+cat+'</span><span class="cat-count">'+items.length+'개</span></div><div class="cards">'+cards+'</div></div>';
+  return '<div class="category"><div class="cat-header"><span class="cat-icon">'+icon+'</span><span class="cat-title">'+cat+'</span><span class="cat-count">'+items.length+'개</span><span class="cat-desc">'+desc+'</span></div><div class="cards">'+cards+'</div></div>';
 }).join('');
 
 document.getElementById('content').innerHTML = html;
