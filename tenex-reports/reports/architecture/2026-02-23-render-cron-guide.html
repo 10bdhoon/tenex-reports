@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Render Cron Job 운영 가이드</title>
+<style>*{margin:0;padding:0;box-sizing:border-box}body{font-family:-apple-system,BlinkMacSystemFont,'Pretendard',sans-serif;background:#f8f9fa;color:#333;line-height:1.7}.header{background:linear-gradient(135deg,#0a0a0a 0%,#1a1a2e 100%);color:#fff;padding:32px;max-width:960px;margin:0 auto}.header h1{font-size:22px;font-weight:700}.header .meta{font-size:13px;color:#8b8ba7;margin-top:8px;display:flex;gap:16px;flex-wrap:wrap}.body{max-width:960px;margin:0 auto;padding:24px 16px}h2{font-size:18px;font-weight:700;margin:32px 0 16px;padding-bottom:8px;border-bottom:2px solid #e5e7eb}h3{font-size:15px;font-weight:600;margin:20px 0 10px}p,li{font-size:14px}.section-box{background:#fff;border-radius:10px;padding:20px;margin:16px 0;box-shadow:0 1px 3px rgba(0,0,0,0.08)}.flow{background:#1a1a2e;color:#fff;border-radius:10px;padding:20px;margin:16px 0;font-family:monospace;font-size:13px;line-height:2;white-space:pre-wrap}table{width:100%;border-collapse:collapse;margin:12px 0;font-size:13px}th{background:#f1f3f5;padding:8px 12px;text-align:left;font-weight:600;border-bottom:2px solid #dee2e6}td{padding:8px 12px;border-bottom:1px solid #eee}.tag{display:inline-block;padding:2px 8px;border-radius:4px;font-size:11px;font-weight:600;margin-right:4px}.tag.green{background:#d4edda;color:#155724}.tag.red{background:#f8d7da;color:#721c24}.tag.blue{background:#cce5ff;color:#004085}.tag.yellow{background:#fff3cd;color:#856404}.back{display:inline-block;margin-bottom:16px;color:#e94560;font-size:13px;text-decoration:none;font-weight:600}.footer{text-align:center;font-size:12px;color:#999;margin-top:40px;padding:20px}code{background:#f1f3f5;padding:2px 6px;border-radius:4px;font-size:12px}</style>
+</head>
+<body>
+<div class="header">
+  <h1>⏰ Render Cron Job 운영 가이드</h1>
+  <div class="meta">
+    <span>📅 2026년 2월 23일</span>
+    <span>🏗️ Architecture</span>
+    <span>🔧 인프라 운영</span>
+  </div>
+</div>
+<div class="body">
+<a class="back" href="../../index.html">← 전체 보고서</a>
+
+<h2>1. 서비스 개요</h2>
+<div class="section-box">
+<table>
+<tr><th>항목</th><th>값</th></tr>
+<tr><td>SERVICE_ID</td><td><code>crn-d4pdf3e3jp1c73957n8g</code></td></tr>
+<tr><td>소스 코드</td><td><code>/Users/taehoonkim/Desktop/tenex-assistant/index.js</code></td></tr>
+<tr><td>실행 시간</td><td>매일 7:00 AM KST (22:00 UTC)</td></tr>
+<tr><td>Slack 채널</td><td><code>C0A1WKJ9AEQ</code></td></tr>
+<tr><td>호스팅</td><td>Render Cron Job (Free tier)</td></tr>
+</table>
+</div>
+
+<h2>2. 실행 흐름</h2>
+<div class="flow">
+[매일 7AM KST]
+  ↓
+[1] Cafe24 API → 전일 주문 조회 (shop_no=5, 6)
+  ↓
+[2] Meta Ads API → 전일 광고 성과 조회
+  ↓
+[3] 공헌이익 계산
+  ├─ 제품별 원가 매핑
+  ├─ 배송비 + 수수료(3.85%) 차감
+  └─ 광고비 차감 → 순이익
+  ↓
+[4] Slack 브리핑 메시지 발송 → #C0A1WKJ9AEQ
+  ↓
+[완료]</div>
+
+<h2>3. 환경변수 관리</h2>
+<div class="section-box">
+<p>모든 환경변수는 <strong>Render Dashboard</strong>에서 관리합니다.</p>
+<table>
+<tr><th>변수명</th><th>용도</th><th>갱신 주기</th></tr>
+<tr><td><code>CAFE24_CLIENT_ID</code></td><td>Cafe24 API 인증</td><td>변경 없음</td></tr>
+<tr><td><code>CAFE24_CLIENT_SECRET</code></td><td>Cafe24 API 인증</td><td>변경 없음</td></tr>
+<tr><td><code>CAFE24_ACCESS_TOKEN</code></td><td>Cafe24 API 접근</td><td>2시간 (자동 갱신)</td></tr>
+<tr><td><code>CAFE24_REFRESH_TOKEN</code></td><td>토큰 갱신용</td><td><span class="tag red">2주마다 수동 확인</span></td></tr>
+<tr><td><code>META_ACCESS_TOKEN</code></td><td>Meta Ads API</td><td>60일</td></tr>
+<tr><td><code>SLACK_BOT_TOKEN</code></td><td>Slack 발송</td><td>변경 없음</td></tr>
+</table>
+</div>
+
+<h2>4. 토큰 갱신 주의사항</h2>
+<div class="section-box">
+<ul>
+  <li>⚠️ <strong>Render 환경변수의 <code>CAFE24_REFRESH_TOKEN</code>이 최신인지 반드시 확인</strong></li>
+  <li>⚠️ 로컬에서 토큰을 갱신하면 Render의 토큰이 즉시 무효화됨</li>
+  <li>✅ 토큰 갱신 시: <code>memory/api-credentials.md</code> + Render Dashboard 동시 업데이트</li>
+  <li>✅ 갱신 후 Render에서 수동 실행하여 정상 작동 확인</li>
+</ul>
+</div>
+
+<h2>5. 트러블슈팅</h2>
+<div class="section-box">
+<h3>🔴 주문 0건 이슈</h3>
+<table>
+<tr><th>원인</th><th>해결</th></tr>
+<tr><td>shop_no 미지정 → shop_no=1(봉삭스) 조회</td><td><code>shop_no=5</code> 또는 <code>shop_no=6</code> 명시</td></tr>
+<tr><td>scope 부족</td><td><code>mall.read_order</code> scope 확인</td></tr>
+<tr><td>토큰 만료</td><td>refresh_token으로 갱신 후 환경변수 업데이트</td></tr>
+<tr><td>날짜 범위 오류</td><td>UTC/KST 시차 확인 (KST = UTC+9)</td></tr>
+</table>
+
+<h3>🔴 Slack 발송 실패</h3>
+<ul>
+  <li>SLACK_BOT_TOKEN 유효성 확인</li>
+  <li>채널 ID <code>C0A1WKJ9AEQ</code> 확인</li>
+  <li>봇이 해당 채널에 초대되어 있는지 확인</li>
+</ul>
+
+<h3>🔴 Render Cron 미실행</h3>
+<ul>
+  <li>Render Dashboard → Cron Job → Logs 확인</li>
+  <li>Free tier는 월 실행 횟수 제한 있음</li>
+  <li>"Trigger Run" 버튼으로 수동 실행 테스트</li>
+</ul>
+</div>
+
+<div class="footer">TENEX Reports — KINEMEDICAL</div>
+</div>
+</body>
+</html>

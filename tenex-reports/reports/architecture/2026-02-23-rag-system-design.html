@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>테넥스 RAG 시스템 설계서 — 지식 순환 파이프라인</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}body{font-family:-apple-system,BlinkMacSystemFont,'Pretendard',sans-serif;background:#f8f9fa;color:#333;line-height:1.7}.header{background:linear-gradient(135deg,#0a0a0a 0%,#1a1a2e 100%);color:#fff;padding:32px;max-width:960px;margin:0 auto}.header h1{font-size:22px;font-weight:700}.header .meta{font-size:13px;color:#8b8ba7;margin-top:8px;display:flex;gap:16px;flex-wrap:wrap}.body{max-width:960px;margin:0 auto;padding:24px 16px}h2{font-size:18px;font-weight:700;margin:32px 0 16px;padding-bottom:8px;border-bottom:2px solid #e5e7eb}h3{font-size:15px;font-weight:600;margin:20px 0 10px;color:#1a1a2e}p,li{font-size:14px}ul{padding-left:20px;margin:8px 0}.section-box{background:#fff;border-radius:10px;padding:20px;margin:16px 0;box-shadow:0 1px 3px rgba(0,0,0,0.08)}.flow{background:#1a1a2e;color:#fff;border-radius:10px;padding:20px;margin:16px 0;font-family:monospace;font-size:13px;line-height:2;white-space:pre-wrap}table{width:100%;border-collapse:collapse;margin:12px 0;font-size:13px}th{background:#f1f3f5;padding:8px 12px;text-align:left;font-weight:600;border-bottom:2px solid #dee2e6}td{padding:8px 12px;border-bottom:1px solid #eee}.tag{display:inline-block;padding:2px 8px;border-radius:4px;font-size:11px;font-weight:600;margin-right:4px}.tag.t1{background:#d4edda;color:#155724}.tag.t2{background:#fff3cd;color:#856404}.tag.t3{background:#e2e3e5;color:#383d41}.tag.good{background:#d4edda;color:#155724}.tag.warn{background:#fff3cd;color:#856404}.tag.info{background:#cce5ff;color:#004085}.tag.phase{background:#e8daef;color:#6c3483}.back{display:inline-block;margin-bottom:16px;color:#e94560;font-size:13px;text-decoration:none;font-weight:600}.footer{text-align:center;font-size:12px;color:#999;margin-top:40px;padding:20px}.schema-box{background:#f8f9fa;border:1px solid #dee2e6;border-radius:8px;padding:16px;margin:12px 0;font-family:'SF Mono',monospace;font-size:12px;line-height:1.8;white-space:pre-wrap}
+</style>
+</head>
+<body>
+<div class="header">
+  <h1>🧠 테넥스 RAG 시스템 설계서 — 지식 순환 파이프라인</h1>
+  <div class="meta">
+    <span>📅 2026년 2월 23일</span>
+    <span>🏗️ AI System</span>
+    <span>🔗 스미스 QA Helpdesk 참고 → 테넥스 비즈니스 버전</span>
+  </div>
+</div>
+<div class="body">
+<a class="back" href="../../index.html">← 전체 보고서</a>
+
+<h2>1. Executive Summary</h2>
+<div class="section-box">
+<p>테넥스의 모든 비즈니스 지식 — 미팅 녹음, 강의 콘텐츠, 고객 VOC, 제품 정보, 마케팅 인사이트 — 을 <strong>벡터 임베딩</strong>하여 AI가 실시간으로 참조할 수 있는 <strong>지식 순환 시스템</strong>.</p>
+<p style="margin-top:12px"><strong>최종 목표:</strong> 팀원이 슬랙에서 질문하면, 태훈의 의사결정과 지식 기반으로 AI가 자동 답변. 카리나(텔레그램 에이전트)도 동일한 지식 DB를 참조하여 대화 품질 향상.</p>
+<p style="margin-top:12px"><strong>핵심 차별점:</strong> 단순 검색이 아닌 <strong>"지식 → 활용 → 승인 → 재순환"</strong> 자기강화 루프. 시간이 지날수록 시스템이 더 똑똑해짐.</p>
+</div>
+
+<h2>2. 데이터 소스 (수집 채널)</h2>
+<div class="section-box">
+<table>
+<tr><th>source_type</th><th>우선순위</th><th>설명</th><th>수집 방법</th></tr>
+<tr><td><strong>lecture</strong></td><td><span class="tag t1">T1</span></td><td>태훈 강의 콘텐츠 (1분도수 유튜브 영상)</td><td>유튜브 자막 추출</td></tr>
+<tr><td><strong>meeting</strong></td><td><span class="tag t1">T1</span></td><td>미팅, 교육, 멘토링 녹음</td><td>Plaud 녹음 → Gemini 전사</td></tr>
+<tr><td><strong>product</strong></td><td><span class="tag t1">T1</span></td><td>제품 스펙, 사용법, 주의사항</td><td>constants/products.ts 파싱</td></tr>
+<tr><td><strong>voc</strong></td><td><span class="tag t2">T2</span></td><td>고객 문의, 리뷰, 반품 사유</td><td>Cafe24 API 수집</td></tr>
+<tr><td><strong>marketing</strong></td><td><span class="tag t2">T2</span></td><td>광고 성과 인사이트, 캠페인 분석</td><td>Meta Ads API + 일일리포트</td></tr>
+<tr><td><strong>internal</strong></td><td><span class="tag t2">T2</span></td><td>팀 내부 의사결정, 회의록</td><td>Notion 문서 + 수동 입력</td></tr>
+<tr><td><strong>content</strong></td><td><span class="tag t3">T3</span></td><td>1분도수 유튜브/인스타 콘텐츠</td><td>콘텐츠 메타데이터 수집</td></tr>
+</table>
+<p style="margin-top:12px;font-size:13px;color:#666"><strong>우선순위:</strong> T1 = 즉시 구현 (핵심 지식) / T2 = 2주 내 추가 / T3 = 안정화 후 확장</p>
+</div>
+
+<h2>3. 기술 스택</h2>
+<div class="section-box">
+<table>
+<tr><th>컴포넌트</th><th>기술</th><th>선택 이유</th></tr>
+<tr><td><strong>벡터 DB</strong></td><td>Supabase pgvector</td><td>기존 1분도수 앱 Supabase 인프라 활용, 추가 비용 없음</td></tr>
+<tr><td><strong>임베딩 모델</strong></td><td>Gemini gemini-embedding-001 (768차원)</td><td>무료 tier 충분, 한국어 성능 우수</td></tr>
+<tr><td><strong>청킹</strong></td><td>700자 단위, 100자 overlap</td><td>한국어 문장 경계 존중, 의미 단위 보존</td></tr>
+<tr><td><strong>검색</strong></td><td>Hybrid Search + Reranking</td><td>정확도 극대화 (아래 상세)</td></tr>
+<tr><td><strong>답변 생성</strong></td><td>Claude Opus / Sonnet</td><td>복잡한 판단 = Opus, 일반 답변 = Sonnet</td></tr>
+</table>
+</div>
+
+<h3>검색 파이프라인 상세</h3>
+<div class="flow">
+질문 입력
+  ↓
+① Query Expansion (Claude)
+   "CS-25 반품 많아?" → ["CS-25 반품", "CS-25 클레임", "교정기 반품 사유"]
+  ↓
+② Hybrid Search
+   Vector cosine similarity × 0.6  +  Full-Text Search × 0.4
+   + source_type tier_boost (T1: ×1.2 / T2: ×1.0 / T3: ×0.8)
+  ↓
+③ Reranking (Gemini Flash)
+   상위 20개 → 질문과 관련성 재평가 → 최종 5개 선별
+  ↓
+④ 답변 생성 (Claude)
+   선별된 5개 chunk + 원본 질문 → 근거 기반 답변
+</div>
+
+<h2>4. DB 스키마 설계</h2>
+
+<h3>knowledge_contents — 원본 콘텐츠</h3>
+<div class="schema-box">CREATE TABLE knowledge_contents (
+  id             UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  title          TEXT NOT NULL,
+  raw_content    TEXT NOT NULL,
+  source_type    TEXT NOT NULL,        -- lecture | meeting | voc | product | marketing | internal | content
+  source_ref     TEXT,                 -- 원본 URL, 파일명, Plaud ID 등
+  ai_summary     TEXT,                 -- Claude/Gemini 자동 요약
+  importance_score SMALLINT DEFAULT 5, -- 1-10 중요도 (태훈 수동 or AI 판단)
+  key_topics     TEXT[],               -- 주요 토픽 태그
+  embedding_status TEXT DEFAULT 'pending', -- pending | processing | done | error
+  created_at     TIMESTAMPTZ DEFAULT now()
+);</div>
+
+<h3>knowledge_chunks — 임베딩된 청크</h3>
+<div class="schema-box">CREATE TABLE knowledge_chunks (
+  id             UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  content_id     UUID REFERENCES knowledge_contents(id) ON DELETE CASCADE,
+  chunk_text     TEXT NOT NULL,
+  chunk_index    INT NOT NULL,
+  embedding      vector(768),          -- Gemini gemini-embedding-001
+  source_type    TEXT NOT NULL,
+  priority       SMALLINT DEFAULT 5,   -- 상위 콘텐츠 importance 상속
+  token_count    INT,
+  created_at     TIMESTAMPTZ DEFAULT now()
+);
+
+-- 검색 성능을 위한 HNSW 인덱스
+CREATE INDEX idx_chunks_embedding ON knowledge_chunks
+  USING hnsw (embedding vector_cosine_ops) WITH (m = 16, ef_construction = 64);
+
+-- Full-Text Search 인덱스 (한국어)
+CREATE INDEX idx_chunks_fts ON knowledge_chunks
+  USING gin (to_tsvector('simple', chunk_text));</div>
+
+<h3>knowledge_usage_logs — 사용 추적</h3>
+<div class="schema-box">CREATE TABLE knowledge_usage_logs (
+  id             UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  consumer_type  TEXT NOT NULL,  -- slackbot | karina | report | manual
+  query          TEXT,
+  chunks_used    UUID[],         -- 참조된 chunk IDs
+  model          TEXT,           -- claude-opus | claude-sonnet | gemini-flash
+  input_tokens   INT,
+  output_tokens  INT,
+  latency_ms     INT,
+  feedback       TEXT,           -- good | bad | null (사용자 피드백)
+  created_at     TIMESTAMPTZ DEFAULT now()
+);</div>
+
+<h2>5. 파이프라인 4계층</h2>
+
+<h3>Layer 0 — 데이터 수집 & 임베딩</h3>
+<div class="section-box">
+<table>
+<tr><th>소스</th><th>처리 흐름</th><th>자동화</th></tr>
+<tr><td>Plaud 녹음</td><td>녹음 → Gemini 전사 → 청킹(700자) → Gemini 임베딩 → knowledge_chunks</td><td>수동 트리거</td></tr>
+<tr><td>유튜브 자막</td><td>YouTube API 자막 추출 → 청킹 → 임베딩</td><td>새 영상 감지 시 자동</td></tr>
+<tr><td>Cafe24 VOC</td><td>VOC API → 문의/리뷰/반품 수집 → 청킹 → 임베딩</td><td>일 1회 배치</td></tr>
+<tr><td>제품 정보</td><td>constants/products.ts 파싱 → 제품별 청킹 → 임베딩</td><td>코드 변경 시</td></tr>
+<tr><td>Notion 문서</td><td>수동 복사 or API → 청킹 → 임베딩</td><td>수동</td></tr>
+</table>
+</div>
+
+<h3>Layer 1 — 검색 엔진</h3>
+<div class="section-box">
+<ul>
+<li><strong>Query Expansion:</strong> 사용자 질문 → Claude가 관련 검색어 3개 추가 생성 (동의어, 관련 개념)</li>
+<li><strong>Hybrid Search:</strong> vector cosine similarity (가중치 0.6) + PostgreSQL FTS (가중치 0.4) + source_type tier 부스트</li>
+<li><strong>Reranking:</strong> Gemini Flash가 상위 20개 결과를 질문 맥락에서 재평가 → 최종 5개 선별</li>
+<li><strong>캐싱:</strong> 동일/유사 질문은 이전 검색 결과 재사용 (usage_logs 기반)</li>
+</ul>
+</div>
+
+<h3>Layer 2 — 활용 (Consumer)</h3>
+<div class="section-box">
+<table>
+<tr><th>소비자</th><th>시나리오</th><th>모델</th></tr>
+<tr><td><strong>🤖 슬랙봇</strong></td><td>팀원: "CS-25 사이즈 교환 기준이 뭐야?" → RAG 검색 → 근거 기반 답변</td><td>Sonnet</td></tr>
+<tr><td><strong>💬 카리나</strong></td><td>태훈 텔레그램 대화 중 "지난주 미팅에서 뭐라고 했지?" → 미팅 녹음 검색</td><td>Opus</td></tr>
+<tr><td><strong>📊 일일 리포트</strong></td><td>매출 하락 감지 → 과거 유사 패턴 검색 → 인사이트 자동 추가</td><td>Sonnet</td></tr>
+<tr><td><strong>🎯 의사결정 지원</strong></td><td>"이 제품 단종할까?" → 매출/VOC/마진 데이터 종합 검색 → Opus 분석</td><td>Opus</td></tr>
+</table>
+</div>
+
+<h3>Layer 3 — 순환 (Knowledge Loop)</h3>
+<div class="section-box">
+<p>시스템이 생성한 지식이 다시 지식 DB로 순환되는 <strong>자기강화 루프</strong>:</p>
+<ul>
+<li><strong>승인된 답변 → 재임베딩:</strong> 슬랙봇 답변 중 "좋아요" 피드백 받은 것 → qa_answer source_type으로 재임베딩</li>
+<li><strong>일일 리포트 인사이트 → 재임베딩:</strong> AI가 발견한 패턴/인사이트를 지식으로 축적</li>
+<li><strong>의사결정 기록 → 재임베딩:</strong> 태훈의 주요 의사결정과 근거를 저장</li>
+<li>⚠️ <strong>관리자 승인 게이트:</strong> 모든 순환은 태훈 텔레그램 승인 후에만 실행 → 잘못된 지식 유입 방지</li>
+</ul>
+</div>
+
+<div class="flow">
+🔄 지식 순환 루프
+
+슬랙봇 답변 ─── 👍 좋아요 ──→ 태훈 승인? ──→ ✅ 재임베딩 (qa_answer)
+                                    │
+일일 리포트 인사이트 ──────────→ 태훈 승인? ──→ ✅ 재임베딩 (insight)
+                                    │
+의사결정 기록 ─────────────→ 태훈 승인? ──→ ✅ 재임베딩 (decision)
+                                    │
+                              ❌ 거절 → 폐기
+</div>
+
+<h2>6. 구현 로드맵</h2>
+<div class="section-box">
+<table>
+<tr><th>Phase</th><th>기간</th><th>목표</th><th>산출물</th></tr>
+<tr><td><span class="tag phase">Phase 0</span></td><td>Day 1-3</td><td><strong>인프라 구축</strong></td><td>
+  <ul>
+    <li>Supabase에 3개 테이블 생성 (knowledge_contents, chunks, usage_logs)</li>
+    <li>pgvector 확장 활성화 + HNSW 인덱스</li>
+    <li>Gemini 임베딩 유틸 함수 (embed_text, chunk_and_embed)</li>
+  </ul>
+</td></tr>
+<tr><td><span class="tag phase">Phase 1</span></td><td>Day 4-7</td><td><strong>첫 데이터 수집</strong></td><td>
+  <ul>
+    <li>Plaud 녹음 전사본 임베딩 스크립트</li>
+    <li>1분도수 유튜브 자막 추출 + 임베딩</li>
+    <li>제품 정보 (constants/products.ts) 임베딩</li>
+    <li>목표: ~500개 chunks 초기 적재</li>
+  </ul>
+</td></tr>
+<tr><td><span class="tag phase">Phase 2</span></td><td>Week 2</td><td><strong>검색 엔진</strong></td><td>
+  <ul>
+    <li>Query Expansion 구현 (Claude)</li>
+    <li>Hybrid Search (vector + FTS) 구현</li>
+    <li>Reranking 구현 (Gemini Flash)</li>
+    <li>검색 품질 테스트 + 가중치 튜닝</li>
+  </ul>
+</td></tr>
+<tr><td><span class="tag phase">Phase 3</span></td><td>Week 3-4</td><td><strong>활용 & 순환</strong></td><td>
+  <ul>
+    <li>슬랙봇 MVP (질문 → RAG → 답변)</li>
+    <li>카리나 지식 참조 연동</li>
+    <li>순환 파이프라인 (승인 게이트 → 재임베딩)</li>
+  </ul>
+</td></tr>
+</table>
+</div>
+
+<h2>7. 스미스 시스템과 차이점</h2>
+<div class="section-box">
+<table>
+<tr><th>항목</th><th>스미스 (Smith)</th><th>테넥스 (TENEX)</th></tr>
+<tr><td><strong>대상</strong></td><td>수강생 QA 중심</td><td>팀 내부 지식 + 고객 VOC 중심</td></tr>
+<tr><td><strong>UI</strong></td><td>웹앱 (Next.js 대시보드)</td><td>슬랙봇 + 텔레그램(카리나) 우선</td></tr>
+<tr><td><strong>관리</strong></td><td>어드민 대시보드에서 승인/관리</td><td>태훈 텔레그램으로 승인/관리</td></tr>
+<tr><td><strong>데이터</strong></td><td>강의 자료, 수강생 질문</td><td>미팅 녹음, VOC, 제품, 마케팅, 콘텐츠</td></tr>
+<tr><td><strong>답변 톤</strong></td><td>교육적/친절</td><td>실무적/의사결정 지원</td></tr>
+</table>
+<p style="margin-top:12px"><strong>공통 아키텍처:</strong> Supabase pgvector, Gemini 임베딩, 700자 청킹, 순환 파이프라인, 승인 게이트</p>
+</div>
+
+<h2>8. 비용 추정</h2>
+<div class="section-box">
+<table>
+<tr><th>항목</th><th>월 예상 비용</th><th>비고</th></tr>
+<tr><td>Gemini 임베딩</td><td><strong>$0</strong></td><td>무료 tier (분당 ~100건, 충분)</td></tr>
+<tr><td>Gemini Flash (Reranking)</td><td><strong>~$5</strong></td><td>일 ~100 쿼리 기준</td></tr>
+<tr><td>Claude 답변 생성</td><td><strong>~$15</strong></td><td>기존 OpenClaw 사용량에 포함</td></tr>
+<tr><td>Supabase (pgvector)</td><td><strong>~$0</strong></td><td>기존 프로젝트 활용, 스토리지 여유</td></tr>
+<tr><td><strong>합계</strong></td><td><strong>~$20-30/월</strong></td><td>트래픽 증가 시에도 $50 이하</td></tr>
+</table>
+</div>
+
+<h2>9. 성공 지표 (KPI)</h2>
+<div class="section-box">
+<table>
+<tr><th>지표</th><th>목표</th><th>측정 방법</th></tr>
+<tr><td>검색 정확도</td><td>Top-5 관련성 80%+</td><td>수동 샘플링 (주 1회)</td></tr>
+<tr><td>슬랙봇 답변 만족도</td><td>👍 비율 70%+</td><td>피드백 버튼</td></tr>
+<tr><td>응답 시간</td><td>< 5초</td><td>usage_logs.latency_ms</td></tr>
+<tr><td>지식 커버리지</td><td>월 +200 chunks</td><td>knowledge_chunks 증가율</td></tr>
+<tr><td>순환 비율</td><td>답변의 10%+ 재임베딩</td><td>qa_answer source_type 비율</td></tr>
+</table>
+</div>
+
+<div class="footer">
+  <p>TENEX AI System · RAG 시스템 설계서 · 2026-02-23</p>
+</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>AI 에이전트 구조 — 카리나 시스템 아키텍처</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,'Pretendard',sans-serif;background:#f8f9fa;color:#333;line-height:1.7}
+.header{background:linear-gradient(135deg,#0a0a0a 0%,#1a1a2e 100%);color:#fff;padding:32px;max-width:960px;margin:0 auto}
+.header h1{font-size:22px;font-weight:700}
+.header .meta{font-size:13px;color:#8b8ba7;margin-top:8px;display:flex;gap:16px;flex-wrap:wrap}
+.body{max-width:960px;margin:0 auto;padding:24px 16px}
+h2{font-size:18px;font-weight:700;margin:32px 0 16px;padding-bottom:8px;border-bottom:2px solid #e5e7eb}
+h3{font-size:15px;font-weight:600;margin:20px 0 10px;color:#1a1a2e}
+p,li{font-size:14px}
+ul{padding-left:20px;margin:8px 0}
+.section-box{background:#fff;border-radius:10px;padding:20px;margin:16px 0;box-shadow:0 1px 3px rgba(0,0,0,0.08)}
+.flow{background:#1a1a2e;color:#fff;border-radius:10px;padding:20px;margin:16px 0;font-family:monospace;font-size:13px;line-height:2;white-space:pre-wrap}
+table{width:100%;border-collapse:collapse;margin:12px 0;font-size:13px}
+th{background:#f1f3f5;padding:8px 12px;text-align:left;font-weight:600;border-bottom:2px solid #dee2e6}
+td{padding:8px 12px;border-bottom:1px solid #eee}
+.tag{display:inline-block;padding:2px 8px;border-radius:4px;font-size:11px;font-weight:600;margin-right:4px}
+.tag.good{background:#d4edda;color:#155724}
+.tag.warn{background:#fff3cd;color:#856404}
+.tag.bad{background:#f8d7da;color:#721c24}
+.tag.info{background:#cce5ff;color:#004085}
+.back{display:inline-block;margin-bottom:16px;color:#e94560;font-size:13px;text-decoration:none;font-weight:600}
+.footer{text-align:center;font-size:12px;color:#999;margin-top:40px;padding:20px}
+</style>
+</head>
+<body>
+<div class="header">
+  <h1>🤖 AI 에이전트 구조 — 카리나 시스템 아키텍처</h1>
+  <div class="meta">
+    <span>📅 2026년 2월 23일</span>
+    <span>🏗️ AI System</span>
+    <span>🎯 OpenClaw + Claude Opus</span>
+  </div>
+</div>
+<div class="body">
+<a class="back" href="../../index.html">← 전체 보고서</a>
+
+<h2>1. 현재 에이전트 구조</h2>
+<div class="flow">
+태훈 (CEO)
+  │ Telegram
+  ▼
+카리나 (Claude Opus 4.6) ← 메인 세션
+  │
+  ├── 💬 텔레그램 대화 (의사결정, 지시, 보고 수신)
+  │
+  ├── 📊 데이터 분석
+  │   ├── Cafe24 API → 매출/주문 조회
+  │   ├── Meta Ads API → 광고 성과 수집
+  │   └── 공헌이익 계산 → 일일 리포트 생성
+  │
+  ├── 💻 앱 개발
+  │   ├── 1분도수 앱 (React Native + Expo)
+  │   ├── 코드 리뷰 + PR 생성
+  │   └── EAS 빌드 + 배포
+  │
+  ├── 🔍 리서치 & 분석
+  │   ├── 웹 검색 (Brave Search)
+  │   ├── 경쟁사 분석
+  │   └── 기술 조사
+  │
+  ├── 🖼️ 이미지 생성 (Gemini 3 Pro, nano-banana-pro)
+  │
+  ├── 🎙️ 음성 전사 (Plaud → Gemini)
+  │
+  ├── 🧒 서브에이전트 (복잡한 작업 위임)
+  │   ├── 보고서 작성 (tenex-reports 대량 생성)
+  │   ├── 코드 분석 + 리팩토링
+  │   └── 데이터 수집 + 정리
+  │
+  └── ⏰ 크론 자동화
+      ├── 하트비트 (주기 체크)
+      └── 일일 리포트 (Render, 7AM)
+</div>
+
+<h2>2. 서브에이전트 활용 현황</h2>
+<div class="section-box">
+<h3>현재 활용 중인 서브에이전트 패턴</h3>
+<table>
+<tr><th>작업 유형</th><th>서브에이전트 역할</th><th>호출 방식</th><th>사례</th></tr>
+<tr><td>보고서 대량 생성</td><td>다수 파일 읽기 → HTML 보고서 생성 → 배포</td><td>메인 세션에서 spawn</td><td>tenex-reports 14개 보고서 일괄 생성</td></tr>
+<tr><td>코드 분석</td><td>앱 소스 전수 읽기 → 구조 분석</td><td>메인 세션에서 spawn</td><td>1분도수 앱 전체 기능 명세서</td></tr>
+<tr><td>복합 리서치</td><td>웹 검색 + 페이지 분석 + 정리</td><td>메인 세션에서 spawn</td><td>경쟁사 분석, 기술 조사</td></tr>
+</table>
+
+<h3>서브에이전트 설계 원칙</h3>
+<ul>
+  <li><span class="tag good">집중</span> 하나의 명확한 태스크만 수행 — 범위 확장 금지</li>
+  <li><span class="tag good">격리</span> 독립 세션 — 메인 대화 컨텍스트 오염 방지</li>
+  <li><span class="tag good">보고</span> 완료 시 결과를 메인 에이전트에 자동 보고</li>
+  <li><span class="tag warn">제한</span> 외부 메시지 발송 금지 (메인 에이전트만 가능)</li>
+</ul>
+</div>
+
+<h2>3. 시스템 스택</h2>
+<div class="section-box">
+<table>
+<tr><th>컴포넌트</th><th>기술</th><th>역할</th><th>상태</th></tr>
+<tr><td>AI 런타임</td><td>OpenClaw</td><td>에이전트 실행 환경, 세션 관리, 크론, 서브에이전트</td><td><span class="tag good">운영 중</span></td></tr>
+<tr><td>LLM</td><td>Claude Opus 4.6</td><td>메인 추론 모델 (Opus only, no fallback)</td><td><span class="tag good">운영 중</span></td></tr>
+<tr><td>이미지 생성</td><td>Gemini 3 Pro</td><td>nano-banana-pro 스킬</td><td><span class="tag good">운영 중</span></td></tr>
+<tr><td>채널</td><td>Telegram</td><td>태훈↔카리나 메인 소통 채널</td><td><span class="tag good">운영 중</span></td></tr>
+<tr><td>호스트</td><td>MacBook Air (M-series)</td><td>게이트웨이 실행 호스트</td><td><span class="tag good">운영 중</span></td></tr>
+<tr><td>인증</td><td>anthropic:tenex-openclaw</td><td>Anthropic API 토큰 (Claude Max $100)</td><td><span class="tag warn">Rate limit 주의</span></td></tr>
+</table>
+</div>
+
+<h2>4. 메모리 구조</h2>
+<div class="section-box">
+<h3>파일 기반 영속 메모리</h3>
+<table>
+<tr><th>파일</th><th>용도</th><th>접근 규칙</th></tr>
+<tr><td><code>MEMORY.md</code></td><td>장기 기억 (큐레이션)</td><td>메인 세션에서만 로드 (보안)</td></tr>
+<tr><td><code>memory/YYYY-MM-DD.md</code></td><td>일별 로그 (raw)</td><td>매 세션 시작 시 당일+전일 로드</td></tr>
+<tr><td><code>memory/api-credentials.md</code></td><td>API 인증 정보</td><td>갱신 시 즉시 업데이트</td></tr>
+<tr><td><code>SOUL.md</code></td><td>페르소나/톤</td><td>매 세션 로드</td></tr>
+<tr><td><code>USER.md</code></td><td>태훈 정보</td><td>매 세션 로드</td></tr>
+<tr><td><code>IDENTITY.md</code></td><td>카리나 정체성</td><td>매 세션 로드</td></tr>
+</table>
+
+<h3>운영 교훈 (2026-02-21 사건)</h3>
+<ul>
+  <li><span class="tag warn">핵심</span> 컴팩션은 대화 내용을 압축 → 디테일(API키 등) 유실됨</li>
+  <li>중요 정보는 받는 즉시 memory/ 파일에 저장 — 대화에만 두지 말 것</li>
+  <li>확인 안 된 건 절대 단정하지 말 것 — "모른다"가 틀린 단정보다 100배 나음</li>
+</ul>
+</div>
+
+<h2>5. 데이터 연동 구조</h2>
+<div class="flow">
+<strong>API 연동 현황</strong>
+
+Cafe24 (bdhoon10)
+├── shop_no=5 (키네메디칼)     ✅ 연동 완료
+├── shop_no=6 (유튜브쇼핑)     ✅ 연동 완료
+├── shop_no=1 (봉삭스)         ❌ 무시
+├── scope: mall.read_order
+└── 토큰 갱신: 2주마다 자동
+
+Meta Ads (311630842341815)
+├── ES-808 adset              ✅ 연동 완료
+├── CS-25 adset               ✅ 연동 완료
+└── 일일 spend/ROAS/CTR 수집
+
+Slack (C0A1WKJ9AEQ)
+└── 일일 브리핑 자동 발송     ✅ Render cron
+
+Notion (2c0a7ecc...)
+└── 인박스/액션 아이템          🔜 연동 예정
+
+Mixpanel (d0062845...)
+└── 1분도수 앱 이벤트          ✅ 수집 중
+
+Supabase (1분도수 앱)
+├── Auth (카카오 로그인)       ✅ 운영 중
+├── Database (users, posts, daily_logs, challenges)  ✅ 운영 중
+├── Storage (avatars, post-images, post-videos)      ✅ 운영 중
+└── Edge Functions (슬랙 알림)  ✅ 운영 중
+</div>
+
+<h2>6. 모찌 에이전트팀 구조 참고 → 테넥스 로드맵</h2>
+<div class="section-box">
+<h3>모찌 에이전트팀 구조 (참고)</h3>
+<div class="flow">
+모찌 에이전트팀 (대규모)
+├── 🎯 PM 에이전트 — 태스크 분해, 우선순위, 품질 관리
+├── 👑 리더 에이전트 — 아키텍처 결정, 코드 리뷰 최종 승인
+├── 🖥️ 프론트엔드 에이전트 — UI/UX 개발
+├── ⚙️ 백엔드 에이전트 — API/DB 개발
+└── 🔍 리뷰어 에이전트 — 코드 검증, 테스트
+</div>
+
+<h3>테넥스 에이전트 로드맵 (현실적 단계)</h3>
+<table>
+<tr><th>Phase</th><th>구조</th><th>역할 분리</th><th>상태</th></tr>
+<tr><td><strong>P0 (현재)</strong></td><td>카리나 1인 체제</td><td>PM+개발+분석+리서치 겸임</td><td><span class="tag good">운영 중</span></td></tr>
+<tr><td><strong>P0.5 (진행 중)</strong></td><td>카리나 + 서브에이전트</td><td>카리나(PM/의사결정) + 서브(실행/분석)</td><td><span class="tag warn">부분 도입</span></td></tr>
+<tr><td><strong>P1 (2주 내)</strong></td><td>카리나(PM) + 전문 에이전트 2개</td><td>① 데이터 분석 에이전트 (매출/광고/VOC)<br>② 개발 에이전트 (앱 코딩/빌드)</td><td><span class="tag info">계획</span></td></tr>
+<tr><td><strong>P2 (1개월)</strong></td><td>+ 콘텐츠 에이전트</td><td>③ 콘텐츠 큐레이션+생성 에이전트</td><td><span class="tag info">계획</span></td></tr>
+<tr><td><strong>P3 (분기)</strong></td><td>+ 슬랙봇 에이전트</td><td>④ 팀원 질문 RAG 답변 (24/7 대기)</td><td><span class="tag info">계획</span></td></tr>
+</table>
+
+<p><span class="tag warn">핵심 차이</span> 모찌는 대규모 팀(5+ 에이전트)이지만, 테넥스는 소규모 팀에 맞게 카리나가 PM 역할을 유지하면서 점진적으로 전문 에이전트를 추가하는 전략.</p>
+</div>
+
+<h2>7. TASK.md 기반 개발 프로세스 도입 계획</h2>
+<div class="section-box">
+<p>모찌의 에이전트팀이 TASK.md를 기반으로 개발을 진행하는 방식을 테넥스에 적용:</p>
+
+<h3>개발 프로세스 (목표)</h3>
+<div class="flow">
+① 태스크 정의 (TASK.md)
+   └── 태훈이 요구사항 전달 또는 카리나가 분석 후 제안
+
+② 태스크 분해 (카리나 PM)
+   ├── 서브태스크 목록 생성
+   ├── 우선순위 + 의존성 정리
+   └── 예상 공수 산정
+
+③ 실행 (서브에이전트)
+   ├── 코드 작성 / 데이터 분석 / 리서치
+   ├── 중간 결과 메인에 보고
+   └── 완료 시 최종 보고
+
+④ 검증 (카리나)
+   ├── 코드 리뷰 / 결과물 확인
+   ├── 테스트 실행
+   └── 태훈에게 결과 보고
+
+⑤ 배포 + 기록
+   ├── PR 생성 + 머지
+   ├── memory/ 에 작업 기록
+   └── TASK.md 상태 업데이트
+</div>
+
+<h3>TASK.md 형식 (안)</h3>
+<div class="flow">
+# TASK.md — 진행 중인 태스크
+
+## 🔴 진행 중
+- [ ] VOC 자동 수집 파이프라인 구축
+  - 담당: 데이터 분석 에이전트
+  - 의존: Cafe24 게시판 API 문서 확인
+  - 예상: 3일
+
+## 🟡 대기 중
+- [ ] Supabase pgvector 벡터 DB 구축
+- [ ] 콘텐츠 큐레이션 대시보드 MVP
+
+## ✅ 완료
+- [x] Cafe24 + Meta Ads API 연동
+- [x] 일일 매출 리포트 자동화
+- [x] 1분도수 앱 PR #99 (홈 가이드 + 회복점수 + 프로필 + 슬랙)
+</div>
+</div>
+
+<h2>8. 개선 로드맵 (통합)</h2>
+<div class="section-box">
+<table>
+<tr><th>Phase</th><th>에이전트 구조</th><th>데이터 파이프라인</th><th>개발 프로세스</th><th>상태</th></tr>
+<tr><td>P0</td><td>카리나 1인 + 서브에이전트</td><td>매출/광고 자동 수집 + 일일 리포트</td><td>텔레그램 직접 지시</td><td><span class="tag good">진행 중</span></td></tr>
+<tr><td>P1</td><td>+ 데이터 분석 에이전트</td><td>VOC 수집 + 벡터 DB + 임베딩</td><td>TASK.md 도입</td><td><span class="tag info">계획</span></td></tr>
+<tr><td>P2</td><td>+ 콘텐츠 에이전트</td><td>콘텐츠 큐레이션 대시보드</td><td>서브에이전트 자동 할당</td><td><span class="tag info">계획</span></td></tr>
+<tr><td>P3</td><td>+ 슬랙봇 에이전트</td><td>순환 재임베딩 자동화</td><td>에이전트팀 자율 운영</td><td><span class="tag info">계획</span></td></tr>
+<tr><td>P4</td><td>진단 대시보드 에이전트</td><td>총가치각도기 변형 대시보드</td><td>완전 자동화</td><td><span class="tag info">계획</span></td></tr>
+</table>
+</div>
+
+<div class="footer">AI 에이전트 구조 — 카리나 시스템 아키텍처 | AI System | 2026-02-23<br>모찌 에이전트팀 참고 설계 by 카리나 (AI 비서)</div>
+</div>
+</body>
+</html>

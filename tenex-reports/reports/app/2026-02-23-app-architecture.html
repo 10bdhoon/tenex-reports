@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>1분도수 앱 — 시스템 아키텍처</title>
+<style>*{margin:0;padding:0;box-sizing:border-box}body{font-family:-apple-system,BlinkMacSystemFont,'Pretendard',sans-serif;background:#f8f9fa;color:#333;line-height:1.7}.header{background:linear-gradient(135deg,#0a0a0a 0%,#1a1a2e 100%);color:#fff;padding:32px;max-width:960px;margin:0 auto}.header h1{font-size:22px;font-weight:700}.header .meta{font-size:13px;color:#8b8ba7;margin-top:8px;display:flex;gap:16px;flex-wrap:wrap}.body{max-width:960px;margin:0 auto;padding:24px 16px}h2{font-size:18px;font-weight:700;margin:32px 0 16px;padding-bottom:8px;border-bottom:2px solid #e5e7eb}h3{font-size:15px;font-weight:600;margin:20px 0 10px}p,li{font-size:14px}ul{padding-left:20px;margin:8px 0}.section-box{background:#fff;border-radius:10px;padding:20px;margin:16px 0;box-shadow:0 1px 3px rgba(0,0,0,0.08)}.flow{background:#1a1a2e;color:#fff;border-radius:10px;padding:20px;margin:16px 0;font-family:monospace;font-size:13px;line-height:1.8;white-space:pre-wrap}table{width:100%;border-collapse:collapse;margin:12px 0;font-size:13px}th{background:#f1f3f5;padding:8px 12px;text-align:left;font-weight:600;border-bottom:2px solid #dee2e6}td{padding:8px 12px;border-bottom:1px solid #eee}.tag{display:inline-block;padding:2px 8px;border-radius:4px;font-size:11px;font-weight:600}.tag.good{background:#d4edda;color:#155724}.tag.warn{background:#fff3cd;color:#856404}.tag.info{background:#cce5ff;color:#004085}.back{display:inline-block;margin-bottom:16px;color:#e94560;font-size:13px;text-decoration:none;font-weight:600}.footer{text-align:center;font-size:12px;color:#999;margin-top:40px;padding:20px}</style>
+</head>
+<body>
+<div class="header">
+  <h1>📱 1분도수 앱 — 시스템 아키텍처</h1>
+  <div class="meta">
+    <span>📅 2026년 2월 23일</span>
+    <span>🏗️ 1min-dosu</span>
+    <span>📊 React Native + Expo</span>
+  </div>
+</div>
+<div class="body">
+<a class="back" href="../../index.html">← 전체 보고서</a>
+
+<h2>1. 기술 스택</h2>
+<div class="section-box">
+<table>
+<tr><th>영역</th><th>기술</th><th>버전/상세</th></tr>
+<tr><td>프레임워크</td><td>React Native + Expo</td><td>Expo SDK</td></tr>
+<tr><td>라우팅</td><td>Expo Router</td><td>파일 기반 라우팅</td></tr>
+<tr><td>백엔드</td><td>Supabase</td><td>Auth + DB + Edge Functions</td></tr>
+<tr><td>상태 관리</td><td>React Context</td><td>전역 상태</td></tr>
+<tr><td>분석</td><td>Mixpanel</td><td>이벤트 트래킹</td></tr>
+<tr><td>빌드</td><td>EAS Build</td><td>iOS + Android</td></tr>
+<tr><td>알림</td><td>Slack Webhook</td><td>Edge Functions → Slack</td></tr>
+</table>
+</div>
+
+<h2>2. 앱 구조</h2>
+<div class="flow">
+app/
+├── (tabs)/
+│   ├── index.tsx          홈 (루틴 가이드, 제품 가이드)
+│   ├── recovery.tsx       회복 점수 대시보드
+│   └── profile.tsx        프로필 (사진 업로드)
+├── onboarding/
+│   ├── welcome.tsx        온보딩 시작
+│   └── challenge.tsx      챌린지 설정
+└── _layout.tsx            루트 레이아웃
+
+supabase/functions/
+└── send-slack-notification/
+    └── index.ts           슬랙 알림 Edge Function
+</div>
+
+<h2>3. 핵심 기능</h2>
+<div class="section-box">
+<table>
+<tr><th>기능</th><th>설명</th><th>상태</th></tr>
+<tr><td>홈 루틴 가이드</td><td>제품별 사용법 가이드 모달</td><td><span class="tag good">완료</span></td></tr>
+<tr><td>회복 점수</td><td>운동 기록 기반 점수 계산</td><td><span class="tag good">완료</span></td></tr>
+<tr><td>프로필 사진</td><td>Supabase Storage 업로드</td><td><span class="tag good">완료</span></td></tr>
+<tr><td>슬랙 알림</td><td>회원가입/활동 시 팀 알림</td><td><span class="tag good">완료</span></td></tr>
+<tr><td>온보딩</td><td>첫 실행 시 챌린지 설정</td><td><span class="tag good">완료</span></td></tr>
+<tr><td>Mixpanel 트래킹</td><td>사용자 행동 분석</td><td><span class="tag good">운영 중</span></td></tr>
+</table>
+</div>
+
+<h2>4. 개발 현황</h2>
+<div class="section-box">
+<h3>최근 작업 (PR #99, 2026-02-21)</h3>
+<ul>
+  <li>홈 루틴 가이드 버그 수정</li>
+  <li>회복 점수 계산 로직 수정</li>
+  <li>프로필 사진 업로드 버그 수정</li>
+  <li>슬랙 알림 Edge Function 수정</li>
+</ul>
+<p><span class="tag good">PR #99 머지 완료</span> <span class="tag warn">EAS 빌드 미완료</span></p>
+
+<h3>개발 프로세스</h3>
+<ul>
+  <li>브랜치: <code>claude/</code> 접두사로 PR 생성</li>
+  <li>총 99개 PR 머지 완료</li>
+  <li>코드 리뷰: 카리나 (AI) → 태훈 승인</li>
+</ul>
+</div>
+
+<h2>5. 다음 작업</h2>
+<div class="section-box">
+<table>
+<tr><th>우선순위</th><th>작업</th><th>상태</th></tr>
+<tr><td>P0</td><td>EAS 빌드 업로드 (app.json, package.json 커밋)</td><td><span class="tag warn">대기</span></td></tr>
+<tr><td>P0</td><td>PR #99 코드 리뷰 완료 (10파일 분석 중)</td><td><span class="tag warn">진행 중</span></td></tr>
+<tr><td>P1</td><td>회복 점수 고도화</td><td><span class="tag info">계획</span></td></tr>
+<tr><td>P2</td><td>커뮤니티 기능</td><td><span class="tag info">계획</span></td></tr>
+</table>
+</div>
+
+<div class="footer">1분도수 앱 — 시스템 아키텍처 | 1min-dosu | 2026-02-23<br>by 카리나 (AI 비서)</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Cafe24 + Meta Ads API 연동 아키텍처</title>
+<style>*{margin:0;padding:0;box-sizing:border-box}body{font-family:-apple-system,BlinkMacSystemFont,'Pretendard',sans-serif;background:#f8f9fa;color:#333;line-height:1.7}.header{background:linear-gradient(135deg,#0a0a0a 0%,#1a1a2e 100%);color:#fff;padding:32px;max-width:960px;margin:0 auto}.header h1{font-size:22px;font-weight:700}.header .meta{font-size:13px;color:#8b8ba7;margin-top:8px;display:flex;gap:16px;flex-wrap:wrap}.body{max-width:960px;margin:0 auto;padding:24px 16px}h2{font-size:18px;font-weight:700;margin:32px 0 16px;padding-bottom:8px;border-bottom:2px solid #e5e7eb}h3{font-size:15px;font-weight:600;margin:20px 0 10px;color:#1a1a2e}p,li{font-size:14px}ul{padding-left:20px;margin:8px 0}.section-box{background:#fff;border-radius:10px;padding:20px;margin:16px 0;box-shadow:0 1px 3px rgba(0,0,0,0.08)}.flow{background:#1a1a2e;color:#fff;border-radius:10px;padding:20px;margin:16px 0;font-family:monospace;font-size:13px;line-height:2;white-space:pre-wrap}table{width:100%;border-collapse:collapse;margin:12px 0;font-size:13px}th{background:#f1f3f5;padding:8px 12px;text-align:left;font-weight:600;border-bottom:2px solid #dee2e6}td{padding:8px 12px;border-bottom:1px solid #eee}.tag{display:inline-block;padding:2px 8px;border-radius:4px;font-size:11px;font-weight:600;margin-right:4px}.tag.good{background:#d4edda;color:#155724}.tag.warn{background:#fff3cd;color:#856404}.tag.info{background:#cce5ff;color:#004085}code{background:#f1f3f5;padding:2px 6px;border-radius:3px;font-size:12px}.back{display:inline-block;margin-bottom:16px;color:#e94560;font-size:13px;text-decoration:none;font-weight:600}.footer{text-align:center;font-size:12px;color:#999;margin-top:40px;padding:20px}</style>
+</head>
+<body>
+<div class="header">
+  <h1>🔗 Cafe24 + Meta Ads API 연동 아키텍처</h1>
+  <div class="meta">
+    <span>📅 2026년 2월 23일</span>
+    <span>🏗️ Daily Report</span>
+    <span>🎯 일일 매출/광고 자동 리포트</span>
+  </div>
+</div>
+<div class="body">
+<a class="back" href="../../index.html">← 전체 보고서</a>
+
+<h2>1. 전체 데이터 플로우</h2>
+<div class="flow">
+매일 07:00 KST — Render Cron Job 실행
+
+┌─────────────┐     ┌──────────────┐     ┌──────────────┐
+│  Cafe24 API  │     │ Meta Ads API │     │  원가 데이터  │
+│ (주문 조회)  │     │ (광고 성과)  │     │   (고정값)    │
+└──────┬──────┘     └──────┬───────┘     └──────┬───────┘
+       │                    │                     │
+       ▼                    ▼                     ▼
+┌──────────────────────────────────────────────────────┐
+│              tenex-assistant/index.js                  │
+│                                                        │
+│  1. Cafe24: 어제 주문 조회 (shop_no=5,6)              │
+│  2. Meta: adset별 spend/impressions/clicks/purchases   │
+│  3. 원가 계산: 매출 - 원가 - 배송 - 수수료 = 공헌이익 │
+│  4. 리포트 포맷팅 (일일 + 누적)                        │
+└──────────────────────┬───────────────────────────────┘
+                       │
+              ┌────────┴────────┐
+              │                 │
+              ▼                 ▼
+        ┌──────────┐    ┌───────────┐
+        │  Slack   │    │ Telegram  │
+        │ 자동발송  │    │ (카리나)  │
+        └──────────┘    └───────────┘
+</div>
+
+<h2>2. Cafe24 API 상세</h2>
+<div class="section-box">
+<table>
+<tr><th>항목</th><th>값</th></tr>
+<tr><td>Mall ID</td><td><code>bdhoon10</code></td></tr>
+<tr><td>API Base</td><td><code>https://bdhoon10.cafe24api.com/api/v2</code></td></tr>
+<tr><td>인증 방식</td><td>OAuth 2.0 (client_credentials)</td></tr>
+<tr><td>Scope</td><td><code>mall.read_order</code></td></tr>
+<tr><td>Redirect URI</td><td><code>https://kinemedical.co.kr</code></td></tr>
+</table>
+
+<h3>멀티몰 구조</h3>
+<table>
+<tr><th>shop_no</th><th>몰</th><th>용도</th></tr>
+<tr><td>1</td><td>봉삭스</td><td>❌ 무시 (레거시)</td></tr>
+<tr><td>5</td><td>키네메디칼</td><td>✅ 메인 자사몰</td></tr>
+<tr><td>6</td><td>유튜브쇼핑</td><td>✅ 유튜브 채널 연동</td></tr>
+</table>
+
+<h3>토큰 관리</h3>
+<ul>
+  <li>Access Token: 2시간 유효 → 만료 시 자동 갱신</li>
+  <li>Refresh Token: 2주 유효 → <span class="tag warn">수동 갱신 필요</span></li>
+  <li>저장: <code>memory/api-credentials.md</code> (갱신 시 즉시 업데이트)</li>
+</ul>
+</div>
+
+<h2>3. Meta Ads API 상세</h2>
+<div class="section-box">
+<table>
+<tr><th>항목</th><th>값</th></tr>
+<tr><td>Ad Account</td><td><code>act_311630842341815</code></td></tr>
+<tr><td>ES-808 Adset</td><td><code>120238514132860072</code></td></tr>
+<tr><td>CS-25 Adset</td><td><code>120234984379900072</code></td></tr>
+<tr><td>수집 지표</td><td>spend, impressions, clicks, purchases, purchase_roas</td></tr>
+</table>
+</div>
+
+<h2>4. 원가/공헌이익 계산 구조</h2>
+<div class="section-box">
+<table>
+<tr><th>제품 (product_no)</th><th>원가</th><th>배송비</th><th>업체</th></tr>
+<tr><td>ES-808 (379)</td><td>12,000원</td><td>2,700원</td><td>택배</td></tr>
+<tr><td>CS-25 (388)</td><td>140,250원</td><td>4,400원</td><td>알카나</td></tr>
+<tr><td>WS-200 (387)</td><td>66,400원</td><td>2,700원</td><td>택배</td></tr>
+<tr><td>통증크림 (385)</td><td>1,600원/개</td><td>2,700원</td><td>택배</td></tr>
+</table>
+
+<div class="flow">
+<strong>공헌이익 계산 공식</strong>
+
+공헌이익 = 순매출 - 원가총합 - 배송비총합 - 수수료(3.85%)
+
+순매출 = 총매출 - 취소/반품 금액
+
+공헌이익률 = 공헌이익 / 순매출 × 100
+</div>
+</div>
+
+<h2>5. 리포트 포맷</h2>
+<div class="section-box">
+<h3>구조 (일일 + 누적)</h3>
+<ul>
+  <li>총매출 → 취소/반품 금액 → 순매출</li>
+  <li>공헌이익 (%) </li>
+  <li>총 광고비 (매출 대비 %)</li>
+  <li>제품별 매출/건수</li>
+  <li>채널별 매출 (자사몰 vs 유튜브쇼핑)</li>
+  <li>메타 광고 성과 (spend/ROAS/CTR)</li>
+</ul>
+</div>
+
+<h2>6. 배포 인프라</h2>
+<div class="section-box">
+<table>
+<tr><th>서비스</th><th>위치</th><th>역할</th></tr>
+<tr><td>tenex-assistant</td><td>Render (crn-d4pdf3e3jp1c73957n8g)</td><td>매일 7AM cron → Slack 브리핑</td></tr>
+<tr><td>카리나 (OpenClaw)</td><td>MacBook Air</td><td>수동/하트비트 리포트 → Telegram</td></tr>
+<tr><td>소스 코드</td><td>/Users/taehoonkim/Desktop/tenex-assistant/</td><td>Node.js, index.js</td></tr>
+</table>
+</div>
+
+<div class="footer">Cafe24 + Meta Ads API 연동 아키텍처 | Daily Report | 2026-02-23<br>by 카리나 (AI 비서)</div>
+</div>
+</body>
+</html>

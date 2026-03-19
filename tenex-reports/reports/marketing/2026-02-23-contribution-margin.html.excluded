@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>제품별 공헌이익 구조 분석</title>
+<style>*{margin:0;padding:0;box-sizing:border-box}body{font-family:-apple-system,BlinkMacSystemFont,'Pretendard',sans-serif;background:#f8f9fa;color:#333;line-height:1.7}.header{background:linear-gradient(135deg,#0a0a0a 0%,#1a1a2e 100%);color:#fff;padding:32px;max-width:960px;margin:0 auto}.header h1{font-size:22px;font-weight:700}.header .meta{font-size:13px;color:#8b8ba7;margin-top:8px;display:flex;gap:16px;flex-wrap:wrap}.body{max-width:960px;margin:0 auto;padding:24px 16px}h2{font-size:18px;font-weight:700;margin:32px 0 16px;padding-bottom:8px;border-bottom:2px solid #e5e7eb}h3{font-size:15px;font-weight:600;margin:20px 0 10px}p,li{font-size:14px}.section-box{background:#fff;border-radius:10px;padding:20px;margin:16px 0;box-shadow:0 1px 3px rgba(0,0,0,0.08)}.flow{background:#1a1a2e;color:#fff;border-radius:10px;padding:20px;margin:16px 0;font-family:monospace;font-size:13px;line-height:2;white-space:pre-wrap}table{width:100%;border-collapse:collapse;margin:12px 0;font-size:13px}th{background:#f1f3f5;padding:8px 12px;text-align:left;font-weight:600;border-bottom:2px solid #dee2e6}td{padding:8px 12px;border-bottom:1px solid #eee}td.num{text-align:right;font-variant-numeric:tabular-nums}.back{display:inline-block;margin-bottom:16px;color:#e94560;font-size:13px;text-decoration:none;font-weight:600}.footer{text-align:center;font-size:12px;color:#999;margin-top:40px;padding:20px}</style>
+</head>
+<body>
+<div class="header">
+  <h1>💰 제품별 공헌이익 구조 분석</h1>
+  <div class="meta">
+    <span>📅 2026년 2월 23일</span>
+    <span>🏗️ Marketing</span>
+    <span>📊 단위 경제학 분석</span>
+  </div>
+</div>
+<div class="body">
+<a class="back" href="../../index.html">← 전체 보고서</a>
+
+<h2>1. 제품별 단위 경제학 (Unit Economics)</h2>
+<div class="section-box">
+<table>
+<tr><th>항목</th><th>CS-25</th><th>ES-808</th><th>WS-200</th><th>통증크림</th></tr>
+<tr><td>판매가</td><td class="num">398,000원</td><td class="num">129,000원</td><td class="num">128,000원</td><td class="num">TBD</td></tr>
+<tr><td>원가</td><td class="num">140,250원</td><td class="num">12,000원</td><td class="num">66,400원</td><td class="num">1,600원</td></tr>
+<tr><td>배송비</td><td class="num">4,400원</td><td class="num">2,700원</td><td class="num">2,700원</td><td class="num">2,700원</td></tr>
+<tr><td>수수료 (3.85%)</td><td class="num">15,323원</td><td class="num">4,967원</td><td class="num">4,928원</td><td class="num">-</td></tr>
+<tr><td><strong>공헌이익</strong></td><td class="num"><strong>238,027원</strong></td><td class="num"><strong>109,333원</strong></td><td class="num"><strong>53,972원</strong></td><td class="num"><strong>-</strong></td></tr>
+<tr><td><strong>공헌이익률</strong></td><td class="num"><strong>59.8%</strong></td><td class="num"><strong>84.8%</strong></td><td class="num"><strong>42.2%</strong></td><td class="num"><strong>고마진</strong></td></tr>
+</table>
+</div>
+
+<h2>2. 공헌이익 계산 공식</h2>
+<div class="flow">
+공헌이익 = 판매가 - 원가 - 배송비 - 수수료(3.85%)
+
+예시: CS-25
+  판매가:  398,000원
+- 원가:    140,250원
+- 배송비:    4,400원
+- 수수료:   15,323원 (398,000 × 0.0385)
+──────────────────
+= 공헌이익: 238,027원 (59.8%)
+</div>
+
+<h2>3. 전략적 시사점</h2>
+<div class="section-box">
+<h3>ES-808이 광고 효율 최고</h3>
+<ul>
+  <li>원가 12,000원 → 공헌이익률 84.8% (압도적)</li>
+  <li>광고 CPO가 높아도 마진으로 커버 가능</li>
+  <li>Meta 광고 메인 제품으로 적합</li>
+</ul>
+
+<h3>CS-25는 매출 기여도 최고</h3>
+<ul>
+  <li>건당 238,027원 공헌이익 → 고단가 전환이 핵심</li>
+  <li>1건 판매 = ES-808 약 2.2건 가치</li>
+  <li>전환율 최적화에 집중 필요</li>
+</ul>
+
+<h3>WS-200은 보완재</h3>
+<ul>
+  <li>공헌이익률 42.2%로 가장 낮음</li>
+  <li>CS-25 또는 ES-808과 번들 판매 전략 검토</li>
+</ul>
+
+<h3>통증크림은 리텐션 엔진</h3>
+<ul>
+  <li>원가 1,600원 → 초고마진 소모품</li>
+  <li>재구매 유도 → LTV 증가 핵심</li>
+</ul>
+</div>
+
+<div class="footer">제품별 공헌이익 구조 분석 | Marketing | 2026-02-23<br>by 카리나 (AI 비서)</div>
+</div>
+</body>
+</html>

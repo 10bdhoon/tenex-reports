@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>PR #99 릴리스 보고서</title>
+<style>*{margin:0;padding:0;box-sizing:border-box}body{font-family:-apple-system,BlinkMacSystemFont,'Pretendard',sans-serif;background:#f8f9fa;color:#333;line-height:1.7}.header{background:linear-gradient(135deg,#0a0a0a 0%,#1a1a2e 100%);color:#fff;padding:32px;max-width:960px;margin:0 auto}.header h1{font-size:22px;font-weight:700}.header .meta{font-size:13px;color:#8b8ba7;margin-top:8px;display:flex;gap:16px;flex-wrap:wrap}.body{max-width:960px;margin:0 auto;padding:24px 16px}h2{font-size:18px;font-weight:700;margin:32px 0 16px;padding-bottom:8px;border-bottom:2px solid #e5e7eb}p,li{font-size:14px}ul{padding-left:20px;margin:8px 0}.section-box{background:#fff;border-radius:10px;padding:20px;margin:16px 0;box-shadow:0 1px 3px rgba(0,0,0,0.08)}.kpi-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin:16px 0}.kpi{background:#fff;border-radius:10px;padding:16px;box-shadow:0 1px 3px rgba(0,0,0,0.08);text-align:center}.kpi .label{font-size:12px;color:#666}.kpi .value{font-size:24px;font-weight:700;color:#1a1a2e;margin:4px 0}.kpi .sub{font-size:11px;color:#888}.tag{display:inline-block;padding:2px 8px;border-radius:4px;font-size:11px;font-weight:600}.tag.good{background:#d4edda;color:#155724}.tag.warn{background:#fff3cd;color:#856404}.back{display:inline-block;margin-bottom:16px;color:#e94560;font-size:13px;text-decoration:none;font-weight:600}.footer{text-align:center;font-size:12px;color:#999;margin-top:40px;padding:20px}</style>
+</head>
+<body>
+<div class="header">
+  <h1>🚀 PR #99 릴리스 보고서 — 홈 가이드 + 회복점수 + 프로필 + 슬랙</h1>
+  <div class="meta">
+    <span>📅 2026년 2월 21일</span>
+    <span>🏗️ 1min-dosu</span>
+    <span>🎯 버그 4건 수정</span>
+  </div>
+</div>
+<div class="body">
+<a class="back" href="../../index.html">← 전체 보고서</a>
+
+<h2>릴리스 요약</h2>
+<div class="kpi-grid">
+  <div class="kpi"><div class="label">수정 버그</div><div class="value">4건</div></div>
+  <div class="kpi"><div class="label">변경 파일</div><div class="value">10개</div></div>
+  <div class="kpi"><div class="label">코드 변경</div><div class="value">+628 / -85</div></div>
+  <div class="kpi"><div class="label">PR 번호</div><div class="value">#99</div></div>
+</div>
+
+<h2>수정 내역</h2>
+<div class="section-box">
+<ul>
+  <li><strong>홈 루틴 가이드</strong> — ProductGuide 인터페이스 구조화, 가이드 모달 정상 작동</li>
+  <li><strong>회복 점수</strong> — 계산 로직 오류 수정, 정확한 점수 표시</li>
+  <li><strong>프로필 사진 업로드</strong> — Supabase Storage 에러 핸들링 추가</li>
+  <li><strong>슬랙 알림</strong> — Edge Function 웹훅 에러 처리 개선</li>
+</ul>
+</div>
+
+<h2>배포 상태</h2>
+<div class="section-box">
+<p><span class="tag good">Git 머지 완료</span> commit f4d8ca2</p>
+<p><span class="tag warn">EAS 빌드 미완료</span> — app.json, package.json 변경사항 커밋 후 빌드 업로드 필요</p>
+</div>
+
+<div class="footer">PR #99 릴리스 보고서 | 1min-dosu | 2026-02-21<br>by 카리나 (AI 비서)</div>
+</div>
+</body>
+</html>

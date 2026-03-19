@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>PR #99 상세 코드 리뷰 — 3파일 628줄 분석</title>
+<style>*{margin:0;padding:0;box-sizing:border-box}body{font-family:-apple-system,BlinkMacSystemFont,'Pretendard',sans-serif;background:#f8f9fa;color:#333;line-height:1.7}.header{background:linear-gradient(135deg,#0a0a0a 0%,#1a1a2e 100%);color:#fff;padding:32px;max-width:960px;margin:0 auto}.header h1{font-size:22px;font-weight:700}.header .meta{font-size:13px;color:#8b8ba7;margin-top:8px;display:flex;gap:16px;flex-wrap:wrap}.body{max-width:960px;margin:0 auto;padding:24px 16px}h2{font-size:18px;font-weight:700;margin:32px 0 16px;padding-bottom:8px;border-bottom:2px solid #e5e7eb}h3{font-size:15px;font-weight:600;margin:20px 0 10px}p,li{font-size:14px}ul{padding-left:20px;margin:8px 0}.section-box{background:#fff;border-radius:10px;padding:20px;margin:16px 0;box-shadow:0 1px 3px rgba(0,0,0,0.08)}table{width:100%;border-collapse:collapse;margin:12px 0;font-size:13px}th{background:#f1f3f5;padding:8px 12px;text-align:left;font-weight:600;border-bottom:2px solid #dee2e6}td{padding:8px 12px;border-bottom:1px solid #eee}.tag{display:inline-block;padding:2px 8px;border-radius:4px;font-size:11px;font-weight:600}.tag.good{background:#d4edda;color:#155724}.tag.warn{background:#fff3cd;color:#856404}.tag.info{background:#cce5ff;color:#004085}code{background:#f1f3f5;padding:2px 6px;border-radius:3px;font-size:12px}pre{background:#1a1a2e;color:#e2e8f0;padding:16px;border-radius:8px;overflow-x:auto;font-size:12px;line-height:1.6;margin:12px 0}.back{display:inline-block;margin-bottom:16px;color:#e94560;font-size:13px;text-decoration:none;font-weight:600}.footer{text-align:center;font-size:12px;color:#999;margin-top:40px;padding:20px}</style>
+</head>
+<body>
+<div class="header">
+  <h1>🔍 PR #99 상세 코드 리뷰 — 3파일 628줄 분석</h1>
+  <div class="meta">
+    <span>📅 2026년 2월 23일</span>
+    <span>🏗️ 1min-dosu</span>
+    <span>📂 commit abb054b → f4d8ca2</span>
+    <span>📊 +368 / -30 (실 변경분)</span>
+  </div>
+</div>
+<div class="body">
+<a class="back" href="../../index.html">← 전체 보고서</a>
+
+<h2>전체 평가: 양호 — 치명적 에러 없음</h2>
+<div class="section-box">
+<table>
+<tr><th>파일</th><th>변경</th><th>평가</th></tr>
+<tr><td><code>app/(tabs)/index.tsx</code></td><td>+298줄 (ProductGuide 데이터 + 모달)</td><td><span class="tag good">양호</span> 개선 1건</td></tr>
+<tr><td><code>app/(tabs)/profile.tsx</code></td><td>+44줄 (아바타 업로드 + 슬랙 알림)</td><td><span class="tag good">양호</span> 개선 1건</td></tr>
+<tr><td><code>app/(tabs)/recovery.tsx</code></td><td>+26줄 (회복 점수 저장 로직)</td><td><span class="tag good">좋음</span></td></tr>
+</table>
+</div>
+
+<h2>✅ 잘한 것</h2>
+
+<h3>1. recovery.tsx — savePainScore 반환값 검증</h3>
+<div class="section-box">
+<p>이전: 저장 실패해도 조용히 넘어감 → UI 상태만 업데이트됨 (DB와 불일치 가능)</p>
+<p>수정 후: savedLog 검증 + Alert + 확인된 값으로만 상태 업데이트</p>
+<pre>const savedLog = await savePainScore(userId, editingPainScore);
+if (!savedLog) {
+  Alert.alert('오류', '점수 저장에 실패했습니다.');
+  return;
+}
+const confirmedScore = savedLog.pain_score ?? editingPainScore;
+setPainScore(confirmedScore);</pre>
+<p><span class="tag good">좋음</span> DB 반환값 기준으로 상태 업데이트 — 데이터 일관성 보장</p>
+</div>
+
+<h3>2. profile.tsx — 아바타 업로드 호환성 개선</h3>
+<div class="section-box">
+<p>fetch → XHR fallback 패턴 + ArrayBuffer 변환으로 React Native 호환성 향상</p>
+<pre>// fetch 먼저 시도
+let blob: Blob;
+try {
+  const response = await fetch(uri);
+  blob = await response.blob();
+} catch {
+  // XHR fallback
+  blob = await new Promise&lt;Blob&gt;((resolve, reject) => { ... });
+}
+// ArrayBuffer로 변환하여 업로드
+const arrayBuffer = await new Response(blob).arrayBuffer();</pre>
+<p><span class="tag good">좋음</span> 다양한 RN 버전/디바이스 대응</p>
+</div>
+
+<h3>3. profile.tsx — 슬랙 알림 에러 분기</h3>
+<div class="section-box">
+<p><code>getSupabase()</code> 직접 클라이언트 사용 + 응답 에러 vs 네트워크 오류 분리</p>
+<p><span class="tag good">좋음</span> 디버깅 시 원인 파악이 훨씬 쉬워짐</p>
+</div>
+
+<h2>⚠️ 개선 포인트 4건</h2>
+
+<h3>개선 1: PRODUCT_GUIDES 하드코딩 분리 필요</h3>
+<div class="section-box">
+<p><span class="tag warn">중간</span> <code>index.tsx</code>에 ProductGuide 인터페이스 + PRODUCT_GUIDES 정적 데이터가 ~50줄 직접 박혀있음. 가이드 모달 UI까지 합치면 300줄+.</p>
+<p><strong>문제:</strong> 제품 정보 변경 시 UI 컴포넌트 파일을 수정해야 함. 유지보수 부담.</p>
+<p><strong>권장:</strong></p>
+<pre>// constants/productGuides.ts 분리
+export const PRODUCT_GUIDES: Record&lt;string, ProductGuide&gt; = { ... };
+
+// components/ProductGuideModal.tsx 분리
+export function ProductGuideModal({ productId, onComplete, onClose }) { ... }</pre>
+<p><strong>긴급도:</strong> 낮음. 다음 PR에서 리팩토링.</p>
+</div>
+
+<h3>개선 2: recovery.tsx 수동 새로고침 주석 필요</h3>
+<div class="section-box">
+<p><span class="tag info">낮음</span> 점수 수정 후 <code>loadDailyData()</code> 대신 개별 함수 4개를 따로 호출:</p>
+<pre>// loadDailyData() 대신 개별 호출 (painScore 덮어쓰기 방지)
+const scores = await getLast7DaysPainScores(userId);
+const avg = calculateAveragePainScore(scores);
+const change = await getScoreChange(userId);
+const journey = await getRecoveryJourneyData(userId);</pre>
+<p><strong>문제:</strong> 의도는 좋지만 주석 없으면 나중에 "왜 loadDailyData 안 썼지?" 혼란</p>
+<p><strong>권장:</strong> 위에 주석 한 줄 추가</p>
+</div>
+
+<h3>개선 3: blob → arrayBuffer 이중 변환</h3>
+<div class="section-box">
+<p><span class="tag info">낮음</span> <code>fetch → blob → Response → arrayBuffer</code> 체인이 메모리 비효율</p>
+<pre>// 현재 (이중 변환)
+const response = await fetch(uri);
+const blob = await response.blob();
+const arrayBuffer = await new Response(blob).arrayBuffer();
+
+// 개선 (직접 변환)
+const response = await fetch(uri);
+const arrayBuffer = await response.arrayBuffer();</pre>
+<p><strong>긴급도:</strong> 낮음. 대부분 프로필 사진은 작아서 실 영향 미미.</p>
+</div>
+
+<h3>개선 4: 가이드 모달 cleanup 중복</h3>
+<div class="section-box">
+<p><span class="tag info">낮음</span> 모달 닫기 코드가 3곳에서 동일하게 반복:</p>
+<pre>// 3곳에서 반복
+setShowProductGuideModal(false);
+setGuideProductId(null);
+setGuideRoutineId(null);</pre>
+<p><strong>권장:</strong></p>
+<pre>const closeGuideModal = () => {
+  setShowProductGuideModal(false);
+  setGuideProductId(null);
+  setGuideRoutineId(null);
+};</pre>
+</div>
+
+<h2>결론</h2>
+<div class="section-box">
+<p><strong>머지 판정: 적합.</strong> 4건 모두 기능에 영향 없는 코드 품질 개선 사항. 긴급 수정 불필요. 다음 PR에서 리팩토링 권장.</p>
+</div>
+
+<div class="footer">PR #99 상세 코드 리뷰 | 1min-dosu | 2026-02-23<br>3파일 전체 diff 분석 by 카리나 (AI 비서)</div>
+</div>
+</body>
+</html>

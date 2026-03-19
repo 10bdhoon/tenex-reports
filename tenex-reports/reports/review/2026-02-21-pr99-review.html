@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>PR #99 코드 리뷰 — 버그 4건 수정</title>
+<style>*{margin:0;padding:0;box-sizing:border-box}body{font-family:-apple-system,BlinkMacSystemFont,'Pretendard',sans-serif;background:#f8f9fa;color:#333;line-height:1.7}.header{background:linear-gradient(135deg,#0a0a0a 0%,#1a1a2e 100%);color:#fff;padding:32px;max-width:960px;margin:0 auto}.header h1{font-size:22px;font-weight:700}.header .meta{font-size:13px;color:#8b8ba7;margin-top:8px;display:flex;gap:16px;flex-wrap:wrap}.body{max-width:960px;margin:0 auto;padding:24px 16px}h2{font-size:18px;font-weight:700;margin:32px 0 16px;padding-bottom:8px;border-bottom:2px solid #e5e7eb}h3{font-size:15px;font-weight:600;margin:20px 0 10px}p,li{font-size:14px}ul{padding-left:20px;margin:8px 0}.section-box{background:#fff;border-radius:10px;padding:20px;margin:16px 0;box-shadow:0 1px 3px rgba(0,0,0,0.08)}table{width:100%;border-collapse:collapse;margin:12px 0;font-size:13px}th{background:#f1f3f5;padding:8px 12px;text-align:left;font-weight:600;border-bottom:2px solid #dee2e6}td{padding:8px 12px;border-bottom:1px solid #eee}.tag{display:inline-block;padding:2px 8px;border-radius:4px;font-size:11px;font-weight:600}.tag.good{background:#d4edda;color:#155724}.tag.warn{background:#fff3cd;color:#856404}.tag.bad{background:#f8d7da;color:#721c24}.back{display:inline-block;margin-bottom:16px;color:#e94560;font-size:13px;text-decoration:none;font-weight:600}.footer{text-align:center;font-size:12px;color:#999;margin-top:40px;padding:20px}code{background:#f1f3f5;padding:2px 6px;border-radius:3px;font-size:12px}</style>
+</head>
+<body>
+<div class="header">
+  <h1>🔍 PR #99 코드 리뷰 — 버그 4건 수정</h1>
+  <div class="meta">
+    <span>📅 2026년 2월 21일</span>
+    <span>🏗️ 1min-dosu</span>
+    <span>📂 commit f4d8ca2 | 10파일 | +628 / -85</span>
+  </div>
+</div>
+<div class="body">
+<a class="back" href="../../index.html">← 전체 보고서</a>
+
+<h2>1. 변경 요약</h2>
+<div class="section-box">
+<table>
+<tr><th>파일</th><th>변경</th><th>카테고리</th></tr>
+<tr><td><code>app/(tabs)/index.tsx</code></td><td>ProductGuide 인터페이스, PRODUCT_GUIDES 정적 데이터, 가이드 모달</td><td>홈 루틴 가이드</td></tr>
+<tr><td><code>app/(tabs)/recovery.tsx</code></td><td>회복 점수 계산 로직 수정</td><td>회복 점수</td></tr>
+<tr><td><code>app/(tabs)/profile.tsx</code></td><td>프로필 사진 업로드 버그 수정</td><td>프로필</td></tr>
+<tr><td><code>app/onboarding/challenge.tsx</code></td><td>챌린지 설정 로직</td><td>온보딩</td></tr>
+<tr><td><code>app/onboarding/welcome.tsx</code></td><td>온보딩 시작 화면</td><td>온보딩</td></tr>
+<tr><td><code>supabase/functions/send-slack-notification/index.ts</code></td><td>슬랙 알림 Edge Function 수정</td><td>알림</td></tr>
+<tr><td colspan="3"><em>+ 4개 파일 (스타일, 설정 등)</em></td></tr>
+</table>
+</div>
+
+<h2>2. 수정된 버그 4건</h2>
+<div class="section-box">
+<h3>🐛 Bug 1: 홈 루틴 가이드</h3>
+<p>제품별 가이드 모달이 정상 작동하지 않던 문제 수정. ProductGuide 인터페이스 및 PRODUCT_GUIDES 정적 데이터 구조화.</p>
+
+<h3>🐛 Bug 2: 회복 점수 계산</h3>
+<p>회복 점수 계산 로직에서 잘못된 값이 나오던 문제 수정.</p>
+
+<h3>🐛 Bug 3: 프로필 사진 업로드</h3>
+<p>Supabase Storage 업로드 시 에러 핸들링 누락 수정.</p>
+
+<h3>🐛 Bug 4: 슬랙 알림</h3>
+<p>Edge Function에서 슬랙 웹훅 호출 시 에러 처리 개선.</p>
+</div>
+
+<h2>3. 리뷰 상태</h2>
+<div class="section-box">
+<p><span class="tag good">PR 머지 완료</span></p>
+<p><span class="tag warn">상세 코드 리뷰 진행 중</span> — 10파일 전체 분석 중, 에러/비효율 코드 확인 중</p>
+<p><span class="tag warn">EAS 빌드 미완료</span> — app.json, package.json 변경사항 커밋 필요</p>
+</div>
+
+<div class="footer">PR #99 코드 리뷰 | 1min-dosu | 2026-02-21<br>by 카리나 (AI 비서)</div>
+</div>
+</body>
+</html>
