@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>APR 조직 완전 분석 — 테넥스 참고용</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #f5f5f5; color: #1a1a1a; }
+    .header { background: linear-gradient(135deg, #1a1a1a 0%, #333 100%); color: #fff; padding: 48px 40px 40px; position: relative; overflow: hidden; }
+    .header::before { content: 'APR'; position: absolute; right: -20px; top: -20px; font-size: 200px; font-weight: 900; color: rgba(255,255,255,0.03); line-height: 1; }
+    .header .label { font-size: 11px; letter-spacing: 3px; text-transform: uppercase; color: #e53935; margin-bottom: 12px; font-weight: 700; }
+    .header h1 { font-size: 30px; font-weight: 800; margin-bottom: 8px; }
+    .header .sub { font-size: 14px; color: #aaa; margin-bottom: 20px; }
+    .header .tags { display: flex; gap: 8px; flex-wrap: wrap; }
+    .header .tag { background: rgba(255,255,255,0.1); color: #ddd; font-size: 11px; padding: 4px 12px; border-radius: 20px; }
+    .nav { background: #fff; border-bottom: 1px solid #eee; padding: 0 40px; display: flex; gap: 0; overflow-x: auto; position: sticky; top: 0; z-index: 100; }
+    .nav a { display: block; padding: 14px 16px; font-size: 13px; font-weight: 600; color: #666; text-decoration: none; white-space: nowrap; border-bottom: 2px solid transparent; }
+    .nav a:hover { color: #1a1a1a; border-bottom-color: #e53935; }
+    .container { max-width: 1000px; margin: 0 auto; padding: 40px 24px; }
+    .section { background: #fff; border-radius: 14px; padding: 32px; margin-bottom: 24px; }
+    .section-title { font-size: 18px; font-weight: 800; color: #111; margin-bottom: 24px; display: flex; align-items: center; gap: 10px; }
+    .section-title .num { background: #e53935; color: #fff; width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 800; flex-shrink: 0; }
+    .kpi-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+    .kpi-card { background: #f8f8f8; border-radius: 12px; padding: 20px; text-align: center; }
+    .kpi-card .num { font-size: 28px; font-weight: 900; color: #1a1a1a; line-height: 1; margin-bottom: 4px; }
+    .kpi-card .num span { font-size: 16px; font-weight: 600; }
+    .kpi-card .lbl { font-size: 12px; color: #888; margin-bottom: 4px; }
+    .kpi-card .change { font-size: 11px; color: #16a34a; font-weight: 600; }
+    .brand-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+    .brand-card { border: 1px solid #eee; border-radius: 10px; padding: 16px; }
+    .brand-card h3 { font-size: 14px; font-weight: 800; margin-bottom: 4px; }
+    .brand-card .cat { font-size: 11px; color: #888; margin-bottom: 6px; }
+    .brand-card p { font-size: 12px; color: #555; line-height: 1.5; }
+    .dna-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
+    .dna-card { background: #f8f8f8; border-radius: 10px; padding: 20px; border-left: 4px solid #e53935; }
+    .dna-card h3 { font-size: 15px; font-weight: 800; color: #e53935; margin-bottom: 8px; }
+    .dna-card p { font-size: 13px; color: #444; line-height: 1.6; }
+    .benefit-cols { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+    .benefit-group { }
+    .benefit-group h3 { font-size: 13px; font-weight: 700; color: #444; margin-bottom: 10px; padding-bottom: 6px; border-bottom: 1px solid #eee; }
+    .benefit-group ul { list-style: none; }
+    .benefit-group li { font-size: 12px; color: #555; padding: 4px 0; line-height: 1.4; }
+    .benefit-group li::before { content: '•'; color: #e53935; margin-right: 6px; }
+    .process-steps { display: flex; gap: 0; align-items: flex-start; flex-wrap: wrap; }
+    .step { flex: 1; min-width: 120px; padding: 16px 12px; text-align: center; position: relative; }
+    .step:not(:last-child)::after { content: '→'; position: absolute; right: -8px; top: 50%; transform: translateY(-50%); color: #ccc; font-size: 16px; }
+    .step .num { width: 32px; height: 32px; border-radius: 50%; background: #e53935; color: #fff; font-weight: 800; font-size: 13px; display: flex; align-items: center; justify-content: center; margin: 0 auto 8px; }
+    .step .label { font-size: 12px; font-weight: 600; color: #333; }
+    .step .desc { font-size: 11px; color: #888; margin-top: 4px; }
+    .team-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
+    .team-card { border: 1px solid #f0f0f0; border-radius: 10px; padding: 16px; }
+    .team-card .team-name { font-size: 13px; font-weight: 700; color: #111; margin-bottom: 6px; }
+    .team-card .team-lead { font-size: 11px; color: #888; margin-bottom: 8px; }
+    .team-card .team-work { font-size: 12px; color: #555; line-height: 1.6; }
+    .global-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+    .global-card { background: #f8f8f8; border-radius: 10px; padding: 16px; }
+    .global-card .region { font-size: 12px; font-weight: 700; color: #e53935; margin-bottom: 6px; }
+    .global-card h3 { font-size: 13px; font-weight: 700; margin-bottom: 8px; }
+    .global-card p { font-size: 12px; color: #555; line-height: 1.5; }
+    .insight-list { list-style: none; }
+    .insight-list li { padding: 14px 0; border-bottom: 1px solid #f0f0f0; display: flex; gap: 14px; font-size: 13px; line-height: 1.7; }
+    .insight-list li:last-child { border-bottom: none; }
+    .insight-list li .dot { font-size: 20px; flex-shrink: 0; }
+    .quote { background: #fff8e1; border-left: 4px solid #f59e0b; border-radius: 0 8px 8px 0; padding: 16px 20px; margin: 16px 0; font-size: 13px; color: #333; line-height: 1.7; font-style: italic; }
+    .quote strong { color: #d97706; font-style: normal; }
+    .culture-items { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+    .culture-item { background: #f8f8f8; border-radius: 10px; padding: 16px; text-align: center; }
+    .culture-item .icon { font-size: 28px; margin-bottom: 8px; }
+    .culture-item h3 { font-size: 13px; font-weight: 700; margin-bottom: 6px; }
+    .culture-item p { font-size: 12px; color: #666; line-height: 1.5; }
+    .compare-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+    .compare-table th { background: #1a1a1a; color: #fff; padding: 12px 16px; text-align: left; font-weight: 700; }
+    .compare-table th:first-child { background: #333; }
+    .compare-table td { padding: 12px 16px; border-bottom: 1px solid #f0f0f0; vertical-align: top; }
+    .compare-table tr:nth-child(even) td { background: #f9f9f9; }
+    .compare-table td:first-child { font-weight: 700; color: #444; }
+    .red { color: #e53935; }
+    .badge { display: inline-block; font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 10px; }
+    .badge-red { background: #fee2e2; color: #dc2626; }
+    .badge-green { background: #dcfce7; color: #16a34a; }
+    .badge-blue { background: #dbeafe; color: #1d4ed8; }
+    .footer { text-align: center; padding: 40px; color: #aaa; font-size: 12px; }
+    @media (max-width: 768px) {
+      .kpi-grid, .brand-grid, .dna-grid, .benefit-cols, .team-grid, .global-grid, .culture-items { grid-template-columns: 1fr; }
+      .process-steps { flex-direction: column; }
+      .step:not(:last-child)::after { content: '↓'; right: auto; left: 50%; top: auto; bottom: -12px; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="header">
+  <div class="label">Tenex Strategy · 2026.03.19</div>
+  <h1>에이피알(APR) 조직 완전 분석</h1>
+  <div class="sub">채용 사이트 + 기업 홈페이지 + 블로그 전체 탐독 기반 — 테넥스가 APR처럼 되기 위한 참고서</div>
+  <div class="tags">
+    <span class="tag">2025 매출 1.5조</span>
+    <span class="tag">글로벌 15개국+</span>
+    <span class="tag">7개 브랜드</span>
+    <span class="tag">채용 공고 61개</span>
+    <span class="tag">KOSPI 상장</span>
+    <span class="tag">Move First. Lead Global.</span>
+  </div>
+</div>
+
+<nav class="nav">
+  <a href="#overview">회사 개요</a>
+  <a href="#financial">재무/실적</a>
+  <a href="#culture">조직문화</a>
+  <a href="#benefit">복지</a>
+  <a href="#process">채용 프로세스</a>
+  <a href="#teams">팀 구조</a>
+  <a href="#global">글로벌 전략</a>
+  <a href="#tenex">테넥스 인사이트</a>
+</nav>
+
+<div class="container">
+
+  <!-- 1. 회사 개요 -->
+  <div class="section" id="overview">
+    <div class="section-title"><span class="num">1</span> 에이피알(APR) 회사 개요</div>
+
+    <div class="kpi-grid" style="margin-bottom:24px">
+      <div class="kpi-card">
+        <div class="lbl">2025 연매출</div>
+        <div class="num">1.5<span>조</span></div>
+        <div class="change">↑ 역대 최대 경신</div>
+      </div>
+      <div class="kpi-card">
+        <div class="lbl">2025 영업이익</div>
+        <div class="num">3,654<span>억</span></div>
+        <div class="change">↑ 분기 최대 연속 경신</div>
+      </div>
+      <div class="kpi-card">
+        <div class="lbl">해외 매출 비중</div>
+        <div class="num">55<span>%</span></div>
+        <div class="change">국내 3,230억 / 해외 3,998억 ('24)</div>
+      </div>
+      <div class="kpi-card">
+        <div class="lbl">뷰티 디바이스 누적</div>
+        <div class="num">600<span>만대</span></div>
+        <div class="change">글로벌 누적 판매</div>
+      </div>
+    </div>
+
+    <div class="kpi-grid" style="margin-bottom:28px">
+      <div class="kpi-card">
+        <div class="lbl">사명 의미</div>
+        <div class="num" style="font-size:16px">APR</div>
+        <div class="change">Advance People's Real life</div>
+      </div>
+      <div class="kpi-card">
+        <div class="lbl">상장</div>
+        <div class="num" style="font-size:16px">KOSPI</div>
+        <div class="change">2024년 상장 / 대형주 편입</div>
+      </div>
+      <div class="kpi-card">
+        <div class="lbl">자사몰 가입자</div>
+        <div class="num">800<span>만</span></div>
+        <div class="change">통합 자사몰 누적</div>
+      </div>
+      <div class="kpi-card">
+        <div class="lbl">글로벌 진출</div>
+        <div class="num">15<span>개국+</span></div>
+        <div class="change">미국/일본/홍콩/유럽/중동 등</div>
+      </div>
+    </div>
+
+    <div style="font-weight:700;font-size:14px;margin-bottom:12px;color:#444">브랜드 포트폴리오</div>
+    <div class="brand-grid">
+      <div class="brand-card" style="border-color:#e53935;border-width:2px">
+        <h3 style="color:#e53935">메디큐브 (Medicube)</h3>
+        <div class="cat">뷰티 코스메틱 · 뷰티 디바이스 (AGE-R)</div>
+        <p>단일 브랜드 매출 1조 4천억원 돌파. 국내 브랜드 중 매출 1위. 유재석·김희선 모델. CES 3년 연속 참가. 코첼라 K-뷰티 최초 공식 스폰서.</p>
+      </div>
+      <div class="brand-card">
+        <h3>에이프릴스킨 (Aprilskin)</h3>
+        <div class="cat">스킨케어 코스메틱</div>
+        <p>캐로틴 클렌징 밤 등 히트 제품. 완판 행진 다수. 해외 주목 K-뷰티 브랜드.</p>
+      </div>
+      <div class="brand-card">
+        <h3>포맨트 (Forment)</h3>
+        <div class="cat">향수 / 퍼퓸</div>
+        <p>K-퍼퓸 선두주자. 시그니처 퍼퓸 라인 완판 행진. 캐릭터 콜라보 (짱구, 헬로키티 등) 흥행.</p>
+      </div>
+      <div class="brand-card">
+        <h3>NDY (널디)</h3>
+        <div class="cat">스트릿 패션</div>
+        <p>MZ세대 스트릿 패션 강자. 베트남·글로벌 진출. 태연·세븐틴 모델. 런칭 5년 만에 1천억 달성.</p>
+      </div>
+      <div class="brand-card">
+        <h3>글램디바이오 (Glam.D Bio)</h3>
+        <div class="cat">헬스케어 / 다이어트</div>
+        <p>건강한 다이어트 솔루션. PDRN/PN 기반 헬스케어 확장.</p>
+      </div>
+      <div class="brand-card">
+        <h3>포토그레이 (Photogray)</h3>
+        <div class="cat">즉석 포토 스튜디오</div>
+        <p>셀프 포토 스튜디오 브랜드. 전국 확대 운영 중. 대학생 공모전 등 마케팅 독특.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- 2. 조직문화 -->
+  <div class="section" id="culture">
+    <div class="section-title"><span class="num">2</span> 조직문화 — APR이 일하는 방식</div>
+
+    <div class="quote">
+      <strong>"우리는 오늘보다 나은 내일을 상상하고, 실현합니다."</strong><br>
+      Mission: Advance People's Real life / Vision: Let's Grow Together
+    </div>
+
+    <div style="font-weight:700;font-size:14px;margin-bottom:12px;color:#444">4대 인재상 (APR Talent DNA)</div>
+    <div class="dna-grid" style="margin-bottom:24px">
+      <div class="dna-card">
+        <h3>Make it</h3>
+        <p>목표 달성에 있어 장애물이나 어려움을 만났을 때, 포기하거나 피하지 않고 문제를 해결하는 방법을 찾는 것에 몰입하여 결국 해결해내는 것. APRO의 가장 핵심 인재상.</p>
+      </div>
+      <div class="dna-card">
+        <h3>Grow Up</h3>
+        <p>스스로에게 높은 기준을 세우고 그 목표를 달성하기 위해 최선을 다함. OKR 기반 전사 목표 관리. 개인 성장과 조직 성과를 함께 이루어내는 것.</p>
+      </div>
+      <div class="dna-card">
+        <h3>Work Together</h3>
+        <p>직위에 관계없이 자신의 의견을 자유롭게 표현. 열린 소통과 협업. 단 아이디어 제시 시 치열한 고민의 흔적(데이터/논리)이 뒷받침되어야 함.</p>
+      </div>
+      <div class="dna-card">
+        <h3>Customer Success</h3>
+        <p>고객의 피부 고민을 해결하는 것이 모든 것의 출발점. 임상 데이터 기반 신뢰 구축. 소비자가 효과를 실제로 느낄 수 있도록 처음부터 끝까지 관여.</p>
+      </div>
+    </div>
+
+    <div style="font-weight:700;font-size:14px;margin-bottom:12px;color:#444">일하는 문화 핵심</div>
+    <div class="culture-items">
+      <div class="culture-item">
+        <div class="icon">🎯</div>
+        <h3>OKR 기반 목표관리</h3>
+        <p>전사 OKR 설정 → 조직/개인 OKR → 정기 1:1 미팅. 투명한 성과 관리 체계.</p>
+      </div>
+      <div class="culture-item">
+        <div class="icon">⚡</div>
+        <h3>Move First 실행문화</h3>
+        <p>2주 만에 TikTok Shop 런칭 라이브 기획·실행. "빠른 실행력과 혁신적인 전략"이 시장 판도를 뒤흔든다.</p>
+      </div>
+      <div class="culture-item">
+        <div class="icon">🌏</div>
+        <h3>글로벌 우선 마인드</h3>
+        <p>국가별 시장을 분리해서 보지 않음. "동남아 전체" 관점으로 전략 논의. 신입도 글로벌 마케터로 시작.</p>
+      </div>
+      <div class="culture-item">
+        <div class="icon">💡</div>
+        <h3>수평적 소통</h3>
+        <p>직급/연차 무관하게 누구나 아이디어 제안 가능. 신입사원도 기획 회의 참여. 단, 논리와 데이터 뒷받침 필수.</p>
+      </div>
+      <div class="culture-item">
+        <div class="icon">📊</div>
+        <h3>데이터 기반 의사결정</h3>
+        <p>임상 데이터로 제품 효과 입증. 광고 성과 데이터 기반 채널 배분. 경쟁사 분석 상시 진행.</p>
+      </div>
+      <div class="culture-item">
+        <div class="icon">🔄</div>
+        <h3>사내공모/이동 제도</h3>
+        <p>사내공모제도 운영 — 다른 부서로 이동해 새로운 성장 기회. 사내추천 합산 최대 700만원 리워드.</p>
+      </div>
+    </div>
+
+    <div class="quote" style="margin-top:20px">
+      <strong>EVP (Employee Value Proposition) 핵심:</strong><br>
+      1. 일하는 문화 — Make it 정신, OKR, 자유로운 소통<br>
+      2. 커리어 성장 — 온보딩 프로그램, 멘토링, Udemy 무제한, 외부 교육 지원<br>
+      3. 보상 — 사원급 기본 연봉 4,200만원, 인센티브 연 3회 (Profit Sharing + Performance Incentive 2회)
+    </div>
+  </div>
+
+  <!-- 3. 복지 -->
+  <div class="section" id="benefit">
+    <div class="section-title"><span class="num">3</span> APR 복지 — 벤치마크 포인트</div>
+    <div class="benefit-cols">
+      <div class="benefit-group">
+        <h3>💰 성과 / 보상</h3>
+        <ul>
+          <li>연 3회 인센티브 (Profit Sharing + 개인 OKR 2회)</li>
+          <li>사원급 기본 연봉 4,200만원 (2024 인상)</li>
+          <li>매월 인재상별 우수사원 선정 → 백화점 상품권 + 휴가</li>
+          <li>사내추천 리워드 합산 최대 700만원</li>
+          <li>특별 승진 기회 (탁월한 성과자)</li>
+        </ul>
+      </div>
+      <div class="benefit-group">
+        <h3>⏰ 근무 / 리프레시</h3>
+        <ul>
+          <li>시차 출퇴근 (오전 8~11시, 30분 단위)</li>
+          <li>셀프 승인 연차 (2시간 반반차 가능)</li>
+          <li>패밀리데이 — 매월 마지막 주 금요일 2시간 조기 퇴근</li>
+          <li>장기근속 리프레시 휴가 (3/6/9년 → 3/6/9일)</li>
+        </ul>
+      </div>
+      <div class="benefit-group">
+        <h3>🎁 브랜드 / 식음료</h3>
+        <ul>
+          <li>입사 웰컴 기프트 100만원 상당 자사 제품</li>
+          <li>임직원 복지몰 40~50% 할인 + 연 100만 포인트</li>
+          <li>사내 카페 Peak Coffee (전문 바리스타, 20가지+ 음료 무료)</li>
+          <li>무제한 스낵바 + 점심 식권 포인트 월 20만원</li>
+          <li>명절 선물세트 / 경조사 지원</li>
+        </ul>
+      </div>
+      <div class="benefit-group">
+        <h3>📚 성장 / 교육</h3>
+        <ul>
+          <li>Udemy 강의 무제한 무료</li>
+          <li>외부 컨퍼런스/포럼 참가비 전액 지원</li>
+          <li>도서구매비 월 3만원</li>
+          <li>온보딩 프로그램 (멘토링, 버디, 신입 교육)</li>
+          <li>사내공모제도 (부서 간 이동 기회)</li>
+        </ul>
+      </div>
+      <div class="benefit-group">
+        <h3>💊 건강 / 웰니스</h3>
+        <ul>
+          <li>종합 건강검진 연 15만원 지원</li>
+          <li>심리상담 서비스(EAP) 지원</li>
+          <li>사내 전문 마사지실 + 안마의자실</li>
+          <li>본인 및 가족 단체보험</li>
+          <li>사택 지원 (평택 캠퍼스 근무자)</li>
+        </ul>
+      </div>
+      <div class="benefit-group">
+        <h3>👨‍👩‍👧 가족 / 육아</h3>
+        <ul>
+          <li>출산 축하금 + 배우자 유급휴가 최대 20일</li>
+          <li>임신기 2시간 단축 근무</li>
+          <li>태아검진 별도 연차</li>
+          <li>어린이집 보육료 지원 (만 0~5세)</li>
+          <li>결혼축하금 100만원</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- 4. 채용 프로세스 -->
+  <div class="section" id="process">
+    <div class="section-title"><span class="num">4</span> APR 채용 프로세스</div>
+    <div style="margin-bottom:20px">
+      <div style="font-size:13px;font-weight:700;color:#444;margin-bottom:12px">인턴 사원 (채용연계형)</div>
+      <div class="process-steps">
+        <div class="step"><div class="num">1</div><div class="label">서류 전형</div><div class="desc">글자수 제한 없음<br>수치/정량 표현 중요</div></div>
+        <div class="step"><div class="num">2</div><div class="label">1차 면접</div><div class="desc">조직적합도 검사<br>+ 실무진 면접</div></div>
+        <div class="step"><div class="num">3</div><div class="label">과제 전형*</div><div class="desc">필요시 진행<br>일주일 내외</div></div>
+        <div class="step"><div class="num">4</div><div class="label">합격 입사</div><div class="desc">인턴 3개월</div></div>
+        <div class="step"><div class="num">5</div><div class="label">정규직 전환</div><div class="desc">근무 평가 기반<br>전환 면접</div></div>
+      </div>
+    </div>
+    <div style="margin-bottom:20px">
+      <div style="font-size:13px;font-weight:700;color:#444;margin-bottom:12px">경력 사원</div>
+      <div class="process-steps">
+        <div class="step"><div class="num">1</div><div class="label">서류 전형</div><div class="desc">경력 오기재 주의<br>이력 검증 진행</div></div>
+        <div class="step"><div class="num">2</div><div class="label">1차 면접</div><div class="desc">조직적합도 검사<br>실무진 면접</div></div>
+        <div class="step"><div class="num">3</div><div class="label">과제 전형*</div><div class="desc">디자인/마케팅/IT<br>직무 대상</div></div>
+        <div class="step"><div class="num">4</div><div class="label">최종 면접</div><div class="desc">임원진 면접<br>조직 문화 적합도</div></div>
+        <div class="step"><div class="num">5</div><div class="label">처우협의</div><div class="desc">이력 검증 후<br>수습 3개월 (급여 100%)</div></div>
+      </div>
+    </div>
+    <div class="quote">
+      <strong>서류 전형 핵심:</strong> "글자수 제한 없음 — 지원자가 작성하고자 하는 경험과 논리적 주장을 제한 없이 작성." 경험 작성 시 수치/정량 표현 강조.<br>
+      <strong>면접 핵심:</strong> 1차 = Job Fit + Culture Fit (실무진) / 최종 = APR이 일하는 방식에 맞는 인재인지 (임원진)<br>
+      <strong>과제 전형:</strong> 논리적 Flow, 브랜드 전략과의 방향성 일치, 창의성, 시각적 구현 능력 평가.
+    </div>
+  </div>
+
+  <!-- 5. 팀 구조 & 직무 인터뷰 요약 -->
+  <div class="section" id="teams">
+    <div class="section-title"><span class="num">5</span> 팀 구조 & 직무별 일하는 방식</div>
+    <div class="team-grid">
+      <div class="team-card">
+        <div class="team-name">🇸🇬 동남아 마케팅팀 (박민경 팀장)</div>
+        <div class="team-lead">싱가포르 / 말레이시아 / 동남아 퍼포먼스</div>
+        <div class="team-work">쇼피·틱톡샵 플랫폼 운영, 캠페인 기획, 재고관리, 판매데이터 분석, 현지화 콘텐츠, 인플루언서 협업, 퍼포먼스 광고. "직급 무관 자유로운 아이디어 제안" 강조. 2주 만에 TikTok Shop 라이브 런칭.</div>
+      </div>
+      <div class="team-card">
+        <div class="team-name">🇺🇸 영미권 마케팅팀 (장희정 팀장)</div>
+        <div class="team-lead">미국 / 영국 / 영어권 국가</div>
+        <div class="team-work">아마존 투트랙 전략. 울타 뷰티 입점 3개월 만에 급성장. 뉴욕 타임스퀘어·LA 옥외광고. 블랙 프라이데이 역대 최대 실적.</div>
+      </div>
+      <div class="team-card">
+        <div class="team-name">🛒 아마존 마케팅팀 (박유진 팀장)</div>
+        <div class="team-lead">아마존 채널 컨트롤 타워</div>
+        <div class="team-work">아마존 MD (상품 운영), 퍼포먼스 광고, 프라임데이 흥행 전략. 아마존 베스트셀러 다수 보유.</div>
+      </div>
+      <div class="team-card">
+        <div class="team-name">🇯🇵 일본 마케팅팀 (박다희 팀장)</div>
+        <div class="team-lead">일본 시장 전반</div>
+        <div class="team-work">Qoo10 메가와리 연속 흥행 (연간 매출 250억+). 일 소비자와의 접점 확대. 현지화 전략.</div>
+      </div>
+      <div class="team-card">
+        <div class="team-name">🇨🇳 메디큐브 중국팀 (최예나 팀장)</div>
+        <div class="team-lead">중국 본토 / 왕홍 커머스</div>
+        <div class="team-work">"마케팅의 시작은 소비자로부터". 더우인 라이브커머스, 618 축제 매출 36억. 왕홍(인플루언서) 협업.</div>
+      </div>
+      <div class="team-card">
+        <div class="team-name">🇭🇰 홍콩·대만 마케팅팀 (이소희 팀장)</div>
+        <div class="team-lead">홍콩 / 대만 / 중화권</div>
+        <div class="team-work">홍콩 팝업 스토어 흥행. 프리미엄 K-뷰티 포지셔닝. 온·오프라인 동시 공략.</div>
+      </div>
+      <div class="team-card">
+        <div class="team-name">🎨 메디큐브 마케팅실 (김유진 실장)</div>
+        <div class="team-lead">국내 마케팅 총괄</div>
+        <div class="team-work">뷰티 마케팅 / 에이지알 마케팅 / 홈쇼핑 운영 / PR커머스 4개 팀 구성. 제품 개발 단계부터 마케팅 참여. 임상 데이터 기반 신뢰 구축.</div>
+      </div>
+      <div class="team-card">
+        <div class="team-name">🎨 비주얼콘텐츠팀 (이순철 팀장)</div>
+        <div class="team-lead">브랜드 비주얼 아이덴티티</div>
+        <div class="team-work">"보이는 것 너머 브랜드 아이덴티티 시각화". 모든 브랜드 비주얼 방향 설계. 디자인랩과 협업.</div>
+      </div>
+      <div class="team-card">
+        <div class="team-name">🔬 스킨랩 (신다솜 팀장)</div>
+        <div class="team-lead">뷰티 효능·안전성 검증</div>
+        <div class="team-work">자체 효력시험 인프라 보유. PDRN/PN 등 성분 연구. 임상 데이터 생산. 의료기기 CB인증.</div>
+      </div>
+      <div class="team-card">
+        <div class="team-name">💻 개발팀 (신중현 팀장)</div>
+        <div class="team-lead">디지털플랫폼실 / 에이지알 앱</div>
+        <div class="team-work">에이지알 앱 MAU 12만 → 23만 달성. 앱 내 게임, 출석체크, 뷰티 앱테크. "기업·고객·기술 사이의 균형 조율".</div>
+      </div>
+      <div class="team-card">
+        <div class="team-name">🚚 SCM / 물류 (평택 캠퍼스)</div>
+        <div class="team-lead">공급망 / 재고 / 물류센터</div>
+        <div class="team-work">평택 팩토리 제1·2·3캠퍼스 운영. 해외물류, 수출입, B2B. 신입 사원 현장교육 진행.</div>
+      </div>
+      <div class="team-card">
+        <div class="team-name">📞 국내CS팀 / 해외CS운영팀</div>
+        <div class="team-lead">고객 경험 설계</div>
+        <div class="team-work">"브랜드의 고객 경험을 설계하는 전문가". 글로벌 CS 운영 전략. 국내·해외 CS 별도 운영.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 6. 글로벌 전략 -->
+  <div class="section" id="global">
+    <div class="section-title"><span class="num">6</span> 글로벌 진출 현황 & 전략</div>
+    <div class="global-grid">
+      <div class="global-card">
+        <div class="region">🇺🇸 미국</div>
+        <h3>가장 큰 성장 시장</h3>
+        <p>아마존 + 울타 뷰티 투트랙. 뉴욕 팝업·타임스퀘어 광고. 코첼라 K-뷰티 최초 공식 스폰서. 2025 블랙프라이데이 역대 최대. TJX 오프라인 진출.</p>
+      </div>
+      <div class="global-card">
+        <div class="region">🇯🇵 일본</div>
+        <h3>메가와리 흥행</h3>
+        <p>Qoo10 메가와리 연 250억+ 달성. 오프라인 B2B 영업 강화. "1년 만에 매출 3배".</p>
+      </div>
+      <div class="global-card">
+        <div class="region">🇨🇳 중국/중화권</div>
+        <h3>왕홍 라이브커머스</h3>
+        <p>더우인 라이브. 618 축제 36억. 홍콩 팝업 흥행. 대만·홍콩 동시 공략. 부스터 프로 중국 본토 진출.</p>
+      </div>
+      <div class="global-card">
+        <div class="region">🌏 동남아</div>
+        <h3>쇼피·틱톡샵 공략</h3>
+        <p>싱가포르·말레이시아 중심. 인도 나이카 진출. 각 국가 현지화 인플루언서 전략.</p>
+      </div>
+      <div class="global-card">
+        <div class="region">🇪🇺 유럽</div>
+        <h3>서유럽·북유럽 확장</h3>
+        <p>스페인·이탈리아 틱톡샵. 아마존 유럽 MD 운영. 유럽 온라인 판매 급증세. 영국 K-뷰티 전문 유통 협약.</p>
+      </div>
+      <div class="global-card">
+        <div class="region">🇦🇪 중동</div>
+        <h3>두바이 K-뷰티 공략</h3>
+        <p>두바이 박람회 참가. 인플루언서 마케팅 강화. 중동 온라인 채널 확장 중.</p>
+      </div>
+    </div>
+
+    <div class="quote" style="margin-top:20px">
+      <strong>글로벌 전략 특징:</strong> 국가마다 별도 팀을 두고 현지화 전략. 이커머스(아마존·쇼피·틱톡샵)와 오프라인(팝업·B2B)을 동시에 공략. 인플루언서 마케팅을 핵심 채널로 활용. CES, APEC 등 글로벌 무대 적극 참여.
+    </div>
+  </div>
+
+  <!-- 7. 테넥스 인사이트 -->
+  <div class="section" id="tenex">
+    <div class="section-title"><span class="num">7</span> 테넥스가 APR에서 배울 것 — 실행 포인트</div>
+    <ul class="insight-list">
+      <li>
+        <span class="dot">🔴</span>
+        <div>
+          <strong>인재상을 명문화하고 전사가 공유한다</strong><br>
+          APR의 "Make it, Grow up, Work together, Customer success"는 채용 기준이자 일하는 방식이자 보상 기준. 테넥스도 채용 전에 인재상 먼저 정의해야 함. "시키는 거 다 하는 사람"이 아니라 "이기는 판을 직접 만드는 사람".
+        </div>
+      </li>
+      <li>
+        <span class="dot">🟠</span>
+        <div>
+          <strong>마케팅 조직을 채널별/국가별로 세분화하는 것이 APR 성장의 핵심</strong><br>
+          국내 마케팅 (메디큐브 마케팅실) → 국가별 팀 (미국·일본·중국·동남아·홍콩 각각). 지금 테넥스는 한 명이 다 해야 하지만, 나현님 + 1명 뽑을 때부터 역할을 명확히 나눠야 함. "확산 담당" vs "퍼포먼스 담당" 최소 2역할 분리.
+        </div>
+      </li>
+      <li>
+        <span class="dot">🟡</span>
+        <div>
+          <strong>채용연계형 인턴 → 정규직 전환 구조가 효율적</strong><br>
+          APR은 신입 대규모 채용 + 3개월 인턴 후 정규직 전환. 직접 키우는 구조. 테넥스도 경력직 못 구할 때 열정 있는 신입 뽑아서 키우는 옵션 고려해야 함.
+        </div>
+      </li>
+      <li>
+        <span class="dot">🟢</span>
+        <div>
+          <strong>OKR + 인센티브 연 3회 구조</strong><br>
+          Profit Sharing (연 1회) + Performance Incentive (연 2회). 테넥스도 법인 전환 후 이 구조 도입해야 인규·나현이 동기부여 유지됨. 지금의 "세후 400만원 + 5% vesting" 구조는 APR 방식과 유사.
+        </div>
+      </li>
+      <li>
+        <span class="dot">🔵</span>
+        <div>
+          <strong>"치열한 고민의 흔적이 담긴 아이디어만 받아들인다"</strong><br>
+          수평적 소통이지만 막연한 추측이 아닌 데이터/논리 기반. 테넥스에서도 "이거 어떻게 생각해요?" 방식보다 "이유와 근거를 가져와라"는 문화를 만들어야 함.
+        </div>
+      </li>
+      <li>
+        <span class="dot">🟣</span>
+        <div>
+          <strong>앱 (에이지알 앱) → CRM → 락인 구조</strong><br>
+          MAU 23만, 앱 게임·출석체크·뷰티 앱테크로 락인. 테넥스 1분도수 AI 앱도 똑같이 이 구조 목표. "M-CLUB" 멤버십처럼 디바이스 구매 → 평생 혜택 구조.
+        </div>
+      </li>
+      <li>
+        <span class="dot">⚫</span>
+        <div>
+          <strong>자사몰 800만 가입자 = APR의 가장 강력한 해자</strong><br>
+          D2C 자사몰 중심 전략. 오가닉 강함. 테넥스도 자사몰 비중 50% 유지가 핵심 경쟁력. "자사몰 고객 = 찐팬 전환" 방향이 APR과 완전히 일치.
+        </div>
+      </li>
+      <li>
+        <span class="dot">🎯</span>
+        <div>
+          <strong>복지는 작게 시작해도 "존재감"이 중요</strong><br>
+          APR 복지 중 테넥스가 지금 당장 따라할 수 있는 것: 사내추천 리워드, 도서비 지원(월 3만), 외부 교육 지원, 인재상 선정 시상. 큰 돈 안 들이고 문화 만드는 것들부터.
+        </div>
+      </li>
+    </ul>
+  </div>
+
+  <!-- 비교표 -->
+  <div class="section">
+    <div class="section-title"><span class="num">8</span> APR vs 테넥스 현재 위치 비교</div>
+    <div style="overflow-x:auto">
+      <table class="compare-table">
+        <thead>
+          <tr>
+            <th>항목</th>
+            <th style="color:#e88">APR 현재</th>
+            <th style="color:#8e8">테넥스 현재</th>
+            <th>테넥스 목표</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>연매출</td>
+            <td>1.5조원 (2025)</td>
+            <td>약 24억원 (2026 목표)</td>
+            <td>200억 (2026) → 1조+ (5년)</td>
+          </tr>
+          <tr>
+            <td>브랜드 수</td>
+            <td>7개 (메디큐브·에이프릴스킨·포맨트·NDY·글램디·포토그레이)</td>
+            <td>키네메디칼 + 1분도수</td>
+            <td>헬스케어 전신 확장</td>
+          </tr>
+          <tr>
+            <td>마케팅 조직</td>
+            <td>국가별 팀 + 채널별 팀 별도 운영 (10개 팀+)</td>
+            <td>인규 + 나현 (2인)</td>
+            <td>퍼포먼스 마케터 + 인플루언서 담당 추가</td>
+          </tr>
+          <tr>
+            <td>채용 전략</td>
+            <td>신입 대규모 채용 + 채용연계형 인턴 활용</td>
+            <td>소수정예 (현재 3인 코어)</td>
+            <td>운영 매니저 → 퍼포먼스 마케터 → COO 순</td>
+          </tr>
+          <tr>
+            <td>글로벌</td>
+            <td>15개국+ (미국·일본·중국·동남아·유럽·중동)</td>
+            <td>국내 (해외 태핑 준비 중)</td>
+            <td>미국 우선 공략</td>
+          </tr>
+          <tr>
+            <td>앱 / CRM</td>
+            <td>에이지알 앱 MAU 23만 / 자사몰 800만 가입자</td>
+            <td>개발 중 (1분도수 AI앱)</td>
+            <td>앱 출시 → 멤버십 → 락인</td>
+          </tr>
+          <tr>
+            <td>성과 보상</td>
+            <td>OKR + 인센티브 연 3회 + 사원급 4,200만</td>
+            <td>인규 세후 400만 + 5% vesting</td>
+            <td>법인 전환 후 OKR + 인센티브 구조 도입</td>
+          </tr>
+          <tr>
+            <td>R&D</td>
+            <td>스킨랩 + 원천기술팀 + 평택 팩토리 3개 캠퍼스</td>
+            <td>굿플 협업 (제조 파트너)</td>
+            <td>새 의료기기 공장 전환</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+</div>
+
+<div class="footer">Tenex Internal · 2026.03.19 · APR 채용 사이트 + 기업 홈페이지 + 블로그 전체 탐독 기반 분석</div>
+
+</body>
+</html>
