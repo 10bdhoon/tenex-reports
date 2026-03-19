@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>테넥스 자동화 시스템 현황</title>
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+body { font-family:-apple-system,sans-serif; background:#0f1117; color:#e2e8f0; min-height:100vh; padding:2rem; }
+h1 { font-size:1.5rem; font-weight:700; margin-bottom:.25rem; }
+.sub { color:#94a3b8; font-size:.875rem; margin-bottom:2rem; }
+.section { background:#1e2330; border-radius:12px; padding:1.5rem; margin-bottom:1.5rem; border:1px solid #2d3748; }
+.section h2 { font-size:.75rem; text-transform:uppercase; letter-spacing:.05em; color:#94a3b8; margin-bottom:1rem; }
+table { width:100%; border-collapse:collapse; font-size:.85rem; }
+th { text-align:left; padding:.5rem .75rem; background:#0f1117; color:#94a3b8; font-size:.7rem; text-transform:uppercase; letter-spacing:.05em; }
+td { padding:.6rem .75rem; border-top:1px solid #2d3748; vertical-align:top; }
+.badge { display:inline-block; padding:.15rem .55rem; border-radius:999px; font-size:.7rem; font-weight:600; }
+.ok { background:rgba(52,211,153,.15); color:#34d399; }
+.warn { background:rgba(251,191,36,.15); color:#fbbf24; }
+.idle { background:rgba(148,163,184,.1); color:#94a3b8; }
+code { font-family:monospace; font-size:.8rem; color:#a3e635; background:#0f1117; padding:.1rem .4rem; border-radius:4px; }
+.grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:1rem; margin-bottom:1.5rem; }
+.card { background:#1e2330; border-radius:12px; padding:1.25rem; border:1px solid #2d3748; }
+.card .label { font-size:.7rem; color:#94a3b8; text-transform:uppercase; letter-spacing:.05em; margin-bottom:.4rem; }
+.card .val { font-size:1.2rem; font-weight:700; color:#e2e8f0; }
+.card .sub2 { font-size:.75rem; color:#64748b; margin-top:.2rem; }
+.tag { font-size:.7rem; padding:.1rem .4rem; border-radius:4px; background:#3b82f620; color:#60a5fa; }
+</style>
+</head>
+<body>
+
+<h1>🤖 테넥스 자동화 시스템 현황</h1>
+<p class="sub">카리나(AI 비서) 운영 시스템 전체 문서 | 마지막 업데이트: 2026-03-11</p>
+
+<div class="grid">
+  <div class="card"><div class="label">크론잡 (OpenClaw)</div><div class="val">9개</div><div class="sub2">상시 운영 중</div></div>
+  <div class="card"><div class="label">launchd 잡 (Mac mini)</div><div class="val">5개</div><div class="sub2">시스템 레벨 자동화</div></div>
+  <div class="card"><div class="label">git 백업</div><div class="val">하루 3회</div><div class="sub2">09:00 / 15:00 / 23:00</div></div>
+  <div class="card"><div class="label">brain.db (SQLite)</div><div class="val">포트 8082</div><div class="sub2">장기기억 서버</div></div>
+</div>
+
+<!-- OpenClaw 크론잡 -->
+<div class="section">
+  <h2>⏰ OpenClaw 크론잡</h2>
+  <table>
+    <thead><tr><th>이름</th><th>스케줄</th><th>설명</th><th>상태</th></tr></thead>
+    <tbody>
+      <tr>
+        <td><strong>아침 브리핑</strong></td>
+        <td><code>매일 07:00</code></td>
+        <td>일정 확인 / 이번 주 마감 / 날씨 → 텔레그램 전송</td>
+        <td><span class="badge ok">ok</span></td>
+      </tr>
+      <tr>
+        <td><strong>헬스장 운동 리마인더</strong></td>
+        <td><code>매일 09:00</code></td>
+        <td>운동 알림 → 텔레그램</td>
+        <td><span class="badge ok">ok</span></td>
+      </tr>
+      <tr>
+        <td><strong>Plaud 30분 수집 (Gemini 전사)</strong></td>
+        <td><code>매일 11-21시 30분 간격</code></td>
+        <td>Plaud 녹음 자동 수집 → Gemini 전사 → brain.db 저장</td>
+        <td><span class="badge ok">ok</span></td>
+      </tr>
+      <tr>
+        <td><strong>ES-808 배송 안내 SMS</strong></td>
+        <td><code>평일 18:00</code></td>
+        <td>당일 송장 입력 건 조회 → 중복 제거 → 듀얼번호(*7782) 문자 자동 발송</td>
+        <td><span class="badge ok">ok</span></td>
+      </tr>
+      <tr>
+        <td><strong>저녁 녹음 수집</strong></td>
+        <td><code>매일 21:45</code></td>
+        <td>오늘 Plaud 녹음 최종 수집 + 하루 핵심 요약 → 텔레그램</td>
+        <td><span class="badge ok">ok</span></td>
+      </tr>
+      <tr>
+        <td><strong>일일 회고</strong></td>
+        <td><code>매일 22:00</code></td>
+        <td>완료 / 이슈 / 내일 할 일 3줄 → 텔레그램</td>
+        <td><span class="badge ok">ok</span></td>
+      </tr>
+      <tr>
+        <td><strong>독서 리마인더</strong></td>
+        <td><code>매일 22:30</code></td>
+        <td>10페이지 독서 알림</td>
+        <td><span class="badge ok">ok</span></td>
+      </tr>
+      <tr>
+        <td><strong>주간 규칙 검사</strong></td>
+        <td><code>매주 금요일 11:00</code></td>
+        <td>BOOTSTRAP.md / LEARNINGS.md 리뷰 → 개선 계획 보고</td>
+        <td><span class="badge ok">ok</span></td>
+      </tr>
+      <tr>
+        <td><strong>비즈모아 ES-808 팔로업</strong></td>
+        <td><code>매주 화요일 10:00</code></td>
+        <td>FCC 인증 / 미국 진출 진행 상황 트래킹 알림</td>
+        <td><span class="badge ok">ok</span></td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- launchd 잡 -->
+<div class="section">
+  <h2>🖥️ Mac mini launchd 잡 (시스템 레벨)</h2>
+  <table>
+    <thead><tr><th>이름</th><th>주기</th><th>설명</th><th>스크립트</th></tr></thead>
+    <tbody>
+      <tr>
+        <td><strong>카페24 토큰 갱신</strong></td>
+        <td><code>60분마다</code></td>
+        <td>access_token 자동 갱신 → .env 업데이트</td>
+        <td><code>refresh-cafe24-token.sh</code></td>
+      </tr>
+      <tr>
+        <td><strong>brain.db 서버</strong></td>
+        <td><code>상시 (포트 8082)</code></td>
+        <td>SQLite 장기기억 서버. 모든 대화/녹음/문서 저장 및 검색</td>
+        <td><code>com.tenex.second-brain</code></td>
+      </tr>
+      <tr>
+        <td><strong>Plaud 파이프라인</strong></td>
+        <td><code>60분마다</code></td>
+        <td>Plaud 녹음 자동 수집 보조 (OpenClaw 크론잡과 이중화)</td>
+        <td><code>plaud-pipeline.sh</code></td>
+      </tr>
+      <tr>
+        <td><strong>워크스페이스 백업</strong></td>
+        <td><code>09:00 / 15:00 / 23:00</code></td>
+        <td>git commit + push → GitHub (karina-workspace)</td>
+        <td><code>workspace-backup.sh</code></td>
+      </tr>
+      <tr>
+        <td><strong>tenex-reports 자동 배포</strong></td>
+        <td><code>10분마다 (변경 시만)</code></td>
+        <td>파일 해시 비교 → 변경 감지 시 Vercel 재배포</td>
+        <td><code>deploy-tenex-reports.sh</code></td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- ES-808 SMS 상세 -->
+<div class="section">
+  <h2>📱 ES-808 배송 안내 SMS 상세</h2>
+  <table>
+    <thead><tr><th>항목</th><th>내용</th></tr></thead>
+    <tbody>
+      <tr><td>발송 방식</td><td>osascript → Messages.app (듀얼번호 <code>*7782</code> prefix)</td></tr>
+      <tr><td>조회 기준</td><td>송장 입력일 (tracking_no_updated_date = 오늘) — 최근 7일 주문 대상</td></tr>
+      <tr><td>중복 방지</td><td>당일 발송 이력 <code>locks/sent-YYYY-MM-DD.json</code> 저장 → 재실행 시 스킵</td></tr>
+      <tr><td>대상 쇼핑몰</td><td>shop5 (키네메디칼) + shop6 (1분도수)</td></tr>
+      <tr><td>스크립트</td><td><code>~/.openclaw/workspace/cs-automation/es808-auto-send.js</code></td></tr>
+      <tr><td>수동 실행</td><td><code>cd ~/.openclaw/workspace/cs-automation && node es808-auto-send.js</code></td></tr>
+      <tr><td>업데이트 이력</td><td>v1: shipping_status 기준 → v2: 송장 입력일 기준 (2026-03-11)</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- 카페24 토큰 -->
+<div class="section">
+  <h2>🔑 카페24 토큰 자동화</h2>
+  <table>
+    <thead><tr><th>항목</th><th>내용</th></tr></thead>
+    <tbody>
+      <tr><td>갱신 방식</td><td>refresh_token → 새 access_token 발급 → .env 업데이트</td></tr>
+      <tr><td>주기</td><td>60분마다 (launchd)</td></tr>
+      <tr><td>스크립트</td><td><code>~/Desktop/tenex-assistant/refresh-cafe24-token.sh</code></td></tr>
+      <tr><td>수동 갱신</td><td><code>bash ~/Desktop/tenex-assistant/refresh-cafe24-token.sh</code></td></tr>
+      <tr><td>로그</td><td><code>~/Desktop/tenex-assistant/token-refresh.log</code></td></tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- git 백업 -->
+<div class="section">
+  <h2>💾 Git 백업 시스템</h2>
+  <table>
+    <thead><tr><th>항목</th><th>내용</th></tr></thead>
+    <tbody>
+      <tr><td>레포</td><td><code>github.com/10bdhoon/karina-workspace</code></td></tr>
+      <tr><td>백업 주기</td><td>09:00 / 15:00 / 23:00 (하루 3회 자동 커밋 + 푸시)</td></tr>
+      <tr><td>스크립트</td><td><code>~/.openclaw/workspace/scripts/workspace-backup.sh</code></td></tr>
+      <tr><td>주의사항</td><td>50MB 이상 파일은 .gitignore 처리 필수 (BFG로 히스토리 정리 2026-03-11)</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- brain.db -->
+<div class="section">
+  <h2>🧠 brain.db (제2의 뇌)</h2>
+  <table>
+    <thead><tr><th>항목</th><th>내용</th></tr></thead>
+    <tbody>
+      <tr><td>종류</td><td>SQLite + HTTP API</td></tr>
+      <tr><td>포트</td><td><code>8082</code></td></tr>
+      <tr><td>검색</td><td><code>curl "http://localhost:8082/search?q=키워드&limit=5"</code></td></tr>
+      <tr><td>저장</td><td><code>curl -X POST http://localhost:8082/insert -d '{"date":"...","source":"telegram","content":"..."}'</code></td></tr>
+      <tr><td>저장 대상</td><td>텔레그램 대화 / Plaud 녹음 전사 / 주요 결정사항</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<p style="color:#475569;font-size:.75rem;text-align:center;margin-top:2rem">tenex-reports · 자동 배포 (변경 감지 시 10분 내 반영) · <a href="/" style="color:#3b82f6">← 홈으로</a></p>
+
+
+<div style="position:fixed;bottom:16px;right:16px;background:rgba(0,0,0,0.7);color:#fff;padding:8px 14px;border-radius:8px;font-size:12px;font-family:sans-serif;z-index:9999;line-height:1.8;">
+  <span style="opacity:0.6;">작성</span> 2026-03-11 &nbsp;|&nbsp; <span style="opacity:0.6;">수정</span> 2026-03-11
+</div>
+</body>
+</html>

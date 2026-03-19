@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>테넥스 리포트</title>
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { background:#0d1117; color:#e0e0e0; font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif; min-height:100vh; }
+  .hero { background:linear-gradient(135deg,#0d1117 0%,#161b22 100%); border-bottom:1px solid #21262d; padding:40px 40px 32px; }
+  .hero-inner { max-width:1100px; margin:0 auto; display:flex; align-items:flex-end; justify-content:space-between; gap:20px; flex-wrap:wrap; }
+  .hero-badge { font-size:11px; font-weight:600; color:#58a6ff; text-transform:uppercase; letter-spacing:1.5px; margin-bottom:10px; }
+  .hero h1 { font-size:28px; font-weight:700; color:#fff; letter-spacing:-0.5px; margin-bottom:4px; }
+  .hero-sub { color:#8b949e; font-size:14px; }
+  .hero-stats { display:flex; gap:16px; flex-shrink:0; }
+  .stat { text-align:center; background:#161b22; border:1px solid #30363d; border-radius:8px; padding:10px 18px; }
+  .stat-num { font-size:22px; font-weight:700; color:#e6edf3; }
+  .stat-label { font-size:11px; color:#8b949e; margin-top:2px; }
+  .container { max-width:1100px; margin:0 auto; padding:32px 40px 48px; }
+  .section { margin-bottom:36px; }
+  .section-header { display:flex; align-items:center; gap:10px; border-left:3px solid; padding-left:12px; margin-bottom:16px; }
+  .section-label { font-size:15px; font-weight:700; }
+  .section-count { font-size:11px; font-weight:600; padding:2px 8px; border-radius:10px; border:1px solid; }
+  .grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(200px,1fr)); gap:12px; }
+  .card { background:#161b22; border:1px solid #21262d; border-radius:10px; padding:16px 18px; text-decoration:none; color:inherit; display:block; transition:all 0.15s; }
+  .card:hover { border-color:#58a6ff; background:#1c2128; transform:translateY(-1px); }
+  .card-icon { font-size:22px; margin-bottom:8px; }
+  .card-title { font-size:13px; font-weight:600; color:#e6edf3; margin-bottom:4px; line-height:1.4; }
+  .card-desc { font-size:11px; color:#8b949e; line-height:1.4; }
+  .footer { text-align:center; padding:24px; color:#484f58; font-size:11px; border-top:1px solid #21262d; }
+</style>
+</head>
+<body>
+<div class="hero">
+  <div class="hero-inner">
+    <div>
+      <div class="hero-badge">🎯 테넥스 | 카리나</div>
+      <h1>테넥스 리포트</h1>
+      <div class="hero-sub">전략 · 시스템 · 제품 · CRM — 전체 문서 모음</div>
+    </div>
+    <div class="hero-stats">
+      <div class="stat"><div class="stat-num">16</div><div class="stat-label">총 문서</div></div>
+      <div class="stat"><div class="stat-num">11</div><div class="stat-label">카테고리</div></div>
+    </div>
+  </div>
+</div>
+<div class="container">
+
+    <div class="section">
+      <div class="section-header" style="border-left-color:#f0883e">
+        <span class="section-label" style="color:#f0883e">A 📦 제품</span>
+        <span class="section-count" style="background:rgba(240,136,62,0.08);color:#f0883e;border-color:rgba(240,136,62,0.2)">3개</span>
+      </div>
+      <div class="grid">
+        <a href="/brand-design-system.html" class="card"><div class="card-icon">🎨</div><div class="card-title">키네메디칼 디자인 시스템 <span style="font-size:10px;color:#484f58;">· 3/16</span></div><div class="card-desc">브랜드 컬러, 로고, 패키지 가이드</div></a>
+        <a href="/es808.html" class="card"><div class="card-icon">⚡</div><div class="card-title">ES-808 <span style="font-size:10px;color:#484f58;">· 3/19</span></div><div class="card-desc">커리큘럼 · 문자 안내</div></a>
+        <a href="/product-roadmap.html" class="card"><div class="card-icon">🗓️</div><div class="card-title">제품 로드맵 <span style="font-size:10px;color:#484f58;">· 3/16</span></div><div class="card-desc">제품 개발 및 출시 타임라인</div></a>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-header" style="border-left-color:#f85149">
+        <span class="section-label" style="color:#f85149">B 🎬 콘텐츠/채널</span>
+        <span class="section-count" style="background:rgba(248,81,73,0.08);color:#f85149;border-color:rgba(248,81,73,0.2)">1개</span>
+      </div>
+      <div class="grid">
+        <a href="/youtube.html" class="card"><div class="card-icon">▶️</div><div class="card-title">YouTube <span style="font-size:10px;color:#484f58;">· 3/18</span></div><div class="card-desc">채널 허브 · 트래커 · 리서치 · 영상 목록</div></a>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-header" style="border-left-color:#d29922">
+        <span class="section-label" style="color:#d29922">D 📣 마케팅/광고</span>
+        <span class="section-count" style="background:rgba(210,153,34,0.08);color:#d29922;border-color:rgba(210,153,34,0.2)">1개</span>
+      </div>
+      <div class="grid">
+        <a href="/tenex-strategy.html" class="card"><div class="card-icon">🚀</div><div class="card-title">TENEX 핵심전략 2026 <span style="font-size:10px;color:#484f58;">· 3/16</span></div><div class="card-desc">테넥스 전체 사업 전략</div></a>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-header" style="border-left-color:#e91e8c">
+        <span class="section-label" style="color:#e91e8c">E 📬 앱/CRM</span>
+        <span class="section-count" style="background:rgba(233,30,140,0.08);color:#e91e8c;border-color:rgba(233,30,140,0.2)">3개</span>
+      </div>
+      <div class="grid">
+        <a href="/1min-dosu-app.html" class="card"><div class="card-icon">💪</div><div class="card-title">1분도수 앱 <span style="font-size:10px;color:#484f58;">· 3/19</span></div><div class="card-desc">앱 기획 · ver4 화면 · 기능 스펙</div></a>
+        <a href="/crm.html" class="card"><div class="card-icon">📊</div><div class="card-title">CRM <span style="font-size:10px;color:#484f58;">· 3/19</span></div><div class="card-desc">CRM 전략 v2 · 고객 페르소나</div></a>
+        <a href="/kinemedical-app.html" class="card"><div class="card-icon">📱</div><div class="card-title">키네메디칼 앱 <span style="font-size:10px;color:#484f58;">· 3/19</span></div><div class="card-desc">앱 스펙 · 마일스톤 · 데모</div></a>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-header" style="border-left-color:#3fb950">
+        <span class="section-label" style="color:#3fb950">F 💰 자금조달</span>
+        <span class="section-count" style="background:rgba(63,185,80,0.08);color:#3fb950;border-color:rgba(63,185,80,0.2)">1개</span>
+      </div>
+      <div class="grid">
+        <a href="/funding.html" class="card"><div class="card-icon">💰</div><div class="card-title">자금조달 <span style="font-size:10px;color:#484f58;">· 3/19</span></div><div class="card-desc">지분 구조 · 스톡옵션 · 초창패 인터뷰</div></a>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-header" style="border-left-color:#79c0ff">
+        <span class="section-label" style="color:#79c0ff">G 🧑 채용</span>
+        <span class="section-count" style="background:rgba(121,192,255,0.08);color:#79c0ff;border-color:rgba(121,192,255,0.2)">1개</span>
+      </div>
+      <div class="grid">
+        <a href="/apr-hiring-analysis.html" class="card"><div class="card-icon">🔍</div><div class="card-title">APR 채용 공고 분석 <span style="font-size:10px;color:#484f58;">· 3/19</span></div><div class="card-desc">61개 공고 전수 분석 · 테넥스 JD 참고</div></a>
+        <a href="/2026-team-structure.html" class="card"><div class="card-icon">👥</div><div class="card-title">팀 구조 & 채용 로드맵 <span style="font-size:10px;color:#484f58;">· 3/16</span></div><div class="card-desc">2026 팀 구성 및 채용 계획</div></a>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-header" style="border-left-color:#ffa657">
+        <span class="section-label" style="color:#ffa657">H ⚙️ 운영</span>
+        <span class="section-count" style="background:rgba(255,166,87,0.08);color:#ffa657;border-color:rgba(255,166,87,0.2)">1개</span>
+      </div>
+      <div class="grid">
+        <a href="/system-status.html" class="card"><div class="card-icon">🖥️</div><div class="card-title">자동화 시스템 현황 <span style="font-size:10px;color:#484f58;">· 3/16</span></div><div class="card-desc">테넥스 자동화 시스템 현황</div></a>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-header" style="border-left-color:#58a6ff">
+        <span class="section-label" style="color:#58a6ff">I 🧠 AI 시스템</span>
+        <span class="section-count" style="background:rgba(88,166,255,0.08);color:#58a6ff;border-color:rgba(88,166,255,0.2)">1개</span>
+      </div>
+      <div class="grid">
+        <a href="/ai-system.html" class="card"><div class="card-icon">🧠</div><div class="card-title">AI 시스템 <span style="font-size:10px;color:#484f58;">· 3/19</span></div><div class="card-desc">카리나 · OpenClaw · 시스템 구조 · Brain.db · 에이전트팀</div></a>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-header" style="border-left-color:#1abc9c">
+        <span class="section-label" style="color:#1abc9c">J 🌏 해외진출</span>
+        <span class="section-count" style="background:rgba(26,188,156,0.08);color:#1abc9c;border-color:rgba(26,188,156,0.2)">1개</span>
+      </div>
+      <div class="grid">
+        <a href="/global-strategy.html" class="card"><div class="card-icon">🌏</div><div class="card-title">글로벌 진출 전략 <span style="font-size:10px;color:#484f58;">· 3/19</span></div><div class="card-desc">미국 전략 · APR 벤치마크 · 국가별 우선순위 · 전략 요약</div></a>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-header" style="border-left-color:#bc8cff">
+        <span class="section-label" style="color:#bc8cff">Z 🎓 교육</span>
+        <span class="section-count" style="background:rgba(188,140,255,0.08);color:#bc8cff;border-color:rgba(188,140,255,0.2)">1개</span>
+      </div>
+      <div class="grid">
+        <a href="/education.html" class="card"><div class="card-icon">🎓</div><div class="card-title">교육 <span style="font-size:10px;color:#484f58;">· 3/19</span></div><div class="card-desc">교육 허브 · 수제자 2기 요약 · 자사교 5기 메타</div></a>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-header" style="border-left-color:#8b949e">
+        <span class="section-label" style="color:#8b949e">📄 기타</span>
+        <span class="section-count" style="background:rgba(139,148,158,0.08);color:#8b949e;border-color:rgba(139,148,158,0.2)">2개</span>
+      </div>
+      <div class="grid">
+        <a href="/kinemedical-redesign.html" class="card"><div class="card-icon">📄</div><div class="card-title">KINEMEDICAL — 키네메디칼 리디자인 시안 <span style="font-size:10px;color:#484f58;">· 3/17</span></div><div class="card-desc"></div></a>
+        <a href="/membership.html" class="card"><div class="card-icon">📄</div><div class="card-title">키네메디칼 멤버십 혜택 <span style="font-size:10px;color:#484f58;">· 3/17</span></div><div class="card-desc"></div></a>
+      </div>
+    </div>
+</div>
+<div class="footer">마지막 업데이트: 2026. 3. 19. | tenex-reports.vercel.app</div>
+</body>
+</html>

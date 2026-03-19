@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>키네메디칼 앱</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#0d1117;color:#e6edf3;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;min-height:100vh}
+.tab-nav{position:sticky;top:0;z-index:100;background:#161b22;border-bottom:1px solid #21262d;display:flex;overflow-x:auto;padding:0 20px}
+.tab-btn{background:none;border:none;border-bottom:2px solid transparent;color:#8b949e;padding:14px 20px;font-size:14px;font-weight:500;cursor:pointer;white-space:nowrap;transition:color .15s,border-color .15s}
+.tab-btn:hover{color:#e6edf3}
+.tab-btn.active{color:#e6edf3;border-bottom-color:#58a6ff}
+.tab-pane{display:none}
+.tab-pane.active{display:block}
+.page{max-width:900px;margin:0 auto;padding:32px 20px}
+.section{margin-bottom:40px}
+.section-title{font-size:11px;letter-spacing:2px;text-transform:uppercase;color:#58a6ff;margin-bottom:16px;padding-bottom:8px;border-bottom:1px solid #21262d}
+h1{font-size:26px;font-weight:700;color:#e6edf3;margin-bottom:8px;line-height:1.3}
+h2{font-size:20px;font-weight:600;color:#e6edf3;margin:24px 0 10px}
+h3{font-size:16px;font-weight:600;color:#e6edf3;margin:0 0 6px}
+h4{font-size:14px;font-weight:600;color:#e6edf3;margin:0 0 4px}
+p{font-size:14px;line-height:1.75;color:#8b949e;margin-bottom:10px}
+ul,ol{padding-left:20px;margin-bottom:12px}
+li{font-size:14px;line-height:1.8;color:#8b949e;margin-bottom:3px}
+strong{color:#c9d1d9}
+a{color:#58a6ff;text-decoration:none}
+a:hover{text-decoration:underline}
+code{background:#161b22;border:1px solid #21262d;border-radius:4px;padding:2px 6px;font-size:13px;color:#79c0ff;font-family:monospace}
+.hero{background:linear-gradient(135deg,#0d1117 0%,#161b22 100%);border:1px solid #21262d;border-radius:12px;padding:32px 24px;margin-bottom:32px;text-align:center}
+.hero-label{font-size:11px;letter-spacing:3px;text-transform:uppercase;color:#8b949e;margin-bottom:12px}
+.hero h1{margin-bottom:8px}
+.hero p{font-size:14px;color:#8b949e;margin-bottom:16px}
+.hero-badges{display:flex;flex-wrap:wrap;gap:8px;justify-content:center}
+.hero-badge{background:#21262d;color:#58a6ff;border-radius:20px;padding:4px 12px;font-size:12px;font-weight:500}
+.card{background:#161b22;border:1px solid #21262d;border-radius:12px;padding:24px;margin-bottom:16px}
+.grid-2{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;margin-bottom:24px}
+.grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:24px}
+.grid-4{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:24px}
+@media(max-width:700px){.grid-2,.grid-3,.grid-4{grid-template-columns:1fr}}
+@media(max-width:900px){.grid-4{grid-template-columns:repeat(2,1fr)}}
+.vision-card{background:#161b22;border:1px solid #21262d;border-radius:12px;padding:24px}
+.vision-icon{font-size:28px;margin-bottom:12px}
+.loop-container{display:flex;align-items:flex-start;flex-wrap:wrap;gap:8px;margin-bottom:16px}
+.loop-step{background:#161b22;border:1px solid #21262d;border-radius:12px;padding:16px;text-align:center;flex:1;min-width:100px}
+.loop-step .step-icon{font-size:24px;margin-bottom:6px}
+.loop-step .step-num{font-size:10px;color:#58a6ff;font-weight:600;letter-spacing:1px;margin-bottom:4px}
+.loop-step .step-title{font-size:13px;font-weight:600;color:#e6edf3;margin-bottom:4px}
+.loop-step .step-desc{font-size:11px;color:#8b949e;line-height:1.5}
+.loop-arrow{font-size:18px;color:#8b949e;align-self:center;padding-top:8px}
+.loop-return{background:#161b22;border:1px solid #21262d;border-radius:8px;padding:12px 16px;font-size:13px;color:#8b949e;text-align:center}
+.screen-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:12px}
+@media(max-width:700px){.screen-grid{grid-template-columns:repeat(2,1fr)}}
+.screen-card{background:#161b22;border:1px solid #21262d;border-radius:10px;overflow:hidden}
+.screen-header{background:#1f2937;color:#e6edf3;font-size:12px;font-weight:600;padding:8px 12px}
+.screen-item{padding:7px 12px;font-size:12px;color:#8b949e;border-bottom:1px solid #21262d}
+.screen-item:last-child{border-bottom:none}
+.screen-item.phase2{color:#484f58;font-style:italic}
+.screen-hint{font-size:11px;color:#484f58;margin-top:6px}
+.db-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:24px}
+@media(max-width:700px){.db-grid{grid-template-columns:1fr}}
+.db-table-card{background:#161b22;border:1px solid #21262d;border-radius:10px;overflow:hidden}
+.db-table-header{background:#1f2937;color:#e6edf3;font-size:12px;font-weight:700;padding:10px 14px;letter-spacing:1px}
+.db-field{display:flex;justify-content:space-between;padding:6px 14px;border-bottom:1px solid #21262d;font-size:12px}
+.db-field:last-child{border-bottom:none}
+.db-field-name{color:#8b949e}
+.db-field-type{color:#484f58;font-family:monospace}
+.badge-pk{background:#1f2937;color:#58a6ff;border-radius:3px;padding:1px 5px;font-size:10px}
+.badge-fk{background:#1f2937;color:#3fb950;border-radius:3px;padding:1px 5px;font-size:10px}
+.roadmap{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:24px}
+@media(max-width:700px){.roadmap{grid-template-columns:1fr}}
+.phase-card{background:#161b22;border:1px solid #21262d;border-radius:12px;overflow:hidden}
+.phase-card.phase-1{border-top:3px solid #58a6ff}
+.phase-card.phase-2{border-top:3px solid #3fb950}
+.phase-card.phase-3{border-top:3px solid #d29922}
+.phase-card.phase-4{border-top:3px solid #f85149}
+.phase-header{padding:16px}
+.phase-label{font-size:10px;letter-spacing:1px;color:#8b949e;margin-bottom:4px}
+.phase-name{font-size:15px;font-weight:700;color:#e6edf3}
+.phase-body{padding:0 16px 16px}
+.phase-item{font-size:12px;color:#8b949e;padding:5px 0;border-bottom:1px solid #21262d}
+.phase-item:last-of-type{border-bottom:none;margin-bottom:10px}
+.phase-kpi{background:#0d1117;border-radius:8px;padding:10px}
+.phase-kpi-item{font-size:11px;color:#8b949e;margin-bottom:4px}
+.phase-kpi-item strong{color:#58a6ff}
+.kpi-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:24px}
+@media(max-width:700px){.kpi-grid{grid-template-columns:repeat(2,1fr)}}
+.kpi-card{background:#161b22;border:1px solid #21262d;border-radius:12px;padding:20px;text-align:center}
+.kpi-value{font-size:24px;font-weight:700;color:#58a6ff;display:block;margin-bottom:4px}
+.kpi-label{font-size:12px;color:#8b949e;display:block;margin-bottom:4px}
+.kpi-phase{font-size:10px;color:#484f58}
+.tech-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:24px}
+@media(max-width:700px){.tech-grid{grid-template-columns:1fr}}
+.tech-card{background:#161b22;border:1px solid #21262d;border-radius:12px;padding:20px}
+.tech-icon{font-size:24px;margin-bottom:8px}
+.tech-title{font-size:14px;font-weight:600;color:#e6edf3;margin-bottom:10px}
+.tech-tag{display:inline-block;background:#21262d;color:#8b949e;border-radius:6px;padding:3px 8px;font-size:11px;margin:2px}
+.final-vision{background:linear-gradient(135deg,#0d1117 0%,#161b22 100%);border:1px solid #21262d;border-radius:12px;padding:32px;text-align:center}
+.final-vision h2{margin-bottom:16px}
+.final-vision p{margin-bottom:24px}
+.final-kpi-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:24px}
+@media(max-width:600px){.final-kpi-grid{grid-template-columns:1fr}}
+.final-kpi-val{font-size:28px;font-weight:700;color:#58a6ff;margin-bottom:4px}
+.final-kpi-label{font-size:12px;color:#8b949e}
+.demo-showcase{display:grid;grid-template-columns:240px 1fr;gap:24px;align-items:flex-start;margin-bottom:24px}
+@media(max-width:700px){.demo-showcase{grid-template-columns:1fr}}
+.ob-device{background:#161b22;border:1px solid #21262d;border-radius:16px;padding:16px;width:240px}
+.ob-device-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
+.ob-brand{font-size:11px;font-weight:700;color:#e6edf3;letter-spacing:1px}
+.ob-brand span{color:#58a6ff}
+.ob-brand-sub{font-size:8px;color:#8b949e}
+.p-step{background:#0d1117;border-radius:8px;padding:10px;margin-bottom:8px}
+.p-step-label{font-size:9px;color:#58a6ff;font-weight:600;letter-spacing:1px;margin-bottom:4px}
+.p-step-title{font-size:12px;font-weight:600;color:#e6edf3;margin-bottom:8px}
+.p-btn-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:4px}
+.p-btn{background:#21262d;border:1px solid #21262d;border-radius:6px;padding:6px 4px;text-align:center;font-size:9px;color:#8b949e}
+.p-btn.active{background:#0d2137;border-color:#58a6ff;color:#58a6ff}
+.p-slider-wrap{display:flex;flex-direction:column;gap:4px}
+.p-slider-labels{display:flex;justify-content:space-between;font-size:8px;color:#8b949e}
+.p-slider-val{font-size:18px;font-weight:700;color:#58a6ff;text-align:center}
+.p-slider-bar{background:#21262d;height:4px;border-radius:2px;position:relative;margin:4px 0}
+.p-slider-fill{position:absolute;left:0;top:0;width:50%;height:100%;background:#58a6ff;border-radius:2px}
+.p-slider-dot{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:10px;height:10px;background:#58a6ff;border-radius:50%}
+.p-device-list{display:flex;flex-direction:column;gap:4px}
+.p-device-item{display:flex;align-items:center;gap:6px;background:#21262d;border-radius:6px;padding:5px 8px}
+.p-device-check{width:8px;height:8px;border-radius:50%;background:#21262d;border:1px solid #484f58;flex-shrink:0}
+.p-device-check.on{background:#58a6ff;border-color:#58a6ff}
+.p-device-name{font-size:10px;font-weight:600;color:#e6edf3}
+.p-device-sub{font-size:8px;color:#8b949e}
+.p-cta{background:#58a6ff;color:#0d1117;border-radius:8px;padding:10px;text-align:center;font-size:11px;font-weight:700;margin-top:8px}
+.flow-steps{display:flex;flex-direction:column;gap:8px}
+.flow-step-item{display:flex;align-items:flex-start;gap:12px;background:#161b22;border:1px solid #21262d;border-radius:10px;padding:14px}
+.flow-step-num{width:28px;height:28px;border-radius:50%;background:#58a6ff;color:#0d1117;font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.flow-step-body h4{font-size:13px;font-weight:600;color:#e6edf3;margin-bottom:2px}
+.flow-step-body p{font-size:12px;color:#8b949e;margin:0}
+.ai-processing-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-bottom:24px}
+@media(max-width:640px){.ai-processing-grid{grid-template-columns:1fr}}
+.ai-processing-box{background:#161b22;border:1px solid #21262d;border-radius:12px;padding:20px}
+.ai-label{font-size:10px;letter-spacing:2px;color:#58a6ff;margin-bottom:8px}
+.ai-processing-title{font-size:14px;font-weight:600;color:#e6edf3;margin-bottom:12px}
+.ai-step{display:flex;align-items:center;gap:8px;margin-bottom:8px}
+.ai-step-check{color:#3fb950;font-size:12px}
+.ai-step-text{font-size:12px;color:#8b949e}
+.ai-badge{background:#21262d;color:#8b949e;border-radius:6px;padding:4px 10px;font-size:11px;margin-top:10px;display:inline-block}
+.result-box{background:#161b22;border:1px solid #21262d;border-radius:12px;padding:20px}
+.result-title{font-size:15px;font-weight:700;color:#e6edf3;margin-bottom:4px}
+.result-sub{font-size:12px;color:#8b949e;margin-bottom:14px}
+.routine-card{background:#0d1117;border:1px solid #21262d;border-radius:8px;padding:12px;margin-bottom:8px}
+.routine-stage{font-size:10px;font-weight:600;border-radius:4px;padding:2px 8px;display:inline-block;margin-bottom:6px}
+.stage-recovery{background:#0d2b1a;color:#3fb950}
+.stage-correction{background:#2b1f00;color:#d29922}
+.stage-exercise{background:#0d2137;color:#58a6ff}
+.routine-title{font-size:13px;font-weight:600;color:#e6edf3;margin-bottom:4px}
+.routine-desc{font-size:12px;color:#8b949e}
+.routine-link{font-size:12px;color:#58a6ff;margin-top:4px}
+.ai-prediction{background:#0d2137;border:1px solid #1d4ed8;border-radius:8px;padding:10px;margin-top:8px}
+.ai-pred-label{font-size:9px;letter-spacing:2px;color:#58a6ff;margin-bottom:4px}
+.ai-pred-value{font-size:13px;color:#e6edf3;font-weight:500}
+.features-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:24px}
+@media(max-width:640px){.features-grid{grid-template-columns:1fr}}
+.feature-card{background:#161b22;border:1px solid #21262d;border-radius:12px;padding:20px}
+.feature-icon{font-size:24px;margin-bottom:10px}
+.feature-title{font-size:14px;font-weight:600;color:#e6edf3;margin-bottom:6px}
+.feature-desc{font-size:13px;color:#8b949e;line-height:1.6}
+.value-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-bottom:24px}
+@media(max-width:640px){.value-grid{grid-template-columns:1fr}}
+.value-card{background:#161b22;border:1px solid #21262d;border-radius:12px;padding:20px}
+.value-num{font-size:32px;font-weight:700;color:#58a6ff;margin-bottom:6px}
+.value-label{font-size:13px;font-weight:600;color:#e6edf3;margin-bottom:8px}
+.value-desc{font-size:13px;color:#8b949e;line-height:1.6}
+.source-link{display:inline-block;background:#21262d;color:#58a6ff;border-radius:8px;padding:10px 16px;font-size:13px;margin-top:8px}
+.source-link:hover{background:#30363d;text-decoration:none}
+footer{text-align:center;padding:24px;font-size:12px;color:#484f58;border-top:1px solid #21262d;margin-top:32px}
+</style>
+</head>
+<body>
+
+<nav class="tab-nav">
+  <button class="tab-btn active" onclick="showTab(1,this)">앱 스펙</button>
+  <button class="tab-btn" onclick="showTab(2,this)">마일스톤</button>
+  <button class="tab-btn" onclick="showTab(3,this)">앱 데모</button>
+</nav>
+
+<!-- ==================== TAB 1: 앱 스펙 ==================== -->
+<div id="tab-1" class="tab-pane active">
+<div class="page">
+  <div class="hero">
+    <div class="hero-label">KINEMEDICAL · APP PLAN</div>
+    <h1>키네메디칼 앱 기획서 &amp; 마일스톤</h1>
+    <p>기기를 팔고 끝나는 게 아니라, 매일 쓰게 만드는 데이터 플랫폼</p>
+    <div class="hero-badges">
+      <span class="hero-badge">회복 OS</span>
+      <span class="hero-badge">목 → 전신 → 한국 → 미국</span>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">PRODUCT VISION</div>
+    <div class="grid-2">
+      <div class="vision-card"><div class="vision-icon">🎯</div><h3>단 하나의 가치</h3><p>구매자의 80%가 기기를 방치한다. 앱은 그 80%를 매일 쓰게 만드는 유일한 수단.</p></div>
+      <div class="vision-card"><div class="vision-icon">🧠</div><h3>AI 해자</h3><p>사용할수록 내 몸을 아는 AI. 3개월 데이터가 쌓이면 어떤 경쟁사도 복제할 수 없는 개인화.</p></div>
+      <div class="vision-card"><div class="vision-icon">📊</div><h3>데이터가 곧 자산</h3><p>통증 추이 + 루틴 완료율 데이터는 병원 B2B, 보험사, 신제품 개발의 근거가 된다.</p></div>
+      <div class="vision-card"><div class="vision-icon">🔄</div><h3>이탈 방지 엔진</h3><p>3일 연속 미사용 → 자동 넛지. 통증 증가 감지 → 루틴 재조정. 이탈률 70% → 30%.</p></div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">CORE LOOP</div>
+    <div class="loop-container">
+      <div class="loop-step"><div class="step-icon">😣</div><div class="step-num">STEP 1</div><div class="step-title">통증 체크인</div><div class="step-desc">오늘 통증 점수<br>1~10 입력</div></div>
+      <div class="loop-arrow">→</div>
+      <div class="loop-step"><div class="step-icon">🤖</div><div class="step-num">STEP 2</div><div class="step-title">AI 루틴 생성</div><div class="step-desc">보유 기기 +<br>통증에 맞춤 생성</div></div>
+      <div class="loop-arrow">→</div>
+      <div class="loop-step"><div class="step-icon">▶️</div><div class="step-num">STEP 3</div><div class="step-title">루틴 실행</div><div class="step-desc">기기 사용 +<br>1분도수 영상</div></div>
+      <div class="loop-arrow">→</div>
+      <div class="loop-step"><div class="step-icon">✅</div><div class="step-num">STEP 4</div><div class="step-title">완료 기록</div><div class="step-desc">루틴 완료 체크<br>+ 사후 통증 점수</div></div>
+      <div class="loop-arrow">→</div>
+      <div class="loop-step"><div class="step-icon">📈</div><div class="step-num">STEP 5</div><div class="step-title">회복 추이 확인</div><div class="step-desc">통증 그래프<br>주간 리포트</div></div>
+    </div>
+    <div class="loop-return">↩️ 매일 반복 — 데이터가 쌓일수록 AI 정확도 상승</div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">SCREEN ARCHITECTURE (MVP)</div>
+    <div class="screen-grid">
+      <div class="screen-card">
+        <div class="screen-header">온보딩</div>
+        <div class="screen-item">카카오 로그인</div>
+        <div class="screen-item">통증 부위 선택</div>
+        <div class="screen-item">보유 기기 선택</div>
+        <div class="screen-item">목표 설정</div>
+      </div>
+      <div class="screen-card">
+        <div class="screen-header">홈</div>
+        <div class="screen-item">오늘 통증 체크인</div>
+        <div class="screen-item">AI 루틴 카드</div>
+        <div class="screen-item">연속 수행 스트릭</div>
+        <div class="screen-item phase2">회복 예측 배지</div>
+      </div>
+      <div class="screen-card">
+        <div class="screen-header">루틴 실행</div>
+        <div class="screen-item">단계별 타이머</div>
+        <div class="screen-item">1분도수 영상</div>
+        <div class="screen-item">기기 설정 가이드</div>
+        <div class="screen-item">완료 체크</div>
+      </div>
+      <div class="screen-card">
+        <div class="screen-header">리포트</div>
+        <div class="screen-item">통증 추이 그래프</div>
+        <div class="screen-item">주간 완료율</div>
+        <div class="screen-item phase2">AI 인사이트</div>
+        <div class="screen-item phase2">월간 리포트</div>
+      </div>
+    </div>
+    <div class="screen-hint">흐린 항목 = Phase 2 이후</div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">DATABASE DESIGN</div>
+    <div class="db-grid">
+      <div class="db-table-card">
+        <div class="db-table-header">USERS</div>
+        <div class="db-field"><span class="db-field-name">id</span><span class="db-field-type">uuid <span class="badge-pk">PK</span></span></div>
+        <div class="db-field"><span class="db-field-name">kakao_id</span><span class="db-field-type">text</span></div>
+        <div class="db-field"><span class="db-field-name">name</span><span class="db-field-type">text</span></div>
+        <div class="db-field"><span class="db-field-name">pain_area</span><span class="db-field-type">text[]</span></div>
+        <div class="db-field"><span class="db-field-name">devices</span><span class="db-field-type">text[]</span></div>
+        <div class="db-field"><span class="db-field-name">push_token</span><span class="db-field-type">text</span></div>
+        <div class="db-field"><span class="db-field-name">created_at</span><span class="db-field-type">timestamptz</span></div>
+      </div>
+      <div class="db-table-card">
+        <div class="db-table-header">PAIN_LOGS</div>
+        <div class="db-field"><span class="db-field-name">id</span><span class="db-field-type">uuid <span class="badge-pk">PK</span></span></div>
+        <div class="db-field"><span class="db-field-name">user_id</span><span class="db-field-type">uuid <span class="badge-fk">FK</span></span></div>
+        <div class="db-field"><span class="db-field-name">pain_score</span><span class="db-field-type">int (1-10)</span></div>
+        <div class="db-field"><span class="db-field-name">pain_area</span><span class="db-field-type">text</span></div>
+        <div class="db-field"><span class="db-field-name">note</span><span class="db-field-type">text</span></div>
+        <div class="db-field"><span class="db-field-name">logged_at</span><span class="db-field-type">timestamptz</span></div>
+      </div>
+      <div class="db-table-card">
+        <div class="db-table-header">ROUTINES</div>
+        <div class="db-field"><span class="db-field-name">id</span><span class="db-field-type">uuid <span class="badge-pk">PK</span></span></div>
+        <div class="db-field"><span class="db-field-name">user_id</span><span class="db-field-type">uuid <span class="badge-fk">FK</span></span></div>
+        <div class="db-field"><span class="db-field-name">pain_score</span><span class="db-field-type">int</span></div>
+        <div class="db-field"><span class="db-field-name">devices_used</span><span class="db-field-type">text[]</span></div>
+        <div class="db-field"><span class="db-field-name">steps</span><span class="db-field-type">jsonb</span></div>
+        <div class="db-field"><span class="db-field-name">generated_by</span><span class="db-field-type">text</span></div>
+        <div class="db-field"><span class="db-field-name">created_at</span><span class="db-field-type">timestamptz</span></div>
+      </div>
+      <div class="db-table-card">
+        <div class="db-table-header">ROUTINE_LOGS</div>
+        <div class="db-field"><span class="db-field-name">id</span><span class="db-field-type">uuid <span class="badge-pk">PK</span></span></div>
+        <div class="db-field"><span class="db-field-name">user_id</span><span class="db-field-type">uuid <span class="badge-fk">FK</span></span></div>
+        <div class="db-field"><span class="db-field-name">routine_id</span><span class="db-field-type">uuid <span class="badge-fk">FK</span></span></div>
+        <div class="db-field"><span class="db-field-name">completed</span><span class="db-field-type">bool</span></div>
+        <div class="db-field"><span class="db-field-name">duration_sec</span><span class="db-field-type">int</span></div>
+        <div class="db-field"><span class="db-field-name">after_pain</span><span class="db-field-type">int</span></div>
+        <div class="db-field"><span class="db-field-name">completed_at</span><span class="db-field-type">timestamptz</span></div>
+      </div>
+      <div class="db-table-card">
+        <div class="db-table-header">AI_INSIGHTS</div>
+        <div class="db-field"><span class="db-field-name">id</span><span class="db-field-type">uuid <span class="badge-pk">PK</span></span></div>
+        <div class="db-field"><span class="db-field-name">user_id</span><span class="db-field-type">uuid <span class="badge-fk">FK</span></span></div>
+        <div class="db-field"><span class="db-field-name">insight_type</span><span class="db-field-type">text</span></div>
+        <div class="db-field"><span class="db-field-name">content</span><span class="db-field-type">text</span></div>
+        <div class="db-field"><span class="db-field-name">prediction</span><span class="db-field-type">float</span></div>
+        <div class="db-field"><span class="db-field-name">created_at</span><span class="db-field-type">timestamptz</span></div>
+      </div>
+      <div class="db-table-card">
+        <div class="db-table-header">NUDGES</div>
+        <div class="db-field"><span class="db-field-name">id</span><span class="db-field-type">uuid <span class="badge-pk">PK</span></span></div>
+        <div class="db-field"><span class="db-field-name">user_id</span><span class="db-field-type">uuid <span class="badge-fk">FK</span></span></div>
+        <div class="db-field"><span class="db-field-name">trigger_type</span><span class="db-field-type">text</span></div>
+        <div class="db-field"><span class="db-field-name">channel</span><span class="db-field-type">push/sms</span></div>
+        <div class="db-field"><span class="db-field-name">sent_at</span><span class="db-field-type">timestamptz</span></div>
+        <div class="db-field"><span class="db-field-name">opened</span><span class="db-field-type">bool</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">TECH STACK</div>
+    <div class="tech-grid">
+      <div class="tech-card"><div class="tech-icon">📱</div><div class="tech-title">Mobile App</div><span class="tech-tag">React Native</span><span class="tech-tag">Expo SDK 55</span><span class="tech-tag">expo-router</span><span class="tech-tag">Reanimated 4</span></div>
+      <div class="tech-card"><div class="tech-icon">🗄️</div><div class="tech-title">Backend / DB</div><span class="tech-tag">Supabase</span><span class="tech-tag">PostgreSQL</span><span class="tech-tag">Row Level Security</span><span class="tech-tag">Edge Functions</span></div>
+      <div class="tech-card"><div class="tech-icon">🤖</div><div class="tech-title">AI / ML</div><span class="tech-tag">GPT-4o</span><span class="tech-tag">Rule Engine (MVP)</span><span class="tech-tag">Python ML (P2)</span><span class="tech-tag">3-tier LLM Routing</span></div>
+      <div class="tech-card"><div class="tech-icon">🔔</div><div class="tech-title">Push / CRM</div><span class="tech-tag">expo-notifications</span><span class="tech-tag">Datarize</span><span class="tech-tag">카카오 알림톡</span><span class="tech-tag">SMS 자동화</span></div>
+      <div class="tech-card"><div class="tech-icon">📊</div><div class="tech-title">Analytics</div><span class="tech-tag">Mixpanel</span><span class="tech-tag">Supabase Analytics</span><span class="tech-tag">Custom Dashboard</span></div>
+      <div class="tech-card"><div class="tech-icon">🚀</div><div class="tech-title">Deploy</div><span class="tech-tag">EAS Build</span><span class="tech-tag">Vercel (Web)</span><span class="tech-tag">App Store</span><span class="tech-tag">Google Play</span></div>
+    </div>
+  </div>
+</div>
+<footer>키네메디칼 앱 기획서 · tenex-reports</footer>
+</div>
+
+<!-- ==================== TAB 2: 마일스톤 ==================== -->
+<div id="tab-2" class="tab-pane">
+<div class="page">
+  <div class="hero">
+    <div class="hero-label">KINEMEDICAL · MILESTONE</div>
+    <h1>개발 로드맵 &amp; 성과 지표</h1>
+    <p>Phase 1 MVP부터 글로벌 확장까지</p>
+  </div>
+
+  <div class="section">
+    <div class="section-title">DEVELOPMENT ROADMAP</div>
+    <div class="roadmap">
+      <div class="phase-card phase-1">
+        <div class="phase-header"><div class="phase-label">PHASE 1 · MVP</div><div class="phase-name">Core Loop</div></div>
+        <div class="phase-body">
+          <div class="phase-item">카카오 로그인</div>
+          <div class="phase-item">통증 부위 온보딩</div>
+          <div class="phase-item">보유 기기 선택</div>
+          <div class="phase-item">오늘 통증 체크인</div>
+          <div class="phase-item">AI 루틴 생성 (Rule-based)</div>
+          <div class="phase-item">루틴 단계별 실행</div>
+          <div class="phase-item">1분도수 유튜브 연동</div>
+          <div class="phase-item">완료 로그 저장</div>
+          <div class="phase-item">푸시 알림</div>
+          <div class="phase-kpi"><div class="phase-kpi-item"><strong>100명</strong> 베타 사용자</div><div class="phase-kpi-item"><strong>40%</strong> 7일 리텐션</div><div class="phase-kpi-item">CS-25 구매자 첫 타겟</div></div>
+        </div>
+      </div>
+      <div class="phase-card phase-2">
+        <div class="phase-header"><div class="phase-label">PHASE 2 · ML</div><div class="phase-name">Personalization</div></div>
+        <div class="phase-body">
+          <div class="phase-item">통증 추이 그래프</div>
+          <div class="phase-item">AI 루틴 개인화 (ML)</div>
+          <div class="phase-item">이탈 예측 모델</div>
+          <div class="phase-item">회복 예측 리포트</div>
+          <div class="phase-item">주간/월간 인사이트</div>
+          <div class="phase-item">맞춤형 넛지 메시지</div>
+          <div class="phase-item">루틴 난이도 자동 조절</div>
+          <div class="phase-item">스트릭 &amp; 뱃지 시스템</div>
+          <div class="phase-kpi"><div class="phase-kpi-item"><strong>1,000명</strong> MAU</div><div class="phase-kpi-item"><strong>60%</strong> 30일 리텐션</div><div class="phase-kpi-item">3개월 ML 학습 데이터</div></div>
+        </div>
+      </div>
+      <div class="phase-card phase-3">
+        <div class="phase-header"><div class="phase-label">PHASE 3 · B2B</div><div class="phase-name">Hospital Connect</div></div>
+        <div class="phase-body">
+          <div class="phase-item">의사/치료사 대시보드</div>
+          <div class="phase-item">환자 회복 모니터링</div>
+          <div class="phase-item">병원 리포트 출력</div>
+          <div class="phase-item">다기기 관리 (전신 확장)</div>
+          <div class="phase-item">그룹 챌린지</div>
+          <div class="phase-item">RAG 기반 Q&amp;A</div>
+          <div class="phase-item">보험사 연동 API</div>
+          <div class="phase-kpi"><div class="phase-kpi-item"><strong>10,000명</strong> MAU</div><div class="phase-kpi-item"><strong>50개</strong> 제휴 병원</div><div class="phase-kpi-item">Pre-A 투자 라운드</div></div>
+        </div>
+      </div>
+      <div class="phase-card phase-4">
+        <div class="phase-header"><div class="phase-label">PHASE 4 · GLOBAL</div><div class="phase-name">US Expansion</div></div>
+        <div class="phase-body">
+          <div class="phase-item">영어 현지화</div>
+          <div class="phase-item">FDA SaMD 준비</div>
+          <div class="phase-item">미국 EMR 연동</div>
+          <div class="phase-item">구독 모델 (SaaS)</div>
+          <div class="phase-item">커뮤니티 기능</div>
+          <div class="phase-item">멀티 언어 AI</div>
+          <div class="phase-kpi"><div class="phase-kpi-item"><strong>100K</strong> 글로벌 MAU</div><div class="phase-kpi-item">Series A 투자 목표</div><div class="phase-kpi-item"><strong>2,000억+</strong> 기업가치</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">SUCCESS METRICS</div>
+    <div class="kpi-grid">
+      <div class="kpi-card"><span class="kpi-value">100명</span><span class="kpi-label">베타 사용자</span><div class="kpi-phase">Phase 1 클리어</div></div>
+      <div class="kpi-card"><span class="kpi-value">40%</span><span class="kpi-label">7일 리텐션</span><div class="kpi-phase">Phase 1 클리어</div></div>
+      <div class="kpi-card"><span class="kpi-value">1,000명</span><span class="kpi-label">MAU</span><div class="kpi-phase">Phase 2 클리어</div></div>
+      <div class="kpi-card"><span class="kpi-value">60%</span><span class="kpi-label">30일 리텐션</span><div class="kpi-phase">Phase 2 클리어</div></div>
+      <div class="kpi-card"><span class="kpi-value">10,000명</span><span class="kpi-label">MAU</span><div class="kpi-phase">Phase 3 클리어</div></div>
+      <div class="kpi-card"><span class="kpi-value">50개</span><span class="kpi-label">제휴 병원</span><div class="kpi-phase">Phase 3 클리어</div></div>
+      <div class="kpi-card"><span class="kpi-value">100K</span><span class="kpi-label">글로벌 MAU</span><div class="kpi-phase">Phase 4 목표</div></div>
+      <div class="kpi-card"><span class="kpi-value">2,000억</span><span class="kpi-label">기업가치</span><div class="kpi-phase">최종 목표</div></div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="final-vision">
+      <h2>집이 병원이 되는 날까지</h2>
+      <p>키네메디칼 앱은 단순한 헬스케어 앱이 아니다.<br>기기 + AI + 콘텐츠를 하나로 연결하는 회복 OS다.<br>목에서 시작해, 전신으로. 한국에서 시작해, 미국으로.</p>
+      <div class="final-kpi-grid">
+        <div><div class="final-kpi-val">100만명</div><div class="final-kpi-label">회복 데이터 축적</div></div>
+        <div><div class="final-kpi-val">4단계</div><div class="final-kpi-label">운동-회복-교정-고정</div></div>
+        <div><div class="final-kpi-val">1조+</div><div class="final-kpi-label">기업가치 목표</div></div>
+      </div>
+    </div>
+  </div>
+</div>
+<footer>키네메디칼 앱 마일스톤 · tenex-reports</footer>
+</div>
+
+<!-- ==================== TAB 3: 앱 데모 ==================== -->
+<div id="tab-3" class="tab-pane">
+<div class="page">
+  <div class="hero">
+    <div class="hero-label">KINEMEDICAL · APP DEMO</div>
+    <h1>KINEMEDICAL AI 회복 코치 데모</h1>
+    <p>통증 부위 선택 → AI 루틴 생성 → 회복까지, 실제 앱 UX 프로토타입</p>
+    <div class="hero-badges">
+      <span class="hero-badge">React Native · Expo</span>
+      <span class="hero-badge">RAG + ML Pipeline</span>
+      <span class="hero-badge">GPT-4 Powered</span>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">APP DEMO · UX FLOW</div>
+    <div class="demo-showcase">
+      <div class="ob-device">
+        <div class="ob-device-top">
+          <div class="ob-brand"><span>KINE</span>MEDICAL</div>
+          <div class="ob-brand-sub">AI RECOVERY COACH</div>
+        </div>
+        <div class="p-step">
+          <div class="p-step-label">STEP 1</div>
+          <div class="p-step-title">어디가 아프세요?</div>
+          <div class="p-btn-grid">
+            <div class="p-btn active">🦴<br>목</div>
+            <div class="p-btn">💪<br>어깨</div>
+            <div class="p-btn">🔙<br>허리</div>
+            <div class="p-btn">🤚<br>손목</div>
+          </div>
+        </div>
+        <div class="p-step">
+          <div class="p-step-label">STEP 2</div>
+          <div class="p-step-title">통증 강도</div>
+          <div class="p-slider-wrap">
+            <div class="p-slider-labels"><span>약한 통증</span><span>심한 통증</span></div>
+            <div class="p-slider-val">5 <span style="font-size:10px;color:#484f58">/ 10</span></div>
+            <div class="p-slider-bar"><div class="p-slider-fill"></div><div class="p-slider-dot"></div></div>
+          </div>
+        </div>
+        <div class="p-step">
+          <div class="p-step-label">STEP 3</div>
+          <div class="p-step-title">보유 기기</div>
+          <div class="p-device-list">
+            <div class="p-device-item"><div class="p-device-check on"></div><div><div class="p-device-name">CS-25</div><div class="p-device-sub">자동 경추 마사지기</div></div></div>
+            <div class="p-device-item"><div class="p-device-check on"></div><div><div class="p-device-name">ES-808</div><div class="p-device-sub">타겟형 저주파 마사지기</div></div></div>
+            <div class="p-device-item"><div class="p-device-check"></div><div><div class="p-device-name">WS-200</div><div class="p-device-sub">밀착형 근적외선 찜질기</div></div></div>
+          </div>
+        </div>
+        <div class="p-cta">AI 회복 루틴 생성하기</div>
+      </div>
+      <div>
+        <h3 style="color:#e6edf3;font-size:16px;margin-bottom:8px">3단계 입력 → AI 즉시 루틴 생성</h3>
+        <p>사용자가 통증 정보를 입력하면 RAG + ML 파이프라인이 최적 회복 루틴을 실시간으로 조합한다. 기기 조합과 통증 강도에 따라 완전히 다른 루틴이 생성된다.</p>
+        <div class="flow-steps">
+          <div class="flow-step-item"><div class="flow-step-num">1</div><div class="flow-step-body"><h4>통증 부위 선택</h4><p>목 / 어깨 / 허리 / 손목 — 부위별 전용 루틴 DB에서 매핑</p></div></div>
+          <div class="flow-step-item"><div class="flow-step-num">2</div><div class="flow-step-body"><h4>통증 강도 슬라이더 (1~10)</h4><p>강도에 따라 기기 세기, 사용 시간, 운동 난이도 자동 조절</p></div></div>
+          <div class="flow-step-item"><div class="flow-step-num">3</div><div class="flow-step-body"><h4>보유 기기 선택</h4><p>CS-25 / ES-808 / WS-200 — 보유 기기 조합에 맞게 루틴 최적화</p></div></div>
+          <div class="flow-step-item"><div class="flow-step-num">4</div><div class="flow-step-body"><h4>AI 루틴 생성 → 즉시 결과</h4><p>전문가 콘텐츠 200건 RAG 검색 + 통증 패턴 분석 → 맞춤 3단계 루틴 + AI 예측</p></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">AI PROCESSING &amp; RESULT</div>
+    <div class="ai-processing-grid">
+      <div class="ai-processing-box">
+        <p style="font-size:12px;color:#484f58;margin-bottom:12px">루틴 생성 클릭 후 실시간 AI 분석 화면</p>
+        <div class="ai-label">AI PROCESSING</div>
+        <div class="ai-processing-title">AI가 최적 루틴을 분석하고 있습니다</div>
+        <div class="ai-step"><span class="ai-step-check">✓</span><span class="ai-step-text">전문가 콘텐츠 200건 검색 중...</span></div>
+        <div class="ai-step"><span class="ai-step-check">✓</span><span class="ai-step-text">통증 패턴 분석 중...</span></div>
+        <div class="ai-badge">RAG + ML Pipeline powered by GPT-4</div>
+      </div>
+      <div class="result-box">
+        <p style="font-size:12px;color:#484f58;margin-bottom:12px">목 | 통증 강도 5/10 기준 생성 결과</p>
+        <div class="result-title">오늘의 회복 루틴</div>
+        <div class="result-sub">목 | 통증 강도 5/10 기준 맞춤 루틴</div>
+        <div class="routine-card"><span class="routine-stage stage-recovery">회복 단계</span><div class="routine-title">ES-808 저주파 자극 15분</div><div class="routine-desc">목 중심부 및 승모근 상부에 집중 자극<br>강도: 통증 레벨 기반 자동 조절</div></div>
+        <div class="routine-card"><span class="routine-stage stage-correction">교정 단계</span><div class="routine-title">CS-25 경추 견인 20분</div><div class="routine-desc">견인 강도 3단계 (체중 대비 12%)<br>디스크 간격 확보 및 신경 감압</div></div>
+        <div class="routine-card"><span class="routine-stage stage-exercise">운동 단계</span><div class="routine-title">1분도수 "목 스트레칭 루틴"</div><div class="routine-desc">전문 물리치료사 감수 영상 가이드</div><div class="routine-link">1분도수 유튜브 채널 바로가기 →</div></div>
+        <div class="ai-prediction"><div class="ai-pred-label">AI PREDICTION</div><div class="ai-pred-value">2일 연속 수행 시 통증 30% 감소 예상</div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">KEY FEATURES</div>
+    <div class="features-grid">
+      <div class="feature-card"><div class="feature-icon">🎯</div><div class="feature-title">보유 기기 맞춤 루틴</div><div class="feature-desc">CS-25 / ES-808 / WS-200 조합에 따라 완전히 다른 루틴 생성. 없는 기기는 제외하고 최적 조합으로.</div></div>
+      <div class="feature-card"><div class="feature-icon">📊</div><div class="feature-title">통증 강도 반응형 강도 조절</div><div class="feature-desc">슬라이더 값에 따라 기기 세기, 사용 시간, 운동 난이도 자동 조정. 통증이 심할수록 회복 → 교정 비중 증가.</div></div>
+      <div class="feature-card"><div class="feature-icon">🤖</div><div class="feature-title">RAG 기반 전문가 콘텐츠</div><div class="feature-desc">1분도수 영상 200건+ DB에서 통증 부위에 맞는 영상 자동 매핑. 물리치료사 감수 콘텐츠만 사용.</div></div>
+      <div class="feature-card"><div class="feature-icon">📈</div><div class="feature-title">AI 회복 예측</div><div class="feature-desc">루틴 수행 시 통증 감소 예상치 제공. 지속 동기 부여 및 이탈 방지 효과.</div></div>
+      <div class="feature-card"><div class="feature-icon">🔄</div><div class="feature-title">전신 확장 구조</div><div class="feature-desc">목 → 어깨 → 허리 → 손목. Phase 2에서 전신 루틴으로 확장. 기존 데이터 그대로 활용.</div></div>
+      <div class="feature-card"><div class="feature-icon">💡</div><div class="feature-title">운동-회복-교정 3단계 루틴</div><div class="feature-desc">키네메디칼 4단계 솔루션(운동-회복-교정-고정)을 앱으로 구현. 기기별 역할을 루틴 안에 자연스럽게 녹임.</div></div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">VALUE PROPOSITION</div>
+    <div class="value-grid">
+      <div class="value-card"><div class="value-num">80%</div><div class="value-label">기기 방치율 (해결 대상)</div><div class="value-desc">구매자 10명 중 8명이 기기를 방치한다. 앱은 이 80%를 매일 쓰게 만드는 유일한 수단. 방치 = 재구매 없음 = 성장 한계.</div></div>
+      <div class="value-card"><div class="value-num">30%</div><div class="value-label">2일 연속 수행 시 통증 감소 예측</div><div class="value-desc">AI가 생성하는 즉각적인 피드백. "2일만 하면 30% 줄어든다"는 메시지가 이탈률을 낮추고 루틴 지속을 유도.</div></div>
+      <div class="value-card"><div class="value-num">3개월</div><div class="value-label">ML 경쟁 해자 형성 시점</div><div class="value-desc">3개월치 개인 데이터가 쌓이면 경쟁사가 복제 불가능한 개인화 수준 달성. 데이터 = 진입장벽 = 기업가치.</div></div>
+      <div class="value-card"><div class="value-num">200건</div><div class="value-label">RAG 기반 전문가 콘텐츠 DB</div><div class="value-desc">1분도수 채널 영상 200건+를 AI가 실시간 검색해 루틴에 삽입. 콘텐츠 채널이 앱의 핵심 경쟁력으로 전환.</div></div>
+    </div>
+    <a href="https://tenex-app-demo.vercel.app/" class="source-link" target="_blank">🔗 라이브 데모: tenex-app-demo.vercel.app</a>
+  </div>
+</div>
+<footer>키네메디칼 AI 회복 코치 데모 · tenex-reports</footer>
+</div>
+
+<script>
+function showTab(n, btn) {
+  document.querySelectorAll('.tab-pane').forEach(function(el){ el.classList.remove('active'); });
+  document.querySelectorAll('.tab-btn').forEach(function(el){ el.classList.remove('active'); });
+  document.getElementById('tab-' + n).classList.add('active');
+  btn.classList.add('active');
+}
+</script>
+</body>
+</html>

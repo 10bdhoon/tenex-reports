@@ -1,0 +1,1203 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KINEMEDICAL — 키네메디칼 리디자인 시안</title>
+<style>
+:root {
+  --navy: #002855;
+  --navy-mid: #003a7a;
+  --navy-light: #004a99;
+  --gray-100: #f7f8fa;
+  --gray-200: #eef0f3;
+  --gray-300: #d8dce2;
+  --gray-500: #8a909c;
+  --gray-700: #444c5c;
+  --dark: #111827;
+  --white: #ffffff;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: -apple-system, 'Apple SD Gothic Neo', 'Noto Sans KR', 'Helvetica Neue', sans-serif;
+  color: var(--dark);
+  background: var(--white);
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ─── PROTO NOTICE ─── */
+.proto-bar {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 2000;
+  background: #f0c040; color: #333;
+  text-align: center; padding: 9px 16px;
+  font-size: 12px; font-weight: 600; letter-spacing: 0.5px;
+}
+
+/* ─── HEADER ─── */
+header {
+  position: fixed; top: 36px; left: 0; right: 0; z-index: 1000;
+  background: rgba(255,255,255,0.97);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid var(--gray-200);
+  height: 68px;
+}
+.header-wrap {
+  max-width: 1360px; margin: 0 auto;
+  height: 100%; padding: 0 48px;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.logo {
+  display: flex; align-items: center; gap: 10px;
+  cursor: pointer; text-decoration: none;
+}
+.logo-mark {
+  width: 36px; height: 36px;
+  background: var(--navy);
+  display: flex; align-items: center; justify-content: center;
+  color: white; font-size: 14px; font-weight: 900;
+  letter-spacing: -0.5px;
+}
+.logo-type {
+  font-size: 14px; font-weight: 700;
+  color: var(--navy); letter-spacing: 2px;
+  text-transform: uppercase;
+}
+nav { display: flex; }
+nav button {
+  background: none; border: none;
+  padding: 0 22px; height: 68px;
+  font-size: 13px; font-weight: 500;
+  color: var(--gray-700); cursor: pointer;
+  position: relative; letter-spacing: 0.3px;
+  transition: color 0.15s;
+}
+nav button:hover { color: var(--navy); }
+nav button.active { color: var(--navy); font-weight: 700; }
+nav button.active::after {
+  content: ''; position: absolute;
+  bottom: 0; left: 22px; right: 22px;
+  height: 2px; background: var(--navy);
+}
+.header-actions { display: flex; align-items: center; gap: 12px; }
+.btn-store {
+  background: var(--navy); color: white;
+  border: none; cursor: pointer;
+  padding: 10px 22px;
+  font-size: 12px; font-weight: 700;
+  letter-spacing: 1px; text-transform: uppercase;
+  transition: background 0.15s; text-decoration: none;
+}
+.btn-store:hover { background: var(--navy-mid); }
+
+/* ─── LAYOUT ─── */
+main { padding-top: 104px; }
+.page { display: none; animation: fadeIn 0.25s ease; }
+.page.active { display: block; }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; } }
+
+.container { max-width: 1360px; margin: 0 auto; padding: 0 48px; }
+.section { padding: 96px 0; }
+.section-sm { padding: 64px 0; }
+
+.eyebrow {
+  font-size: 11px; font-weight: 700;
+  letter-spacing: 2.5px; text-transform: uppercase;
+  color: var(--navy); margin-bottom: 14px;
+}
+.eyebrow.light { color: rgba(255,255,255,0.5); }
+.heading-xl {
+  font-size: 52px; font-weight: 800;
+  line-height: 1.12; letter-spacing: -1px;
+  color: var(--dark);
+}
+.heading-xl.white { color: white; }
+.heading-lg {
+  font-size: 40px; font-weight: 800;
+  line-height: 1.2; letter-spacing: -0.5px;
+}
+.heading-md { font-size: 28px; font-weight: 700; line-height: 1.3; }
+.body-lg { font-size: 17px; color: var(--gray-500); line-height: 1.75; }
+.body-md { font-size: 15px; color: var(--gray-500); line-height: 1.7; }
+.body-sm { font-size: 13px; color: var(--gray-500); line-height: 1.65; }
+
+/* ─── BUTTONS ─── */
+.btn-primary {
+  display: inline-block; background: var(--navy); color: white;
+  padding: 14px 32px; font-size: 14px; font-weight: 700;
+  letter-spacing: 0.5px; border: none; cursor: pointer;
+  text-decoration: none; transition: background 0.15s;
+}
+.btn-primary:hover { background: var(--navy-mid); }
+.btn-ghost {
+  display: inline-block; background: transparent;
+  color: var(--navy); border: 1.5px solid var(--navy);
+  padding: 13px 30px; font-size: 14px; font-weight: 600;
+  cursor: pointer; text-decoration: none; transition: all 0.15s;
+}
+.btn-ghost:hover { background: var(--navy); color: white; }
+.btn-text {
+  display: inline-flex; align-items: center; gap: 8px;
+  font-size: 13px; font-weight: 600; color: var(--navy);
+  text-decoration: none; letter-spacing: 0.3px;
+  border-bottom: 1px solid currentColor; padding-bottom: 2px;
+  transition: opacity 0.15s;
+}
+.btn-text:hover { opacity: 0.7; }
+.btn-white {
+  display: inline-block; background: white; color: var(--navy);
+  padding: 14px 32px; font-size: 14px; font-weight: 700;
+  border: none; cursor: pointer; text-decoration: none;
+  transition: opacity 0.15s; letter-spacing: 0.5px;
+}
+.btn-white:hover { opacity: 0.9; }
+
+/* ─── HOME: HERO ─── */
+.hero {
+  background: var(--gray-100);
+  min-height: 600px;
+  display: flex; align-items: center;
+  position: relative; overflow: hidden;
+}
+.hero::before {
+  content: ''; position: absolute;
+  right: 0; top: 0; bottom: 0; width: 50%;
+  background: linear-gradient(to right, var(--gray-100), var(--gray-200));
+}
+.hero-wrap {
+  position: relative; z-index: 1;
+  display: grid; grid-template-columns: 1fr 1fr;
+  align-items: center; gap: 0;
+  max-width: 1360px; margin: 0 auto;
+  width: 100%; padding: 80px 48px;
+}
+.hero-text { padding-right: 48px; }
+.hero-tag {
+  display: inline-block;
+  font-size: 11px; font-weight: 700; letter-spacing: 2px;
+  text-transform: uppercase; color: var(--navy);
+  border: 1px solid var(--navy); padding: 5px 12px;
+  margin-bottom: 28px;
+}
+.hero-text h1 {
+  font-size: 60px; font-weight: 900;
+  line-height: 1.08; letter-spacing: -2px;
+  color: var(--dark); margin-bottom: 24px;
+}
+.hero-text h1 em {
+  font-style: normal; color: var(--navy);
+}
+.hero-text p {
+  font-size: 17px; color: var(--gray-500);
+  line-height: 1.7; margin-bottom: 40px;
+  max-width: 420px;
+}
+.hero-actions { display: flex; gap: 14px; align-items: center; }
+.hero-image {
+  position: relative; z-index: 1;
+  display: flex; justify-content: center; align-items: center;
+  padding: 40px;
+}
+.hero-image img {
+  max-height: 440px; max-width: 100%;
+  object-fit: contain;
+  filter: drop-shadow(0 24px 48px rgba(0,40,85,0.18));
+}
+
+/* ─── HOME: SOLUTION STEPS ─── */
+.steps-section { background: var(--white); }
+.steps-grid {
+  display: grid; grid-template-columns: repeat(4, 1fr);
+  gap: 0; border: 1px solid var(--gray-200);
+  margin-top: 56px;
+}
+.step-item {
+  padding: 40px 32px;
+  border-right: 1px solid var(--gray-200);
+  position: relative;
+}
+.step-item:last-child { border-right: none; }
+.step-num {
+  font-size: 11px; font-weight: 700; letter-spacing: 2px;
+  color: var(--navy); margin-bottom: 20px;
+  font-variant-numeric: tabular-nums;
+}
+.step-title {
+  font-size: 22px; font-weight: 800;
+  color: var(--dark); margin-bottom: 12px;
+  letter-spacing: -0.3px;
+}
+.step-desc {
+  font-size: 13px; color: var(--gray-500); line-height: 1.7;
+}
+.step-divider {
+  position: absolute; right: -1px; top: 40px; bottom: 40px;
+  width: 0; border-right: 1px solid var(--gray-200);
+}
+
+/* ─── HOME: TECH DARK ─── */
+.tech-dark { background: var(--dark); color: white; }
+.tech-dark-grid {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 96px; align-items: center;
+}
+.tech-dark .eyebrow { color: rgba(255,255,255,0.4); }
+.tech-dark .heading-lg { color: white; margin: 14px 0 24px; }
+.tech-dark .body-lg { color: rgba(255,255,255,0.6); margin-bottom: 48px; }
+.tech-specs { border-top: 1px solid rgba(255,255,255,0.1); }
+.tech-spec-row {
+  display: flex; justify-content: space-between;
+  align-items: baseline;
+  padding: 20px 0;
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+}
+.tech-spec-label { font-size: 13px; color: rgba(255,255,255,0.5); }
+.tech-spec-val {
+  font-size: 26px; font-weight: 800; color: white;
+  letter-spacing: -0.5px;
+}
+.tech-spec-unit { font-size: 13px; color: rgba(255,255,255,0.5); margin-left: 4px; }
+.tech-dark-img {
+  position: relative;
+  background: rgba(255,255,255,0.04);
+  padding: 60px;
+  display: flex; align-items: center; justify-content: center;
+  min-height: 480px;
+}
+.tech-dark-img img {
+  max-height: 380px; max-width: 100%;
+  object-fit: contain;
+  filter: brightness(1.05) drop-shadow(0 0 60px rgba(0,80,180,0.3));
+}
+
+/* ─── HOME: PRODUCTS ─── */
+.products-section { background: var(--gray-100); }
+.products-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr);
+  gap: 2px; margin-top: 56px;
+}
+.product-card {
+  background: white; cursor: pointer;
+  transition: box-shadow 0.2s;
+}
+.product-card:hover { box-shadow: 0 8px 40px rgba(0,40,85,0.12); z-index: 1; position: relative; }
+.product-img-wrap {
+  height: 280px; background: var(--gray-100);
+  display: flex; align-items: center; justify-content: center;
+  overflow: hidden; position: relative;
+}
+.product-img-wrap img {
+  max-height: 240px; max-width: 100%;
+  object-fit: contain; transition: transform 0.3s;
+}
+.product-card:hover .product-img-wrap img { transform: scale(1.03); }
+.product-series {
+  font-size: 10px; font-weight: 700; letter-spacing: 2px;
+  color: var(--navy); text-transform: uppercase;
+  position: absolute; top: 20px; left: 20px;
+  background: rgba(0,40,85,0.08); padding: 4px 10px;
+}
+.product-body { padding: 28px 28px 32px; }
+.product-model { font-size: 11px; color: var(--gray-500); letter-spacing: 1px; margin-bottom: 8px; }
+.product-name { font-size: 20px; font-weight: 700; color: var(--dark); margin-bottom: 12px; letter-spacing: -0.3px; }
+.product-desc { font-size: 13px; color: var(--gray-500); line-height: 1.65; margin-bottom: 20px; }
+
+/* ─── HOME: STATS ─── */
+.stats-section { background: var(--navy); color: white; }
+.stats-grid {
+  display: grid; grid-template-columns: repeat(4, 1fr);
+  border-left: 1px solid rgba(255,255,255,0.12);
+}
+.stat-item {
+  padding: 56px 40px;
+  border-right: 1px solid rgba(255,255,255,0.12);
+}
+.stat-num {
+  font-size: 48px; font-weight: 900;
+  color: white; letter-spacing: -2px;
+  line-height: 1; margin-bottom: 10px;
+}
+.stat-num sup { font-size: 24px; letter-spacing: 0; }
+.stat-label { font-size: 13px; color: rgba(255,255,255,0.55); letter-spacing: 0.3px; }
+
+/* ─── HOME: NEWS WIDGET ─── */
+.news-section { background: var(--white); }
+.news-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0; border: 1px solid var(--gray-200); margin-top: 56px; }
+.news-col { padding: 32px; border-right: 1px solid var(--gray-200); }
+.news-col:last-child { border-right: none; }
+.news-col-head {
+  display: flex; justify-content: space-between; align-items: baseline;
+  margin-bottom: 24px; padding-bottom: 16px;
+  border-bottom: 2px solid var(--navy);
+}
+.news-col-title { font-size: 13px; font-weight: 700; color: var(--dark); letter-spacing: 0.3px; }
+.news-more { font-size: 11px; color: var(--gray-500); cursor: pointer; }
+.news-item { padding: 14px 0; border-bottom: 1px solid var(--gray-200); }
+.news-item:last-child { border-bottom: none; }
+.news-item-title { font-size: 13px; color: var(--gray-700); line-height: 1.5; margin-bottom: 5px; }
+.news-item-date { font-size: 11px; color: var(--gray-300); }
+
+/* ─── HOME: B2B ─── */
+.b2b-section {
+  background: var(--gray-100);
+  border-top: 1px solid var(--gray-200);
+}
+.b2b-wrap {
+  display: flex; justify-content: space-between;
+  align-items: center; gap: 48px;
+}
+.b2b-text .heading-md { margin-bottom: 10px; }
+.b2b-text .body-md { max-width: 480px; }
+
+/* ─── FOOTER ─── */
+footer { background: var(--dark); color: white; padding: 72px 0 40px; }
+.footer-top {
+  display: grid; grid-template-columns: 280px 1fr 1fr;
+  gap: 64px; margin-bottom: 56px;
+}
+.footer-logo { display: flex; align-items: center; gap: 10px; margin-bottom: 24px; }
+.footer-logo-mark {
+  width: 32px; height: 32px; background: var(--navy);
+  display: flex; align-items: center; justify-content: center;
+  color: white; font-size: 13px; font-weight: 900;
+}
+.footer-logo-type { font-size: 13px; font-weight: 700; color: white; letter-spacing: 2px; }
+.footer-info { font-size: 12px; color: rgba(255,255,255,0.4); line-height: 2.2; }
+.footer-col-title { font-size: 11px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: rgba(255,255,255,0.35); margin-bottom: 20px; }
+.footer-links { display: flex; flex-direction: column; gap: 12px; }
+.footer-links button {
+  background: none; border: none; text-align: left; cursor: pointer;
+  font-size: 13px; color: rgba(255,255,255,0.6); padding: 0;
+  transition: color 0.15s;
+}
+.footer-links button:hover { color: white; }
+.footer-contact { font-size: 13px; color: rgba(255,255,255,0.6); line-height: 2.2; }
+.footer-bottom {
+  border-top: 1px solid rgba(255,255,255,0.08);
+  padding-top: 32px;
+  display: flex; justify-content: space-between; align-items: center;
+}
+.footer-bottom p { font-size: 11px; color: rgba(255,255,255,0.3); letter-spacing: 0.3px; }
+.footer-sns { display: flex; gap: 10px; }
+.sns-icon {
+  width: 32px; height: 32px;
+  border: 1px solid rgba(255,255,255,0.15);
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer; transition: border-color 0.15s;
+  font-size: 13px; color: rgba(255,255,255,0.5);
+}
+.sns-icon:hover { border-color: rgba(255,255,255,0.5); color: white; }
+
+/* ─── SUBPAGES ─── */
+.sub-hero { background: var(--navy); padding: 80px 0 72px; color: white; }
+.breadcrumb { font-size: 11px; color: rgba(255,255,255,0.4); letter-spacing: 1px; text-transform: uppercase; margin-bottom: 20px; }
+.sub-hero h1 {
+  font-size: 52px; font-weight: 900; letter-spacing: -1.5px;
+  color: white; margin-bottom: 16px; line-height: 1.1;
+}
+.sub-hero p { font-size: 16px; color: rgba(255,255,255,0.65); max-width: 560px; line-height: 1.7; }
+
+/* SOLUTION PAGE */
+.sol-item { padding: 96px 0; border-bottom: 1px solid var(--gray-200); }
+.sol-item:last-child { border-bottom: none; }
+.sol-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 96px; align-items: center; }
+.sol-grid.rev { direction: rtl; }
+.sol-grid.rev > * { direction: ltr; }
+.sol-img {
+  background: var(--gray-100);
+  display: flex; align-items: center; justify-content: center;
+  min-height: 480px; padding: 60px;
+}
+.sol-img img { max-height: 360px; max-width: 100%; object-fit: contain; }
+.sol-badge {
+  display: inline-block;
+  font-size: 10px; font-weight: 700; letter-spacing: 2px;
+  text-transform: uppercase; color: var(--navy);
+  border: 1px solid var(--navy); padding: 5px 12px;
+  margin-bottom: 24px;
+}
+.sol-text h2 { font-size: 38px; font-weight: 800; letter-spacing: -0.5px; margin-bottom: 20px; }
+.sol-text p { font-size: 15px; color: var(--gray-500); line-height: 1.8; margin-bottom: 16px; }
+.feature-list { list-style: none; margin: 28px 0 36px; display: flex; flex-direction: column; gap: 14px; }
+.feature-list li {
+  display: flex; gap: 12px; align-items: flex-start;
+  font-size: 14px; color: var(--gray-700); line-height: 1.5;
+}
+.feature-list li::before {
+  content: '—'; color: var(--navy); font-weight: 700;
+  flex-shrink: 0; margin-top: 1px;
+}
+
+/* TECHNOLOGY PAGE */
+.what-is { background: var(--gray-100); padding: 80px 0; }
+.what-is-inner {
+  border-left: 3px solid var(--navy); padding-left: 40px;
+  max-width: 800px;
+}
+.what-is-inner h2 { font-size: 36px; font-weight: 800; letter-spacing: -0.5px; color: var(--navy); margin-bottom: 20px; }
+.what-is-inner p { font-size: 16px; color: var(--gray-700); line-height: 1.85; }
+.tech-feature-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0; border: 1px solid var(--gray-200); margin-top: 56px; }
+.tech-feat {
+  padding: 40px 36px; border-right: 1px solid var(--gray-200);
+}
+.tech-feat:last-child { border-right: none; }
+.tech-feat-num { font-size: 11px; font-weight: 700; letter-spacing: 2px; color: var(--navy); margin-bottom: 20px; }
+.tech-feat h3 { font-size: 18px; font-weight: 700; margin-bottom: 12px; letter-spacing: -0.2px; }
+.tech-feat p { font-size: 13px; color: var(--gray-500); line-height: 1.7; }
+.tech-two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; margin-top: 56px; }
+.tech-block {
+  padding: 56px 48px; background: var(--dark); color: white;
+}
+.tech-block.light { background: var(--gray-100); }
+.tech-block h3 { font-size: 22px; font-weight: 800; margin-bottom: 16px; letter-spacing: -0.3px; }
+.tech-block h3.dark-text { color: var(--dark); }
+.tech-block p { font-size: 14px; line-height: 1.8; color: rgba(255,255,255,0.65); }
+.tech-block p.dark-text { color: var(--gray-700); }
+.tech-block .stat-row { display: flex; gap: 32px; margin-top: 32px; }
+.tech-block .stat-item-sm { text-align: center; }
+.tech-block .stat-item-sm .n { font-size: 30px; font-weight: 800; color: var(--navy); }
+.tech-block .stat-item-sm .l { font-size: 11px; color: var(--gray-500); margin-top: 4px; }
+
+/* BRAND PAGE */
+.brand-mission-section {
+  background: linear-gradient(180deg, var(--gray-100) 0%, white 100%);
+  padding: 120px 0; text-align: center;
+}
+.brand-script { font-size: 26px; font-style: italic; color: var(--navy); opacity: 0.6; margin-bottom: 20px; font-weight: 300; }
+.brand-mission-section h1 { font-size: 64px; font-weight: 900; letter-spacing: -2px; color: var(--navy); line-height: 1.1; margin-bottom: 28px; }
+.brand-mission-section p { font-size: 17px; color: var(--gray-500); max-width: 560px; margin: 0 auto; line-height: 1.8; }
+.brand-navy { background: var(--navy); color: white; padding: 96px 0; }
+.brand-navy-inner { display: grid; grid-template-columns: 1fr 1fr; gap: 96px; align-items: center; }
+.brand-quote { font-size: 32px; font-weight: 800; line-height: 1.3; letter-spacing: -0.5px; color: white; margin-bottom: 24px; }
+.brand-quote::before { content: '\201C'; color: rgba(255,255,255,0.3); }
+.brand-values-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0; border: 1px solid var(--gray-200); margin-top: 56px; }
+.brand-val { padding: 48px 36px; border-right: 1px solid var(--gray-200); }
+.brand-val:last-child { border-right: none; }
+.brand-val-n { font-size: 11px; font-weight: 700; letter-spacing: 2px; color: var(--navy); margin-bottom: 20px; }
+.brand-val h3 { font-size: 20px; font-weight: 700; margin-bottom: 14px; }
+.brand-val p { font-size: 13px; color: var(--gray-500); line-height: 1.7; }
+
+/* 1분도수 PAGE */
+.dosu-channel-info { background: var(--gray-100); padding: 64px 0; border-top: 1px solid var(--gray-200); }
+.dosu-channel-wrap { display: flex; gap: 64px; align-items: center; }
+.channel-stats { display: flex; gap: 48px; }
+.channel-stat .n { font-size: 36px; font-weight: 900; color: var(--navy); letter-spacing: -1px; }
+.channel-stat .l { font-size: 12px; color: var(--gray-500); margin-top: 4px; }
+.video-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; margin-top: 56px; }
+.video-card { background: var(--gray-100); cursor: pointer; }
+.video-thumb {
+  aspect-ratio: 16/9; background: var(--gray-200);
+  position: relative; overflow: hidden;
+  display: flex; align-items: center; justify-content: center;
+}
+.video-thumb-inner {
+  width: 100%; height: 100%; background: var(--dark);
+  display: flex; align-items: center; justify-content: center;
+}
+.play-icon {
+  width: 52px; height: 52px;
+  border: 2px solid rgba(255,255,255,0.8);
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+}
+.play-icon::after {
+  content: ''; margin-left: 4px;
+  border-style: solid; border-color: transparent transparent transparent white;
+  border-width: 9px 0 9px 16px;
+}
+.video-body { padding: 20px; background: white; }
+.video-body h4 { font-size: 14px; font-weight: 600; color: var(--dark); line-height: 1.5; margin-bottom: 6px; }
+.video-body p { font-size: 12px; color: var(--gray-500); }
+
+/* SUPPORT PAGE */
+.support-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0; border: 1px solid var(--gray-200); margin-top: 56px; }
+.support-item { padding: 48px 36px; border-right: 1px solid var(--gray-200); }
+.support-item:nth-child(3) { border-right: none; }
+.support-item:nth-child(4), .support-item:nth-child(5), .support-item:nth-child(6) { border-top: 1px solid var(--gray-200); }
+.support-item:nth-child(6) { border-right: none; }
+.support-num { font-size: 11px; font-weight: 700; letter-spacing: 2px; color: var(--navy); margin-bottom: 20px; }
+.support-item h3 { font-size: 18px; font-weight: 700; margin-bottom: 10px; }
+.support-item p { font-size: 13px; color: var(--gray-500); line-height: 1.7; }
+
+/* Floating */
+.float-chat {
+  position: fixed; bottom: 32px; right: 32px;
+  z-index: 999;
+  width: 52px; height: 52px;
+  background: var(--navy); color: white;
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 4px 20px rgba(0,40,85,0.35);
+  font-size: 11px; font-weight: 700; letter-spacing: 0.5px;
+  transition: background 0.15s;
+}
+.float-chat:hover { background: var(--navy-mid); }
+</style>
+</head>
+<body>
+
+<div class="proto-bar">PROTOTYPE — 키네메디칼 리디자인 시안 v2 / 인바디 구조 + Pantone 282C</div>
+
+<header>
+  <div class="header-wrap">
+    <a class="logo" onclick="show('home')">
+      <div class="logo-mark">K+</div>
+      <span class="logo-type">KINEMEDICAL</span>
+    </a>
+    <nav>
+      <button id="n-solution" onclick="show('solution')">솔루션</button>
+      <button id="n-technology" onclick="show('technology')">기술</button>
+      <button id="n-brand" onclick="show('brand')">브랜드</button>
+      <button id="n-dosu" onclick="show('dosu')">1분도수</button>
+      <button id="n-support" onclick="show('support')">고객지원</button>
+    </nav>
+    <div class="header-actions">
+      <a class="btn-store" href="https://kinemedical.co.kr" target="_blank">STORE</a>
+    </div>
+  </div>
+</header>
+
+<main>
+
+<!-- ══════════════ HOME ══════════════ -->
+<div id="p-home" class="page active">
+
+  <div class="hero">
+    <div class="hero-wrap">
+      <div class="hero-text">
+        <div class="hero-tag">The Finest Technology for Recovery</div>
+        <h1>회복을 위한<br><em>최고의 기술</em></h1>
+        <p>병원에서만 가능했던 경추 케어를, 집에서.<br>키네메디칼의 4단계 근골격계 회복 솔루션.</p>
+        <div class="hero-actions">
+          <button class="btn-primary" onclick="show('solution')">솔루션 보기</button>
+          <button class="btn-ghost" onclick="show('technology')">기술 알아보기</button>
+        </div>
+      </div>
+      <div class="hero-image">
+        <img src="https://kinemedical.co.kr/web/product/medium/202507/87fe58353b59335a3496cd9aa4603128.png" alt="CS-25 경추 솔루션">
+      </div>
+    </div>
+  </div>
+
+  <!-- 4단계 솔루션 -->
+  <section class="steps-section section">
+    <div class="container">
+      <div class="eyebrow">Recovery System</div>
+      <h2 class="heading-xl" style="max-width:640px;line-height:1.1">오직 키네메디칼만 가능한<br>4단계 근골격계 회복 솔루션</h2>
+      <div class="steps-grid">
+        <div class="step-item">
+          <div class="step-num">STEP 01</div>
+          <div class="step-title">운동</div>
+          <div class="step-desc">1분도수 루틴으로 약해진 심부 근육을 활성화하고 혈류를 개선합니다.</div>
+        </div>
+        <div class="step-item">
+          <div class="step-num">STEP 02</div>
+          <div class="step-title">회복</div>
+          <div class="step-desc">EMS·TENS·근적외선으로 손상된 조직을 회복하고 통증을 완화합니다.</div>
+        </div>
+        <div class="step-item">
+          <div class="step-num">STEP 03</div>
+          <div class="step-title">교정</div>
+          <div class="step-desc">경추 견인 기술로 무너진 C커브를 복원하고 척추 정렬을 교정합니다.</div>
+        </div>
+        <div class="step-item">
+          <div class="step-num">STEP 04</div>
+          <div class="step-title">고정</div>
+          <div class="step-desc">보호대로 회복된 구조를 유지하고 일상 속 재발을 방지합니다.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 기술 (다크) -->
+  <section class="tech-dark section">
+    <div class="container">
+      <div class="tech-dark-grid">
+        <div>
+          <div class="eyebrow">Technology</div>
+          <h2 class="heading-lg" style="color:white;margin:14px 0 24px">병원 전용 기술을<br>가정에 처음으로</h2>
+          <p class="body-lg" style="color:rgba(255,255,255,0.6);margin-bottom:48px">9년 경력 도수치료사가 설계한 경추 견인 메커니즘. 병원에서만 가능했던 헤드픽서 기술을 가정용으로 최초 구현했습니다.</p>
+          <div class="tech-specs">
+            <div class="tech-spec-row">
+              <span class="tech-spec-label">경추 견인력</span>
+              <span class="tech-spec-val">12 <span class="tech-spec-unit">kg</span></span>
+            </div>
+            <div class="tech-spec-row">
+              <span class="tech-spec-label">EMS 주파수 범위</span>
+              <span class="tech-spec-val">1–100 <span class="tech-spec-unit">Hz</span></span>
+            </div>
+            <div class="tech-spec-row">
+              <span class="tech-spec-label">근적외선 LED</span>
+              <span class="tech-spec-val">108 <span class="tech-spec-unit">개</span></span>
+            </div>
+            <div class="tech-spec-row">
+              <span class="tech-spec-label">마사지 프로그램</span>
+              <span class="tech-spec-val">6 <span class="tech-spec-unit">가지</span></span>
+            </div>
+          </div>
+          <div style="margin-top:40px">
+            <button class="btn-white" onclick="show('technology')">기술 상세 보기</button>
+          </div>
+        </div>
+        <div class="tech-dark-img">
+          <img src="https://kinemedical.co.kr/web/product/medium/202603/6c4225e9afc8aac4adf123e40cd4995c.jpg" alt="ES-808 기술">
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 제품 라인업 -->
+  <section class="products-section section">
+    <div class="container">
+      <div class="eyebrow">Product Line</div>
+      <h2 class="heading-xl">키네메디칼 솔루션</h2>
+      <div class="products-grid" style="margin-top:56px">
+        <div class="product-card" onclick="show('solution')">
+          <div class="product-img-wrap">
+            <span class="product-series">Cervical Series</span>
+            <img src="https://kinemedical.co.kr/web/product/medium/202507/87fe58353b59335a3496cd9aa4603128.png" alt="CS-25">
+          </div>
+          <div class="product-body">
+            <div class="product-model">CS-25</div>
+            <div class="product-name">경추 솔루션 CS-25</div>
+            <div class="product-desc">병원급 경추 견인 + 지압 + 마사지. 헤드픽서 기술 세계 최초 탑재.</div>
+            <a class="btn-text" onclick="show('solution')">자세히 보기</a>
+          </div>
+        </div>
+        <div class="product-card" onclick="show('solution')">
+          <div class="product-img-wrap">
+            <span class="product-series">Electronic Series</span>
+            <img src="https://kinemedical.co.kr/web/product/medium/202603/6c4225e9afc8aac4adf123e40cd4995c.jpg" alt="ES-808">
+          </div>
+          <div class="product-body">
+            <div class="product-model">ES-808</div>
+            <div class="product-name">타겟형 저주파 ES-808</div>
+            <div class="product-desc">EMS·TENS 복합 기술. 전신 15개 부위 집중 케어.</div>
+            <a class="btn-text" onclick="show('solution')">자세히 보기</a>
+          </div>
+        </div>
+        <div class="product-card" onclick="show('solution')">
+          <div class="product-img-wrap">
+            <span class="product-series">Warmth Series</span>
+            <img src="https://kinemedical.co.kr/web/product/medium/202602/aaf02dcddb8f0b70da8da7e594552c0c.jpg" alt="WS-200">
+          </div>
+          <div class="product-body">
+            <div class="product-model">WS-200</div>
+            <div class="product-name">밀착형 찜질기 WS-200</div>
+            <div class="product-desc">국내 최초 밀착형 근적외선 찜질기. 108개 LED 심부 침투.</div>
+            <a class="btn-text" onclick="show('solution')">자세히 보기</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 신뢰 수치 -->
+  <section class="stats-section section-sm">
+    <div class="container">
+      <div class="stats-grid">
+        <div class="stat-item">
+          <div class="stat-num">3,000<sup>+</sup></div>
+          <div class="stat-label">누적 판매 고객</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-num">4.9</div>
+          <div class="stat-label">평균 고객 만족도</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-num">90K<sup>+</sup></div>
+          <div class="stat-label">1분도수 구독자</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-num">100<sup>%</sup></div>
+          <div class="stat-label">국내 의료기기 인증</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 뉴스 위젯 -->
+  <section class="news-section section">
+    <div class="container">
+      <div class="eyebrow">News & Media</div>
+      <h2 class="heading-xl">키네메디칼 소식</h2>
+      <div class="news-grid">
+        <div class="news-col">
+          <div class="news-col-head">
+            <span class="news-col-title">최신 소식</span>
+            <span class="news-more">더 보기 →</span>
+          </div>
+          <div class="news-item">
+            <div class="news-item-title">가정용 헤드픽서 경추 견인기, 국내 최초 출시</div>
+            <div class="news-item-date">2026.03.01</div>
+          </div>
+          <div class="news-item">
+            <div class="news-item-title">ES-808 출시 첫날 1,000대 판매 달성</div>
+            <div class="news-item-date">2025.12.15</div>
+          </div>
+        </div>
+        <div class="news-col">
+          <div class="news-col-head">
+            <span class="news-col-title">1분도수 채널</span>
+            <span class="news-more" onclick="show('dosu')">더 보기 →</span>
+          </div>
+          <div class="news-item">
+            <div class="news-item-title">목디스크 집에서 고치는 법 — CS-25 완전정복</div>
+            <div class="news-item-date">2026.03.10</div>
+          </div>
+          <div class="news-item">
+            <div class="news-item-title">거북목 1분 교정 루틴, 매일 따라 하세요</div>
+            <div class="news-item-date">2026.03.03</div>
+          </div>
+        </div>
+        <div class="news-col">
+          <div class="news-col-head">
+            <span class="news-col-title">병원 파트너십</span>
+            <span class="news-more">더 보기 →</span>
+          </div>
+          <div class="news-item">
+            <div class="news-item-title">압구정 신경외과 도수치료팀 공식 파트너 체결</div>
+            <div class="news-item-date">2026.02.20</div>
+          </div>
+          <div class="news-item">
+            <div class="news-item-title">병원·약국 입점 파트너십 상시 접수 중</div>
+            <div class="news-item-date">상시</div>
+          </div>
+        </div>
+        <div class="news-col">
+          <div class="news-col-head">
+            <span class="news-col-title">고객 사례</span>
+            <span class="news-more">더 보기 →</span>
+          </div>
+          <div class="news-item">
+            <div class="news-item-title">3주 만에 목 통증 70% 감소 — CS-25 실제 후기</div>
+            <div class="news-item-date">2026.03.08</div>
+          </div>
+          <div class="news-item">
+            <div class="news-item-title">3,000명+ 실사용 고객 사례 모아보기</div>
+            <div class="news-item-date">2026.03.01</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- B2B -->
+  <section class="b2b-section section-sm">
+    <div class="container">
+      <div class="b2b-wrap">
+        <div class="b2b-text">
+          <h3 class="heading-md">병원·약국 입점 파트너십</h3>
+          <p class="body-md" style="margin-top:10px">키네메디칼 제품을 귀원에 도입하세요. 의료 전문가를 위한 별도 파트너십 프로그램이 준비되어 있습니다.</p>
+        </div>
+        <button class="btn-primary" onclick="show('support')">입점 상담 신청</button>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- ══════════════ SOLUTION ══════════════ -->
+<div id="p-solution" class="page">
+  <div class="sub-hero">
+    <div class="container">
+      <div class="breadcrumb">HOME / SOLUTION</div>
+      <h1>Recovery Solution</h1>
+      <p>운동·회복·교정·고정. 4단계 시스템으로 근본적 회복을 경험하세요.</p>
+    </div>
+  </div>
+
+  <div style="background:white">
+    <div class="container">
+      <div class="sol-item">
+        <div class="sol-grid">
+          <div class="sol-img">
+            <img src="https://kinemedical.co.kr/web/product/medium/202507/87fe58353b59335a3496cd9aa4603128.png" alt="CS-25">
+          </div>
+          <div class="sol-text">
+            <span class="sol-badge">STEP 03 — 교정 · Cervical Series</span>
+            <h2>경추 솔루션<br>CS-25</h2>
+            <p>병원에서만 가능했던 경추 견인 기술을 집에서. 9년 경력 도수치료사가 직접 설계한 6단계 프로그램으로 목뼈의 자연스러운 C커브를 복원합니다.</p>
+            <ul class="feature-list">
+              <li>헤드픽서 — 병원 전용 기술을 가정용으로 세계 최초 탑재</li>
+              <li>최대 12kg 경추 견인력으로 디스크 압력 해소</li>
+              <li>6단계 자동 마사지 프로그램 내장</li>
+              <li>하루 5분 사용으로 즉각적인 편안함</li>
+            </ul>
+            <a class="btn-primary" href="https://kinemedical.co.kr" target="_blank">스토어에서 구매하기</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="sol-item">
+        <div class="sol-grid rev">
+          <div class="sol-img">
+            <img src="https://kinemedical.co.kr/web/product/medium/202603/6c4225e9afc8aac4adf123e40cd4995c.jpg" alt="ES-808">
+          </div>
+          <div class="sol-text">
+            <span class="sol-badge">STEP 02 — 회복 · Electronic Series</span>
+            <h2>타겟형 저주파<br>ES-808</h2>
+            <p>EMS(근육 전기 자극)와 TENS(경피 전기 신경 자극)를 동시 적용해 원하는 부위를 집중 케어합니다. 출시 첫날 1,000대 판매.</p>
+            <ul class="feature-list">
+              <li>EMS + TENS 복합 자극으로 근육 강화 + 통증 완화 동시</li>
+              <li>전신 15개 부위 적용 가능</li>
+              <li>무선 펜타입 — 어디서든 사용 가능</li>
+              <li>1–100Hz 주파수 조절로 맞춤 강도 설정</li>
+            </ul>
+            <a class="btn-primary" href="https://kinemedical.co.kr" target="_blank">스토어에서 구매하기</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="sol-item">
+        <div class="sol-grid">
+          <div class="sol-img">
+            <img src="https://kinemedical.co.kr/web/product/medium/202602/aaf02dcddb8f0b70da8da7e594552c0c.jpg" alt="WS-200">
+          </div>
+          <div class="sol-text">
+            <span class="sol-badge">STEP 02 — 회복 · Warmth Series</span>
+            <h2>밀착형 근적외선 찜질기<br>WS-200</h2>
+            <p>국내 최초 밀착형 근적외선 찜질기. 108개 LED가 심부 조직까지 열을 직접 전달해 실질적인 회복 효과를 만들어냅니다.</p>
+            <ul class="feature-list">
+              <li>108개 근적외선 LED — 850nm 최적 파장</li>
+              <li>밀착 설계 — 신체 굴곡에 완전히 맞닿음</li>
+              <li>심부 온도 40°C 도달 — 일반 찜질팩 대비 2배 침투</li>
+              <li>30분 자동 타이머 내장</li>
+            </ul>
+            <a class="btn-primary" href="https://kinemedical.co.kr" target="_blank">스토어에서 구매하기</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <section class="stats-section section-sm">
+    <div class="container">
+      <div class="stats-grid">
+        <div class="stat-item"><div class="stat-num">3,000<sup>+</sup></div><div class="stat-label">누적 판매</div></div>
+        <div class="stat-item"><div class="stat-num">4.9</div><div class="stat-label">평균 만족도</div></div>
+        <div class="stat-item"><div class="stat-num">12 <sup>kg</sup></div><div class="stat-label">최대 견인력</div></div>
+        <div class="stat-item"><div class="stat-num">3 <sup>종</sup></div><div class="stat-label">의료기기 인증</div></div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- ══════════════ TECHNOLOGY ══════════════ -->
+<div id="p-technology" class="page">
+  <div class="sub-hero">
+    <div class="container">
+      <div class="breadcrumb">HOME / TECHNOLOGY</div>
+      <h1>KINEMEDICAL<br>TECHNOLOGY</h1>
+      <p>병원급 기술을 가정으로 가져오는 키네메디칼의 핵심 기술.</p>
+    </div>
+  </div>
+
+  <div class="what-is section">
+    <div class="container">
+      <div class="what-is-inner">
+        <h2>What is Cervical Traction?</h2>
+        <p>경추 견인(Cervical Traction)은 목뼈 사이의 공간을 늘려 디스크 압력을 줄이고, 눌린 신경을 해방시키는 물리치료 기법입니다. 병원에서는 대형 견인 장비를 사용해 왔지만, 키네메디칼은 이 원리를 가정용으로 최적화해 CS-25에 담았습니다. 헤드픽서 기술로 머리를 안전하게 고정하고, 최대 12kg의 견인력으로 경추 C커브를 자연스럽게 복원합니다. 세계 최초로 가정용 기기에 헤드픽서 기술을 탑재한 제품입니다.</p>
+      </div>
+      <div class="tech-feature-grid">
+        <div class="tech-feat">
+          <div class="tech-feat-num">01</div>
+          <h3>헤드픽서 (HeadFixer)</h3>
+          <p>병원 전용 경추 고정 기술을 가정용 기기에 세계 최초 탑재. 머리를 정확히 고정해 안전하고 효과적인 견인을 실현합니다.</p>
+        </div>
+        <div class="tech-feat">
+          <div class="tech-feat-num">02</div>
+          <h3>C커브 복원 메커니즘</h3>
+          <p>일자목·거북목으로 무너진 경추 C커브를 자연스럽게 복원합니다. 9년 임상 데이터를 기반으로 설계된 견인 각도와 압력.</p>
+        </div>
+        <div class="tech-feat">
+          <div class="tech-feat-num">03</div>
+          <h3>6단계 자동 프로그램</h3>
+          <p>준비-적응-회복-교정-강화-마무리 6단계 자동 프로그램. 처음 사용자도 안전하게 시작할 수 있도록 점진적으로 강도를 조절합니다.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <section class="section" style="background:var(--gray-100)">
+    <div class="container">
+      <div class="eyebrow">EMS · TENS</div>
+      <h2 class="heading-xl" style="max-width:640px">What is EMS & TENS?</h2>
+      <div class="tech-two-col" style="margin-top:56px">
+        <div class="tech-block">
+          <h3>EMS</h3>
+          <p>Electrical Muscle Stimulation. 전기 자극으로 근육을 직접 수축시켜 약해진 근육을 강화하고 혈류를 촉진합니다. 능동적 운동 효과와 수동적 회복 효과를 동시에 제공합니다.</p>
+        </div>
+        <div class="tech-block">
+          <h3>TENS</h3>
+          <p>Transcutaneous Electrical Nerve Stimulation. 신경에 전기 자극을 가해 통증 신호 전달을 차단하고 엔도르핀 분비를 촉진합니다. 약물 없는 통증 관리 솔루션.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="eyebrow">Near Infrared</div>
+      <h2 class="heading-xl">근적외선(NIR) 기술</h2>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:96px;align-items:center;margin-top:56px">
+        <div>
+          <p class="body-lg" style="margin-bottom:32px">근적외선(Near Infrared Ray)은 피부를 통과해 심부 조직에 직접 열을 전달하는 파장입니다. 일반 찜질기가 표면만 데우는 것과 달리, 근적외선은 근육·힘줄·관절 깊숙이 침투해 실질적인 회복 효과를 만들어냅니다.</p>
+          <div style="display:flex;gap:40px;border-top:1px solid var(--gray-200);padding-top:32px">
+            <div>
+              <div style="font-size:36px;font-weight:900;color:var(--navy);letter-spacing:-1px">108</div>
+              <div style="font-size:12px;color:var(--gray-500);margin-top:4px">LED 개수</div>
+            </div>
+            <div>
+              <div style="font-size:36px;font-weight:900;color:var(--navy);letter-spacing:-1px">850<small style="font-size:18px">nm</small></div>
+              <div style="font-size:12px;color:var(--gray-500);margin-top:4px">최적 파장</div>
+            </div>
+            <div>
+              <div style="font-size:36px;font-weight:900;color:var(--navy);letter-spacing:-1px">40<small style="font-size:18px">°C</small></div>
+              <div style="font-size:12px;color:var(--gray-500);margin-top:4px">심부 온도</div>
+            </div>
+          </div>
+        </div>
+        <div style="background:var(--gray-100);display:flex;align-items:center;justify-content:center;min-height:360px;padding:60px">
+          <img src="https://kinemedical.co.kr/web/product/medium/202602/aaf02dcddb8f0b70da8da7e594552c0c.jpg" style="max-height:280px;object-fit:contain" alt="WS-200">
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- ══════════════ BRAND ══════════════ -->
+<div id="p-brand" class="page">
+  <div class="brand-mission-section">
+    <div class="brand-script">We are KINEMEDICAL</div>
+    <h1 style="font-size:64px;font-weight:900;letter-spacing:-2px;color:var(--navy);line-height:1.1;margin-bottom:28px">회복을 위한<br>최고의 기술</h1>
+    <p class="body-lg" style="max-width:560px;margin:0 auto">키네메디칼은 누구나 집에서 스스로 회복할 수 있는 세상을 만듭니다. 목디스크에서 시작해 전신 근골격계 솔루션으로 확장합니다.</p>
+  </div>
+
+  <div class="brand-navy">
+    <div class="container">
+      <div class="brand-navy-inner">
+        <div>
+          <div class="brand-quote">환자들이 병원 밖에서는<br>아무것도 못 한다는 말이<br>바뀌어야 합니다.</div>
+          <p style="color:rgba(255,255,255,0.65);font-size:15px;line-height:1.8;max-width:480px">홈도수가 '스스로 회복하는 세상'을 꿈꾸는 이유. 1분도수 채널을 통해 전달하는 키네메디칼의 철학.</p>
+          <div style="margin-top:40px">
+            <button class="btn-white" onclick="show('dosu')">1분도수 채널 보기</button>
+          </div>
+        </div>
+        <div style="background:rgba(255,255,255,0.05);padding:60px;display:flex;align-items:center;justify-content:center;min-height:400px">
+          <img src="https://kinemedical.co.kr/web/product/medium/202507/87fe58353b59335a3496cd9aa4603128.png" style="max-height:320px;max-width:100%;object-fit:contain;filter:brightness(0.95)" alt="브랜드">
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <section class="section" style="background:white">
+    <div class="container">
+      <div class="eyebrow">Brand Values</div>
+      <h2 class="heading-xl">키네메디칼이 지키는 가치</h2>
+      <div class="brand-values-grid">
+        <div class="brand-val">
+          <div class="brand-val-n">VALUE 01</div>
+          <h3 class="heading-md" style="margin-bottom:16px">기술로만 증명합니다</h3>
+          <p class="body-sm">자화자찬 없이 기술로만 말합니다. 병원에서 쓰는 원리 그대로, 가정에서 구현합니다. 제3자가 증명하는 브랜드.</p>
+        </div>
+        <div class="brand-val">
+          <div class="brand-val-n">VALUE 02</div>
+          <h3 class="heading-md" style="margin-bottom:16px">전문가가 설계합니다</h3>
+          <p class="body-sm">9년 경력 도수치료사가 직접 설계하고 검증합니다. 이론이 아닌 임상 경험에서 나온 솔루션.</p>
+        </div>
+        <div class="brand-val">
+          <div class="brand-val-n">VALUE 03</div>
+          <h3 class="heading-md" style="margin-bottom:16px">매일 1분이면 됩니다</h3>
+          <p class="body-sm">하루 1분. 누구나 매일 지속할 수 있는 시스템을 만듭니다. 일회성이 아닌 평생 솔루션.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="stats-section section-sm">
+    <div class="container">
+      <div class="stats-grid">
+        <div class="stat-item"><div class="stat-num">2022</div><div class="stat-label">설립 연도</div></div>
+        <div class="stat-item"><div class="stat-num">3 <sup>종</sup></div><div class="stat-label">의료기기 인증 제품</div></div>
+        <div class="stat-item"><div class="stat-num">90K<sup>+</sup></div><div class="stat-label">1분도수 구독자</div></div>
+        <div class="stat-item"><div class="stat-num">2<sup>억+</sup></div><div class="stat-label">월 매출 (2026)</div></div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- ══════════════ 1분도수 ══════════════ -->
+<div id="p-dosu" class="page">
+  <div class="sub-hero" style="background:var(--dark)">
+    <div class="container">
+      <div class="breadcrumb">HOME / 1분도수</div>
+      <h1>1분도수</h1>
+      <p>1분만이라도 매일 움직이세요. 구독자 9만의 근골격계 전문 채널.</p>
+    </div>
+  </div>
+
+  <div class="dosu-channel-info">
+    <div class="container">
+      <div class="dosu-channel-wrap">
+        <div>
+          <div class="eyebrow">YouTube Channel</div>
+          <h2 class="heading-lg" style="margin-top:10px">@1분도수</h2>
+        </div>
+        <div class="channel-stats">
+          <div class="channel-stat"><div class="n">90K+</div><div class="l">구독자</div></div>
+          <div class="channel-stat"><div class="n">200+</div><div class="l">영상</div></div>
+          <div class="channel-stat"><div class="n">500만+</div><div class="l">총 조회수</div></div>
+        </div>
+        <a class="btn-primary" href="https://www.youtube.com/@1%EB%B6%84%EB%8F%84%EC%88%98" target="_blank">채널 바로가기</a>
+      </div>
+    </div>
+  </div>
+
+  <section class="section">
+    <div class="container">
+      <div class="eyebrow">Latest Videos</div>
+      <h2 class="heading-xl">최신 영상</h2>
+      <div class="video-grid">
+        <div class="video-card">
+          <div class="video-thumb"><div class="video-thumb-inner"><div class="play-icon"></div></div></div>
+          <div class="video-body"><h4>목디스크 집에서 고치는 법 — CS-25 완전정복</h4><p>2026.03.10 · 조회 12만</p></div>
+        </div>
+        <div class="video-card">
+          <div class="video-thumb"><div class="video-thumb-inner"><div class="play-icon"></div></div></div>
+          <div class="video-body"><h4>거북목 1분 교정 루틴 — 매일 따라 하세요</h4><p>2026.03.03 · 조회 8.4만</p></div>
+        </div>
+        <div class="video-card">
+          <div class="video-thumb"><div class="video-thumb-inner"><div class="play-icon"></div></div></div>
+          <div class="video-body"><h4>ES-808 올바른 사용법 (전신 15부위 완전 가이드)</h4><p>2026.02.24 · 조회 6.2만</p></div>
+        </div>
+        <div class="video-card">
+          <div class="video-thumb"><div class="video-thumb-inner"><div class="play-icon"></div></div></div>
+          <div class="video-body"><h4>어깨 통증, 운동 전 이것만 해도 다릅니다</h4><p>2026.02.17 · 조회 5.1만</p></div>
+        </div>
+        <div class="video-card">
+          <div class="video-thumb"><div class="video-thumb-inner"><div class="play-icon"></div></div></div>
+          <div class="video-body"><h4>WS-200 밀착형 근적외선 찜질기 사용법</h4><p>2026.02.10 · 조회 4.8만</p></div>
+        </div>
+        <div class="video-card">
+          <div class="video-thumb"><div class="video-thumb-inner"><div class="play-icon"></div></div></div>
+          <div class="video-body"><h4>일자목 교정 4주 챌린지 — 처음부터 따라하기</h4><p>2026.02.03 · 조회 9.7만</p></div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- ══════════════ SUPPORT ══════════════ -->
+<div id="p-support" class="page">
+  <div class="sub-hero">
+    <div class="container">
+      <div class="breadcrumb">HOME / SUPPORT</div>
+      <h1>고객지원</h1>
+      <p>키네메디칼 제품 관련 문의사항을 도와드립니다.</p>
+    </div>
+  </div>
+  <section class="section">
+    <div class="container">
+      <div class="eyebrow">Customer Service</div>
+      <h2 class="heading-xl">무엇을 도와드릴까요?</h2>
+      <div class="support-grid">
+        <div class="support-item">
+          <div class="support-num">01</div>
+          <h3>채팅 상담</h3>
+          <p class="body-sm">평일 11:00–16:00<br>몇 분 내 답변 보장</p>
+        </div>
+        <div class="support-item">
+          <div class="support-num">02</div>
+          <h3>전화 상담</h3>
+          <p class="body-sm">070-8919-3775<br>평일 11:00–16:00</p>
+        </div>
+        <div class="support-item">
+          <div class="support-num">03</div>
+          <h3>자주 묻는 질문</h3>
+          <p class="body-sm">제품 사용법, 반품·교환<br>자주 묻는 질문 모음</p>
+        </div>
+        <div class="support-item">
+          <div class="support-num">04</div>
+          <h3>병원 입점 문의</h3>
+          <p class="body-sm">병원·약국 도입 전용<br>별도 파트너십 프로그램</p>
+        </div>
+        <div class="support-item">
+          <div class="support-num">05</div>
+          <h3>반품·교환 안내</h3>
+          <p class="body-sm">구매 후 30일 이내<br>무상 교환 보장</p>
+        </div>
+        <div class="support-item">
+          <div class="support-num">06</div>
+          <h3>A/S 신청</h3>
+          <p class="body-sm">제품 이상 발생 시<br>신속한 A/S 처리</p>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+</main>
+
+<!-- Footer -->
+<footer>
+  <div class="container">
+    <div class="footer-top">
+      <div>
+        <div class="footer-logo">
+          <div class="footer-logo-mark">K+</div>
+          <span class="footer-logo-type">KINEMEDICAL</span>
+        </div>
+        <div class="footer-info">
+          법인명: 테넥스 | 대표: 김태훈<br>
+          사업자등록번호: 482-25-01617<br>
+          TEL: 070-8919-3775<br>
+          통신판매업신고: 2025-경기광주-2456<br>
+          주소: 경기 광주시 목현동 316-35
+        </div>
+      </div>
+      <div>
+        <div class="footer-col-title">Site</div>
+        <div class="footer-links">
+          <button onclick="show('solution')">솔루션</button>
+          <button onclick="show('technology')">기술</button>
+          <button onclick="show('brand')">브랜드</button>
+          <button onclick="show('dosu')">1분도수</button>
+          <button onclick="show('support')">고객지원</button>
+        </div>
+      </div>
+      <div>
+        <div class="footer-col-title">고객센터</div>
+        <div class="footer-contact">
+          070-8919-3775<br>
+          평일 11:00–16:00<br>
+          점심 12:00–13:00<br>
+          주말·공휴일 휴무
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>Copyright © KINEMEDICAL. All rights reserved. &nbsp;|&nbsp; <a href="#" style="color:rgba(255,255,255,0.3)">개인정보처리방침</a></p>
+      <div class="footer-sns">
+        <div class="sns-icon" title="YouTube">YT</div>
+        <div class="sns-icon" title="Instagram">IG</div>
+        <div class="sns-icon" title="Store">ST</div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<div class="float-chat" title="채팅 상담">CS</div>
+
+<script>
+function show(id) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
+  document.getElementById('p-' + id).classList.add('active');
+  const nb = document.getElementById('n-' + id);
+  if (nb) nb.classList.add('active');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+</script>
+</body>
+</html>

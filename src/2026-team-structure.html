@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>키네메디칼 팀 구조 & 채용 로드맵</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: #0d1117; color: #e6edf3; font-family: -apple-system, 'Apple SD Gothic Neo', sans-serif; line-height: 1.7; }
+  .hero { background: linear-gradient(135deg, #1a2332 0%, #0d1117 100%); padding: 50px 40px; border-bottom: 1px solid #21262d; }
+  .hero h1 { font-size: 2rem; font-weight: 800; color: #f0f6fc; margin-bottom: 8px; }
+  .hero p { color: #8b949e; }
+  .badge { display: inline-block; background: rgba(88,166,255,0.15); border: 1px solid rgba(88,166,255,0.3); color: #58a6ff; padding: 4px 12px; border-radius: 20px; font-size: 0.8rem; margin-right: 8px; margin-top: 10px; }
+  .container { max-width: 960px; margin: 0 auto; padding: 40px 24px; }
+  .section { background: #161b22; border: 1px solid #21262d; border-radius: 12px; padding: 28px; margin-bottom: 20px; }
+  .section h2 { font-size: 1.2rem; font-weight: 700; color: #f0f6fc; margin-bottom: 20px; padding-bottom: 12px; border-bottom: 1px solid #21262d; }
+  .person-card { background: #0d1117; border: 1px solid #21262d; border-radius: 12px; padding: 24px; margin-bottom: 16px; }
+  .person-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 16px; flex-wrap: wrap; gap: 8px; }
+  .person-name { font-size: 1.1rem; font-weight: 800; color: #f0f6fc; }
+  .person-title { color: #8b949e; font-size: 0.85rem; margin-top: 2px; }
+  .salary-badge { background: rgba(56,211,159,0.15); border: 1px solid rgba(56,211,159,0.3); color: #38d39f; padding: 6px 16px; border-radius: 20px; font-weight: 700; font-size: 0.9rem; white-space: nowrap; }
+  .salary-badge.future { background: rgba(88,166,255,0.15); border-color: rgba(88,166,255,0.3); color: #58a6ff; }
+  .salary-badge.tbd { background: rgba(240,136,62,0.15); border-color: rgba(240,136,62,0.3); color: #f0883e; }
+  .role-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 12px; }
+  .role-box h4 { font-size: 0.82rem; color: #8b949e; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.5px; }
+  ul.role-list { padding-left: 16px; }
+  ul.role-list li { color: #cdd9e5; font-size: 0.88rem; margin-bottom: 5px; }
+  .stock-tag { display: inline-block; background: rgba(163,113,247,0.15); border: 1px solid rgba(163,113,247,0.3); color: #a371f7; padding: 3px 10px; border-radius: 12px; font-size: 0.78rem; margin-top: 8px; }
+  .timing-tag { display: inline-block; background: #21262d; color: #8b949e; padding: 3px 10px; border-radius: 12px; font-size: 0.78rem; margin-top: 8px; margin-left: 6px; }
+  .highlight { background: rgba(88,166,255,0.08); border-left: 3px solid #58a6ff; padding: 14px 18px; border-radius: 0 8px 8px 0; margin: 12px 0; }
+  .highlight p { color: #cdd9e5; font-size: 0.92rem; }
+  .highlight.green { background: rgba(56,211,159,0.08); border-left-color: #38d39f; }
+  .highlight.orange { background: rgba(240,136,62,0.08); border-left-color: #f0883e; }
+  .org-chart { text-align: center; padding: 20px 0; }
+  .org-row { display: flex; justify-content: center; gap: 12px; flex-wrap: wrap; margin: 8px 0; }
+  .org-box { background: #0d1117; border: 1px solid #21262d; border-radius: 8px; padding: 10px 18px; font-size: 0.85rem; }
+  .org-box.ceo { border-color: #58a6ff; color: #58a6ff; font-weight: 700; }
+  .org-box.current { border-color: #38d39f; color: #38d39f; }
+  .org-box.hire { border-color: #f0883e; color: #f0883e; border-style: dashed; }
+  .org-box.ai { border-color: #a371f7; color: #a371f7; }
+  .org-arrow { color: #30363d; font-size: 1.2rem; margin: 4px 0; text-align: center; }
+  .total-box { background: linear-gradient(135deg, rgba(56,211,159,0.1), rgba(88,166,255,0.05)); border: 2px solid rgba(56,211,159,0.3); border-radius: 12px; padding: 24px; margin-top: 8px; }
+  .total-row { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid rgba(255,255,255,0.05); font-size: 0.95rem; }
+  .total-row:last-child { border-bottom: none; font-weight: 800; font-size: 1.05rem; color: #38d39f; }
+  .principle-item { display: flex; gap: 12px; padding: 12px 0; border-bottom: 1px solid #21262d; }
+  .principle-item:last-child { border-bottom: none; }
+  .principle-num { color: #58a6ff; font-weight: 800; font-size: 1.1rem; flex-shrink: 0; width: 24px; }
+  .principle-text { color: #cdd9e5; font-size: 0.92rem; }
+  .principle-text strong { color: #f0f6fc; }
+  @media (max-width: 600px) { .role-grid { grid-template-columns: 1fr; } .person-header { flex-direction: column; } }
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div style="max-width:960px;margin:0 auto">
+    <div style="color:#38d39f;font-size:0.85rem;font-weight:700;margin-bottom:8px">연매출 200억 + 미국 진출</div>
+    <h1>👥 키네메디칼 팀 구조 & 채용 로드맵</h1>
+    <p>어떤 사람이 필요하고, 무슨 역할이며, 보상은 얼마인가</p>
+    <span class="badge">2026-03-10</span>
+    <span class="badge">채용 전략</span>
+    <span class="badge">팀 빌딩</span>
+  </div>
+</div>
+
+<div class="container">
+
+  <!-- 조직도 -->
+  <div class="section">
+    <h2>🏗️ 목표 조직 구조 (2026년 말)</h2>
+    <div class="org-chart">
+      <div class="org-row"><div class="org-box ceo">김태훈 CEO<br><span style="font-size:0.75rem;font-weight:400">전략 · 의사결정 · 자금</span></div></div>
+      <div class="org-arrow">↓</div>
+      <div class="org-row">
+        <div class="org-box current">인규<br><span style="font-size:0.75rem">콘텐츠 총괄</span></div>
+        <div class="org-box current">나현<br><span style="font-size:0.75rem">브랜드 확산</span></div>
+        <div class="org-box hire">운영 매니저 ★<br><span style="font-size:0.75rem">물류 · CS · 재고</span></div>
+        <div class="org-box hire">미국 담당자 ★<br><span style="font-size:0.75rem">해외 마케팅</span></div>
+        <div class="org-box ai">카리나 (AI)<br><span style="font-size:0.75rem">CRM · 자동화 · 분석</span></div>
+      </div>
+      <div class="org-arrow">↓ (2027+)</div>
+      <div class="org-row">
+        <div class="org-box hire">퍼포먼스 마케터<br><span style="font-size:0.75rem">광고 운영</span></div>
+        <div class="org-box hire">COO<br><span style="font-size:0.75rem">전체 운영 총괄</span></div>
+      </div>
+    </div>
+    <div style="display:flex;gap:16px;justify-content:center;margin-top:16px;flex-wrap:wrap">
+      <span style="color:#38d39f;font-size:0.8rem">■ 현재 팀</span>
+      <span style="color:#f0883e;font-size:0.8rem">■ 채용 필요 (점선)</span>
+      <span style="color:#a371f7;font-size:0.8rem">■ AI</span>
+    </div>
+  </div>
+
+  <!-- 현재 팀 -->
+  <div class="section">
+    <h2>✅ 현재 팀 (3인 코어)</h2>
+
+    <div class="person-card">
+      <div class="person-header">
+        <div>
+          <div class="person-name">김태훈 — CEO</div>
+          <div class="person-title">전략 · 제품 · 마케팅 · 자금 · AI 시스템</div>
+        </div>
+        <div class="salary-badge">대표 (연봉 X)</div>
+      </div>
+      <div class="role-grid">
+        <div class="role-box">
+          <h4>핵심 역할</h4>
+          <ul class="role-list">
+            <li>전략 수립 & 의사결정</li>
+            <li>광고 전략 총괄</li>
+            <li>제품 방향 결정</li>
+            <li>자금조달 (초창패, 팁스, 기보)</li>
+            <li>채용 & 팀 빌딩</li>
+          </ul>
+        </div>
+        <div class="role-box">
+          <h4>하지 말아야 할 것</h4>
+          <ul class="role-list">
+            <li>반복 실무 (FAQ, CS 등)</li>
+            <li>직접 코딩</li>
+            <li>물류/재고 관리</li>
+            <li>중간 관리 업무</li>
+          </ul>
+        </div>
+      </div>
+      <div class="highlight" style="margin-top:12px">
+        <p>태훈이 이기는 판 = <strong>전략 + 사람 + 광고</strong>. 나머지는 시스템과 팀에 위임.</p>
+      </div>
+    </div>
+
+    <div class="person-card">
+      <div class="person-header">
+        <div>
+          <div class="person-name">인규 — 콘텐츠 총괄</div>
+          <div class="person-title">1분도수 채널 · 영상 제작 · CS 관리</div>
+        </div>
+        <div class="salary-badge">세후 400만/월 + 지분 5%</div>
+      </div>
+      <div class="role-grid">
+        <div class="role-box">
+          <h4>핵심 역할</h4>
+          <ul class="role-list">
+            <li>유튜브/인스타/틱톡 콘텐츠</li>
+            <li>DA 인터뷰 영상 촬영</li>
+            <li>1분도수 영어 채널 (HeyGen)</li>
+            <li>CS 시스템 총괄</li>
+            <li>의료계 파트너십 서포트</li>
+          </ul>
+        </div>
+        <div class="role-box">
+          <h4>미국 진출 역할</h4>
+          <ul class="role-list">
+            <li>영어 영상 변환 (HeyGen)</li>
+            <li>미국 PT 인플루언서 협업</li>
+            <li>글로벌 콘텐츠 방향 설정</li>
+          </ul>
+        </div>
+      </div>
+      <span class="stock-tag">지분 5% (4년 베스팅, 매년 1.25%)</span>
+      <span class="timing-tag">현재</span>
+    </div>
+
+    <div class="person-card">
+      <div class="person-header">
+        <div>
+          <div class="person-name">나현 — 브랜드 확산</div>
+          <div class="person-title">인플루언서 · 파트너십 · 개인가치 콘텐츠</div>
+        </div>
+        <div class="salary-badge">협의 중</div>
+      </div>
+      <div class="role-grid">
+        <div class="role-box">
+          <h4>핵심 역할</h4>
+          <ul class="role-list">
+            <li>의료계 인플루언서 파트너십</li>
+            <li>개인가치 콘텐츠 기획/확산</li>
+            <li>PR · 언론 노출</li>
+            <li>나현 개인 채널 성장</li>
+          </ul>
+        </div>
+        <div class="role-box">
+          <h4>미국 확장 시</h4>
+          <ul class="role-list">
+            <li>미국 PT/MD 파트너십 발굴</li>
+            <li>현지 인플루언서 컨택</li>
+          </ul>
+        </div>
+      </div>
+      <div class="highlight orange" style="margin-top:12px">
+        <p>⚠️ 디자인 제외. 패션디자인 전공이나 실무 부적합 판단됨 (2026-03-02).</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- 채용 필요 -->
+  <div class="section">
+    <h2>🔥 채용 필요 인원 (우선순위 순)</h2>
+
+    <!-- 1순위: 운영 매니저 -->
+    <div class="person-card">
+      <div class="person-header">
+        <div>
+          <div class="person-name">① 운영 매니저</div>
+          <div class="person-title">물류 · 재고 · QC · CS 시스템화</div>
+        </div>
+        <div class="salary-badge future">3,500~4,500만/년</div>
+      </div>
+      <div class="role-grid">
+        <div class="role-box">
+          <h4>핵심 역할</h4>
+          <ul class="role-list">
+            <li>공장/공급망 커뮤니케이션</li>
+            <li>물류/재고/발주 관리</li>
+            <li>QC (품질 관리)</li>
+            <li>CS 시스템 구축 & 운영</li>
+            <li>태훈이 손 떼게 만드는 것</li>
+          </ul>
+        </div>
+        <div class="role-box">
+          <h4>인재상</h4>
+          <ul class="role-list">
+            <li>꼼꼼함 + 루틴 처리 능숙</li>
+            <li>ISTJ/ESTJ 성향</li>
+            <li>물류/이커머스 경험자</li>
+            <li>시스템화 능력</li>
+            <li>멘탈 강함 (INFP 사절)</li>
+          </ul>
+        </div>
+      </div>
+      <span class="stock-tag">스톡옵션 0.5~1%</span>
+      <span class="timing-tag">월매출 5억+ 도달 시</span>
+    </div>
+
+    <!-- 2순위: 미국 담당자 -->
+    <div class="person-card">
+      <div class="person-header">
+        <div>
+          <div class="person-name">② 미국 담당자 (글로벌 마케터)</div>
+          <div class="person-title">TikTok US · PT 인플루언서 · Shopify 운영</div>
+        </div>
+        <div class="salary-badge future">3,500~5,000만/년</div>
+      </div>
+      <div class="role-grid">
+        <div class="role-box">
+          <h4>핵심 역할</h4>
+          <ul class="role-list">
+            <li>미국 PT/카이로 인플루언서 시딩</li>
+            <li>TikTok 미국 채널 운영</li>
+            <li>Shopify 글로벌 자사몰 관리</li>
+            <li>아마존 FBA 운영</li>
+            <li>미국 광고 카피 현지화</li>
+          </ul>
+        </div>
+        <div class="role-box">
+          <h4>인재상</h4>
+          <ul class="role-list">
+            <li>영어 비즈니스 레벨</li>
+            <li>미국 이커머스 경험</li>
+            <li>소셜 마케팅 이해</li>
+            <li>자기주도 실행력</li>
+            <li>헬스/웰니스 관심</li>
+          </ul>
+        </div>
+      </div>
+      <span class="stock-tag">스톡옵션 0.3~0.5%</span>
+      <span class="timing-tag">FCC 확보 후 / Q2~Q3</span>
+    </div>
+
+    <!-- 3순위: 퍼포먼스 마케터 -->
+    <div class="person-card">
+      <div class="person-header">
+        <div>
+          <div class="person-name">③ 퍼포먼스 마케터</div>
+          <div class="person-title">메타/틱톡 광고 세팅 & 최적화</div>
+        </div>
+        <div class="salary-badge future">4,000~5,500만/년</div>
+      </div>
+      <div class="role-grid">
+        <div class="role-box">
+          <h4>핵심 역할</h4>
+          <ul class="role-list">
+            <li>메타/틱톡 광고 구조 설계</li>
+            <li>소재 A/B 테스트 운영</li>
+            <li>ROAS 최적화</li>
+            <li>광고비 스케일업 관리</li>
+            <li>데이터 기반 의사결정</li>
+          </ul>
+        </div>
+        <div class="role-box">
+          <h4>인재상</h4>
+          <ul class="role-list">
+            <li>월 광고비 1억+ 운영 경험</li>
+            <li>ROAS 데이터 해석 능숙</li>
+            <li>이커머스 퍼포먼스 전문</li>
+            <li>자기 성과에 자신감 있는 사람</li>
+          </ul>
+        </div>
+      </div>
+      <span class="stock-tag">스톡옵션 0.3~0.5%</span>
+      <span class="timing-tag">광고비 월 3억+ 시 / Q3~Q4</span>
+    </div>
+
+    <!-- 4순위: COO -->
+    <div class="person-card">
+      <div class="person-header">
+        <div>
+          <div class="person-name">④ COO / 경영지원</div>
+          <div class="person-title">재무 · 인사 · 법무 · 팀 운영 총괄</div>
+        </div>
+        <div class="salary-badge tbd">6,000~8,000만/년</div>
+      </div>
+      <div class="role-grid">
+        <div class="role-box">
+          <h4>핵심 역할</h4>
+          <ul class="role-list">
+            <li>태훈의 "왜"를 "어떻게"로 번역</li>
+            <li>재무/자금 관리</li>
+            <li>인사/채용 총괄</li>
+            <li>법무/계약 관리</li>
+            <li>팀 운영 시스템화</li>
+          </ul>
+        </div>
+        <div class="role-box">
+          <h4>인재상</h4>
+          <ul class="role-list">
+            <li>스타트업 COO 경험자</li>
+            <li>태훈과 궁합 맞는 사람</li>
+            <li>급하게 뽑지 말 것</li>
+            <li>Pre-A 후 or 2027</li>
+          </ul>
+        </div>
+      </div>
+      <span class="stock-tag">스톡옵션 1~3%</span>
+      <span class="timing-tag">2027 or Pre-A 이후</span>
+    </div>
+  </div>
+
+  <!-- 비용 총계 -->
+  <div class="section">
+    <h2>💰 인건비 시뮬레이션</h2>
+    <div class="total-box">
+      <div class="total-row"><span>인규 (현재)</span><span style="color:#38d39f">세후 4,800만/년</span></div>
+      <div class="total-row"><span>나현 (현재)</span><span style="color:#38d39f">협의 중 (~3,000만 추정)</span></div>
+      <div class="total-row" style="color:#8b949e"><span>① 운영 매니저 (월매출 5억 후)</span><span>3,500~4,500만/년</span></div>
+      <div class="total-row" style="color:#8b949e"><span>② 미국 담당자 (Q2~Q3)</span><span>3,500~5,000만/년</span></div>
+      <div class="total-row" style="color:#8b949e"><span>③ 퍼포먼스 마케터 (Q3~Q4)</span><span>4,000~5,500만/년</span></div>
+      <div class="total-row"><span>2026년 말 인건비 총계 (추정)</span><span>~2억/년</span></div>
+    </div>
+    <div class="highlight green" style="margin-top:16px">
+      <p>연매출 200억 기준 인건비 비율 1%. <strong>매우 효율적인 구조</strong>. 카리나(AI)가 3명분 실무를 커버하기 때문에 가능.</p>
+    </div>
+  </div>
+
+  <!-- 채용 원칙 -->
+  <div class="section">
+    <h2>📌 채용 원칙 (교훈 기반)</h2>
+    <div class="principle-item">
+      <div class="principle-num">1</div>
+      <div class="principle-text"><strong>10-10 명확히 강조</strong> — "야근 많다" (X) → "매일 10시~22시" (O). 처음부터 명확하게.</div>
+    </div>
+    <div class="principle-item">
+      <div class="principle-num">2</div>
+      <div class="principle-text"><strong>INFP 조심</strong> — 영복님, 이수연님 둘 다 INFP, 둘 다 이탈. 멘탈 강한 사람 우선.</div>
+    </div>
+    <div class="principle-item">
+      <div class="principle-num">3</div>
+      <div class="principle-text"><strong>오퍼 후 2주 내 출근</strong> — 간격 길면 딴 데 알아봄. 이수연 사례 반복 금지.</div>
+    </div>
+    <div class="principle-item">
+      <div class="principle-num">4</div>
+      <div class="principle-text"><strong>뛰어난 사람은 뛰어난 판에 끌림</strong> — 최고의 채용 전략은 사업 성장 자체.</div>
+    </div>
+    <div class="principle-item">
+      <div class="principle-num">5</div>
+      <div class="principle-text"><strong>스톡옵션은 법인 전환 후 변호사와 한 번에</strong> — 구두 약속만 하고 나중에 명문화.</div>
+    </div>
+    <div class="principle-item">
+      <div class="principle-num">6</div>
+      <div class="principle-text"><strong>COO는 급하게 뽑지 말 것</strong> — 잘못 뽑으면 회사 망함. Pre-A 후 충분히 시간 두고.</div>
+    </div>
+  </div>
+
+  <p style="text-align:center;color:#6e7681;font-size:0.8rem;padding:24px">작성: 카리나 | 2026-03-10 | 키네메디칼 팀 빌딩 전략</p>
+</div>
+
+<div style="position:fixed;bottom:16px;right:16px;background:rgba(0,0,0,0.7);color:#fff;padding:8px 14px;border-radius:8px;font-size:12px;font-family:sans-serif;z-index:9999;line-height:1.8;">
+  <span style="opacity:0.6;">작성</span> 2026-03-10 &nbsp;|&nbsp; <span style="opacity:0.6;">수정</span> 2026-03-10
+</div>
+</body>
+</html>

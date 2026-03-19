@@ -1,0 +1,964 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>교육 허브 | 테넥스 리포트</title>
+<style>
+/* ===== RESET & BASE ===== */
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#0d1117;color:#8b949e;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;min-height:100vh;font-size:14px;line-height:1.75}
+a{color:#58a6ff;text-decoration:none}
+a:hover{text-decoration:underline}
+strong,b{color:#c9d1d9;font-weight:600}
+h1{font-size:26px;font-weight:700;color:#e6edf3;line-height:1.3;margin-bottom:8px}
+h2{font-size:20px;font-weight:600;color:#e6edf3;margin:24px 0 10px;line-height:1.4}
+h3{font-size:16px;font-weight:600;color:#e6edf3;margin:18px 0 8px}
+p{margin-bottom:12px}
+ul,ol{padding-left:20px;margin-bottom:12px}
+li{margin-bottom:4px}
+hr{border:none;border-top:1px solid #21262d;margin:24px 0}
+
+/* ===== LAYOUT ===== */
+.container{max-width:900px;margin:0 auto;padding:32px 20px}
+
+/* ===== TAB NAV ===== */
+.tab-nav{position:sticky;top:0;z-index:100;background:#161b22;border-bottom:1px solid #21262d;display:flex;overflow-x:auto;padding:0 20px}
+.tab-btn{background:none;border:none;color:#8b949e;padding:14px 20px;font-size:14px;font-weight:500;cursor:pointer;border-bottom:2px solid transparent;white-space:nowrap;transition:all .15s}
+.tab-btn:hover{color:#e6edf3}
+.tab-btn.active{color:#e6edf3;border-bottom-color:#58a6ff}
+
+/* ===== TAB CONTENT ===== */
+.tab-content{display:none}
+.tab-content.active{display:block}
+
+/* ===== HERO ===== */
+.hero{background:linear-gradient(135deg,#0d1117 0%,#161b22 100%);border:1px solid #21262d;border-radius:12px;padding:32px 24px;margin-bottom:24px;text-align:center}
+.hero-badge{display:inline-block;background:#21262d;color:#58a6ff;border-radius:20px;padding:4px 14px;font-size:12px;font-weight:500;margin-bottom:12px}
+.hero p{font-size:14px;color:#8b949e;margin-bottom:0}
+.hero-sub{font-size:14px;color:#8b949e;margin-top:8px}
+.hero-meta{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin-top:12px}
+
+/* ===== CARDS ===== */
+.card{background:#161b22;border:1px solid #21262d;border-radius:12px;padding:24px;margin-bottom:16px}
+
+/* ===== PROGRAM CARD ===== */
+.program-card{background:#161b22;border:1px solid #21262d;border-radius:12px;padding:24px;margin-bottom:16px}
+.program-tag{font-size:12px;font-weight:500;margin-bottom:6px}
+.program-name{font-size:18px;font-weight:700;color:#e6edf3;margin-bottom:4px}
+.program-sub{font-size:13px;color:#8b949e;margin-bottom:16px}
+.program-stats{display:flex;gap:16px;margin-bottom:16px;flex-wrap:wrap}
+.stat{text-align:center;flex:1;min-width:60px}
+.stat-num{font-size:22px;font-weight:700;display:block;margin-bottom:2px}
+.stat-label{font-size:11px;color:#8b949e}
+.program-links{display:flex;gap:8px;flex-wrap:wrap}
+
+/* ===== BUTTONS ===== */
+.btn-primary{background:#58a6ff;color:#fff;border-radius:8px;padding:8px 16px;font-size:13px;font-weight:500;display:inline-block;border:none;cursor:pointer;transition:opacity .15s}
+.btn-primary:hover{opacity:.85;text-decoration:none;color:#fff}
+.btn-secondary{background:#21262d;color:#8b949e;border-radius:8px;padding:8px 16px;font-size:13px;font-weight:500;display:inline-block;border:none;cursor:pointer;transition:opacity .15s}
+.btn-secondary:hover{opacity:.8;text-decoration:none}
+
+/* ===== BADGES ===== */
+.badge{display:inline-block;border-radius:20px;padding:4px 12px;font-size:12px;font-weight:500;margin:2px}
+.badge-blue{background:#0d2137;color:#58a6ff}
+.badge-green{background:#0d2b1a;color:#3fb950}
+.badge-purple{background:#1e1030;color:#a371f7}
+.badge-orange{background:#2b1a00;color:#f0883e}
+.badge-red{background:#2b0d0d;color:#f85149}
+.badge-yellow{background:#2b1f00;color:#d29922}
+
+/* ===== TAGS ===== */
+.tag{display:inline-block;border-radius:20px;padding:4px 12px;font-size:12px;font-weight:500;margin:2px}
+.tag-blue{background:#0d2137;color:#58a6ff}
+.tag-green{background:#0d2b1a;color:#3fb950}
+.tag-orange{background:#2b1a00;color:#f0883e}
+.tag-purple{background:#1e1030;color:#a371f7}
+.tag-red{background:#2b0d0d;color:#f85149}
+.tag-grid{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:16px}
+
+/* ===== SECTION TITLE ===== */
+.section-title{font-size:18px;font-weight:700;color:#e6edf3;margin:32px 0 16px;padding-bottom:8px;border-bottom:1px solid #21262d}
+.section-title span{font-size:13px;font-weight:400;color:#8b949e;margin-left:8px}
+
+/* ===== LECTURE GRID ===== */
+.lecture-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px;margin-bottom:16px}
+.lecture-card{background:#161b22;border:1px solid #21262d;border-radius:12px;padding:16px;display:block;transition:border-color .15s,background .15s}
+.lecture-card:hover{border-color:#58a6ff;background:#1c2128;text-decoration:none}
+.lecture-card.bonus{border-color:#2e1f6e}
+.lecture-card.bonus:hover{border-color:#a371f7}
+.lecture-num{display:inline-block;background:#21262d;color:#58a6ff;border-radius:6px;padding:2px 8px;font-size:11px;font-weight:600;margin-bottom:8px}
+.lecture-card.bonus .lecture-num{background:#1e1030;color:#a371f7}
+.lecture-title{font-size:13px;font-weight:600;color:#e6edf3;line-height:1.5}
+.lecture-date{font-size:11px;color:#8b949e;margin-top:4px}
+.bonus-note{font-size:11px;color:#8b949e;margin-top:8px}
+
+/* ===== TIMELINE SECTION HEADER ===== */
+.section-header{font-size:13px;font-weight:600;color:#58a6ff;background:#0d2137;border-radius:8px;padding:6px 14px;margin:24px 0 12px;display:inline-block}
+
+/* ===== INFO CARD GRID ===== */
+.card-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px;margin-bottom:16px}
+.info-card{background:#161b22;border:1px solid #21262d;border-radius:12px;padding:20px}
+.info-card h3{margin-top:0;font-size:15px}
+.info-card ul{margin-bottom:0}
+
+/* ===== WEEK SECTION ===== */
+.week-section{margin-bottom:32px}
+.week-header{display:flex;align-items:flex-start;gap:16px;margin-bottom:16px}
+.week-num{width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:700;color:#fff;flex-shrink:0}
+.week-1 .week-num{background:#58a6ff}
+.week-2 .week-num{background:#3fb950}
+.week-3 .week-num{background:#f0883e}
+.week-4 .week-num{background:#a371f7}
+.week-5 .week-num{background:#f85149}
+.week-title h2{margin-top:0;margin-bottom:4px}
+.week-title p{margin-bottom:0;font-size:13px}
+
+/* ===== INSIGHT BAR ===== */
+.insight-bar{background:#0d2137;border:1px solid #1d4ed8;border-radius:8px;padding:16px;margin-bottom:16px}
+.insight-bar h3{color:#58a6ff;margin-top:0;font-size:14px}
+.insight-bar p{margin-bottom:0}
+
+/* ===== TENEX CARD ===== */
+.tenex-card{background:#0d2b1a;border:1px solid #238636;border-radius:12px;padding:20px;margin-bottom:16px}
+.tenex-card h3{color:#3fb950;margin-top:0;font-size:14px}
+.tenex-card ul{margin-bottom:0}
+
+/* ===== FRAMEWORK GRID ===== */
+.framework-grid{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:16px}
+.framework-item{background:#161b22;border:1px solid #21262d;border-radius:10px;padding:16px;display:flex;align-items:center;gap:12px;flex:1;min-width:140px}
+.f-num{width:32px;height:32px;background:#58a6ff;color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:700;flex-shrink:0}
+.f-label{font-size:12px;color:#8b949e;line-height:1.5}
+
+/* ===== QUOTE ===== */
+.quote{font-style:italic;border-left:3px solid #58a6ff;padding-left:16px;color:#8b949e;margin:16px 0;font-size:14px;line-height:1.75}
+
+/* ===== SUMMARY SECTION ===== */
+.summary-section{background:#161b22;border:1px solid #21262d;border-radius:12px;padding:24px;margin-bottom:24px}
+.summary-section h2{margin-top:0}
+
+/* ===== DIVIDER ===== */
+.divider{border:none;border-top:1px solid #21262d;margin:32px 0}
+
+/* ===== BACK LINK ===== */
+.back-link{display:inline-block;color:#8b949e;font-size:13px;margin-bottom:20px}
+.back-link:hover{color:#e6edf3}
+
+/* ===== FOOTER ===== */
+.footer{text-align:center;padding:32px 20px;font-size:12px;color:#484f58;border-top:1px solid #21262d;margin-top:16px}
+
+/* ===== RESPONSIVE ===== */
+@media(max-width:640px){
+  .program-stats{gap:8px}
+  .framework-grid{flex-direction:column}
+  .card-grid{grid-template-columns:1fr}
+  .lecture-grid{grid-template-columns:repeat(2,1fr)}
+}
+</style>
+</head>
+<body>
+
+<nav class="tab-nav">
+  <button class="tab-btn active" onclick="showTab(1,this)">교육 허브</button>
+  <button class="tab-btn" onclick="showTab(2,this)">수제자 2기 요약</button>
+  <button class="tab-btn" onclick="showTab(3,this)">자사교 5기 메타</button>
+</nav>
+
+<!-- ============================= TAB 1: 교육 허브 ============================= -->
+<div id="tab-1" class="tab-content active">
+<div class="container">
+
+  <div class="hero">
+    <div class="hero-badge">태훈 교육 아카이브</div>
+    <h1>교육 허브</h1>
+    <p>수강 중인 교육 프로그램 강의 노트 &amp; 핵심 정리 모음</p>
+  </div>
+
+  <!-- 수제자 2기 -->
+  <div class="program-card">
+    <div class="program-tag" style="color:#58a6ff">📚 해일이형 수제자 2기</div>
+    <div class="program-name">수제자 2기 (모사모)</div>
+    <div class="program-sub">마케팅 &amp; 사업 성장 심화 과정</div>
+    <div class="program-stats">
+      <div class="stat">
+        <span class="stat-num" style="color:#58a6ff">17강</span>
+        <span class="stat-label">총 강의</span>
+      </div>
+      <div class="stat">
+        <span class="stat-num" style="color:#a371f7">28개</span>
+        <span class="stat-label">전체 파트</span>
+      </div>
+      <div class="stat">
+        <span class="stat-num" style="color:#3fb950">완료</span>
+        <span class="stat-label">상태</span>
+      </div>
+    </div>
+    <div class="program-links">
+      <a href="/education.html" class="btn-primary">📖 전체 강의 요약 보기</a>
+      <a href="#sujexa" class="btn-secondary">강의 목록 바로가기</a>
+    </div>
+  </div>
+
+  <!-- 자사교 5기 -->
+  <div class="program-card">
+    <div class="program-tag" style="color:#f0883e">🏫 자사몰사관학교</div>
+    <div class="program-name">자사교 5기</div>
+    <div class="program-sub">자사몰 D2C 성장 + 메타 광고 실전</div>
+    <div class="program-stats">
+      <div class="stat">
+        <span class="stat-num" style="color:#f0883e">격주목</span>
+        <span class="stat-label">일정</span>
+      </div>
+      <div class="stat">
+        <span class="stat-num" style="color:#3fb950">진행중</span>
+        <span class="stat-label">상태</span>
+      </div>
+      <div class="stat">
+        <span class="stat-num" style="color:#58a6ff">조교</span>
+        <span class="stat-label">태훈 역할</span>
+      </div>
+    </div>
+    <div class="program-links">
+      <a href="/meta-education.html" class="btn-primary" style="background:#f0883e">📊 메타 광고 강의 핵심 정리</a>
+    </div>
+  </div>
+
+  <hr>
+
+  <!-- 수제자 2기 강의 목록 -->
+  <div id="sujexa">
+    <div class="section-title">📚 수제자 2기 강의 목록 <span>— 해일이형 · 모사모 · 28개 파트</span></div>
+
+    <div class="lecture-grid">
+      <a href="/edu-01.html" class="lecture-card">
+        <div class="lecture-num">1강</div>
+        <div class="lecture-title">첫 라이브<br>수제자 2기 킥오프</div>
+      </a>
+      <a href="/edu-02-1.html" class="lecture-card bonus">
+        <div class="lecture-num">2강-1 · 보너스</div>
+        <div class="lecture-title">보너스 -1<br>파트 1</div>
+      </a>
+      <a href="/edu-02-2.html" class="lecture-card bonus">
+        <div class="lecture-num">2강-2 · 보너스</div>
+        <div class="lecture-title">보너스 -1<br>파트 2</div>
+      </a>
+      <a href="/edu-03-1.html" class="lecture-card">
+        <div class="lecture-num">3강-1</div>
+        <div class="lecture-title">수제자 2기 -2<br>파트 1</div>
+      </a>
+      <a href="/edu-03-2.html" class="lecture-card">
+        <div class="lecture-num">3강-2</div>
+        <div class="lecture-title">수제자 2기 -2<br>파트 2</div>
+      </a>
+      <a href="/edu-04.html" class="lecture-card bonus">
+        <div class="lecture-num">4강 · 보너스</div>
+        <div class="lecture-title">보너스 -2</div>
+      </a>
+      <a href="/edu-05.html" class="lecture-card">
+        <div class="lecture-num">5강</div>
+        <div class="lecture-title">수제자 2기 -3</div>
+      </a>
+      <a href="/edu-06.html" class="lecture-card bonus">
+        <div class="lecture-num">6강 · 보너스</div>
+        <div class="lecture-title">보너스 -3</div>
+      </a>
+      <a href="/edu-07.html" class="lecture-card bonus">
+        <div class="lecture-num">7강 · 보너스</div>
+        <div class="lecture-title">보너스 -4</div>
+      </a>
+      <a href="/edu-08-1.html" class="lecture-card">
+        <div class="lecture-num">8강-1</div>
+        <div class="lecture-title">수제자 2기 -4<br>파트 1</div>
+      </a>
+      <a href="/edu-08-2.html" class="lecture-card">
+        <div class="lecture-num">8강-2</div>
+        <div class="lecture-title">수제자 2기 -4<br>파트 2</div>
+      </a>
+      <a href="/edu-08-3.html" class="lecture-card">
+        <div class="lecture-num">8강-3</div>
+        <div class="lecture-title">수제자 2기 -4<br>파트 3</div>
+      </a>
+      <a href="/edu-09.html" class="lecture-card bonus">
+        <div class="lecture-num">9강 · 보너스</div>
+        <div class="lecture-title">보너스 -5</div>
+      </a>
+      <a href="/edu-10.html" class="lecture-card bonus">
+        <div class="lecture-num">10강 · 보너스</div>
+        <div class="lecture-title">보너스 -6</div>
+      </a>
+      <a href="/edu-11-1.html" class="lecture-card bonus">
+        <div class="lecture-num">11강-1 · 보너스</div>
+        <div class="lecture-title">보너스 -7<br>파트 1</div>
+      </a>
+      <a href="/edu-11-2.html" class="lecture-card bonus">
+        <div class="lecture-num">11강-2 · 보너스</div>
+        <div class="lecture-title">보너스 -7<br>파트 2</div>
+      </a>
+      <a href="/edu-12-1.html" class="lecture-card">
+        <div class="lecture-num">12강-1</div>
+        <div class="lecture-title">수제자 2기 -5<br>파트 1</div>
+      </a>
+      <a href="/edu-12-2.html" class="lecture-card">
+        <div class="lecture-num">12강-2</div>
+        <div class="lecture-title">수제자 2기 -5<br>파트 2</div>
+      </a>
+      <a href="/edu-13-1.html" class="lecture-card">
+        <div class="lecture-num">13강-1</div>
+        <div class="lecture-title">수제자 2기 -6<br>파트 1</div>
+      </a>
+      <a href="/edu-13-2.html" class="lecture-card">
+        <div class="lecture-num">13강-2</div>
+        <div class="lecture-title">수제자 2기 -6<br>파트 2</div>
+      </a>
+      <a href="/edu-14.html" class="lecture-card">
+        <div class="lecture-num">14강</div>
+        <div class="lecture-title">수제자 2기 -7</div>
+      </a>
+      <a href="/edu-15-1.html" class="lecture-card bonus">
+        <div class="lecture-num">15강-1 · 보너스</div>
+        <div class="lecture-title">보너스 -8<br>파트 1</div>
+      </a>
+      <a href="/edu-15-2.html" class="lecture-card bonus">
+        <div class="lecture-num">15강-2 · 보너스</div>
+        <div class="lecture-title">보너스 -8<br>파트 2</div>
+      </a>
+      <a href="/edu-16.html" class="lecture-card">
+        <div class="lecture-num">16강</div>
+        <div class="lecture-title">수제자 2기 -8</div>
+      </a>
+      <a href="/edu-17-1.html" class="lecture-card">
+        <div class="lecture-num">17강-1</div>
+        <div class="lecture-title">수제자 2기 -9<br>파트 1</div>
+      </a>
+      <a href="/edu-17-2.html" class="lecture-card">
+        <div class="lecture-num">17강-2</div>
+        <div class="lecture-title">수제자 2기 -9<br>파트 2</div>
+      </a>
+      <a href="/edu-17-3.html" class="lecture-card">
+        <div class="lecture-num">17강-3</div>
+        <div class="lecture-title">수제자 2기 -9<br>파트 3</div>
+      </a>
+    </div>
+
+    <p class="bonus-note">💜 보라색 카드 = 보너스 강의</p>
+  </div>
+
+</div>
+</div>
+
+<!-- ============================= TAB 2: 수제자 2기 요약 ============================= -->
+<div id="tab-2" class="tab-content">
+<div class="container">
+
+  <div class="hero">
+    <div class="hero-badge">📚 교육 — 해일이형 수제자 2기</div>
+    <h1>수제자 2기 강의 요약</h1>
+    <p class="hero-sub">AI 전사 완료 · 27개 강의 · 에디(1분도수) 언급 구간 별도 표시</p>
+    <div class="hero-meta">
+      <span class="badge badge-blue">27개 전사</span>
+      <span class="badge badge-purple">17강</span>
+    </div>
+  </div>
+
+  <div class="section-header">2025년 8월~9월</div>
+  <div class="lecture-grid">
+    <a href="/edu-01.html" class="lecture-card">
+      <div class="lecture-num">1강</div>
+      <div class="lecture-title">수제자 2기 첫 라이브</div>
+      <div class="lecture-date">2025.08</div>
+    </a>
+    <a href="/edu-02-1.html" class="lecture-card bonus">
+      <div class="lecture-num">2강-1 · BONUS</div>
+      <div class="lecture-title">보너스 -1 (파트1)</div>
+      <div class="lecture-date">2025.09.04</div>
+    </a>
+    <a href="/edu-02-2.html" class="lecture-card bonus">
+      <div class="lecture-num">2강-2 · BONUS</div>
+      <div class="lecture-title">보너스 -1 (파트2)</div>
+      <div class="lecture-date">2025.09.04</div>
+    </a>
+    <a href="/edu-03-1.html" class="lecture-card">
+      <div class="lecture-num">3강-1</div>
+      <div class="lecture-title">수제자 2기 -2 (파트1)</div>
+      <div class="lecture-date">2025.09.11</div>
+    </a>
+    <a href="/edu-03-2.html" class="lecture-card">
+      <div class="lecture-num">3강-2</div>
+      <div class="lecture-title">수제자 2기 -2 (파트2)</div>
+      <div class="lecture-date">2025.09.11</div>
+    </a>
+    <a href="/edu-04.html" class="lecture-card bonus">
+      <div class="lecture-num">4강 · BONUS</div>
+      <div class="lecture-title">보너스 -2</div>
+      <div class="lecture-date">2025.09.27</div>
+    </a>
+  </div>
+
+  <div class="section-header">2025년 10월~11월</div>
+  <div class="lecture-grid">
+    <a href="/edu-05.html" class="lecture-card">
+      <div class="lecture-num">5강</div>
+      <div class="lecture-title">수제자 2기 -3</div>
+      <div class="lecture-date">2025.10.03</div>
+    </a>
+    <a href="/edu-06.html" class="lecture-card bonus">
+      <div class="lecture-num">6강 · BONUS</div>
+      <div class="lecture-title">보너스 -3</div>
+      <div class="lecture-date">2025.10.18</div>
+    </a>
+    <a href="/edu-07.html" class="lecture-card bonus">
+      <div class="lecture-num">7강 · BONUS</div>
+      <div class="lecture-title">보너스 -4</div>
+      <div class="lecture-date">2025.10.25</div>
+    </a>
+    <a href="/edu-08-1.html" class="lecture-card">
+      <div class="lecture-num">8강-1</div>
+      <div class="lecture-title">수제자 2기 -4 (파트1)</div>
+      <div class="lecture-date">2025.10.31</div>
+    </a>
+    <a href="/edu-08-2.html" class="lecture-card">
+      <div class="lecture-num">8강-2</div>
+      <div class="lecture-title">수제자 2기 -4 (파트2)</div>
+      <div class="lecture-date">2025.10.31</div>
+    </a>
+    <a href="/edu-08-3.html" class="lecture-card">
+      <div class="lecture-num">8강-3</div>
+      <div class="lecture-title">수제자 2기 -4 (파트3)</div>
+      <div class="lecture-date">2025.10.31</div>
+    </a>
+    <a href="/edu-09.html" class="lecture-card bonus">
+      <div class="lecture-num">9강 · BONUS</div>
+      <div class="lecture-title">보너스 -5</div>
+      <div class="lecture-date">2025.11.08</div>
+    </a>
+    <a href="/edu-10.html" class="lecture-card bonus">
+      <div class="lecture-num">10강 · BONUS</div>
+      <div class="lecture-title">보너스 -6</div>
+      <div class="lecture-date">2025.11.13</div>
+    </a>
+    <a href="/edu-11-1.html" class="lecture-card bonus">
+      <div class="lecture-num">11강-1 · BONUS</div>
+      <div class="lecture-title">보너스 -7 (파트1)</div>
+      <div class="lecture-date">2025.11.21</div>
+    </a>
+    <a href="/edu-11-2.html" class="lecture-card bonus">
+      <div class="lecture-num">11강-2 · BONUS</div>
+      <div class="lecture-title">보너스 -7 (파트2)</div>
+      <div class="lecture-date">2025.11.21</div>
+    </a>
+    <a href="/edu-12-1.html" class="lecture-card">
+      <div class="lecture-num">12강-1</div>
+      <div class="lecture-title">수제자 2기 -5 (파트1)</div>
+      <div class="lecture-date">2025.11.28</div>
+    </a>
+    <a href="/edu-12-2.html" class="lecture-card">
+      <div class="lecture-num">12강-2</div>
+      <div class="lecture-title">수제자 2기 -5 (파트2)</div>
+      <div class="lecture-date">2025.11.28</div>
+    </a>
+  </div>
+
+  <div class="section-header">2025년 12월</div>
+  <div class="lecture-grid">
+    <a href="/edu-13-1.html" class="lecture-card">
+      <div class="lecture-num">13강-1</div>
+      <div class="lecture-title">수제자 2기 -6 (파트1)</div>
+      <div class="lecture-date">2025.12.05</div>
+    </a>
+    <a href="/edu-13-2.html" class="lecture-card">
+      <div class="lecture-num">13강-2</div>
+      <div class="lecture-title">수제자 2기 -6 (파트2)</div>
+      <div class="lecture-date">2025.12.05</div>
+    </a>
+    <a href="/edu-14.html" class="lecture-card">
+      <div class="lecture-num">14강</div>
+      <div class="lecture-title">수제자 2기 -7</div>
+      <div class="lecture-date">2025.12.19</div>
+    </a>
+    <a href="/edu-15-1.html" class="lecture-card bonus">
+      <div class="lecture-num">15강-1 · BONUS</div>
+      <div class="lecture-title">보너스 -8 (파트1)</div>
+      <div class="lecture-date">2025.12.26</div>
+    </a>
+    <a href="/edu-15-2.html" class="lecture-card bonus">
+      <div class="lecture-num">15강-2 · BONUS</div>
+      <div class="lecture-title">보너스 -8 (파트2)</div>
+      <div class="lecture-date">2025.12.26</div>
+    </a>
+  </div>
+
+  <div class="section-header">2026년 1월</div>
+  <div class="lecture-grid">
+    <a href="/edu-16.html" class="lecture-card">
+      <div class="lecture-num">16강</div>
+      <div class="lecture-title">수제자 2기 -8</div>
+      <div class="lecture-date">2026.01.08</div>
+    </a>
+    <a href="/edu-17-1.html" class="lecture-card">
+      <div class="lecture-num">17강-1</div>
+      <div class="lecture-title">수제자 2기 -9 (파트1)</div>
+      <div class="lecture-date">2026.01.23</div>
+    </a>
+    <a href="/edu-17-2.html" class="lecture-card">
+      <div class="lecture-num">17강-2</div>
+      <div class="lecture-title">수제자 2기 -9 (파트2)</div>
+      <div class="lecture-date">2026.01.23</div>
+    </a>
+    <a href="/edu-17-3.html" class="lecture-card">
+      <div class="lecture-num">17강-3</div>
+      <div class="lecture-title">수제자 2기 -9 (파트3)</div>
+      <div class="lecture-date">2026.01.23</div>
+    </a>
+  </div>
+
+</div>
+<div class="footer">테넥스 리포트 · 카리나 AI · 2026</div>
+</div>
+
+<!-- ============================= TAB 3: 자사교 5기 메타 ============================= -->
+<div id="tab-3" class="tab-content">
+<div class="container">
+
+  <div class="hero">
+    <div class="hero-badge">📚 자사교 5기 | 메타 광고 교육</div>
+    <h1>자사교 5기 메타 광고 강의 핵심 정리</h1>
+    <p class="hero-sub">강의자: 김성현 대표 | 1~5주차 12개 강의 전사본 요약</p>
+    <div class="hero-meta">
+      <span class="badge badge-blue">1~5주차</span>
+      <span class="badge badge-green">강의 12개</span>
+      <span class="badge badge-purple">태훈 조교 참여</span>
+    </div>
+  </div>
+
+  <a href="index.html" class="back-link">← 테넥스 리포트 홈</a>
+
+  <!-- 1주차 -->
+  <div class="week-section week-1">
+    <div class="week-header">
+      <div class="week-num">1</div>
+      <div class="week-title">
+        <h2>1주차 — 메타 광고 철학 + 비즈니스 포트폴리오 온보딩</h2>
+        <p>강의 01, 02 | 메타의 작동 원리, 픽셀/전환 API, 계정 구조 설정</p>
+      </div>
+    </div>
+
+    <div class="card-grid">
+      <div class="info-card">
+        <h3>🎯 주요 주제</h3>
+        <ul>
+          <li>메타가 AI에 투자하는 이유 (광고 수익 90%+)</li>
+          <li>비즈니스 포트폴리오 구조 이해</li>
+          <li>픽셀 vs 전환 API (CAPI) 작동 원리</li>
+          <li>데이터 시그널의 중요성</li>
+          <li>메타 비즈니스 스위트 vs 포트폴리오 차이</li>
+        </ul>
+      </div>
+      <div class="info-card">
+        <h3>💡 핵심 개념/프레임워크</h3>
+        <ul>
+          <li><strong>전환 API (경리 비유)</strong>: 쿠키리스 시대에 픽셀 한계 극복, 직접 서버→메타 데이터 전송</li>
+          <li><strong>행동 지문 타겟팅</strong>: 집단 그룹이 아닌 개인 행동 패턴 기반</li>
+          <li><strong>계정 권한 구조</strong>: 대표(전체관리) → 직원(부분관리) → 대행사(파트너)</li>
+          <li><strong>재구매 루프</strong>: 첫구매→CRM→재구매→높은 LTV</li>
+        </ul>
+      </div>
+      <div class="info-card">
+        <h3>📊 주요 수치/데이터</h3>
+        <ul>
+          <li>메타 광고 수익 비중: 97%</li>
+          <li>강사 스킨스쿨 ROAS: 광고비 26억 → 매출 207억 (자사몰)</li>
+          <li>재구매 비율: 82% (스킨스쿨 기준)</li>
+          <li>메타 AI 개발자 평균 연봉: 135억</li>
+          <li>메타 2030 AI 투자 계획: 286조</li>
+          <li>기여 윈도우: 클릭 7일, 조회 24시간</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="insight-bar">
+      <h3>🔥 실행 가능한 핵심 인사이트</h3>
+      <p><strong>비즈니스 포트폴리오는 법인처럼 관리하라.</strong> 대표 2명만 전체관리 권한 부여 (직원/대행사에 전체관리 절대 금지). 한 개 법인 = 한 개 포트폴리오로 통합 운영해야 신뢰 점수가 쌓인다. 전환 API 설정은 필수 — 쿠키리스 환경에서 픽셀만으론 부족하다. 메타는 클릭→구매 매칭에서 거의 100% 정확도를 보이므로 데이터 신뢰 가능.</p>
+    </div>
+
+    <div class="tenex-card">
+      <h3>🏥 키네메디칼/테넥스 적용 포인트</h3>
+      <ul>
+        <li>CS-25, ES-808 각 제품별 광고 계정 분리 (비즈니스 포트폴리오는 법인 1개로 통합)</li>
+        <li>전환 API 설정 완료 여부 점검 — 카페24 픽셀 + CAPI 양방향 확인</li>
+        <li>CRM 자동화(현재 ES-808 배송 문자)를 재구매 고객 분류까지 확장</li>
+        <li>태훈이 조교로 참여했으므로 강의 세팅 방법론 직접 숙지 가능</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- 2주차 -->
+  <div class="week-section week-2">
+    <div class="week-header">
+      <div class="week-num">2</div>
+      <div class="week-title">
+        <h2>2주차 — 메타 경매 시스템 + 마케팅팀 설정</h2>
+        <p>강의 03, 04 | 경매 4단계, 총가치 공식, 입찰 전략, 타겟 세그먼트</p>
+      </div>
+    </div>
+
+    <div class="card-grid">
+      <div class="info-card">
+        <h3>🎯 주요 주제</h3>
+        <ul>
+          <li>메타 경매 4단계 작동 원리</li>
+          <li>총가치(Total Value) 공식</li>
+          <li>입찰 전략: 지출기반 vs 목표기반</li>
+          <li>타겟 세그먼트(참여/기존 고객) 설정</li>
+          <li>믹스패널 연동 및 UTM 설정</li>
+        </ul>
+      </div>
+      <div class="info-card">
+        <h3>💡 핵심 개념/프레임워크</h3>
+        <ul>
+          <li><strong>경매 공식</strong>: 광고비 × 추산행동률 + 광고품질 + 자사몰 점수</li>
+          <li><strong>4단계</strong>: 필터링→리트리벌→시퀀스러닝→라이트스(최종경매)</li>
+          <li><strong>스노볼 효과</strong>: 좋은 데이터 쌓이면 총가치↑ → 더 많은 노출 → 더 많은 데이터</li>
+          <li><strong>멀티암 밴디 알고리즘</strong>: 모든 광고에 최소 기회 보장, 잘 되는 광고에 더 많은 기회</li>
+        </ul>
+      </div>
+      <div class="info-card">
+        <h3>📊 주요 수치/데이터</h3>
+        <ul>
+          <li>필터링: 빈도/정책/노출 위치 검수 (노출 위치 자동화 필수)</li>
+          <li>리트리벌: 광고 관련성 계산 (릴스형 소재에 베타 베네핏↑)</li>
+          <li>목표기반 입찰: 예산 소진 안 함 (로아스 안 나오면 자동 중단)</li>
+          <li>클래스101 광고 계정: 월 7억 집행 사례</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="insight-bar">
+      <h3>🔥 실행 가능한 핵심 인사이트</h3>
+      <p><strong>메타와 싸우지 말고 올라타라.</strong> 경매를 이기려는 꼼수 대신 총가치를 높이는 데 집중. 노출 위치 제한 금지(자동화), 릴스형 소재 우선, 광고 데이터 축적 후 성과 개선이 핵심 전략. 광고 끄기/켜기를 반복하면 스노볼이 깨진다 — 대신 좋은 소재 투입으로 방향 전환. 경매는 카테고리 무관 전국 모든 광고와 경쟁한다.</p>
+    </div>
+
+    <div class="tenex-card">
+      <h3>🏥 키네메디칼/테넥스 적용 포인트</h3>
+      <ul>
+        <li>CS-25(2만원대)와 ES-808(고가)는 가격대가 달라 광고 세트 분리 필수</li>
+        <li>릴스형 소재 제작 우선순위 상향 — 목/허리 운동 영상 릴스 최적화</li>
+        <li>광고 성과 부진 시 캠페인 OFF 대신 새 소재 투입으로 대응</li>
+        <li>믹스패널 연동으로 광고→상세페이지→구매 퍼널 전체 분석 가능하게 유지</li>
+        <li>타겟 세그먼트: 참여(상세 방문 미구매) / 기존 고객(구매자) 분리 설정</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- 3주차 -->
+  <div class="week-section week-3">
+    <div class="week-header">
+      <div class="week-num">3</div>
+      <div class="week-title">
+        <h2>3주차 — 광고 관리자 실습 + 크리에이티브 전략</h2>
+        <p>강의 05, 06, 07, 08 | 캠페인 셋업, 크리에이티브 테스트, 콘텐츠 벤치마킹</p>
+      </div>
+    </div>
+
+    <div class="card-grid">
+      <div class="info-card">
+        <h3>🎯 주요 주제</h3>
+        <ul>
+          <li>광고 관리자 A~Z 실습 (캠페인→세트→광고)</li>
+          <li>어드벤티지플러스 통합 기능 활용</li>
+          <li>크리에이티브 테스트 (신규 기능)</li>
+          <li>파트너십 광고 장단점</li>
+          <li>콘텐츠 벤치마킹 방법론</li>
+          <li>광고 세트 분리 기준</li>
+        </ul>
+      </div>
+      <div class="info-card">
+        <h3>💡 핵심 개념/프레임워크</h3>
+        <ul>
+          <li><strong>크리에이티브 테스트</strong>: 세트/캠페인 추가 없이 기존 세트 내에서 2주 균등 예산 테스트 → 머신러닝 영향 0</li>
+          <li><strong>세트 분리 2가지 기준만</strong>: ①거시적 타겟이 완전히 다를 때 ②가격대가 크게 다를 때</li>
+          <li><strong>광고 수명</strong>: 수명 없음. 빈도(경쟁사 등장)가 수명 결정</li>
+          <li><strong>셀프 벤치마킹</strong>: 훅률/지속율/CTR 조합 분석 → 더 강한 버전 제작</li>
+        </ul>
+      </div>
+      <div class="info-card">
+        <h3>📊 주요 수치/데이터</h3>
+        <ul>
+          <li>좋은 소재 훅률: 40%+, 지속율: 15%+, CTR: 3%+</li>
+          <li>릴스 노출 비중: 60~70%</li>
+          <li>세트 내 광고 5개가 균등 예산 분배되는 게 이상적</li>
+          <li>1초 편집 차이로 성과 1.5배 차이 사례</li>
+          <li>이미지 광고 1개 혼합: 피드 지면 로아스 최고</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="insight-bar">
+      <h3>🔥 실행 가능한 핵심 인사이트</h3>
+      <p><strong>50개 던지기보다 5개 뾰족하게.</strong> 크리에이티브 테스트로 현재 1등 소재보다 더 강한 소재를 단계적으로 제작. 내 광고 데이터(훅률·지속율·CTR)를 분석해 가장 약한 지점을 개선한 버전 제작 → 투입 → 승자 독식 확인 → 반복. 어드벤티지플러스 통합 기능은 무조건 켜둬야 함 (리타겟도 마찬가지). 광고 관리자 하루 2000번 들어가는 습관은 금물 — 7일은 절대 건드리지 말 것.</p>
+    </div>
+
+    <div class="tenex-card">
+      <h3>🏥 키네메디칼/테넥스 적용 포인트</h3>
+      <ul>
+        <li>ES-808: 목 디스크 통증 문제→해결 구조 릴스 소재 3~5개 집중 테스트</li>
+        <li>CS-25: 가격 경쟁력 + 치료사 신뢰도 소재 조합 테스트</li>
+        <li>1분도수 채널 콘텐츠를 파트너십 광고 소재로 활용 검토 (팔로워 타겟 매칭)</li>
+        <li>이미지 광고 1개(할인 소구) + 릴스 4개 조합이 이상적 세트 구성</li>
+        <li>크리에이티브 테스트: 기존 캠페인 내에서 새 소재 실험 → 학습 보존</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- 4주차 -->
+  <div class="week-section week-4">
+    <div class="week-header">
+      <div class="week-num">4</div>
+      <div class="week-title">
+        <h2>4주차 — 머신러닝 이해 + 성과 분석</h2>
+        <p>강의 09, 10 | 머신러닝 원리, 퍼널 분석, 믹스패널 대시보드, CRM 연계</p>
+      </div>
+    </div>
+
+    <div class="card-grid">
+      <div class="info-card">
+        <h3>🎯 주요 주제</h3>
+        <ul>
+          <li>머신러닝 작동 원리 (후보 선별→확률 예측→노출)</li>
+          <li>증분 기여(증대 기어) vs 일반 기어</li>
+          <li>광고 퍼널: 광고 반응 + 자사몰 퍼널 분석</li>
+          <li>믹스패널 대시보드로 이탈 지점 파악</li>
+          <li>히트맵/세션 리플레이로 상세 페이지 UX 개선</li>
+          <li>VOC → CRM 자동화 설계</li>
+        </ul>
+      </div>
+      <div class="info-card">
+        <h3>💡 핵심 개념/프레임워크</h3>
+        <ul>
+          <li><strong>곱셈 법칙</strong>: 광고 성과 = CTR × 체류 × 결제시작 × 구매 (각 10% 개선 → 복리 효과)</li>
+          <li><strong>증분 기여</strong>: 메타를 통해서만 산 사람 분리 측정 → 실제 광고 기여도 확인</li>
+          <li><strong>50개 신화 해체</strong>: 머신러닝은 20개도 됨, AI 발전으로 훨씬 빨라짐</li>
+          <li><strong>광고 계정 분리 위험</strong>: 계정 여러 개면 1구매→3구매 중복 측정 발생</li>
+        </ul>
+      </div>
+      <div class="info-card">
+        <h3>📊 주요 수치/데이터</h3>
+        <ul>
+          <li>머신러닝 시작: 과거 50개→현재 20개도 가능</li>
+          <li>2회 재구매 시 이후 재구매율 급등 (스킨스쿨 데이터)</li>
+          <li>디자이너 1년 AB테스트로 전환율 1%도 못 올리면 해고 기준</li>
+          <li>브랜드 여러 개: 포트폴리오 1개 공유, 광고 계정은 각각 분리</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="insight-bar">
+      <h3>🔥 실행 가능한 핵심 인사이트</h3>
+      <p><strong>문제는 광고가 아니라 퍼널에 있다.</strong> 로아스가 나쁘면 광고 소재만 바꾸지 말고 믹스패널로 이탈 지점을 먼저 찾아라. 상세 페이지가 문제면 광고 바꿔도 소용없다. 증분 기여 분석으로 "실제 메타 때문에 산" 사람과 "원래 살 사람"을 구분해 광고비 효율성을 정확히 측정. VOC(고객 전화)는 정량 데이터의 원인을 찾는 핵심 도구 — 매달 10명 이상 전화 필수.</p>
+    </div>
+
+    <div class="tenex-card">
+      <h3>🏥 키네메디칼/테넥스 적용 포인트</h3>
+      <ul>
+        <li>ES-808 구매자 전화 VOC: "어떤 광고 보고 샀냐", "상세 페이지 어디서 막혔냐" 파악</li>
+        <li>믹스패널 퍼널: 상세 입장→사용법 클릭→장바구니→구매 단계별 이탈율 분석</li>
+        <li>CS-25 낮은 가격 → 높은 구매 확률 → 먼저 머신러닝 달성 가능성 높음</li>
+        <li>ES-808 고가 제품: 2회 구매 고객에게 적극 CRM → 충성고객 전환 집중</li>
+        <li>키네메디칼 법인 1개 포트폴리오 유지하되 CS-25/ES-808 광고 계정 분리 확인</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- 5주차 -->
+  <div class="week-section week-5">
+    <div class="week-header">
+      <div class="week-num">5</div>
+      <div class="week-title">
+        <h2>5주차 — AS플러스 카탈로그 + 계정 보안 + 최종 셋업</h2>
+        <p>강의 11, 12 | 카탈로그 최적화, 제품 속성 설정, 쇼스, 보안 관리</p>
+      </div>
+    </div>
+
+    <div class="card-grid">
+      <div class="info-card">
+        <h3>🎯 주요 주제</h3>
+        <ul>
+          <li>AS플러스 카탈로그 vs 일반 광고 차이</li>
+          <li>카탈로그 속성 필드 우선순위 설정</li>
+          <li>제품명/설명 작성 룰 (메타 가이드)</li>
+          <li>비디오 카탈로그 등록 방법</li>
+          <li>쇼스(Shops) 기능 활용</li>
+          <li>2단계 인증 + 해킹 방어 + 2주의 법칙</li>
+        </ul>
+      </div>
+      <div class="info-card">
+        <h3>💡 핵심 개념/프레임워크</h3>
+        <ul>
+          <li><strong>카탈로그 = 황금알 거위</strong>: 제품 정보 잘 입력하면 장기적으로 최고 효율</li>
+          <li><strong>속성 필드</strong>: 도서 분류 코드 (없으면 검색 안 됨)</li>
+          <li><strong>제품명 룰</strong>: 특징+제품명+용량/수량 or 제품명+색상+사이즈</li>
+          <li><strong>2주의 법칙</strong>: 신규 계정/신규 광고는 2주간 안전한 광고로 신뢰 쌓기</li>
+          <li><strong>카탈로그 셋업</strong>: 신규+리타겟 5:5, 가치 최적화</li>
+        </ul>
+      </div>
+      <div class="info-card">
+        <h3>📊 주요 수치/데이터</h3>
+        <ul>
+          <li>제품 설명 최대 9,999자 (하지만 핵심 500자 이내 권장)</li>
+          <li>엔젤비 사례: 1년된 소재가 아직도 1등 (수명 없음 증명)</li>
+          <li>해킹 환불 조건: 2단계 인증 "모두" 설정 필수</li>
+          <li>비디오 카탈로그: 메타가 가장 강하게 미는 기능 (2025 기준)</li>
+          <li>카탈로그 이 설정 하는 업체: 대한민국 0.01% 미만</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="insight-bar">
+      <h3>🔥 실행 가능한 핵심 인사이트</h3>
+      <p><strong>카탈로그 속성 잘 채우면 상대 경쟁 우위 확보.</strong> 대한민국에서 이걸 제대로 하는 업체가 거의 없기 때문에, 제품 속성(성별·연령·색상·소재·특징)을 정확히 입력하는 것만으로 경매에서 관련성 점수 우위를 가져갈 수 있다. 비디오 카탈로그가 메타의 현재 미래 방향 — 릴스 소재를 카탈로그에 연결하면 자동 최적화. 보안은 선택이 아닌 필수: 2단계 인증 "모두" 설정 + 메타 발신 메일 무조건 무시.</p>
+    </div>
+
+    <div class="tenex-card">
+      <h3>🏥 키네메디칼/테넥스 적용 포인트</h3>
+      <ul>
+        <li>ES-808/CS-25 카탈로그 속성: 부위(목/허리), 강도, 적용 대상(연령), 소재 등 세밀하게 입력</li>
+        <li>제품명 룰 적용: "목디스크 완화 ES-808 목 근막 이완기 2025형" 형식으로</li>
+        <li>1분도수 유튜브 영상 → 비디오 카탈로그 연결 검토 (콘텐츠 자산 활용)</li>
+        <li>비즈니스 포트폴리오 2단계 인증 "모두"로 즉시 설정 확인 필수</li>
+        <li>카탈로그: 신규 고객 5 / 리타겟 고객 5 비율, 가치 최적화 캠페인 운영</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- 통합 인사이트 -->
+  <div class="summary-section">
+    <h2>🎯 전체 통합 인사이트</h2>
+
+    <div class="tag-grid">
+      <span class="tag tag-blue">경매 이해</span>
+      <span class="tag tag-green">데이터 기반</span>
+      <span class="tag tag-orange">콘텐츠 전략</span>
+      <span class="tag tag-purple">카탈로그</span>
+      <span class="tag tag-red">보안</span>
+    </div>
+
+    <div class="card-grid">
+      <div class="info-card">
+        <h3>📐 메타 광고의 핵심 철학</h3>
+        <ul>
+          <li>메타를 이기려 하지 마라 → 올라타라</li>
+          <li>총가치(Total Value)를 높이는 모든 행동이 정답</li>
+          <li>광고 단위가 학습의 주체 (캠페인/세트는 보조)</li>
+          <li>승자 독식 구조 → 1등 소재를 꾸준히 갱신</li>
+          <li>메타의 미래: AI가 알아서 광고 제작+최적화</li>
+        </ul>
+      </div>
+      <div class="info-card">
+        <h3>🚫 하지 말아야 할 것들</h3>
+        <ul>
+          <li>7일 이내 광고 끄기/켜기/수정</li>
+          <li>캠페인 여러 개 동시 운영 (성과 분산)</li>
+          <li>광고 계정 여러 개 + 같은 광고 집행 (중복 측정)</li>
+          <li>노출 위치 수동 제한</li>
+          <li>직원/대행사에 전체 관리 권한 부여</li>
+          <li>메타 발신 이메일 링크 클릭</li>
+        </ul>
+      </div>
+      <div class="info-card">
+        <h3>✅ 반드시 해야 할 것들</h3>
+        <ul>
+          <li>전환 API (CAPI) 설정</li>
+          <li>어드벤티지플러스 통합 항상 켜기</li>
+          <li>릴스형 소재 + 이미지 1개 혼합</li>
+          <li>카탈로그 속성 필드 완전 입력</li>
+          <li>2단계 인증 "모두" 설정</li>
+          <li>월 10명 이상 고객 VOC 전화</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="insight-bar">
+      <h3>🏆 핵심 공식: 메타 광고 성과 = 총가치 × 지속성</h3>
+      <p>총가치 = 광고비(입찰가) × 추산행동률 + 광고품질(관련성) + 자사몰 점수(랜딩페이지 UX)<br><br>
+      <strong>자사몰 운영의 꽃은 재구매</strong> — 메타는 신규 고객 유입 도구, CRM은 재구매 도구. 두 개를 결합해야 진정한 자사몰 성과를 만들 수 있다. 광고 소재 1개가 수개월 이상 1등을 유지할 수 있다 (빈도/경쟁사가 수명을 결정하지 시간이 아님).</p>
+    </div>
+  </div>
+
+  <!-- 테넥스 메타 광고 적용 가이드 -->
+  <div class="summary-section">
+    <h2>🎯 키네메디칼/CS-25/ES-808 메타 광고 적용 가이드</h2>
+
+    <div class="framework-grid">
+      <div class="framework-item">
+        <div class="f-num">1</div>
+        <div class="f-label">계정 구조 점검<br>(포트폴리오 통합)</div>
+      </div>
+      <div class="framework-item">
+        <div class="f-num">2</div>
+        <div class="f-label">CAPI 설정<br>확인/보강</div>
+      </div>
+      <div class="framework-item">
+        <div class="f-num">3</div>
+        <div class="f-label">릴스 소재<br>5개 집중 제작</div>
+      </div>
+      <div class="framework-item">
+        <div class="f-num">4</div>
+        <div class="f-label">카탈로그<br>속성 완전 입력</div>
+      </div>
+      <div class="framework-item">
+        <div class="f-num">5</div>
+        <div class="f-label">믹스패널 퍼널<br>이탈 지점 분석</div>
+      </div>
+    </div>
+
+    <div class="card-grid" style="margin-top:20px">
+      <div class="tenex-card">
+        <h3>🦴 ES-808 전략</h3>
+        <ul>
+          <li>소재: "목디스크 환자가 직접 사용하는" 신뢰 소구 + 전문가(치료사) 추천</li>
+          <li>훅: 통증 문제 → 3초 해결 장면 → 제품 등장</li>
+          <li>타겟: 40-60대, 목/허리 통증 관심사, 운동 관심사</li>
+          <li>시즌 전략: 연말/설/추석 전 1개월 전부터 얼리버드 진행</li>
+          <li>CRM: 구매 후 7일/30일 사용법 안내 → 재구매 유도</li>
+        </ul>
+      </div>
+      <div class="tenex-card">
+        <h3>💊 CS-25 전략</h3>
+        <ul>
+          <li>가격대 낮음 → 전환 확률 높음 → 머신러닝 빠르게 달성</li>
+          <li>소재: 가성비 + 즉각 효과 + 일상 사용 장면</li>
+          <li>번들 구성 (3+1, 묶음할인)으로 AOV 상승</li>
+          <li>ES-808 구매자 대상 CS-25 CRM 연계 (크로스셀)</li>
+          <li>카탈로그: 용량/수량 속성 명확히 → 가격비교 우위</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="quote">
+      "메타는 타겟을 정의하는 게 아니라 타겟의 지문(행동 패턴)을 만들어서 이와 유사한 사람을 찾는 것이다. 캠페인을 많이 만들지 마라. 대신 고객과 한 번 더 전화해서 콘텐츠를 만드는 게 훨씬 이득이다." — 자사교 5기 강의 중
+    </div>
+  </div>
+
+</div>
+<div class="footer">자사교 5기 메타 광고 강의 핵심 요약 | 카리나 생성 2026-03-09 | 테넥스 내부 교육 문서</div>
+</div>
+
+<script>
+function showTab(n, btn) {
+  document.querySelectorAll('.tab-content').forEach(function(el){ el.classList.remove('active'); });
+  document.querySelectorAll('.tab-btn').forEach(function(el){ el.classList.remove('active'); });
+  document.getElementById('tab-' + n).classList.add('active');
+  if (btn) btn.classList.add('active');
+}
+</script>
+</body>
+</html>

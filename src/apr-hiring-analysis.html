@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>APR 채용 공고 분석 — 테넥스 채용 전략 참고</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #f5f5f5; color: #1a1a1a; }
+    .header { background: #1a1a1a; color: #fff; padding: 48px 40px 36px; }
+    .header .label { font-size: 12px; letter-spacing: 2px; text-transform: uppercase; color: #888; margin-bottom: 12px; }
+    .header h1 { font-size: 28px; font-weight: 700; margin-bottom: 8px; }
+    .header .meta { font-size: 13px; color: #aaa; }
+    .container { max-width: 960px; margin: 0 auto; padding: 40px 24px; }
+    .section { background: #fff; border-radius: 12px; padding: 32px; margin-bottom: 24px; }
+    .section h2 { font-size: 16px; font-weight: 700; color: #111; margin-bottom: 20px; display: flex; align-items: center; gap: 8px; }
+    .section h2 .badge { background: #1a1a1a; color: #fff; font-size: 11px; padding: 2px 8px; border-radius: 20px; font-weight: 500; }
+    .stat-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 0; }
+    .stat-card { background: #f8f8f8; border-radius: 10px; padding: 20px; text-align: center; }
+    .stat-card .num { font-size: 32px; font-weight: 800; color: #1a1a1a; margin-bottom: 4px; }
+    .stat-card .lbl { font-size: 12px; color: #666; }
+    .category-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
+    .cat-item { background: #f8f8f8; border-radius: 10px; padding: 16px 20px; display: flex; justify-content: space-between; align-items: center; }
+    .cat-item .name { font-size: 14px; font-weight: 600; }
+    .cat-item .count { font-size: 22px; font-weight: 800; color: #1a1a1a; }
+    .cat-item .bar { width: 100%; background: #e8e8e8; border-radius: 4px; height: 4px; margin-top: 8px; }
+    .cat-item .bar-fill { background: #1a1a1a; height: 4px; border-radius: 4px; }
+    .cat-block { margin-bottom: 20px; }
+    .cat-block:last-child { margin-bottom: 0; }
+    .cat-block h3 { font-size: 13px; font-weight: 700; color: #444; margin-bottom: 10px; padding-bottom: 8px; border-bottom: 1px solid #eee; }
+    .tag-list { display: flex; flex-wrap: wrap; gap: 8px; }
+    .tag { background: #f0f0f0; color: #333; font-size: 12px; padding: 5px 12px; border-radius: 20px; }
+    .tag.highlight { background: #1a1a1a; color: #fff; }
+    .tag.global { background: #e8f4fd; color: #1a6fb3; }
+    .tag.infl { background: #fdf3e8; color: #b36b1a; }
+    .tag.intern { background: #e8fdf0; color: #1a8b4a; }
+    .insight-list { list-style: none; }
+    .insight-list li { padding: 12px 0; border-bottom: 1px solid #f0f0f0; font-size: 14px; line-height: 1.6; display: flex; gap: 12px; }
+    .insight-list li:last-child { border-bottom: none; }
+    .insight-list li .icon { font-size: 16px; flex-shrink: 0; margin-top: 1px; }
+    .jd-template { background: #f8f8f8; border-radius: 10px; padding: 24px; margin-bottom: 16px; }
+    .jd-template h3 { font-size: 15px; font-weight: 700; margin-bottom: 16px; color: #111; }
+    .jd-template .jd-section { margin-bottom: 14px; }
+    .jd-template .jd-section h4 { font-size: 12px; font-weight: 700; color: #888; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; }
+    .jd-template .jd-section ul { padding-left: 16px; }
+    .jd-template .jd-section li { font-size: 13px; color: #333; line-height: 1.8; }
+    .priority-tag { display: inline-block; font-size: 11px; font-weight: 700; padding: 2px 10px; border-radius: 20px; margin-bottom: 12px; }
+    .priority-1 { background: #ffe0e0; color: #c00; }
+    .priority-2 { background: #fff3cd; color: #856404; }
+    .table-wrap { overflow-x: auto; }
+    table { width: 100%; border-collapse: collapse; font-size: 13px; }
+    th { background: #f0f0f0; font-weight: 700; padding: 10px 14px; text-align: left; color: #444; }
+    td { padding: 10px 14px; border-bottom: 1px solid #f0f0f0; color: #333; vertical-align: top; }
+    tr:last-child td { border-bottom: none; }
+    .pill { display: inline-block; font-size: 11px; padding: 2px 8px; border-radius: 10px; font-weight: 500; }
+    .pill-mkt { background: #e8f0fe; color: #1a56db; }
+    .pill-sales { background: #fce8ff; color: #7c1abd; }
+    .pill-rd { background: #e8fdf0; color: #0f7a35; }
+    .pill-design { background: #fff3e0; color: #e65100; }
+    .pill-scm { background: #f3e8ff; color: #6d28d9; }
+    .pill-cs { background: #fef9c3; color: #713f12; }
+    .pill-hr { background: #fee2e2; color: #991b1b; }
+    .pill-fin { background: #e0f2fe; color: #075985; }
+    .footer { text-align: center; padding: 32px; color: #aaa; font-size: 12px; }
+  </style>
+</head>
+<body>
+
+<div class="header">
+  <div class="label">Tenex Strategy · 2026.03.19</div>
+  <h1>APR 채용 공고 전수 분석</h1>
+  <div class="meta">총 61개 공고 / 7페이지 — 테넥스 채용 전략 수립 참고용</div>
+</div>
+
+<div class="container">
+
+  <!-- 전체 현황 -->
+  <div class="section">
+    <h2>전체 현황 <span class="badge">61개 공고</span></h2>
+    <div class="stat-grid">
+      <div class="stat-card">
+        <div class="num">61</div>
+        <div class="lbl">진행중 채용 공고</div>
+      </div>
+      <div class="stat-card">
+        <div class="num">25+</div>
+        <div class="lbl">마케팅 포지션</div>
+      </div>
+      <div class="stat-card">
+        <div class="num">8</div>
+        <div class="lbl">직군 카테고리</div>
+      </div>
+      <div class="stat-card">
+        <div class="num">15+</div>
+        <div class="lbl">글로벌 타겟 국가</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 직군별 분포 -->
+  <div class="section">
+    <h2>직군별 채용 분포</h2>
+    <div class="category-grid">
+      <div>
+        <div class="cat-item">
+          <div>
+            <div class="name">영업·마케팅</div>
+            <div class="bar"><div class="bar-fill" style="width:100%"></div></div>
+          </div>
+          <div class="count">25+</div>
+        </div>
+      </div>
+      <div>
+        <div class="cat-item">
+          <div>
+            <div class="name">R&D·상품기획</div>
+            <div class="bar"><div class="bar-fill" style="width:50%"></div></div>
+          </div>
+          <div class="count">12</div>
+        </div>
+      </div>
+      <div>
+        <div class="cat-item">
+          <div>
+            <div class="name">경영지원·전략</div>
+            <div class="bar"><div class="bar-fill" style="width:35%"></div></div>
+          </div>
+          <div class="count">8</div>
+        </div>
+      </div>
+      <div>
+        <div class="cat-item">
+          <div>
+            <div class="name">SCM·구매·물류</div>
+            <div class="bar"><div class="bar-fill" style="width:30%"></div></div>
+          </div>
+          <div class="count">7</div>
+        </div>
+      </div>
+      <div>
+        <div class="cat-item">
+          <div>
+            <div class="name">IT개발·데이터</div>
+            <div class="bar"><div class="bar-fill" style="width:20%"></div></div>
+          </div>
+          <div class="count">4</div>
+        </div>
+      </div>
+      <div>
+        <div class="cat-item">
+          <div>
+            <div class="name">디자인</div>
+            <div class="bar"><div class="bar-fill" style="width:15%"></div></div>
+          </div>
+          <div class="count">3</div>
+        </div>
+      </div>
+      <div>
+        <div class="cat-item">
+          <div>
+            <div class="name">재무</div>
+            <div class="bar"><div class="bar-fill" style="width:15%"></div></div>
+          </div>
+          <div class="count">3</div>
+        </div>
+      </div>
+      <div>
+        <div class="cat-item">
+          <div>
+            <div class="name">CS·HR·제조·품질</div>
+            <div class="bar"><div class="bar-fill" style="width:20%"></div></div>
+          </div>
+          <div class="count">5</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 마케팅 포지션 전체 목록 -->
+  <div class="section">
+    <h2>마케팅 포지션 전체 목록 <span class="badge">테넥스 가장 참고 필요</span></h2>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>포지션명</th>
+            <th>경력</th>
+            <th>고용형태</th>
+            <th>특징</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>글로벌 뷰티 마케터 신입 대규모 채용</td><td>신입</td><td>채용연계형 인턴</td><td><span class="tag">신입 대규모</span></td></tr>
+          <tr><td>메디큐브 올리브영 온라인 마케팅</td><td>경력 2년+</td><td>정규직</td><td><span class="tag">온라인MD</span></td></tr>
+          <tr><td>메디큐브 올리브영 온라인 마케팅 인턴</td><td>신입</td><td>채용연계형 인턴</td><td><span class="tag">온라인MD</span></td></tr>
+          <tr><td>홍콩·대만 뷰티 인플루언서 마케팅(PR)</td><td>경력 2년+</td><td>정규직</td><td><span class="tag global">해외</span><span class="tag infl">인플루언서</span></td></tr>
+          <tr><td>홍콩·대만 뷰티 온라인 MD</td><td>경력 2년+</td><td>정규직</td><td><span class="tag global">해외</span></td></tr>
+          <tr><td>영국 틱톡샵 라이브커머스</td><td>신입</td><td>채용연계형 인턴</td><td><span class="tag global">해외</span></td></tr>
+          <tr><td>미국 틱톡샵 운영(MD)</td><td>신입</td><td>채용연계형 인턴</td><td><span class="tag global">해외</span></td></tr>
+          <tr><td>메디큐브 Global Media Relations</td><td>경력 2~7년</td><td>정규직</td><td><span class="tag global">글로벌PR</span></td></tr>
+          <tr><td>유럽(스페인) 아마존 MD</td><td>신입</td><td>채용연계형 인턴</td><td><span class="tag global">해외</span></td></tr>
+          <tr><td>유럽 틱톡샵 마케팅 (스페인·이탈리아)</td><td>신입</td><td>채용연계형 인턴</td><td><span class="tag global">해외</span></td></tr>
+          <tr><td>미국 뷰티 인플루언서 마케팅(PR)</td><td>신입</td><td>채용연계형 인턴</td><td><span class="tag global">해외</span><span class="tag infl">인플루언서</span></td></tr>
+          <tr><td>중동 인플루언서 마케팅(PR)</td><td>신입</td><td>채용연계형 인턴</td><td><span class="tag global">해외</span><span class="tag infl">인플루언서</span></td></tr>
+          <tr><td>메디큐브 에이지알 인플루언서 마케팅(PR)</td><td>경력 3~6년</td><td>정규직</td><td><span class="tag infl">인플루언서</span></td></tr>
+          <tr><td>미국 틱톡샵 어필리에이트 마케팅</td><td>경력 2~5년</td><td>정규직</td><td><span class="tag global">해외</span></td></tr>
+          <tr><td>미국 틱톡샵 어필리에이트 마케팅 인턴</td><td>경력무관</td><td>채용연계형 인턴</td><td><span class="tag global">해외</span></td></tr>
+          <tr><td>포맨트 온라인 마케팅</td><td>신입</td><td>채용연계형 인턴</td><td><span class="tag">브랜드별</span></td></tr>
+          <tr><td>홍콩·대만 뷰티 인플루언서 마케팅(PR) 인턴+경력 통합</td><td>경력무관</td><td>정규직·인턴</td><td><span class="tag global">해외</span><span class="tag infl">인플루언서</span></td></tr>
+          <tr><td>홍콩·대만 뷰티 온라인 MD 인턴+경력 통합</td><td>경력무관</td><td>정규직·인턴</td><td><span class="tag global">해외</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- APR 채용 JD 구조 -->
+  <div class="section">
+    <h2>APR JD 구조 패턴 (테넥스 템플릿 참고)</h2>
+    <div class="jd-template">
+      <h3>표준 JD 구조</h3>
+      <div class="jd-section">
+        <h4>① 회사 소개 (About)</h4>
+        <ul>
+          <li>브랜드 포트폴리오 + 사명(Mission) 1~2문단</li>
+          <li>"함께 성장할 스페셜리스트를 기다립니다" 식의 마무리</li>
+        </ul>
+      </div>
+      <div class="jd-section">
+        <h4>② 포지션 소개 / 무슨 일을 하나요</h4>
+        <ul>
+          <li>이 직무에서 실제로 하는 일 3~5가지 (동사+목적어)</li>
+        </ul>
+      </div>
+      <div class="jd-section">
+        <h4>③ 이런 분을 찾아요 (Required)</h4>
+        <ul>
+          <li>경력 연차 명시</li>
+          <li>필수 스킬/도구/경험 5~8가지</li>
+        </ul>
+      </div>
+      <div class="jd-section">
+        <h4>④ 이런 분이면 더 좋아요 (Preferred)</h4>
+        <ul>
+          <li>우대 자격 3~5가지</li>
+          <li>어학, 특정 툴 경험 등</li>
+        </ul>
+      </div>
+      <div class="jd-section">
+        <h4>⑤ 유의사항 / 근무지</h4>
+        <ul>
+          <li>근무지, 고용형태, 전형 절차 간략 안내</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- 테넥스 인사이트 -->
+  <div class="section">
+    <h2>테넥스가 참고할 핵심 인사이트</h2>
+    <ul class="insight-list">
+      <li>
+        <span class="icon">🔴</span>
+        <div><strong>마케팅이 압도적으로 많다 (40%+)</strong> — APR은 마케팅 전쟁에서 이기는 회사다. 테넥스도 지금 가장 필요한 게 마케터다. 퍼포먼스 + 인플루언서 마케터를 최우선으로 뽑아야 한다.</div>
+      </li>
+      <li>
+        <span class="icon">🟠</span>
+        <div><strong>국가/채널별로 잘게 쪼갠다</strong> — APR은 미국 틱톡샵 따로, 유럽 아마존 따로, 중동 따로. 테넥스는 당장 이렇게 못 하지만 해외 확장 시 이 구조로 채용해야 한다는 걸 미리 알아야 함.</div>
+      </li>
+      <li>
+        <span class="icon">🟡</span>
+        <div><strong>신입 채용연계형 인턴을 적극 활용한다</strong> — 글로벌 마케터 신입 대규모 채용처럼 직접 키우겠다는 전략. 테넥스도 경력직 못 구하면 신입 채용연계형으로 가는 게 비용 효율적.</div>
+      </li>
+      <li>
+        <span class="icon">🟢</span>
+        <div><strong>JD 타이틀 형식: [직군] 포지션명</strong> — [마케팅] [SCM] 등 직군 명시. 신뢰감 있어 보임. 테넥스도 동일하게 써야 함.</div>
+      </li>
+      <li>
+        <span class="icon">🔵</span>
+        <div><strong>인플루언서 마케팅(PR)을 별도 직무로 본다</strong> — "광고 집행"과 "인플루언서/PR"은 다른 직무다. 테넥스도 섞어서 뽑지 말고 무슨 역할인지 명확히 해야 미스매치 없음.</div>
+      </li>
+      <li>
+        <span class="icon">🟣</span>
+        <div><strong>SCM/물류를 7명 뽑는다</strong> — 규모가 커질수록 공급망/물류가 병목. 테넥스도 월 5억 넘으면 운영 매니저(제조+물류+CS) 급하게 뽑아야 한다.</div>
+      </li>
+    </ul>
+  </div>
+
+  <!-- 테넥스 당장 올릴 공고 -->
+  <div class="section">
+    <h2>테넥스 당장 올릴 채용 공고 (우선순위)</h2>
+
+    <div class="jd-template">
+      <span class="priority-tag priority-1">1순위 — 지금 당장</span>
+      <h3>[마케팅] 콘텐츠 확산 & 인플루언서 마케팅 담당</h3>
+      <div class="jd-section">
+        <h4>하는 일</h4>
+        <ul>
+          <li>국내외 인플루언서 발굴 · 섭외 · 협업 관리</li>
+          <li>브랜드 콘텐츠 확산 (유튜브/인스타/틱톡/스레드)</li>
+          <li>해외 채널(틱톡샵, 아마존 등) 운영 지원</li>
+          <li>나현님과 협업하여 1분도수 채널 콘텐츠 배포 극대화</li>
+        </ul>
+      </div>
+      <div class="jd-section">
+        <h4>이런 분 찾아요</h4>
+        <ul>
+          <li>SNS 채널 운영 또는 인플루언서 마케팅 경험 1년 이상</li>
+          <li>영어 기본 커뮤니케이션 가능한 분 (해외 인플루언서 컨택)</li>
+          <li>숏폼 콘텐츠 기획/편집 가능한 분</li>
+          <li>데이터 기반으로 결과 분석하는 습관이 있는 분</li>
+        </ul>
+      </div>
+      <div class="jd-section">
+        <h4>고용형태 / 연봉</h4>
+        <ul>
+          <li>정규직 (수습 3개월)</li>
+          <li>연봉 3,000~3,800만원 (협의)</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="jd-template">
+      <span class="priority-tag priority-2">2순위 — 광고비 월 3억+ 시점</span>
+      <h3>[마케팅] 퍼포먼스 마케터</h3>
+      <div class="jd-section">
+        <h4>하는 일</h4>
+        <ul>
+          <li>메타/유튜브 광고 세팅, 최적화, 스케일업</li>
+          <li>소재 기획 및 A/B 테스트 운영</li>
+          <li>ROAS/CPA 분석 및 주간 리포트 작성</li>
+          <li>카카오/네이버 등 미디어믹스 확장</li>
+        </ul>
+      </div>
+      <div class="jd-section">
+        <h4>이런 분 찾아요</h4>
+        <ul>
+          <li>메타 광고 집행 월 1억+ 경험</li>
+          <li>ROAS 분석 및 예산 배분 경험</li>
+          <li>이커머스 또는 D2C 브랜드 광고 경험 우대</li>
+          <li>숫자에 강하고 빠르게 의사결정하는 분</li>
+        </ul>
+      </div>
+      <div class="jd-section">
+        <h4>고용형태 / 연봉</h4>
+        <ul>
+          <li>정규직 (수습 3개월)</li>
+          <li>연봉 4,000~5,500만원 (경험에 따라 협의)</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<div class="footer">Tenex Internal · 2026.03.19 · APR 채용 공고 전수 분석 (61개 공고, 7페이지)</div>
+
+</body>
+</html>

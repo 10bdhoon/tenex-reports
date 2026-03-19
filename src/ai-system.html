@@ -1,0 +1,1648 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>AI 시스템</title>
+<style>
+/* ===== RESET & BASE ===== */
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  background: #0d1117;
+  color: #e6edf3;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  min-height: 100vh;
+  line-height: 1.75;
+}
+
+/* ===== TYPOGRAPHY ===== */
+h1 { font-size: 26px; font-weight: 700; color: #e6edf3; margin-bottom: 8px; line-height: 1.3; }
+h2 { font-size: 20px; font-weight: 600; color: #e6edf3; margin: 28px 0 12px; }
+h3 { font-size: 16px; font-weight: 600; color: #e6edf3; margin: 18px 0 8px; }
+h4 { font-size: 14px; font-weight: 600; color: #e6edf3; margin: 12px 0 6px; }
+p  { font-size: 14px; color: #8b949e; margin-bottom: 12px; }
+ul, ol { padding-left: 20px; margin-bottom: 12px; }
+li { font-size: 14px; color: #8b949e; margin-bottom: 4px; }
+strong, b { color: #c9d1d9; font-weight: 600; }
+em { color: #79c0ff; font-style: normal; }
+a  { color: #58a6ff; text-decoration: none; }
+a:hover { text-decoration: underline; }
+code {
+  background: #161b22;
+  border: 1px solid #21262d;
+  border-radius: 4px;
+  padding: 2px 6px;
+  font-size: 13px;
+  color: #79c0ff;
+  font-family: monospace;
+}
+pre {
+  background: #161b22;
+  border: 1px solid #21262d;
+  border-radius: 8px;
+  padding: 16px;
+  overflow-x: auto;
+  margin-bottom: 16px;
+}
+pre code { background: none; border: none; padding: 0; font-size: 13px; }
+
+/* ===== TAB NAV ===== */
+.tab-nav {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: #161b22;
+  border-bottom: 1px solid #21262d;
+  display: flex;
+  overflow-x: auto;
+  padding: 0 20px;
+}
+.tab-btn {
+  background: none;
+  border: none;
+  color: #8b949e;
+  padding: 14px 20px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  white-space: nowrap;
+  transition: color .15s, border-color .15s;
+}
+.tab-btn:hover { color: #e6edf3; }
+.tab-btn.active { color: #58a6ff; border-bottom-color: #58a6ff; }
+
+/* ===== SECTION WRAPPER ===== */
+.tab-content { display: none; }
+.tab-content.active { display: block; }
+
+.page {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 32px 20px;
+}
+
+/* ===== CARD ===== */
+.card {
+  background: #161b22;
+  border: 1px solid #21262d;
+  border-radius: 12px;
+  padding: 24px;
+  margin-bottom: 16px;
+}
+
+/* ===== HERO ===== */
+.hero {
+  background: linear-gradient(135deg, #0d1117 0%, #161b22 100%);
+  border: 1px solid #21262d;
+  border-radius: 12px;
+  padding: 36px 24px;
+  margin-bottom: 28px;
+  text-align: center;
+}
+.hero-badge {
+  display: inline-block;
+  background: #21262d;
+  color: #58a6ff;
+  border-radius: 20px;
+  padding: 4px 14px;
+  font-size: 13px;
+  font-weight: 500;
+  margin-bottom: 12px;
+}
+.hero p { margin-bottom: 0; }
+
+/* ===== SECTION TITLE ===== */
+.section-title {
+  font-size: 18px;
+  font-weight: 700;
+  color: #e6edf3;
+  margin: 36px 0 16px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #21262d;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.section-title::before {
+  content: '';
+  display: block;
+  width: 4px;
+  height: 18px;
+  background: #58a6ff;
+  border-radius: 2px;
+  flex-shrink: 0;
+}
+
+/* ===== BADGES ===== */
+.badge {
+  display: inline-block;
+  background: #21262d;
+  color: #58a6ff;
+  border-radius: 20px;
+  padding: 3px 10px;
+  font-size: 12px;
+  font-weight: 500;
+  margin: 2px;
+}
+.badge-red    { background: rgba(248,81,73,.15); color: #f85149; }
+.badge-yellow { background: rgba(210,153,34,.15); color: #d29922; }
+.badge-blue   { background: rgba(88,166,255,.15); color: #58a6ff; }
+.badge-green  { background: rgba(63,185,80,.15);  color: #3fb950; }
+.badge-purple { background: rgba(163,113,247,.15);color: #a371f7; }
+.badge.pulse::before {
+  content: '';
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  background: #3fb950;
+  border-radius: 50%;
+  margin-right: 5px;
+  animation: pulse 1.5s ease-in-out infinite;
+}
+@keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.4} }
+
+/* ===== GRID ===== */
+.grid-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; margin-bottom: 24px; }
+.grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 24px; }
+@media (max-width: 640px) { .grid-2, .grid-3 { grid-template-columns: 1fr; } }
+
+/* ===== LAYER STACK (Tab1) ===== */
+.layer-stack { display: flex; flex-direction: column; gap: 8px; margin-bottom: 40px; }
+.layer {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  background: #161b22;
+  border: 1px solid #21262d;
+  border-radius: 10px;
+  padding: 16px 20px;
+}
+.layer-num {
+  min-width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+.l0-n { background: rgba(248,81,73,.15); color: #f85149; }
+.l1-n { background: rgba(210,153,34,.15); color: #d29922; }
+.l2-n { background: rgba(163,113,247,.15); color: #a371f7; }
+.l3-n { background: rgba(88,166,255,.15); color: #58a6ff; }
+.l4-n { background: rgba(56,211,159,.15); color: #38d39f; }
+.l5-n { background: rgba(139,148,158,.15); color: #8b949e; }
+
+.layer-name { font-size: 14px; font-weight: 600; color: #e6edf3; margin-bottom: 4px; }
+.layer-file { font-size: 12px; color: #484f58; font-family: monospace; margin-bottom: 4px; }
+.layer-desc { font-size: 13px; color: #8b949e; }
+.layer-badge { margin-left: 6px; vertical-align: middle; }
+
+/* ===== MEMORY GRID (Tab1) ===== */
+.memory-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 32px; }
+@media (max-width: 640px) { .memory-grid { grid-template-columns: 1fr; } }
+
+.mem-card {
+  background: #161b22;
+  border: 1px solid #21262d;
+  border-radius: 12px;
+  padding: 20px;
+}
+.mem-icon { font-size: 28px; margin-bottom: 10px; }
+.mem-title { font-size: 14px; font-weight: 700; color: #e6edf3; margin-bottom: 4px; }
+.mem-sub   { font-size: 12px; color: #58a6ff; margin-bottom: 10px; }
+.mem-desc  { font-size: 13px; color: #8b949e; line-height: 1.6; margin-bottom: 12px; }
+.mem-size  { font-size: 12px; border-radius: 6px; padding: 6px 10px; }
+
+/* ===== RULES GRID (Tab1) ===== */
+.rules-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; margin-bottom: 32px; }
+@media (max-width: 640px) { .rules-grid { grid-template-columns: 1fr; } }
+
+.rule-card {
+  background: #161b22;
+  border: 1px solid #21262d;
+  border-radius: 10px;
+  padding: 18px;
+}
+.rule-num   { font-size: 12px; color: #8b949e; margin-bottom: 6px; }
+.rule-title { font-size: 14px; font-weight: 600; color: #e6edf3; margin-bottom: 8px; }
+.rule-content { font-size: 13px; color: #8b949e; line-height: 1.65; }
+
+/* ===== FLOW STEPS (Tab1) ===== */
+.flow-steps {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 32px;
+  align-items: center;
+}
+.flow-step { text-align: center; }
+.flow-dot {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  margin: 0 auto 6px;
+}
+.flow-title { font-size: 12px; font-weight: 600; color: #e6edf3; }
+.flow-label { font-size: 11px; color: #8b949e; }
+.flow-arrow { font-size: 18px; color: #21262d; margin-top: 8px; }
+
+.flow-dot-red    { background: rgba(248,81,73,.12);  border: 2px solid rgba(248,81,73,.35); }
+.flow-dot-yellow { background: rgba(210,153,34,.12); border: 2px solid rgba(210,153,34,.35); }
+.flow-dot-purple { background: rgba(163,113,247,.12);border: 2px solid rgba(163,113,247,.35); }
+.flow-dot-blue   { background: rgba(88,166,255,.12); border: 2px solid rgba(88,166,255,.35); }
+.flow-dot-green  { background: rgba(56,211,159,.12); border: 2px solid rgba(56,211,159,.35); }
+
+/* ===== BACKUP (Tab1) ===== */
+.backup-card {
+  background: #161b22;
+  border: 1px solid #21262d;
+  border-radius: 12px;
+  padding: 20px;
+}
+.backup-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 0;
+  border-bottom: 1px solid #21262d;
+}
+.backup-item:last-of-type { border-bottom: none; }
+.status-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+.dot-green  { background: #3fb950; }
+.dot-yellow { background: #d29922; }
+.dot-gray   { background: #484f58; }
+.backup-name   { flex: 1; font-size: 13px; color: #8b949e; }
+.backup-status { font-size: 12px; font-weight: 500; white-space: nowrap; }
+.backup-status-ok   { color: #3fb950; }
+.backup-status-warn { color: #d29922; }
+.backup-footer { font-size: 11px; color: #484f58; margin-top: 10px; }
+.backup-card-header { font-weight: 600; color: #e6edf3; margin-bottom: 14px; }
+
+/* ===== COMPACTION WARNING ===== */
+.compaction-box {
+  background: rgba(210,153,34,.08);
+  border: 1px solid rgba(210,153,34,.3);
+  border-radius: 10px;
+  padding: 20px;
+  margin-bottom: 40px;
+}
+.compaction-title { font-weight: 600; color: #d29922; margin-bottom: 8px; }
+.compaction-body  { font-size: 13px; color: #8b949e; line-height: 1.7; }
+
+/* ===== FOOTER ===== */
+.footer {
+  text-align: center;
+  font-size: 12px;
+  color: #484f58;
+  padding: 32px 0 16px;
+  border-top: 1px solid #21262d;
+  margin-top: 48px;
+}
+.footer .updated { color: #8b949e; }
+
+/* ===== TAB2 — FLOW ===== */
+.step-flow { display: flex; flex-direction: column; gap: 0; margin-bottom: 32px; }
+.step {
+  display: flex;
+  gap: 16px;
+  background: #161b22;
+  border: 1px solid #21262d;
+  border-radius: 10px;
+  padding: 18px 20px;
+  margin-bottom: 4px;
+}
+.step-num {
+  min-width: 28px;
+  height: 28px;
+  background: #21262d;
+  color: #58a6ff;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  font-weight: 700;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+.step h3 { margin: 0 0 6px; font-size: 15px; }
+.step p  { margin: 0; font-size: 13px; }
+.step-connector { display: flex; justify-content: flex-start; padding-left: 34px; color: #484f58; font-size: 18px; margin: 0; line-height: 1; }
+
+/* ===== BAR ===== */
+.bar-row { display: flex; align-items: center; gap: 12px; margin-bottom: 10px; }
+.bar-label { width: 200px; font-size: 13px; color: #8b949e; flex-shrink: 0; }
+.bar-track {
+  flex: 1;
+  height: 18px;
+  background: #21262d;
+  border-radius: 9px;
+  overflow: hidden;
+}
+.bar-fill {
+  height: 100%;
+  background: #58a6ff;
+  border-radius: 9px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding-right: 6px;
+  font-size: 11px;
+  color: #fff;
+  font-weight: 600;
+  transition: width .4s ease;
+}
+
+/* ===== COMP BOX ===== */
+.comp-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 24px; }
+@media (max-width: 640px) { .comp-grid { grid-template-columns: 1fr; } }
+.comp-box {
+  background: #161b22;
+  border: 1px solid #21262d;
+  border-radius: 12px;
+  padding: 20px;
+}
+.comp-box h3 { font-size: 15px; margin-bottom: 14px; }
+.comp-box ul  { padding-left: 0; list-style: none; }
+.comp-box li  { padding: 5px 0; font-size: 13px; border-bottom: 1px solid #21262d; }
+.comp-box li:last-child { border-bottom: none; }
+.comp-bad  li::before { content: '✗ '; color: #f85149; }
+.comp-good li::before { content: '✓ '; color: #3fb950; }
+
+/* ===== FAQ ===== */
+.faq-item {
+  background: #161b22;
+  border: 1px solid #21262d;
+  border-radius: 10px;
+  padding: 18px 20px;
+  margin-bottom: 12px;
+}
+.faq-q { font-size: 14px; font-weight: 600; color: #e6edf3; margin-bottom: 8px; }
+.faq-a { font-size: 13px; color: #8b949e; line-height: 1.65; }
+
+/* ===== TAB3 — DIAGRAM ===== */
+.diagram { display: flex; flex-direction: column; gap: 16px; margin-bottom: 32px; }
+.layer-blk {
+  background: #161b22;
+  border: 1px solid #21262d;
+  border-radius: 12px;
+  padding: 20px 24px;
+}
+.layer-blk-title { font-size: 14px; font-weight: 600; color: #e6edf3; margin-bottom: 14px; }
+.boxes-row { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 10px; }
+.box-tag {
+  background: #21262d;
+  color: #8b949e;
+  border-radius: 6px;
+  padding: 5px 12px;
+  font-size: 13px;
+  border: 1px solid #30363d;
+}
+.box-tag-main  { background: rgba(88,166,255,.1); color: #58a6ff; border-color: rgba(88,166,255,.3); }
+.box-tag-grp   { background: #21262d; color: #c9d1d9; }
+.box-tag-new   { background: rgba(163,113,247,.1); color: #a371f7; border-color: rgba(163,113,247,.3); }
+.box-tag-proc  { background: rgba(56,211,159,.08); color: #38d39f; border-color: rgba(56,211,159,.25); }
+.box-tag-data  { background: rgba(88,166,255,.08); color: #79c0ff; border-color: rgba(88,166,255,.2); }
+.layer-note { font-size: 12px; margin-top: 8px; padding: 8px 12px; border-radius: 6px; }
+.layer-note-warn { background: rgba(210,153,34,.08); color: #d29922; border: 1px solid rgba(210,153,34,.2); }
+.layer-note-ok   { background: rgba(63,185,80,.08); color: #3fb950; border: 1px solid rgba(63,185,80,.2); }
+
+/* ===== TAB4 — BRAIN ===== */
+.brain-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 24px; flex-wrap: wrap; gap: 12px; }
+.brain-meta { font-size: 13px; color: #8b949e; margin-top: 4px; }
+.badge-row { display: flex; gap: 8px; align-items: center; }
+
+.stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-bottom: 28px; }
+@media (max-width: 640px) { .stats-grid { grid-template-columns: repeat(2, 1fr); } }
+
+.stat-card {
+  background: #161b22;
+  border: 1px solid #21262d;
+  border-radius: 12px;
+  padding: 18px 16px;
+  text-align: center;
+}
+.stat-label { font-size: 12px; color: #8b949e; margin-bottom: 8px; }
+.stat-value { font-size: 28px; font-weight: 700; color: #58a6ff; display: block; }
+.stat-sub   { font-size: 12px; color: #484f58; margin-top: 4px; }
+
+/* ===== ARCH NODES ===== */
+.arch-flow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+  margin: 20px 0;
+}
+.arch-node {
+  background: #161b22;
+  border: 1px solid #21262d;
+  border-radius: 12px;
+  padding: 16px;
+  text-align: center;
+  min-width: 120px;
+  flex: 1;
+}
+.arch-node.active { border-color: rgba(88,166,255,.5); }
+.arch-node .icon  { font-size: 24px; margin-bottom: 6px; }
+.arch-node .title { font-size: 13px; font-weight: 600; color: #e6edf3; margin-bottom: 4px; }
+.arch-node .desc  { font-size: 11px; color: #8b949e; line-height: 1.5; }
+.arch-arrow { font-size: 18px; color: #484f58; }
+
+.note-box {
+  background: rgba(88,166,255,.06);
+  border: 1px solid rgba(88,166,255,.2);
+  border-radius: 8px;
+  padding: 14px 16px;
+  font-size: 13px;
+  color: #8b949e;
+  line-height: 1.65;
+  margin-top: 16px;
+}
+
+/* Sessions */
+.sessions-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-bottom: 12px; }
+@media (max-width: 640px) { .sessions-grid { grid-template-columns: 1fr; } }
+
+.session-card {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: #161b22;
+  border: 1px solid #21262d;
+  border-radius: 10px;
+  padding: 14px 16px;
+}
+.session-icon { font-size: 22px; flex-shrink: 0; }
+.session-info { flex: 1; }
+.session-info .name   { font-size: 13px; font-weight: 600; color: #e6edf3; }
+.session-info .status { font-size: 12px; color: #8b949e; margin-top: 2px; }
+.session-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+
+/* Charts */
+.charts-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 28px; }
+@media (max-width: 640px) { .charts-grid { grid-template-columns: 1fr; } }
+.chart-card {
+  background: #161b22;
+  border: 1px solid #21262d;
+  border-radius: 12px;
+  padding: 20px;
+}
+.chart-card h3 { font-size: 14px; font-weight: 600; color: #e6edf3; margin-bottom: 14px; }
+
+/* Timeline */
+.tl-item { display: flex; gap: 14px; margin-bottom: 16px; }
+.tl-dot-wrap { display: flex; flex-direction: column; align-items: center; }
+.tl-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; margin-top: 4px; }
+.tl-line { width: 2px; flex: 1; background: #21262d; margin-top: 4px; }
+.tl-content { flex: 1; padding-bottom: 16px; }
+.tl-meta { display: flex; gap: 8px; align-items: center; margin-bottom: 4px; flex-wrap: wrap; }
+.tl-date { font-size: 12px; color: #484f58; }
+.tl-source { font-size: 11px; padding: 2px 8px; border-radius: 20px; background: #21262d; color: #8b949e; }
+.src-telegram      { background: rgba(88,166,255,.12); color: #58a6ff; }
+.src-plaud         { background: rgba(188,140,255,.12);color: #bc8cff; }
+.src-memory        { background: rgba(63,185,80,.12);  color: #3fb950; }
+.src-memory-file   { background: rgba(227,179,65,.12); color: #e3b341; }
+.tl-preview { font-size: 13px; color: #8b949e; line-height: 1.55; }
+
+/* Search */
+.search-bar { display: flex; gap: 10px; margin-bottom: 12px; }
+.search-bar input {
+  flex: 1;
+  background: #161b22;
+  border: 1px solid #21262d;
+  border-radius: 8px;
+  padding: 10px 14px;
+  font-size: 14px;
+  color: #e6edf3;
+  outline: none;
+}
+.search-bar input:focus { border-color: #58a6ff; }
+.search-btn {
+  background: #58a6ff;
+  color: #0d1117;
+  border: none;
+  border-radius: 8px;
+  padding: 10px 20px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+}
+.search-btn:hover { background: #79b8ff; }
+.search-results .result-item {
+  background: #161b22;
+  border: 1px solid #21262d;
+  border-radius: 8px;
+  padding: 12px 14px;
+  margin-bottom: 8px;
+}
+.result-preview { font-size: 13px; color: #8b949e; margin-top: 6px; line-height: 1.55; }
+.local-note { font-size: 12px; color: #484f58; margin-top: 8px; }
+.sync-note { margin-top: 10px; padding: 8px 14px; background: rgba(13,33,54,.6); border-radius: 6px; font-size: 12px; color: #8b949e; }
+
+/* ===== TAB5 — AGENTS ===== */
+.org { display: flex; flex-direction: column; align-items: center; gap: 0; margin-bottom: 40px; }
+.org-row { display: flex; gap: 16px; align-items: center; }
+.connector-v { width: 2px; height: 24px; background: #21262d; margin: 0 auto; }
+
+.org-card {
+  background: #161b22;
+  border: 1px solid #21262d;
+  border-radius: 12px;
+  padding: 20px 24px;
+  text-align: center;
+  min-width: 180px;
+}
+.org-card .emoji  { font-size: 32px; margin-bottom: 8px; }
+.org-card .name   { font-size: 16px; font-weight: 700; color: #e6edf3; margin-bottom: 4px; }
+.org-card .role   { font-size: 13px; font-weight: 600; margin-bottom: 8px; }
+.org-card .desc   { font-size: 12px; color: #8b949e; line-height: 1.55; margin-bottom: 10px; }
+
+.agent-badge {
+  display: inline-block;
+  border-radius: 20px;
+  padding: 4px 12px;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.tag-red    { background: rgba(248,81,73,.12); color: #f85149; }
+.tag-blue   { background: rgba(88,166,255,.12); color: #58a6ff; }
+.tag-purple { background: rgba(163,113,247,.12);color: #a371f7; }
+.tag-green  { background: rgba(56,211,159,.12); color: #38d39f; }
+
+.dev-row { display: flex; gap: 12px; }
+.dev-card {
+  background: #161b22;
+  border: 1px solid #21262d;
+  border-radius: 10px;
+  padding: 16px;
+  text-align: center;
+  min-width: 130px;
+  flex: 1;
+}
+.dev-card .emoji { font-size: 24px; margin-bottom: 8px; }
+.dev-card .name  { font-size: 13px; font-weight: 600; color: #e6edf3; margin-bottom: 4px; }
+.dev-card .role  { font-size: 12px; margin-bottom: 6px; }
+.dev-card .desc  { font-size: 12px; color: #8b949e; }
+
+/* Agent Workflow */
+.wf-steps { display: flex; flex-direction: column; gap: 0; margin-bottom: 32px; }
+.wf-step {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  background: #161b22;
+  border: 1px solid #21262d;
+  border-radius: 10px;
+  padding: 16px 20px;
+  margin-bottom: 4px;
+}
+.wf-num {
+  min-width: 28px;
+  height: 28px;
+  background: #21262d;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  font-weight: 700;
+  color: #58a6ff;
+  flex-shrink: 0;
+}
+.wf-who  { font-size: 12px; font-weight: 600; margin-bottom: 4px; }
+.wf-what { font-size: 13px; color: #8b949e; }
+
+/* Compare guide */
+.guide-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 32px; }
+@media (max-width: 640px) { .guide-grid { grid-template-columns: 1fr; } }
+
+.guide-box {
+  background: #161b22;
+  border: 1px solid #21262d;
+  border-radius: 12px;
+  padding: 20px;
+}
+.guide-label { font-size: 13px; font-weight: 700; margin-bottom: 14px; }
+.guide-label-bad  { color: #f85149; }
+.guide-label-good { color: #3fb950; }
+.guide-item { font-size: 13px; color: #8b949e; padding: 7px 0; border-bottom: 1px solid #21262d; }
+.guide-item:last-child { border-bottom: none; }
+.guide-bad  .guide-item::before { content: '✗ '; color: #f85149; }
+.guide-good .guide-item::before { content: '✓ '; color: #3fb950; }
+
+/* Task examples */
+.task-card { margin-bottom: 12px; }
+.task-label { font-size: 11px; color: #58a6ff; font-weight: 600; text-transform: uppercase; letter-spacing: .05em; margin-bottom: 6px; }
+.task-title { font-size: 15px; font-weight: 600; color: #e6edf3; margin-bottom: 10px; }
+.task-flow  { font-size: 13px; color: #8b949e; line-height: 1.75; }
+.task-arrow { color: #58a6ff; }
+
+/* Principle box */
+.principle-box {
+  background: rgba(88,166,255,.05);
+  border: 1px solid rgba(88,166,255,.2);
+  border-radius: 12px;
+  padding: 24px;
+  margin-bottom: 16px;
+}
+.principle-box h3 { font-size: 15px; color: #58a6ff; margin: 0 0 16px; }
+.principle-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+@media (max-width: 640px) { .principle-grid { grid-template-columns: 1fr; } }
+.principle-item .label { font-size: 14px; font-weight: 600; color: #e6edf3; margin-bottom: 4px; }
+.principle-item .desc  { font-size: 13px; color: #8b949e; }
+
+/* Note box generic */
+.info-note { font-size: 13px; color: #8b949e; margin-top: 12px; }
+</style>
+</head>
+<body>
+
+<div class="tab-nav">
+  <button class="tab-btn active"  onclick="showTab(1,this)">카리나 시스템</button>
+  <button class="tab-btn"         onclick="showTab(2,this)">OpenClaw 원리</button>
+  <button class="tab-btn"         onclick="showTab(3,this)">시스템 구조</button>
+  <button class="tab-btn"         onclick="showTab(4,this)">Brain.db</button>
+  <button class="tab-btn"         onclick="showTab(5,this)">에이전트팀</button>
+</div>
+
+<!-- ===================== TAB 1 ===================== -->
+<div id="tab-1" class="tab-content active">
+<div class="page">
+
+  <div class="hero">
+    <div class="hero-badge">🧠 카리나 시스템</div>
+    <h1>기억 &amp; 규칙 아키텍처</h1>
+    <p>카리나가 어떻게 기억하고, 어떤 규칙으로 작동하는지 한눈에</p>
+  </div>
+
+  <div class="section-title">우선순위 레이어 구조</div>
+  <p>세션 시작 시 이 순서로 로드됨. 위에 있을수록 우선순위 높음.</p>
+
+  <div class="layer-stack">
+    <div class="layer">
+      <div class="layer-num l0-n">P1</div>
+      <div class="layer-info">
+        <div class="layer-name">BOOTSTRAP.md <span class="badge badge-red layer-badge">최우선 절대 규칙</span></div>
+        <div class="layer-file">~/.openclaw/workspace/BOOTSTRAP.md</div>
+        <div class="layer-desc">개발은 에이전트에게 위임, 추측 금지, 실수 즉시 기록 등 위반 불가 규칙</div>
+      </div>
+    </div>
+    <div class="layer">
+      <div class="layer-num l1-n">P2</div>
+      <div class="layer-info">
+        <div class="layer-name">AGENTS.md <span class="badge badge-yellow layer-badge">운영 매뉴얼</span></div>
+        <div class="layer-file">~/.openclaw/workspace/AGENTS.md</div>
+        <div class="layer-desc">brain.db 사용법, 서브에이전트 지시 방식, 메모리 관리 규칙</div>
+      </div>
+    </div>
+    <div class="layer">
+      <div class="layer-num l2-n">P3</div>
+      <div class="layer-info">
+        <div class="layer-name">SOUL.md <span class="badge badge-blue layer-badge">성격 &amp; 톤</span></div>
+        <div class="layer-file">~/.openclaw/workspace/SOUL.md</div>
+        <div class="layer-desc">카리나의 정체성. 결론부터, 실무 중심, 반말, 이모지 최소화. 거울/외장RAM/시스템빌더 역할</div>
+      </div>
+    </div>
+    <div class="layer">
+      <div class="layer-num l3-n">P4</div>
+      <div class="layer-info">
+        <div class="layer-name">USER.md + MEMORY.md</div>
+        <div class="layer-file">~/.openclaw/workspace/MEMORY.md (22KB, 트런케이션 위험)</div>
+        <div class="layer-desc">태훈 개인정보 + 카리나의 장기 기억 (사업 현황, 제품, 전략, 개인 컨텍스트)</div>
+      </div>
+    </div>
+    <div class="layer">
+      <div class="layer-num l4-n">P5</div>
+      <div class="layer-info">
+        <div class="layer-name">memory/YYYY-MM-DD.md</div>
+        <div class="layer-file">~/.openclaw/workspace/memory/ (일별 대화 일기)</div>
+        <div class="layer-desc">오늘/어제 대화 기록. 컴팩션 후에도 살아있는 원본 맥락</div>
+      </div>
+    </div>
+    <div class="layer">
+      <div class="layer-num l5-n">P6</div>
+      <div class="layer-info">
+        <div class="layer-name">HEARTBEAT.md + TOOLS.md</div>
+        <div class="layer-file">주기적 체크리스트 + 로컬 환경 설정</div>
+        <div class="layer-desc">자동화 잡 상태, 크론 체크 항목, API 키, 브라우저 로그인 정보</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-title">기억 저장소 3계층</div>
+  <div class="memory-grid">
+    <div class="mem-card">
+      <div class="mem-icon">🔵</div>
+      <div class="mem-title">MEMORY.md</div>
+      <div class="mem-sub">장기 기억 (큐레이션)</div>
+      <div class="mem-desc">사업 구조, 제품 라인업, 팀 정보, 전략, 개인 컨텍스트. 인간의 장기기억처럼 증류된 핵심만 보관.</div>
+      <div class="mem-size" style="background:rgba(248,81,73,.1);color:#f85149;">⚠️ 22KB → 20KB 제한 초과 중</div>
+    </div>
+    <div class="mem-card">
+      <div class="mem-icon">📓</div>
+      <div class="mem-title">memory/YYYY-MM-DD.md</div>
+      <div class="mem-sub">단기 기억 (일별 일기)</div>
+      <div class="mem-desc">오늘 대화 원본 기록. 컴팩션으로 세션이 압축돼도 이 파일은 살아있음. 맥락 복구의 핵심.</div>
+      <div class="mem-size" style="background:rgba(56,211,159,.1);color:#38d39f;">✅ 정상 운영 중</div>
+    </div>
+    <div class="mem-card">
+      <div class="mem-icon">🗄️</div>
+      <div class="mem-title">brain.db (SQLite)</div>
+      <div class="mem-sub">전체 대화 원본 DB</div>
+      <div class="mem-desc">텔레그램/Plaud/그룹채팅 원본 전부 보관. 1,388개 레코드. 검색 API로 필요할 때 꺼냄.</div>
+      <div class="mem-size" style="background:rgba(88,166,255,.1);color:#58a6ff;">🔍 http://localhost:8082</div>
+    </div>
+  </div>
+
+  <div class="section-title">BOOTSTRAP 핵심 규칙 6가지</div>
+  <div class="rules-grid">
+    <div class="rule-card">
+      <div class="rule-num">🔴 규칙 1</div>
+      <div class="rule-title">개발 = 에이전트팀에게 위임</div>
+      <div class="rule-content">카리나는 코드를 직접 짜지 않는다. 기획서 작성 → sessions_spawn으로 에이전트에게 전달 → 결과 검수. PM 역할만.</div>
+    </div>
+    <div class="rule-card">
+      <div class="rule-num">🟠 규칙 2</div>
+      <div class="rule-title">슬랙 = 스레드 없이 본문에 직접</div>
+      <div class="rule-content">슬랙 메시지는 스레드 달지 않고 본문에 깔끔하게. 불렛포인트, 이모지 최소화.</div>
+    </div>
+    <div class="rule-card">
+      <div class="rule-num">🟡 규칙 3</div>
+      <div class="rule-title">추측 금지 — 모르면 매뉴얼 읽기</div>
+      <div class="rule-content">불확실하면 솔직히 "모르겠습니다". 추측은 "추측:" 명시. AGENTS.md → TOOLS.md → MEMORY.md → LEARNINGS.md 순으로 확인.</div>
+    </div>
+    <div class="rule-card">
+      <div class="rule-num">🟢 규칙 4</div>
+      <div class="rule-title">프로젝트 = 체크리스트 먼저</div>
+      <div class="rule-content">새 프로젝트 시작 전 TASK.md 또는 TODO 작성. 진행 상황 실시간 업데이트. 완료 시 CHANGELOG.md 기록.</div>
+    </div>
+    <div class="rule-card">
+      <div class="rule-num">🔵 규칙 5</div>
+      <div class="rule-title">실수 = 즉시 LEARNINGS.md 기록</div>
+      <div class="rule-content">실수 발생 즉시 날짜/원인/해결/교훈 형식으로 기록. 같은 실수 반복 금지. 주간 리뷰로 패턴 개선.</div>
+    </div>
+    <div class="rule-card">
+      <div class="rule-num">🟣 규칙 6</div>
+      <div class="rule-title">브라우저 자동화 = 스냅샷 먼저</div>
+      <div class="rule-content">브라우저 자동화 전 snapshot으로 페이지 구조 파악. 요소 ref/클릭 경로 문서화. 테스트 후 스크립트 작성.</div>
+    </div>
+  </div>
+
+  <div class="section-title">세션 시작 시 자동 실행 순서</div>
+  <div class="flow-steps">
+    <div class="flow-step">
+      <div class="flow-dot flow-dot-red">📋</div>
+      <div class="flow-title">BOOTSTRAP</div>
+      <div class="flow-label">절대 규칙 로드</div>
+    </div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-step">
+      <div class="flow-dot flow-dot-yellow">⚙️</div>
+      <div class="flow-title">AGENTS.md</div>
+      <div class="flow-label">운영 매뉴얼</div>
+    </div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-step">
+      <div class="flow-dot flow-dot-purple">🎭</div>
+      <div class="flow-title">SOUL.md</div>
+      <div class="flow-label">성격 로드</div>
+    </div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-step">
+      <div class="flow-dot flow-dot-blue">👤</div>
+      <div class="flow-title">USER.md</div>
+      <div class="flow-label">태훈 정보</div>
+    </div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-step">
+      <div class="flow-dot flow-dot-blue">🧠</div>
+      <div class="flow-title">MEMORY.md</div>
+      <div class="flow-label">장기기억</div>
+    </div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-step">
+      <div class="flow-dot flow-dot-green">📓</div>
+      <div class="flow-title">오늘 일기</div>
+      <div class="flow-label">단기기억</div>
+    </div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-step">
+      <div class="flow-dot flow-dot-green">🗄️</div>
+      <div class="flow-title">brain.db</div>
+      <div class="flow-label">맥락 검색</div>
+    </div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-step">
+      <div class="flow-dot flow-dot-blue">💬</div>
+      <div class="flow-title">대화 시작</div>
+      <div class="flow-label">준비 완료</div>
+    </div>
+  </div>
+
+  <div class="section-title">백업 &amp; 동기화 현황</div>
+  <div class="grid-2">
+    <div class="backup-card">
+      <div class="backup-card-header">💾 파일 백업</div>
+      <div class="backup-item">
+        <div class="status-dot dot-green"></div>
+        <div class="backup-name">MEMORY.md / SOUL.md / AGENTS.md</div>
+        <div class="backup-status backup-status-ok">GitHub ✓</div>
+      </div>
+      <div class="backup-item">
+        <div class="status-dot dot-green"></div>
+        <div class="backup-name">memory/ (일별 일기)</div>
+        <div class="backup-status backup-status-ok">GitHub ✓</div>
+      </div>
+      <div class="backup-item">
+        <div class="status-dot dot-green"></div>
+        <div class="backup-name">brain/*.js (스크립트)</div>
+        <div class="backup-status backup-status-ok">GitHub ✓</div>
+      </div>
+      <div class="backup-item">
+        <div class="status-dot dot-yellow"></div>
+        <div class="backup-name">brain.db (SQLite 원본)</div>
+        <div class="backup-status backup-status-warn">로컬만</div>
+      </div>
+      <div class="backup-footer">자동 백업: 하루 3회 (09:00 / 15:00 / 23:00)</div>
+    </div>
+    <div class="backup-card">
+      <div class="backup-card-header">🔄 실시간 동기화</div>
+      <div class="backup-item">
+        <div class="status-dot dot-green"></div>
+        <div class="backup-name">그룹채팅 → brain.db</div>
+        <div class="backup-status backup-status-ok">30분마다</div>
+      </div>
+      <div class="backup-item">
+        <div class="status-dot dot-green"></div>
+        <div class="backup-name">Plaud 녹음 → brain.db</div>
+        <div class="backup-status backup-status-ok">30분마다</div>
+      </div>
+      <div class="backup-item">
+        <div class="status-dot dot-green"></div>
+        <div class="backup-name">tenex-reports → Vercel</div>
+        <div class="backup-status backup-status-ok">변경 감지</div>
+      </div>
+      <div class="backup-item">
+        <div class="status-dot dot-green"></div>
+        <div class="backup-name">tenex-reports → GitHub</div>
+        <div class="backup-status backup-status-ok">배포 시</div>
+      </div>
+      <div class="backup-footer">brain.db 총 레코드: 1,388개 | 서버: localhost:8082</div>
+    </div>
+  </div>
+
+  <div class="compaction-box">
+    <div class="compaction-title">⚠️ 컴팩션(Compaction) 이해하기</div>
+    <div class="compaction-body">
+      <strong style="color:#e6edf3;">컴팩션이란?</strong> 세션 대화가 너무 길어지면 OpenClaw가 앞부분 대화를 자동으로 요약 압축하는 현상.<br>
+      <strong style="color:#e6edf3;">문제점:</strong> 오래된 대화 맥락이 요약으로 대체됨 → 세부 내용 손실.<br>
+      <strong style="color:#e6edf3;">해결책:</strong> 중요한 대화는 즉시 memory/일기 + brain.db에 저장. MEMORY.md는 항상 핵심만 유지 (현재 22KB → 목표 10KB 이하).
+    </div>
+  </div>
+
+  <div class="footer">
+    카리나 시스템 아키텍처 | <span class="updated">마지막 업데이트: 2026-03-06</span><br>
+    GitHub: 10bdhoon/karina-workspace | brain.db: localhost:8082
+  </div>
+
+</div>
+</div>
+
+<!-- ===================== TAB 2 ===================== -->
+<div id="tab-2" class="tab-content">
+<div class="page">
+
+  <h1>⚙️ OpenClaw 작동 원리</h1>
+  <p>태훈의 AI 파트너 시스템이 어떻게 동작하는지 — 완전 해부</p>
+
+  <h2>📨 메시지 처리 흐름 (1회 대화 기준)</h2>
+  <div class="step-flow">
+    <div class="step">
+      <div class="step-num">1</div>
+      <div>
+        <h3>텔레그램 메시지 수신</h3>
+        <p>태훈이 메시지 전송 → 텔레그램 서버 → OpenClaw Gateway (맥미니 상시 가동)<br>각 채팅창(chat_id)별로 구분됨</p>
+      </div>
+    </div>
+    <div class="step-connector">↓</div>
+    <div class="step">
+      <div class="step-num">2</div>
+      <div>
+        <h3>세션 확인</h3>
+        <p>chat_id 기반으로 기존 세션 조회. 세션이 있으면 이전 대화 이어서 진행. 새 그룹이면 신규 세션 생성.<br><code>sessionKey: agent:main:telegram:group:{chat_id}</code></p>
+      </div>
+    </div>
+    <div class="step-connector">↓</div>
+    <div class="step">
+      <div class="step-num">3</div>
+      <div>
+        <h3>시스템 프롬프트 조립</h3>
+        <p>매 호출마다 다음을 조립해서 AI에게 전달:</p>
+        <p>• <code>SOUL.md</code> (카리나 성격/역할) → 항상 포함<br>
+        • <code>USER.md</code> (태훈 정보) → 항상 포함<br>
+        • <code>MEMORY.md</code> (장기기억) → 항상 포함 (22,973자 → 20,000자 제한으로 잘림)<br>
+        • <code>AGENTS.md</code>, <code>BOOTSTRAP.md</code> 등 → 항상 포함<br>
+        • 대화 히스토리 → 세션에 쌓인 이전 대화들</p>
+      </div>
+    </div>
+    <div class="step-connector">↓</div>
+    <div class="step">
+      <div class="step-num">4</div>
+      <div>
+        <h3>Claude API 호출 (Anthropic)</h3>
+        <p>조립된 시스템 프롬프트 + 대화 히스토리 + 새 메시지를 Claude에게 전달<br>모델: <code>claude-sonnet-4-6</code> | 컨텍스트 윈도우: 200,000 토큰</p>
+      </div>
+    </div>
+    <div class="step-connector">↓</div>
+    <div class="step">
+      <div class="step-num">5</div>
+      <div>
+        <h3>도구 실행 (Tool Use)</h3>
+        <p>AI가 필요한 경우 도구 호출 (파일 읽기, exec 실행, 웹 검색 등)<br>도구 결과를 다시 AI에게 전달 → 최종 응답 생성</p>
+      </div>
+    </div>
+    <div class="step-connector">↓</div>
+    <div class="step">
+      <div class="step-num">6</div>
+      <div>
+        <h3>텔레그램으로 응답 전송</h3>
+        <p>AI 응답 → OpenClaw Gateway → 텔레그램 API → 해당 채팅창에 전달</p>
+      </div>
+    </div>
+  </div>
+
+  <h2>🧠 컨텍스트 윈도우 — 왜 2만자 제한인가</h2>
+  <div class="card">
+    <p>Claude 총 컨텍스트 = 200,000 토큰 (약 150,000자). 이 중 시스템 프롬프트가 차지하는 비율:</p>
+    <div class="bar-row">
+      <div class="bar-label">SOUL.md (5,000자)</div>
+      <div class="bar-track"><div class="bar-fill" style="width:4%;background:#6366f1">3%</div></div>
+    </div>
+    <div class="bar-row">
+      <div class="bar-label">MEMORY.md (22,973자)</div>
+      <div class="bar-track"><div class="bar-fill" style="width:16%;background:#f59e0b">15%</div></div>
+    </div>
+    <div class="bar-row">
+      <div class="bar-label">AGENTS.md + 기타</div>
+      <div class="bar-track"><div class="bar-fill" style="width:8%;background:#8b5cf6">6%</div></div>
+    </div>
+    <div class="bar-row">
+      <div class="bar-label">대화 히스토리</div>
+      <div class="bar-track"><div class="bar-fill" style="width:30%;background:#34d399">25%</div></div>
+    </div>
+    <div class="bar-row">
+      <div class="bar-label">남은 여유 공간</div>
+      <div class="bar-track"><div class="bar-fill" style="width:51%;background:#2d3748;color:#94a3b8">56%</div></div>
+    </div>
+    <p style="color:#f85149;margin-top:12px;margin-bottom:4px;">⚠️ MEMORY.md 22,973자 → 20,000자 강제 잘림 = 맨 끝 약 3,000자가 매번 누락됨</p>
+    <p style="color:#d29922;margin-bottom:0;">💡 2만자 제한 이유: OpenClaw가 시스템 프롬프트 크기를 관리해서 대화 히스토리를 위한 공간 확보</p>
+  </div>
+
+  <h2>🔄 세션 구조 — 대화창이 곧 팀원</h2>
+  <div class="comp-grid">
+    <div class="comp-box comp-bad">
+      <h3>현재 상태 (50% 최적화)</h3>
+      <ul>
+        <li>모든 창이 동일한 시스템 프롬프트</li>
+        <li>각 창이 서로 뭐 하는지 모름</li>
+        <li>brain.db 자동 pull 안 됨</li>
+        <li>MEMORY.md 22,973자 → 잘림</li>
+        <li>세션 재시작 = 메모리 리셋</li>
+      </ul>
+    </div>
+    <div class="comp-box comp-good">
+      <h3>이상적 상태 (목표)</h3>
+      <ul>
+        <li>창별 전용 역할/지식 주입</li>
+        <li>brain.db로 창간 공유 메모리</li>
+        <li>세션 시작 시 관련 맥락 자동 로드</li>
+        <li>MEMORY.md → 채널별 핵심 5,000자</li>
+        <li>컨텍스트 압축/롤링 윈도우</li>
+      </ul>
+    </div>
+  </div>
+
+  <h2>❓ 자주 묻는 것들</h2>
+  <div class="faq-item">
+    <div class="faq-q">Q. 세션 종료를 한 적이 없는데 각 창 세션이 계속 유지되나?</div>
+    <div class="faq-a">✅ 유지됨. OpenClaw는 chat_id 기준으로 세션을 관리. 종료 안 하면 대화 히스토리가 계속 쌓임. 단, 컨텍스트 압축(컴팩션)이 일어나면 오래된 대화가 요약으로 대체됨.</div>
+  </div>
+  <div class="faq-item">
+    <div class="faq-q">Q. 그룹챗에서 /restart 권한이 없다고 뜨는 이유?</div>
+    <div class="faq-a">OpenClaw의 그룹 세션은 명령어 권한이 DM과 다르게 설정돼 있어. /restart, /reset 같은 명령은 DM(메인 세션)에서만 허용됨. 그룹 채팅창에서 세션을 리셋하려면 openclaw.json에서 관리자 권한 추가가 필요함.</div>
+  </div>
+  <div class="faq-item">
+    <div class="faq-q">Q. 10개 창 = 10개 팀, 너무 과한가?</div>
+    <div class="faq-a">아니야. 오히려 좋은 구조야. 단, 지금은 "같은 직원이 10개 책상에 앉아서 일하는 것"에 가까워. 각 책상에서 어떤 일을 해야 하는지 역할을 명확히 정의하고, 공유 메모리(brain.db)로 소통하면 진짜 10개 팀이 됨.</div>
+  </div>
+  <div class="faq-item">
+    <div class="faq-q">Q. MEMORY.md를 경량화하면 맥락을 잃지 않나?</div>
+    <div class="faq-a">brain.db에 원본이 다 있으니 잃지 않아. MEMORY.md는 "매번 AI에게 주입하는 것"이라 핵심만 넣는 게 맞음. 세부 내역은 필요할 때 brain.db에서 검색해서 가져오는 구조로 분리.</div>
+  </div>
+
+  <div class="footer">2026-03-06 | OpenClaw 작동 원리 v1</div>
+
+</div>
+</div>
+
+<!-- ===================== TAB 3 ===================== -->
+<div id="tab-3" class="tab-content">
+<div class="page">
+
+  <h1>🧠 카리나 시스템 구조</h1>
+  <p>2026-03-06 기준 — 태훈의 AI 파트너 인프라</p>
+
+  <div class="diagram">
+    <div class="layer-blk">
+      <div class="layer-blk-title">👤 태훈 (입력)</div>
+      <div class="boxes-row">
+        <span class="box-tag box-tag-main">📱 메인 DM</span>
+        <span class="box-tag box-tag-grp">A-제품</span>
+        <span class="box-tag box-tag-grp">B-콘텐츠</span>
+        <span class="box-tag box-tag-grp">C-의료파트너십</span>
+        <span class="box-tag box-tag-grp">D-마케팅</span>
+        <span class="box-tag box-tag-grp">E1-앱</span>
+        <span class="box-tag box-tag-grp">E2-CRM</span>
+        <span class="box-tag box-tag-grp">F-자금조달</span>
+        <span class="box-tag box-tag-grp">G-채용</span>
+        <span class="box-tag box-tag-grp">H-운영</span>
+        <span class="box-tag box-tag-new">Z-자사교 🆕</span>
+      </div>
+      <div class="layer-note layer-note-warn">⚠️ 각 채팅창 = 별도 AI 세션 호출. 동시에 여러 창에서 메시지 오면 병렬로 AI 호출 발생 → 비용/속도에 영향 있음</div>
+    </div>
+
+    <div class="layer-blk">
+      <div class="layer-blk-title">🎯 카리나 (Claude Sonnet) — OpenClaw Gateway</div>
+      <div class="boxes-row">
+        <span class="box-tag box-tag-main">🧠 메인 세션 (이 대화)</span>
+        <span class="box-tag" style="color:#484f58;">+</span>
+        <span class="box-tag box-tag-grp">그룹챗 세션 ×10 (각각 독립)</span>
+      </div>
+      <div class="layer-note layer-note-ok">✅ 각 세션은 독립적 — 서로 간섭 없음. 단, AI 토큰은 세션별로 각각 소비</div>
+    </div>
+
+    <div class="layer-blk">
+      <div class="layer-blk-title">⚙️ 로컬 프로세스 (AI 아님 — CPU/네트워크만 사용)</div>
+      <div class="boxes-row">
+        <span class="box-tag box-tag-proc">📥 yt-dlp × 3 (병렬 다운로드)</span>
+        <span class="box-tag box-tag-proc">🎙️ Python 전사 파이프라인</span>
+        <span class="box-tag box-tag-proc">📊 telegram-report.js (07:00)</span>
+        <span class="box-tag box-tag-proc">📱 ES-808 SMS (18:00)</span>
+        <span class="box-tag box-tag-proc">🔄 카페24 토큰 갱신 (90분)</span>
+        <span class="box-tag box-tag-proc">🚀 tenex-reports 배포 (10분)</span>
+      </div>
+      <div class="layer-note layer-note-ok">✅ AI 세션과 완전 독립 — 카리나와 대화 중에도 영향 없음</div>
+    </div>
+
+    <div class="layer-blk">
+      <div class="layer-blk-title">🗄️ 데이터 레이어</div>
+      <div class="boxes-row">
+        <span class="box-tag box-tag-data">🧠 brain.db (SQLite, 포트 8082)</span>
+        <span class="box-tag box-tag-data">📁 MEMORY.md / memory/*.md</span>
+        <span class="box-tag box-tag-data">☁️ tenex-reports (Vercel)</span>
+        <span class="box-tag box-tag-data">📦 GitHub (백업)</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="grid-2">
+    <div class="card">
+      <h3>10개 채팅창 동시 사용 시</h3>
+      <p style="color:#d29922;font-weight:600;margin-bottom:8px;">⚠️ 주의</p>
+      <p>각 채팅창에서 동시에 메시지 오면 10개 AI 호출 병렬 발생. 평소엔 괜찮지만 일제히 터지면 응답 지연 + 비용 증가. 그룹챗에서 대화 많으면 모두 AI가 처리.</p>
+    </div>
+    <div class="card">
+      <h3>백그라운드 프로세스 병행 시</h3>
+      <p style="color:#3fb950;font-weight:600;margin-bottom:8px;">✅ 안전</p>
+      <p>yt-dlp 다운로드, 전사, SMS 발송 등은 AI 토큰 소비 없음. 맥미니 CPU/네트워크만 사용. 카리나와 대화하면서 동시에 돌려도 완전 무관.</p>
+    </div>
+  </div>
+
+  <div class="footer">2026-03-06 | 카리나 시스템 구조 v1</div>
+
+</div>
+</div>
+
+<!-- ===================== TAB 4 ===================== -->
+<div id="tab-4" class="tab-content">
+<div class="page">
+
+  <div class="brain-header">
+    <div>
+      <h1>🧠 중간기억보관소 — Tenex Brain</h1>
+      <div class="brain-meta">모든 세션이 공유하는 장기기억 · brain.db (SQLite FTS5)</div>
+    </div>
+    <div class="badge-row">
+      <span class="badge badge-green pulse">LIVE</span>
+      <span class="badge">포트 8082</span>
+    </div>
+  </div>
+
+  <div class="stats-grid">
+    <div class="stat-card">
+      <div class="stat-label">총 레코드</div>
+      <div class="stat-value">1,385</div>
+      <div class="stat-sub">↑ +12건 (오늘)</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">텔레그램 대화</div>
+      <div class="stat-value">1,187</div>
+      <div class="stat-sub">전체의 86%</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">Plaud 녹음</div>
+      <div class="stat-value">101</div>
+      <div class="stat-sub">회의 · 아이디어 · 통화</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">저장 시작일</div>
+      <div class="stat-value" style="font-size:22px">02.06</div>
+      <div class="stat-sub">29일 누적</div>
+    </div>
+  </div>
+
+  <h2>⚙️ 공유 메모리 구조 — 모든 세션이 연결됨</h2>
+  <div class="arch-flow">
+    <div class="arch-node">
+      <div class="icon">💬</div>
+      <div class="title">텔레그램 대화</div>
+      <div class="desc">카리나 ↔ 태훈<br>매 응답 자동 저장</div>
+    </div>
+    <div class="arch-arrow">→</div>
+    <div class="arch-node active">
+      <div class="icon">🧠</div>
+      <div class="title">brain.db</div>
+      <div class="desc">SQLite FTS5<br>포트 8082<br>1,373개 레코드</div>
+    </div>
+    <div class="arch-arrow">↔</div>
+    <div class="arch-node">
+      <div class="icon">🔍</div>
+      <div class="title">세션 시작 시 Pull</div>
+      <div class="desc">get-context.js<br>관련 맥락 자동 주입<br>컴팩션 대비</div>
+    </div>
+    <div class="arch-arrow">↔</div>
+    <div class="arch-node">
+      <div class="icon">🤖</div>
+      <div class="title">서브에이전트</div>
+      <div class="desc">TASK.md에<br>컨텍스트 블록 첨부<br>완료 후 결과 저장</div>
+    </div>
+    <div class="arch-arrow">↔</div>
+    <div class="arch-node">
+      <div class="icon">🎙️</div>
+      <div class="title">Plaud 녹음</div>
+      <div class="desc">30분 단위 수집<br>전사 → 자동 인덱싱</div>
+    </div>
+  </div>
+  <div class="note-box">
+    <strong style="color:#58a6ff">핵심 원리:</strong>
+    /new로 새 세션을 열더라도 brain.db가 이전 모든 대화를 기억함.
+    세션 시작 시 <code>node get-context.js "키워드"</code>로 관련 맥락을 자동으로 가져와 주입.
+    컴팩션으로 날아가는 단기기억 vs 영구 보존되는 brain.db.
+  </div>
+
+  <h2>📡 세션별 연결 현황</h2>
+  <div class="sessions-grid">
+    <div class="session-card">
+      <div class="session-icon">💬</div>
+      <div class="session-info"><div class="name">카리나 메인 (텔레그램)</div><div class="status">1,187건 저장 · 자동 연동</div></div>
+      <div class="session-dot dot-green"></div>
+    </div>
+    <div class="session-card">
+      <div class="session-icon">🎙️</div>
+      <div class="session-info"><div class="name">Plaud 파이프라인</div><div class="status">101건 · 30분 단위 자동 수집</div></div>
+      <div class="session-dot dot-green"></div>
+    </div>
+    <div class="session-card">
+      <div class="session-icon">📝</div>
+      <div class="session-info"><div class="name">일일 메모리 파일</div><div class="status">23개 · 자정 자동 인덱싱</div></div>
+      <div class="session-dot dot-green"></div>
+    </div>
+    <div class="session-card">
+      <div class="session-icon">🤖</div>
+      <div class="session-info"><div class="name">코딩 에이전트 (서브)</div><div class="status">TASK.md 컨텍스트 주입 활성화</div></div>
+      <div class="session-dot dot-yellow"></div>
+    </div>
+    <div class="session-card">
+      <div class="session-icon">📊</div>
+      <div class="session-info"><div class="name">매출 리포트 크론잡</div><div class="status">연동 예정</div></div>
+      <div class="session-dot dot-gray"></div>
+    </div>
+    <div class="session-card">
+      <div class="session-icon">💼</div>
+      <div class="session-info"><div class="name">팀원 비서 (인규/나현)</div><div class="status">연동 예정 (수연 취소됨)</div></div>
+      <div class="session-dot dot-gray"></div>
+    </div>
+  </div>
+
+  <h2>💬 그룹 채팅 채널 (8개) — brain.db 자동 저장 활성화</h2>
+  <div class="sessions-grid">
+    <div class="session-card">
+      <div class="session-icon">🔧</div>
+      <div class="session-info"><div class="name">A-제품</div><div class="status">CS-25 · ES-808 · WS-200 · TH-1</div></div>
+      <div class="session-dot dot-green"></div>
+    </div>
+    <div class="session-card">
+      <div class="session-icon">📺</div>
+      <div class="session-info"><div class="name">B-콘텐츠/채널</div><div class="status">1분도수 유튜브 · 인스타 · 틱톡</div></div>
+      <div class="session-dot dot-green"></div>
+    </div>
+    <div class="session-card">
+      <div class="session-icon">🏥</div>
+      <div class="session-info"><div class="name">C-의료계파트너십</div><div class="status">병원 · 의사 · 정선근 교수님</div></div>
+      <div class="session-dot dot-green"></div>
+    </div>
+    <div class="session-card">
+      <div class="session-icon">📣</div>
+      <div class="session-info"><div class="name">D-마케팅/광고</div><div class="status">메타 광고 · ROAS · CRM</div></div>
+      <div class="session-dot dot-green"></div>
+    </div>
+    <div class="session-card">
+      <div class="session-icon">📱</div>
+      <div class="session-info"><div class="name">E1-앱 개발</div><div class="status">1분도수 앱 · Supabase</div></div>
+      <div class="session-dot dot-green"></div>
+    </div>
+    <div class="session-card">
+      <div class="session-icon">🛒</div>
+      <div class="session-info"><div class="name">E2-CRM마케팅</div><div class="status">카페24 · 데이터라이즈 · 문자</div></div>
+      <div class="session-dot dot-green"></div>
+    </div>
+    <div class="session-card">
+      <div class="session-icon">💰</div>
+      <div class="session-info"><div class="name">F-자금조달</div><div class="status">초창패 · 법인전환 · 팁스</div></div>
+      <div class="session-dot dot-green"></div>
+    </div>
+    <div class="session-card">
+      <div class="session-icon">🚚</div>
+      <div class="session-info"><div class="name">H-운영</div><div class="status">물류 · 재고 · CS</div></div>
+      <div class="session-dot dot-green"></div>
+    </div>
+  </div>
+  <div class="sync-note">✅ 30분마다 자동 동기화 (com.taehoon.group-sync launchd) · 오늘 11건 신규 저장</div>
+
+  <div class="charts-grid" style="margin-top:28px;">
+    <div class="chart-card">
+      <h3>📂 소스별 분포</h3>
+      <div style="position:relative;height:220px"><canvas id="sourceChart"></canvas></div>
+    </div>
+    <div class="chart-card">
+      <h3>📈 일별 저장 현황 (최근 30일)</h3>
+      <div style="position:relative;height:220px"><canvas id="dateChart"></canvas></div>
+    </div>
+  </div>
+
+  <h2>🕐 최근 기억 타임라인</h2>
+  <div id="timeline"></div>
+
+  <h2>🔍 기억 검색</h2>
+  <div class="search-bar">
+    <input type="text" id="searchInput" placeholder="예: 초창패 발표자료, CS-25, 인규 지분..." />
+    <button class="search-btn" onclick="doSearch()">검색</button>
+  </div>
+  <div class="search-results" id="searchResults"></div>
+  <div class="local-note">⚠️ 검색은 맥미니(localhost:8082)에서 직접 열 때만 작동. Vercel에서는 비활성화.</div>
+
+  <div class="footer">Tenex Brain · 중간기억보관소 · 2026-03-06 생성</div>
+
+</div>
+</div>
+
+<!-- ===================== TAB 5 ===================== -->
+<div id="tab-5" class="tab-content">
+<div class="page">
+
+  <div class="hero">
+    <div class="hero-badge">🤖 개발 에이전트팀</div>
+    <h1>테넥스 AI 개발팀 구조</h1>
+    <p>태훈은 CEO. 카리나는 PM. 개발은 에이전트팀이 한다.</p>
+  </div>
+
+  <div class="section-title">조직 구조</div>
+  <div class="org">
+    <div class="org-row">
+      <div class="org-card">
+        <div class="emoji">👑</div>
+        <div class="name">태훈</div>
+        <div class="role tag-red">CEO / 의사결정</div>
+        <div class="desc">방향 설정, 최종 검수, 우선순위 결정</div>
+        <span class="agent-badge tag-red">지시만 한다</span>
+      </div>
+    </div>
+    <div class="connector-v"></div>
+    <div class="org-row">
+      <div class="org-card">
+        <div class="emoji">🎯</div>
+        <div class="name">카리나</div>
+        <div class="role tag-blue">PM / 비서</div>
+        <div class="desc">기획서 작성, 에이전트팀 지시, 결과 취합 &amp; 보고</div>
+        <span class="agent-badge tag-blue">코딩 안 함</span>
+      </div>
+    </div>
+    <div class="connector-v"></div>
+    <div class="org-row">
+      <div class="org-card">
+        <div class="emoji">🍤</div>
+        <div class="name">텐동</div>
+        <div class="role tag-purple">개발팀장</div>
+        <div class="desc">기획서 분석, 서브에이전트 지시, 코드 통합 &amp; 리뷰</div>
+        <span class="agent-badge tag-purple">sessions_spawn</span>
+      </div>
+    </div>
+    <div class="connector-v"></div>
+    <div class="org-row dev-row">
+      <div class="dev-card">
+        <div class="emoji">⚛️</div>
+        <div class="name">프론트엔드</div>
+        <div class="role tag-green">UI/UX</div>
+        <div class="desc">Next.js, React, HTML/CSS</div>
+      </div>
+      <div class="dev-card">
+        <div class="emoji">🔧</div>
+        <div class="name">백엔드</div>
+        <div class="role tag-green">API/DB</div>
+        <div class="desc">Node.js, Python, SQLite, API</div>
+      </div>
+      <div class="dev-card">
+        <div class="emoji">🔍</div>
+        <div class="name">코드 리뷰어</div>
+        <div class="role tag-green">QA</div>
+        <div class="desc">코드 검토, 버그 체크, 최적화</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-title">업무 흐름</div>
+  <div class="wf-steps">
+    <div class="wf-step">
+      <div class="wf-num">1</div>
+      <div>
+        <div class="wf-who" style="color:#f85149;">태훈</div>
+        <div class="wf-what">"이거 만들어줘" 한 마디</div>
+      </div>
+    </div>
+    <div class="wf-step">
+      <div class="wf-num">2</div>
+      <div>
+        <div class="wf-who" style="color:#58a6ff;">카리나</div>
+        <div class="wf-what">TASK.md 기획서 작성 + brain.db 컨텍스트 주입</div>
+      </div>
+    </div>
+    <div class="wf-step">
+      <div class="wf-num">3</div>
+      <div>
+        <div class="wf-who" style="color:#a371f7;">텐동</div>
+        <div class="wf-what">서브에이전트 병렬 실행 (프론트+백엔드+리뷰어)</div>
+      </div>
+    </div>
+    <div class="wf-step">
+      <div class="wf-num">4</div>
+      <div>
+        <div class="wf-who" style="color:#38d39f;">에이전트팀</div>
+        <div class="wf-what">코드 작성 → 통합 → 리뷰</div>
+      </div>
+    </div>
+    <div class="wf-step">
+      <div class="wf-num">5</div>
+      <div>
+        <div class="wf-who" style="color:#58a6ff;">카리나</div>
+        <div class="wf-what">브라우저 QA + 결과 보고</div>
+      </div>
+    </div>
+    <div class="wf-step">
+      <div class="wf-num">6</div>
+      <div>
+        <div class="wf-who" style="color:#f85149;">태훈</div>
+        <div class="wf-what">최종 검수 (2분)</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-title">업무 지시 방식 — 맞는 방법 vs 틀린 방법</div>
+  <div class="guide-grid">
+    <div class="guide-box guide-bad">
+      <div class="guide-label guide-label-bad">❌ 지금 하고 있는 방식</div>
+      <div class="guide-item">"이거 코드 짜줘" → 카리나가 직접 실행</div>
+      <div class="guide-item">"HTML 만들어줘" → 카리나가 write 툴로 직접 작성</div>
+      <div class="guide-item">"스크립트 수정해줘" → 카리나가 edit 툴로 직접 수정</div>
+      <div class="guide-item">결과: 카리나 컨텍스트 낭비, 속도 느림, 병렬처리 불가</div>
+    </div>
+    <div class="guide-box guide-good">
+      <div class="guide-label guide-label-good">✅ 맞는 방식</div>
+      <div class="guide-item">"이거 만들어" → 카리나가 TASK.md 작성 → 텐동에게 전달</div>
+      <div class="guide-item">기획 의도 + 요구사항 + 컨텍스트를 TASK.md에 담음</div>
+      <div class="guide-item">텐동이 서브에이전트 병렬로 돌림 (훨씬 빠름)</div>
+      <div class="guide-item">카리나는 결과 검수 + 태훈에게 보고만</div>
+    </div>
+  </div>
+
+  <div class="section-title">실전 예시</div>
+  <div class="card task-card">
+    <div class="task-label">예시 1 — 대시보드</div>
+    <div class="task-title">매출 대시보드 새 탭 추가</div>
+    <div class="task-flow">
+      태훈: "광고 흐름 탭 추가해줘" <span class="task-arrow">→</span><br>
+      카리나: TASK.md 작성 (API 스펙, 디자인 요구사항, brain.db 컨텍스트) <span class="task-arrow">→</span><br>
+      텐동: 프론트+백엔드 병렬 실행 <span class="task-arrow">→</span><br>
+      카리나: QA 후 태훈에게 링크 전달
+    </div>
+  </div>
+  <div class="card task-card">
+    <div class="task-label">예시 2 — 자동화</div>
+    <div class="task-title">CRM 문자 발송 자동화</div>
+    <div class="task-flow">
+      태훈: "ES-808 출고 당일 문자 자동화" <span class="task-arrow">→</span><br>
+      카리나: 카페24 API 스펙 + 문자 내용 + 발송 조건 TASK.md 작성 <span class="task-arrow">→</span><br>
+      텐동: 백엔드 에이전트에게 스크립트 작성 위임 <span class="task-arrow">→</span><br>
+      카리나: 테스트 실행 + launchd 등록
+    </div>
+  </div>
+  <div class="card task-card">
+    <div class="task-label">예시 3 — 페이지</div>
+    <div class="task-title">브랜드 디자인 시스템 HTML</div>
+    <div class="task-flow">
+      태훈: "디자인 시스템 정리해서 배포해" <span class="task-arrow">→</span><br>
+      카리나: 컨텐츠 기획 + 디자인 방향 TASK.md <span class="task-arrow">→</span><br>
+      텐동: 프론트엔드 에이전트에게 위임 <span class="task-arrow">→</span><br>
+      카리나: Vercel 배포 + 링크 전달
+    </div>
+  </div>
+  <div class="card task-card">
+    <div class="task-label">예시 4 — 앱</div>
+    <div class="task-title">키네메디칼 앱 MVP</div>
+    <div class="task-flow">
+      태훈: "앱 기획 잡고 개발 시작해" <span class="task-arrow">→</span><br>
+      카리나: 기능 명세서 + 화면 흐름 + 기술 스택 TASK.md <span class="task-arrow">→</span><br>
+      텐동: 프론트+백엔드 병렬 개발 <span class="task-arrow">→</span><br>
+      카리나: 주 단위 진행상황 보고
+    </div>
+  </div>
+
+  <div class="principle-box">
+    <h3>💡 핵심 원칙</h3>
+    <div class="principle-grid">
+      <div class="principle-item">
+        <div class="label">태훈의 역할</div>
+        <div class="desc">방향 + 검수만. 실행은 팀에게.</div>
+      </div>
+      <div class="principle-item">
+        <div class="label">카리나의 역할</div>
+        <div class="desc">PM. 기획 + 지시 + 보고. 코딩 X.</div>
+      </div>
+      <div class="principle-item">
+        <div class="label">에이전트팀의 역할</div>
+        <div class="desc">실제 코드 작성. 병렬 처리.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer">테넥스 AI 개발팀 구조 | 마지막 업데이트: 2026-03-06</div>
+
+</div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4/dist/chart.umd.min.js"></script>
+<script>
+// ===== TAB SWITCH =====
+function showTab(n, btn) {
+  document.querySelectorAll('.tab-content').forEach(function(e) { e.classList.remove('active'); });
+  document.querySelectorAll('.tab-btn').forEach(function(e) { e.classList.remove('active'); });
+  document.getElementById('tab-' + n).classList.add('active');
+  if (btn) btn.classList.add('active');
+}
+
+// ===== BRAIN DATA =====
+const DATA = {
+  bySource: [
+    {source:"telegram",cnt:1187},{source:"plaud",cnt:101},{source:"memory",cnt:57},
+    {source:"memory-file",cnt:23},{source:"conversation",cnt:4},{source:"daily-summary",cnt:1}
+  ],
+  byDate: [
+    {date:"2026-03-05",cnt:149},{date:"2026-03-04",cnt:77},{date:"2026-03-03",cnt:144},
+    {date:"2026-03-02",cnt:182},{date:"2026-03-01",cnt:12},{date:"2026-02-28",cnt:46},
+    {date:"2026-02-27",cnt:269},{date:"2026-02-26",cnt:36},{date:"2026-02-25",cnt:124},
+    {date:"2026-02-24",cnt:174},{date:"2026-02-23",cnt:108},{date:"2026-02-22",cnt:3},
+    {date:"2026-02-21",cnt:2},{date:"2026-02-20",cnt:9},{date:"2026-02-19",cnt:7},
+    {date:"2026-02-18",cnt:2},{date:"2026-02-17",cnt:2},{date:"2026-02-16",cnt:2},
+    {date:"2026-02-15",cnt:2},{date:"2026-02-14",cnt:2},{date:"2026-02-13",cnt:2},
+    {date:"2026-02-12",cnt:3},{date:"2026-02-11",cnt:2},{date:"2026-02-06",cnt:2}
+  ],
+  recent: [
+    {date:"2026-03-05",source:"telegram",preview:"태훈: 집에 라볶이 라면도 있는데\n카리나: 그럼 오늘 야식 풀코스네 ㅋㅋ"},
+    {date:"2026-03-05",source:"memory-file",preview:"초창패 발표자료 v1→v3 완성 + Vercel 배포. 심층인터뷰 전사 분석 → 위원 피드백 3가지 반영."},
+    {date:"2026-03-04",source:"memory-file",preview:"초창패 발표자료 완성 (3/6 마감). 이번 주: 기보 벤처지점 상담 예약."},
+    {date:"2026-03-03",source:"memory-file",preview:"이수연 합류. 데이터라이즈 CRM 세팅 시작. 오디언스 17개 생성."},
+    {date:"2026-03-02",source:"telegram",preview:"나현 디자인 역할 재정의. 패션디자인 감각과 실무 괴리 확인."},
+    {date:"2026-02-27",source:"memory-file",preview:"초창패 심층 인터뷰 완료 (10:20). 질문 12개 모두 답변."},
+    {date:"2026-02-24",source:"telegram",preview:"카페24 토큰 자동화 3중 구조 완성. launchd + refresh_token + Vercel 재배포."}
+  ]
+};
+
+const srcColors = {
+  telegram:'#58a6ff', plaud:'#bc8cff', memory:'#3fb950',
+  'memory-file':'#e3b341', conversation:'#f78166', 'daily-summary':'#79c0ff'
+};
+
+new Chart(document.getElementById('sourceChart'), {
+  type: 'doughnut',
+  data: {
+    labels: DATA.bySource.map(d => d.source),
+    datasets: [{
+      data: DATA.bySource.map(d => d.cnt),
+      backgroundColor: DATA.bySource.map(d => srcColors[d.source] || '#8b949e'),
+      borderWidth: 2,
+      borderColor: '#0d1117'
+    }]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    plugins: { legend: { position:'bottom', labels:{ color:'#8b949e', font:{size:11}, padding:10 } } }
+  }
+});
+
+const sorted = [...DATA.byDate].sort((a,b) => a.date.localeCompare(b.date));
+new Chart(document.getElementById('dateChart'), {
+  type: 'bar',
+  data: {
+    labels: sorted.map(d => d.date.slice(5)),
+    datasets: [{
+      data: sorted.map(d => d.cnt),
+      backgroundColor: sorted.map(d => d.cnt > 100 ? '#1f6feb' : '#21262d'),
+      borderRadius: 4,
+      borderSkipped: false
+    }]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    plugins: { legend: { display:false } },
+    scales: {
+      x: { ticks:{color:'#484f58',font:{size:10},maxRotation:45}, grid:{color:'#161b2e'} },
+      y: { ticks:{color:'#484f58',font:{size:10}}, grid:{color:'#161b2e'} }
+    }
+  }
+});
+
+const srcClass = {
+  telegram:'src-telegram', plaud:'src-plaud',
+  memory:'src-memory', 'memory-file':'src-memory-file'
+};
+const dotColor = {
+  telegram:'#58a6ff', plaud:'#bc8cff', memory:'#3fb950', 'memory-file':'#e3b341'
+};
+
+const tl = document.getElementById('timeline');
+DATA.recent.forEach(function(r, i) {
+  const isLast = i === DATA.recent.length - 1;
+  const preview = r.preview.replace(/\n/g,' ').slice(0,140);
+  tl.innerHTML += `<div class="tl-item">
+    <div class="tl-dot-wrap">
+      <div class="tl-dot" style="background:${dotColor[r.source]||'#8b949e'}"></div>
+      ${!isLast ? '<div class="tl-line"></div>' : ''}
+    </div>
+    <div class="tl-content">
+      <div class="tl-meta">
+        <span class="tl-date">${r.date}</span>
+        <span class="tl-source ${srcClass[r.source]||''}">${r.source}</span>
+      </div>
+      <div class="tl-preview">${preview}</div>
+    </div>
+  </div>`;
+});
+
+async function doSearch() {
+  const q = document.getElementById('searchInput').value.trim();
+  if (!q) return;
+  const box = document.getElementById('searchResults');
+  box.innerHTML = '<div style="color:#8b949e;font-size:13px">검색 중...</div>';
+  try {
+    const res = await fetch(`http://localhost:8082/search?q=${encodeURIComponent(q)}&limit=5`);
+    const data = await res.json();
+    if (!data.results.length) { box.innerHTML = '<div style="color:#8b949e;font-size:13px">결과 없음</div>'; return; }
+    box.innerHTML = data.results.map(r =>
+      `<div class="result-item">
+        <div class="tl-meta">
+          <span class="tl-date">${r.date}</span>
+          <span class="tl-source ${srcClass[r.source]||''}">${r.source}</span>
+        </div>
+        <div class="result-preview">${(r.snippet||r.content||'').slice(0,200)}</div>
+      </div>`
+    ).join('');
+  } catch(e) {
+    box.innerHTML = '<div style="color:#f78166;font-size:12px">⚠️ localhost:8082 연결 실패. 맥미니에서 직접 접근해야 합니다.</div>';
+  }
+}
+document.getElementById('searchInput').addEventListener('keydown', function(e) {
+  if (e.key === 'Enter') doSearch();
+});
+</script>
+</body>
+</html>

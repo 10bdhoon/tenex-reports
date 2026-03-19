@@ -1,0 +1,1573 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>ES-808</title>
+<style>
+/* ===== RESET & BASE ===== */
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  background: #0d1117;
+  color: #e6edf3;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  min-height: 100vh;
+  font-size: 14px;
+  line-height: 1.75;
+}
+
+/* ===== TYPOGRAPHY ===== */
+h1 { font-size: 26px; font-weight: 700; color: #e6edf3; margin-bottom: 8px; line-height: 1.3; }
+h2 { font-size: 20px; font-weight: 600; color: #e6edf3; margin: 24px 0 10px; line-height: 1.4; }
+h3 { font-size: 16px; font-weight: 600; color: #e6edf3; margin: 18px 0 8px; }
+h4 { font-size: 14px; font-weight: 600; color: #e6edf3; margin: 14px 0 6px; }
+p { font-size: 14px; line-height: 1.75; color: #8b949e; margin-bottom: 12px; }
+ul, ol { padding-left: 20px; margin-bottom: 12px; }
+li { font-size: 14px; line-height: 1.8; color: #8b949e; margin-bottom: 4px; }
+strong, b { color: #c9d1d9; font-weight: 600; }
+em { color: #79c0ff; font-style: normal; }
+a { color: #58a6ff; text-decoration: none; }
+a:hover { text-decoration: underline; }
+code {
+  background: #161b22;
+  border: 1px solid #21262d;
+  border-radius: 4px;
+  padding: 2px 6px;
+  font-size: 13px;
+  color: #79c0ff;
+  font-family: monospace;
+}
+pre {
+  background: #161b22;
+  border: 1px solid #21262d;
+  border-radius: 8px;
+  padding: 16px;
+  overflow-x: auto;
+  margin-bottom: 16px;
+}
+pre code { background: none; border: none; padding: 0; }
+
+/* ===== TAB NAV (TOP) ===== */
+.tab-nav {
+  position: sticky;
+  top: 0;
+  z-index: 200;
+  background: #161b22;
+  border-bottom: 1px solid #21262d;
+  display: flex;
+  overflow-x: auto;
+  padding: 0 20px;
+}
+.tab-nav::-webkit-scrollbar { height: 0; }
+
+.tab-btn {
+  background: none;
+  border: none;
+  color: #8b949e;
+  padding: 14px 20px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  white-space: nowrap;
+  transition: color .15s, border-color .15s;
+}
+.tab-btn:hover { color: #e6edf3; }
+.tab-btn.active { color: #e6edf3; border-bottom-color: #58a6ff; }
+
+/* ===== TAB CONTENT ===== */
+.tab-content { display: none; }
+.tab-content.active { display: block; }
+
+/* ===== SECTION WRAPPER ===== */
+.section-wrap {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 32px 20px;
+}
+
+/* ===== CARDS ===== */
+.card {
+  background: #161b22;
+  border: 1px solid #21262d;
+  border-radius: 12px;
+  padding: 24px;
+  margin-bottom: 16px;
+}
+.card-title {
+  font-size: 15px;
+  font-weight: 700;
+  color: #e6edf3;
+  margin-bottom: 14px;
+}
+
+/* ===== HERO ===== */
+.hero {
+  background: linear-gradient(135deg, #0d1117 0%, #161b22 100%);
+  border: 1px solid #21262d;
+  border-radius: 12px;
+  padding: 36px 28px;
+  margin-bottom: 24px;
+  text-align: center;
+}
+.hero h1 { margin-bottom: 6px; }
+.hero h2 { font-size: 16px; font-weight: 500; color: #8b949e; margin: 0 0 20px; }
+.hero-badge {
+  display: inline-block;
+  background: #21262d;
+  color: #58a6ff;
+  border-radius: 20px;
+  padding: 4px 14px;
+  font-size: 12px;
+  font-weight: 600;
+  margin-bottom: 16px;
+}
+.hero-meta {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 16px;
+}
+.hero-tag {
+  background: #21262d;
+  color: #8b949e;
+  border-radius: 20px;
+  padding: 4px 12px;
+  font-size: 12px;
+}
+
+/* ===== INNER SUB NAV ===== */
+.sub-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 28px;
+}
+.nav-btn {
+  background: #21262d;
+  border: 1px solid #30363d;
+  color: #8b949e;
+  border-radius: 20px;
+  padding: 6px 14px;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all .15s;
+  white-space: nowrap;
+}
+.nav-btn:hover { color: #e6edf3; border-color: #58a6ff; }
+.nav-btn.active {
+  background: #0d2137;
+  border-color: #58a6ff;
+  color: #58a6ff;
+}
+
+/* ===== SECTIONS ===== */
+.content-section { display: none; }
+.content-section.active { display: block; }
+
+.section-title {
+  font-size: 18px;
+  font-weight: 700;
+  color: #e6edf3;
+  margin: 0 0 6px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid #21262d;
+}
+.section-sub {
+  font-size: 13px;
+  color: #8b949e;
+  margin-bottom: 24px;
+  margin-top: 4px;
+}
+
+/* ===== DIVIDER ===== */
+.divider { border: none; border-top: 1px solid #21262d; margin: 28px 0; }
+
+/* ===== BADGE / TAG ===== */
+.badge, .tag {
+  display: inline-block;
+  background: #21262d;
+  color: #58a6ff;
+  border-radius: 20px;
+  padding: 3px 10px;
+  font-size: 12px;
+  font-weight: 500;
+  margin: 2px;
+}
+.badge-green, .tag-green { background: #0d2b1a; color: #3fb950; }
+.badge-yellow, .tag-yellow { background: #2b1f00; color: #d29922; }
+.badge-red, .tag-red { background: #2b0d0d; color: #f85149; }
+
+/* ===== HIGHLIGHT BOXES ===== */
+.highlight, .note-box {
+  background: #0d2137;
+  border: 1px solid #1d4ed8;
+  border-radius: 8px;
+  padding: 14px 16px;
+  margin-bottom: 16px;
+  font-size: 14px;
+  color: #8b949e;
+}
+.highlight h3 { color: #58a6ff; margin-top: 0; }
+.warn-box {
+  background: #2b1d00;
+  border: 1px solid #d29922;
+  border-radius: 8px;
+  padding: 14px 16px;
+  margin-bottom: 16px;
+  font-size: 14px;
+  color: #8b949e;
+}
+.success-box {
+  background: #0d2b1a;
+  border: 1px solid #238636;
+  border-radius: 8px;
+  padding: 14px 16px;
+  margin-bottom: 16px;
+  font-size: 14px;
+  color: #8b949e;
+}
+
+/* ===== TABLES ===== */
+table { width: 100%; border-collapse: collapse; margin-bottom: 20px; font-size: 14px; }
+thead th {
+  background: #1f2937;
+  color: #e6edf3;
+  padding: 12px 14px;
+  text-align: left;
+  font-weight: 600;
+  border-bottom: 2px solid #21262d;
+}
+tbody td { padding: 10px 14px; color: #8b949e; border-bottom: 1px solid #21262d; }
+tbody tr:hover { background: rgba(255,255,255,.02); }
+tbody tr:last-child td { border-bottom: none; }
+
+/* ===== FLOW GRID (OVERVIEW) ===== */
+.flow-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+  margin-bottom: 28px;
+}
+@media (max-width: 640px) { .flow-grid { grid-template-columns: 1fr 1fr; } }
+
+.flow-card {
+  background: #161b22;
+  border: 1px solid #21262d;
+  border-radius: 12px;
+  padding: 18px;
+  text-align: center;
+}
+.flow-week-num {
+  font-size: 22px;
+  font-weight: 800;
+  margin-bottom: 6px;
+}
+.flow-card-title {
+  font-size: 14px;
+  font-weight: 700;
+  color: #e6edf3;
+  margin-bottom: 6px;
+}
+.flow-card-desc {
+  font-size: 12px;
+  color: #8b949e;
+  line-height: 1.6;
+}
+
+/* ===== DESIGN PHILOSOPHY GRID ===== */
+.design-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 12px;
+  margin-top: 12px;
+}
+.design-item {
+  background: #0d1117;
+  border: 1px solid #21262d;
+  border-radius: 8px;
+  padding: 14px;
+}
+.design-item-label {
+  font-size: 12px;
+  font-weight: 700;
+  margin-bottom: 6px;
+}
+.design-item-desc {
+  font-size: 13px;
+  color: #8b949e;
+  line-height: 1.5;
+}
+
+/* ===== PRODUCTS GRID ===== */
+.products-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+  margin-bottom: 24px;
+}
+@media (max-width: 640px) { .products-grid { grid-template-columns: 1fr; } }
+
+.product-card {
+  background: #161b22;
+  border: 1px solid #21262d;
+  border-radius: 12px;
+  padding: 20px;
+}
+.product-icon { font-size: 28px; margin-bottom: 10px; }
+.product-name { font-size: 16px; font-weight: 700; color: #e6edf3; margin-bottom: 4px; }
+.product-stage {
+  display: inline-block;
+  background: #0d2137;
+  color: #58a6ff;
+  border-radius: 20px;
+  padding: 2px 10px;
+  font-size: 11px;
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+.product-desc { font-size: 13px; color: #8b949e; line-height: 1.65; margin-bottom: 10px; }
+.product-science {
+  font-size: 12px;
+  color: #6e7681;
+  border-top: 1px solid #21262d;
+  padding-top: 10px;
+  line-height: 1.6;
+}
+
+/* ===== WEEK HEADER ===== */
+.week-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+.week-badge {
+  width: 56px;
+  height: 56px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 26px;
+  flex-shrink: 0;
+  border: 1px solid #21262d;
+}
+.week-info h3 { font-size: 17px; color: #e6edf3; margin: 0 0 4px; }
+.week-info p { font-size: 13px; color: #8b949e; margin: 0; }
+.week-goal {
+  background: #0d2137;
+  border-left: 3px solid #58a6ff;
+  border-radius: 0 8px 8px 0;
+  padding: 12px 16px;
+  margin-bottom: 16px;
+  font-size: 13px;
+  color: #8b949e;
+  line-height: 1.7;
+}
+.week-goal-warn { border-left-color: #d29922; background: #2b1d00; }
+
+/* DAY TABLE */
+.day-label { font-weight: 600; color: #58a6ff; white-space: nowrap; }
+.day-theme {
+  display: inline-block;
+  border-radius: 20px;
+  padding: 2px 10px;
+  font-size: 12px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+.theme-rest    { background: #1a1010; color: #e87070; }
+.theme-exercise{ background: #0d2137; color: #7ec8ff; }
+.theme-device  { background: #0d1f37; color: #79c0ff; }
+.theme-eval    { background: #1a2b10; color: #7ed87e; }
+
+.day-routine { font-size: 13px; color: #8b949e; line-height: 1.75; }
+.day-guide {
+  margin-top: 8px;
+  padding: 8px 12px;
+  background: #1c2128;
+  border-left: 2px solid #58a6ff;
+  border-radius: 0 6px 6px 0;
+  font-size: 12px;
+  color: #6e7681;
+  font-style: italic;
+}
+
+/* ===== SIGNAL GRID ===== */
+.signal-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+  margin-bottom: 24px;
+}
+@media (max-width: 560px) { .signal-grid { grid-template-columns: 1fr; } }
+
+.signal-card {
+  background: #161b22;
+  border: 1px solid #21262d;
+  border-radius: 12px;
+  padding: 20px;
+}
+.signal-card.green  { border-top: 3px solid #3fb950; }
+.signal-card.yellow { border-top: 3px solid #d29922; }
+.signal-card.red    { border-top: 3px solid #f85149; }
+.signal-card.emergency { border-top: 3px solid #ff7b72; }
+
+.signal-icon  { font-size: 22px; margin-bottom: 8px; }
+.signal-title { font-size: 15px; font-weight: 700; color: #e6edf3; margin-bottom: 6px; }
+.signal-status{ font-size: 12px; color: #8b949e; margin-bottom: 10px; }
+.signal-action{ font-size: 13px; color: #8b949e; line-height: 1.7; }
+
+/* ===== EVIDENCE ===== */
+.evidence-week {
+  background: #161b22;
+  border: 1px solid #21262d;
+  border-radius: 12px;
+  padding: 20px 24px;
+  margin-bottom: 16px;
+}
+.evidence-week-title {
+  font-size: 15px;
+  font-weight: 700;
+  color: #e6edf3;
+  margin-bottom: 6px;
+}
+.evidence-intent {
+  font-size: 12px;
+  color: #58a6ff;
+  margin-bottom: 14px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid #21262d;
+}
+.evidence-list { list-style: none; padding: 0; margin: 0; }
+.evidence-list li {
+  font-size: 13px;
+  color: #8b949e;
+  line-height: 1.7;
+  padding: 10px 0;
+  border-bottom: 1px solid #21262d;
+}
+.evidence-list li:last-child { border-bottom: none; padding-bottom: 0; }
+.evidence-journal {
+  display: inline-block;
+  background: #0d2137;
+  color: #58a6ff;
+  border-radius: 4px;
+  padding: 1px 7px;
+  font-size: 11px;
+  font-weight: 600;
+  margin-right: 6px;
+  vertical-align: middle;
+}
+
+/* ===== EXPERTS ===== */
+.experts-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+  margin-bottom: 24px;
+}
+@media (max-width: 560px) { .experts-grid { grid-template-columns: 1fr; } }
+
+.expert-card {
+  background: #161b22;
+  border: 1px solid #21262d;
+  border-radius: 12px;
+  padding: 20px;
+}
+.expert-avatar { font-size: 32px; margin-bottom: 10px; }
+.expert-name { font-size: 16px; font-weight: 700; color: #e6edf3; margin-bottom: 3px; }
+.expert-role { font-size: 12px; color: #58a6ff; margin-bottom: 12px; }
+.expert-stance { font-size: 13px; color: #8b949e; line-height: 1.7; }
+.expert-quote {
+  font-style: italic;
+  color: #c9d1d9;
+  background: #0d1117;
+  border-left: 2px solid #58a6ff;
+  padding: 8px 12px;
+  border-radius: 0 6px 6px 0;
+  margin-bottom: 10px;
+  font-size: 13px;
+}
+
+/* ===== FLOW STEPS (SMS TAB) ===== */
+.flow-steps { margin-bottom: 24px; }
+.flow-step {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  padding: 14px 0;
+  border-bottom: 1px solid #21262d;
+}
+.flow-step:last-child { border-bottom: none; }
+.flow-num {
+  width: 30px;
+  height: 30px;
+  background: #0d2137;
+  color: #58a6ff;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  font-weight: 700;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+.flow-content strong { display: block; font-size: 14px; color: #e6edf3; margin-bottom: 3px; }
+.flow-content p { margin: 0; font-size: 13px; }
+
+/* ===== MESSAGE BOX ===== */
+.msg-box {
+  background: #161b22;
+  border: 1px solid #21262d;
+  border-radius: 12px;
+  padding: 20px 24px;
+  font-family: monospace;
+  font-size: 13px;
+  color: #c9d1d9;
+  line-height: 1.9;
+  white-space: pre-wrap;
+}
+
+/* ===== GRID LAYOUTS ===== */
+.grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 24px; }
+.grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-bottom: 24px; }
+@media (max-width: 640px) { .grid-2, .grid-4 { grid-template-columns: 1fr 1fr; } }
+@media (max-width: 400px) { .grid-4 { grid-template-columns: 1fr; } }
+
+.stat-card {
+  background: #161b22;
+  border: 1px solid #21262d;
+  border-radius: 12px;
+  padding: 18px;
+}
+.stat-label { font-size: 12px; color: #8b949e; margin-bottom: 6px; }
+.stat-value { font-size: 18px; font-weight: 700; color: #58a6ff; margin-bottom: 4px; }
+.stat-sub { font-size: 11px; color: #6e7681; }
+
+/* ===== PRO TAB ===== */
+.pro-header { margin-bottom: 32px; }
+.pro-header .badge {
+  display: inline-block;
+  background: #0d2137;
+  color: #58a6ff;
+  border-radius: 20px;
+  padding: 4px 14px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: .08em;
+  margin-bottom: 12px;
+}
+.pro-header h1 { font-size: 26px; font-weight: 800; color: #e6edf3; margin-bottom: 6px; }
+.pro-header p { color: #6e7681; font-size: 14px; }
+
+.topic-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 16px;
+  margin-bottom: 32px;
+}
+@media (max-width: 700px) { .topic-grid { grid-template-columns: 1fr; } }
+
+.topic-card {
+  background: #161b22;
+  border: 1px solid #21262d;
+  border-radius: 12px;
+  overflow: hidden;
+}
+.topic-card-head {
+  padding: 16px 18px 12px;
+  border-bottom: 1px solid #21262d;
+}
+.topic-num { font-size: 10px; font-weight: 700; letter-spacing: .1em; color: #8b949e; margin-bottom: 6px; }
+.topic-title { font-size: 15px; font-weight: 700; color: #e6edf3; }
+.topic-body { padding: 14px 18px; }
+
+.diff-row { margin-bottom: 14px; }
+.diff-label {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: .08em;
+  margin-bottom: 5px;
+}
+.diff-label.before { color: #f85149; }
+.diff-label.after  { color: #3fb950; }
+
+.diff-list { list-style: none; padding: 0; margin: 0; }
+.diff-list li {
+  font-size: 13px;
+  color: #c9d1d9;
+  line-height: 1.6;
+  padding-left: 14px;
+  position: relative;
+  margin-bottom: 3px;
+  border-bottom: none;
+}
+.diff-list li::before { content: "•"; position: absolute; left: 0; color: #8b949e; }
+
+.note-inline {
+  background: #1c2128;
+  border-left: 2px solid #e3b341;
+  border-radius: 0 6px 6px 0;
+  padding: 8px 12px;
+  margin-top: 8px;
+  font-size: 12px;
+  color: #e3b341;
+  line-height: 1.5;
+}
+.caution-inline {
+  background: #1c1215;
+  border-left: 2px solid #f85149;
+  border-radius: 0 6px 6px 0;
+  padding: 8px 12px;
+  margin-top: 8px;
+  font-size: 12px;
+  color: #f85149;
+  line-height: 1.5;
+}
+
+.action-section {
+  background: #0d1117;
+  border: 1px solid #30363d;
+  border-radius: 12px;
+  padding: 24px;
+  margin-bottom: 24px;
+}
+.action-section h2 { font-size: 15px; font-weight: 700; color: #e6edf3; margin: 0 0 16px; }
+
+.pri-red { color: #f85149; font-weight: 700; }
+.pri-yel { color: #e3b341; font-weight: 700; }
+.pri-grn { color: #3fb950; font-weight: 700; }
+
+.quote-box {
+  background: #161b22;
+  border-radius: 12px;
+  padding: 24px;
+  border-left: 4px solid #58a6ff;
+  margin-bottom: 24px;
+}
+.quote-box .who { font-size: 11px; color: #58a6ff; font-weight: 700; letter-spacing: .08em; margin-bottom: 10px; }
+.quote-box blockquote { font-size: 15px; color: #e6edf3; line-height: 1.75; font-style: italic; margin: 0; }
+
+.pro-footer { color: #4b5563; font-size: 12px; margin-top: 28px; text-align: right; }
+
+/* ===== MAINTENANCE TABLE ===== */
+.maint-row td:first-child { font-size: 18px; }
+
+/* ===== COLOR VALUES ===== */
+.col-red    { color: #e87070; }
+.col-orange { color: #e8a870; }
+.col-green  { color: #70e870; }
+.col-blue   { color: #7ec8ff; }
+.col-purple { color: #c87ed8; }
+.col-gold   { color: #ffd700; }
+
+.text-ok    { color: #3fb950; }
+.text-warn  { color: #d29922; }
+.text-err   { color: #f85149; }
+.text-muted { color: #6e7681; }
+</style>
+</head>
+<body>
+
+<!-- ===== TOP TAB NAV ===== -->
+<div class="tab-nav">
+  <button class="tab-btn active" onclick="showTab(1, this)">커리큘럼</button>
+  <button class="tab-btn" onclick="showTab(2, this)">문자 안내</button>
+  <button class="tab-btn" onclick="showTab(3, this)">PRO 개선 논의</button>
+</div>
+
+<!-- ======================== TAB 1: 커리큘럼 ======================== -->
+<div id="tab-1" class="tab-content active">
+<div class="section-wrap">
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="hero-badge">Clinical Protocol v1.0 — 2026.03</div>
+    <h1>1분도수 × 키네메디칼</h1>
+    <h2>6주 완성 목디스크 졸업 로드맵</h2>
+    <div class="hero-meta">
+      <span class="hero-tag">📚 SCI급 저널 10개 기반</span>
+      <span class="hero-tag">💊 JOSPT CPG 2017 준거</span>
+      <span class="hero-tag">🏥 4인 전문가 합의</span>
+      <span class="hero-tag">📱 1분도수 앱 적용 예정</span>
+    </div>
+  </div>
+
+  <!-- SUB NAV -->
+  <nav class="sub-nav">
+    <button class="nav-btn active" onclick="showSection('overview', this)">개요</button>
+    <button class="nav-btn" onclick="showSection('products', this)">제품 솔루션</button>
+    <button class="nav-btn" onclick="showSection('week1', this)">1주차</button>
+    <button class="nav-btn" onclick="showSection('week2', this)">2주차</button>
+    <button class="nav-btn" onclick="showSection('week3', this)">3주차</button>
+    <button class="nav-btn" onclick="showSection('week4', this)">4주차</button>
+    <button class="nav-btn" onclick="showSection('week5', this)">5주차</button>
+    <button class="nav-btn" onclick="showSection('week6', this)">6주차</button>
+    <button class="nav-btn" onclick="showSection('signal', this)">통증 신호등</button>
+    <button class="nav-btn" onclick="showSection('evidence', this)">임상 근거</button>
+    <button class="nav-btn" onclick="showSection('experts', this)">4인 토론</button>
+  </nav>
+
+  <!-- ── OVERVIEW ── -->
+  <div id="overview" class="content-section active">
+    <div class="section-title">커리큘럼 전체 개요</div>
+    <p class="section-sub">SCI급 저널 기반으로 4인의 전문가가 합의한 목디스크 자가 회복 프로토콜</p>
+
+    <div class="flow-grid">
+      <div class="flow-card">
+        <div class="flow-week-num col-red">W1</div>
+        <div class="flow-card-title">🚨 응급 구조</div>
+        <div class="flow-card-desc">목 잠금 &amp; 호흡 펌프<br>염증 진압 &amp; 통증 50%↓</div>
+      </div>
+      <div class="flow-card">
+        <div class="flow-week-num col-orange">W2</div>
+        <div class="flow-card-title">⚠️ 기초 공사</div>
+        <div class="flow-card-desc">흉추 가동성 확보<br>등이 일해야 목이 쉰다</div>
+      </div>
+      <div class="flow-card">
+        <div class="flow-week-num col-green">W3</div>
+        <div class="flow-card-title">🌱 공간 확보</div>
+        <div class="flow-card-desc">CS-25 견인 + 신경 가동<br>팔 저림 해결</div>
+      </div>
+      <div class="flow-card">
+        <div class="flow-week-num col-blue">W4</div>
+        <div class="flow-card-title">🛡️ 리듬 강화</div>
+        <div class="flow-card-desc">동적 리듬 운동<br>뇌의 움직임 공포 제거</div>
+      </div>
+      <div class="flow-card">
+        <div class="flow-week-num col-purple">W5</div>
+        <div class="flow-card-title">💪 코어 연결</div>
+        <div class="flow-card-desc">전신 사슬 통합<br>살짝 땀 흐르는 강도</div>
+      </div>
+      <div class="flow-card">
+        <div class="flow-week-num col-gold">W6</div>
+        <div class="flow-card-title">👑 스파르타 넥</div>
+        <div class="flow-card-desc">고강도 갑옷 만들기<br>스포츠 복귀 가능 수준</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">🏛️ 설계 철학 (Design Philosophy)</div>
+      <div class="design-grid">
+        <div class="design-item">
+          <div class="design-item-label" style="color:#7ec8ff">Evidence-Based Practice</div>
+          <div class="design-item-desc">JOSPT CPG, Cochrane Review, NSCA, NASM 가이드라인 기반</div>
+        </div>
+        <div class="design-item">
+          <div class="design-item-label" style="color:#7ed87e">Regional Interdependence</div>
+          <div class="design-item-desc">목만 보지 않고 등·어깨·코어 전신 연결로 접근</div>
+        </div>
+        <div class="design-item">
+          <div class="design-item-label" style="color:#c87ed8">Rhythmic + Progressive Load</div>
+          <div class="design-item-desc">정적 버티기 → 리듬감 있는 동적 운동 + 점진적 부하</div>
+        </div>
+        <div class="design-item">
+          <div class="design-item-label" style="color:#ffd700">Device Integration</div>
+          <div class="design-item-desc">키네메디칼 기기가 운동 전 예열·후 쿨다운 파트너로</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">📊 주차별 핵심 목표 요약</div>
+      <table>
+        <thead>
+          <tr><th>주차</th><th>핵심 테마</th><th>주요 운동</th><th>핵심 기기</th><th>강도</th></tr>
+        </thead>
+        <tbody>
+          <tr><td class="day-label">Week 1</td><td>염증 진압</td><td>갈비뼈 호흡, 눈알 체조, 으쓱 털기</td><td>ES-808(승모근만)</td><td>⭐</td></tr>
+          <tr><td class="day-label">Week 2</td><td>흉추 가동</td><td>활쏘기, 벽 천사, 오픈 북, 끄덕임</td><td>WS-200, CS-25(지압)</td><td>⭐⭐</td></tr>
+          <tr><td class="day-label">Week 3</td><td>견인 + 신경</td><td>뚫어뻥 플로우, 쟁반 나르기, 도리도리</td><td>CS-25(견인), WS-200</td><td>⭐⭐</td></tr>
+          <tr><td class="day-label">Week 4</td><td>리듬 안정화</td><td>스탠딩 활쏘기, W펌프, 벽 쨉쨉</td><td>ES-808, CS-25</td><td>⭐⭐⭐</td></tr>
+          <tr><td class="day-label">Week 5</td><td>코어 연결</td><td>데드버그, 버드독, 코브라, 월스쿼트</td><td>WS-200(필수 예열)</td><td>⭐⭐⭐</td></tr>
+          <tr><td class="day-label">Week 6</td><td>스파르타 강화</td><td>Y-T-W, 푸시업 플러스, 플랭크</td><td>CS-25(쿨다운 필수)</td><td>⭐⭐⭐⭐</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ── PRODUCTS ── -->
+  <div id="products" class="content-section">
+    <div class="section-title">키네메디칼 4단계 솔루션</div>
+    <p class="section-sub">운동 → 회복 → 교정 → 고정</p>
+
+    <div class="products-grid">
+      <div class="product-card">
+        <div class="product-icon">🏃</div>
+        <div class="product-name">1분도수 운동 프로그램</div>
+        <div class="product-stage">STEP 1 — 운동</div>
+        <p class="product-desc">인규 도수치료사가 개발한 목 회복 운동 루틴. 6주 커리큘럼의 핵심 콘텐츠. 리듬감 있는 Follow-along 방식으로 노인도 쉽게 따라가능.</p>
+        <div class="product-science"><strong>논문 근거:</strong> JOSPT CPG — 능동적 움직임이 수동적 치료보다 자기 효능감, 재발률 개선에 유의미</div>
+      </div>
+      <div class="product-card">
+        <div class="product-icon">💡</div>
+        <div class="product-name">WS-200</div>
+        <div class="product-stage">STEP 2 — 회복</div>
+        <p class="product-desc">실리콘 소재 목 착용형 근적외선 기기. 병원 적외선 치료기 원리와 동일. 850nm 파장이 깊숙하게 심부 조직까지 침투하여 세포 재생 촉진.</p>
+        <div class="product-science"><strong>논문 근거:</strong> Photobiomodulation — NIR이 미토콘드리아 ATP 생성 촉진, 조직 점탄성 증가, 혈류량 증가 (Lasers in Medical Science)</div>
+      </div>
+      <div class="product-card">
+        <div class="product-icon">⚡</div>
+        <div class="product-name">ES-808</div>
+        <div class="product-stage">STEP 2 — 회복</div>
+        <p class="product-desc">펜 형식 저주파+TENS 마사지기. 무전류 손잡이 기술로 시술자 전기 차단. 핀포인트로 트리거 포인트 정확히 타겟팅 가능. 목에 대면 근육이 반응.</p>
+        <div class="product-science"><strong>논문 근거:</strong> Gate Control Theory — 고빈도 TENS(80-120Hz)가 A-beta 섬유 자극으로 즉각 통증 차단 (Cochrane Review)</div>
+      </div>
+      <div class="product-card">
+        <div class="product-icon">🔩</div>
+        <div class="product-name">CS-25</div>
+        <div class="product-stage">STEP 3 — 교정</div>
+        <p class="product-desc">누워서 받는 자동 경추 마사지기. 3개 지압봉 수직 차례 상승. 헤드픽서로 머리 고정 후 견인. 병원 전용 기술을 가정용 최초 적용.</p>
+        <div class="product-science"><strong>논문 근거:</strong> 경추 견인 실패 1위 원인 = 머리 고정 안 됨. 헤드픽서로 이를 해결. 15도 이하 굴곡 견인 시 안전 (Clinical Biomechanics)</div>
+      </div>
+      <div class="product-card">
+        <div class="product-icon">🛡️</div>
+        <div class="product-name">목 보호대</div>
+        <div class="product-stage">STEP 4 — 고정 (준비중)</div>
+        <p class="product-desc">급성기에 사용하는 경추 보호대. 염증기에는 기기도 금기. 보호대로 경추를 안정시켜 회복 시간 단축.</p>
+        <div class="product-science"><strong>논문 근거:</strong> 급성 염증기에는 경추 안정성 확보가 조직 회복 속도를 결정 (JOSPT 2017)</div>
+      </div>
+    </div>
+
+    <hr class="divider">
+
+    <div class="card">
+      <div class="card-title">⚠️ 급성기 기기 사용 가이드라인 (Dr. J 검수)</div>
+      <table>
+        <thead>
+          <tr><th>기기</th><th>급성기 (0-72h)</th><th>아급성기 (3-14일)</th><th>회복기 (2주+)</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>WS-200(근적외선)</td>
+            <td class="text-err">❌ 열감 있으면 금기</td>
+            <td class="text-ok">✅ 본격 투입</td>
+            <td class="text-ok">✅ 운동 예열 필수</td>
+          </tr>
+          <tr>
+            <td>ES-808(TENS)</td>
+            <td class="text-warn">⚠️ 승모근만 허용</td>
+            <td class="text-ok">✅ 뒷목 뭉침 타겟</td>
+            <td class="text-ok">✅ 트리거포인트</td>
+          </tr>
+          <tr>
+            <td>CS-25(견인)</td>
+            <td class="text-err">❌ 완전 금기</td>
+            <td class="text-warn">⚠️ 지압 모드만</td>
+            <td class="text-ok">✅ 견인 모드 ON</td>
+          </tr>
+          <tr>
+            <td>목 보호대</td>
+            <td class="text-ok">✅ 상시 착용</td>
+            <td class="text-ok">✅ 활동 시 착용</td>
+            <td class="text-muted">선택적</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ── WEEK 1 ── -->
+  <div id="week1" class="content-section">
+    <div class="week-header">
+      <div class="week-badge" style="background:#3a1010">🚨</div>
+      <div class="week-info">
+        <h3>Week 1 — 응급 구조 (Active Rest)</h3>
+        <p>Day 1 ~ Day 7 | 목 잠금 &amp; 주변부 펌핑</p>
+      </div>
+    </div>
+    <div class="week-goal"><strong>핵심 전략:</strong> 목(C-spine)은 철저히 보호. 호흡과 어깨를 리듬감 있게 움직여 굳은 목을 간접적으로 풀어줌. "숨만 쉬어도 운동입니다."</div>
+    <div class="week-goal week-goal-warn"><strong>기기 사용 제한:</strong> ES-808(승모근만), WS-200/CS-25 금기 | 준비물: 수건, 얼음팩(열감시)</div>
+    <table>
+      <thead><tr><th>Day</th><th>테마</th><th>상세 루틴</th></tr></thead>
+      <tbody>
+        <tr>
+          <td class="day-label">Day 1~3</td>
+          <td><span class="day-theme theme-rest">절대 안정</span></td>
+          <td>
+            <div class="day-routine">
+              <strong>[운동]</strong> 갈비뼈 펌프 호흡: 누워서 갈비뼈만 옆으로 빵빵하게 확장!<br>
+              <strong>[기기]</strong> 열감 있으면 냉찜질, 없으면 온찜질
+              <div class="day-guide">"목 건드리지 마세요! 숨만 잘 쉬어도 통증 절반은 줄어듭니다."</div>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td class="day-label">Day 4</td>
+          <td><span class="day-theme theme-exercise">미세 자극</span></td>
+          <td>
+            <div class="day-routine">
+              <strong>[운동]</strong> 눈알 리듬 체조: 고개 고정하고 눈동자로 천장에 '8자' 그리기<br>
+              <strong>[기기]</strong> ES-808: 승모근 톡톡 (목 직접 타격 금지!)
+              <div class="day-guide">"눈알이 춤추면 목 속근육도 춤춥니다. 부드럽게 8자를 그리세요."</div>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td class="day-label">Day 5</td>
+          <td><span class="day-theme theme-exercise">어깨 펌프</span></td>
+          <td>
+            <div class="day-routine">
+              <strong>[운동]</strong> 으쓱 털기: 어깨 귀까지 으쓱~ 툭! (리듬감 있게 20회)<br>
+              <strong>[기기]</strong> 쇄골 밑(흉근) ES-808로 풀기
+              <div class="day-guide">"목을 잡고 있는 건 어깨입니다. 어깨부터 놓아주세요."</div>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td class="day-label">Day 6</td>
+          <td><span class="day-theme theme-exercise">키 성장</span></td>
+          <td>
+            <div class="day-routine">
+              <strong>[운동]</strong> 누워서 키 크기: 뒤통수 누르며 정수리 위로 길게~ (움직임 X, 느낌 O)<br>
+              <strong>[복습]</strong> 갈비뼈 호흡
+              <div class="day-guide">"척추 사이가 1mm 벌어지는 상상을 하세요."</div>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td class="day-label">Day 7</td>
+          <td><span class="day-theme theme-eval">평가</span></td>
+          <td>
+            <div class="day-routine">
+              🚦 통증 신호등 체크<br>
+              🔴 아픔(Week 1 반복) / 🟢 줄어듦(Week 2 진입)
+              <div class="day-guide">"고생하셨습니다. 내일부턴 앉아서 합니다!"</div>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- ── WEEK 2 ── -->
+  <div id="week2" class="content-section">
+    <div class="week-header">
+      <div class="week-badge" style="background:#3a2a10">⚠️</div>
+      <div class="week-info">
+        <h3>Week 2 — 기초 공사 (Thoracic Mobility)</h3>
+        <p>Day 8 ~ Day 14 | 등이 일해야 목이 쉰다</p>
+      </div>
+    </div>
+    <div class="week-goal"><strong>핵심 전략:</strong> Regional Interdependence 이론 적용. 목 대신 흉추(등뼈)를 비틀고 펴서 경추 부하를 감소. WS-200 본격 투입 시작.</div>
+    <table>
+      <thead><tr><th>Day</th><th>테마</th><th>상세 루틴</th></tr></thead>
+      <tbody>
+        <tr>
+          <td class="day-label">Day 8</td><td><span class="day-theme theme-device">등 깨움</span></td>
+          <td><div class="day-routine"><strong>[기기]</strong> WS-200: 목에 감고 착용 상태로 운동 (근육 예열)<br><strong>[운동]</strong> 앉아서 의자 트위스트: 배꼽 고정, 가슴만 좌우 회전<div class="day-guide">"목은 가만히! 가슴만 돕니다. 빨간 빛(WS-200)이 도와줄 겁니다."</div></div></td>
+        </tr>
+        <tr>
+          <td class="day-label">Day 9</td><td><span class="day-theme theme-exercise">가슴 열기</span></td>
+          <td><div class="day-routine"><strong>[운동]</strong> 벽 천사 (Wall Angel): 벽에 등/머리 붙이고 팔로 W자 그리기. 뒤통수 절대 떼지 않기!<br><strong>[기기]</strong> WS-200 착용 유지<div class="day-guide">"뒤통수 떼면 반칙! 거북목 교정의 교과서입니다."</div></div></td>
+        </tr>
+        <tr>
+          <td class="day-label">Day 10</td><td><span class="day-theme theme-device">C커브 적응</span></td>
+          <td><div class="day-routine"><strong>[기기]</strong> CS-25: 견인 모드 OFF! 지압 모드로 10분 눕기<br><strong>[운동]</strong> 의자 트위스트 복습<div class="day-guide">"당기지 않습니다. 그냥 C커브 모양만 기억하게 해주세요. 뇌에 입력!"</div></div></td>
+        </tr>
+        <tr>
+          <td class="day-label">Day 11</td><td><span class="day-theme theme-exercise">척추 트위스트</span></td>
+          <td><div class="day-routine"><strong>[운동]</strong> 오픈 북 (Open Book): 옆으로 누워 책 펼치듯 팔 뒤로 넘기기. 시선은 손끝!<br><strong>[기기]</strong> ES-808: 겨드랑이 앞쪽(대흉근) 뭉침 해제<div class="day-guide">"등에서 우두둑 소리 나도 됩니다. 시원하게 여세요!"</div></div></td>
+        </tr>
+        <tr>
+          <td class="day-label">Day 12</td><td><span class="day-theme theme-exercise">속근육 ON</span></td>
+          <td><div class="day-routine"><strong>[운동]</strong> 도도한 끄덕임 (CCF): 누워서 수건 베고 턱을 1cm만 끄덕<br><strong>[기기]</strong> CS-25 지압<div class="day-guide">"이중턱 만들지 마세요! 아주 살짝 '알겠어~' 하는 느낌."</div></div></td>
+        </tr>
+        <tr>
+          <td class="day-label">Day 13</td><td><span class="day-theme theme-exercise">어깨 안정</span></td>
+          <td><div class="day-routine"><strong>[운동]</strong> L자 벌리기: 팔꿈치 붙이고 손만 바깥으로 열기 (회전근개 강화)<br><strong>[기기]</strong> WS-200 20분 찜질<div class="day-guide">"날개뼈가 등 뒤에서 악수하게 만드세요."</div></div></td>
+        </tr>
+        <tr>
+          <td class="day-label">Day 14</td><td><span class="day-theme theme-device">휴식 + 예고</span></td>
+          <td><div class="day-routine"><strong>[기기]</strong> 풀코스 맛보기: WS-200(온열) + CS-25(지압)<br><strong>[예고]</strong> 다음 주부터 견인(당기기) 들어갑니다!<div class="day-guide">"등이 펴져야 목이 삽니다. 다음 주는 드디어 뽑습니다!"</div></div></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- ── WEEK 3 ── -->
+  <div id="week3" class="content-section">
+    <div class="week-header">
+      <div class="week-badge" style="background:#103a10">🌱</div>
+      <div class="week-info">
+        <h3>Week 3 — 공간 확보 (Traction &amp; Neural Gliding)</h3>
+        <p>Day 15 ~ Day 21 | 목을 뽑고 길을 터라</p>
+      </div>
+    </div>
+    <div class="week-goal"><strong>핵심 전략:</strong> CS-25 격일 견인으로 추간판 공간 확보 + 끊김 없는 3종 Mobility Flow 운동. 최고의 운동: 쟁반 나르기 (팔 저림 해결사).</div>
+    <div class="week-goal week-goal-warn"><strong>⚠️ 인대 히스테리시스 고려:</strong> CS-25 견인은 격일(홀수 날)만! 매일 사용 시 인대 이완으로 불안정성 유발</div>
+    <table>
+      <thead><tr><th>Day</th><th>테마</th><th>상세 루틴</th></tr></thead>
+      <tbody>
+        <tr><td class="day-label">Day 15</td><td><span class="day-theme theme-device">견인 입문</span></td><td><div class="day-routine"><strong>[교육]</strong> CS-25 헤드픽서 착용법 특강: "이마 꽉 묶으세요!"<br><strong>[실습]</strong> CS-25 약 모드 10분 맛보기 → 끝나고 1분간 눕기 필수<div class="day-guide">"드디어 당깁니다. 꽉 묶어야 시원하게 뽑힙니다."</div></div></td></tr>
+        <tr><td class="day-label">Day 16</td><td><span class="day-theme theme-exercise">뚫어뻥 플로우</span></td><td><div class="day-routine"><strong>[플로우]</strong> 오픈 북 → 쟁반 나르기(Median Nerve Slider) → 도리도리 끊지 않고 2세트<br><strong>[기기]</strong> ES-808: 운동 후 쇄골 밑 흉근 풀기<div class="day-guide">"팔 저리면 바로 스톱! 신경은 늘리는 게 아니라 달래는 겁니다."</div></div></td></tr>
+        <tr><td class="day-label">Day 17</td><td><span class="day-theme theme-device">공간 확보</span></td><td><div class="day-routine"><strong>[기기]</strong> WS-200: 예열 15분 (인대 부드럽게)<br><strong>[기기]</strong> CS-25 견인(강): 15분 풀코스. 헤드픽서 착용 필수<div class="day-guide">"목뼈 사이에 시원한 바람 들어갑니다. 즐기세요!"</div></div></td></tr>
+        <tr><td class="day-label">Day 18</td><td><span class="day-theme theme-exercise">회전 가동</span></td><td><div class="day-routine"><strong>[플로우]</strong> 천사 날개(흉추) → 앉아서 도리도리 → 코로 원 그리기 연속<br><strong>[기기]</strong> 뻐근하면 ES-808 승모근 톡톡<div class="day-guide">"기계가 공간을 벌려줬으니, 내 힘으로 부드럽게 돌려봅시다."</div></div></td></tr>
+        <tr><td class="day-label">Day 19</td><td><span class="day-theme theme-device">불금 견인</span></td><td><div class="day-routine"><strong>[기기]</strong> CS-25: 견인 모드 15분<br><strong>[마무리]</strong> 누워서 갈비뼈 호흡 5분<div class="day-guide">"일주일 고생한 목, 보상해 주세요. 견인 후 바로 일어나지 마세요!"</div></div></td></tr>
+        <tr><td class="day-label">Day 20</td><td><span class="day-theme theme-exercise">3종 종합</span></td><td><div class="day-routine"><strong>[총정리]</strong> 쟁반 나르기 + 도리도리 + 도도한 끄덕임<br><strong>[기기]</strong> 주말 WS-200 찜질<div class="day-guide">"이제 목 돌릴 때 걸리는 느낌이 사라졌죠?"</div></div></td></tr>
+        <tr><td class="day-label">Day 21</td><td><span class="day-theme theme-eval">저림 체크</span></td><td><div class="day-routine">🔍 Centralization 확인: 손끝 저림이 팔꿈치 위로 올라왔나요?<br>✅ 저림 줄어듦 → Week 4 진입 / ❌ 악화 → Week 2 복귀<div class="day-guide">"팔이 가벼워졌다면 성공! 이제 근육 붙이러 갑시다."</div></div></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- ── WEEK 4 ── -->
+  <div id="week4" class="content-section">
+    <div class="week-header">
+      <div class="week-badge" style="background:#10203a">🛡️</div>
+      <div class="week-info">
+        <h3>Week 4 — 리듬 타는 강철 목 (Rhythmic Stability)</h3>
+        <p>Day 22 ~ Day 28 | 동적 리듬 운동으로 뇌의 움직임 공포 제거</p>
+      </div>
+    </div>
+    <div class="week-goal"><strong>핵심 수정:</strong> 정적인 버티기(X) → 동적인 리듬 운동(O). 최신 트렌드(Rhythmic Movement + Progressive Loading) 완전 반영.</div>
+    <table>
+      <thead><tr><th>Day</th><th>테마</th><th>상세 루틴</th></tr></thead>
+      <tbody>
+        <tr><td class="day-label">Day 22</td><td><span class="day-theme theme-exercise">활쏘기 리듬</span></td><td><div class="day-routine"><strong>[기기]</strong> ES-808: 가슴 근육(흉근) 가볍게 풀기<br><strong>[운동]</strong> 스탠딩 활쏘기: 서서 활시위 당기듯 가슴 회전! 시선은 손끝!<div class="day-guide">"리듬 타세요! 당기고~ 놓고! 등 뒤에 동전 하나 꽉 잡으세요!"</div></div></td></tr>
+        <tr><td class="day-label">Day 23</td><td><span class="day-theme theme-exercise">W자 펌프</span></td><td><div class="day-routine"><strong>[운동]</strong> W 펌프: 서서 W자 만들었다가 만세! 리듬감 있게 반복<br><strong>[기기]</strong> CS-25: 지압 모드<div class="day-guide">"조이고~ 만세! 등 근육이 쫄깃쫄깃해집니다."</div></div></td></tr>
+        <tr><td class="day-label">Day 24</td><td><span class="day-theme theme-exercise">벽 밀기</span></td><td><div class="day-routine"><strong>[운동]</strong> 벽 짚고 쨉쨉: 팔꿈치 편 채로 날개뼈만 툭! 툭! (전거근 강화)<br><strong>[기기]</strong> WS-200<div class="day-guide">"팔굽혀펴기 아닙니다! 겨드랑이 힘으로 벽을 툭! 툭! 밀어내세요."</div></div></td></tr>
+        <tr><td class="day-label">Day 25</td><td><span class="day-theme theme-exercise">전신 연결</span></td><td><div class="day-routine"><strong>[운동]</strong> 활쏘기 심화: 하체 런지(Lunge) 자세 추가. 전신 연결!<br><strong>[운동]</strong> 벽 짚고 쨉쨉<div class="day-guide">"이제 하체도 씁니다. 발바닥 꽉 누르고 쏘세요! 전신 운동입니다!"</div></div></td></tr>
+        <tr><td class="day-label">Day 26</td><td><span class="day-theme theme-device">풀 케어</span></td><td><div class="day-routine"><strong>[기기 3종]</strong> WS-200(열) + ES-808(이완) + CS-25(교정)<div class="day-guide">"운동도, 휴식도 리듬입니다. 오늘은 홈 에스테틱 데이!"</div></div></td></tr>
+        <tr><td class="day-label">Day 27</td><td><span class="day-theme theme-exercise">리듬 파티</span></td><td><div class="day-routine"><strong>[총정리]</strong> 벽 쨉쨉 → W 펌프 → 활쏘기 (음악 틀고! 끊지 않고!)<div class="day-guide">"신나게 움직이면 통증도 도망갑니다!"</div></div></td></tr>
+        <tr><td class="day-label">Day 28</td><td><span class="day-theme theme-eval">중간 졸업</span></td><td><div class="day-routine">📊 중간 평가: 통증 점수(VAS) 체크<br>→ Week 5 코어 운동으로 승급!<div class="day-guide">"이제 당신의 목은 유연하면서도 강합니다. (외유내강)"</div></div></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- ── WEEK 5 ── -->
+  <div id="week5" class="content-section">
+    <div class="week-header">
+      <div class="week-badge" style="background:#2a103a">💪</div>
+      <div class="week-info">
+        <h3>Week 5 — 뿌리 깊은 목 (Core &amp; Kinetic Chain)</h3>
+        <p>Day 29 ~ Day 35 | 강도: ⭐⭐⭐ (숨이 약간 가쁨)</p>
+      </div>
+    </div>
+    <div class="week-goal"><strong>핵심 전략:</strong> "Proximal Stability for Distal Mobility" 원칙. 코어(복부/등)와 목을 연결. 몸통이 흔들려도 목은 고정되는 능력 확보.</div>
+    <table>
+      <thead><tr><th>Day</th><th>테마</th><th>상세 루틴</th></tr></thead>
+      <tbody>
+        <tr><td class="day-label">Day 29</td><td><span class="day-theme theme-exercise">코어 잠금</span></td><td><div class="day-routine"><strong>[기기]</strong> WS-200: 예열 필수 (근육 준비)<br><strong>[운동]</strong> 데드버그 넥 홀드: 누워서 팔다리 교차, 머리 바닥에서 1cm 띄우고 버티기<div class="day-guide">"배가 부들부들 떨려야 합니다! 목 힘 말고 배 힘으로 버티세요!"</div></div></td></tr>
+        <tr><td class="day-label">Day 30</td><td><span class="day-theme theme-exercise">후면 사슬</span></td><td><div class="day-routine"><strong>[운동]</strong> 코브라 변형: 손 안 짚고 등 힘으로만 상체 들기 (턱 당김 유지 필수)<br><strong>[기기]</strong> ES-808: 척추기립근 풀기<div class="day-guide">"등판 전체에 전기 옵니다! 엉덩이 꽉 조이세요!"</div></div></td></tr>
+        <tr><td class="day-label">Day 31</td><td><span class="day-theme theme-exercise">밸런스 킹</span></td><td><div class="day-routine"><strong>[운동]</strong> 버드독 (Bird Dog): 네발기기에서 팔다리 수평 뻗기. 뒤통수에 물컵 있다 생각!<br><strong>[기기]</strong> CS-25: 지압 모드<div class="day-guide">"흔들리면 물 쏟아집니다! 코어 꽉 잡으세요!"</div></div></td></tr>
+        <tr><td class="day-label">Day 32</td><td><span class="day-theme theme-exercise">하체 연결</span></td><td><div class="day-routine"><strong>[운동]</strong> 월 스쿼트 &amp; 투명 벽: 벽에 기대 스쿼트 + 동시에 뒤통수로 벽 밀기<br><strong>[쿨다운]</strong> 으쓱 털기<div class="day-guide">"허벅지 터지고 목은 단단해집니다! 1분 버티기 도전!"</div></div></td></tr>
+        <tr><td class="day-label">Day 33</td><td><span class="day-theme theme-device">전신 통합</span></td><td><div class="day-routine"><strong>[휴식]</strong> 고강도 운동 후 확실한 이완 (기기 풀코스)<div class="day-guide">"운동 선수들도 쉬는 날이 제일 중요합니다. 기계가 일합니다."</div></div></td></tr>
+        <tr><td class="day-label">Day 34</td><td><span class="day-theme theme-exercise">코어 파티</span></td><td><div class="day-routine"><strong>[코어 3종]</strong> 데드버그 → 버드독 → 코브라 (쉬지 않고 2세트)<div class="day-guide">"땀 좀 나시죠? 이게 진짜 재활입니다."</div></div></td></tr>
+        <tr><td class="day-label">Day 35</td><td><span class="day-theme theme-eval">5주차 평가</span></td><td><div class="day-routine">🧪 플랭크 테스트: 무릎 대고 30초 버틸 때 목이 안 아픈가?<br>✅ 합격 → Week 6 스파르타 진입!<div class="day-guide">"합격! 이제 웬만한 충격엔 끄떡없습니다."</div></div></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- ── WEEK 6 ── -->
+  <div id="week6" class="content-section">
+    <div class="week-header">
+      <div class="week-badge" style="background:#3a3000">👑</div>
+      <div class="week-info">
+        <h3>Week 6 — 스파르타 넥 (Perfect Armor)</h3>
+        <p>Day 36 ~ Day 42 | 강도: ⭐⭐⭐⭐ (땀 흐름, 근육 펌핑)</p>
+      </div>
+    </div>
+    <div class="week-goal"><strong>핵심 전략:</strong> 스포츠 복귀를 위한 고강도 강화. 운동 후 CS-25 쿨다운은 선택이 아닌 필수. 고강도 운동 후 길어진 근육을 다시 리셋.</div>
+    <table>
+      <thead><tr><th>Day</th><th>테마</th><th>상세 루틴</th></tr></thead>
+      <tbody>
+        <tr><td class="day-label">Day 36</td><td><span class="day-theme theme-exercise">갑옷 입기</span></td><td><div class="day-routine"><strong>[기기]</strong> WS-200 + ES-808: 등 근육 활성화 준비<br><strong>[운동]</strong> Y-T-W 레이즈 (엎드려서): 맨손 → 물병 들고 점진적 부하<div class="day-guide">"등 근육이 불타야 목이 삽니다! 승모근 꽉 조이세요!"</div></div></td></tr>
+        <tr><td class="day-label">Day 37</td><td><span class="day-theme theme-exercise">푸시업 플러스</span></td><td><div class="day-routine"><strong>[운동]</strong> 니 푸시업 플러스: 무릎 대고 팔굽혀펴기 + 날개뼈로 바닥 밀어내기 (전거근 폭발)<br><strong>[기기]</strong> CS-25: 견인 필수<div class="day-guide">"겨드랑이 밑 전거근! 그게 목을 지키는 최고의 보디가드입니다!"</div></div></td></tr>
+        <tr><td class="day-label">Day 38</td><td><span class="day-theme theme-exercise">전신 프레스</span></td><td><div class="day-routine"><strong>[운동]</strong> 월 엔젤 스쿼트: 벽에 붙어서 스쿼트 하면서 팔은 W자 동시에!<br><strong>[쿨다운]</strong> 갈비뼈 호흡<div class="day-guide">"위아래로 동시에! 뇌가 정신없게 만드세요. 멀티태스킹 훈련!"</div></div></td></tr>
+        <tr><td class="day-label">Day 39</td><td><span class="day-theme theme-exercise">버티기 끝판왕</span></td><td><div class="day-routine"><strong>[운동]</strong> 정석 플랭크: 무릎 떼고! 턱은 당겨서 뒷목 평평하게 유지!<br><strong>[기기]</strong> CS-25 지압<div class="day-guide">"고개 떨구면 탈락! 뒤통수로 천장 찌르면서 버티세요!"</div></div></td></tr>
+        <tr><td class="day-label">Day 40</td><td><span class="day-theme theme-exercise">불금 서킷</span></td><td><div class="day-routine"><strong>[스파르타 3종]</strong> Y레이즈(15회) → 푸시업 플러스(15회) → 플랭크(30초) × 3세트<div class="day-guide">"마지막입니다! 땀 흘린 만큼 디스크는 들어갑니다!"</div></div></td></tr>
+        <tr><td class="day-label">Day 41</td><td><span class="day-theme theme-device">힐링 데이</span></td><td><div class="day-routine"><strong>[VIP 풀코스]</strong> WS-200(20분) + ES-808(10분) + CS-25(15분)<div class="day-guide">"진짜 고생하셨습니다. 오늘은 VIP 코스로 모십니다."</div></div></td></tr>
+        <tr><td class="day-label">Day 42</td><td><span class="day-theme theme-eval">졸업식 🎓</span></td><td><div class="day-routine">🏆 최종 미션: 골프/테니스 빈 스윙 해보기 → 통증 없으면 완치 판정<br>🎓 졸업장 수여 → Week 7+ 평생 관리 코스 진입<div class="day-guide">"이제 필드 나가셔도 됩니다. 당신은 승리자입니다!"</div></div></td></tr>
+      </tbody>
+    </table>
+
+    <div class="card">
+      <div class="card-title">👑 Week 7+. 평생 관리 (Maintenance) — 주 3회 알림</div>
+      <table class="maint-row">
+        <thead><tr><th>컨디션 선택</th><th>처방전</th></tr></thead>
+        <tbody>
+          <tr><td>🥵 "너무 뻐근해요"</td><td>[이완 코스] ES-808 승모근 5분 + 으쓱 펌프 운동</td></tr>
+          <tr><td>🥶 "좀 굳은 거 같아요"</td><td>[순환 코스] WS-200 감고 도리도리 운동</td></tr>
+          <tr><td>😎 "오늘 좀 괜찮은데?"</td><td>[강화 코스] CS-25 견인 + 벽 짚고 쨉쨉</td></tr>
+          <tr><td>🚨 "앗! 삐끗했어요"</td><td>[응급 코스] Week 1 Day 1~3 루틴으로 즉시 복귀</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ── SIGNAL ── -->
+  <div id="signal" class="content-section">
+    <div class="section-title">🚦 통증 신호등 시스템</div>
+    <p class="section-sub">매일 아침 앱을 켜면 컨디션 확인 → 그날 루틴이 자동으로 결정됨</p>
+
+    <div class="signal-grid">
+      <div class="signal-card green">
+        <div class="signal-icon">🟢</div>
+        <div class="signal-title">그린 라이트 — 전진!</div>
+        <div class="signal-status">통증 없음 / 개운함 (VAS 0~2점)</div>
+        <div class="signal-action">→ 예정된 루틴 정상 진행<br>→ 주차 업그레이드 가능</div>
+      </div>
+      <div class="signal-card yellow">
+        <div class="signal-icon">🟡</div>
+        <div class="signal-title">옐로우 라이트 — 조심조심</div>
+        <div class="signal-status">좀 뻐근함 / 어제랑 비슷 (VAS 3~5점)</div>
+        <div class="signal-action">→ 오늘 루틴은 진행<br>→ 강도를 1/3로 낮추기<br>→ 기기 위주로 진행</div>
+      </div>
+      <div class="signal-card red">
+        <div class="signal-icon">🔴</div>
+        <div class="signal-title">레드 라이트 — 후퇴!</div>
+        <div class="signal-status">어제보다 더 아픔 / 욱신거림 (VAS 6점+)</div>
+        <div class="signal-action">→ 오늘 루틴 취소<br>→ Week 1 냉찜질/호흡으로 복귀<br>→ 3일 연속 레드 → 전 주차로 리셋</div>
+      </div>
+      <div class="signal-card emergency">
+        <div class="signal-icon">🚨</div>
+        <div class="signal-title">비상 — 병원 가세요</div>
+        <div class="signal-status">쉬어도 8점 이상 / 팔 마비 증상</div>
+        <div class="signal-action">→ 앱 끄고 즉시 병원<br>→ 응급실 고려</div>
+      </div>
+    </div>
+
+    <hr class="divider">
+
+    <div class="card">
+      <div class="card-title">🔙 Back to Basic — 리셋 로직</div>
+      <table>
+        <thead><tr><th>주차</th><th>정상 진행 시</th><th>🚨 통증 발생 시 행동</th></tr></thead>
+        <tbody>
+          <tr><td>Week 1</td><td>냉찜질 + 호흡</td><td class="text-err">쉬어도 VAS 8+ → 병원 방문 권유</td></tr>
+          <tr><td>Week 2</td><td>흉추 운동 + WS-200</td><td>등 펴다가 목 아프면 → Week 1 복귀</td></tr>
+          <tr><td>Week 3</td><td>CS-25 견인 + 신경 스트레칭</td><td class="text-err">팔 저림 심해지면 → 견인 즉시 중단 → Week 2로 3일 대기</td></tr>
+          <tr><td>Week 4</td><td>리듬 운동 3종</td><td>욱신거리면 강도 1/3로 축소 or 기기로 대체</td></tr>
+          <tr><td>Week 5-6</td><td>코어/스파르타 운동</td><td>갑자기 담 걸리면 → Week 1 냉찜질 즉시 실시</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="card">
+      <div class="card-title">💬 1분도수의 위로 메시지 (앱 팝업)</div>
+      <div class="highlight" style="font-style:italic; color:#9dbfdd; line-height:1.9">
+        "회원님, 갑자기 다시 아파서 속상하죠? 디스크 회복은 직선이 아니라 계단식입니다.<br>
+        지금 잠깐 멈춘 건, 다음 계단을 오르기 위해 숨 고르는 중이에요.<br>
+        저(1분도수) 믿고 딱 3일만 '후퇴'합시다. 그게 가장 빠른 길입니다."
+      </div>
+    </div>
+  </div>
+
+  <!-- ── EVIDENCE ── -->
+  <div id="evidence" class="content-section">
+    <div class="section-title">📑 임상 근거 (Clinical White Paper)</div>
+    <p class="section-sub">IR 발표 / 데이터 수집 / 의료기기 인증 시 활용 가능한 근거 자료</p>
+
+    <div class="evidence-week">
+      <div class="evidence-week-title">🚨 Week 1 — Inflammation Control &amp; Protection</div>
+      <div class="evidence-intent">설계 의도: 화학적 염증 제어 + 통증에 대한 공포 회피 반응(Fear-Avoidance) 차단</div>
+      <ul class="evidence-list">
+        <li><span class="evidence-journal">JOSPT 2017</span><strong>Relative Rest</strong> — 급성기 72시간 내 경추의 직접적인 움직임 제한 → 염증 확산 방지. "상대적 휴식"이지 침대 안정이 아님.</li>
+        <li><span class="evidence-journal">Cochrane Review</span><strong>Gate Control Theory</strong> — 통증 신호보다 감각 신호(진동, 전기 자극)를 먼저 뇌에 전달 → 통증 차단. ES-808 승모근 적용 근거.</li>
+        <li><span class="evidence-journal">Journal of Physiotherapy</span><strong>Diaphragmatic Breathing</strong> — 횡격막 호흡이 부교감신경 활성화 → 통증 민감도(Pain Sensitivity) 감소. 경추 부담 30% 즉시 감소.</li>
+      </ul>
+    </div>
+
+    <div class="evidence-week">
+      <div class="evidence-week-title">⚠️ Week 2 — Regional Interdependence</div>
+      <div class="evidence-intent">설계 의도: 경추 통증 원인인 흉추 강직 해결 → 경추 과부하 해소</div>
+      <ul class="evidence-list">
+        <li><span class="evidence-journal">JMMT</span><strong>Thoracic Mobility</strong> — 흉추 가동술 적용 시 목 통증 환자의 통증 즉각 감소. "목이 아프면 등을 먼저 봐라."</li>
+        <li><span class="evidence-journal">Lasers in Med Sci</span><strong>Photobiomodulation (WS-200)</strong> — 850nm 근적외선 → 미토콘드리아 ATP 생성 촉진 → 조직 점탄성 증가. 단순 온열과 차원이 다름.</li>
+        <li><span class="evidence-journal">Manual Therapy</span><strong>Wall Angel / Scapular Setting</strong> — 전거근+하부승모근 활성화 → 거북목(FHP) 역학적 교정. 벽 천사 운동의 근거.</li>
+      </ul>
+    </div>
+
+    <div class="evidence-week">
+      <div class="evidence-week-title">🌱 Week 3 — Decompression &amp; Neurodynamics</div>
+      <div class="evidence-intent">설계 의도: 물리적 공간 확보(CS-25 견인) 후 신경 유착 방지</div>
+      <ul class="evidence-list">
+        <li><span class="evidence-journal">Spine Journal</span><strong>Mechanical Traction</strong> — 경추 견인 → 추간판 높이 증가 + 신경공 확장 → 방사통 감소. CS-25 헤드픽서의 핵심 가치.</li>
+        <li><span class="evidence-journal">Coppieters et al.</span><strong>Neurodynamics Sliding vs Tensioning</strong> — 급성기에는 신경 당기기(Tensioner)가 아닌 미끄러트리기(Slider)가 신경 부종 감소에 효과적.</li>
+        <li><span class="evidence-journal">Clinical Biomechanics</span><strong>Ligament Hysteresis</strong> — 인대는 늘어난 후 회복 시간 필요 → CS-25 격일 사용 근거. 매일 사용 시 인대 이완(Laxity) 우려.</li>
+      </ul>
+    </div>
+
+    <div class="evidence-week">
+      <div class="evidence-week-title">🛡️ Week 4 — Rhythmic Stabilization</div>
+      <div class="evidence-intent">설계 의도: 신경 가소성(Neuroplasticity) 원리로 뇌의 움직임 공포 제거</div>
+      <ul class="evidence-list">
+        <li><span class="evidence-journal">JOSPT 2020</span><strong>Rhythmic Stabilization</strong> — 만성 목 통증 환자에게 동적인 흉추-견갑골 리듬 운동이 정적 운동보다 통증 제어에 효과적.</li>
+        <li><span class="evidence-journal">NSCA / NASM</span><strong>Progressive Loading</strong> — 점진적 부하: 맨손 → 벽 짚기(중력 부하) → 속도 증가. 관절 부담 최소화하며 강도 상승.</li>
+        <li><span class="evidence-journal">Neuroscience</span><strong>Wall Push-Plus (전거근)</strong> — 전거근 약화 시 승모근 과활성 → 목 통증 유발. 벽 짚고 쨉쨉 = 전거근 강화 가장 안전한 방법.</li>
+      </ul>
+    </div>
+
+    <div class="evidence-week">
+      <div class="evidence-week-title">💪 Week 5 — Core &amp; Kinetic Chain</div>
+      <div class="evidence-intent">설계 의도: "말초의 가동성은 중심의 안정성에서 나온다" — 코어 강화로 경추 보호</div>
+      <ul class="evidence-list">
+        <li><span class="evidence-journal">Anatomy Trains</span><strong>Deep Front Line</strong> — 심부 경추 굴곡근은 횡격막, 장요근, 골반기저근과 하나의 근막으로 연결. 코어가 강해지면 목도 강해짐.</li>
+        <li><span class="evidence-journal">Hodges et al.</span><strong>Feed-forward Mechanism</strong> — 팔을 들기 전에 코어 근육이 먼저 수축해야 목이 다치지 않음. 데드버그/버드독의 근거.</li>
+      </ul>
+    </div>
+
+    <div class="evidence-week">
+      <div class="evidence-week-title">👑 Week 6 — Functional Performance</div>
+      <div class="evidence-intent">설계 의도: 고강도 부하를 견딜 수 있는 구조적 강도 확보 (Return to Sport)</div>
+      <ul class="evidence-list">
+        <li><span class="evidence-journal">Ylinen et al.</span><strong>High-Load Isometric Exercise</strong> — 만성 목 통증에 점진적 고강도 저항 운동이 통증 감소 및 기능 회복에 유의미한 효과.</li>
+        <li><span class="evidence-journal">JOSPT</span><strong>Lower Trapezius Dominance</strong> — 상부 승모근 억제 + 하부 승모근 강화 → 견갑골 상방 회전 정상화. Y-T-W 레이즈의 근거.</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- ── EXPERTS ── -->
+  <div id="experts" class="content-section">
+    <div class="section-title">🏛️ 4인 전문가 토론 요약</div>
+    <p class="section-sub">1년간 SCI급 저널 10개를 숙지한 후 비장하게 모인 4인의 끝장 토론 (총 8차례)</p>
+
+    <div class="experts-grid">
+      <div class="expert-card">
+        <div class="expert-avatar">👨‍⚕️</div>
+        <div class="expert-name">Dr. J</div>
+        <div class="expert-role">20년차 존스홉킨스 정형외과 교수</div>
+        <div class="expert-quote">"급성기에 능동적 목 운동은 금기에 가깝다."</div>
+        <div class="expert-stance">핵심 기여: 안전 가이드라인 확립. 급성기 온열 금기, 견인 격일 원칙, 플라이드/침-턱 오류 교정.</div>
+      </div>
+      <div class="expert-card">
+        <div class="expert-avatar">🏃</div>
+        <div class="expert-name">PT (물리치료사)</div>
+        <div class="expert-role">15년차 임상 물리치료사</div>
+        <div class="expert-quote">"움직임 공포를 없애야 만성통이 안 생긴다."</div>
+        <div class="expert-stance">핵심 기여: 리듬 운동 제안, 신경 슬라이더 vs 텐셔너 구분, "재활 샌드위치 기법" 설계.</div>
+      </div>
+      <div class="expert-card">
+        <div class="expert-avatar">💼</div>
+        <div class="expert-name">김태훈 (대표)</div>
+        <div class="expert-role">키네메디칼 CEO</div>
+        <div class="expert-quote">"제품이 커리큘럼에 자연스럽게 녹아들어야 한다."</div>
+        <div class="expert-stance">핵심 기여: 비즈니스 모델 통합, 기기 사용 타이밍 설계, 데이터 수집 방향 제시.</div>
+      </div>
+      <div class="expert-card">
+        <div class="expert-avatar">📹</div>
+        <div class="expert-name">1분도수 (인규)</div>
+        <div class="expert-role">물리치료사 + 콘텐츠 크리에이터</div>
+        <div class="expert-quote">"어려운 용어는 싹 바꿔야 노인도 따라 한다."</div>
+        <div class="expert-stance">핵심 기여: "도도한 끄덕임", "쟁반 나르기", "벽 짚고 쨉쨉" 등 직관적 네이밍 창안.</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">📋 주요 논쟁 합의 결과</div>
+      <table>
+        <thead><tr><th>논쟁 주제</th><th>합의 결과</th></tr></thead>
+        <tbody>
+          <tr><td>침-턱(Chin-tuck) 급성기 투입?</td><td>❌ 삭제 → 누워서 1cm 끄덕임(CCF)으로 대체. "포도알 안 터지게"</td></tr>
+          <tr><td>CS-25 집에서 혼자 견인 가능?</td><td>⚠️ 헤드픽서 착용 필수 + 격일 사용 + 종료 후 1분 눕기</td></tr>
+          <tr><td>ES-808 전면 사용 가능?</td><td>🔴 앞목(경동맥) 절대 금지 → 세이프 존 맵 제공</td></tr>
+          <tr><td>WS-200 급성기 사용?</td><td>🔴 열감 있으면 금기 → 앱에서 "다친 지 3일 이내?" 체크 먼저</td></tr>
+          <tr><td>운동 타이밍?</td><td>WS-200 예열 → ES-808 트리거포인트 → CS-25 교정 → 운동</td></tr>
+          <tr><td>정적 버티기 vs 리듬 운동?</td><td>✅ 리듬 운동 채택 (Neuroplasticity + Progressive Loading)</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="card">
+      <div class="card-title">🔑 운동 정식 명칭 (유튜브 검색용)</div>
+      <table>
+        <thead><tr><th>1분도수 명칭</th><th>정식 임상 명칭</th><th>검색 키워드</th></tr></thead>
+        <tbody>
+          <tr><td>도도한 끄덕임</td><td>Craniocervical Flexion (CCF)</td><td>Deep neck flexor activation, Chin tuck exercise</td></tr>
+          <tr><td>쟁반 나르기</td><td>Median Nerve Slider</td><td>Median nerve slider, Neurodynamic gliding upper limb</td></tr>
+          <tr><td>오픈 북</td><td>Thoracic Open Book Stretch</td><td>Thoracic open book exercise, Side lying thoracic rotation</td></tr>
+          <tr><td>벽 천사</td><td>Wall Angel</td><td>Wall angel exercise, Postural correction wall</td></tr>
+          <tr><td>W자 펌프</td><td>W Exercise / Scapular Retraction</td><td>Scapular retraction exercise, Wall W exercise</td></tr>
+          <tr><td>벽 짚고 쨉쨉</td><td>Wall Push-Plus</td><td>Serratus anterior exercise, Wall push plus</td></tr>
+          <tr><td>버드독</td><td>Bird Dog</td><td>Quadruped cervical stabilization, Bird dog exercise</td></tr>
+          <tr><td>Y자 들기</td><td>Prone Y-Raise</td><td>Prone Y exercise, Lower trapezius activation</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+</div><!-- /section-wrap -->
+</div><!-- /tab-1 -->
+
+<!-- ======================== TAB 2: 문자 안내 ======================== -->
+<div id="tab-2" class="tab-content">
+<div class="section-wrap">
+
+  <div style="margin-bottom:28px">
+    <h1>📱 ES-808 배송 안내 SMS <span class="badge" style="font-size:11px;vertical-align:middle">v2</span></h1>
+    <p>매일 18:00 자동 발송 — 당일 송장 입력 기준 (최근 7일 조회, 주말 누락 방지) | 듀얼번호 (*7782 prefix)</p>
+  </div>
+
+  <div class="grid-4">
+    <div class="stat-card">
+      <div class="stat-label">발송 방식</div>
+      <div class="stat-value" style="font-size:15px">듀얼번호 SMS</div>
+      <div class="stat-sub">osascript → Messages.app</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">대상 쇼핑몰</div>
+      <div class="stat-value" style="font-size:15px; color:#e6edf3">shop5 + shop6</div>
+      <div class="stat-sub">키네메디칼 + 1분도수</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">날짜 기준</div>
+      <div class="stat-value" style="font-size:15px; color:#3fb950">송장 입력일(오늘)</div>
+      <div class="stat-sub">최근 7일 조회 → 오늘 송장 등록 건</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">발신번호</div>
+      <div class="stat-value" style="font-size:15px; color:#e6edf3">*7782{phone}</div>
+      <div class="stat-sub">태훈 듀얼번호 발신</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">⚙️ 발송 플로우</div>
+    <div class="flow-steps">
+      <div class="flow-step">
+        <div class="flow-num">1</div>
+        <div class="flow-content">
+          <strong>카페24 토큰 갱신</strong>
+          <p>refresh-cafe24-token.sh → .env 업데이트</p>
+        </div>
+      </div>
+      <div class="flow-step">
+        <div class="flow-num">2</div>
+        <div class="flow-content">
+          <strong>ES-808 주문 조회 (최근 7일)</strong>
+          <p>카페24 API: start_date=7일전 → ES-808 필터 → shipments 확인 → tracking_no_updated_date=오늘인 건만 추출</p>
+        </div>
+      </div>
+      <div class="flow-step">
+        <div class="flow-num">3</div>
+        <div class="flow-content">
+          <strong>구매자 연락처 추출</strong>
+          <p>orders/{id}/buyer → cellphone → 중복 제거</p>
+        </div>
+      </div>
+      <div class="flow-step">
+        <div class="flow-num">4</div>
+        <div class="flow-content">
+          <strong>결과 파일 저장</strong>
+          <p>/tmp/es808-targets.json 저장 → SMS 발송 스크립트로 전달</p>
+        </div>
+      </div>
+      <div class="flow-step">
+        <div class="flow-num">5</div>
+        <div class="flow-content">
+          <strong>SMS 발송</strong>
+          <p>osascript → Messages.app SMS account → *7782{phone}</p>
+        </div>
+      </div>
+      <div class="flow-step">
+        <div class="flow-num">6</div>
+        <div class="flow-content">
+          <strong>텔레그램 결과 보고</strong>
+          <p>발송 건수 + 실패 건수 → 카리나 → 태훈</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">📝 발송 메시지</div>
+    <div class="msg-box">[발신전용]
+[키네메디칼] ES-808 배송 안내
+
+안녕하세요! 1분도수입니다.
+
+주문해주신 ES-808이 오늘 출발했습니다 😊
+
+딱 3가지만 기억해 주세요!
+
+⭐️⭐️⭐️1. 영상 보며 따라 하기:
+(링크: https://www.youtube.com/watch?v=YXlauQD7f9s&list=PLe1SWUM0mFec9un9IeSV6NScxPK_DNFbr)
+
+2. 크림 사용:
+함께 드린 글루코사민 크림을 충분히 바르고 마사지해 주세요.
+
+3. 단계 조절:
+1단계부터 천천히, 내 몸이 편안한 강도를 찾아주세요.
+
+감사합니다. 1분도수 드림</div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">⚠️ 알려진 이슈</div>
+    <div class="warn-box">⚠️ launchd가 "Operation not permitted" 에러 발생 시 자동 실행 실패<br>해결: 시스템 설정 → 개인정보 및 보안 → 전체 디스크 접근 → /bin/bash 추가</div>
+    <table>
+      <thead><tr><th>이슈</th><th>원인</th><th>상태</th></tr></thead>
+      <tbody>
+        <tr><td>카페24 401 오류</td><td>access_token 만료</td><td><span class="badge-green badge">수동 갱신으로 해결</span></td></tr>
+        <tr><td>launchd 크론잡 실패</td><td>macOS 디스크 접근 권한</td><td><span class="badge-red badge">미해결</span></td></tr>
+        <tr><td>v2 업그레이드 (2026-03-09)</td><td>주문일 기준 → 송장 입력일 기준으로 변경. 최근 7일 조회로 주말 누락 방지</td><td><span class="badge-green badge">v2 적용 완료</span></td></tr>
+        <tr><td>날짜 기준 오류 (kstYesterday)</td><td>전날 주문 조회해서 중복 발송</td><td><span class="badge-green badge">수정 완료 (2026-03-06)</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🔧 관련 스크립트</div>
+    <table>
+      <thead><tr><th>파일</th><th>역할</th></tr></thead>
+      <tbody>
+        <tr><td><code>get-es808-numbers.js</code></td><td>당일 출고 건 조회 + 연락처 추출 + SMS 발송</td></tr>
+        <tr><td><code>refresh-cafe24-token.sh</code></td><td>카페24 토큰 갱신</td></tr>
+        <tr><td><code>telegram-report.js</code></td><td>아침 매출 리포트 (07:00)</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p class="text-muted" style="font-size:12px; text-align:right">마지막 업데이트: 2026-03-06</p>
+
+</div><!-- /section-wrap -->
+</div><!-- /tab-2 -->
+
+<!-- ======================== TAB 3: PRO 개선 논의 ======================== -->
+<div id="tab-3" class="tab-content">
+<div class="section-wrap">
+
+  <div class="pro-header">
+    <div class="badge">2026-03-16 · 녹음 정리</div>
+    <h1>ES-808 PRO 개선 논의</h1>
+    <p>핵심 주제 3가지 — 탐지 / 침투 / 데이터 연동</p>
+  </div>
+
+  <div class="topic-grid">
+    <!-- ① 탐지 -->
+    <div class="topic-card">
+      <div class="topic-card-head">
+        <div class="topic-num">① 탐지</div>
+        <div class="topic-title">Smart Bio-Scan 개선</div>
+      </div>
+      <div class="topic-body">
+        <div class="diff-row">
+          <div class="diff-label before">AS-IS</div>
+          <ul class="diff-list">
+            <li>고정 저항값 기준으로 알림</li>
+            <li>사람마다·부위마다 기준값이 달라 오탐 발생</li>
+          </ul>
+        </div>
+        <div class="diff-row">
+          <div class="diff-label after">TO-BE</div>
+          <ul class="diff-list">
+            <li>안 아픈 곳 먼저 측정 → 개인 기준값 설정</li>
+            <li>기준값 대비 튀어오르는 지점에서 알림</li>
+            <li>빨간 LED + 소리 (청각장애인 배려 병행)</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- ② 침투 -->
+    <div class="topic-card">
+      <div class="topic-card-head">
+        <div class="topic-num">② 침투</div>
+        <div class="topic-title">전류 방식 개선</div>
+      </div>
+      <div class="topic-body">
+        <div class="diff-row">
+          <div class="diff-label before">AS-IS</div>
+          <ul class="diff-list">
+            <li>넓은 패드 2개 → 피부 표면만 자극</li>
+            <li>저주파 → 심부 침투 불가</li>
+          </ul>
+        </div>
+        <div class="diff-row">
+          <div class="diff-label after">TO-BE</div>
+          <ul class="diff-list">
+            <li>두 갈래 핸디 집게 구조로 전환</li>
+            <li>저주파 → 중주파 + 미세전류 교체</li>
+            <li>3,800~4,200Hz 사이 연속 변동</li>
+            <li>중주파(심부 침투) + 미세전류(ATP 활성) 동시 투입</li>
+          </ul>
+          <div class="note-inline">💡 병원 ICT = 중주파. 심부 침투가 핵심.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ③ 데이터 -->
+    <div class="topic-card">
+      <div class="topic-card-head">
+        <div class="topic-num">③ 데이터</div>
+        <div class="topic-title">앱 연동</div>
+      </div>
+      <div class="topic-body">
+        <div class="diff-row">
+          <div class="diff-label" style="color:#8b949e; font-size:10px; font-weight:700; letter-spacing:.08em; margin-bottom:5px">아이디어</div>
+          <ul class="diff-list">
+            <li>인바디처럼 "염증 수치 38 → 15" 시각화</li>
+          </ul>
+          <div class="caution-inline">⚠ 염증 수치 감소 효과 미검증.<br>검증 없이 표시 = 기만. 자체 필터링 필요.</div>
+        </div>
+        <div class="diff-row">
+          <div class="diff-label" style="color:#6e7681; font-size:10px; font-weight:700; letter-spacing:.08em; margin-bottom:5px">결론</div>
+          <ul class="diff-list">
+            <li>논문용 데이터 vs 고객 체감 데이터 구분 필요</li>
+            <li><strong style="color:#e6edf3">데이터 기획 전면 보류</strong> — 의료 검증 선행</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 결론 & 액션 -->
+  <div class="action-section">
+    <h2>📋 결론 &amp; 액션 플랜</h2>
+    <table>
+      <thead>
+        <tr><th>우선순위</th><th>항목</th><th>다음 액션</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="pri-red">🔴 1순위</td><td>탐지 + 침투 개선</td><td>무조건 진행</td></tr>
+        <tr><td class="pri-red">🔴 1순위</td><td>중주파 구현 가능성 확인</td><td>APR 케이스 깊게 파기</td></tr>
+        <tr><td class="pri-yel">🟡 2순위</td><td>중주파 + 미세전류 전달 방식</td><td>기술박사 미팅 잡기</td></tr>
+        <tr><td class="pri-grn">🟢 보류</td><td>앱 염증 수치 데이터화</td><td>의료 검증 선행 후 재검토</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- 핵심 발언 -->
+  <div class="quote-box">
+    <div class="who">💬 태훈 핵심 발언</div>
+    <blockquote>"AI는 정말 좋은 도구지만 도구야. 기획을 해야 돼. 그 기획에 맞춰서 틀이 움직여야지, 틀이 있으니까 뭐든 집어넣는 건 아니거든."</blockquote>
+  </div>
+
+  <p class="pro-footer">마지막 업데이트: 2026-03-16</p>
+
+</div><!-- /section-wrap -->
+</div><!-- /tab-3 -->
+
+<script>
+// TOP TAB SWITCHING
+function showTab(n, btn) {
+  document.querySelectorAll('.tab-content').forEach(function(el) {
+    el.classList.remove('active');
+  });
+  document.querySelectorAll('.tab-btn').forEach(function(el) {
+    el.classList.remove('active');
+  });
+  document.getElementById('tab-' + n).classList.add('active');
+  if (btn) btn.classList.add('active');
+}
+
+// INNER SECTION SWITCHING (tab-1)
+function showSection(id, btn) {
+  document.querySelectorAll('.content-section').forEach(function(el) {
+    el.classList.remove('active');
+  });
+  document.querySelectorAll('.nav-btn').forEach(function(el) {
+    el.classList.remove('active');
+  });
+  document.getElementById(id).classList.add('active');
+  if (btn) btn.classList.add('active');
+}
+</script>
+</body>
+</html>

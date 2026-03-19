@@ -1,0 +1,886 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>1분도수 ver4 — 기획서 v1.2</title>
+<style>
+  :root {
+    --navy: #002855;
+    --accent: #E8F0FA;
+    --gold: #C8A951;
+    --red: #E53935;
+    --green: #2E7D32;
+    --orange: #F57C00;
+    --gray: #6B7280;
+    --light: #F8FAFC;
+    --border: #E2E8F0;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Apple SD Gothic Neo', 'Noto Sans KR', sans-serif; background: #F0F4F8; color: #1a1a2e; }
+
+  .page { max-width: 1200px; margin: 0 auto; padding: 40px 24px; }
+  .header { background: var(--navy); color: white; padding: 48px 24px; text-align: center; }
+  .header h1 { font-size: 36px; font-weight: 800; }
+  .header p { font-size: 16px; color: rgba(255,255,255,0.7); margin-top: 8px; }
+  .badge { display: inline-block; background: var(--gold); color: var(--navy); font-size: 12px; font-weight: 700; padding: 4px 14px; border-radius: 20px; margin-top: 12px; }
+  .update-badge { display: inline-block; background: #E53935; color: white; font-size: 11px; font-weight: 700; padding: 3px 10px; border-radius: 20px; margin-left: 8px; }
+
+  .section { background: white; border-radius: 16px; padding: 32px; margin-bottom: 24px; box-shadow: 0 2px 12px rgba(0,40,85,0.06); }
+  .section-title { font-size: 20px; font-weight: 800; color: var(--navy); margin-bottom: 24px; display: flex; align-items: center; gap: 10px; }
+  .section-title::before { content: ''; display: block; width: 4px; height: 24px; background: var(--navy); border-radius: 2px; }
+
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+  .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px; }
+  .grid-4 { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 16px; }
+
+  .card { background: var(--light); border: 1px solid var(--border); border-radius: 12px; padding: 20px; }
+  .card-navy { background: var(--navy); color: white; border-radius: 12px; padding: 20px; }
+  .card-title { font-size: 13px; font-weight: 700; color: var(--gray); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 8px; }
+  .card-value { font-size: 24px; font-weight: 800; color: var(--navy); }
+
+  .tag { display: inline-block; font-size: 12px; font-weight: 600; padding: 3px 10px; border-radius: 20px; }
+  .tag-navy { background: var(--accent); color: var(--navy); }
+  .tag-red { background: #FFEBEE; color: var(--red); }
+  .tag-green { background: #E8F5E9; color: var(--green); }
+  .tag-orange { background: #FFF3E0; color: var(--orange); }
+
+  /* Phone mockup */
+  .phones { display: flex; gap: 24px; overflow-x: auto; padding: 8px 0 20px; }
+  .phone { flex-shrink: 0; }
+  .phone-label { text-align: center; font-size: 12px; font-weight: 700; color: var(--gray); margin-bottom: 10px; text-transform: uppercase; letter-spacing: 0.5px; }
+  .phone-frame { width: 230px; height: 480px; background: #111; border-radius: 38px; padding: 10px; box-shadow: 0 24px 64px rgba(0,40,85,0.28); }
+  .phone-screen { width: 100%; height: 100%; background: #F8FAFC; border-radius: 30px; overflow: hidden; display: flex; flex-direction: column; position: relative; }
+  .notch { width: 72px; height: 20px; background: #111; border-radius: 0 0 14px 14px; position: absolute; top: 0; left: 50%; transform: translateX(-50%); z-index: 10; }
+
+  /* Screen components */
+  .s-nav { background: var(--navy); color: white; padding: 28px 14px 12px; }
+  .s-nav-title { font-size: 14px; font-weight: 800; }
+  .s-nav-sub { font-size: 9px; color: rgba(255,255,255,0.55); margin-top: 2px; }
+  .s-scroll { flex: 1; padding: 10px; display: flex; flex-direction: column; gap: 8px; overflow: hidden; }
+  .s-card { background: white; border-radius: 12px; padding: 12px; box-shadow: 0 2px 8px rgba(0,40,85,0.07); }
+  .s-card-label { font-size: 9px; font-weight: 700; color: var(--navy); margin-bottom: 7px; }
+  .s-tabbar { height: 50px; background: white; border-top: 1px solid #EAECF0; display: flex; }
+  .s-tab { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px; }
+  .s-tab-icon { font-size: 14px; }
+  .s-tab-txt { font-size: 7px; color: #bbb; }
+  .s-tab.on .s-tab-txt { color: var(--navy); font-weight: 800; }
+
+  /* Slider */
+  .slider-track { height: 6px; background: linear-gradient(to right, #43A047, #FFB300, #E53935); border-radius: 3px; position: relative; margin: 8px 0 4px; }
+  .slider-thumb { width: 14px; height: 14px; background: var(--red); border: 2.5px solid white; border-radius: 50%; box-shadow: 0 2px 4px rgba(0,0,0,.2); position: absolute; top: -4px; }
+
+  /* Routine step */
+  .r-step { display: flex; align-items: flex-start; gap: 8px; padding: 7px 0; border-bottom: 1px solid #F5F7FA; }
+  .r-step:last-child { border: none; padding-bottom: 0; }
+  .r-num { width: 18px; height: 18px; min-width: 18px; background: var(--navy); color: white; border-radius: 50%; font-size: 9px; font-weight: 800; display: flex; align-items: center; justify-content: center; }
+  .r-info { flex: 1; }
+  .r-name { font-size: 10px; font-weight: 700; line-height: 1.3; }
+  .r-sub { font-size: 8px; color: #aaa; margin-top: 1px; }
+  .r-tag { font-size: 7px; font-weight: 700; padding: 2px 6px; border-radius: 4px; white-space: nowrap; margin-top: 2px; }
+  .te { background: #E3F2FD; color: #1565C0; }
+  .tr { background: #E8F5E9; color: #2E7D32; }
+  .tc { background: #FFF3E0; color: #E65100; }
+
+  /* "기기 없을 때" 스텝 */
+  .r-step-nodevice { background: #FFFBF0; border: 1px dashed #F0B429; border-radius: 8px; padding: 8px 10px; margin: 4px 0; }
+  .r-nodevice-label { font-size: 7px; font-weight: 700; color: #B45309; margin-bottom: 4px; }
+  .r-nodevice-why { font-size: 8px; color: #555; line-height: 1.4; margin-bottom: 5px; }
+  .r-nodevice-video { background: var(--navy); border-radius: 5px; padding: 5px 8px; font-size: 8px; font-weight: 700; color: white; text-align: center; }
+  .r-nodevice-buy { background: var(--gold); border-radius: 5px; padding: 4px 8px; font-size: 7px; font-weight: 800; color: var(--navy); text-align: center; margin-top: 4px; }
+
+  /* Onboarding */
+  .ob-screen { background: var(--navy); height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 30px 14px 14px; gap: 10px; }
+  .ob-dots { display: flex; gap: 5px; }
+  .ob-dot { width: 6px; height: 6px; border-radius: 50%; background: rgba(255,255,255,0.25); }
+  .ob-dot.a { background: white; width: 18px; border-radius: 3px; }
+  .ob-emoji { font-size: 38px; }
+  .ob-step { font-size: 9px; color: rgba(255,255,255,0.45); }
+  .ob-title { font-size: 16px; font-weight: 800; text-align: center; line-height: 1.4; color: white; }
+  .ob-sub { font-size: 9px; color: rgba(255,255,255,0.55); text-align: center; }
+  .ob-opts { display: grid; grid-template-columns: 1fr 1fr; gap: 7px; width: 100%; }
+  .ob-opt { background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); border-radius: 9px; padding: 9px 8px; text-align: center; font-size: 9px; font-weight: 600; color: white; }
+  .ob-opt.sel { background: white; color: var(--navy); }
+  .ob-devices { display: flex; flex-direction: column; gap: 6px; width: 100%; }
+  .ob-device { background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); border-radius: 9px; padding: 9px 12px; display: flex; align-items: center; gap: 8px; font-size: 9px; font-weight: 600; color: white; }
+  .ob-device.sel { background: white; color: var(--navy); }
+  .ob-btn { width: 100%; background: var(--gold); color: var(--navy); border: none; border-radius: 9px; padding: 10px; font-size: 11px; font-weight: 800; }
+
+  /* Graph */
+  .g-bars { display: flex; align-items: flex-end; gap: 3px; height: 60px; }
+  .g-bar { flex: 1; border-radius: 2px 2px 0 0; }
+
+  /* Pain table */
+  .pain-table { width: 100%; border-collapse: collapse; }
+  .pain-table th { background: var(--navy); color: white; padding: 13px 16px; text-align: left; font-size: 13px; font-weight: 700; }
+  .pain-table td { padding: 13px 16px; border-bottom: 1px solid var(--border); font-size: 13px; vertical-align: top; line-height: 1.6; }
+  .pain-table tr:last-child td { border-bottom: none; }
+  .pain-table tr:nth-child(even) td { background: var(--light); }
+
+  /* Push */
+  .push-card { border-left: 4px solid var(--navy); background: var(--light); border-radius: 0 10px 10px 0; padding: 14px 18px; margin-bottom: 10px; }
+  .push-time { font-size: 13px; font-weight: 800; color: var(--navy); }
+  .push-title { font-size: 15px; font-weight: 700; margin-top: 4px; }
+  .push-body { font-size: 13px; color: var(--gray); margin-top: 4px; line-height: 1.6; }
+
+  /* DB */
+  .db-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  .db-table th { background: var(--navy); color: white; padding: 10px 14px; text-align: left; }
+  .db-table td { padding: 9px 14px; border-bottom: 1px solid var(--border); }
+  .db-table tr:last-child td { border-bottom: none; }
+  .col-t { color: #1565C0; font-family: monospace; font-weight: 600; }
+
+  /* Timeline */
+  .timeline { position: relative; padding-left: 28px; }
+  .timeline::before { content: ''; position: absolute; left: 8px; top: 4px; bottom: 4px; width: 2px; background: var(--border); }
+  .tl-item { position: relative; margin-bottom: 24px; }
+  .tl-dot { width: 16px; height: 16px; background: var(--navy); border-radius: 50%; position: absolute; left: -24px; top: 2px; }
+  .tl-day { font-size: 14px; font-weight: 800; color: var(--navy); margin-bottom: 5px; }
+  .tl-tasks { list-style: none; }
+  .tl-tasks li { font-size: 13px; color: var(--gray); padding: 2px 0; }
+  .tl-tasks li::before { content: '→ '; color: var(--navy); }
+
+  /* Videos */
+  .video-item { background: var(--light); border: 1px solid var(--border); border-radius: 10px; padding: 12px 16px; margin-bottom: 8px; display: flex; align-items: center; gap: 12px; }
+  .video-thumb { width: 48px; height: 36px; background: #000; border-radius: 6px; display: flex; align-items: center; justify-content: center; color: white; font-size: 14px; flex-shrink: 0; }
+  .video-info .v-id { font-size: 11px; font-family: monospace; color: var(--gray); }
+  .video-info .v-url { font-size: 12px; color: var(--navy); font-weight: 600; }
+
+  .divider { height: 1px; background: var(--border); margin: 20px 0; }
+  .info-box { padding: 14px 16px; border-radius: 10px; font-size: 13px; line-height: 1.7; }
+  .info-navy { background: var(--accent); color: var(--navy); border-left: 3px solid var(--navy); }
+  .info-orange { background: #FFF3E0; color: #B45309; border-left: 3px solid var(--orange); }
+  .info-green { background: #E8F5E9; color: #2E7D32; border-left: 3px solid var(--green); }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>1분도수 ver4</h1>
+  <p>앱 기획서 v1.2 — 2026.03.03</p>
+  <div class="badge">4050 타겟 · 운동-회복-교정 · 데이터 플라이휠</div>
+  <div class="update-badge">v1.2 업데이트</div>
+</div>
+
+<div class="page">
+
+  <!-- 개요 -->
+  <div class="section">
+    <div class="section-title">앱 개요</div>
+    <div class="grid-4">
+      <div class="card"><div class="card-title">앱 이름</div><div class="card-value" style="font-size:18px;">1분도수</div></div>
+      <div class="card"><div class="card-title">주 타겟</div><div class="card-value">4050</div><div style="font-size:12px;color:var(--gray);margin-top:4px;">목·어깨·허리 통증</div></div>
+      <div class="card"><div class="card-title">출시 목표</div><div class="card-value" style="font-size:18px;">1주</div><div style="font-size:12px;color:var(--gray);margin-top:4px;">MVP 우선</div></div>
+      <div class="card"><div class="card-title">스택</div><div style="margin-top:6px;display:flex;flex-direction:column;gap:4px;"><span class="tag tag-navy">React Native (Expo)</span><span class="tag tag-navy">Supabase (신규)</span><span class="tag tag-navy">카카오 로그인</span></div></div>
+    </div>
+    <div class="divider"></div>
+    <div class="grid-3">
+      <div class="card-navy"><div style="font-size:22px;margin-bottom:8px;">🎯</div><div style="font-size:14px;font-weight:800;margin-bottom:6px;">데이터 플라이휠</div><div style="font-size:11px;color:rgba(255,255,255,0.7);line-height:1.7;">매일 통증 점수 입력 → AI 추천 정교화 → 효과 체감 → 지속 사용</div></div>
+      <div class="card-navy"><div style="font-size:22px;margin-bottom:8px;">🏥</div><div style="font-size:14px;font-weight:800;margin-bottom:6px;">루틴 안에서 자연 구매</div><div style="font-size:11px;color:rgba(255,255,255,0.7);line-height:1.7;">기기 없으면 "왜 필요한지" 영상 먼저 → 자연스럽게 제품 소개 → 반감 없이 구매로</div></div>
+      <div class="card-navy"><div style="font-size:22px;margin-bottom:8px;">👴</div><div style="font-size:14px;font-weight:800;margin-bottom:6px;">4050 최적화 UX</div><div style="font-size:11px;color:rgba(255,255,255,0.7);line-height:1.7;">큰 글자·큰 버튼·여유 있는 간격·3탭. 그래프로 직관적 진행상황 표시.</div></div>
+    </div>
+  </div>
+
+  <!-- v1.1 핵심 변경사항 -->
+  <div class="section">
+    <div class="section-title">v1.1 핵심 변경사항 <span class="update-badge">NEW</span></div>
+    <div class="grid-2">
+      <div>
+        <div style="font-size:15px;font-weight:800;color:var(--red);margin-bottom:12px;">❌ v1.0 문제점</div>
+        <div style="display:flex;flex-direction:column;gap:8px;">
+          <div class="card" style="border-left:3px solid var(--red);">
+            <div style="font-size:13px;font-weight:700;">기기 없으면 "구매하기" 버튼 바로 표시</div>
+            <div style="font-size:12px;color:var(--gray);margin-top:4px;">첫 화면부터 돈 내라는 느낌 → 반감 유발 → 이탈</div>
+          </div>
+          <div class="card" style="border-left:3px solid var(--red);">
+            <div style="font-size:13px;font-weight:700;">카드 간격이 좁음</div>
+            <div style="font-size:12px;color:var(--gray);margin-top:4px;">4050 타겟에게 답답한 UI → 직관성 떨어짐</div>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div style="font-size:15px;font-weight:800;color:var(--green);margin-bottom:12px;">✅ v1.1 해결책</div>
+        <div style="display:flex;flex-direction:column;gap:8px;">
+          <div class="card" style="border-left:3px solid var(--green);">
+            <div style="font-size:13px;font-weight:700;">기기 없는 스텝 → "필요한 이유 영상" 먼저</div>
+            <div style="font-size:12px;color:var(--gray);margin-top:4px;">찜질이 왜 중요한지 영상 → "WS-200은 이걸 가능하게 한 기기" → 자연스러운 구매 유도</div>
+          </div>
+          <div class="card" style="border-left:3px solid var(--green);">
+            <div style="font-size:13px;font-weight:700;">모든 여백·간격 1.5배 확대</div>
+            <div style="font-size:12px;color:var(--gray);margin-top:4px;">카드 패딩, 텍스트 간격, 버튼 크기 전부 4050 기준으로 확대</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 화면 목업 -->
+  <div class="section">
+    <div class="section-title">화면 목업</div>
+    <div class="phones">
+
+      <!-- 온보딩 1 -->
+      <div class="phone">
+        <div class="phone-label">온보딩 1/3 — 부위 (복수선택)</div>
+        <div class="phone-frame">
+          <div class="phone-screen">
+            <div class="notch"></div>
+            <div style="background:linear-gradient(135deg,#002855,#1a4a8a);height:100%;display:flex;flex-direction:column;padding:28px 12px 12px;gap:7px;">
+              <div style="display:flex;gap:5px;justify-content:center;margin-bottom:2px;">
+                <div style="width:18px;height:5px;border-radius:3px;background:var(--gold);"></div>
+                <div style="width:6px;height:5px;border-radius:50%;background:rgba(255,255,255,0.25);"></div>
+                <div style="width:6px;height:5px;border-radius:50%;background:rgba(255,255,255,0.25);"></div>
+              </div>
+              <div style="font-size:8px;color:rgba(255,255,255,0.45);text-align:center;">STEP 1 / 3</div>
+              <div style="font-size:15px;font-weight:800;text-align:center;color:white;line-height:1.4;">어디가 불편하세요?</div>
+              <div style="font-size:8px;color:rgba(255,255,255,0.55);text-align:center;margin-bottom:3px;">복수선택 가능해요</div>
+              <!-- 6개 통증 부위 -->
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;">
+                <div style="background:rgba(59,130,246,0.25);border:1.5px solid #60A5FA;border-radius:9px;padding:8px 6px;text-align:center;position:relative;">
+                  <div style="font-size:16px;">🦷</div>
+                  <div style="font-size:8px;font-weight:700;color:white;margin-top:2px;">목/어깨</div>
+                  <div style="position:absolute;top:4px;right:4px;width:10px;height:10px;background:#60A5FA;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:7px;color:white;">✓</div>
+                </div>
+                <div style="background:rgba(249,115,22,0.2);border:1.5px solid rgba(255,255,255,0.15);border-radius:9px;padding:8px 6px;text-align:center;">
+                  <div style="font-size:16px;">🤚</div>
+                  <div style="font-size:8px;font-weight:600;color:rgba(255,255,255,0.8);margin-top:2px;">손목/손바닥</div>
+                </div>
+                <div style="background:rgba(34,197,94,0.2);border:1.5px solid rgba(255,255,255,0.15);border-radius:9px;padding:8px 6px;text-align:center;position:relative;">
+                  <div style="font-size:16px;">🚶</div>
+                  <div style="font-size:8px;font-weight:700;color:white;margin-top:2px;">허리</div>
+                  <div style="position:absolute;top:4px;right:4px;width:10px;height:10px;background:#4ADE80;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:7px;color:white;">✓</div>
+                </div>
+                <div style="background:rgba(234,179,8,0.2);border:1.5px solid rgba(255,255,255,0.15);border-radius:9px;padding:8px 6px;text-align:center;">
+                  <div style="font-size:16px;">🦵</div>
+                  <div style="font-size:8px;font-weight:600;color:rgba(255,255,255,0.8);margin-top:2px;">무릎</div>
+                </div>
+                <div style="background:rgba(168,85,247,0.2);border:1.5px solid rgba(255,255,255,0.15);border-radius:9px;padding:8px 6px;text-align:center;">
+                  <div style="font-size:16px;">🦶</div>
+                  <div style="font-size:8px;font-weight:600;color:rgba(255,255,255,0.8);margin-top:2px;">발목/발바닥</div>
+                </div>
+                <div style="background:rgba(107,114,128,0.2);border:1.5px solid rgba(255,255,255,0.15);border-radius:9px;padding:8px 6px;text-align:center;">
+                  <div style="font-size:16px;">•••</div>
+                  <div style="font-size:8px;font-weight:600;color:rgba(255,255,255,0.8);margin-top:2px;">기타</div>
+                </div>
+              </div>
+              <button style="width:100%;background:var(--gold);color:var(--navy);border:none;border-radius:9px;padding:10px;font-size:11px;font-weight:800;margin-top:auto;">다음 →</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 온보딩 2 -->
+      <div class="phone">
+        <div class="phone-label">온보딩 2/3 — 통증</div>
+        <div class="phone-frame">
+          <div class="phone-screen">
+            <div class="notch"></div>
+            <div class="ob-screen">
+              <div class="ob-dots"><div class="ob-dot"></div><div class="ob-dot a"></div><div class="ob-dot"></div></div>
+              <div class="ob-emoji">😣</div>
+              <div class="ob-step">STEP 2 / 3</div>
+              <div class="ob-title">지금 통증이<br>얼마나 심한가요?</div>
+              <div style="width:100%;background:white;border-radius:12px;padding:14px;">
+                <div style="font-size:36px;font-weight:900;color:var(--red);text-align:center;line-height:1;">7</div>
+                <div style="font-size:9px;color:#bbb;text-align:center;margin-bottom:8px;">통증 점수 (1~10)</div>
+                <div class="slider-track"><div class="slider-thumb" style="left:63%;"></div></div>
+                <div style="display:flex;justify-content:space-between;font-size:8px;color:#ccc;"><span>거의없음</span><span>매우심함</span></div>
+              </div>
+              <button class="ob-btn">다음 →</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 온보딩 3 -->
+      <div class="phone">
+        <div class="phone-label">온보딩 3/3 — 기기</div>
+        <div class="phone-frame">
+          <div class="phone-screen">
+            <div class="notch"></div>
+            <div class="ob-screen">
+              <div class="ob-dots"><div class="ob-dot"></div><div class="ob-dot"></div><div class="ob-dot a"></div></div>
+              <div class="ob-emoji">🩺</div>
+              <div class="ob-step">STEP 3 / 3</div>
+              <div class="ob-title">어떤 기기를<br>갖고 계세요?</div>
+              <div class="ob-sub">없어도 괜찮아요 — 운동만으로도 시작할 수 있어요</div>
+              <div class="ob-devices">
+                <div class="ob-device sel"><span>🩺</span><span>CS-25 경추 마사지기</span><span style="margin-left:auto;font-size:8px;background:#002855;color:white;padding:2px 6px;border-radius:4px;">✓ 보유</span></div>
+                <div class="ob-device sel"><span>⚡</span><span>ES-808 EMS 마사지기</span><span style="margin-left:auto;font-size:8px;background:#002855;color:white;padding:2px 6px;border-radius:4px;">✓ 보유</span></div>
+                <div class="ob-device"><span>🌡️</span><span>WS-200 찜질기</span></div>
+              </div>
+              <button class="ob-btn">시작하기 🚀</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 홈 탭 — CS-25/ES-808 있고 WS-200 없는 케이스 -->
+      <div class="phone">
+        <div class="phone-label">홈 — WS-200 없을 때</div>
+        <div class="phone-frame">
+          <div class="phone-screen">
+            <div class="notch"></div>
+            <div class="s-nav">
+              <div style="display:flex;justify-content:space-between;align-items:flex-end;margin-top:8px;">
+                <div><div class="s-nav-title">오늘의 루틴 🌅</div><div class="s-nav-sub">3월 3일 · 통증 5점</div></div>
+                <div style="font-size:8px;background:rgba(255,255,255,0.15);padding:3px 7px;border-radius:4px;color:white;">🔔</div>
+              </div>
+            </div>
+            <div class="s-scroll">
+              <!-- AI 코치 -->
+              <div style="background:linear-gradient(135deg,#002855,#1a4a8a);border-radius:10px;padding:10px 12px;color:white;">
+                <div style="font-size:8px;font-weight:700;color:rgba(255,255,255,0.55);margin-bottom:3px;">🤖 AI 코치</div>
+                <div style="font-size:9px;line-height:1.5;">통증 5점이에요. 회복 먼저 시작하고, 가볍게 교정을 진행해요.</div>
+              </div>
+              <!-- 통증 -->
+              <div class="s-card">
+                <div class="s-card-label">📊 오늘 통증 점수</div>
+                <div style="display:flex;align-items:center;gap:8px;">
+                  <div style="font-size:28px;font-weight:900;color:#FF7043;">5</div>
+                  <div style="flex:1;"><div class="slider-track"><div class="slider-thumb" style="left:44%;background:#FF7043;"></div></div><div style="display:flex;justify-content:space-between;font-size:7px;color:#ccc;"><span>1</span><span>10</span></div></div>
+                  <div style="font-size:7px;background:#FFF3E0;color:#E65100;padding:2px 5px;border-radius:3px;font-weight:700;">중간</div>
+                </div>
+              </div>
+              <!-- 루틴 -->
+              <div class="s-card" style="flex:1;">
+                <div class="s-card-label">오늘 루틴</div>
+                <!-- WS-200 없음 → 설명 영상 먼저 -->
+                <div class="r-step-nodevice">
+                  <div class="r-nodevice-label">① 회복 — 찜질 (기기 없음)</div>
+                  <div class="r-nodevice-why">근육을 먼저 이완해야 교정 효과가 2배예요. 찜질이 왜 필요한지 1분 영상으로 확인해보세요.</div>
+                  <div class="r-nodevice-video">▶ 찜질이 필요한 이유 영상 보기</div>
+                  <div class="r-nodevice-buy">→ WS-200으로 언제든 편하게 찜질하기</div>
+                </div>
+                <div class="r-step">
+                  <div class="r-num">2</div>
+                  <div class="r-info"><div class="r-name">ES-808 전기 자극</div><div class="r-sub">10분 · 보통 강도</div><div class="r-tag tr">회복</div></div>
+                </div>
+                <div class="r-step">
+                  <div class="r-num">3</div>
+                  <div class="r-info"><div class="r-name">CS-25 교정</div><div class="r-sub">10분 · 1~2단계</div><div class="r-tag tc">교정</div></div>
+                </div>
+                <div class="r-step">
+                  <div class="r-num">4</div>
+                  <div class="r-info"><div class="r-name">목 스트레칭 1분</div><div class="r-sub">마무리 운동</div><div class="r-tag te">운동</div></div>
+                </div>
+              </div>
+            </div>
+            <div class="s-tabbar">
+              <div class="s-tab on"><div class="s-tab-icon">🏠</div><div class="s-tab-txt" style="color:var(--navy);font-weight:800;">홈</div></div>
+              <div class="s-tab"><div class="s-tab-icon">📈</div><div class="s-tab-txt">회복기록</div></div>
+              <div class="s-tab"><div class="s-tab-icon">👤</div><div class="s-tab-txt">마이</div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 홈 탭 — 풀세트 있는 경우 -->
+      <div class="phone">
+        <div class="phone-label">홈 — 풀세트 보유</div>
+        <div class="phone-frame">
+          <div class="phone-screen">
+            <div class="notch"></div>
+            <div class="s-nav">
+              <div style="display:flex;justify-content:space-between;align-items:flex-end;margin-top:8px;">
+                <div><div class="s-nav-title">오늘의 루틴 🌅</div><div class="s-nav-sub">3월 3일 · 통증 2점</div></div>
+                <div style="font-size:8px;background:rgba(255,255,255,0.15);padding:3px 7px;border-radius:4px;color:white;">🔔</div>
+              </div>
+            </div>
+            <div class="s-scroll">
+              <div style="background:linear-gradient(135deg,#002855,#1a4a8a);border-radius:10px;padding:10px 12px;color:white;">
+                <div style="font-size:8px;font-weight:700;color:rgba(255,255,255,0.55);margin-bottom:3px;">🤖 AI 코치</div>
+                <div style="font-size:9px;line-height:1.5;">컨디션이 좋아요! 오늘 풀 루틴 완성해봐요. 💪</div>
+              </div>
+              <div class="s-card">
+                <div class="s-card-label">📊 오늘 통증 점수</div>
+                <div style="display:flex;align-items:center;gap:8px;">
+                  <div style="font-size:28px;font-weight:900;color:#43A047;">2</div>
+                  <div style="flex:1;"><div class="slider-track"><div class="slider-thumb" style="left:11%;background:#43A047;"></div></div><div style="display:flex;justify-content:space-between;font-size:7px;color:#ccc;"><span>1</span><span>10</span></div></div>
+                  <div style="font-size:7px;background:#E8F5E9;color:#2E7D32;padding:2px 5px;border-radius:3px;font-weight:700;">낮음</div>
+                </div>
+              </div>
+              <div class="s-card" style="flex:1;">
+                <div class="s-card-label">오늘 루틴</div>
+                <div class="r-step"><div class="r-num">1</div><div class="r-info"><div class="r-name">1분 운동</div><div class="r-sub">오늘의 영상 · 5분</div><div class="r-tag te">운동</div></div></div>
+                <div class="r-step"><div class="r-num">2</div><div class="r-info"><div class="r-name">WS-200 찜질</div><div class="r-sub">10분 · 깊은 이완</div><div class="r-tag tr">회복</div></div></div>
+                <div class="r-step"><div class="r-num">3</div><div class="r-info"><div class="r-name">ES-808 전기 자극</div><div class="r-sub">10분 · 보통 강도</div><div class="r-tag tr">회복</div></div></div>
+                <div class="r-step"><div class="r-num">4</div><div class="r-info"><div class="r-name">CS-25 교정</div><div class="r-sub">15분 · 2~3단계</div><div class="r-tag tc">교정</div></div></div>
+                <div style="margin-top:8px;background:var(--navy);border-radius:8px;padding:9px;text-align:center;color:white;font-size:9px;font-weight:800;">루틴 시작하기 →</div>
+              </div>
+            </div>
+            <div class="s-tabbar">
+              <div class="s-tab on"><div class="s-tab-icon">🏠</div><div class="s-tab-txt" style="color:var(--navy);font-weight:800;">홈</div></div>
+              <div class="s-tab"><div class="s-tab-icon">📈</div><div class="s-tab-txt">회복기록</div></div>
+              <div class="s-tab"><div class="s-tab-icon">👤</div><div class="s-tab-txt">마이</div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 회복 기록 -->
+      <div class="phone">
+        <div class="phone-label">회복 기록 탭</div>
+        <div class="phone-frame">
+          <div class="phone-screen">
+            <div class="notch"></div>
+            <div class="s-nav">
+              <div style="margin-top:8px;"><div class="s-nav-title">내 회복 기록 📈</div><div class="s-nav-sub">7일 연속 완료 🔥</div></div>
+            </div>
+            <div class="s-scroll">
+              <div class="s-card">
+                <div class="s-card-label">📊 통증 변화 (2주)</div>
+                <div class="g-bars">
+                  <div class="g-bar" style="height:85%;background:#E53935;"></div>
+                  <div class="g-bar" style="height:78%;background:#E53935;"></div>
+                  <div class="g-bar" style="height:70%;background:#FF7043;"></div>
+                  <div class="g-bar" style="height:62%;background:#FF7043;"></div>
+                  <div class="g-bar" style="height:55%;background:#FFB300;"></div>
+                  <div class="g-bar" style="height:48%;background:#FFB300;"></div>
+                  <div class="g-bar" style="height:44%;background:#66BB6A;"></div>
+                  <div class="g-bar" style="height:40%;background:#43A047;"></div>
+                  <div class="g-bar" style="height:38%;background:#43A047;"></div>
+                  <div class="g-bar" style="height:36%;background:#2E7D32;"></div>
+                  <div class="g-bar" style="height:34%;background:#2E7D32;"></div>
+                  <div class="g-bar" style="height:32%;background:#2E7D32;"></div>
+                  <div class="g-bar" style="height:31%;background:#2E7D32;"></div>
+                  <div class="g-bar" style="height:20%;background:#2E7D32;"></div>
+                </div>
+                <div style="display:flex;justify-content:space-between;font-size:7px;color:#bbb;margin-top:4px;"><span>2주전</span><span>오늘</span></div>
+                <div style="margin-top:7px;background:#E8F5E9;border-radius:6px;padding:5px 8px;font-size:8px;color:#2E7D32;font-weight:700;">📉 2주 동안 통증 43% 감소!</div>
+              </div>
+              <div class="s-card">
+                <div class="s-card-label">🔥 연속 달성</div>
+                <div style="display:flex;gap:6px;margin-bottom:8px;">
+                  <div style="flex:1;background:var(--navy);color:white;border-radius:8px;padding:8px;text-align:center;"><div style="font-size:22px;font-weight:900;">7</div><div style="font-size:7px;color:rgba(255,255,255,0.6);">연속 일수</div></div>
+                  <div style="flex:1;background:#E8F5E9;border-radius:8px;padding:8px;text-align:center;"><div style="font-size:22px;font-weight:900;color:#2E7D32;">87%</div><div style="font-size:7px;color:#888;">완료율</div></div>
+                </div>
+                <div style="display:flex;gap:3px;">
+                  <div style="flex:1;text-align:center;"><div style="font-size:7px;color:#aaa;">월</div><div style="width:20px;height:20px;border-radius:50%;background:var(--navy);margin:3px auto;display:flex;align-items:center;justify-content:center;color:white;font-size:8px;">✓</div></div>
+                  <div style="flex:1;text-align:center;"><div style="font-size:7px;color:#aaa;">화</div><div style="width:20px;height:20px;border-radius:50%;background:var(--navy);margin:3px auto;display:flex;align-items:center;justify-content:center;color:white;font-size:8px;">✓</div></div>
+                  <div style="flex:1;text-align:center;"><div style="font-size:7px;color:#aaa;">수</div><div style="width:20px;height:20px;border-radius:50%;background:var(--navy);margin:3px auto;display:flex;align-items:center;justify-content:center;color:white;font-size:8px;">✓</div></div>
+                  <div style="flex:1;text-align:center;"><div style="font-size:7px;color:#aaa;">목</div><div style="width:20px;height:20px;border-radius:50%;background:#E0E0E0;margin:3px auto;"></div></div>
+                  <div style="flex:1;text-align:center;"><div style="font-size:7px;color:#aaa;">금</div><div style="width:20px;height:20px;border-radius:50%;background:#E0E0E0;margin:3px auto;"></div></div>
+                  <div style="flex:1;text-align:center;"><div style="font-size:7px;color:#aaa;">토</div><div style="width:20px;height:20px;border-radius:50%;background:#E0E0E0;margin:3px auto;"></div></div>
+                  <div style="flex:1;text-align:center;"><div style="font-size:7px;color:#aaa;">일</div><div style="width:20px;height:20px;border-radius:50%;background:#E0E0E0;margin:3px auto;"></div></div>
+                </div>
+              </div>
+            </div>
+            <div class="s-tabbar">
+              <div class="s-tab"><div class="s-tab-icon">🏠</div><div class="s-tab-txt">홈</div></div>
+              <div class="s-tab on"><div class="s-tab-icon">📈</div><div class="s-tab-txt" style="color:var(--navy);font-weight:800;">회복기록</div></div>
+              <div class="s-tab"><div class="s-tab-icon">👤</div><div class="s-tab-txt">마이</div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 마이 탭 -->
+      <div class="phone">
+        <div class="phone-label">마이 탭</div>
+        <div class="phone-frame">
+          <div class="phone-screen">
+            <div class="notch"></div>
+            <div class="s-nav">
+              <div style="display:flex;align-items:center;gap:10px;margin-top:8px;">
+                <div style="width:32px;height:32px;border-radius:50%;background:var(--gold);display:flex;align-items:center;justify-content:center;font-size:14px;">👤</div>
+                <div><div class="s-nav-title" style="font-size:12px;">김태훈님 👋</div><div class="s-nav-sub">7일 연속 🔥</div></div>
+              </div>
+            </div>
+            <div class="s-scroll">
+              <div class="s-card">
+                <div class="s-card-label">🩺 내 기기</div>
+                <div style="display:flex;flex-direction:column;gap:5px;">
+                  <div style="display:flex;align-items:center;gap:6px;background:#F0F4F8;border-radius:6px;padding:7px 9px;font-size:9px;"><span>🩺</span><span style="font-weight:700;color:var(--navy);">CS-25</span><span style="margin-left:auto;background:#E8F5E9;color:green;padding:1px 6px;border-radius:3px;font-weight:700;font-size:7px;">보유</span></div>
+                  <div style="display:flex;align-items:center;gap:6px;background:#F0F4F8;border-radius:6px;padding:7px 9px;font-size:9px;"><span>⚡</span><span style="font-weight:700;color:var(--navy);">ES-808</span><span style="margin-left:auto;background:#E8F5E9;color:green;padding:1px 6px;border-radius:3px;font-weight:700;font-size:7px;">보유</span></div>
+                  <div style="display:flex;align-items:center;gap:6px;background:#FFF8E1;border-radius:6px;padding:7px 9px;font-size:9px;"><span>🌡️</span><span style="font-weight:700;color:var(--navy);">WS-200</span><span style="margin-left:auto;color:#E65100;font-size:8px;font-weight:700;">추가하기 →</span></div>
+                </div>
+              </div>
+              <div style="background:linear-gradient(135deg,var(--navy),#1a4a8a);border-radius:10px;padding:12px;color:white;">
+                <div style="font-size:9px;font-weight:700;margin-bottom:3px;">🛒 키네메디칼 스토어</div>
+                <div style="font-size:8px;color:rgba(255,255,255,0.65);margin-bottom:8px;">회복을 완성하는 기기들을 만나보세요</div>
+                <div style="background:var(--gold);color:var(--navy);border-radius:6px;padding:6px;font-size:9px;font-weight:800;text-align:center;">스토어 바로가기 →</div>
+              </div>
+              <div class="s-card">
+                <div class="s-card-label">⚙️ 설정</div>
+                <div style="font-size:10px;padding:7px 0;border-bottom:1px solid #F0F4F8;color:var(--navy);">🔔 알림 설정</div>
+                <div style="font-size:10px;padding:7px 0;border-bottom:1px solid #F0F4F8;color:var(--navy);">🩺 통증 부위 변경</div>
+                <div style="font-size:10px;padding:7px 0;color:#bbb;">로그아웃</div>
+              </div>
+            </div>
+            <div class="s-tabbar">
+              <div class="s-tab"><div class="s-tab-icon">🏠</div><div class="s-tab-txt">홈</div></div>
+              <div class="s-tab"><div class="s-tab-icon">📈</div><div class="s-tab-txt">회복기록</div></div>
+              <div class="s-tab on"><div class="s-tab-icon">👤</div><div class="s-tab-txt" style="color:var(--navy);font-weight:800;">마이</div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- 기기 없을 때 UX 상세 -->
+  <div class="section">
+    <div class="section-title">기기 없는 스텝 UX — 자연 구매 유도 로직 <span class="update-badge">NEW</span></div>
+    <div class="grid-3">
+      <div class="card" style="border-top:3px solid #2E7D32;">
+        <div style="font-size:13px;font-weight:800;color:#2E7D32;margin-bottom:12px;">🌡️ WS-200 없을 때</div>
+        <div style="font-size:13px;font-weight:700;margin-bottom:6px;">① 영상 먼저</div>
+        <div style="font-size:12px;color:var(--gray);line-height:1.7;margin-bottom:10px;">"근육을 먼저 이완해야 교정 효과가 2배예요. 찜질이 왜 필요한지 확인해보세요."<br>→ 수건 찜질 방법 설명 영상 (유튜브 쇼츠)</div>
+        <div style="font-size:13px;font-weight:700;margin-bottom:6px;">② 자연스러운 소개</div>
+        <div style="font-size:12px;color:var(--gray);line-height:1.7;">"WS-200은 이 찜질을 어디서나 편하게 할 수 있도록 만든 기기예요."<br>→ [WS-200 보러가기] 버튼</div>
+      </div>
+      <div class="card" style="border-top:3px solid #1565C0;">
+        <div style="font-size:13px;font-weight:800;color:#1565C0;margin-bottom:12px;">⚡ ES-808 없을 때</div>
+        <div style="font-size:13px;font-weight:700;margin-bottom:6px;">① 영상 먼저</div>
+        <div style="font-size:12px;color:var(--gray);line-height:1.7;margin-bottom:10px;">"정확한 부위에 전기 자극을 주면 디스크 회복이 빨라져요. 자극이 왜 중요한지 확인해보세요."<br>→ EMS/TENS 원리 설명 영상</div>
+        <div style="font-size:13px;font-weight:700;margin-bottom:6px;">② 자연스러운 소개</div>
+        <div style="font-size:12px;color:var(--gray);line-height:1.7;">"ES-808은 5가지 모드로 정확한 부위만 자극하는 기기예요."<br>→ [ES-808 보러가기] 버튼</div>
+      </div>
+      <div class="card" style="border-top:3px solid #E65100;">
+        <div style="font-size:13px;font-weight:800;color:#E65100;margin-bottom:12px;">🩺 CS-25 없을 때</div>
+        <div style="font-size:13px;font-weight:700;margin-bottom:6px;">① 영상 먼저</div>
+        <div style="font-size:12px;color:var(--gray);line-height:1.7;margin-bottom:10px;">"붙어있는 디스크를 떼어주는 교정이 핵심이에요. 병원 견인 치료와 같은 원리예요."<br>→ 병원 견인 vs CS-25 비교 영상</div>
+        <div style="font-size:13px;font-weight:700;margin-bottom:6px;">② 자연스러운 소개</div>
+        <div style="font-size:12px;color:var(--gray);line-height:1.7;">"CS-25는 병원 전용 기술을 가정용으로 구현한 유일한 기기예요."<br>→ [CS-25 보러가기] 버튼</div>
+      </div>
+    </div>
+    <div class="info-navy" style="margin-top:16px;">
+      <strong>핵심 원칙</strong>: 구매 버튼 바로 X → 영상으로 "왜 필요한지" 이해시키기 → 제품 소개는 루틴의 연장선 → 자연스러운 구매 결정
+    </div>
+  </div>
+
+  <!-- 루틴 로직 -->
+  <div class="section">
+    <div class="section-title">NRS 통증 척도 표준화 &amp; 루틴 추천 로직 <span class="update-badge">v1.2 업데이트</span></div>
+    <!-- NRS 척도 시각화 -->
+    <div class="grid-4" style="margin-bottom:20px;">
+      <div class="card" style="border-top:4px solid #43A047;text-align:center;">
+        <div style="font-size:28px;">😊</div>
+        <div style="font-size:22px;font-weight:900;color:#43A047;">0점</div>
+        <div style="font-size:13px;font-weight:700;color:#43A047;">없음</div>
+        <div style="font-size:11px;color:var(--gray);margin-top:4px;">통증 없음</div>
+      </div>
+      <div class="card" style="border-top:4px solid #8BC34A;text-align:center;">
+        <div style="font-size:28px;">🙂</div>
+        <div style="font-size:22px;font-weight:900;color:#8BC34A;">1~3점</div>
+        <div style="font-size:13px;font-weight:700;color:#8BC34A;">경미</div>
+        <div style="font-size:11px;color:var(--gray);margin-top:4px;">풀 루틴 가능</div>
+      </div>
+      <div class="card" style="border-top:4px solid #FF9800;text-align:center;">
+        <div style="font-size:28px;">😣</div>
+        <div style="font-size:22px;font-weight:900;color:#FF9800;">4~6점</div>
+        <div style="font-size:13px;font-weight:700;color:#FF9800;">중등도</div>
+        <div style="font-size:11px;color:var(--gray);margin-top:4px;">회복 → 교정 순서</div>
+      </div>
+      <div class="card" style="border-top:4px solid #E53935;text-align:center;">
+        <div style="font-size:28px;">😭</div>
+        <div style="font-size:22px;font-weight:900;color:#E53935;">7~10점</div>
+        <div style="font-size:13px;font-weight:700;color:#E53935;">심각</div>
+        <div style="font-size:11px;color:var(--gray);margin-top:4px;">회복 최우선</div>
+      </div>
+    </div>
+    <div class="info-orange" style="margin-bottom:16px;">
+      <strong>루틴 경계</strong>: <strong>4점</strong> (경미 → 중등도 전환) · <strong>7점</strong> (중등도 → 심각 전환) 기준으로 루틴 분기
+    </div>
+    <table class="pain-table">
+      <thead>
+        <tr><th>NRS 통증 점수</th><th>전략</th><th>🏃 운동</th><th>♻️ 회복</th><th>🦴 교정</th><th>AI 멘트</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><span class="tag tag-red" style="background:#FFEBEE;color:#E53935;">7~10점 😭<br>심각</span></td>
+          <td><strong>회복 최우선</strong></td>
+          <td>아주 가벼운 이완<br>2~3분</td>
+          <td>WS-200 20분 (깊은 이완)<br>→ ES-808 약하게 10분</td>
+          <td>생략 or CS-25<br>1단계 5분만</td>
+          <td>"통증이 심해요. 오늘은 충분히 쉬어드릴게요."</td>
+        </tr>
+        <tr>
+          <td><span class="tag tag-orange">4~6점 😣<br>중등도</span></td>
+          <td><strong>회복 → 교정</strong></td>
+          <td>기본 스트레칭 5분</td>
+          <td>WS-200 15분<br>→ ES-808 보통 강도 10분</td>
+          <td>CS-25 1~2단계<br>10분</td>
+          <td>"회복 먼저 하고, 가볍게 교정을 시작해요."</td>
+        </tr>
+        <tr>
+          <td><span class="tag tag-green" style="background:#F1F8E9;color:#8BC34A;">1~3점 🙂<br>경미</span></td>
+          <td><strong>풀 루틴</strong></td>
+          <td>1분도수 루틴<br>5~10분</td>
+          <td>WS-200 10분<br>→ ES-808 보통 10분</td>
+          <td>CS-25 2~3단계<br>15분</td>
+          <td>"컨디션 좋아요! 오늘 루틴 완성해봐요. 💪"</td>
+        </tr>
+        <tr>
+          <td><span class="tag tag-green">0점 😊<br>없음</span></td>
+          <td><strong>유지 루틴</strong></td>
+          <td>1분도수 가벼운 루틴</td>
+          <td>WS-200 5분 (유지)</td>
+          <td>CS-25 1단계 (유지)</td>
+          <td>"통증이 없어요! 유지 루틴으로 건강 지켜요. 🎉"</td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="info-navy" style="margin-top:14px;">
+      <strong>고정 순서</strong>: 깊은 이완 (WS-200) → 정확한 부위 전기자극 (ES-808) → 붙은 디스크 교정 (CS-25)<br>
+      <strong>기기 없으면</strong>: 해당 스텝 → 영상 + 제품 소개로 자동 대체 (위 로직 적용)
+    </div>
+  </div>
+
+  <!-- 초기 운동 영상 DB -->
+  <div class="section">
+    <div class="section-title">초기 운동 영상 데이터 (ver3에서 이전)</div>
+    <div style="margin-bottom:16px;" class="info-orange">
+      <strong>관리 방법</strong>: Supabase <code>exercises</code> 테이블에서 youtube_url 직접 수정 → 앱 즉시 반영 (재빌드 불필요)
+    </div>
+    <div class="grid-2">
+      <div>
+        <div style="font-size:14px;font-weight:700;color:var(--navy);margin-bottom:12px;">🎬 쇼츠 운동 영상 (5개)</div>
+        <div class="video-item"><div class="video-thumb">▶</div><div class="video-info"><div class="v-id">InieLaiFSaI</div><div class="v-url">youtu.be/InieLaiFSaI</div><div style="font-size:11px;color:var(--gray);">통증 높음 · 가벼운 이완</div></div></div>
+        <div class="video-item"><div class="video-thumb">▶</div><div class="video-info"><div class="v-id">p8r1XP7DJjg</div><div class="v-url">youtu.be/p8r1XP7DJjg</div><div style="font-size:11px;color:var(--gray);">통증 중간 · 목 스트레칭</div></div></div>
+        <div class="video-item"><div class="video-thumb">▶</div><div class="video-info"><div class="v-id">fmDTAOiB9dE</div><div class="v-url">youtu.be/fmDTAOiB9dE</div><div style="font-size:11px;color:var(--gray);">통증 낮음 · 1분 운동</div></div></div>
+        <div class="video-item"><div class="video-thumb">▶</div><div class="video-info"><div class="v-id">7aNYF0CGrU0</div><div class="v-url">youtu.be/7aNYF0CGrU0</div><div style="font-size:11px;color:var(--gray);">마무리 스트레칭</div></div></div>
+        <div class="video-item"><div class="video-thumb">▶</div><div class="video-info"><div class="v-id">EDETj1tewvM</div><div class="v-url">youtu.be/EDETj1tewvM</div><div style="font-size:11px;color:var(--gray);">추가 운동</div></div></div>
+      </div>
+      <div>
+        <div style="font-size:14px;font-weight:700;color:var(--navy);margin-bottom:12px;">📋 제품 사용 가이드 플레이리스트</div>
+        <div class="video-item"><div class="video-thumb" style="font-size:10px;">CS</div><div class="video-info"><div style="font-size:11px;font-weight:700;">CS-25 사용법</div><div class="v-url" style="font-size:11px;">PLe1SWUM0mFecCsVoI_8CFYsDJGFnwjAxk</div></div></div>
+        <div class="video-item"><div class="video-thumb" style="font-size:10px;">ES</div><div class="video-info"><div style="font-size:11px;font-weight:700;">ES-808 사용법</div><div class="v-url" style="font-size:11px;">PLe1SWUM0mFec9un9IeSV6NScxPK_DNFbr</div></div></div>
+        <div style="margin-top:16px;font-size:14px;font-weight:700;color:var(--navy);margin-bottom:12px;">🛒 제품별 구매 링크</div>
+        <div class="video-item"><div class="video-info"><div style="font-size:12px;font-weight:700;">CS-25</div><div style="font-size:11px;color:#1565C0;">korea.kinemedical.co.kr/6rx7Px</div></div></div>
+        <div class="video-item"><div class="video-info"><div style="font-size:12px;font-weight:700;">ES-808</div><div style="font-size:11px;color:#1565C0;">korea.kinemedical.co.kr/ys0uWI</div></div></div>
+        <div class="video-item"><div class="video-info"><div style="font-size:12px;font-weight:700;">WS-200</div><div style="font-size:11px;color:#1565C0;">korea.kinemedical.co.kr/A7AeD9</div></div></div>
+        <div class="video-item"><div class="video-info"><div style="font-size:12px;font-weight:700;">스토어 전체</div><div style="font-size:11px;color:#1565C0;">kinemedical.co.kr/product/list.html?cate_no=74</div></div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 푸시 알림 -->
+  <div class="section">
+    <div class="section-title">푸시 알림 (3회/일)</div>
+    <div class="push-card" style="border-color:#FF6F00;">
+      <div class="push-time">🌅 아침 7:00 — 각성</div>
+      <div class="push-title">오늘 루틴 시작할 시간이에요</div>
+      <div class="push-body">"목과 어깨를 깨워드릴게요. 지금 바로 1분만요 💪"</div>
+    </div>
+    <div class="push-card">
+      <div class="push-time">🌆 저녁 7:00 — 회복</div>
+      <div class="push-title">하루 피로를 풀어드릴게요</div>
+      <div class="push-body">"오늘 하루 고생하셨어요. 회복 루틴으로 뭉친 근육 풀어드릴게요 🌿"</div>
+    </div>
+    <div class="push-card" style="border-color:#512DA8;">
+      <div class="push-time">🌙 밤 10:00 — 데이터 수집</div>
+      <div class="push-title">오늘 통증 점수를 기록해주세요</div>
+      <div class="push-body">"점수 기록이 내일 루틴을 더 정확하게 만들어줘요 📊"</div>
+    </div>
+  </div>
+
+  <!-- DB 구조 -->
+  <div class="section">
+    <div class="section-title">Supabase DB 구조 (신규 프로젝트)</div>
+    <div class="grid-2">
+      <div>
+        <div style="font-size:14px;font-weight:700;color:var(--navy);margin-bottom:10px;">📹 exercises</div>
+        <table class="db-table">
+          <thead><tr><th>컬럼</th><th>타입</th><th>설명</th></tr></thead>
+          <tbody>
+            <tr><td>id</td><td class="col-t">uuid</td><td>고유값</td></tr>
+            <tr><td>title</td><td class="col-t">text</td><td>운동 제목</td></tr>
+            <tr><td>youtube_url</td><td class="col-t">text</td><td>유튜브 링크 (수정 가능)</td></tr>
+            <tr><td>pain_area</td><td class="col-t">text[]</td><td>목/어깨/허리/기타</td></tr>
+            <tr><td>pain_score_min</td><td class="col-t">int</td><td>적용 최소 통증 점수</td></tr>
+            <tr><td>pain_score_max</td><td class="col-t">int</td><td>적용 최대 통증 점수</td></tr>
+            <tr><td>order_num</td><td class="col-t">int</td><td>노출 순서</td></tr>
+            <tr><td>is_active</td><td class="col-t">bool</td><td>활성/비활성</td></tr>
+          </tbody>
+        </table>
+        <div style="margin-top:16px;font-size:14px;font-weight:700;color:var(--navy);margin-bottom:10px;">📊 pain_logs</div>
+        <table class="db-table">
+          <thead><tr><th>컬럼</th><th>타입</th><th>설명</th></tr></thead>
+          <tbody>
+            <tr><td>id</td><td class="col-t">uuid</td><td></td></tr>
+            <tr><td>user_id</td><td class="col-t">uuid</td><td>FK → users</td></tr>
+            <tr><td>score</td><td class="col-t">int</td><td>1~10</td></tr>
+            <tr><td>pain_area</td><td class="col-t">text</td><td>부위</td></tr>
+            <tr><td>logged_at</td><td class="col-t">timestamp</td><td></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div>
+        <div style="font-size:14px;font-weight:700;color:var(--navy);margin-bottom:10px;">✅ routine_logs</div>
+        <table class="db-table">
+          <thead><tr><th>컬럼</th><th>타입</th><th>설명</th></tr></thead>
+          <tbody>
+            <tr><td>id</td><td class="col-t">uuid</td><td></td></tr>
+            <tr><td>user_id</td><td class="col-t">uuid</td><td>FK → users</td></tr>
+            <tr><td>completed_steps</td><td class="col-t">jsonb</td><td>완료한 스텝 목록</td></tr>
+            <tr><td>pain_score</td><td class="col-t">int</td><td>그날 통증 점수</td></tr>
+            <tr><td>completed_at</td><td class="col-t">timestamp</td><td></td></tr>
+          </tbody>
+        </table>
+        <div style="margin-top:16px;font-size:14px;font-weight:700;color:var(--navy);margin-bottom:10px;">👤 users</div>
+        <table class="db-table">
+          <thead><tr><th>컬럼</th><th>타입</th><th>설명</th></tr></thead>
+          <tbody>
+            <tr><td>id</td><td class="col-t">uuid</td><td>Supabase Auth UID</td></tr>
+            <tr><td>nickname</td><td class="col-t">text</td><td>카카오 닉네임</td></tr>
+            <tr><td>pain_area</td><td class="col-t">text</td><td>주 통증 부위</td></tr>
+            <tr><td>owned_devices</td><td class="col-t">text[]</td><td>보유 기기 목록</td></tr>
+            <tr><td>onboarded_at</td><td class="col-t">timestamp</td><td></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- 디자인 시스템 -->
+  <div class="section">
+    <div class="section-title">디자인 시스템 가이드 <span class="update-badge">v1.2 업데이트</span></div>
+    <div class="grid-2" style="margin-bottom:16px;">
+      <div class="card" style="border-top:3px solid var(--navy);">
+        <div style="font-size:14px;font-weight:800;color:var(--navy);margin-bottom:12px;">🌊 스플래시 화면</div>
+        <div style="display:flex;flex-direction:column;gap:8px;font-size:13px;">
+          <div>• <strong>배경</strong>: LinearGradient 네이비 (#002855 → #0A4785)</div>
+          <div>• <strong>로고</strong>: 48px, 중앙 배치</div>
+          <div>• <strong>골드 구분선</strong>: 로고 하단 (#C8A951, 80px 너비)</div>
+          <div>• <strong>앱 이름</strong>: 흰색 24px 폰트</div>
+        </div>
+      </div>
+      <div class="card" style="border-top:3px solid #FEE500;">
+        <div style="font-size:14px;font-weight:800;color:var(--navy);margin-bottom:12px;">🔑 로그인 화면</div>
+        <div style="display:flex;flex-direction:column;gap:8px;font-size:13px;">
+          <div>• <strong>카카오 버튼</strong>: 높이 56px, 풀 너비</div>
+          <div>• <strong>버튼 그림자</strong>: elevation 4 (Android), shadow (iOS)</div>
+          <div>• <strong>배경</strong>: 흰색 또는 라이트 네이비</div>
+          <div>• <strong>로고</strong>: 상단 중앙, 네이비</div>
+        </div>
+      </div>
+      <div class="card" style="border-top:3px solid var(--gold);">
+        <div style="font-size:14px;font-weight:800;color:var(--navy);margin-bottom:12px;">📋 온보딩 화면</div>
+        <div style="display:flex;flex-direction:column;gap:8px;font-size:13px;">
+          <div>• <strong>헤더</strong>: LinearGradient 네이비 그라데이션</div>
+          <div>• <strong>프로그레스바</strong>: 골드 (#C8A951), 단계별 표시</div>
+          <div>• <strong>뒤로가기 버튼</strong>: 헤더 좌측, 흰색 &lt; 아이콘</div>
+          <div>• <strong>복수선택 체크마크</strong>: 골드 원형 배지</div>
+          <div>• <strong>선택된 항목</strong>: 밝은 배경 + 골드 테두리</div>
+        </div>
+      </div>
+      <div class="card" style="border-top:3px solid #43A047;">
+        <div style="font-size:14px;font-weight:800;color:var(--navy);margin-bottom:12px;">🎉 완료 화면</div>
+        <div style="display:flex;flex-direction:column;gap:8px;font-size:13px;">
+          <div>• <strong>스탯 카드</strong>: LinearGradient 배경 (네이비)</div>
+          <div>• <strong>골드 강조</strong>: 핵심 수치, 아이콘, 구분선</div>
+          <div>• <strong>통증 감소</strong>: 굵은 숫자 + 초록 화살표</div>
+          <div>• <strong>루틴 뱃지</strong>: 골드 배지로 달성 표시</div>
+        </div>
+      </div>
+    </div>
+    <div class="info-navy">
+      <strong>컬러 팔레트</strong>: 네이비 #002855 (주색) · 골드 #C8A951 (강조) · 초록 #43A047 (회복/낮음) · 주황 #FF9800 (중등도) · 빨강 #E53935 (심각) · 흰색 (텍스트)
+    </div>
+  </div>
+
+  <!-- CRM 연동 구조 -->
+  <div class="section">
+    <div class="section-title">앱 푸시 + CRM 연동 구조 <span class="update-badge">v1.2 신규</span></div>
+    <div class="info-navy" style="margin-bottom:20px;">
+      <strong>데이터 흐름</strong>: 카카오 로그인 → phone/UID 저장 → 데이터라이즈 CRM 매칭
+    </div>
+    <div class="grid-2" style="margin-bottom:20px;">
+      <div>
+        <div style="font-size:14px;font-weight:700;color:var(--navy);margin-bottom:10px;">👤 users 테이블 추가 필드</div>
+        <table class="db-table">
+          <thead><tr><th>컬럼</th><th>타입</th><th>설명</th></tr></thead>
+          <tbody>
+            <tr><td>push_token</td><td class="col-t">text</td><td>Expo push token</td></tr>
+            <tr><td>kakao_id</td><td class="col-t">text</td><td>카카오 UID</td></tr>
+            <tr><td>phone</td><td class="col-t">text</td><td>전화번호 (CRM 매칭용)</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div>
+        <div style="font-size:14px;font-weight:700;color:var(--navy);margin-bottom:10px;">📱 앱 내 구현 (expo-notifications)</div>
+        <div style="display:flex;flex-direction:column;gap:8px;">
+          <div class="card" style="padding:12px 14px;">
+            <div style="font-size:13px;font-weight:700;">🔑 가입 시 push token 발급</div>
+            <div style="font-size:12px;color:var(--gray);margin-top:4px;">requestPermissionsAsync() → users 테이블 push_token 저장</div>
+          </div>
+          <div class="card" style="padding:12px 14px;">
+            <div style="font-size:13px;font-weight:700;">🌙 22:00 daily 로컬 알림</div>
+            <div style="font-size:12px;color:var(--gray);margin-top:4px;">통증 기록 리마인더 — schedulePushNotificationAsync()</div>
+          </div>
+          <div class="card" style="padding:12px 14px;">
+            <div style="font-size:13px;font-weight:700;">🎉 루틴 완료 시 격려 푸시</div>
+            <div style="font-size:12px;color:var(--gray);margin-top:4px;">완료 버튼 → 즉시 로컬 푸시 발송</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div style="font-size:14px;font-weight:700;color:var(--navy);margin-bottom:12px;">📅 CRM 트리거 타임라인</div>
+    <table class="pain-table">
+      <thead>
+        <tr><th>시점</th><th>채널</th><th>내용</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>가입 직후</strong></td>
+          <td><span class="tag tag-navy">앱 푸시</span></td>
+          <td>"루틴을 시작해볼까요?"</td>
+        </tr>
+        <tr>
+          <td><strong>Day 2</strong></td>
+          <td><span class="tag tag-navy">앱 푸시</span></td>
+          <td>"어제 루틴 어떠셨나요? 통증 기록해주세요"</td>
+        </tr>
+        <tr>
+          <td><strong>Day 7</strong></td>
+          <td><span class="tag tag-orange">카카오 알림톡</span></td>
+          <td>"1주일 째! 회복 현황 확인하기"</td>
+        </tr>
+        <tr>
+          <td><strong>14일 미사용</strong></td>
+          <td><span class="tag tag-orange">카카오 알림톡</span></td>
+          <td>"다시 시작할 준비 됐나요?"</td>
+        </tr>
+        <tr>
+          <td><strong>매일 22:00</strong></td>
+          <td><span class="tag tag-navy">앱 푸시</span></td>
+          <td>"오늘 통증 점수를 기록해주세요"</td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="info-green" style="margin-top:16px;">
+      <strong>데이터라이즈 연동 방식</strong><br>
+      • 구매 시 phone → 데이터라이즈 오디언스 등록<br>
+      • 앱 가입 시 kakao_id + phone → CRM 매칭<br>
+      • 행동 기반 트리거 (미사용 14일, 통증 악화 등)
+    </div>
+  </div>
+
+  <!-- 개발 타임라인 -->
+  <div class="section">
+    <div class="section-title">개발 타임라인 (7일)</div>
+    <div class="grid-2">
+      <div class="timeline">
+        <div class="tl-item"><div class="tl-dot"></div><div class="tl-day">Day 1 — 프로젝트 세팅</div><ul class="tl-tasks"><li>Expo + TypeScript 초기화</li><li>Supabase 신규 프로젝트 + DB 테이블 생성</li><li>카카오 로그인 연동</li><li>3탭 네비게이션 구조</li></ul></div>
+        <div class="tl-item"><div class="tl-dot"></div><div class="tl-day">Day 2 — 온보딩</div><ul class="tl-tasks"><li>3단계 온보딩 (부위·통증·기기)</li><li>사용자 프로필 Supabase 저장</li><li>여유 있는 간격·큰 버튼 기준 설정</li></ul></div>
+        <div class="tl-item"><div class="tl-dot"></div><div class="tl-day">Day 3 — 홈 탭 (핵심)</div><ul class="tl-tasks"><li>통증 점수 입력 UI (큰 슬라이더)</li><li>루틴 추천 로직 (점수별 분기)</li><li>기기 없을 때 → 영상 + 제품 소개 로직</li><li>AI 코치 멘트 (규칙 기반)</li></ul></div>
+        <div class="tl-item"><div class="tl-dot"></div><div class="tl-day">Day 4 — 회복 기록 탭</div><ul class="tl-tasks"><li>통증 점수 히스토리 그래프</li><li>주간 루틴 달성 달력</li><li>연속 달성 카운터</li></ul></div>
+      </div>
+      <div class="timeline">
+        <div class="tl-item"><div class="tl-dot"></div><div class="tl-day">Day 5 — 마이 탭 + 푸시</div><ul class="tl-tasks"><li>프로필 + 기기 설정</li><li>스토어 링크 연결</li><li>푸시 알림 (7시/19시/22시)</li></ul></div>
+        <div class="tl-item"><div class="tl-dot"></div><div class="tl-day">Day 6 — QA + 버그 픽스</div><ul class="tl-tasks"><li>전체 플로우 브라우저 QA (실제 클릭 테스트)</li><li>iOS/Android 디바이스 확인</li><li>엣지 케이스 처리</li></ul></div>
+        <div class="tl-item"><div class="tl-dot"></div><div class="tl-day">Day 7 — 빌드 + 배포</div><ul class="tl-tasks"><li>EAS Build 제출</li><li>TestFlight (iOS) 내부 테스트</li><li>피드백 수집 → 즉시 수정</li></ul></div>
+      </div>
+    </div>
+  </div>
+
+  <div style="text-align:center;color:var(--gray);font-size:12px;padding:24px 0;">
+    1분도수 ver4 기획서 v1.2 · 2026.03.03 · 카리나 작성
+  </div>
+
+</div>
+</body>
+</html>

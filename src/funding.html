@@ -1,0 +1,1039 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>자금조달</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<style>
+/* ===== RESET & BASE ===== */
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#0d1117;color:#e0e0e0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;min-height:100vh}
+
+/* ===== TAB NAV ===== */
+.tab-nav{position:sticky;top:0;z-index:100;background:#161b22;border-bottom:1px solid #21262d;display:flex;overflow-x:auto;padding:0 20px}
+.tab-btn{background:none;border:none;color:#8b949e;padding:14px 20px;font-size:14px;font-weight:500;cursor:pointer;border-bottom:2px solid transparent;white-space:nowrap;transition:all .15s}
+.tab-btn:hover{color:#e6edf3}
+.tab-btn.active{color:#e6edf3;border-bottom-color:#58a6ff}
+
+/* ===== TAB CONTENT ===== */
+.tab-content{display:none;padding:32px 20px;max-width:900px;margin:0 auto}
+.tab-content.active{display:block}
+
+/* ===== TYPOGRAPHY ===== */
+h1{font-size:26px;font-weight:700;color:#e6edf3;margin-bottom:8px;line-height:1.3}
+h2{font-size:20px;font-weight:600;color:#e6edf3;margin:24px 0 10px;line-height:1.4}
+h3{font-size:16px;font-weight:600;color:#c9d1d9;margin:18px 0 8px}
+h4{font-size:14px;font-weight:600;color:#c9d1d9;margin:14px 0 6px}
+p{font-size:14px;line-height:1.75;color:#8b949e;margin-bottom:12px}
+ul,ol{padding-left:20px;margin-bottom:12px}
+li{font-size:14px;line-height:1.8;color:#8b949e;margin-bottom:4px}
+strong,b{color:#c9d1d9;font-weight:600}
+em{color:#79c0ff;font-style:normal}
+a{color:#58a6ff;text-decoration:none}
+a:hover{text-decoration:underline}
+hr{border:none;border-top:1px solid #21262d;margin:24px 0}
+code{background:#161b22;border:1px solid #21262d;border-radius:4px;padding:2px 6px;font-size:13px;color:#79c0ff;font-family:monospace}
+
+/* ===== CARD ===== */
+.card{background:#161b22;border:1px solid #21262d;border-radius:12px;padding:24px;margin-bottom:16px}
+.card-green{border-color:rgba(16,185,129,.4)}
+
+/* ===== GRID ===== */
+.grid-2{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;margin-bottom:24px}
+.grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:24px}
+.grid-4{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:24px}
+@media(max-width:640px){.grid-2,.grid-3,.grid-4{grid-template-columns:1fr}}
+
+/* ===== BADGE ===== */
+.badge{display:inline-block;background:#21262d;color:#58a6ff;border-radius:20px;padding:4px 12px;font-size:12px;font-weight:500;margin:2px}
+.badge-green{background:#0d2b1a;color:#3fb950}
+.badge-yellow{background:#2b1f00;color:#d29922}
+.badge-red{background:#2b0d0d;color:#f85149}
+.badge-hot{background:#2b1d00;color:#f97316}
+
+/* ===== SECTION TITLE ===== */
+.section-title{font-size:18px;font-weight:700;color:#e6edf3;margin:32px 0 16px;padding-bottom:8px;border-bottom:1px solid #21262d;display:flex;align-items:center;gap:8px}
+
+/* ===== ASSUMPTION BOX ===== */
+.assumption-box{background:#0d2137;border:1px solid #1d4ed8;border-radius:8px;padding:16px;margin-bottom:24px;font-size:14px;color:#8b949e;line-height:1.75}
+
+/* ===== COLOR LEGEND ===== */
+.color-legend{display:flex;flex-wrap:wrap;gap:12px;margin-bottom:20px}
+.cl-item{display:flex;align-items:center;gap:6px;font-size:13px;color:#8b949e}
+.cl-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0}
+
+/* ===== ROUND CARD ===== */
+.round-card{background:#161b22;border:1px solid #21262d;border-radius:12px;padding:24px;margin-bottom:16px}
+.round-label{display:inline-block;background:#21262d;color:#58a6ff;border-radius:20px;padding:4px 12px;font-size:12px;font-weight:500;margin-bottom:8px}
+.round-title{font-size:18px;font-weight:700;color:#e6edf3;margin-bottom:4px}
+.round-valuation{font-size:12px;color:#8b949e;margin-bottom:20px}
+
+/* ===== DONUT CHART ===== */
+.chart-wrap{position:relative;width:180px;height:180px;margin:0 auto 20px}
+.chart-center{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);text-align:center;pointer-events:none}
+.chart-center-pct{font-size:24px;font-weight:700;color:#e6edf3}
+.chart-center-label{font-size:11px;color:#8b949e}
+
+/* ===== LEGEND ===== */
+.legend{display:flex;flex-direction:column;gap:8px}
+.legend-item{display:flex;align-items:center;justify-content:space-between}
+.legend-left{display:flex;align-items:center;gap:8px}
+.legend-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0}
+.legend-name{font-size:13px;color:#8b949e}
+.legend-right{display:flex;align-items:center;gap:8px}
+.legend-pct{font-size:13px;font-weight:600;color:#c9d1d9}
+.legend-sub{font-size:11px;color:#6e7681}
+
+/* ===== BAR SECTION ===== */
+.bar-section{margin-bottom:32px}
+.bar-row{display:flex;align-items:center;gap:12px;margin-bottom:12px}
+.bar-stage{font-size:12px;color:#8b949e;min-width:140px;flex-shrink:0}
+.bar{display:flex;flex:1;height:28px;border-radius:4px;overflow:hidden}
+.bar-seg{display:flex;align-items:center;justify-content:center;height:28px;font-size:11px;font-weight:600;color:#fff;white-space:nowrap;overflow:hidden;padding:0 4px}
+.bar-note{font-size:11px;color:#444;margin-top:4px}
+
+/* ===== VALUE TABLE (vt) ===== */
+.vt-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:24px}
+@media(max-width:640px){.vt-grid{grid-template-columns:repeat(2,1fr)}}
+.vt-cell{background:#161b22;border:1px solid #21262d;border-radius:12px;padding:20px;text-align:center}
+.vt-val-label{font-size:12px;color:#8b949e;margin-bottom:8px}
+.vt-value{font-size:24px;font-weight:700;color:#58a6ff;margin-bottom:4px}
+.vt-value-yellow{color:#F59E0B}
+.vt-value-red{color:#EF4444}
+.vt-note{font-size:11px;color:#6e7681}
+
+/* ===== NOTES ===== */
+.notes{margin-bottom:32px}
+.note-item{display:flex;align-items:flex-start;gap:14px;margin-bottom:14px}
+.note-num{width:20px;height:20px;min-width:20px;background:#58a6ff;color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;margin-top:2px}
+.note-text{font-size:14px;color:#8b949e;line-height:1.75}
+
+/* ===== STAT BOX (Tab2) ===== */
+.stat-box{background:#161b22;border:1px solid #21262d;border-radius:12px;padding:20px;text-align:center}
+.stat-box .label{font-size:12px;color:#8b949e;margin-bottom:8px}
+.stat-box .value{font-size:28px;font-weight:700;color:#58a6ff;margin-bottom:4px}
+.stat-box .note{font-size:11px;color:#6e7681}
+
+/* ===== POOL COMPARE ===== */
+.pool-compare{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:24px}
+@media(max-width:640px){.pool-compare{grid-template-columns:1fr}}
+.pool-card{background:#161b22;border:1px solid #21262d;border-radius:12px;padding:24px;position:relative}
+.pool-card.recommended{border-color:rgba(16,185,129,.4)}
+.pool-card h3{font-size:24px;font-weight:700;color:#e6edf3;margin-bottom:4px}
+.pool-card .sub{font-size:12px;color:#8b949e;margin-bottom:16px}
+.rec-badge{display:inline-block;background:#0d2b1a;color:#3fb950;border-radius:20px;padding:3px 10px;font-size:11px;font-weight:600;margin-bottom:8px}
+.pool-detail{display:flex;justify-content:space-between;font-size:13px;color:#8b949e;margin-bottom:4px}
+.pool-bar{height:6px;background:#21262d;border-radius:3px;margin-bottom:8px;overflow:hidden}
+.pool-bar-fill{height:6px;border-radius:3px}
+.pool-alert{background:#2b1d00;border:1px solid rgba(251,191,36,.2);border-radius:8px;padding:10px 12px;font-size:12px;color:#8b949e;margin-top:12px}
+.pool-success{background:rgba(16,185,129,.08);border:1px solid rgba(16,185,129,.2);border-radius:8px;padding:10px 12px;font-size:12px;color:#10b981;margin-top:12px}
+
+/* ===== TABLE ===== */
+table{width:100%;border-collapse:collapse;margin-bottom:20px;font-size:14px}
+thead th{background:#1f2937;color:#e6edf3;padding:12px 14px;text-align:left;font-weight:600;border-bottom:2px solid #21262d}
+tbody td{padding:10px 14px;color:#8b949e;border-bottom:1px solid #21262d;vertical-align:top}
+tbody tr:hover{background:rgba(255,255,255,.02)}
+tbody tr:last-child td{border-bottom:none}
+.name-cell{font-size:14px;font-weight:600;color:#c9d1d9}
+.role-cell{font-size:12px;color:#6e7681;margin-top:2px}
+.pct-cell{font-size:15px;font-weight:700;color:#58a6ff}
+.vest-cell{font-size:12px;color:#8b949e;line-height:1.6}
+.row-total{background:rgba(16,185,129,.04)}
+.row-total td{font-size:13px;font-weight:700;color:#94a3b8}
+.total-pct{color:#fbbf24 !important}
+.total-shares{font-size:14px;font-weight:700;color:#fbbf24}
+.total-note{font-size:12px;color:#6e7681}
+
+/* ===== TAGS ===== */
+.tag{display:inline-block;border-radius:20px;padding:3px 10px;font-size:11px;font-weight:600}
+.tag.green{background:#0d2b1a;color:#3fb950}
+.tag.blue{background:#0d2137;color:#58a6ff}
+.tag.amber{background:#2b1f00;color:#d29922}
+.tag.purple{background:#1a1040;color:#a78bfa}
+
+/* ===== VALUE CARDS (Tab2) ===== */
+.val-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;margin-bottom:24px}
+@media(max-width:640px){.val-grid{grid-template-columns:1fr}}
+.val-card{background:#161b22;border:1px solid #21262d;border-radius:12px;padding:20px}
+.val-card-highlight{border-color:rgba(16,185,129,.4)}
+.val-card .stage{font-size:12px;font-weight:600;color:#58a6ff;margin-bottom:4px}
+.val-card .valuation{font-size:14px;color:#8b949e;margin-bottom:16px}
+.val-card .valuation-green{color:#10b981}
+.val-row{display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid #21262d}
+.val-row:last-child{border-bottom:none}
+.val-row .person{font-size:13px;color:#8b949e}
+.val-row .amount{font-size:15px;font-weight:700;color:#e6edf3;text-align:right}
+.val-row .pct-small{font-size:11px;color:#6e7681;text-align:right}
+
+/* ===== LINE CHART WRAP ===== */
+.line-chart-wrap{background:#161b22;border:1px solid #21262d;border-radius:12px;padding:24px;margin-bottom:24px}
+.line-chart-title{font-size:13px;color:#8b949e;margin-bottom:16px}
+
+/* ===== VESTING CARDS ===== */
+.vest-rule-item{background:#0a0d14;border-radius:8px;padding:14px;font-size:13px;color:#8b949e;margin-bottom:10px}
+.vest-rule-item strong{color:#e6edf3;display:block;margin-bottom:4px}
+.vest-rule-item strong.yellow{color:#fbbf24}
+
+/* ===== TIMELINE ===== */
+.timeline{margin-bottom:24px}
+.tl-item{display:flex;gap:16px;margin-bottom:20px}
+.tl-left{display:flex;flex-direction:column;align-items:center;flex-shrink:0}
+.tl-dot{width:12px;height:12px;border-radius:50%;flex-shrink:0;margin-top:2px}
+.tl-dot-green{background:#10b981}
+.tl-dot-blue{background:#60a5fa}
+.tl-dot-yellow{background:#fbbf24}
+.tl-dot-purple{background:#a78bfa}
+.tl-dot.done{background:#10b981}
+.tl-dot.plan{background:#3b82f6}
+.tl-line{width:2px;background:#21262d;flex:1;min-height:20px;margin-top:4px}
+.tl-content{padding-bottom:8px;flex:1}
+.tl-date{font-size:12px;color:#58a6ff;font-weight:600;margin-bottom:4px}
+.tl-text{font-size:14px;color:#8b949e;line-height:1.7}
+.tl-text strong{color:#c9d1d9}
+.tl-content h4{font-size:14px;font-weight:600;color:#c9d1d9;margin:0 0 6px}
+.tl-content p{font-size:13px;color:#8b949e;line-height:1.7;margin:0}
+
+/* ===== ALERT / INFO BOX ===== */
+.alert-box{background:#2b1d00;border:1px solid rgba(251,191,36,.2);border-radius:8px;padding:14px 16px;font-size:14px;color:#8b949e;margin-bottom:20px}
+.alert-box strong{color:#c9d1d9}
+
+/* ===== TAB3: HERO ===== */
+.hero{background:linear-gradient(135deg,#0d1117 0%,#161b22 100%);border:1px solid #21262d;border-radius:12px;padding:32px 24px;margin-bottom:24px;text-align:center}
+.hero h1{color:#e6edf3;margin-bottom:8px}
+.hero-sub{font-size:14px;color:#8b949e;margin-bottom:16px}
+.badge-row{display:flex;flex-wrap:wrap;gap:6px;justify-content:center}
+
+/* ===== SCORE GRID ===== */
+.score-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:24px}
+@media(max-width:640px){.score-grid{grid-template-columns:repeat(2,1fr)}}
+.score-card{background:#161b22;border:1px solid #21262d;border-radius:12px;padding:20px;text-align:center}
+.score-card.highlight{border-color:#58a6ff}
+.score-card.warn{border-color:#d29922}
+.score-card .num{font-size:32px;font-weight:700;color:#58a6ff;line-height:1}
+.score-card .label{font-size:12px;color:#8b949e;margin-top:8px}
+
+/* ===== TIP BAR ===== */
+.tip-bar{background:#0d2137;border:1px solid #1d4ed8;border-radius:8px;padding:14px 16px;font-size:14px;color:#8b949e;margin-bottom:24px;line-height:1.7}
+.tip-bar strong{color:#58a6ff}
+
+/* ===== Q&A CARD ===== */
+.qa-card{background:#161b22;border:1px solid #21262d;border-radius:12px;padding:20px;margin-bottom:16px}
+.q{display:flex;align-items:flex-start;gap:12px;font-size:14px;font-weight:600;color:#e6edf3;margin-bottom:14px}
+.qi{background:#21262d;color:#58a6ff;width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;flex-shrink:0;margin-top:1px}
+.a{font-size:14px;color:#8b949e;line-height:1.75;padding-left:36px}
+.answer-label{font-size:11px;font-weight:700;color:#58a6ff;margin-bottom:8px;letter-spacing:.5px}
+.key-phrase{background:#0d2137;border-left:3px solid #58a6ff;border-radius:0 6px 6px 0;padding:10px 14px;font-size:13px;color:#79c0ff;margin-top:12px;font-style:italic}
+.danger-box{background:#2b0d0d;border:1px solid rgba(248,81,73,.3);border-radius:8px;padding:10px 14px;font-size:13px;color:#8b949e;margin-top:12px}
+
+/* ===== NUMBER ROW ===== */
+.number-row{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:8px}
+@media(max-width:640px){.number-row{grid-template-columns:repeat(2,1fr)}}
+.number-chip{background:#161b22;border:1px solid #21262d;border-radius:12px;padding:16px;text-align:center}
+.number-chip .val{font-size:22px;font-weight:700;color:#58a6ff;margin-bottom:4px}
+.number-chip .desc{font-size:11px;color:#8b949e}
+
+/* ===== SCORE CHIP ===== */
+.score-chip{display:inline-block;background:#21262d;color:#58a6ff;border-radius:20px;padding:3px 10px;font-size:12px;font-weight:600;margin-left:auto}
+
+/* ===== FINAL TIPS ===== */
+.final-tips{background:#161b22;border:1px solid #21262d;border-radius:12px;padding:24px;margin-bottom:24px}
+.final-tips h3{font-size:16px;font-weight:600;color:#c9d1d9;margin-bottom:16px}
+.tip-item{display:flex;align-items:flex-start;gap:12px;font-size:14px;color:#8b949e;line-height:1.7;margin-bottom:12px}
+.tip-item .icon{font-size:18px;flex-shrink:0;margin-top:1px}
+.tip-item strong{color:#c9d1d9}
+
+/* ===== SUBTITLE ===== */
+.subtitle{font-size:14px;color:#8b949e;margin-bottom:20px}
+
+/* ===== MISC ===== */
+.mb-0{margin-bottom:0}
+.text-yellow{color:#fbbf24}
+.text-green{color:#10b981}
+.text-red{color:#f87171}
+</style>
+</head>
+<body>
+
+<div class="tab-nav">
+  <button class="tab-btn active" onclick="showTab(1,this)">지분 구조</button>
+  <button class="tab-btn" onclick="showTab(2,this)">스톡옵션</button>
+  <button class="tab-btn" onclick="showTab(3,this)">초창패 인터뷰</button>
+</div>
+
+<!-- ===== TAB 1: 지분 구조 ===== -->
+<div id="tab-1" class="tab-content active">
+  <h1>🎯 테넥스 지분구조 시뮬레이션</h1>
+  <p class="subtitle">창업자 지분 보호 전략 · 한국 기준 · 2026.03</p>
+
+  <div class="assumption-box">
+    <strong>시뮬레이션 가정</strong><br>
+    · 총 발행주식: 10,000주 (법인 전환 기준)<br>
+    · 스톡옵션 풀: <strong>12%</strong> (한국 현실 기준)<br>
+    · 라운드마다 <strong>신주 10% 이하</strong> 발행 (지분 최대한 지키기)<br>
+    · 에이피알 방식: IPO까지 대표 50%+ 유지 목표
+  </div>
+
+  <div class="color-legend">
+    <div class="cl-item"><div class="cl-dot" style="background:#3B82F6"></div>김태훈 (CEO)</div>
+    <div class="cl-item"><div class="cl-dot" style="background:#10B981"></div>인규</div>
+    <div class="cl-item"><div class="cl-dot" style="background:#F59E0B"></div>Pre-A 투자자</div>
+    <div class="cl-item"><div class="cl-dot" style="background:#EF4444"></div>Series A 투자자</div>
+    <div class="cl-item"><div class="cl-dot" style="background:#8B5CF6"></div>부여된 옵션</div>
+    <div class="cl-item"><div class="cl-dot" style="background:#2D3748"></div>미부여 풀</div>
+  </div>
+
+  <!-- Stage 1 -->
+  <div class="round-card">
+    <div class="round-label">Stage 1</div>
+    <div class="round-title">법인 전환</div>
+    <div class="round-valuation">2026 상반기 · 밸류 ~50억</div>
+    <div class="chart-wrap">
+      <canvas id="chart1"></canvas>
+      <div class="chart-center">
+        <div class="chart-center-pct">83%</div>
+        <div class="chart-center-label">태훈</div>
+      </div>
+    </div>
+    <div class="legend">
+      <div class="legend-item">
+        <div class="legend-left"><div class="legend-dot" style="background:#3B82F6"></div><span class="legend-name">김태훈</span></div>
+        <div class="legend-right"><span class="legend-pct">83%</span><span class="legend-sub">8,300주</span></div>
+      </div>
+      <div class="legend-item">
+        <div class="legend-left"><div class="legend-dot" style="background:#10B981"></div><span class="legend-name">인규</span></div>
+        <div class="legend-right"><span class="legend-pct">5%</span><span class="legend-sub">500주 · 4년 베스팅</span></div>
+      </div>
+      <div class="legend-item">
+        <div class="legend-left"><div class="legend-dot" style="background:#2D3748"></div><span class="legend-name">스톡옵션 풀</span></div>
+        <div class="legend-right"><span class="legend-pct">12%</span><span class="legend-sub">1,200주 · 미부여</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Stage 2 -->
+  <div class="round-card">
+    <div class="round-label">Stage 2</div>
+    <div class="round-title">Pre-A 라운드</div>
+    <div class="round-valuation">2026 하반기 · 밸류 200~300억</div>
+    <div class="chart-wrap">
+      <canvas id="chart2"></canvas>
+      <div class="chart-center">
+        <div class="chart-center-pct">75%</div>
+        <div class="chart-center-label">태훈</div>
+      </div>
+    </div>
+    <div class="legend">
+      <div class="legend-item">
+        <div class="legend-left"><div class="legend-dot" style="background:#3B82F6"></div><span class="legend-name">김태훈</span></div>
+        <div class="legend-right"><span class="legend-pct">75%</span></div>
+      </div>
+      <div class="legend-item">
+        <div class="legend-left"><div class="legend-dot" style="background:#10B981"></div><span class="legend-name">인규</span></div>
+        <div class="legend-right"><span class="legend-pct">4.5%</span></div>
+      </div>
+      <div class="legend-item">
+        <div class="legend-left"><div class="legend-dot" style="background:#F59E0B"></div><span class="legend-name">Pre-A 투자자</span></div>
+        <div class="legend-right"><span class="legend-pct">8%</span><span class="legend-sub">신주 발행</span></div>
+      </div>
+      <div class="legend-item">
+        <div class="legend-left"><div class="legend-dot" style="background:#8B5CF6"></div><span class="legend-name">부여된 옵션</span></div>
+        <div class="legend-right"><span class="legend-pct">1.5%</span><span class="legend-sub">운영/퍼포마</span></div>
+      </div>
+      <div class="legend-item">
+        <div class="legend-left"><div class="legend-dot" style="background:#2D3748"></div><span class="legend-name">미부여 풀</span></div>
+        <div class="legend-right"><span class="legend-pct">11%</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Stage 3 -->
+  <div class="round-card">
+    <div class="round-label">Stage 3</div>
+    <div class="round-title">Series A</div>
+    <div class="round-valuation">2027~2028 · 밸류 500~1,000억</div>
+    <div class="chart-wrap">
+      <canvas id="chart3"></canvas>
+      <div class="chart-center">
+        <div class="chart-center-pct">67%</div>
+        <div class="chart-center-label">태훈</div>
+      </div>
+    </div>
+    <div class="legend">
+      <div class="legend-item">
+        <div class="legend-left"><div class="legend-dot" style="background:#3B82F6"></div><span class="legend-name">김태훈</span></div>
+        <div class="legend-right"><span class="legend-pct">67%</span></div>
+      </div>
+      <div class="legend-item">
+        <div class="legend-left"><div class="legend-dot" style="background:#10B981"></div><span class="legend-name">인규</span></div>
+        <div class="legend-right"><span class="legend-pct">4%</span></div>
+      </div>
+      <div class="legend-item">
+        <div class="legend-left"><div class="legend-dot" style="background:#F59E0B"></div><span class="legend-name">Pre-A 투자자</span></div>
+        <div class="legend-right"><span class="legend-pct">7%</span></div>
+      </div>
+      <div class="legend-item">
+        <div class="legend-left"><div class="legend-dot" style="background:#EF4444"></div><span class="legend-name">Series A 투자자</span></div>
+        <div class="legend-right"><span class="legend-pct">10%</span><span class="legend-sub">신주 발행</span></div>
+      </div>
+      <div class="legend-item">
+        <div class="legend-left"><div class="legend-dot" style="background:#8B5CF6"></div><span class="legend-name">부여된 옵션</span></div>
+        <div class="legend-right"><span class="legend-pct">4.5%</span><span class="legend-sub">COO 포함</span></div>
+      </div>
+      <div class="legend-item">
+        <div class="legend-left"><div class="legend-dot" style="background:#2D3748"></div><span class="legend-name">미부여 풀</span></div>
+        <div class="legend-right"><span class="legend-pct">7.5%</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 지분 희석 흐름 -->
+  <div class="bar-section">
+    <h2>📊 지분 희석 흐름</h2>
+    <div class="bar-row">
+      <div class="bar-stage">법인 전환</div>
+      <div class="bar">
+        <div class="bar-seg" style="width:83%;background:#3B82F6">태훈 83%</div>
+        <div class="bar-seg" style="width:5%;background:#10B981">5%</div>
+        <div class="bar-seg" style="width:12%;background:#2D3748">풀 12%</div>
+      </div>
+    </div>
+    <div class="bar-row">
+      <div class="bar-stage">Pre-A (신주 8%)</div>
+      <div class="bar">
+        <div class="bar-seg" style="width:75%;background:#3B82F6">75%</div>
+        <div class="bar-seg" style="width:4.5%;background:#10B981"></div>
+        <div class="bar-seg" style="width:8%;background:#F59E0B">투자 8%</div>
+        <div class="bar-seg" style="width:1.5%;background:#8B5CF6"></div>
+        <div class="bar-seg" style="width:11%;background:#2D3748"></div>
+      </div>
+    </div>
+    <div class="bar-row">
+      <div class="bar-stage">Series A (신주 10%)</div>
+      <div class="bar">
+        <div class="bar-seg" style="width:67%;background:#3B82F6">67%</div>
+        <div class="bar-seg" style="width:4%;background:#10B981"></div>
+        <div class="bar-seg" style="width:7%;background:#F59E0B"></div>
+        <div class="bar-seg" style="width:10%;background:#EF4444">A 10%</div>
+        <div class="bar-seg" style="width:4.5%;background:#8B5CF6">옵션</div>
+        <div class="bar-seg" style="width:7.5%;background:#2D3748"></div>
+      </div>
+    </div>
+    <p class="bar-note">* 에이피알 대표 IPO 후 50%+ 유지 — 테넥스는 Series A 후에도 67% 유지 가능</p>
+  </div>
+
+  <!-- 인규 지분 예상 가치 -->
+  <h2>💰 인규 지분 예상 가치 (5% 기준 · 세전)</h2>
+  <div class="vt-grid">
+    <div class="vt-cell">
+      <div class="vt-val-label">밸류 200억 (Pre-A)</div>
+      <div class="vt-value">~9억</div>
+      <div class="vt-note">희석 4.5% 기준</div>
+    </div>
+    <div class="vt-cell">
+      <div class="vt-val-label">밸류 500억 (Series A)</div>
+      <div class="vt-value">~20억</div>
+      <div class="vt-note">희석 4% 기준</div>
+    </div>
+    <div class="vt-cell">
+      <div class="vt-val-label">밸류 2,000억 (목표)</div>
+      <div class="vt-value vt-value-yellow">~80억</div>
+      <div class="vt-note">희석 4% 기준</div>
+    </div>
+    <div class="vt-cell">
+      <div class="vt-val-label">밸류 1조 (꿈)</div>
+      <div class="vt-value vt-value-red">~400억</div>
+      <div class="vt-note">희석 4% 기준</div>
+    </div>
+  </div>
+
+  <!-- 핵심 원칙 -->
+  <div class="notes">
+    <h2>📋 핵심 원칙</h2>
+    <div class="note-item">
+      <div class="note-num">1</div>
+      <div class="note-text"><strong>라운드마다 10% 이하</strong>만 매각 — 에이피알처럼 IPO까지 대표 50%+ 유지 가능</div>
+    </div>
+    <div class="note-item">
+      <div class="note-num">2</div>
+      <div class="note-text"><strong>월 2억 매출 · 마진 50%+</strong> → 굳이 지분 많이 안 팔아도 됨. 필요한 만큼만 받기</div>
+    </div>
+    <div class="note-item">
+      <div class="note-num">3</div>
+      <div class="note-text"><strong>스톡옵션 풀 12%</strong> (한국 현실 기준). 법인 전환 시 정관에 설정, 나중에 이사회 결의로 개별 부여</div>
+    </div>
+    <div class="note-item">
+      <div class="note-num">4</div>
+      <div class="note-text"><strong>인규 베스팅 계약</strong> — 법인 전환 즉시 변호사 끼고 명문화. 확정분 보유 / 미확정분 퇴사 시 회수</div>
+    </div>
+    <div class="note-item">
+      <div class="note-num">5</div>
+      <div class="note-text"><strong>검증 후 부여 원칙</strong> — 나현 포함 모든 팀원 3~6개월 성과 확인 후 옵션 논의</div>
+    </div>
+  </div>
+
+  <script>
+  const makeChart = (id, data, labels, colors) => {
+    new Chart(document.getElementById(id).getContext('2d'), {
+      type: 'doughnut',
+      data: { labels, datasets: [{ data, backgroundColor: colors, borderWidth: 2, borderColor: '#0a0a0a' }] },
+      options: {
+        cutout: '65%',
+        plugins: { legend: { display: false }, tooltip: { callbacks: { label: c => ` ${c.label}: ${c.parsed}%` } } },
+        animation: { duration: 800 }
+      }
+    });
+  };
+  makeChart('chart1', [83, 5, 12], ['김태훈','인규','스톡옵션 풀'], ['#3B82F6','#10B981','#2D3748']);
+  makeChart('chart2', [75, 4.5, 8, 1.5, 11], ['김태훈','인규','Pre-A 투자자','부여된 옵션','미부여 풀'], ['#3B82F6','#10B981','#F59E0B','#8B5CF6','#2D3748']);
+  makeChart('chart3', [67, 4, 7, 10, 4.5, 7.5], ['김태훈','인규','Pre-A 투자자','Series A 투자자','부여된 옵션','미부여 풀'], ['#3B82F6','#10B981','#F59E0B','#EF4444','#8B5CF6','#2D3748']);
+  </script>
+</div>
+
+<!-- ===== TAB 2: 스톡옵션 ===== -->
+<div id="tab-2" class="tab-content">
+  <div class="hero">
+    <div class="badge">Stock Option Simulation</div>
+    <h1>테넥스 <em>스톡옵션</em> 시뮬레이션</h1>
+    <p class="hero-sub">법인 전환 기준 · 2026.03 · 대표 50%+ 유지 전략</p>
+  </div>
+
+  <!-- 핵심 전제 -->
+  <div class="section-title">핵심 전제</div>
+  <div class="grid-4">
+    <div class="stat-box">
+      <div class="label">총 발행주식</div>
+      <div class="value">10,000주</div>
+      <div class="note">법인 전환 기준</div>
+    </div>
+    <div class="stat-box">
+      <div class="label">추천 옵션 풀</div>
+      <div class="value text-yellow">15%</div>
+      <div class="note">1,500주 (12%→상향)</div>
+    </div>
+    <div class="stat-box">
+      <div class="label">대표 지분 (법인후)</div>
+      <div class="value">80%</div>
+      <div class="note">8,000주 · IPO 목표 50%+</div>
+    </div>
+    <div class="stat-box">
+      <div class="label">인규 지분</div>
+      <div class="value">5%</div>
+      <div class="note">500주 · 4년 베스팅</div>
+    </div>
+  </div>
+
+  <!-- 풀 크기 비교 -->
+  <div class="section-title">풀 크기 비교 — 12% vs 15%</div>
+  <div class="pool-compare">
+    <div class="pool-card">
+      <h3>12%</h3>
+      <div class="sub">기존 계획 · 1,200주</div>
+      <div class="pool-detail"><span>인규 (확정)</span><span>5% / 500주</span></div>
+      <div class="pool-bar"><div class="pool-bar-fill" style="width:42%;background:#10b981"></div></div>
+      <div class="pool-detail"><span>운영매니저</span><span>~1% / 100주</span></div>
+      <div class="pool-bar"><div class="pool-bar-fill" style="width:8%;background:#60a5fa"></div></div>
+      <div class="pool-detail"><span>퍼포마케터</span><span>~0.5% / 50주</span></div>
+      <div class="pool-bar"><div class="pool-bar-fill" style="width:4%;background:#a78bfa"></div></div>
+      <div class="pool-detail"><span>COO (예정)</span><span>~2% / 200주</span></div>
+      <div class="pool-bar"><div class="pool-bar-fill" style="width:17%;background:#fbbf24"></div></div>
+      <div class="pool-detail" style="margin-top:12px"><span>사용 합계</span><span class="text-red" style="font-weight:800">8.5% / 850주</span></div>
+      <div class="pool-detail"><span class="text-red">⚠ 잔여 여유</span><span class="text-red">3.5% / 350주</span></div>
+      <div class="pool-alert">추가 핵심 인재 영입 시 <strong>여유 없음</strong>. 이사회 결의로 증설 필요.</div>
+    </div>
+    <div class="pool-card recommended">
+      <div class="rec-badge">✓ 추천</div>
+      <h3 class="text-green">15%</h3>
+      <div class="sub">상향 추천 · 1,500주</div>
+      <div class="pool-detail"><span>인규 (확정)</span><span>5% / 500주</span></div>
+      <div class="pool-bar"><div class="pool-bar-fill" style="width:33%;background:#10b981"></div></div>
+      <div class="pool-detail"><span>운영매니저</span><span>~1% / 100주</span></div>
+      <div class="pool-bar"><div class="pool-bar-fill" style="width:7%;background:#60a5fa"></div></div>
+      <div class="pool-detail"><span>퍼포마케터</span><span>~0.5% / 50주</span></div>
+      <div class="pool-bar"><div class="pool-bar-fill" style="width:3%;background:#a78bfa"></div></div>
+      <div class="pool-detail"><span>COO (예정)</span><span>~2% / 200주</span></div>
+      <div class="pool-bar"><div class="pool-bar-fill" style="width:13%;background:#fbbf24"></div></div>
+      <div class="pool-detail" style="margin-top:12px"><span>사용 합계</span><span>8.5% / 850주</span></div>
+      <div class="pool-detail"><span class="text-green">✓ 잔여 여유</span><span class="text-green" style="font-weight:800">6.5% / 650주</span></div>
+      <div class="pool-success">핵심 인재 추가 영입 + 미국 진출 인재까지 <strong>여유 있음</strong></div>
+    </div>
+  </div>
+
+  <!-- 대상별 배정 시뮬레이션 -->
+  <div class="section-title">대상별 스톡옵션 배정 시뮬레이션 (15% 기준)</div>
+  <div class="card" style="padding:0;overflow:hidden">
+    <table>
+      <thead>
+        <tr>
+          <th>이름/역할</th>
+          <th>구분</th>
+          <th>지분율</th>
+          <th>주식수</th>
+          <th>베스팅</th>
+          <th>부여 시점</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+            <div class="name-cell">인규</div>
+            <div class="role-cell">콘텐츠 총괄 / 공동창업자 수준</div>
+          </td>
+          <td><span class="tag green">확정</span></td>
+          <td class="pct-cell">5.0%</td>
+          <td>500주</td>
+          <td class="vest-cell">4년 · 1년 cliff<br>매년 1.25% 확정</td>
+          <td class="vest-cell">법인 전환 즉시</td>
+        </tr>
+        <tr>
+          <td>
+            <div class="name-cell">운영매니저</div>
+            <div class="role-cell">공장/물류/QC/CS 시스템화</div>
+          </td>
+          <td><span class="tag blue">예정</span></td>
+          <td class="pct-cell">0.5~1.0%</td>
+          <td>50~100주</td>
+          <td class="vest-cell">4년 · 1년 cliff</td>
+          <td class="vest-cell">월매출 5억+ 시점</td>
+        </tr>
+        <tr>
+          <td>
+            <div class="name-cell">퍼포마케터</div>
+            <div class="role-cell">메타/유튜브 광고 운영</div>
+          </td>
+          <td><span class="tag blue">예정</span></td>
+          <td class="pct-cell">0.3~0.5%</td>
+          <td>30~50주</td>
+          <td class="vest-cell">4년 · 1년 cliff</td>
+          <td class="vest-cell">광고비 3억+ 시점</td>
+        </tr>
+        <tr>
+          <td>
+            <div class="name-cell">COO</div>
+            <div class="role-cell">재무/인사/법무/팀운영</div>
+          </td>
+          <td><span class="tag amber">검토중</span></td>
+          <td class="pct-cell">1.0~3.0%</td>
+          <td>100~300주</td>
+          <td class="vest-cell">4년 · 1년 cliff</td>
+          <td class="vest-cell">Pre-A 이후</td>
+        </tr>
+        <tr>
+          <td>
+            <div class="name-cell">미래 핵심 인재</div>
+            <div class="role-cell">미국 진출 / 의료 파트너 등</div>
+          </td>
+          <td><span class="tag purple">예비</span></td>
+          <td class="pct-cell">~3.0%</td>
+          <td>~300주</td>
+          <td class="vest-cell">협의</td>
+          <td class="vest-cell">Series A 이후</td>
+        </tr>
+        <tr class="row-total">
+          <td colspan="2" style="font-size:13px;font-weight:700;color:#94a3b8;padding:14px">총 배정 예상</td>
+          <td class="total-pct">~12.8%</td>
+          <td><span class="total-shares">~1,280주</span></td>
+          <td colspan="2"><span class="total-note">잔여 여유 2.2% / 220주 (15% 기준)</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- 라운드별 지분 가치 시뮬레이션 -->
+  <div class="section-title">라운드별 지분 가치 시뮬레이션 (인규 5% 기준)</div>
+  <div class="val-grid">
+    <div class="val-card">
+      <div class="stage">법인 전환</div>
+      <div class="valuation">밸류 ~50억</div>
+      <div class="val-row">
+        <span class="person">인규 (5%→희석 전)</span>
+        <div><div class="amount">~2.5억</div><div class="pct-small">5.0%</div></div>
+      </div>
+      <div class="val-row">
+        <span class="person">태훈</span>
+        <div><div class="amount">~41.5억</div><div class="pct-small">83%</div></div>
+      </div>
+    </div>
+    <div class="val-card">
+      <div class="stage">Pre-A 직후</div>
+      <div class="valuation">밸류 200~300억</div>
+      <div class="val-row">
+        <span class="person">인규 (희석 4.5%)</span>
+        <div><div class="amount">~9~13.5억</div><div class="pct-small">4.5%</div></div>
+      </div>
+      <div class="val-row">
+        <span class="person">태훈 (75%)</span>
+        <div><div class="amount">~150~225억</div><div class="pct-small">75%</div></div>
+      </div>
+    </div>
+    <div class="val-card">
+      <div class="stage">Series A 직후</div>
+      <div class="valuation">밸류 500~1,000억</div>
+      <div class="val-row">
+        <span class="person">인규 (희석 4%)</span>
+        <div><div class="amount">~20~40억</div><div class="pct-small">4.0%</div></div>
+      </div>
+      <div class="val-row">
+        <span class="person">태훈 (67%)</span>
+        <div><div class="amount">~335~670억</div><div class="pct-small">67%</div></div>
+      </div>
+    </div>
+    <div class="val-card val-card-highlight">
+      <div class="stage">🎯 목표 엑싯</div>
+      <div class="valuation valuation-green">밸류 2,000억~1조</div>
+      <div class="val-row">
+        <span class="person">인규 (4% 유지)</span>
+        <div><div class="amount">~80억~400억</div><div class="pct-small">4.0%</div></div>
+      </div>
+      <div class="val-row">
+        <span class="person">태훈 (50%+)</span>
+        <div><div class="amount">1,000억~5,000억</div><div class="pct-small">50%+</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 라운드별 태훈 지분율 추이 -->
+  <div class="section-title">라운드별 태훈 지분율 추이</div>
+  <div class="line-chart-wrap">
+    <div class="line-chart-title">대표 지분율 (목표: IPO까지 50% 이상 유지)</div>
+    <canvas id="dilutionChart"></canvas>
+  </div>
+
+  <!-- 베스팅 핵심 규칙 -->
+  <div class="section-title">베스팅 핵심 규칙</div>
+  <div class="grid-2">
+    <div class="card">
+      <h3>✅ 표준 베스팅 구조</h3>
+      <div class="vest-rule-item">
+        <strong>1년 Cliff</strong>입사 후 1년 미만 퇴사 시 → 0주 전부 몰수
+      </div>
+      <div class="vest-rule-item">
+        <strong>2~4년 선형 베스팅</strong>1년 이후 매월 1/48씩 확정 (4년 기준)
+      </div>
+      <div class="vest-rule-item">
+        <strong>엑싯 전 퇴사</strong>확정분만 인정, 미확정분 전량 몰수
+      </div>
+      <div class="vest-rule-item">
+        <strong>행사가격</strong>법인 전환 초기 액면가 수준으로 낮게 설정 (인규에게 유리)
+      </div>
+    </div>
+    <div class="card">
+      <h3>⚠️ 계약 시 반드시 명시할 것</h3>
+      <div class="vest-rule-item">
+        <strong class="yellow">① 숫자 명문화</strong>구두 합의 → 반드시 계약서로. "5%"가 몇 주인지 주식수로 명시
+      </div>
+      <div class="vest-rule-item">
+        <strong class="yellow">② 반환 조건 명시</strong>자발적 퇴사 / 권고사직 / 귀책사유 퇴사별로 다르게 설정
+      </div>
+      <div class="vest-rule-item">
+        <strong class="yellow">③ 희석 조항</strong>신주 발행 시 인규 동의 불필요 (대표 단독 결정 가능) 명시
+      </div>
+      <div class="vest-rule-item">
+        <strong class="yellow">④ 전달 시점</strong>개별 계약 (전체 풀 구조 공개 X, 본인 몫만 고지)
+      </div>
+    </div>
+  </div>
+
+  <!-- 실행 타임라인 -->
+  <div class="section-title">실행 타임라인</div>
+  <div class="timeline">
+    <div class="tl-item">
+      <div class="tl-left">
+        <div class="tl-dot tl-dot-green"></div>
+        <div class="tl-line"></div>
+      </div>
+      <div class="tl-content">
+        <div class="tl-date">2026 Q2 (4~5월)</div>
+        <h4>법인 전환 + 정관 설정</h4>
+        <p>세무사·변호사 통해 법인 설립. 정관에 스톡옵션 풀 15% 설정. 발행주식 10,000주. 행사가격 액면가로 낮게 설정.</p>
+      </div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-left">
+        <div class="tl-dot tl-dot-green"></div>
+        <div class="tl-line"></div>
+      </div>
+      <div class="tl-content">
+        <div class="tl-date">2026 Q2 (법인 직후)</div>
+        <h4>인규 계약 명문화</h4>
+        <p>5% / 500주 / 4년 베스팅 / 1년 cliff / 엑싯 전 퇴사 미확정분 몰수. 변호사가 작성한 계약서로 서명.</p>
+      </div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-left">
+        <div class="tl-dot tl-dot-blue"></div>
+        <div class="tl-line"></div>
+      </div>
+      <div class="tl-content">
+        <div class="tl-date">2026 Q3 (월매출 5억+ 시점)</div>
+        <h4>운영매니저 스톡옵션 부여</h4>
+        <p>0.5~1% 범위 내 개별 계약. 역할·성과 기준 명시.</p>
+      </div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-left">
+        <div class="tl-dot tl-dot-yellow"></div>
+        <div class="tl-line"></div>
+      </div>
+      <div class="tl-content">
+        <div class="tl-date">2026 Q3~Q4 (Pre-A 전후)</div>
+        <h4>퍼포마케터 + Pre-A 투자 집행</h4>
+        <p>퍼포마케터 0.3~0.5% 부여. Pre-A 신주 8% 이하 발행 (밸류 200~300억 목표). 이 시점 태훈 지분 75% 유지.</p>
+      </div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-left">
+        <div class="tl-dot tl-dot-purple"></div>
+      </div>
+      <div class="tl-content">
+        <div class="tl-date">2027+ (Series A 전후)</div>
+        <h4>COO 영입 + Series A</h4>
+        <p>COO 1~3% 부여. Series A 신주 10% 이하. 이 시점 태훈 지분 67% 유지. IPO까지 50%+ 목표.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="alert-box">
+    <strong>핵심 원칙:</strong> 지금 현금흐름이 있으니 헐값 매각 불필요. 정책자금(기보·팁스·지원금) 먼저 긁고, 숫자(월매출 15억+) 만들면 투자자가 먼저 연락 옴. 에이피알처럼 IPO까지 대표 50%+ 유지가 목표.
+  </div>
+
+  <script>
+  const ctx = document.getElementById('dilutionChart').getContext('2d');
+  new Chart(ctx, {
+    type: 'line',
+    data: {
+      labels: ['법인전환','Pre-A 전','Pre-A 후','Series A 후','IPO 목표'],
+      datasets: [{
+        label: '태훈 지분율 (%)',
+        data: [80, 80, 75, 67, 50],
+        borderColor: '#10b981',
+        backgroundColor: 'rgba(16,185,129,.1)',
+        borderWidth: 2.5,
+        pointBackgroundColor: '#10b981',
+        pointRadius: 5,
+        fill: true,
+        tension: 0.3
+      },{
+        label: '안전선 (50%)',
+        data: [50,50,50,50,50],
+        borderColor: 'rgba(239,68,68,.5)',
+        borderWidth: 1.5,
+        borderDash: [6,4],
+        pointRadius: 0,
+        fill: false
+      }]
+    },
+    options: {
+      responsive: true,
+      plugins: {
+        legend: { labels: { color:'#94a3b8', font:{ size:12 } } },
+        tooltip: { callbacks: { label: ctx => ` ${ctx.dataset.label}: ${ctx.raw}%` } }
+      },
+      scales: {
+        x: { ticks:{ color:'#64748b' }, grid:{ color:'#1e2d4a' } },
+        y: { ticks:{ color:'#64748b', callback: v => v+'%' }, grid:{ color:'#1e2d4a' }, min:40, max:85 }
+      }
+    }
+  });
+  </script>
+</div>
+
+<!-- ===== TAB 3: 초창패 인터뷰 ===== -->
+<div id="tab-3" class="tab-content">
+  <div class="hero">
+    <h1>🎯 초창패 심층인터뷰 시뮬레이션</h1>
+    <p class="hero-sub">2026.02.27 (금) 10:20 · 대전창조경제혁신센터 · 30분</p>
+    <div class="badge-row">
+      <span class="badge">딥테크 트랙</span>
+      <span class="badge">대표자 필수 참석</span>
+      <span class="badge badge-hot">내일 10:20</span>
+    </div>
+  </div>
+
+  <!-- 배점 -->
+  <div class="score-grid">
+    <div class="score-card warn">
+      <div class="num">20</div>
+      <div class="label">문제인식</div>
+    </div>
+    <div class="score-card highlight">
+      <div class="num">30</div>
+      <div class="label">실현가능성</div>
+    </div>
+    <div class="score-card highlight">
+      <div class="num">35</div>
+      <div class="label">성장전략</div>
+    </div>
+    <div class="score-card warn">
+      <div class="num">15</div>
+      <div class="label">팀 구성</div>
+    </div>
+  </div>
+
+  <div class="tip-bar">
+    <strong>전략:</strong> 실현가능성(30) + 성장전략(35) = 65점 집중. 이미 검증된 매출 수치와 AI 기술 해자가 핵심 무기.
+  </div>
+
+  <!-- 문제인식 -->
+  <div class="section-title">
+    🔍 문제인식
+    <span class="score-chip">20점</span>
+  </div>
+
+  <div class="qa-card">
+    <div class="q"><div class="qi">Q</div>목디스크 재활 시장 규모와 현재 솔루션의 한계가 뭔가요?</div>
+    <div class="a">
+      <div class="answer-label">▶ ANSWER</div>
+      국내 목디스크·경추 질환 환자는 연간 2,400만 명 수준입니다. 현재 유일한 치료 옵션은 병원 도수치료인데, 회당 5~15만 원 비급여에 주 1~2회가 권장이라 월 30~60만 원이 들어갑니다. 그런데 치료 효과가 끝나면 다시 악화됩니다. 핵심 문제는 "집에서 매일 관리할 수 있는 솔루션이 없다"는 겁니다.
+      <div class="key-phrase">"병원은 치료하고, 저희는 회복합니다. 매일, 집에서."</div>
+    </div>
+  </div>
+
+  <div class="qa-card">
+    <div class="q"><div class="qi">Q</div>왜 지금이 타이밍인가요?</div>
+    <div class="a">
+      <div class="answer-label">▶ ANSWER</div>
+      세 가지 타이밍이 겹쳤습니다. 첫째, 2024년부터 도수치료 실손 급여 축소 이슈로 자가관리 수요가 폭발적으로 늘었습니다. 둘째, AI와 IoT 기술 성숙으로 병원급 견인 원리를 가정용 기기로 구현 가능해졌습니다. 셋째, 저희 유튜브 채널 16만 구독자를 통해 시장 수요를 이미 검증했습니다. 월 2억 매출이 그 증거입니다.
+      <div class="key-phrase">"타이밍은 시장이 만들었고, 저희는 이미 그 파도 위에 있습니다."</div>
+    </div>
+  </div>
+
+  <!-- 실현가능성 -->
+  <div class="section-title">
+    ⚡ 실현가능성
+    <span class="score-chip">30점 · 핵심</span>
+  </div>
+
+  <div class="number-row">
+    <div class="number-chip"><div class="val">2억</div><div class="desc">월 매출 (2026.01)</div></div>
+    <div class="number-chip"><div class="val">7천만</div><div class="desc">ES-808 런칭 첫날</div></div>
+    <div class="number-chip"><div class="val">16만</div><div class="desc">유튜브+채널 구독자</div></div>
+    <div class="number-chip"><div class="val">3등급</div><div class="desc">의료기기 인증 완료</div></div>
+  </div>
+
+  <div class="qa-card">
+    <div class="q"><div class="qi">Q</div>매출 검증이 됐나요? 구체적 수치를 알 수 있을까요?</div>
+    <div class="a">
+      <div class="answer-label">▶ ANSWER</div>
+      네. 2025년 8월 첫 출시 후 월매출 1.8억 달성. 2025년 12월 ES-808 런칭 첫날 7천만 원 (1,000대). 2026년 1월 2억 원. 광고비 대비 전체 ROAS는 500% 수준으로, 채널 오가닉 매출이 약 50%를 차지합니다. 현재 AI 풀 가동 이전, 2인 코어팀 기준 수치입니다.
+      <div class="key-phrase">"AI 없이 2인팀이 만든 숫자입니다. 이제 AI가 들어옵니다."</div>
+    </div>
+  </div>
+
+  <div class="qa-card">
+    <div class="q"><div class="qi">Q</div>AI 기술의 실체가 뭔가요? 단순 챗봇 아닌가요?</div>
+    <div class="a">
+      <div class="answer-label">▶ ANSWER</div>
+      세 가지 AI 레이어가 있습니다. 첫째, 3-tier LLM 라우팅으로 API 비용 50% 절감하면서 개인화 운동 처방을 제공합니다. 둘째, 구매 데이터 기반 이탈 예측 모델로 3개월 지속률을 20%에서 70%로 끌어올리는 게 목표입니다. 셋째, CRM 자동화로 배송 안내, 사용법 문자, 재구매 유도를 전자동 운영합니다. 이미 현장에서 돌아가고 있습니다.
+      <div class="key-phrase">"기술이 아니라 이미 돌아가는 시스템입니다."</div>
+    </div>
+  </div>
+
+  <div class="qa-card">
+    <div class="q"><div class="qi">Q</div>앱 실사용 데이터가 있나요?</div>
+    <div class="a">
+      <div class="answer-label">▶ ANSWER</div>
+      MVP 개발이 완료됐고 현재 내부 테스트 중입니다. 정식 출시는 이달 중 예정입니다. 저희의 강점은 출시 즉시 16만 구독자 풀에서 전환이 가능하다는 겁니다. 유사 헬스케어 앱이 수개월 걸리는 초기 사용자 확보를 저희는 채널 공지 하나로 해결할 수 있습니다.
+      <div class="danger-box">앱 데이터가 없다는 점 선제 인정하되, 채널 16만으로 빠르게 채울 수 있다는 구체적 계획으로 전환.</div>
+    </div>
+  </div>
+
+  <!-- 성장전략 -->
+  <div class="section-title">
+    🚀 성장전략
+    <span class="score-chip">35점 · 최고배점</span>
+  </div>
+
+  <div class="card">
+    <h3>📅 3개년 로드맵</h3>
+    <div class="timeline" style="margin-top:16px;margin-bottom:0">
+      <div class="tl-item">
+        <div class="tl-left"><div class="tl-dot done"></div><div class="tl-line"></div></div>
+        <div class="tl-text"><strong>2026 상반기 (NOW)</strong> — CS-25·ES-808·WS-200 + AI 앱 + CRM 자동화. 목 카테고리 완전 장악.</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-left"><div class="tl-dot plan"></div><div class="tl-line"></div></div>
+        <div class="tl-text"><strong>2026 하반기</strong> — 보호대(고정) 출시, Pre-A 200~300억 투자 유치. B2B 병원 파트너십 시작.</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-left"><div class="tl-dot plan"></div><div class="tl-line"></div></div>
+        <div class="tl-text"><strong>2027</strong> — 어깨·허리로 카테고리 확장. B2B 병원 계약 10개 이상. 연매출 100억 목표.</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-left"><div class="tl-dot plan"></div></div>
+        <div class="tl-text"><strong>2028</strong> — 미국 시장 진출. FDA clearance + 아마존 D2C.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="qa-card">
+    <div class="q"><div class="qi">Q</div>지원금 2억 어떻게 활용할 건가요?</div>
+    <div class="a">
+      <div class="answer-label">▶ ANSWER</div>
+      크게 세 곳에 씁니다. 앱 고도화(AI 이탈 예측, 개인화 처방) 40%, 제품 개선 R&amp;D(CS-25 소음/강도, 보호대 개발) 35%, 팀 보강(운영매니저, 퍼포먼스 마케터) 25%입니다. 이미 월 2억 매출의 현금흐름이 있기 때문에 지원금은 순수 성장 가속에만 씁니다.
+      <div class="key-phrase">"생존에 쓰는 게 아니라, 이미 달리는 차에 연료를 더 넣는 겁니다."</div>
+    </div>
+  </div>
+
+  <div class="qa-card">
+    <div class="q"><div class="qi">Q</div>보호대(고정 단계)가 빠진 이유가 뭔가요? 4단계 완성이 언제인가요?</div>
+    <div class="a">
+      <div class="answer-label">▶ ANSWER</div>
+      보호대는 급성기 통증 고정용 제품으로 현재 소싱 및 인증 준비 중입니다. 올 하반기 출시 목표입니다. 전략적으로 재활·만성통증 시장부터 선점한 이유는, 이쪽이 반복 구매와 AI 데이터가 쌓이는 구조이기 때문입니다. 급성기 고정은 일회성이지만, 재활은 평생 관리입니다.
+      <div class="key-phrase">"급성기 고정은 하반기 완성. 지금은 더 큰 시장, 재활과 만성을 먼저 잡습니다."</div>
+    </div>
+  </div>
+
+  <div class="qa-card">
+    <div class="q"><div class="qi">Q</div>경쟁사 대비 해자(moat)가 뭔가요?</div>
+    <div class="a">
+      <div class="answer-label">▶ ANSWER</div>
+      세 가지입니다. 첫째, 데이터 해자 — 기기 사용 데이터 + 앱 행동 데이터 + 구매 데이터가 동시에 쌓이는 회사는 국내에 저희밖에 없습니다. 후발주자가 따라오려면 2~3년이 필요합니다. 둘째, 채널 해자 — 유튜브 16만, 전환율이 검증된 오가닉 채널. 셋째, 신뢰 해자 — 정선근 서울대병원 교수님 같은 의료계 신뢰 레이어. 이 세 가지가 동시에 있는 헬스케어 스타트업은 없습니다.
+      <div class="key-phrase">"기기+앱+채널+의료 신뢰. 하나도 복제하기 어려운데 네 개가 동시에."</div>
+    </div>
+  </div>
+
+  <!-- 팀 구성 -->
+  <div class="section-title">
+    👥 팀 구성
+    <span class="score-chip">15점</span>
+  </div>
+
+  <div class="qa-card">
+    <div class="q"><div class="qi">Q</div>사실상 대표님 혼자 아닌가요? 팀 역량이 걱정됩니다.</div>
+    <div class="a">
+      <div class="answer-label">▶ ANSWER</div>
+      코어팀 4명입니다. 저(CEO·제품·마케팅), 인규(콘텐츠총괄·20년 지기·도수치료사 출신), 나현(브랜드확산·PR), 그리고 3월 합류하는 이수연(파트너십·반도체 석사 출신 데이터형 마케터)입니다. 개발은 전 카카오 개발 총괄과 외주 계약 중이며, AI 에이전트 시스템으로 팀원 1명당 3~4명 효과를 내고 있습니다. 이미 2인팀이 월 2억을 만들었다는 게 팀 역량의 증명입니다.
+      <div class="danger-box">인원이 적다는 걸 약점으로 인정하되, AI 레버리지와 성과로 즉시 전환. 사람 수로 싸우지 말 것.</div>
+    </div>
+  </div>
+
+  <div class="qa-card">
+    <div class="q"><div class="qi">Q</div>대표님 본인의 창업 전 경험이 있나요?</div>
+    <div class="a">
+      <div class="answer-label">▶ ANSWER</div>
+      마리트(이커머스 스타트업)에서 3년간 커머스 담당으로 거래액 6배 성장을 이끌었습니다. 이후 테넥스를 창업해 다양한 카테고리를 테스트하다 2025년 홈 재활 의료기기로 피벗, 8개월 만에 월 2억을 달성했습니다. 저는 제품을 만드는 것보다 팔리는 구조를 설계하는 데 강점이 있고, 그게 지금 매출로 증명되고 있습니다.
+    </div>
+  </div>
+
+  <!-- 마무리 팁 -->
+  <div class="final-tips">
+    <h3>🏁 인터뷰 당일 전략</h3>
+    <div class="tip-item"><div class="icon">⏱️</div><div>30분 = 질문 5~7개. 답변당 3~4분 넘기지 말 것. 길게 말하면 다른 질문 못 받음.</div></div>
+    <div class="tip-item"><div class="icon">📊</div><div>숫자 먼저. "월 2억" "16만" "첫날 7천만" — 수치가 나오면 신뢰도 즉시 올라감.</div></div>
+    <div class="tip-item"><div class="icon">🎯</div><div>약점 질문 나오면 먼저 인정, 바로 전환. "그 부분은 맞습니다. 대신 저희는…"</div></div>
+    <div class="tip-item"><div class="icon">🗣️</div><div>키 문장 하나: <strong>"AI 없이 2인팀이 월 2억입니다. 이제 AI가 들어옵니다."</strong></div></div>
+    <div class="tip-item"><div class="icon">😴</div><div>오늘 밤 충분히 자는 게 제일 중요. 피곤하면 말이 길어지고 핵심이 흐려짐.</div></div>
+  </div>
+</div>
+
+<script>
+function showTab(n, btn) {
+  document.querySelectorAll(".tab-content").forEach(function(e){ e.classList.remove("active"); });
+  document.querySelectorAll(".tab-btn").forEach(function(e){ e.classList.remove("active"); });
+  document.getElementById("tab-" + n).classList.add("active");
+  if (btn) btn.classList.add("active");
+}
+</script>
+</body>
+</html>

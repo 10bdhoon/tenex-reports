@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>키네메디칼 멤버십 혜택</title>
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { background:#0d1117; color:#e0e0e0; font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif; }
+  .hero { background:linear-gradient(135deg,#0d1117,#161b22); border-bottom:1px solid #21262d; padding:48px 24px 40px; text-align:center; }
+  .hero h1 { font-size:26px; font-weight:800; color:#fff; margin-bottom:8px; }
+  .hero p { color:#8b949e; font-size:14px; }
+  .container { max-width:800px; margin:0 auto; padding:40px 24px 80px; }
+
+  .grade-cards { display:flex; flex-direction:column; gap:16px; margin-bottom:40px; }
+  .grade-card { background:#161b22; border:1px solid #21262d; border-radius:14px; overflow:hidden; }
+  .grade-card.active-grade { border-color:#58a6ff; }
+
+  .grade-header { display:flex; align-items:center; gap:16px; padding:20px 24px; }
+  .grade-icon { width:48px; height:48px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:20px; font-weight:800; flex-shrink:0; }
+  .grade-icon.g1 { background:rgba(139,148,158,0.15); color:#8b949e; }
+  .grade-icon.g2 { background:rgba(88,166,255,0.15); color:#58a6ff; }
+  .grade-icon.g3 { background:rgba(240,136,62,0.15); color:#f0883e; }
+  .grade-icon.g4 { background:rgba(188,140,255,0.15); color:#bc8cff; }
+
+  .grade-info { flex:1; }
+  .grade-name { font-size:17px; font-weight:800; color:#e6edf3; margin-bottom:3px; }
+  .grade-cond { font-size:12px; color:#8b949e; }
+
+  .grade-body { padding:0 24px 20px; }
+  .benefits { display:flex; flex-direction:column; gap:8px; }
+  .benefit-row { display:flex; align-items:center; gap:10px; padding:10px 14px; background:#0d1117; border-radius:8px; }
+  .benefit-icon { font-size:16px; flex-shrink:0; }
+  .benefit-text { font-size:13px; color:#c9d1d9; }
+  .benefit-highlight { font-weight:700; color:#e6edf3; }
+
+  .cta-box { background:rgba(88,166,255,0.06); border:1px solid rgba(88,166,255,0.2); border-radius:12px; padding:24px; text-align:center; margin-bottom:32px; }
+  .cta-box h3 { font-size:16px; font-weight:700; color:#e6edf3; margin-bottom:8px; }
+  .cta-box p { font-size:13px; color:#8b949e; line-height:1.6; }
+
+  .referral-box { background:#161b22; border:1px solid #21262d; border-radius:12px; padding:24px; margin-bottom:32px; }
+  .referral-box h3 { font-size:15px; font-weight:700; color:#e6edf3; margin-bottom:4px; }
+  .referral-box p { font-size:13px; color:#8b949e; margin-bottom:16px; line-height:1.6; }
+  .referral-row { display:flex; gap:12px; }
+  .referral-item { flex:1; background:#0d1117; border-radius:8px; padding:14px; text-align:center; }
+  .referral-item .label { font-size:11px; color:#8b949e; margin-bottom:4px; }
+  .referral-item .value { font-size:14px; font-weight:700; color:#58a6ff; }
+
+  .progress-box { background:#161b22; border:1px solid #21262d; border-radius:12px; padding:24px; }
+  .progress-box h3 { font-size:15px; font-weight:700; color:#e6edf3; margin-bottom:16px; }
+  .progress-row { display:flex; align-items:center; gap:10px; margin-bottom:12px; }
+  .progress-label { font-size:12px; color:#8b949e; width:60px; flex-shrink:0; }
+  .progress-bar-wrap { flex:1; background:#21262d; border-radius:4px; height:8px; }
+  .progress-bar { height:8px; border-radius:4px; }
+  .pb-g1 { width:25%; background:#8b949e; }
+  .pb-g2 { width:50%; background:#58a6ff; }
+  .pb-g3 { width:75%; background:#f0883e; }
+  .pb-g4 { width:100%; background:#bc8cff; }
+  .progress-val { font-size:12px; color:#8b949e; width:60px; text-align:right; flex-shrink:0; }
+
+  .note { background:rgba(240,136,62,0.06); border:1px solid rgba(240,136,62,0.15); border-radius:8px; padding:14px 16px; font-size:12px; color:#8b949e; line-height:1.7; margin-top:24px; }
+
+  @media(max-width:600px) { .referral-row { flex-direction:column; } }
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <h1>키네메디칼 멤버십</h1>
+  <p>함께 회복하는 사람들을 위한 혜택 프로그램</p>
+</div>
+
+<div class="container">
+
+  <div class="grade-cards">
+
+    <div class="grade-card">
+      <div class="grade-header">
+        <div class="grade-icon g1">일반</div>
+        <div class="grade-info">
+          <div class="grade-name">일반</div>
+          <div class="grade-cond">첫 구매 시 자동 적용</div>
+        </div>
+      </div>
+      <div class="grade-body">
+        <div class="benefits">
+          <div class="benefit-row">
+            <div class="benefit-icon">📩</div>
+            <div class="benefit-text">구매 후 D+3~60 <span class="benefit-highlight">전문 케어 메시지</span> 자동 발송</div>
+          </div>
+          <div class="benefit-row">
+            <div class="benefit-icon">🎙️</div>
+            <div class="benefit-text">목 전문 도수치료사 <span class="benefit-highlight">1분도수 케어</span> 서포트</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="grade-card">
+      <div class="grade-header">
+        <div class="grade-icon g2">패밀리</div>
+        <div class="grade-info">
+          <div class="grade-name">패밀리</div>
+          <div class="grade-cond">누적 2회 구매 달성 시 자동 승급</div>
+        </div>
+      </div>
+      <div class="grade-body">
+        <div class="benefits">
+          <div class="benefit-row">
+            <div class="benefit-icon">💰</div>
+            <div class="benefit-text"><span class="benefit-highlight">5% 상시 할인</span> 쿠폰 자동 발급</div>
+          </div>
+          <div class="benefit-row">
+            <div class="benefit-icon">🔔</div>
+            <div class="benefit-text"><span class="benefit-highlight">신제품 출시 우선 알림</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="grade-card">
+      <div class="grade-header">
+        <div class="grade-icon g3">VIP</div>
+        <div class="grade-info">
+          <div class="grade-name">VIP</div>
+          <div class="grade-cond">누적 3회 구매 달성 시 자동 승급</div>
+        </div>
+      </div>
+      <div class="grade-body">
+        <div class="benefits">
+          <div class="benefit-row">
+            <div class="benefit-icon">💰</div>
+            <div class="benefit-text"><span class="benefit-highlight">10% 상시 할인</span> 쿠폰 자동 발급</div>
+          </div>
+          <div class="benefit-row">
+            <div class="benefit-icon">💬</div>
+            <div class="benefit-text"><span class="benefit-highlight">전용 1:1 상담</span> 이용 가능</div>
+          </div>
+          <div class="benefit-row">
+            <div class="benefit-icon">🔔</div>
+            <div class="benefit-text">신제품 출시 우선 알림</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="grade-card">
+      <div class="grade-header">
+        <div class="grade-icon g4">앰버서더</div>
+        <div class="grade-info">
+          <div class="grade-name">앰버서더</div>
+          <div class="grade-cond">누적 5회 구매 달성 시 자동 승급</div>
+        </div>
+      </div>
+      <div class="grade-body">
+        <div class="benefits">
+          <div class="benefit-row">
+            <div class="benefit-icon">💰</div>
+            <div class="benefit-text"><span class="benefit-highlight">15% 상시 할인</span> 쿠폰 자동 발급</div>
+          </div>
+          <div class="benefit-row">
+            <div class="benefit-icon">🧪</div>
+            <div class="benefit-text"><span class="benefit-highlight">신제품 체험단</span> 우선 참여 기회</div>
+          </div>
+          <div class="benefit-row">
+            <div class="benefit-icon">🤝</div>
+            <div class="benefit-text"><span class="benefit-highlight">브랜드 협업</span> 기회 제공</div>
+          </div>
+          <div class="benefit-row">
+            <div class="benefit-icon">💬</div>
+            <div class="benefit-text">전용 1:1 상담 이용 가능</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="progress-box">
+    <h3>등급 로드맵</h3>
+    <div class="progress-row">
+      <div class="progress-label" style="color:#8b949e;">일반</div>
+      <div class="progress-bar-wrap"><div class="progress-bar pb-g1"></div></div>
+      <div class="progress-val">1회~</div>
+    </div>
+    <div class="progress-row">
+      <div class="progress-label" style="color:#58a6ff;">패밀리</div>
+      <div class="progress-bar-wrap"><div class="progress-bar pb-g2"></div></div>
+      <div class="progress-val">2회~</div>
+    </div>
+    <div class="progress-row">
+      <div class="progress-label" style="color:#f0883e;">VIP</div>
+      <div class="progress-bar-wrap"><div class="progress-bar pb-g3"></div></div>
+      <div class="progress-val">3회~</div>
+    </div>
+    <div class="progress-row">
+      <div class="progress-label" style="color:#bc8cff;">앰버서더</div>
+      <div class="progress-bar-wrap"><div class="progress-bar pb-g4"></div></div>
+      <div class="progress-val">5회~</div>
+    </div>
+  </div>
+
+  <div class="referral-box" style="margin-top:24px;">
+    <h3>지인 추천 혜택</h3>
+    <p>추천 코드로 지인이 구매하면 둘 다 혜택을 받아요.</p>
+    <div class="referral-row">
+      <div class="referral-item">
+        <div class="label">지인 혜택</div>
+        <div class="value">10% 할인</div>
+      </div>
+      <div class="referral-item">
+        <div class="label">내 혜택</div>
+        <div class="value">적립금 5,000원</div>
+      </div>
+    </div>
+    <div class="note" style="margin-top:16px;">추천 코드는 마이페이지에서 확인할 수 있어요. 현재 등급 및 누적 구매 횟수도 마이페이지에서 확인 가능합니다.</div>
+  </div>
+
+</div>
+
+</body>
+</html>

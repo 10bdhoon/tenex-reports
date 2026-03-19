@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>키네메디칼 디자인 시스템</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #0a0a0f; color: #e0e0e0; line-height: 1.6; }
+  .back { display: inline-block; padding: 8px 16px; font-size: 12px; color: #5a8fc0; text-decoration: none; margin: 16px 24px 0; }
+  .back:hover { color: #7ab0e0; }
+  .hero { background: linear-gradient(135deg, #002855 0%, #0a1628 100%); padding: 40px 24px; border-bottom: 2px solid #003580; }
+  .hero-inner { max-width: 860px; margin: 0 auto; }
+  .hero h1 { font-size: 26px; font-weight: 800; color: #fff; }
+  .hero .sub { font-size: 14px; color: #7a9cc0; margin-top: 6px; }
+  .main { max-width: 860px; margin: 0 auto; padding: 32px 24px; }
+  .section { margin-bottom: 40px; }
+  .section h2 { font-size: 16px; font-weight: 700; color: #fff; margin-bottom: 16px; padding-bottom: 8px; border-bottom: 1px solid #1e2a3a; }
+  .card { background: #0d1117; border: 1px solid #1e2a3a; border-radius: 10px; padding: 20px; margin-bottom: 12px; }
+  .card h3 { font-size: 14px; font-weight: 700; color: #e8e8e8; margin-bottom: 8px; }
+  .card p, .card li { font-size: 13px; color: #8aaac0; line-height: 1.7; }
+  .card ul { padding-left: 16px; }
+  .color-swatch { display: flex; align-items: center; gap: 16px; margin: 12px 0; }
+  .swatch { width: 56px; height: 56px; border-radius: 8px; border: 1px solid #1e2a3a; flex-shrink: 0; }
+  .swatch-info { font-size: 13px; color: #8aaac0; }
+  .swatch-info strong { display: block; color: #e8e8e8; font-size: 15px; margin-bottom: 2px; }
+  .tag { display: inline-block; font-size: 10px; font-weight: 600; padding: 2px 8px; border-radius: 10px; margin-right: 6px; margin-top: 4px; }
+  .tag-blue { background: rgba(0,53,128,0.3); color: #6a9acc; border: 1px solid rgba(0,83,180,0.3); }
+  .tag-orange { background: rgba(180,80,0,0.2); color: #f0a060; border: 1px solid rgba(200,100,0,0.3); }
+  .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  @media(max-width:600px){ .grid2 { grid-template-columns: 1fr; } }
+  .quote { background: rgba(0,40,85,0.3); border-left: 3px solid #002855; padding: 12px 16px; border-radius: 0 8px 8px 0; font-size: 13px; color: #9ab8d8; font-style: italic; margin: 12px 0; }
+  table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  th { background: #0d1117; color: #5a8fc0; padding: 8px 12px; text-align: left; border-bottom: 1px solid #1e2a3a; font-size: 11px; letter-spacing: 1px; text-transform: uppercase; }
+  td { padding: 8px 12px; border-bottom: 1px solid #141a24; color: #8aaac0; }
+  td:first-child { color: #e8e8e8; font-weight: 600; }
+</style>
+</head>
+<body>
+<a class="back" href="index.html">← 허브로 돌아가기</a>
+<div class="hero">
+  <div class="hero-inner">
+    <h1>🎨 키네메디칼 브랜드 &amp; 디자인 시스템</h1>
+    <div class="sub">2026.02 확립 · Pantone 282C 기반 · 의료 미니멀 철학</div>
+  </div>
+</div>
+<div class="main">
+
+  <div class="section">
+    <h2>브랜드 철학</h2>
+    <div class="card">
+      <div class="quote">"예쁜 미니멀 금지 → 의료 미니멀"</div>
+      <p>키네메디칼은 자화자찬하지 않는다. 기술력으로 오롯이 서 있다. 무뚝뚝하고 강인하고 고집스럽다. 예쁘지 않지만 신뢰가 박힌다. 후시딘이 같은 성분 제네릭의 반값인데도 팔리는 이유 = 브랜드 신뢰.</p>
+    </div>
+    <div class="grid2">
+      <div class="card">
+        <h3>키네메디칼</h3>
+        <ul>
+          <li>무뚝뚝, 강인, 고집</li>
+          <li>자기증명 (자화자찬 X)</li>
+          <li>기술력으로 존재</li>
+          <li>권위 / 신뢰 레이어</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>1분도수</h3>
+        <ul>
+          <li>따뜻함, 친절함</li>
+          <li>타인증명 (제3자 신뢰)</li>
+          <li>인규 (도수치료사 출신)</li>
+          <li>관계 / 공감 레이어</li>
+        </ul>
+      </div>
+    </div>
+    <div class="card" style="margin-top:12px">
+      <h3>3중 타인증명 구조</h3>
+      <ul>
+        <li>1분도수 → 키네메디칼 샤라웃 (전문가 타인증명)</li>
+        <li>정선근 교수님 = 최대기여요소 (서울대병원 재활의학과, 유튜브 160만)</li>
+        <li>유명인 고객 간증 → 타겟: 임영웅 (고객층 일치, 브랜드 결 일치)</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>키컬러 시스템</h2>
+    <div class="card">
+      <div class="color-swatch">
+        <div class="swatch" style="background:#002855;"></div>
+        <div class="swatch-info">
+          <strong>Pantone 282C</strong>
+          HEX #002855 · 딥 네이비<br>
+          메인 브랜드 컬러 — 모든 제품/패키지/디지털에 적용
+        </div>
+      </div>
+      <div class="color-swatch">
+        <div class="swatch" style="background:#ffffff; border:1px solid #2a3a4a;"></div>
+        <div class="swatch-info">
+          <strong>White</strong>
+          패키지 베이스 · 단상자 · 라벨 배경
+        </div>
+      </div>
+      <div class="color-swatch">
+        <div class="swatch" style="background:#cc2200;"></div>
+        <div class="swatch-info">
+          <strong>Pain Red (Accent)</strong>
+          해부학 일러스트 통증 포인트 · 단상자 강조
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>로고</h2>
+    <div class="card">
+      <ul>
+        <li>K+ 사람 모양 심볼 + KINEMEDICAL 텍스트</li>
+        <li>서브타이틀: RECOVERY LABORATORY</li>
+        <li>배지: CLINICALLY TESTED</li>
+        <li>컬러: 화이트(다크 배경) / 282C(라이트 배경)</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>제품별 패키지 방향</h2>
+    <div class="card">
+      <h3>TH-1 Thermal Recovery Cream (통증크림)</h3>
+      <ul>
+        <li>불투명 화이트 PBL 튜브 + 단상자</li>
+        <li>"의료 미니멀" 스타일</li>
+        <li>성분 함량 비공개 (브랜드 신뢰 > 성분 정보)</li>
+        <li>차가운 젤형, 뜨거운 열감 — 파스 대체품</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>ES-808 BOOSTER GEL (부스터젤)</h3>
+      <ul>
+        <li>불투명 라이트그레이 PBL 튜브 + 단상자</li>
+        <li>ES-808 기기 색상 매칭</li>
+        <li>찐 의료 느낌</li>
+        <li>2026.02.28 디자인 수령 예정</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>단상자 공통 원칙</h3>
+      <ul>
+        <li>화이트 + 282C 네이비 2톤 분할 구성</li>
+        <li>해부학 일러스트 (빨간 통증 포인트)</li>
+        <li>의료기기 표기 필수</li>
+        <li>K+ 로고 + RECOVERY LABORATORY + CLINICALLY TESTED</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>제품 네이밍 체계 (오므론 벤치마크)</h2>
+    <div class="card">
+      <table>
+        <thead>
+          <tr><th>현재 제품</th><th>미래 체계 (굿플 전환 시)</th><th>비고</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>CS-25</td><td>CTR-2500</td><td>Cervical Traction → 당장 안 바꿈 (인지도)</td></tr>
+          <tr><td>ES-808</td><td>TEN-8080</td><td>TENS 계열 → TENS > EMS (의료 느낌)</td></tr>
+          <tr><td>WS-200</td><td>NIR-2000</td><td>Near Infrared → 당장 안 바꿈</td></tr>
+          <tr><td>통증크림</td><td>TH-1</td><td>Therapy Heat · 확정</td></tr>
+          <tr><td>부스터젤</td><td>ES-808 BOOSTER GEL</td><td>기기 종속 네이밍</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="card" style="margin-top:12px">
+      <h3>네이밍 규칙</h3>
+      <ul>
+        <li>기기: [카테고리 3글자]-[4자리 숫자] (CTR-2500, TEN-8080, NIR-2000)</li>
+        <li>소모품: [카테고리]-[1자리] (TH-1, BG-1)</li>
+        <li>TENS 표기 우선 (EMS보다 의료 느낌 강함)</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>레퍼런스 브랜드</h2>
+    <div class="card">
+      <p>UTERE · Nozere · 신크린(Syncrine) · 오므론</p>
+      <div class="quote" style="margin-top:12px">"예쁜 미니멀(애플 스타일) 금지. 의료 미니멀 — 병원에서 쓸 것 같은 느낌."</div>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>슬로건</h2>
+    <div class="card">
+      <p style="font-size:18px; font-weight:700; color:#fff;">회복을 위한 최고의 기술, 키네메디칼</p>
+      <p style="margin-top:8px">RECOVERY LABORATORY — 서브 브랜드 라인</p>
+    </div>
+  </div>
+
+</div>
+
+<div style="position:fixed;bottom:16px;right:16px;background:rgba(0,0,0,0.7);color:#fff;padding:8px 14px;border-radius:8px;font-size:12px;font-family:sans-serif;z-index:9999;line-height:1.8;">
+  <span style="opacity:0.6;">작성</span> 2026-03-06 &nbsp;|&nbsp; <span style="opacity:0.6;">수정</span> 2026-03-06
+</div>
+</body>
+</html>
