@@ -1,0 +1,836 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>고객 여정 분석 — 승무원 수분크림</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --bg: #0a0a0a;
+    --bg2: #111111;
+    --bg3: #1a1a1a;
+    --bg4: #222222;
+    --border: #2a2a2a;
+    --text: #f0f0f0;
+    --text2: #aaaaaa;
+    --text3: #666666;
+    --red: #ff4444;
+    --red-bg: rgba(255,68,68,0.1);
+    --yellow: #fbbf24;
+    --yellow-bg: rgba(251,191,36,0.1);
+    --green: #22c55e;
+    --green-bg: rgba(34,197,94,0.1);
+    --accent: #6366f1;
+  }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, 'Apple SD Gothic Neo', 'Noto Sans KR', sans-serif;
+    line-height: 1.6;
+    min-height: 100vh;
+  }
+  .container {
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 24px 16px 80px;
+  }
+
+  /* ─── HEADER ─── */
+  .page-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 32px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--border);
+  }
+  .page-title { font-size: 13px; color: var(--text3); letter-spacing: 0.08em; text-transform: uppercase; }
+  .page-meta { font-size: 12px; color: var(--text3); }
+
+  /* ─── HERO CARD ─── */
+  .hero {
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 32px;
+    margin-bottom: 16px;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; height: 2px;
+    background: linear-gradient(90deg, var(--red), var(--yellow), var(--green));
+  }
+  .hero-top {
+    display: flex;
+    align-items: flex-start;
+    gap: 24px;
+    margin-bottom: 28px;
+  }
+  .score-block { text-align: center; flex-shrink: 0; }
+  .score-number {
+    font-size: 72px;
+    font-weight: 800;
+    line-height: 1;
+    background: linear-gradient(135deg, #ff6b6b, #fbbf24);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .score-denom { font-size: 18px; color: var(--text3); margin-top: 2px; }
+  .score-label { font-size: 11px; color: var(--text3); letter-spacing: 0.06em; margin-top: 6px; }
+  .hero-summary { flex: 1; }
+  .summary-issue {
+    font-size: 17px;
+    font-weight: 600;
+    color: var(--text);
+    line-height: 1.5;
+    margin-bottom: 16px;
+  }
+  .summary-issue span { color: var(--red); }
+  .meta-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .meta-tag {
+    font-size: 11px;
+    color: var(--text3);
+    background: var(--bg4);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 3px 8px;
+  }
+
+  /* TOP 3 actions */
+  .action-list-title {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text3);
+    margin-bottom: 12px;
+  }
+  .action-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 16px;
+    border-radius: 10px;
+    margin-bottom: 8px;
+    border: 1px solid transparent;
+    transition: border-color 0.2s;
+  }
+  .action-item:hover { border-color: var(--border); }
+  .action-item.red { background: var(--red-bg); }
+  .action-item.yellow { background: var(--yellow-bg); }
+  .action-item .action-icon { font-size: 16px; flex-shrink: 0; }
+  .action-item .action-text { font-size: 14px; font-weight: 500; flex: 1; }
+  .action-item.red .action-text { color: #ffaaaa; }
+  .action-item.yellow .action-text { color: #fde68a; }
+  .action-num {
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--text3);
+    width: 18px;
+    flex-shrink: 0;
+  }
+
+  /* ─── SECTION TITLE ─── */
+  .section-title {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--text3);
+    margin: 32px 0 12px;
+  }
+
+  /* ─── TIMELINE ─── */
+  .timeline-bar-wrap {
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 2px;
+  }
+  .timeline-bar-label {
+    display: flex;
+    justify-content: space-between;
+    font-size: 11px;
+    color: var(--text3);
+    margin-bottom: 6px;
+  }
+  .timeline-bar {
+    display: flex;
+    height: 12px;
+    border-radius: 6px;
+    overflow: hidden;
+    gap: 2px;
+  }
+  .tbar-seg {
+    border-radius: 4px;
+    cursor: pointer;
+    transition: opacity 0.2s, transform 0.1s;
+    position: relative;
+  }
+  .tbar-seg:hover { opacity: 0.85; transform: scaleY(1.3); }
+  .tbar-seg.green { background: var(--green); }
+  .tbar-seg.yellow { background: var(--yellow); }
+  .tbar-seg.red { background: var(--red); }
+  .timeline-ticks {
+    display: flex;
+    justify-content: space-between;
+    font-size: 10px;
+    color: var(--text3);
+    margin-top: 4px;
+  }
+
+  /* ─── SCENE ACCORDION ─── */
+  .scene-item {
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    margin-bottom: 6px;
+    overflow: hidden;
+  }
+  .scene-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 18px;
+    cursor: pointer;
+    user-select: none;
+    transition: background 0.15s;
+  }
+  .scene-header:hover { background: var(--bg4); }
+  .scene-dot {
+    width: 10px; height: 10px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+  .scene-dot.green { background: var(--green); }
+  .scene-dot.yellow { background: var(--yellow); }
+  .scene-dot.red { background: var(--red); }
+  .scene-time { font-size: 12px; color: var(--text3); width: 64px; flex-shrink: 0; }
+  .scene-name { font-size: 14px; font-weight: 600; flex: 1; }
+  .scene-badge {
+    font-size: 11px;
+    padding: 2px 8px;
+    border-radius: 20px;
+    font-weight: 600;
+  }
+  .scene-badge.green { background: var(--green-bg); color: var(--green); }
+  .scene-badge.yellow { background: var(--yellow-bg); color: var(--yellow); }
+  .scene-badge.red { background: var(--red-bg); color: var(--red); }
+  .scene-chevron { font-size: 12px; color: var(--text3); transition: transform 0.2s; }
+  .scene-item.open .scene-chevron { transform: rotate(180deg); }
+  .scene-body { display: none; padding: 0 18px 18px; }
+  .scene-item.open .scene-body { display: block; }
+
+  .scene-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-bottom: 14px;
+  }
+  .scene-card {
+    background: var(--bg4);
+    border-radius: 8px;
+    padding: 12px;
+  }
+  .scene-card-label {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    color: var(--text3);
+    text-transform: uppercase;
+    margin-bottom: 5px;
+  }
+  .scene-card-text { font-size: 13px; color: var(--text2); line-height: 1.5; }
+  .scene-card-text em { font-style: normal; color: var(--text); }
+
+  /* gaze bar */
+  .gaze-row {
+    margin-bottom: 14px;
+  }
+  .gaze-label { font-size: 11px; color: var(--text3); margin-bottom: 5px; }
+  .gaze-bar {
+    display: flex;
+    height: 8px;
+    border-radius: 4px;
+    overflow: hidden;
+    gap: 2px;
+    margin-bottom: 4px;
+  }
+  .gaze-person { background: #818cf8; }
+  .gaze-text { background: #f472b6; }
+  .gaze-product { background: #34d399; }
+  .gaze-cta { background: #fbbf24; }
+  .gaze-legend {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+  .gaze-legend-item {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 11px;
+    color: var(--text3);
+  }
+  .gaze-legend-dot { width: 8px; height: 8px; border-radius: 2px; }
+
+  /* prescription */
+  .rx-title {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    color: var(--text3);
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+  .rx-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    padding: 8px 10px;
+    border-radius: 7px;
+    margin-bottom: 5px;
+    font-size: 13px;
+  }
+  .rx-item.red { background: var(--red-bg); color: #ffaaaa; }
+  .rx-item.yellow { background: var(--yellow-bg); color: #fde68a; }
+  .rx-item.gray { background: var(--bg4); color: var(--text2); }
+  .rx-icon { flex-shrink: 0; font-size: 14px; }
+
+  /* ─── PRESCRIPTION MASTER ─── */
+  .rx-master {
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 20px;
+  }
+
+  /* ─── GAZE CHART ─── */
+  .gaze-chart {
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 20px;
+  }
+  .gaze-row-chart {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 10px;
+  }
+  .gaze-row-label {
+    font-size: 12px;
+    color: var(--text2);
+    width: 72px;
+    flex-shrink: 0;
+  }
+  .gaze-stack {
+    flex: 1;
+    height: 20px;
+    border-radius: 4px;
+    overflow: hidden;
+    display: flex;
+    gap: 2px;
+  }
+  .gaze-stack > div { height: 100%; }
+  .gaze-legend-row {
+    display: flex;
+    gap: 16px;
+    margin-top: 14px;
+    flex-wrap: wrap;
+  }
+
+  /* ─── COMPARE CARD ─── */
+  .compare-wrap {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+  .compare-card {
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 20px;
+  }
+  .compare-card.top {
+    border-color: var(--green);
+    background: linear-gradient(135deg, rgba(34,197,94,0.05), var(--bg3));
+  }
+  .compare-label {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--text3);
+    margin-bottom: 14px;
+  }
+  .compare-label.top-label { color: var(--green); }
+  .compare-name {
+    font-size: 14px;
+    font-weight: 700;
+    margin-bottom: 16px;
+    line-height: 1.4;
+  }
+  .compare-metric {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 7px 0;
+    border-bottom: 1px solid var(--border);
+    font-size: 13px;
+  }
+  .compare-metric:last-child { border-bottom: none; }
+  .compare-metric-label { color: var(--text3); }
+  .compare-metric-val { font-weight: 700; }
+  .compare-metric-val.better { color: var(--green); }
+  .compare-metric-val.worse { color: var(--red); }
+
+  /* ─── RESPONSIVE ─── */
+  @media (max-width: 580px) {
+    .hero { padding: 20px; }
+    .hero-top { flex-direction: column; gap: 16px; }
+    .score-block { display: flex; align-items: baseline; gap: 8px; }
+    .score-number { font-size: 52px; }
+    .scene-grid { grid-template-columns: 1fr; }
+    .compare-wrap { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <!-- HEADER -->
+  <div class="page-header">
+    <div class="page-title">고객 여정 분석 리포트</div>
+    <div class="page-meta">승무원 수분크림 • UGC • 31s</div>
+  </div>
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="hero-top">
+      <div class="score-block">
+        <div class="score-number">52</div>
+        <div class="score-denom">/ 100</div>
+        <div class="score-label">소재 점수</div>
+      </div>
+      <div class="hero-summary">
+        <div class="summary-issue">
+          공감→신뢰→기대까지는 좋은데,<br>
+          <span>제품 인지와 CTA에서 떨어짐</span>
+        </div>
+        <div class="meta-row">
+          <span class="meta-tag">📹 UGC</span>
+          <span class="meta-tag">⏱ 31초</span>
+          <span class="meta-tag">🎯 파데 무너지는 여성</span>
+          <span class="meta-tag">💄 뷰티/스킨케어</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="action-list-title">즉시 실행 액션 TOP 3</div>
+    <div class="action-item red">
+      <span class="action-num">1</span>
+      <span class="action-icon">🔴</span>
+      <span class="action-text">CTA에 긴급성 추가 — "오늘까지" / "재고 38개"</span>
+    </div>
+    <div class="action-item red">
+      <span class="action-num">2</span>
+      <span class="action-icon">🔴</span>
+      <span class="action-text">CTA 버튼 명확하게 — 텍스트 자막 말고 버튼형 CTA</span>
+    </div>
+    <div class="action-item yellow">
+      <span class="action-num">3</span>
+      <span class="action-icon">🟡</span>
+      <span class="action-text">10-20초 구간 제품 시선 3-4초로 확장 — 임상 수치 제품 옆 배치</span>
+    </div>
+  </div>
+
+  <!-- SCENE TIMELINE -->
+  <div class="section-title">씬 타임라인</div>
+  <div class="timeline-bar-wrap">
+    <div class="timeline-bar-label">
+      <span>0s</span><span>10s</span><span>20s</span><span>31s</span>
+    </div>
+    <div class="timeline-bar" id="timelineBar">
+      <!-- 0-3s OK: 3/31 = 9.7% -->
+      <div class="tbar-seg green" style="flex:3" title="0-3초: 훅" onclick="toggleScene('s0')"></div>
+      <!-- 3-10s 개선: 7/31 = 22.6% -->
+      <div class="tbar-seg yellow" style="flex:7" title="3-10초: 소개+데모" onclick="toggleScene('s1')"></div>
+      <!-- 10-20s 개선: 10/31 = 32.3% -->
+      <div class="tbar-seg yellow" style="flex:10" title="10-20초: 결과" onclick="toggleScene('s2')"></div>
+      <!-- 20-27s 개선: 7/31 = 22.6% -->
+      <div class="tbar-seg yellow" style="flex:7" title="20-27초: 팁" onclick="toggleScene('s3')"></div>
+      <!-- 27-31s 필수: 4/31 = 12.9% -->
+      <div class="tbar-seg red" style="flex:4" title="27-31초: CTA" onclick="toggleScene('s4')"></div>
+    </div>
+    <div class="timeline-ticks">
+      <span>0s</span><span>3s</span><span>10s</span><span>20s</span><span>27s</span><span>31s</span>
+    </div>
+  </div>
+
+  <!-- SCENE ITEMS -->
+  <div class="scene-item" id="s0">
+    <div class="scene-header" onclick="toggleScene('s0')">
+      <div class="scene-dot green"></div>
+      <div class="scene-time">0 – 3초</div>
+      <div class="scene-name">훅</div>
+      <div class="scene-badge green">✅ OK</div>
+      <div class="scene-chevron">▼</div>
+    </div>
+    <div class="scene-body">
+      <div class="scene-grid">
+        <div class="scene-card">
+          <div class="scene-card-label">👁 봤다</div>
+          <div class="scene-card-text">피부 클로즈업 + <em>"점심만 지나면 파데 무너지는 사람!!"</em> 자막</div>
+        </div>
+        <div class="scene-card">
+          <div class="scene-card-label">👂 들었다</div>
+          <div class="scene-card-text">"어떤 파데를 써도 피부 화장이 금방 무너진다면 딱 이거 하나만 바꿔봐"</div>
+        </div>
+        <div class="scene-card">
+          <div class="scene-card-label">💭 생각</div>
+          <div class="scene-card-text"><em>"아 나도 그래"</em> → 공감(empathy), problem hook 작동</div>
+        </div>
+        <div class="scene-card">
+          <div class="scene-card-label">📊 행동</div>
+          <div class="scene-card-text">3초 시청률 <em>19~60%</em> (불안정)</div>
+        </div>
+      </div>
+      <div class="gaze-row">
+        <div class="gaze-label">시선 분포</div>
+        <div class="gaze-bar">
+          <div class="gaze-person" style="flex:85"></div>
+          <div class="gaze-text" style="flex:15"></div>
+        </div>
+        <div class="gaze-legend">
+          <div class="gaze-legend-item"><div class="gaze-legend-dot" style="background:#818cf8"></div>인물 85%</div>
+          <div class="gaze-legend-item"><div class="gaze-legend-dot" style="background:#f472b6"></div>텍스트 15%</div>
+        </div>
+      </div>
+      <div class="rx-title">처방</div>
+      <div class="rx-item gray"><span class="rx-icon">⚪</span>제품명 1줄 추가 → 훅+제품 인지 동시 가능</div>
+    </div>
+  </div>
+
+  <div class="scene-item" id="s1">
+    <div class="scene-header" onclick="toggleScene('s1')">
+      <div class="scene-dot yellow"></div>
+      <div class="scene-time">3 – 10초</div>
+      <div class="scene-name">소개 + 데모</div>
+      <div class="scene-badge yellow">🟡 개선</div>
+      <div class="scene-chevron">▼</div>
+    </div>
+    <div class="scene-body">
+      <div class="scene-grid">
+        <div class="scene-card">
+          <div class="scene-card-label">👁 봤다</div>
+          <div class="scene-card-text">승무원 크림 소개 + 제형 시연 + 비포애프터</div>
+        </div>
+        <div class="scene-card">
+          <div class="scene-card-label">👂 들었다</div>
+          <div class="scene-card-text">"기초 공사가 중요... <em>승무원 대표가 만든 이 수분 크림</em>"</div>
+        </div>
+        <div class="scene-card">
+          <div class="scene-card-label">💭 생각</div>
+          <div class="scene-card-text">신뢰(authority) — <em>"승무원이 만들었으면 괜찮겠다"</em></div>
+        </div>
+        <div class="scene-card">
+          <div class="scene-card-label">📊 행동</div>
+          <div class="scene-card-text">계속 시청 (이탈 적음)</div>
+        </div>
+      </div>
+      <div class="gaze-row">
+        <div class="gaze-label">시선 분포</div>
+        <div class="gaze-bar">
+          <div class="gaze-person" style="flex:25"></div>
+          <div class="gaze-text" style="flex:70"></div>
+          <div class="gaze-product" style="flex:5"></div>
+        </div>
+        <div class="gaze-legend">
+          <div class="gaze-legend-item"><div class="gaze-legend-dot" style="background:#818cf8"></div>인물 25%</div>
+          <div class="gaze-legend-item"><div class="gaze-legend-dot" style="background:#f472b6"></div>텍스트 70%</div>
+          <div class="gaze-legend-item"><div class="gaze-legend-dot" style="background:#34d399"></div>제품 5%</div>
+        </div>
+      </div>
+      <div class="rx-title">처방</div>
+      <div class="rx-item yellow"><span class="rx-icon">🟡</span>비포애프터 구간 자막 제거/축소</div>
+      <div class="rx-item yellow"><span class="rx-icon">🟡</span>비포애프터 더 극적으로 편집</div>
+      <div class="rx-item yellow"><span class="rx-icon">🟡</span>제품 풀스크린 2초 삽입</div>
+    </div>
+  </div>
+
+  <div class="scene-item" id="s2">
+    <div class="scene-header" onclick="toggleScene('s2')">
+      <div class="scene-dot yellow"></div>
+      <div class="scene-time">10 – 20초</div>
+      <div class="scene-name">결과</div>
+      <div class="scene-badge yellow">🟡 개선</div>
+      <div class="scene-chevron">▼</div>
+    </div>
+    <div class="scene-body">
+      <div class="scene-grid">
+        <div class="scene-card">
+          <div class="scene-card-label">👁 봤다</div>
+          <div class="scene-card-text">크림 도포 → 물광 결과 → 임상 수치</div>
+        </div>
+        <div class="scene-card">
+          <div class="scene-card-label">👂 들었다</div>
+          <div class="scene-card-text">"히알루론산이 피부 속까지 깊이 흡수... <em>속건조가 안 느껴져</em>"</div>
+        </div>
+        <div class="scene-card">
+          <div class="scene-card-label">💭 생각</div>
+          <div class="scene-card-text">기대(excitement) + 임상 데이터 신뢰</div>
+        </div>
+        <div class="scene-card">
+          <div class="scene-card-label">📊 행동</div>
+          <div class="scene-card-text">계속 시청, <em>텍스트 몰두</em></div>
+        </div>
+      </div>
+      <div class="gaze-row">
+        <div class="gaze-label">시선 분포</div>
+        <div class="gaze-bar">
+          <div class="gaze-person" style="flex:25"></div>
+          <div class="gaze-text" style="flex:55"></div>
+          <div class="gaze-product" style="flex:20"></div>
+        </div>
+        <div class="gaze-legend">
+          <div class="gaze-legend-item"><div class="gaze-legend-dot" style="background:#818cf8"></div>인물 25%</div>
+          <div class="gaze-legend-item"><div class="gaze-legend-dot" style="background:#f472b6"></div>텍스트 55%</div>
+          <div class="gaze-legend-item"><div class="gaze-legend-dot" style="background:#34d399"></div>제품 20%</div>
+        </div>
+      </div>
+      <div class="rx-title">처방</div>
+      <div class="rx-item yellow"><span class="rx-icon">🟡</span>제품 시선 구간 3-4초로 확장</div>
+      <div class="rx-item yellow"><span class="rx-icon">🟡</span>임상 수치를 제품 옆에 배치</div>
+    </div>
+  </div>
+
+  <div class="scene-item" id="s3">
+    <div class="scene-header" onclick="toggleScene('s3')">
+      <div class="scene-dot yellow"></div>
+      <div class="scene-time">20 – 27초</div>
+      <div class="scene-name">팁</div>
+      <div class="scene-badge yellow">🟡 개선</div>
+      <div class="scene-chevron">▼</div>
+    </div>
+    <div class="scene-body">
+      <div class="scene-grid">
+        <div class="scene-card">
+          <div class="scene-card-label">👁 봤다</div>
+          <div class="scene-card-text">크림으로 화장 녹이기 → 쿠션 수정</div>
+        </div>
+        <div class="scene-card">
+          <div class="scene-card-label">👂 들었다</div>
+          <div class="scene-card-text">"크림으로 살짝 녹여준 뒤에 쿠션으로 눌러주면"</div>
+        </div>
+        <div class="scene-card">
+          <div class="scene-card-label">💭 생각</div>
+          <div class="scene-card-text">활용도 인지</div>
+        </div>
+        <div class="scene-card">
+          <div class="scene-card-label">📊 행동</div>
+          <div class="scene-card-text">시청 유지, <em>클릭 충동 없음</em></div>
+        </div>
+      </div>
+      <div class="gaze-row">
+        <div class="gaze-label">시선 분포</div>
+        <div class="gaze-bar">
+          <div class="gaze-person" style="flex:40"></div>
+          <div class="gaze-text" style="flex:45"></div>
+          <div class="gaze-product" style="flex:15"></div>
+        </div>
+        <div class="gaze-legend">
+          <div class="gaze-legend-item"><div class="gaze-legend-dot" style="background:#818cf8"></div>인물 40%</div>
+          <div class="gaze-legend-item"><div class="gaze-legend-dot" style="background:#f472b6"></div>텍스트 45%</div>
+          <div class="gaze-legend-item"><div class="gaze-legend-dot" style="background:#34d399"></div>제품 15%</div>
+        </div>
+      </div>
+      <div class="rx-title">처방</div>
+      <div class="rx-item yellow"><span class="rx-icon">🟡</span>미니 CTA "링크는 아래↓" 삽입</div>
+      <div class="rx-item yellow"><span class="rx-icon">🟡</span>25초쯤 중간 CTA 배치</div>
+    </div>
+  </div>
+
+  <div class="scene-item" id="s4">
+    <div class="scene-header" onclick="toggleScene('s4')">
+      <div class="scene-dot red"></div>
+      <div class="scene-time">27 – 31초</div>
+      <div class="scene-name">CTA</div>
+      <div class="scene-badge red">🔴 필수</div>
+      <div class="scene-chevron">▼</div>
+    </div>
+    <div class="scene-body">
+      <div class="scene-grid">
+        <div class="scene-card">
+          <div class="scene-card-label">👁 봤다</div>
+          <div class="scene-card-text"><em>"자사몰에서 최대 40% 할인 중"</em> 자막</div>
+        </div>
+        <div class="scene-card">
+          <div class="scene-card-label">👂 들었다</div>
+          <div class="scene-card-text">"요거 지금 할인 행사 중이니까 꼭 사 봐"</div>
+        </div>
+        <div class="scene-card">
+          <div class="scene-card-label">💭 생각</div>
+          <div class="scene-card-text"><em>"40% 할인이면 괜찮은데... 근데 급하진 않네"</em> → urgency 없음</div>
+        </div>
+        <div class="scene-card">
+          <div class="scene-card-label">📊 행동</div>
+          <div class="scene-card-text">CTR <em style="color:var(--red)">1.2%</em> · ROAS <em style="color:var(--red)">0.5~1.1</em></div>
+        </div>
+      </div>
+      <div class="gaze-row">
+        <div class="gaze-label">시선 분포</div>
+        <div class="gaze-bar">
+          <div class="gaze-text" style="flex:75"></div>
+          <div class="gaze-cta" style="flex:25"></div>
+        </div>
+        <div class="gaze-legend">
+          <div class="gaze-legend-item"><div class="gaze-legend-dot" style="background:#f472b6"></div>텍스트 75%</div>
+          <div class="gaze-legend-item"><div class="gaze-legend-dot" style="background:#fbbf24"></div>CTA 25%</div>
+        </div>
+      </div>
+      <div class="rx-title">처방</div>
+      <div class="rx-item red"><span class="rx-icon">🔴</span>CTA 버튼 추가 (텍스트 자막 → 버튼형)</div>
+      <div class="rx-item red"><span class="rx-icon">🔴</span>"오늘까지" / "재고 38개" 긴급성 문구 삽입</div>
+      <div class="rx-item red"><span class="rx-icon">🔴</span>할인 기한 명시 (D-day 또는 날짜 표시)</div>
+    </div>
+  </div>
+
+  <!-- PRESCRIPTION MASTER -->
+  <div class="section-title">처방전 모아보기</div>
+  <div class="rx-master">
+    <div style="margin-bottom:16px">
+      <div class="rx-title" style="margin-bottom:10px">🔴 필수 — 지금 당장</div>
+      <div class="rx-item red"><span class="rx-icon">🔴</span>CTA 버튼 명확하게 (자막 → 버튼형 CTA)</div>
+      <div class="rx-item red"><span class="rx-icon">🔴</span>"오늘까지" / "재고 38개" 긴급성 추가</div>
+      <div class="rx-item red"><span class="rx-icon">🔴</span>할인 기한 명시</div>
+    </div>
+    <div style="margin-bottom:16px">
+      <div class="rx-title" style="margin-bottom:10px">🟡 권장 — 다음 버전에</div>
+      <div class="rx-item yellow"><span class="rx-icon">🟡</span>비포애프터 더 극적으로 편집 + 자막 축소 (3-10초)</div>
+      <div class="rx-item yellow"><span class="rx-icon">🟡</span>제품 풀스크린 2초 삽입 (3-10초)</div>
+      <div class="rx-item yellow"><span class="rx-icon">🟡</span>제품 시선 구간 3-4초로 확장 (10-20초)</div>
+      <div class="rx-item yellow"><span class="rx-icon">🟡</span>임상 수치를 제품 옆에 배치 (10-20초)</div>
+      <div class="rx-item yellow"><span class="rx-icon">🟡</span>25초쯤 미니 CTA "링크는 아래↓" 삽입 (20-27초)</div>
+    </div>
+    <div>
+      <div class="rx-title" style="margin-bottom:10px">⚪ 선택 — 여유 있을 때</div>
+      <div class="rx-item gray"><span class="rx-icon">⚪</span>훅 구간(0-3초)에 제품명 1줄 추가 → 훅+제품 인지 동시 달성</div>
+    </div>
+  </div>
+
+  <!-- GAZE CHART -->
+  <div class="section-title">시선 분석 요약</div>
+  <div class="gaze-chart">
+    <div class="gaze-row-chart">
+      <div class="gaze-row-label">0-3초 훅</div>
+      <div class="gaze-stack">
+        <div class="gaze-person" style="flex:85"></div>
+        <div class="gaze-text" style="flex:15"></div>
+      </div>
+    </div>
+    <div class="gaze-row-chart">
+      <div class="gaze-row-label">3-10초 소개</div>
+      <div class="gaze-stack">
+        <div class="gaze-person" style="flex:25"></div>
+        <div class="gaze-text" style="flex:70"></div>
+        <div class="gaze-product" style="flex:5"></div>
+      </div>
+    </div>
+    <div class="gaze-row-chart">
+      <div class="gaze-row-label">10-20초 결과</div>
+      <div class="gaze-stack">
+        <div class="gaze-person" style="flex:25"></div>
+        <div class="gaze-text" style="flex:55"></div>
+        <div class="gaze-product" style="flex:20"></div>
+      </div>
+    </div>
+    <div class="gaze-row-chart">
+      <div class="gaze-row-label">20-27초 팁</div>
+      <div class="gaze-stack">
+        <div class="gaze-person" style="flex:40"></div>
+        <div class="gaze-text" style="flex:45"></div>
+        <div class="gaze-product" style="flex:15"></div>
+      </div>
+    </div>
+    <div class="gaze-row-chart">
+      <div class="gaze-row-label">27-31초 CTA</div>
+      <div class="gaze-stack">
+        <div class="gaze-text" style="flex:75"></div>
+        <div class="gaze-cta" style="flex:25"></div>
+      </div>
+    </div>
+    <div class="gaze-legend-row">
+      <div class="gaze-legend-item"><div class="gaze-legend-dot" style="background:#818cf8"></div>인물</div>
+      <div class="gaze-legend-item"><div class="gaze-legend-dot" style="background:#f472b6"></div>텍스트</div>
+      <div class="gaze-legend-item"><div class="gaze-legend-dot" style="background:#34d399"></div>제품</div>
+      <div class="gaze-legend-item"><div class="gaze-legend-dot" style="background:#fbbf24"></div>CTA</div>
+    </div>
+  </div>
+
+  <!-- COMPARE -->
+  <div class="section-title">성과 비교</div>
+  <div class="compare-wrap">
+    <div class="compare-card">
+      <div class="compare-label">이 소재</div>
+      <div class="compare-name">승무원 수분크림<br>UGC_31s</div>
+      <div class="compare-metric">
+        <span class="compare-metric-label">CTR</span>
+        <span class="compare-metric-val worse">1.2%</span>
+      </div>
+      <div class="compare-metric">
+        <span class="compare-metric-label">3초 시청률</span>
+        <span class="compare-metric-val worse">19~60%</span>
+      </div>
+      <div class="compare-metric">
+        <span class="compare-metric-label">ROAS</span>
+        <span class="compare-metric-val worse">0.5</span>
+      </div>
+      <div class="compare-metric">
+        <span class="compare-metric-label">참여율</span>
+        <span class="compare-metric-val worse">16 / 만</span>
+      </div>
+    </div>
+    <div class="compare-card top">
+      <div class="compare-label top-label">🏆 Top 소재</div>
+      <div class="compare-name">승무원 수정화장<br>_22s</div>
+      <div class="compare-metric">
+        <span class="compare-metric-label">CTR</span>
+        <span class="compare-metric-val better">3.7%</span>
+      </div>
+      <div class="compare-metric">
+        <span class="compare-metric-label">3초 시청률</span>
+        <span class="compare-metric-val better">37%</span>
+      </div>
+      <div class="compare-metric">
+        <span class="compare-metric-label">ROAS</span>
+        <span class="compare-metric-val better">1.14</span>
+      </div>
+      <div class="compare-metric">
+        <span class="compare-metric-label">참여율</span>
+        <span class="compare-metric-val better">30 / 만</span>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+function toggleScene(id) {
+  const el = document.getElementById(id);
+  if (!el) return;
+  el.classList.toggle('open');
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CEO 업무 맵 & 채용 전략 | 테넥스</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#0d1117;color:#e0e0e0;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;line-height:1.6}
+.hero{background:linear-gradient(135deg,#0d1117,#161b22);border-bottom:1px solid #21262d;padding:40px 24px 32px}
+.hero-inner{max-width:900px;margin:0 auto}
+.hero-badge{font-size:11px;font-weight:600;color:#58a6ff;text-transform:uppercase;letter-spacing:1.5px;margin-bottom:8px}
+.hero h1{font-size:26px;font-weight:700;color:#fff;margin-bottom:4px}
+.hero-sub{color:#8b949e;font-size:14px}
+.container{max-width:900px;margin:0 auto;padding:24px}
+
+/* 팀 구조 */
+.team-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px;margin-bottom:32px}
+.team-card{background:#161b22;border:1px solid #21262d;border-radius:10px;padding:16px}
+.team-name{font-size:16px;font-weight:700;color:#e6edf3;margin-bottom:2px}
+.team-role{font-size:12px;color:#58a6ff;font-weight:600;margin-bottom:8px}
+.team-tasks{font-size:12px;color:#8b949e}
+
+/* 섹션 */
+.section{margin-bottom:32px}
+.section-title{font-size:18px;font-weight:700;color:#e6edf3;margin-bottom:4px;display:flex;align-items:center;gap:8px}
+.section-desc{font-size:13px;color:#8b949e;margin-bottom:16px}
+
+/* 업무 카드 */
+.work-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:12px}
+.work-card{background:#161b22;border:1px solid #21262d;border-radius:10px;padding:16px;transition:border-color .15s}
+.work-card:hover{border-color:#30363d}
+.work-cat{font-size:13px;font-weight:700;color:#e6edf3;margin-bottom:2px}
+.work-mission{font-size:11px;color:#8b949e;margin-bottom:10px;font-style:italic}
+.work-list{list-style:none;padding:0}
+.work-list li{font-size:12px;color:#c9d1d9;padding:3px 0;padding-left:14px;position:relative}
+.work-list li::before{content:"";position:absolute;left:0;top:10px;width:6px;height:6px;border-radius:50%}
+.work-note{font-size:11px;color:#8b949e;margin-top:6px;padding:8px;background:#0d1117;border-radius:6px}
+
+/* 위임 분류 */
+.delegation{display:flex;flex-direction:column;gap:16px}
+.deleg-group{border-radius:10px;padding:16px;border:1px solid}
+.deleg-red{background:#1a0f0f;border-color:#f8514966}
+.deleg-yellow{background:#1a1700;border-color:#d29922aa}
+.deleg-green{background:#0f1a0f;border-color:#3fb95066}
+.deleg-header{display:flex;align-items:center;gap:8px;margin-bottom:10px}
+.deleg-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0}
+.deleg-dot-red{background:#f85149}
+.deleg-dot-yellow{background:#d29922}
+.deleg-dot-green{background:#3fb950}
+.deleg-label{font-size:14px;font-weight:700;color:#e6edf3}
+.deleg-sub{font-size:11px;color:#8b949e}
+.deleg-items{display:flex;flex-wrap:wrap;gap:6px}
+.deleg-tag{font-size:11px;padding:4px 10px;border-radius:16px;font-weight:500}
+.tag-red{background:#f8514920;color:#f85149;border:1px solid #f8514940}
+.tag-yellow{background:#d2992220;color:#d29922;border:1px solid #d2992240}
+.tag-green{background:#3fb95020;color:#3fb950;border:1px solid #3fb95040}
+
+/* 결론 */
+.conclusion{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:12px}
+.concl-card{border-radius:10px;padding:20px;border:1px solid}
+.concl-1{background:#1a1700;border-color:#d29922aa}
+.concl-2{background:#0f1a0f;border-color:#3fb95066}
+.concl-pri{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:1px;margin-bottom:6px}
+.concl-pri-1{color:#d29922}
+.concl-pri-2{color:#3fb950}
+.concl-title{font-size:16px;font-weight:700;color:#e6edf3;margin-bottom:6px}
+.concl-desc{font-size:12px;color:#c9d1d9}
+
+/* 면접 */
+.interview{background:#161b22;border:1px solid #21262d;border-radius:10px;padding:20px}
+.interview-profile{display:flex;gap:16px;margin-bottom:16px;flex-wrap:wrap}
+.interview-info{flex:1;min-width:200px}
+.interview-name{font-size:18px;font-weight:700;color:#e6edf3}
+.interview-meta{font-size:12px;color:#8b949e;margin-top:4px}
+.interview-badge{display:inline-block;font-size:11px;padding:3px 10px;border-radius:12px;font-weight:600;margin-top:6px}
+.badge-green{background:#3fb95020;color:#3fb950;border:1px solid #3fb95040}
+.badge-yellow{background:#d2992220;color:#d29922;border:1px solid #d2992240}
+.q-list{list-style:none;padding:0;counter-reset:q}
+.q-list li{font-size:13px;color:#c9d1d9;padding:10px 12px;background:#0d1117;border-radius:8px;margin-bottom:8px;counter-increment:q;position:relative;padding-left:36px}
+.q-list li::before{content:counter(q);position:absolute;left:12px;top:10px;font-size:12px;font-weight:700;color:#58a6ff}
+.q-purpose{font-size:11px;color:#8b949e;margin-top:4px}
+
+.footer{text-align:center;padding:24px;color:#484f58;font-size:11px;border-top:1px solid #21262d;margin-top:32px}
+</style>
+</head>
+<body>
+
+<div class="hero">
+<div class="hero-inner">
+<div class="hero-badge">TENEX · CEO OPERATIONS MAP</div>
+<h1>CEO 업무 맵 & 채용 전략</h1>
+<div class="hero-sub">태훈이 하는 모든 일 → 위임 가능 여부 → 필요한 사람</div>
+</div>
+</div>
+
+<div class="container">
+
+<!-- 섹션 1: 현재 팀 -->
+<div class="section">
+<div class="section-title">👥 현재 팀 (3인)</div>
+<div class="section-desc">코어팀 구성과 각자 담당 영역</div>
+<div class="team-grid">
+<div class="team-card" style="border-left:3px solid #f85149">
+<div class="team-name">김태훈</div>
+<div class="team-role">CEO · 전략 총괄</div>
+<div class="team-tasks">제품 · 마케팅/광고 · 앱/CRM · 자금조달 · 채용 · AI 시스템</div>
+</div>
+<div class="team-card" style="border-left:3px solid #58a6ff">
+<div class="team-name">인규</div>
+<div class="team-role">콘텐츠 총괄</div>
+<div class="team-tasks">1분도수 채널 · 콘텐츠 기획/제작 · CS/고객관리</div>
+</div>
+<div class="team-card" style="border-left:3px solid #bc8cff">
+<div class="team-name">나현</div>
+<div class="team-role">브랜드 확산</div>
+<div class="team-tasks">콘텐츠 확산 · PR/언론 · 마케팅 확산</div>
+</div>
+</div>
+</div>
+
+<!-- 섹션 2: CEO 업무 전체 맵 -->
+<div class="section">
+<div class="section-title">🗺️ CEO가 하는 일 전체 맵</div>
+<div class="section-desc">10개 카테고리, 태훈 혼자 들고 있는 업무들</div>
+<div class="work-grid">
+
+<div class="work-card">
+<div class="work-cat">A. 제품</div>
+<div class="work-mission">목 문제의 근본적인 해결책이 될 수 있는 솔루션 개발</div>
+<ul class="work-list">
+<li style="--dot:#d29922">제조사 소통 / 일정조율</li>
+<li style="--dot:#d29922">각종 인증 처리 (화장품책임판매업, 안전인증, 해외수출용)</li>
+<li style="--dot:#d29922">통증크림 성분 확정 및 제조 + 일정조율</li>
+<li style="--dot:#3fb950">디자인 전반 (제품/패키지/웹사이트/브랜딩)</li>
+</ul>
+<div class="work-note">⚠️ 웹사이트 리뉴얼 하고 싶지만 리소스 부족. 의료미니멀 vs 캐주얼 라인 조율 필요 → 아무한테나 못 맡김</div>
+</div>
+
+<div class="work-card">
+<div class="work-cat">C. 의료계 파트너십</div>
+<div class="work-mission">의료계가 인정하는 경추 치료 솔루션으로 자리잡기</div>
+<ul class="work-list">
+<li>최대기여요소 공략 (정선근 교수님)</li>
+</ul>
+<div class="work-note">⚠️ 아직 못 하고 있음. 제품력 완성 후 접근 검토 중</div>
+</div>
+
+<div class="work-card">
+<div class="work-cat">D. 마케팅/광고</div>
+<div class="work-mission">대한민국이 열광하는 경추 치료 솔루션</div>
+<ul class="work-list">
+<li>메타 광고 소재기획 및 운영</li>
+<li>유튜브/틱톡 미디어믹스 소재 제작 & 운영</li>
+<li>마케팅 자동화 구축</li>
+</ul>
+<div class="work-note">⚠️ 목표 ROAS 400%, 현재 주간 210%. 계속 테스트 필요</div>
+</div>
+
+<div class="work-card">
+<div class="work-cat">E. 앱/CRM</div>
+<div class="work-mission">구매자가 실제로 회복하고 평생 팬이 되는 구조</div>
+<ul class="work-list">
+<li>앱 MVP 재기획 및 개발 관리</li>
+<li>CRM 셋팅/검수</li>
+</ul>
+<div class="work-note">⚠️ 앱은 한번 드롭됨 (기획없이 진행). CRM 기획 완료 → 셋팅이 에너지 소모 큼</div>
+</div>
+
+<div class="work-card">
+<div class="work-cat">F. 자금조달</div>
+<div class="work-mission">성장에 필요한 자금을 지분 희석 없이 확보</div>
+<ul class="work-list">
+<li>팁스 선발</li>
+<li>기보/신보 대출상담 및 실행</li>
+<li>법인전환 후 자금조달 로드맵 실행</li>
+</ul>
+</div>
+
+<div class="work-card">
+<div class="work-cat">G. 채용</div>
+<div class="work-mission">태훈이 전략에 집중할 수 있는 팀 구축</div>
+<ul class="work-list">
+<li>채용 기준/소싱/보상 설계</li>
+</ul>
+</div>
+
+<div class="work-card">
+<div class="work-cat">H. 운영</div>
+<div class="work-mission">매출이 커져도 흔들리지 않는 운영 체계</div>
+<ul class="work-list">
+<li>재고 관리 (가끔 확인)</li>
+<li>물류 자동화 (택배마스터, 해외: 로딧)</li>
+<li>CS 시스템 구축</li>
+</ul>
+<div class="work-note">⚠️ "유령 회사 아니냐" 소리 들을 정도. CS 시스템 시급</div>
+</div>
+
+<div class="work-card">
+<div class="work-cat">I. AI 시스템</div>
+<div class="work-mission">반복 업무 자동화, 적은 인원으로 최대 성과</div>
+<ul class="work-list">
+<li>Heygen 콘텐츠 번역/더빙/업로드</li>
+<li>CS AI 자동화</li>
+<li>팀원 AI 활용 교육</li>
+</ul>
+</div>
+
+<div class="work-card">
+<div class="work-cat">J. 해외진출</div>
+<div class="work-mission">미국 시장에서 경추 회복의 표준 브랜드</div>
+<ul class="work-list">
+<li>해외 인증</li>
+<li>해외 사이트 구축</li>
+<li>인플루언서 자동화 (리스트업→DM→발송→수급)</li>
+<li>Heygen으로 해외 채널 자동화</li>
+</ul>
+<div class="work-note">경험 있는 사람이 하면 엄청 빠를 것. 직접 하면 오래 걸림</div>
+</div>
+
+<div class="work-card">
+<div class="work-cat">Z. 교육</div>
+<div class="work-mission">성공한 사람들의 경험으로 성장 속도 10배</div>
+<ul class="work-list">
+<li>여기저기서 교육 수강 중</li>
+</ul>
+</div>
+
+</div>
+</div>
+
+<!-- 섹션 3: 위임 분류 -->
+<div class="section">
+<div class="section-title">🎯 위임 분류</div>
+<div class="section-desc">모든 업무를 3단계로 분류. 이것이 채용의 근거</div>
+<div class="delegation">
+
+<div class="deleg-group deleg-red">
+<div class="deleg-header">
+<div class="deleg-dot deleg-dot-red"></div>
+<div>
+<div class="deleg-label">태훈만 가능</div>
+<div class="deleg-sub">전략 · 판단 · 관계 — 절대 위임 불가</div>
+</div>
+</div>
+<div class="deleg-items">
+<span class="deleg-tag tag-red">제품 방향 결정</span>
+<span class="deleg-tag tag-red">최대기여요소 공략</span>
+<span class="deleg-tag tag-red">마케팅 전략</span>
+<span class="deleg-tag tag-red">자금조달 전략</span>
+<span class="deleg-tag tag-red">채용 최종 판단</span>
+<span class="deleg-tag tag-red">브랜딩 톤 결정</span>
+<span class="deleg-tag tag-red">교육/네트워킹</span>
+</div>
+</div>
+
+<div class="deleg-group deleg-yellow">
+<div class="deleg-header">
+<div class="deleg-dot deleg-dot-yellow"></div>
+<div>
+<div class="deleg-label">위임 가능 — 판단력 필요</div>
+<div class="deleg-sub">CEO Staff급 · "100 시키면 150 해오는 사람"</div>
+</div>
+</div>
+<div class="deleg-items">
+<span class="deleg-tag tag-yellow">제조사 소통/일정조율</span>
+<span class="deleg-tag tag-yellow">각종 인증 처리</span>
+<span class="deleg-tag tag-yellow">CRM 셋팅/검수</span>
+<span class="deleg-tag tag-yellow">CS 시스템 구축</span>
+<span class="deleg-tag tag-yellow">앱 MVP 관리</span>
+<span class="deleg-tag tag-yellow">자금조달 실행 (서류/상담)</span>
+<span class="deleg-tag tag-yellow">해외 인증/사이트 구축</span>
+<span class="deleg-tag tag-yellow">채용 소싱/스크리닝</span>
+</div>
+</div>
+
+<div class="deleg-group deleg-green">
+<div class="deleg-header">
+<div class="deleg-dot deleg-dot-green"></div>
+<div>
+<div class="deleg-label">위임 가능 — 실행/제작</div>
+<div class="deleg-sub">지시 기반 · 제작/운영 실무</div>
+</div>
+</div>
+<div class="deleg-items">
+<span class="deleg-tag tag-green">디자인 전반</span>
+<span class="deleg-tag tag-green">광고 소재 제작+세팅</span>
+<span class="deleg-tag tag-green">숏폼/영상 제작</span>
+<span class="deleg-tag tag-green">Heygen 번역/더빙</span>
+<span class="deleg-tag tag-green">인플루언서 리스트업/DM</span>
+<span class="deleg-tag tag-green">재고 체크</span>
+<span class="deleg-tag tag-green">AI 자동화 셋팅</span>
+</div>
+</div>
+
+</div>
+</div>
+
+<!-- 섹션 4: 필요한 사람 -->
+<div class="section">
+<div class="section-title">🧑‍💼 필요한 사람</div>
+<div class="section-desc">태훈이 전략에만 집중하려면 이 2명이 필요</div>
+<div class="conclusion">
+<div class="concl-card concl-1">
+<div class="concl-pri concl-pri-1">1순위 · CEO Staff / 실행 총괄</div>
+<div class="concl-title">🟡 영역 전담</div>
+<div class="concl-desc">
+태훈이 "이거 해" → 알아서 쪼개고 실행하고 보고.<br><br>
+<strong>담당:</strong> 인증처리, 제조사 조율, CRM 셋팅, 자금조달 서류, CS 시스템, 해외 인증<br><br>
+<strong>유형:</strong> 프로젝트 매니저 / 운영형 인재. 꼼꼼 + 주도적. "100 시키면 150 해오는 사람"
+</div>
+</div>
+<div class="concl-card concl-2">
+<div class="concl-pri concl-pri-2">2순위 · 콘텐츠/디자인 제작자</div>
+<div class="concl-title">🟢 영역 전담</div>
+<div class="concl-desc">
+광고 소재 무한 생산 + 웹사이트/상세페이지/영상.<br><br>
+<strong>담당:</strong> 디자인 전반, 광고 소재, 숏폼, Heygen, 인플루언서 자동화<br><br>
+<strong>유형:</strong> 멀티 제작자. 나현과 함께 콘텐츠 생산 라인 구축
+</div>
+</div>
+</div>
+</div>
+
+<!-- 섹션 5: 면접 포인트 -->
+<div class="section">
+<div class="section-title">📋 이제형님 면접 포인트</div>
+<div class="section-desc">오늘 19:00 면접 — 핵심은 🟡 가능 여부</div>
+<div class="interview">
+<div class="interview-profile">
+<div class="interview-info">
+<div class="interview-name">이제형</div>
+<div class="interview-meta">만 26세 · 회계학 전공 → 디자인 전환 · 인규 와이프분 추천</div>
+<span class="interview-badge badge-green">포폴 기준: 🟢 제작자</span>
+<span class="interview-badge badge-yellow">추천 기준: 🟡 가능성?</span>
+</div>
+</div>
+
+<div style="font-size:13px;font-weight:700;color:#e6edf3;margin-bottom:10px">면접 플로우</div>
+<div style="display:flex;align-items:center;gap:8px;margin-bottom:16px;flex-wrap:wrap">
+<div style="background:#58a6ff20;border:1px solid #58a6ff40;border-radius:8px;padding:10px 14px;font-size:12px;color:#58a6ff;text-align:center;flex:1;min-width:150px">
+<div style="font-weight:700;margin-bottom:4px">🎤 오프닝</div>
+<div style="color:#c9d1d9;font-size:11px">우리 회사 알고 지원한 건지?<br>어떤 걸 기대하고 오셨는지?</div>
+</div>
+<div style="color:#484f58;font-size:18px">→</div>
+<div style="background:#d2992220;border:1px solid #d2992240;border-radius:8px;padding:10px 14px;font-size:12px;color:#d29922;text-align:center;flex:1;min-width:150px">
+<div style="font-weight:700;margin-bottom:4px">💬 본론</div>
+<div style="color:#c9d1d9;font-size:11px">편하게 대화하면서<br>사람 읽기 (아래 질문 참고)</div>
+</div>
+<div style="color:#484f58;font-size:18px">→</div>
+<div style="background:#3fb95020;border:1px solid #3fb95040;border-radius:8px;padding:10px 14px;font-size:12px;color:#3fb950;text-align:center;flex:1;min-width:150px">
+<div style="font-weight:700;margin-bottom:4px">✅ 클로징</div>
+<div style="color:#c9d1d9;font-size:11px">MBTI · 희망연봉<br>출근 가능 시점 · 10-10 괜찮은지</div>
+</div>
+</div>
+
+<div style="padding:8px 12px;background:#0d1117;border-radius:6px;font-size:11px;color:#8b949e;margin-bottom:16px">
+⚠️ 교훈: 오퍼 수락 후 출근까지 간격 길면 딴 데 알아봄 (이수연 건). 빠른 출근 확인 필수.
+</div>
+
+<div style="font-size:13px;font-weight:700;color:#e6edf3;margin-bottom:10px">뽑아야 할 사람</div>
+<div style="padding:12px;background:#0d1117;border-radius:8px;margin-bottom:16px;font-size:12px;color:#c9d1d9">
+<strong style="color:#58a6ff">한마디:</strong> 태훈의 손발이 되어줄 실행형 제너럴리스트<br><br>
+<strong>역할:</strong> 태훈이 "이거 해" → 알아서 쪼개고, 실행하고, 막히면 찾아서 해결하고, 보고<br>
+<strong>맡길 일:</strong> 제조사 조율, 인증 서류, CRM 셋팅, CS 시스템, 자금조달 서류, 해외 인증/사이트 + 디자인은 보너스<br>
+<strong>성격:</strong> 꼼꼼 + 주도적 + 멀티태스킹 + 지루한 일도 해내는 사람 (ISTJ/ESTJ/ENTJ)<br>
+<strong style="color:#f85149">안 되는 사람:</strong> 디자인만 하고 싶은 사람 / 시킨 것만 하는 사람 / INFP (이전 실패 2건)
+</div>
+
+<div style="font-size:13px;font-weight:700;color:#e6edf3;margin-bottom:10px">면접 검증 질문</div>
+
+<div style="font-size:12px;font-weight:600;color:#d29922;margin:12px 0 6px">① 주도성 검증</div>
+<ol class="q-list">
+<li>"아무도 안 시켰는데 알아서 한 일 중 가장 임팩트 있던 거?"<div class="q-purpose">→ 시킨 것만 하는 사람 vs 알아서 찾는 사람 갈림</div></li>
+<li>"일하다가 '이건 아닌데' 싶었을 때, 어떻게 했어요? 그냥 했어요? 말했어요?"<div class="q-purpose">→ 문제 인식 + 행동력</div></li>
+</ol>
+
+<div style="font-size:12px;font-weight:600;color:#d29922;margin:12px 0 6px">② 실행력 검증</div>
+<ol class="q-list" start="3">
+<li>"동시에 여러 개 맡아본 적 있어요? 최대 몇 개? 어떻게 관리했어요?"<div class="q-purpose">→ 멀티태스킹 + 일 쪼개는 능력</div></li>
+<li>"마감 빡센 상황에서 어떻게 우선순위 정해요?"<div class="q-purpose">→ 실전 판단력</div></li>
+</ol>
+
+<div style="font-size:12px;font-weight:600;color:#d29922;margin:12px 0 6px">③ 지루한 일 내성</div>
+<ol class="q-list" start="5">
+<li>"가장 지루했던 업무가 뭐예요? 그걸 어떻게 버텼어요?"<div class="q-purpose">→ 반복/디테일 업무 태도</div></li>
+<li>"반복 작업이랑 창의적 작업 비율이 7:3이면 괜찮아요?"<div class="q-purpose">→ 표정 봐. 눈빛 죽으면 탈락</div></li>
+</ol>
+
+<div style="font-size:12px;font-weight:600;color:#d29922;margin:12px 0 6px">④ 문제해결 검증</div>
+<ol class="q-list" start="7">
+<li>"모르는 일 맡았을 때 어떻게 해요? 최근 사례로."<div class="q-purpose">→ 학습 속도 + 자기주도</div></li>
+<li>"일하다 막혔을 때, 물어봐요? 알아서 찾아요?"<div class="q-purpose">→ "알아서 찾아서 해결하고 보고" 가능한지</div></li>
+</ol>
+
+<div style="font-size:12px;font-weight:600;color:#d29922;margin:12px 0 6px">⑤ 핏 검증</div>
+<ol class="q-list" start="9">
+<li>"우리 10시~10시인데 괜찮아요?"<div class="q-purpose">→ 근무 강도 필터</div></li>
+<li>"솔직히 디자인은 20~30%. 나머지는 인증, 서류, 거래처 소통, 시스템 셋팅. 괜찮아요?"<div class="q-purpose">→ 디자인 외 업무 거부감 확인</div></li>
+<li>"왜 대기업 안 가고 스타트업이에요?"<div class="q-purpose">→ "성장하고 싶어서" vs "편할 것 같아서" 갈림</div></li>
+<li>"연봉 얼마 생각해요?"<div class="q-purpose">→ 기대치 확인</div></li>
+</ol>
+
+<div style="margin-top:16px;padding:12px;background:#f8514915;border:1px solid #f8514940;border-radius:8px;font-size:12px;color:#f85149">
+<strong>킬 사인 (이러면 패스):</strong><br>
+• 구체적 사례 없이 "열심히 할게요" 반복<br>
+• 디자인 외 업무에 표정 굳음<br>
+• "시키면 하겠습니다" (주도성 0)
+</div>
+
+<div style="margin-top:12px;padding:12px;background:#d2992215;border:1px solid #d2992240;border-radius:8px;font-size:12px;color:#d29922">
+<strong>면접 팁:</strong> 구조화된 면접보다 편하게 대화하면서 ① 에너지 어디서 올라가는지 ② 디자인 외 일에 거부감 ③ 시킨 일만 vs 알아서 찾는 타입 — 이 3가지만 자연스럽게 읽어라
+</div>
+
+</div>
+</div>
+
+</div>
+
+<div class="footer">TENEX CEO Operations Map · 2026-03-23 · Generated by Karina</div>
+
+<style>
+.work-list li::before{background:var(--dot,#58a6ff)}
+@media(max-width:600px){
+.hero{padding:24px 16px 20px}
+.container{padding:16px}
+.hero h1{font-size:22px}
+.work-grid{grid-template-columns:1fr}
+.team-grid{grid-template-columns:1fr}
+.conclusion{grid-template-columns:1fr}
+}
+</style>
+</body>
+</html>
