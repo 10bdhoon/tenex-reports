@@ -1,0 +1,1191 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>마이프로틴 성장 전략 분석 — 벤치마크 리포트</title>
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  :root {
+    --bg: #0d1117;
+    --surface: #161b22;
+    --surface2: #1c2128;
+    --border: #21262d;
+    --border2: #30363d;
+    --text: #e6edf3;
+    --muted: #8b949e;
+    --accent: #58a6ff;
+    --green: #3fb950;
+    --orange: #f0883e;
+    --red: #f85149;
+    --yellow: #d29922;
+    --purple: #bc8cff;
+    --pink: #e91e8c;
+    --teal: #1abc9c;
+    --mp-red: #e63429;
+  }
+  body { background:var(--bg); color:var(--text); font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Noto Sans KR',sans-serif; line-height:1.6; }
+
+  /* HERO */
+  .hero { background:linear-gradient(135deg, #0d1117 0%, #1a0a0a 50%, #0d1117 100%); border-bottom:1px solid #3d1a1a; padding:48px 24px 40px; position:relative; overflow:hidden; }
+  .hero::before { content:''; position:absolute; inset:0; background:radial-gradient(ellipse at 60% 50%, rgba(230,52,41,0.08) 0%, transparent 70%); pointer-events:none; }
+  .hero-inner { max-width:1100px; margin:0 auto; }
+  .hero-badge { font-size:11px; font-weight:700; color:var(--mp-red); text-transform:uppercase; letter-spacing:2px; margin-bottom:14px; display:flex; align-items:center; gap:8px; }
+  .hero-badge::before { content:''; display:inline-block; width:6px; height:6px; border-radius:50%; background:var(--mp-red); }
+  .hero h1 { font-size:clamp(22px, 4vw, 34px); font-weight:800; color:#fff; letter-spacing:-0.5px; margin-bottom:8px; line-height:1.2; }
+  .hero-sub { color:var(--muted); font-size:14px; margin-bottom:28px; }
+  .hero-meta { display:flex; gap:8px; flex-wrap:wrap; }
+  .hero-tag { font-size:11px; font-weight:600; padding:4px 10px; border-radius:20px; border:1px solid; }
+
+  /* STATS GRID */
+  .stats-grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(160px, 1fr)); gap:12px; max-width:1100px; margin:0 auto; padding:28px 24px 0; }
+  .stat-card { background:var(--surface); border:1px solid var(--border); border-radius:12px; padding:20px; text-align:center; }
+  .stat-num { font-size:28px; font-weight:800; line-height:1; margin-bottom:4px; }
+  .stat-label { font-size:11px; color:var(--muted); font-weight:500; }
+  .stat-sub { font-size:10px; color:var(--muted); margin-top:2px; opacity:0.7; }
+
+  /* CONTENT */
+  .container { max-width:1100px; margin:0 auto; padding:32px 24px 60px; }
+
+  .section { margin-bottom:48px; }
+  .section-title { font-size:18px; font-weight:700; color:var(--text); margin-bottom:4px; display:flex; align-items:center; gap:10px; }
+  .section-title .badge { font-size:10px; font-weight:700; padding:3px 8px; border-radius:20px; }
+  .section-desc { font-size:13px; color:var(--muted); margin-bottom:20px; }
+  .divider { height:1px; background:var(--border); margin-bottom:20px; }
+
+  /* TIMELINE */
+  .timeline { position:relative; padding-left:32px; }
+  .timeline::before { content:''; position:absolute; left:10px; top:8px; bottom:0; width:2px; background:linear-gradient(to bottom, var(--mp-red), rgba(230,52,41,0.1)); }
+  .tl-item { position:relative; margin-bottom:28px; }
+  .tl-dot { position:absolute; left:-26px; top:4px; width:12px; height:12px; border-radius:50%; background:var(--mp-red); border:2px solid var(--bg); box-shadow:0 0 0 2px var(--mp-red); }
+  .tl-year { font-size:11px; font-weight:700; color:var(--mp-red); text-transform:uppercase; letter-spacing:1px; margin-bottom:4px; }
+  .tl-title { font-size:15px; font-weight:700; color:var(--text); margin-bottom:4px; }
+  .tl-desc { font-size:13px; color:var(--muted); line-height:1.6; }
+  .tl-highlight { display:inline-block; background:rgba(230,52,41,0.1); border:1px solid rgba(230,52,41,0.3); color:var(--mp-red); font-size:11px; font-weight:600; padding:2px 8px; border-radius:4px; margin-top:6px; }
+
+  /* CARDS GRID */
+  .cards-grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(240px, 1fr)); gap:14px; }
+  .info-card { background:var(--surface); border:1px solid var(--border); border-radius:12px; padding:20px; }
+  .info-card-icon { font-size:24px; margin-bottom:10px; }
+  .info-card-title { font-size:13px; font-weight:700; color:var(--text); margin-bottom:8px; }
+  .info-card-body { font-size:12px; color:var(--muted); line-height:1.7; }
+
+  /* STRATEGY BLOCKS */
+  .strategy-block { background:var(--surface); border:1px solid var(--border); border-radius:12px; padding:22px; margin-bottom:14px; }
+  .strategy-block-title { font-size:14px; font-weight:700; color:var(--text); margin-bottom:10px; display:flex; align-items:center; gap:8px; }
+  .strategy-block-body { font-size:13px; color:var(--muted); line-height:1.7; }
+  .strategy-block-body ul { padding-left:16px; }
+  .strategy-block-body li { margin-bottom:6px; }
+  .strategy-block-body strong { color:var(--text); }
+
+  /* KINEMEDICAL SECTION */
+  .insight-section { background:linear-gradient(135deg, rgba(63,185,80,0.05) 0%, rgba(88,166,255,0.05) 100%); border:1px solid rgba(63,185,80,0.3); border-radius:16px; padding:28px; }
+  .insight-section .section-title { color:var(--green); }
+  .insight-grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(220px, 1fr)); gap:12px; margin-top:16px; }
+  .insight-card { background:rgba(255,255,255,0.03); border:1px solid rgba(63,185,80,0.2); border-radius:10px; padding:16px; }
+  .insight-card-num { font-size:10px; font-weight:700; color:var(--green); text-transform:uppercase; letter-spacing:1px; margin-bottom:6px; }
+  .insight-card-title { font-size:13px; font-weight:700; color:var(--text); margin-bottom:6px; }
+  .insight-card-body { font-size:12px; color:var(--muted); line-height:1.6; }
+  .insight-card-action { font-size:11px; font-weight:600; color:var(--accent); margin-top:8px; padding:4px 10px; background:rgba(88,166,255,0.08); border:1px solid rgba(88,166,255,0.2); border-radius:6px; display:inline-block; }
+
+  /* QUOTE */
+  .quote-block { border-left:3px solid var(--mp-red); padding:16px 20px; background:rgba(230,52,41,0.04); border-radius:0 8px 8px 0; margin:16px 0; }
+  .quote-text { font-size:14px; color:var(--text); font-style:italic; margin-bottom:8px; line-height:1.7; }
+  .quote-source { font-size:11px; color:var(--muted); font-weight:600; }
+
+  /* TABLE */
+  .data-table { width:100%; border-collapse:collapse; font-size:13px; }
+  .data-table th { background:var(--surface2); color:var(--muted); font-weight:600; font-size:11px; text-transform:uppercase; letter-spacing:0.5px; padding:10px 14px; text-align:left; border-bottom:1px solid var(--border2); }
+  .data-table td { padding:10px 14px; border-bottom:1px solid var(--border); color:var(--text); vertical-align:top; }
+  .data-table tr:last-child td { border-bottom:none; }
+  .data-table tr:hover td { background:rgba(255,255,255,0.02); }
+
+  /* TAG */
+  .tag { display:inline-block; font-size:11px; font-weight:600; padding:2px 8px; border-radius:4px; }
+  .tag-red { background:rgba(230,52,41,0.12); color:var(--mp-red); border:1px solid rgba(230,52,41,0.3); }
+  .tag-green { background:rgba(63,185,80,0.12); color:var(--green); border:1px solid rgba(63,185,80,0.3); }
+  .tag-blue { background:rgba(88,166,255,0.12); color:var(--accent); border:1px solid rgba(88,166,255,0.3); }
+  .tag-yellow { background:rgba(210,153,34,0.12); color:var(--yellow); border:1px solid rgba(210,153,34,0.3); }
+
+  /* BACK LINK */
+  .back-link { display:inline-flex; align-items:center; gap:6px; font-size:12px; color:var(--muted); text-decoration:none; margin:20px 24px 0; }
+  .back-link:hover { color:var(--text); }
+
+  /* FOOTER */
+  .footer { text-align:center; padding:24px; color:var(--muted); font-size:11px; border-top:1px solid var(--border); }
+
+  @media (max-width:640px) {
+    .hero { padding:32px 16px 28px; }
+    .container { padding:24px 16px 40px; }
+    .stats-grid { padding:20px 16px 0; grid-template-columns:repeat(2, 1fr); }
+  }
+</style>
+</head>
+<body>
+
+<a href="/" class="back-link">← 테넥스 리포트 홈</a>
+
+<div class="hero">
+  <div class="hero-inner">
+    <div class="hero-badge">벤치마크 리포트</div>
+    <h1>마이프로틴 성장 전략 분석<br>— 벤치마크 리포트</h1>
+    <div class="hero-sub">Oliver Cookson이 £500으로 시작해 세계 최대 온라인 스포츠 영양 브랜드를 만든 방법 — D2C · 인플루언서 · 글로벌 확장 · 키네메디칼 시사점</div>
+    <div class="hero-meta">
+      <span class="hero-tag" style="color:var(--mp-red);border-color:rgba(230,52,41,0.4);background:rgba(230,52,41,0.08)">🇬🇧 영국 창업</span>
+      <span class="hero-tag" style="color:var(--accent);border-color:rgba(88,166,255,0.3);background:rgba(88,166,255,0.06)">D2C 선구자</span>
+      <span class="hero-tag" style="color:var(--green);border-color:rgba(63,185,80,0.3);background:rgba(63,185,80,0.06)">70+ 국가</span>
+      <span class="hero-tag" style="color:var(--yellow);border-color:rgba(210,153,34,0.3);background:rgba(210,153,34,0.06)">THG 인수 £58m</span>
+      <span class="hero-tag" style="color:var(--muted);border-color:var(--border2)">2026.03 리서치</span>
+    </div>
+  </div>
+</div>
+
+<!-- KEY NUMBERS -->
+<div class="stats-grid">
+  <div class="stat-card">
+    <div class="stat-num" style="color:var(--mp-red)">£500</div>
+    <div class="stat-label">창업 초기 투자금</div>
+    <div class="stat-sub">할머니 유산으로 시작 (2004)</div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-num" style="color:var(--yellow)">£58m</div>
+    <div class="stat-label">THG 인수 금액</div>
+    <div class="stat-sub">창업 7년 만 (2011)</div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-num" style="color:var(--accent)">£5.4B</div>
+    <div class="stat-label">THG IPO 기업가치</div>
+    <div class="stat-sub">2020년 런던증시 상장</div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-num" style="color:var(--green)">£450m+</div>
+    <div class="stat-label">THG Nutrition 연매출</div>
+    <div class="stat-sub">2023년 기준</div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-num" style="color:var(--purple)">70+</div>
+    <div class="stat-label">진출 국가 수</div>
+    <div class="stat-sub">25개 언어, 30개 통화</div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-num" style="color:var(--orange)">10,000+</div>
+    <div class="stat-label">글로벌 인플루언서 앰배서더</div>
+    <div class="stat-sub">마이크로~매크로 전 레벨</div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-num" style="color:var(--teal)">5,000+</div>
+    <div class="stat-label">제품 SKU</div>
+    <div class="stat-sub">단백질·비타민·액티브웨어</div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-num" style="color:var(--mp-red)">3M+</div>
+    <div class="stat-label">인스타그램 팔로워</div>
+    <div class="stat-sub">글로벌 소셜 합산</div>
+  </div>
+</div>
+
+<div class="container">
+
+  <!-- SECTION 1: 창업 스토리 & 타임라인 -->
+  <div class="section">
+    <div class="section-title">
+      ⏱️ 창업 스토리 & 성장 타임라인
+      <span class="badge tag-red">Origin</span>
+    </div>
+    <div class="section-desc">올리버 쿡슨(Oliver Cookson)이 £500으로 시작해 세계 #1 온라인 스포츠 영양 브랜드를 만든 여정</div>
+    <div class="divider"></div>
+
+    <div class="quote-block">
+      <div class="quote-text">"저는 할머니가 남겨주신 £500 유산과 중고 제과 장비로 시작했습니다. 창고가 제 침실이었고, 포장은 제 손으로 했습니다."</div>
+      <div class="quote-source">— Oliver Cookson, Myprotein 창업자 (The Times, 2011)</div>
+    </div>
+
+    <div class="timeline">
+      <div class="tl-item">
+        <div class="tl-dot"></div>
+        <div class="tl-year">2004</div>
+        <div class="tl-title">창업 — "침실에서 시작한 단백질 가게"</div>
+        <div class="tl-desc">맨체스터 대학 중퇴 후 Oliver Cookson이 할머니 유산 £500으로 단백질 보충제 온라인 판매 시작. 맨체스터 소재 창고를 직접 운영. myprotein.com 도메인 등록 후 자사몰 D2C 모델로 론칭. 핵심 초기 제품: 웨이 프로틴 파우더.</div>
+        <div><span class="tl-highlight">D2C 처음부터 선택 — 마켓플레이스 없음</span></div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot"></div>
+        <div class="tl-year">2004~2008</div>
+        <div class="tl-title">초고속 성장 — SEO + 가격 경쟁력</div>
+        <div class="tl-desc">Google Shopping 초기 진입자 이점 활용. 경쟁사보다 30~50% 저렴한 가격으로 급성장. 영국 내 온라인 스포츠 영양 시장 점유율 빠르게 확대. 전통 보충제 브랜드들이 오프라인 중심일 때 온라인 독점 포지셔닝.</div>
+        <div><span class="tl-highlight">온라인 선점 + 최저가 = 빠른 시장 장악</span></div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot"></div>
+        <div class="tl-year">2008~2010</div>
+        <div class="tl-title">유럽 확장 & 인플루언서 프로그램 시작</div>
+        <div class="tl-desc">독일, 프랑스, 스페인 등 유럽 주요 시장 진출. 현지화된 별도 사이트 운영. 피트니스 블로거·유튜버에게 제품 지급 + 커미션 코드 제공하는 어필리에이트 프로그램 도입 (지금의 인플루언서 마케팅 원형). Bodybuilding.com 등 커뮤니티 플랫폼 공략.</div>
+        <div><span class="tl-highlight">인플루언서 마케팅 선구자 — 2010년 이전부터</span></div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot"></div>
+        <div class="tl-year">2011년 6월</div>
+        <div class="tl-title">THG(The Hut Group) 인수 — £58.4m</div>
+        <div class="tl-desc">영국 이커머스 그룹 THG가 마이프로틴을 £58.4m(약 800억원)에 인수. 당시 창업 7년 만의 엑싯. THG의 물류·테크 인프라를 활용한 글로벌 확장 가속화. Oliver Cookson은 일정 기간 경영 참여 후 퇴사.</div>
+        <div><span class="tl-highlight">£500 → £58m: 7년 만에 116,000배 성장</span></div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot"></div>
+        <div class="tl-year">2014</div>
+        <div class="tl-title">법적 분쟁 & 브랜드 확장</div>
+        <div class="tl-desc">THG가 Oliver Cookson 상대 £1500만 소송 제기(인수 전 이익 과장 주장). 쿡슨 역소송 £1270만. 런던 고등법원 판결: 쿡슨 净 £650만 승소. Myvitamins 브랜드 론칭으로 영양제 카테고리 확장. 브랜드 패밀리 전략 시작.</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot"></div>
+        <div class="tl-year">2015</div>
+        <div class="tl-title">美 켄터키 생산기지 — $1700만 투자</div>
+        <div class="tl-desc">미국 켄터키주 불릿카운티에 첫 해외 생산·물류 시설 투자($17m). 350개 신규 일자리 창출. 북미 시장 공략을 위한 현지 생산·배송 체계 구축. Myvegan 브랜드 론칭으로 식물성 시장 진출.</div>
+        <div><span class="tl-highlight">미국 현지화 = D2C 물류 내재화</span></div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot"></div>
+        <div class="tl-year">2017~2019</div>
+        <div class="tl-title">아시아 진출 & MP Activewear 론칭</div>
+        <div class="tl-desc">중국 티몰(Tmall) 글로벌 입점으로 아시아 진출. 한국, 일본, 싱가포르 등 아시아 시장 별도 사이트 운영. MP Activewear 론칭으로 스포츠 의류 카테고리 추가. THG Ingenuity 플랫폼을 통한 자체 기술 역량 강화.</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot"></div>
+        <div class="tl-year">2020년 9월</div>
+        <div class="tl-title">THG 런던증시 IPO — 기업가치 £54억</div>
+        <div class="tl-desc">THG plc가 런던증권거래소 상장. IPO 주가 £5.40, 기업가치 £54억(약 8조원). Myprotein은 THG Nutrition 세그먼트의 핵심 브랜드. 상장 후 디지털 마케팅 및 글로벌 인프라 추가 투자.</div>
+        <div><span class="tl-highlight">세계 최대 온라인 스포츠 영양 브랜드 공식 인정</span></div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot"></div>
+        <div class="tl-year">2022~현재</div>
+        <div class="tl-title">구조조정 & 오프라인 채널 추가</div>
+        <div class="tl-desc">THG 주가 하락으로 Ingenuity 사업부 분리 결정. THG = Beauty + Nutrition 두 핵심 축으로 재편. Myprotein은 선택적 오프라인 유통(Boots, Amazon 등) 병행. 구독 모델 강화로 LTV 향상 집중.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 2: 마케팅 전략 -->
+  <div class="section">
+    <div class="section-title">
+      📣 마케팅 전략 — 인플루언서 제국
+      <span class="badge tag-blue">Marketing</span>
+    </div>
+    <div class="section-desc">전 세계 10,000+ 앰배서더를 통한 커뮤니티 기반 마케팅의 교과서</div>
+    <div class="divider"></div>
+
+    <div class="cards-grid">
+      <div class="info-card">
+        <div class="info-card-icon">🤝</div>
+        <div class="info-card-title">Ambassador (어필리에이트) 프로그램</div>
+        <div class="info-card-body">
+          마이프로틴의 핵심 성장 엔진. 피트니스 인플루언서에게 <strong>무료 제품 + 개인 할인 코드</strong> 제공. 팔로워가 코드를 사용하면 인플루언서에게 커미션 지급. 팔로워 1000명 이상이면 누구나 신청 가능 → <strong>마이크로 인플루언서 조기 공략.</strong> 현재 전 세계 10,000명+ 앰배서더 운영.
+        </div>
+      </div>
+      <div class="info-card">
+        <div class="info-card-icon">📸</div>
+        <div class="info-card-title">SNS 전략 — Instagram 중심</div>
+        <div class="info-card-body">
+          인스타그램 팔로워 3M+. 앰배서더들이 매일 수천 개의 UGC 생성. <strong>해시태그 #Myprotein</strong>으로 자발적 콘텐츠 확산. 각 국가별 로컬 인스타그램 계정 운영 (UK, US, DE, KR 등). TikTok 채널은 Z세대 공략용으로 별도 운영.
+        </div>
+      </div>
+      <div class="info-card">
+        <div class="info-card-icon">🎥</div>
+        <div class="info-card-title">YouTube 콘텐츠</div>
+        <div class="info-card-body">
+          공식 YouTube 채널 운영 (구독자 수백만). 운동 튜토리얼, 영양 가이드, 레시피 영상 제작. 앰배서더들의 채널에서 자연스러운 제품 리뷰·추천 콘텐츠 지속 생산. <strong>SEO 최적화된 운동/영양 관련 유튜브 콘텐츠</strong>가 유입 채널 역할.
+        </div>
+      </div>
+      <div class="info-card">
+        <div class="info-card-icon">💌</div>
+        <div class="info-card-title">이메일 마케팅</div>
+        <div class="info-card-body">
+          수백만 명의 이메일 리스트 보유. <strong>개인화된 플래시 세일 알림</strong>이 핵심 전환 채널. "오늘만 70% 할인" 등 긴급성 마케팅으로 재구매 유도. 가입자 행동 기반 자동화 이메일 시퀀스 운영.
+        </div>
+      </div>
+      <div class="info-card">
+        <div class="info-card-icon">🏆</div>
+        <div class="info-card-title">스포츠 스폰서십</div>
+        <div class="info-card-body">
+          Frank Medrano, Steph Davis 등 세계적 피트니스 아티스트 스폰서. CrossFit 대회, 보디빌딩 쇼 후원. 퍼포먼스 스포츠팀 파트너십. 스포츠팀 유니폼에 로고 노출로 브랜드 인지도 확대.
+        </div>
+      </div>
+      <div class="info-card">
+        <div class="info-card-icon">🔁</div>
+        <div class="info-card-title">커뮤니티 빌딩</div>
+        <div class="info-card-body">
+          "The Zone" 콘텐츠 플랫폼으로 운동·영양 커뮤니티 허브 역할. 앰배서더들이 자신의 팔로워에게 마이프로틴을 추천하는 <strong>신뢰 기반 바이럴</strong> 구조. 전 세계 피트니스 커뮤니티와의 연결.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 3: 가격 전략 -->
+  <div class="section">
+    <div class="section-title">
+      💰 가격 전략 — "가장 싼 제대로 된 단백질"
+      <span class="badge tag-yellow">Pricing</span>
+    </div>
+    <div class="section-desc">저가 전략이 아닌 "최고 가성비" 포지셔닝 — 경쟁사 대비 30~50% 저렴</div>
+    <div class="divider"></div>
+
+    <div class="strategy-block">
+      <div class="strategy-block-title">📊 핵심 가격 포지셔닝</div>
+      <div class="strategy-block-body">
+        <ul>
+          <li><strong>Impact Whey Protein 1kg: ~£25</strong> (경쟁사 평균 £40~50 대비 50% 저렴)</li>
+          <li>직접 제조(OEM 없음) → 원가 절감 → 소비자 가격 혜택</li>
+          <li>"저가 브랜드" 이미지가 아닌 <strong>"가성비 1위"</strong> 포지셔닝</li>
+          <li>품질 인증(GMP, Informed Sport 등)을 통해 저가이지만 신뢰감 유지</li>
+        </ul>
+      </div>
+    </div>
+    <div class="strategy-block">
+      <div class="strategy-block-title">🔥 플래시 세일 전략 (핵심!)</div>
+      <div class="strategy-block-body">
+        <ul>
+          <li>"<strong>최대 70% 할인</strong>" 상시 진행 — 소비자는 항상 '지금이 기회'라고 느낌</li>
+          <li>이메일·푸시 알림을 통한 세일 알림으로 충동구매 유도</li>
+          <li>블랙프라이데이, 뉴이어, 서머 세일 등 시즌 이벤트 적극 활용</li>
+          <li>앰배서더 할인 코드 (10~25% 추가 할인) → 구매 전환율 향상</li>
+          <li>묶음 구매 할인으로 객단가 및 재고 회전율 동시 향상</li>
+        </ul>
+      </div>
+    </div>
+    <div class="strategy-block">
+      <div class="strategy-block-title">📦 구독 & 번들 전략</div>
+      <div class="strategy-block-body">
+        <ul>
+          <li>정기 구독(Subscribe & Save): 추가 10~15% 할인으로 재구매 락인</li>
+          <li>스타터 팩, 목표별 번들(다이어트팩, 벌크팩 등) 구성</li>
+          <li>무료 배송 임계값 설정(£25+ 무료배송)으로 객단가 상승 유도</li>
+          <li>로열티 포인트 프로그램으로 LTV 향상</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 4: D2C 전략 -->
+  <div class="section">
+    <div class="section-title">
+      🏪 D2C 전략 — 자사몰 100% 집중
+      <span class="badge tag-red">D2C</span>
+    </div>
+    <div class="section-desc">창업부터 자사몰 중심 — 중간 유통 없이 고객 데이터와 마진을 직접 확보</div>
+    <div class="divider"></div>
+
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>전략 요소</th>
+          <th>마이프로틴 실행 방식</th>
+          <th>효과</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>채널 집중</strong></td>
+          <td>myprotein.com 자사몰 100% 집중 (초기 10년). Amazon·Boots는 2차 채널로만 운영</td>
+          <td>고객 데이터 100% 보유, 마진 30~40%p 개선</td>
+        </tr>
+        <tr>
+          <td><strong>자체 기술 스택</strong></td>
+          <td>THG Ingenuity 플랫폼(자체 이커머스 엔진)으로 25개 언어, 30개 통화 지원</td>
+          <td>외부 플랫폼 의존 없이 글로벌 확장</td>
+        </tr>
+        <tr>
+          <td><strong>자체 제조</strong></td>
+          <td>영국 맨체스터 + 美 켄터키 생산시설 직영. OEM 최소화</td>
+          <td>원가 통제, 품질 관리, 공급망 리스크 감소</td>
+        </tr>
+        <tr>
+          <td><strong>자체 물류</strong></td>
+          <td>자체 풀필먼트 센터 운영. 영국→유럽 1~3일 배송</td>
+          <td>배송 경험 통제, 물류비 최적화</td>
+        </tr>
+        <tr>
+          <td><strong>고객 데이터 활용</strong></td>
+          <td>구매 이력 기반 개인화 이메일·SMS. 재구매 타이밍 예측</td>
+          <td>이메일 전환율 업계 평균 2~3배</td>
+        </tr>
+        <tr>
+          <td><strong>리텐션 프로그램</strong></td>
+          <td>MP Points 로열티 프로그램, 구독 할인, VIP 멤버십</td>
+          <td>고객 LTV 평균 3년+ 유지</td>
+        </tr>
+        <tr>
+          <td><strong>앱 전략</strong></td>
+          <td>모바일 앱 운영 (iOS/Android). 앱 전용 할인으로 앱 설치 유도</td>
+          <td>푸시 알림 채널 확보, 재방문율 향상</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- SECTION 5: 콘텐츠 전략 -->
+  <div class="section">
+    <div class="section-title">
+      📝 콘텐츠 전략 — "The Zone"
+      <span class="badge tag-blue">Content</span>
+    </div>
+    <div class="section-desc">SEO + 교육 콘텐츠로 유입 트래픽을 직접 구매로 전환하는 구조</div>
+    <div class="divider"></div>
+
+    <div class="cards-grid">
+      <div class="info-card">
+        <div class="info-card-icon">📖</div>
+        <div class="info-card-title">The Zone — 콘텐츠 허브</div>
+        <div class="info-card-body">마이프로틴 공식 블로그/콘텐츠 플랫폼. 운동 루틴, 영양 가이드, 체중 감량 팁, 단백질 레시피 등 수천 개의 SEO 최적화 아티클 운영. 검색 유입 → 콘텐츠 소비 → 제품 구매로 이어지는 퍼널 구조.</div>
+      </div>
+      <div class="info-card">
+        <div class="info-card-icon">🍳</div>
+        <div class="info-card-title">High-Protein 레시피 콘텐츠</div>
+        <div class="info-card-body">"고단백 팬케이크", "단백질 쿠키" 등 레시피 콘텐츠가 핀터레스트·인스타그램에서 폭발적 바이럴. 단순 보충제 브랜드에서 <strong>"건강한 라이프스타일 파트너"</strong>로 포지셔닝 변화. 레시피에 자사 제품 자연스럽게 삽입.</div>
+      </div>
+      <div class="info-card">
+        <div class="info-card-icon">🏋️</div>
+        <div class="info-card-title">운동 가이드 & 챌린지</div>
+        <div class="info-card-body">초보자용 4주 변신 프로그램, 12주 대회 준비 플랜 등 목표별 운동 가이드. 앰배서더들이 팔로워와 함께하는 피트니스 챌린지. UGC(사용자 생성 콘텐츠)로 커뮤니티 결속력 강화.</div>
+      </div>
+      <div class="info-card">
+        <div class="info-card-icon">🎬</div>
+        <div class="info-card-title">YouTube 교육 영상</div>
+        <div class="info-card-body">공식 유튜브 채널에서 영양학 교육, 보충제 사용법, 트레이닝 영상 제작. "어떤 단백질을 골라야 하나" 같은 검색 의도형 콘텐츠 집중. 검색 유입 → 신뢰 형성 → 구매 유도.</div>
+      </div>
+      <div class="info-card">
+        <div class="info-card-icon">📊</div>
+        <div class="info-card-title">과학적 근거 콘텐츠</div>
+        <div class="info-card-body">제품 페이지에 임상 연구, 성분 설명, 영양사 검수 내용 상세 기재. 소비자 신뢰 확보가 전환율에 직결. 성분 투명성 강조로 경쟁사 대비 차별화.</div>
+      </div>
+      <div class="info-card">
+        <div class="info-card-icon">🔍</div>
+        <div class="info-card-title">SEO 전략</div>
+        <div class="info-card-body">"whey protein", "creatine benefits", "pre workout" 등 고볼륨 키워드 집중 공략. 수천 개의 롱테일 키워드 아티클로 유기적 트래픽 수백만 확보. 콘텐츠가 광고 없이도 새 고객을 지속 유입시키는 플라이휠 구조.</div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- SECTION 5.5: 어필리에이트/할인코드 시스템 — 실행 디테일 -->
+  <div class="section">
+    <div class="section-title">
+      🔗 어필리에이트 코드 시스템 — <span style="color:var(--mp-red)">실행 디테일</span>
+      <span class="badge tag-red">EXECUTION</span>
+    </div>
+    <div class="section-desc">전략이 아니라 실행 — 마이프로틴이 인플루언서 코드 시스템을 어떻게 만들고 스케일했는지 단계별 분석</div>
+    <div class="divider"></div>
+
+    <!-- 구조 개요 -->
+    <div style="background:linear-gradient(135deg, rgba(230,52,41,0.06) 0%, rgba(88,166,255,0.06) 100%); border:1px solid rgba(230,52,41,0.25); border-radius:14px; padding:24px; margin-bottom:20px;">
+      <div style="font-size:15px; font-weight:800; color:var(--text); margin-bottom:16px;">🎯 핵심 구조 — 이것이 마이프로틴 성장의 연료다</div>
+      <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); gap:12px;">
+        <div style="background:rgba(0,0,0,0.3); border-radius:10px; padding:14px; text-align:center;">
+          <div style="font-size:22px; font-weight:800; color:var(--mp-red);">25%</div>
+          <div style="font-size:11px; color:var(--muted); margin-top:4px;">팔로워에게 할인 제공<br><span style="color:var(--text); font-weight:600;">(구매 유인)</span></div>
+        </div>
+        <div style="background:rgba(0,0,0,0.3); border-radius:10px; padding:14px; text-align:center;">
+          <div style="font-size:22px; font-weight:800; color:var(--accent);">10~20%</div>
+          <div style="font-size:11px; color:var(--muted); margin-top:4px;">인플루언서 커미션<br><span style="color:var(--text); font-weight:600;">(동기부여)</span></div>
+        </div>
+        <div style="background:rgba(0,0,0,0.3); border-radius:10px; padding:14px; text-align:center;">
+          <div style="font-size:22px; font-weight:800; color:var(--green);">£0</div>
+          <div style="font-size:11px; color:var(--muted); margin-top:4px;">브랜드 선투자<br><span style="color:var(--text); font-weight:600;">(성과 기반 지급)</span></div>
+        </div>
+        <div style="background:rgba(0,0,0,0.3); border-radius:10px; padding:14px; text-align:center;">
+          <div style="font-size:22px; font-weight:800; color:var(--yellow);">1K+</div>
+          <div style="font-size:11px; color:var(--muted); margin-top:4px;">신청 최소 팔로워<br><span style="color:var(--text); font-weight:600;">(진입 장벽 낮음)</span></div>
+        </div>
+      </div>
+      <div style="margin-top:14px; font-size:13px; color:var(--muted); line-height:1.8;">
+        <strong style="color:var(--text);">작동 원리:</strong> 인플루언서는 "JOHN25" 같은 개인 코드를 팔로워에게 공유 → 팔로워는 25% 할인을 받아 구매 → 인플루언서는 해당 매출의 10~20%를 커미션으로 수령. <strong style="color:var(--mp-red);">공구가 아니다.</strong> 인플루언서가 알아서 콘텐츠 만들고 알아서 판다. 브랜드는 코드 추적만 한다.
+      </div>
+    </div>
+
+    <!-- 실행 단계 테이블 -->
+    <div style="font-size:15px; font-weight:700; color:var(--text); margin-bottom:12px; display:flex; align-items:center; gap:8px;">
+      📋 실행 플로우 — 인플루언서 리쿠르팅부터 정산까지
+    </div>
+
+    <div style="display:grid; gap:12px; margin-bottom:20px;">
+
+      <!-- STEP 1 -->
+      <div style="background:var(--surface); border:1px solid var(--border); border-radius:12px; padding:20px; display:grid; grid-template-columns:auto 1fr; gap:16px; align-items:start;">
+        <div style="width:40px; height:40px; background:rgba(230,52,41,0.15); border:1px solid rgba(230,52,41,0.4); border-radius:10px; display:flex; align-items:center; justify-content:center; font-size:16px; font-weight:800; color:var(--mp-red); flex-shrink:0;">01</div>
+        <div>
+          <div style="font-size:14px; font-weight:700; color:var(--text); margin-bottom:6px;">인플루언서 발굴 — 어떻게 찾았나</div>
+          <div style="font-size:13px; color:var(--muted); line-height:1.7;">
+            <strong style="color:var(--text);">초기 (2008~2012): 수동 아웃리치.</strong> 마이프로틴 담당자가 직접 피트니스 블로거·초기 유튜버들에게 이메일·DM 발송. "우리 제품 써봐. 코드 줄게." 수십 명 단위로 시작.<br><br>
+            <strong style="color:var(--text);">중기 (2012~2016): 셀프서비스 신청 폼 오픈.</strong> myprotein.com에 "Ambassador Application" 페이지 개설. 이름, SNS 계정, 팔로워 수, 콘텐츠 유형 입력 → 1~2주 내 심사 → 이메일로 승인/거절 통보. <em>신청 폼이 생기자 인플루언서들이 알아서 몰려왔다.</em><br><br>
+            <strong style="color:var(--text);">후기 (2016~현재): 바이럴 자체 성장.</strong> 기존 앰배서더가 피트니스 커뮤니티에서 코드 쓰는 모습을 보고 다른 크리에이터들이 스스로 신청. "나도 MP 앰배서더야"가 피트니스 인플루언서의 배지가 됨. 별도 모집 없이도 자동 유입.
+          </div>
+          <div style="margin-top:8px; display:flex; gap:8px; flex-wrap:wrap;">
+            <span class="tag tag-red">수동 DM → 자동화 폼 → 바이럴</span>
+            <span class="tag tag-blue">전용 랜딩페이지 필수</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- STEP 2 -->
+      <div style="background:var(--surface); border:1px solid var(--border); border-radius:12px; padding:20px; display:grid; grid-template-columns:auto 1fr; gap:16px; align-items:start;">
+        <div style="width:40px; height:40px; background:rgba(88,166,255,0.15); border:1px solid rgba(88,166,255,0.4); border-radius:10px; display:flex; align-items:center; justify-content:center; font-size:16px; font-weight:800; color:var(--accent); flex-shrink:0;">02</div>
+        <div>
+          <div style="font-size:14px; font-weight:700; color:var(--text); margin-bottom:6px;">심사 기준 — 누구를 뽑았나</div>
+          <div style="font-size:13px; color:var(--muted); line-height:1.7;">
+            <strong style="color:var(--text);">최소 팔로워: 1,000명</strong> (진입 장벽을 낮춰 최대한 많이 모집).<br>
+            심사 항목: 피트니스/영양/건강 관련 콘텐츠 비율, 팔로워 참여율(좋아요/댓글), 이미지 품질, 이전 브랜드 파트너십 여부.<br><br>
+            <strong style="color:var(--text);">팔로워 수보다 적합성 우선:</strong> 팔로워 50만인 연예인보다 팔로워 5천인 진짜 피트니스 트레이너를 선호. 타깃 오디언스 일치가 전환율에 직결됨.<br><br>
+            <strong style="color:var(--text);">자동 거절 기준:</strong> 비관련 콘텐츠(요리, 패션만), 낮은 참여율(좋아요 0.5% 미만), 스팸성 계정.
+          </div>
+          <div style="margin-top:8px;">
+            <span class="tag tag-yellow">팔로워 수 &lt; 관련성 · 참여율</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- STEP 3 -->
+      <div style="background:var(--surface); border:1px solid var(--border); border-radius:12px; padding:20px; display:grid; grid-template-columns:auto 1fr; gap:16px; align-items:start;">
+        <div style="width:40px; height:40px; background:rgba(63,185,80,0.15); border:1px solid rgba(63,185,80,0.4); border-radius:10px; display:flex; align-items:center; justify-content:center; font-size:16px; font-weight:800; color:var(--green); flex-shrink:0;">03</div>
+        <div>
+          <div style="font-size:14px; font-weight:700; color:var(--text); margin-bottom:6px;">온보딩 프로세스 — 승인 후 뭘 받나</div>
+          <div style="font-size:13px; color:var(--muted); line-height:1.7;">
+            승인 이메일에 포함되는 것:<br>
+            <strong style="color:var(--text);">① 개인 할인 코드</strong> — "SARAH25" 형식 (이름 기반, 기억하기 쉽게). 팔로워에게 공유하면 25% 할인 적용.<br>
+            <strong style="color:var(--text);">② 브랜드 에셋 킷</strong> — 고화질 제품 사진, 로고, 컬러 가이드. 콘텐츠 제작에 바로 사용 가능.<br>
+            <strong style="color:var(--text);">③ 앰배서더 대시보드 접속</strong> — 실시간으로 클릭 수, 주문 수, 누적 커미션 확인 가능.<br>
+            <strong style="color:var(--text);">④ 제품 무료 지급</strong> — 마이크로 앰배서더는 월 £30~50 상당 제품 크레딧. 매크로 이상은 전액 무료 제품 월 발송.<br>
+            <strong style="color:var(--text);">⑤ 콘텐츠 가이드라인 문서</strong> — 필수 사항/금지 사항 명시.
+          </div>
+          <div style="margin-top:8px;">
+            <span class="tag tag-green">대시보드 = 투명성 = 신뢰 = 동기부여</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- STEP 4 -->
+      <div style="background:var(--surface); border:1px solid var(--border); border-radius:12px; padding:20px; display:grid; grid-template-columns:auto 1fr; gap:16px; align-items:start;">
+        <div style="width:40px; height:40px; background:rgba(210,153,34,0.15); border:1px solid rgba(210,153,34,0.4); border-radius:10px; display:flex; align-items:center; justify-content:center; font-size:16px; font-weight:800; color:var(--yellow); flex-shrink:0;">04</div>
+        <div>
+          <div style="font-size:14px; font-weight:700; color:var(--text); margin-bottom:6px;">기술 구현 — 코드 시스템이 어떻게 작동하나</div>
+          <div style="font-size:13px; color:var(--muted); line-height:1.7;">
+            <strong style="color:var(--text);">할인 코드 발급:</strong> 이커머스 시스템(THG Ingenuity)에서 앰배서더별 고유 코드 생성. 코드 → 앰배서더 ID 매핑 DB 유지.<br><br>
+            <strong style="color:var(--text);">추적 방식:</strong> 코드 입력 시 → 주문에 코드 ID 태깅 → 앰배서더 계정에 실적 집계. 쿠키 기반 추적(30일 쿠키)으로 코드 입력 없이 링크로 들어온 경우도 추적.<br><br>
+            <strong style="color:var(--text);">어필리에이트 플랫폼:</strong> 초기에는 자체 시스템, 규모 커지면서 Rakuten Advertising, 이후 Impact.com 등 전문 어필리에이트 플랫폼 연동. 플랫폼이 자동으로 커미션 계산·정산 처리.<br><br>
+            <strong style="color:var(--text);">대시보드 데이터:</strong> 총 클릭 수, 전환율, 주문 금액, 누적 커미션, 이번 달 실적 — 앰배서더가 실시간 확인 가능. <em>이게 없으면 앰배서더가 콘텐츠를 만들 동기가 없다.</em>
+          </div>
+          <div style="margin-top:8px; display:flex; gap:8px; flex-wrap:wrap;">
+            <span class="tag tag-yellow">고유 코드 = 추적 = 정산</span>
+            <span class="tag tag-blue">대시보드 없으면 반쪽짜리</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- STEP 5 -->
+      <div style="background:var(--surface); border:1px solid var(--border); border-radius:12px; padding:20px; display:grid; grid-template-columns:auto 1fr; gap:16px; align-items:start;">
+        <div style="width:40px; height:40px; background:rgba(188,140,255,0.15); border:1px solid rgba(188,140,255,0.4); border-radius:10px; display:flex; align-items:center; justify-content:center; font-size:16px; font-weight:800; color:var(--purple); flex-shrink:0;">05</div>
+        <div>
+          <div style="font-size:14px; font-weight:700; color:var(--text); margin-bottom:6px;">콘텐츠 가이드라인 — 자유 vs 통제</div>
+          <div style="font-size:13px; color:var(--muted); line-height:1.7;">
+            <strong style="color:var(--text);">철학: "자유롭게, 하지만 선 넘지 마라."</strong><br><br>
+            <strong style="color:var(--green);">✅ 권장 (자유):</strong><br>
+            · 자신만의 스타일로 제품 사용 후기 작성/촬영<br>
+            · 레시피, 운동 루틴, 다이어리 형식 등 포맷 자유<br>
+            · 솔직한 개인 의견 표현 (쓴소리도 OK)<br>
+            · 스토리, 릴스, 유튜브 영상, 블로그 포스팅 모두 OK<br><br>
+            <strong style="color:var(--mp-red);">❌ 금지 (레드라인):</strong><br>
+            · 경쟁사(GNC, Optimum Nutrition 등) 직접 비방 금지<br>
+            · 의학적 효능 과장 클레임 금지 (규제 이슈)<br>
+            · 브랜드 로고 무단 변형 금지<br>
+            · #ad / #gifted / #sponsored 미표시 금지 (ASA 규정)<br><br>
+            <strong style="color:var(--text);">결과:</strong> 인플루언서가 자기 목소리로 콘텐츠를 만들기 때문에 광고처럼 보이지 않고 신뢰도 높은 추천이 된다. 브랜드가 만든 광고보다 훨씬 효과적.
+          </div>
+        </div>
+      </div>
+
+      <!-- STEP 6 -->
+      <div style="background:var(--surface); border:1px solid var(--border); border-radius:12px; padding:20px; display:grid; grid-template-columns:auto 1fr; gap:16px; align-items:start;">
+        <div style="width:40px; height:40px; background:rgba(230,52,41,0.15); border:1px solid rgba(230,52,41,0.4); border-radius:10px; display:flex; align-items:center; justify-content:center; font-size:16px; font-weight:800; color:var(--mp-red); flex-shrink:0;">06</div>
+        <div>
+          <div style="font-size:14px; font-weight:700; color:var(--text); margin-bottom:6px;">커미션 구조 & 정산 — 돈은 어떻게 줬나</div>
+          <div style="font-size:13px; color:var(--muted); line-height:1.7;">
+            <strong style="color:var(--text);">티어별 커미션:</strong>
+          </div>
+          <table class="data-table" style="margin-top:10px;">
+            <thead>
+              <tr>
+                <th>티어</th>
+                <th>팔로워 수</th>
+                <th>커미션율</th>
+                <th>제품 지원</th>
+                <th>추가 혜택</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><span class="tag tag-blue">마이크로</span></td>
+                <td>1K ~ 10K</td>
+                <td>10%</td>
+                <td>월 £30~50 크레딧</td>
+                <td>개인 코드</td>
+              </tr>
+              <tr>
+                <td><span class="tag tag-yellow">라이징</span></td>
+                <td>10K ~ 100K</td>
+                <td>15%</td>
+                <td>월 제품 무료 발송</td>
+                <td>코드 + 링크</td>
+              </tr>
+              <tr>
+                <td><span class="tag tag-green">매크로</span></td>
+                <td>100K ~ 1M</td>
+                <td>20%</td>
+                <td>전품목 무제한</td>
+                <td>전담 매니저 배정</td>
+              </tr>
+              <tr>
+                <td><span class="tag tag-red">엘리트</span></td>
+                <td>1M+</td>
+                <td>고정 계약 + %</td>
+                <td>전품목 + 공동개발</td>
+                <td>독점 제품 기회</td>
+              </tr>
+            </tbody>
+          </table>
+          <div style="font-size:13px; color:var(--muted); line-height:1.7; margin-top:10px;">
+            <strong style="color:var(--text);">정산 주기:</strong> 월 1회, 최소 지급 기준 달성 시(£50 이상) 은행이체 또는 PayPal로 자동 지급.<br>
+            <strong style="color:var(--text);">추적 기간:</strong> 쿠키 30일 — 코드 클릭 후 30일 내 구매 시 해당 앰배서더 실적으로 인정.
+          </div>
+        </div>
+      </div>
+
+      <!-- STEP 7 -->
+      <div style="background:var(--surface); border:1px solid var(--border); border-radius:12px; padding:20px; display:grid; grid-template-columns:auto 1fr; gap:16px; align-items:start;">
+        <div style="width:40px; height:40px; background:rgba(63,185,80,0.15); border:1px solid rgba(63,185,80,0.4); border-radius:10px; display:flex; align-items:center; justify-content:center; font-size:16px; font-weight:800; color:var(--green); flex-shrink:0;">07</div>
+        <div>
+          <div style="font-size:14px; font-weight:700; color:var(--text); margin-bottom:6px;">스케일 방법 — 50명에서 10,000명으로</div>
+          <div style="font-size:13px; color:var(--muted); line-height:1.7;">
+            <strong style="color:var(--text);">Phase 1 (2008~2011): 시드 50~100명</strong><br>
+            수동으로 영국 피트니스 블로거/유튜버 50~100명 직접 섭외. 이들이 코드를 공유하면서 브랜드 인지도 생성.<br><br>
+            <strong style="color:var(--text);">Phase 2 (2012~2015): 셀프서비스 → 1,000명</strong><br>
+            신청 폼 오픈. 기존 앰배서더가 커뮤니티에서 "나 MP 앰배서더야"라고 하면 다른 크리에이터들이 신청. 월 수백 명씩 신규 유입. 심사 자동화(최소 기준만 충족하면 자동 승인).<br><br>
+            <strong style="color:var(--text);">Phase 3 (2015~2020): 글로벌 확장 → 10,000명</strong><br>
+            국가별 현지 앰배서더 모집. 독일, 스페인, 미국 등 각 지역 피트니스 인플루언서 별도 공략. THG 인수 자금으로 전담 팀 구성. 앰배서더 관리 플랫폼(Impact.com 등)으로 운영 자동화.<br><br>
+            <strong style="color:var(--text);">핵심 인사이트:</strong> 진입 장벽을 낮추고(팔로워 1000명), 대시보드로 투명성을 높이고, 제품을 무료로 줬더니 앰배서더들이 알아서 성장을 만들었다. 브랜드는 시스템만 관리.
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- 공구 vs 어필리에이트 비교 -->
+    <div style="background:var(--surface); border:1px solid var(--border2); border-radius:12px; padding:20px; margin-top:4px;">
+      <div style="font-size:14px; font-weight:700; color:var(--text); margin-bottom:14px;">⚡ 공구 vs 마이프로틴 어필리에이트 — 왜 다른가</div>
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>항목</th>
+            <th style="color:#e91e8c;">🇰🇷 한국식 공구</th>
+            <th style="color:var(--mp-red);">마이프로틴 어필리에이트</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>일정</td>
+            <td>특정 기간 한정 ("7/1~7/7 공구")</td>
+            <td>상시 운영 — 365일 언제든 추천 가능</td>
+          </tr>
+          <tr>
+            <td>콘텐츠 주체</td>
+            <td>브랜드가 기획한 공구 템플릿 사용</td>
+            <td>인플루언서가 자기 스타일로 알아서 제작</td>
+          </tr>
+          <tr>
+            <td>코드 공유 방식</td>
+            <td>같은 링크/코드를 여러 명이 공유</td>
+            <td>각자 고유 코드 — "SARAH25"는 Sarah만 씀</td>
+          </tr>
+          <tr>
+            <td>관리 부담</td>
+            <td>브랜드가 매번 기획·진행·마감</td>
+            <td>시스템이 알아서 추적·정산 — 브랜드는 모니터링만</td>
+          </tr>
+          <tr>
+            <td>인플루언서 동기</td>
+            <td>일회성 계약 → 끝나면 다음 브랜드로</td>
+            <td>상시 수익 → 오래 써줄수록 본인에게 이익</td>
+          </tr>
+          <tr>
+            <td>스케일</td>
+            <td>동시 관리 인플루언서 수십 명이 한계</td>
+            <td>시스템화로 10,000명+ 동시 운영 가능</td>
+          </tr>
+          <tr>
+            <td>신뢰도</td>
+            <td>"광고" 느낌 강함 (공구 = 돈 받고 파는 것)</td>
+            <td>일상 콘텐츠 속 자연 노출 = 신뢰도 높음</td>
+          </tr>
+        </tbody>
+      </table>
+      <div style="font-size:13px; color:var(--muted); margin-top:12px; line-height:1.7; padding:12px; background:rgba(230,52,41,0.05); border-radius:8px; border-left:3px solid var(--mp-red);">
+        <strong style="color:var(--text);">결론:</strong> 마이프로틴이 만든 건 "공구 시스템"이 아니라 <strong style="color:var(--mp-red);">"자생적 판매 네트워크"</strong>다. 인플루언서가 자기 이익을 위해 자발적으로 콘텐츠를 만들고, 그게 자동으로 매출로 연결된다. 브랜드는 시스템을 만들고 제품을 공급할 뿐.
+      </div>
+    </div>
+
+  </div>
+
+  <!-- SECTION 6: 글로벌 확장 -->
+  <div class="section">
+    <div class="section-title">
+      🌍 글로벌 확장 전략
+      <span class="badge tag-green">Global</span>
+    </div>
+    <div class="section-desc">영국 → 유럽 → 북미 → 아시아 순차 확장, 현지화가 핵심</div>
+    <div class="divider"></div>
+
+    <div class="strategy-block">
+      <div class="strategy-block-title">🗺️ 단계별 글로벌 확장 로드맵</div>
+      <div class="strategy-block-body">
+        <ul>
+          <li><strong>1단계 (2004~2008): 영국 내 지배력 확보</strong> — UK 시장 1위 달성 후 해외 진출</li>
+          <li><strong>2단계 (2008~2012): 유럽 진출</strong> — 독일, 프랑스, 스페인, 이탈리아 순차 론칭. 각국 별도 웹사이트, 현지 언어·통화 지원</li>
+          <li><strong>3단계 (2012~2016): 북미 진출</strong> — 미국·캐나다 사이트 론칭. 2015년 켄터키 생산시설 구축으로 배송 속도·비용 해결</li>
+          <li><strong>4단계 (2017~현재): 아시아 공략</strong> — 중국 티몰 글로벌, 한국, 일본, 싱가포르, 호주 진출</li>
+        </ul>
+      </div>
+    </div>
+    <div class="strategy-block">
+      <div class="strategy-block-title">🔑 현지화 핵심 원칙</div>
+      <div class="strategy-block-body">
+        <ul>
+          <li><strong>언어·통화 현지화</strong>: 25개 언어, 30개 통화, 현지 결제 수단(알리페이, 카카오페이 등) 지원</li>
+          <li><strong>현지 인플루언서 우선</strong>: 각 국가에서 현지 피트니스 인플루언서를 앰배서더로 영입</li>
+          <li><strong>현지 생산·물류</strong>: 미국 켄터키 공장으로 북미 배송 시간 단축</li>
+          <li><strong>현지 소셜미디어</strong>: 각국 별도 인스타그램·페이스북 계정 운영</li>
+          <li><strong>규제 대응</strong>: 각국 식품·의약품 규정에 맞는 라벨링·성분 조정</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 7: 인수/투자 히스토리 -->
+  <div class="section">
+    <div class="section-title">
+      💼 인수 & 투자 히스토리
+      <span class="badge tag-yellow">M&A</span>
+    </div>
+    <div class="section-desc">마이프로틴을 중심으로 한 THG 브랜드 패밀리 구축 히스토리</div>
+    <div class="divider"></div>
+
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>연도</th>
+          <th>이벤트</th>
+          <th>금액</th>
+          <th>의미</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><span class="tag tag-red">2004</span></td>
+          <td>Oliver Cookson 창업</td>
+          <td>£500</td>
+          <td>침실 창업, D2C 모델 시작</td>
+        </tr>
+        <tr>
+          <td><span class="tag tag-yellow">2011</span></td>
+          <td>THG(The Hut Group) 인수</td>
+          <td>£58.4m</td>
+          <td>THG 물류·기술 인프라 활용, 글로벌 가속</td>
+        </tr>
+        <tr>
+          <td><span class="tag tag-blue">2014</span></td>
+          <td>Myvitamins 브랜드 론칭</td>
+          <td>내부 투자</td>
+          <td>브랜드 패밀리 확장, 비타민·영양제 카테고리</td>
+        </tr>
+        <tr>
+          <td><span class="tag tag-green">2015</span></td>
+          <td>美 켄터키 생산시설</td>
+          <td>$17m</td>
+          <td>북미 현지 생산·배송 내재화</td>
+        </tr>
+        <tr>
+          <td><span class="tag tag-blue">2018</span></td>
+          <td>Myvegan 론칭 & MP Activewear 확장</td>
+          <td>내부 투자</td>
+          <td>비건·액티브웨어 시장 진입</td>
+        </tr>
+        <tr>
+          <td><span class="tag tag-yellow">2020</span></td>
+          <td>THG 런던증시 IPO</td>
+          <td>기업가치 £54억</td>
+          <td>세계 최대 온라인 스포츠 영양 브랜드 공인</td>
+        </tr>
+        <tr>
+          <td><span class="tag tag-red">2022~</span></td>
+          <td>THG Ingenuity 분리 결정</td>
+          <td>-</td>
+          <td>THG = Beauty + Nutrition 핵심 재집중</td>
+        </tr>
+        <tr>
+          <td><span class="tag tag-green">현재</span></td>
+          <td>THG Nutrition 독립 운영</td>
+          <td>연매출 £450m+</td>
+          <td>Myprotein이 THG Nutrition 세그먼트 리더</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- SECTION 8: 핵심 숫자 종합 -->
+  <div class="section">
+    <div class="section-title">
+      📊 핵심 지표 종합
+      <span class="badge tag-red">Numbers</span>
+    </div>
+    <div class="section-desc">마이프로틴의 성장을 보여주는 핵심 데이터</div>
+    <div class="divider"></div>
+
+    <div class="cards-grid">
+      <div class="info-card" style="border-color:rgba(230,52,41,0.3)">
+        <div class="info-card-icon">📈</div>
+        <div class="info-card-title">매출 성장</div>
+        <div class="info-card-body">
+          창업(2004): £0 → THG 인수 시(2011): 약 £40~50m 추정<br>
+          THG Nutrition(2022): £520m<br>
+          THG Nutrition(2023): £450m+<br>
+          <em>* THG 구조조정 영향으로 소폭 하락 후 안정화</em>
+        </div>
+      </div>
+      <div class="info-card" style="border-color:rgba(88,166,255,0.3)">
+        <div class="info-card-icon">🌐</div>
+        <div class="info-card-title">글로벌 규모</div>
+        <div class="info-card-body">
+          진출 국가: 70+<br>
+          지원 언어: 25개<br>
+          지원 통화: 30개<br>
+          <strong>"세계 최대 온라인 스포츠 영양 브랜드"</strong> — THG 공식 발표
+        </div>
+      </div>
+      <div class="info-card" style="border-color:rgba(63,185,80,0.3)">
+        <div class="info-card-icon">👥</div>
+        <div class="info-card-title">마케팅 규모</div>
+        <div class="info-card-body">
+          인플루언서 앰배서더: 10,000명+<br>
+          인스타그램 팔로워: 3M+<br>
+          이메일 구독자: 수백만<br>
+          YouTube 구독자: 수십만~수백만
+        </div>
+      </div>
+      <div class="info-card" style="border-color:rgba(210,153,34,0.3)">
+        <div class="info-card-icon">🏭</div>
+        <div class="info-card-title">생산·제품</div>
+        <div class="info-card-body">
+          제품 SKU: 5,000+<br>
+          자체 생산시설: 영국 맨체스터 + 美 켄터키<br>
+          브랜드: Myprotein, Myvitamins, Myvegan, MP Activewear<br>
+          카테고리: 단백질·BCAA·크레아틴·비타민·식물성·운동복
+        </div>
+      </div>
+      <div class="info-card" style="border-color:rgba(188,140,255,0.3)">
+        <div class="info-card-icon">💵</div>
+        <div class="info-card-title">가격 경쟁력</div>
+        <div class="info-card-body">
+          Impact Whey Protein 1kg: ~£25<br>
+          경쟁사 대비: 30~50% 저렴<br>
+          플래시 세일 최대: 70% 할인<br>
+          앰배서더 코드: 추가 10~25% 할인
+        </div>
+      </div>
+      <div class="info-card" style="border-color:rgba(230,52,41,0.3)">
+        <div class="info-card-icon">📉</div>
+        <div class="info-card-title">투자 지표</div>
+        <div class="info-card-body">
+          초기 투자: £500<br>
+          THG 인수가: £58.4m (116,000배)<br>
+          THG IPO 기업가치: £54억<br>
+          켄터키 생산기지: $17m 투자
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 9: 키네메디칼 시사점 (실행 중심) -->
+  <div class="section insight-section">
+    <div class="section-title" style="color:var(--green); margin-bottom:8px;">
+      🎯 키네메디칼 시사점 — 전략이 아닌 실행
+    </div>
+    <div class="section-desc" style="margin-bottom:16px;">물리치료사·도수치료사 대상 어필리에이트 코드 시스템을 실제로 만드는 방법</div>
+
+    <!-- 핵심 타깃 정의 -->
+    <div style="background:rgba(63,185,80,0.05); border:1px solid rgba(63,185,80,0.2); border-radius:12px; padding:18px; margin-bottom:16px;">
+      <div style="font-size:14px; font-weight:700; color:var(--green); margin-bottom:10px;">🎯 타깃 앰배서더 = 마이프로틴의 "피트니스 트레이너"와 같은 존재</div>
+      <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(160px,1fr)); gap:10px;">
+        <div style="background:rgba(0,0,0,0.2); border-radius:8px; padding:12px; text-align:center;">
+          <div style="font-size:20px; margin-bottom:4px;">🏥</div>
+          <div style="font-size:12px; font-weight:700; color:var(--text);">물리치료사</div>
+          <div style="font-size:11px; color:var(--muted); margin-top:2px;">환자에게 직접 추천<br>신뢰도 최상위</div>
+        </div>
+        <div style="background:rgba(0,0,0,0.2); border-radius:8px; padding:12px; text-align:center;">
+          <div style="font-size:20px; margin-bottom:4px;">💆</div>
+          <div style="font-size:12px; font-weight:700; color:var(--text);">도수치료사</div>
+          <div style="font-size:11px; color:var(--muted); margin-top:2px;">근골격 전문가<br>타깃 고객 직접 접촉</div>
+        </div>
+        <div style="background:rgba(0,0,0,0.2); border-radius:8px; padding:12px; text-align:center;">
+          <div style="font-size:20px; margin-bottom:4px;">🏋️</div>
+          <div style="font-size:12px; font-weight:700; color:var(--text);">재활 트레이너</div>
+          <div style="font-size:11px; color:var(--muted); margin-top:2px;">퍼스널 트레이너 중<br>재활 전문화</div>
+        </div>
+        <div style="background:rgba(0,0,0,0.2); border-radius:8px; padding:12px; text-align:center;">
+          <div style="font-size:20px; margin-bottom:4px;">📱</div>
+          <div style="font-size:12px; font-weight:700; color:var(--text);">건강 크리에이터</div>
+          <div style="font-size:11px; color:var(--muted); margin-top:2px;">유튜브/인스타<br>건강 콘텐츠 채널</div>
+        </div>
+        <div style="background:rgba(0,0,0,0.2); border-radius:8px; padding:12px; text-align:center;">
+          <div style="font-size:20px; margin-bottom:4px;">🎓</div>
+          <div style="font-size:12px; font-weight:700; color:var(--text);">1분도수 수강생</div>
+          <div style="font-size:11px; color:var(--muted); margin-top:2px;">이미 제품 신뢰층<br>가장 쉬운 타깃</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 실행 로드맵 -->
+    <div style="font-size:15px; font-weight:700; color:var(--text); margin:20px 0 12px; display:flex; align-items:center; gap:8px;">
+      🚀 실행 로드맵 — 지금 당장 할 수 있는 것부터
+    </div>
+
+    <div class="insight-grid">
+
+      <div class="insight-card" style="border-color:rgba(230,52,41,0.4); background:rgba(230,52,41,0.04);">
+        <div class="insight-card-num" style="color:var(--mp-red);">STEP 1 · 즉시 (1주 내)</div>
+        <div class="insight-card-title">카페24 할인코드 시스템 세팅</div>
+        <div class="insight-card-body">
+          <strong style="color:var(--text);">카페24 지원 여부: ✅ 가능</strong><br>
+          카페24 어드민 → 프로모션 → 쿠폰 관리 → "코드 쿠폰" 생성.<br><br>
+          <strong>설정 방법:</strong><br>
+          · 쿠폰 코드: "DRKIM15" (앰배서더 이름 기반)<br>
+          · 할인율: 15% (ES-808 단가 고려)<br>
+          · 사용 횟수: 무제한 (1인 1회 사용은 X)<br>
+          · 유효기간: 6개월 갱신 방식<br>
+          · 적용 상품: ES-808 + 크림 지정<br><br>
+          <strong style="color:var(--yellow);">⚠️ 한계:</strong> 카페24 기본 쿠폰은 "어떤 코드가 몇 번 사용됐는지" 추적은 되지만 주문별 매칭 보고서가 약함. 엑셀로 수동 관리하거나 카페24 API로 주문 데이터 추출 필요.
+        </div>
+        <div class="insight-card-action">→ 카페24 쿠폰 관리에서 코드 5개 먼저 생성</div>
+      </div>
+
+      <div class="insight-card" style="border-color:rgba(88,166,255,0.4); background:rgba(88,166,255,0.04);">
+        <div class="insight-card-num" style="color:var(--accent);">STEP 2 · 1~2주</div>
+        <div class="insight-card-title">어필리에이트 랜딩페이지 제작</div>
+        <div class="insight-card-body">
+          마이프로틴처럼 "앰배서더 신청 페이지"가 있어야 한다.<br><br>
+          <strong>포함 내용:</strong><br>
+          · 프로그램 소개 (코드 주면 팔로워 15% 할인, 나는 판매액 10% 수령)<br>
+          · 신청 폼: 이름, 직업(물리치료사/PT/크리에이터), SNS 링크, 팔로워 수, 추천 이유<br>
+          · 예상 수익 계산기 (팔로워 1만 명에 전환율 1% → 월 판매 100개 → 커미션 ○○만원)<br><br>
+          <strong style="color:var(--text);">호스팅:</strong> 카페24 기본 페이지 또는 별도 랜딩페이지 툴(Framer, Notion).
+        </div>
+        <div class="insight-card-action">→ 랜딩페이지 초안 하루면 만들 수 있음</div>
+      </div>
+
+      <div class="insight-card" style="border-color:rgba(63,185,80,0.4); background:rgba(63,185,80,0.04);">
+        <div class="insight-card-num" style="color:var(--green);">STEP 3 · 2~4주</div>
+        <div class="insight-card-title">시드 앰배서더 10명 직접 섭외</div>
+        <div class="insight-card-body">
+          마이프로틴도 처음엔 수동 DM. 자동화는 나중 일.<br><br>
+          <strong>타깃 목록 (우선순위 순):</strong><br>
+          1. 1분도수 수강생 중 SNS 활동하는 도수치료사<br>
+          2. 인스타에서 "#물리치료사" "#도수치료" 검색 → 팔로워 1천~1만 사이 계정<br>
+          3. 유튜브에서 재활/통증 콘텐츠 크리에이터<br>
+          4. 피트니스 PT 중 재활 전문 크리에이터<br><br>
+          <strong>DM 메시지 (간단하게):</strong><br>
+          <em style="color:var(--text); background:rgba(255,255,255,0.04); display:block; padding:8px; border-radius:6px; margin-top:6px; font-size:11px;">"안녕하세요! 1분도수 키네메디칼입니다. 팔로워분들께 ES-808 15% 할인 드리고, 판매액의 10% 수익을 드리는 앰배서더 프로그램에 관심 있으실까요? 한 달에 ○○만원 추가 수입이 가능합니다."</em>
+        </div>
+        <div class="insight-card-action">→ 이번 주 인스타 DM 10건 보내기</div>
+      </div>
+
+      <div class="insight-card" style="border-color:rgba(210,153,34,0.4); background:rgba(210,153,34,0.04);">
+        <div class="insight-card-num" style="color:var(--yellow);">STEP 4 · 1개월</div>
+        <div class="insight-card-title">온보딩 패키지 & 대시보드 준비</div>
+        <div class="insight-card-body">
+          승인 후 앰배서더에게 이메일로 발송:<br><br>
+          <strong>① 환영 이메일</strong> — 개인 코드 + 사용법<br>
+          <strong>② 브랜드 에셋</strong> — 제품 사진 고화질, 로고 파일<br>
+          <strong>③ 제품 발송</strong> — ES-808 1개 무료 (체험 후 콘텐츠 제작용)<br>
+          <strong>④ 실적 리포트 방식</strong> — 매월 15일에 카카오톡/이메일로 전월 실적 + 정산금 안내<br><br>
+          <strong style="color:var(--yellow);">대시보드 현실적 대안:</strong><br>
+          초기에는 전용 대시보드 개발 불필요. 카페24 API로 쿠폰 사용 내역을 매월 자동 추출 → 구글 시트로 앰배서더별 집계 → 자동 이메일 발송. 앰배서더 수 50명 이상 되면 전용 시스템 투자.
+        </div>
+        <div class="insight-card-action">→ 구글 시트 + 카페24 API로 1주 내 구현 가능</div>
+      </div>
+
+      <div class="insight-card" style="border-color:rgba(188,140,255,0.4); background:rgba(188,140,255,0.04);">
+        <div class="insight-card-num" style="color:var(--purple);">STEP 5 · 3개월+</div>
+        <div class="insight-card-title">커미션 구조 & 정산 자동화</div>
+        <div class="insight-card-body">
+          <strong>커미션 제안 (초안):</strong><br>
+          · 팔로워 1K~5K: 제품 1개 + 판매액 8%<br>
+          · 팔로워 5K~50K: 제품 + 판매액 10%<br>
+          · 팔로워 50K+: 제품 + 판매액 15% + 전담 지원<br>
+          · 의사·물리치료사 자격증 보유자: 팔로워 무관 12% (신뢰도 프리미엄)<br><br>
+          <strong>정산:</strong> 매월 말일, 최소 3만원 이상 발생 시 계좌이체.<br><br>
+          <strong style="color:var(--text);">한국 어필리에이트 플랫폼 옵션:</strong><br>
+          · 링크프라이스(Linkprice): 카페24 연동 쉬움<br>
+          · 쿠팡파트너스: 마켓플레이스 전용이라 부적합<br>
+          · 셀러허브, 텐핑: 국내 어필리에이트 중간 플랫폼<br>
+          → 초기엔 카페24 직접 + 구글 시트로 충분
+        </div>
+        <div class="insight-card-action">→ 링크프라이스 카페24 연동 검토</div>
+      </div>
+
+      <div class="insight-card" style="border-color:rgba(26,188,156,0.4); background:rgba(26,188,156,0.04);">
+        <div class="insight-card-num" style="color:var(--teal);">STEP 6 · 6개월+</div>
+        <div class="insight-card-title">스케일업 — 자동화 & 바이럴</div>
+        <div class="insight-card-body">
+          앰배서더 10명이 자리 잡으면 그다음은 자동화:<br><br>
+          <strong>신청 자동화:</strong> Typeform(또는 네이버폼) 신청 → Zapier로 카페24 쿠폰 자동 생성 → 환영 이메일 자동 발송.<br><br>
+          <strong>바이럴 장치:</strong> "앰배서더 추천으로 앰배서더가 되면 추천인에게 추가 커미션 1%" 레퍼럴 구조 추가.<br><br>
+          <strong>콘텐츠 가이드:</strong> "이런 콘텐츠가 제일 팔렸어요" 월간 뉴스레터 → 잘 팔리는 콘텐츠 포맷을 앰배서더들이 참고하게.<br><br>
+          <strong>목표:</strong> 6개월 내 앰배서더 50명, 1년 내 200명. 200명 × 월 평균 2건 판매 = 월 400건 추가 매출.
+        </div>
+        <div class="insight-card-action">→ Zapier 자동화 플로우 설계</div>
+      </div>
+
+    </div>
+
+    <!-- 카페24 기술 구현 상세 -->
+    <div style="margin-top:20px; background:var(--surface); border:1px solid var(--border2); border-radius:12px; padding:22px;">
+      <div style="font-size:14px; font-weight:700; color:var(--text); margin-bottom:14px;">⚙️ 카페24 할인코드 시스템 — 기술 구현 가이드</div>
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>단계</th>
+            <th>방법</th>
+            <th>비용</th>
+            <th>난이도</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>코드 발급</strong></td>
+            <td>카페24 어드민 → 프로모션 → 쿠폰 → 코드 쿠폰 생성</td>
+            <td>무료</td>
+            <td><span class="tag tag-green">쉬움</span></td>
+          </tr>
+          <tr>
+            <td><strong>실적 추적</strong></td>
+            <td>카페24 API (주문 조회 + 쿠폰코드 필터) → 구글 시트 자동 집계</td>
+            <td>개발 1~2일</td>
+            <td><span class="tag tag-yellow">중간</span></td>
+          </tr>
+          <tr>
+            <td><strong>커미션 계산</strong></td>
+            <td>구글 시트 수식 자동화 (쿠폰 코드별 매출 × 커미션율)</td>
+            <td>무료</td>
+            <td><span class="tag tag-green">쉬움</span></td>
+          </tr>
+          <tr>
+            <td><strong>정산 알림</strong></td>
+            <td>구글 앱스크립트 → 매월 말 앰배서더에게 이메일/카톡 자동 발송</td>
+            <td>무료</td>
+            <td><span class="tag tag-yellow">중간</span></td>
+          </tr>
+          <tr>
+            <td><strong>앰배서더 대시보드</strong></td>
+            <td>구글 시트 공유 (개인 시트 탭) 또는 전용 Notion 페이지</td>
+            <td>무료</td>
+            <td><span class="tag tag-green">쉬움</span></td>
+          </tr>
+          <tr>
+            <td><strong>자동화 (스케일업)</strong></td>
+            <td>링크프라이스 카페24 연동 또는 Refersion 등 SaaS 툴</td>
+            <td>월 $50~200</td>
+            <td><span class="tag tag-blue">플러그인</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div style="margin-top:20px; padding:20px; background:rgba(63,185,80,0.05); border:1px solid rgba(63,185,80,0.2); border-radius:10px;">
+      <div style="font-size:14px; font-weight:700; color:var(--green); margin-bottom:8px;">💡 핵심 요약 — 스미스 멘토가 말한 "마이프로틴을 보라"의 의미</div>
+      <div style="font-size:13px; color:var(--muted); line-height:1.8;">
+        마이프로틴이 만든 건 "광고 캠페인"이 아니라 <strong style="color:var(--text);">"자생적 판매 인프라"</strong>였다.<br>
+        물리치료사가 환자에게 "저도 이거 써요. 제 코드 쓰면 15% 싸요"라고 하면 → 그게 가장 강력한 광고다.<br>
+        전문가의 추천 + 할인 혜택 + 투명한 수익 구조 = 키네메디칼 버전 마이프로틴 앰배서더 시스템.<br><br>
+        <strong style="color:var(--green);">지금 당장 할 것: 카페24에서 코드 5개 만들고 → 1분도수 수강생 중 SNS 하는 치료사 5명에게 DM 보내기. 나머지는 그다음.</strong>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="section insight-section">
+    <div class="section-title" style="color:var(--green); margin-bottom:8px;">
+      🎯 키네메디칼 시사점 — 우리가 배울 것
+    </div>
+    <div class="section-desc" style="margin-bottom:0;">마이프로틴 성장 공식을 D2C 의료기기/건강기기 브랜드에 적용하는 방법</div>
+
+    <div class="insight-grid">
+      <div class="insight-card">
+        <div class="insight-card-num">시사점 01</div>
+        <div class="insight-card-title">🤝 인플루언서 앰배서더 시스템 구축</div>
+        <div class="insight-card-body">마이프로틴은 팔로워 1,000명부터 신청받아 10,000+ 앰배서더 제국을 만들었다. 1분도수 시청자 중 피지오·재활 전문가, 피트니스 트레이너, 건강 크리에이터를 타깃으로 앰배서더 프로그램 운영. 제품 제공 + 할인 코드 + 커미션 구조로 입소문 마케팅 시스템화.</div>
+        <div class="insight-card-action">→ ES-808 앰배서더 프로그램 설계 필요</div>
+      </div>
+      <div class="insight-card">
+        <div class="insight-card-num">시사점 02</div>
+        <div class="insight-card-title">📝 콘텐츠 → 신뢰 → 구매 퍼널</div>
+        <div class="insight-card-body">마이프로틴의 "The Zone"처럼, 1분도수 유튜브·블로그가 이미 신뢰 콘텐츠 역할을 하고 있다. 목·허리 디스크 회복 가이드 → ES-808 소개 → 구매 흐름. SEO 최적화된 통증 관련 아티클/영상이 광고 없이 고객을 유입시키는 구조.</div>
+        <div class="insight-card-action">→ 키네메디칼 콘텐츠 허브 강화 (유튜브 중심)</div>
+      </div>
+      <div class="insight-card">
+        <div class="insight-card-num">시사점 03</div>
+        <div class="insight-card-title">💰 가성비 포지셔닝 + 세일 전략</div>
+        <div class="insight-card-body">마이프로틴은 "저가"가 아닌 "최고 가성비"로 포지셔닝했다. ES-808이 의료기기 시장에서 경쟁사 대비 합리적 가격임을 명확히 소구. 기념일·시즌 세일, 번들 패키지(ES-808 + 글루코사민 크림 등)로 객단가 향상과 유입 증가 동시 달성.</div>
+        <div class="insight-card-action">→ 번들 패키지 + 시즌 세일 기획</div>
+      </div>
+      <div class="insight-card">
+        <div class="insight-card-num">시사점 04</div>
+        <div class="insight-card-title">📧 이메일·CRM으로 LTV 극대화</div>
+        <div class="insight-card-body">마이프로틴의 핵심 수익원은 재구매. 구매 후 30일, 60일에 소모품(크림·액세서리) 재구매 유도 이메일 자동화. ES-808 구매자 → 글루코사민 크림 → 앱 구독 → 상위 제품으로 업셀링하는 CRM 플라이휠 설계.</div>
+        <div class="insight-card-action">→ 구매 후 CRM 시퀀스 설계 강화</div>
+      </div>
+      <div class="insight-card">
+        <div class="insight-card-num">시사점 05</div>
+        <div class="insight-card-title">🏭 자체 제조 = 원가 경쟁력의 핵심</div>
+        <div class="insight-card-body">마이프로틴이 경쟁사보다 30~50% 저렴할 수 있었던 이유는 자체 생산. 키네메디칼도 OEM 의존을 줄이고 주요 제품의 자체 설계·생산 비중을 높일수록 가격 경쟁력과 마진이 동시에 향상된다.</div>
+        <div class="insight-card-action">→ 핵심 제품 자체 설계·IP 강화</div>
+      </div>
+      <div class="insight-card">
+        <div class="insight-card-num">시사점 06</div>
+        <div class="insight-card-title">🌏 단계적 글로벌 확장 공식</div>
+        <div class="insight-card-body">마이프로틴: 영국 1위 → 유럽 → 북미 → 아시아. 키네메디칼: 한국 1위 → 일본/대만 → 동남아 → 북미. 각 단계에서 현지 인플루언서 선확보 후 시장 진입. 글로벌 스미스(Smith) 멘토 조언처럼 마이프로틴 공식을 따라가면 된다.</div>
+        <div class="insight-card-action">→ 일본·대만 현지 피지오 인플루언서 섭외 우선</div>
+      </div>
+      <div class="insight-card">
+        <div class="insight-card-num">시사점 07</div>
+        <div class="insight-card-title">🔁 브랜드 패밀리 확장 전략</div>
+        <div class="insight-card-body">마이프로틴은 Myvitamins, Myvegan, MP Activewear로 확장했다. 키네메디칼도 ES-808(전기자극) → 도수 기기 → 글루코사민 제품 → 재활 운동 앱으로 "근골격 회복 생태계"를 구축. 한 고객이 여러 제품을 쓰는 구조가 LTV를 극대화.</div>
+        <div class="insight-card-action">→ 키네메디칼 브랜드 패밀리 로드맵 설계</div>
+      </div>
+      <div class="insight-card">
+        <div class="insight-card-num">시사점 08</div>
+        <div class="insight-card-title">🤖 기술 내재화 — D2C 플랫폼</div>
+        <div class="insight-card-body">THG는 Ingenuity라는 자체 이커머스 플랫폼을 만들었다. 단기적으로 카페24 자사몰에 충실하되, 중장기적으로 키네메디칼 전용 앱·멤버십 플랫폼을 강화해 외부 플랫폼 의존도를 줄이는 것이 핵심. 고객 데이터를 자산으로 보유해야 한다.</div>
+        <div class="insight-card-action">→ 키네메디칼 앱 + 멤버십 강화 우선</div>
+      </div>
+    </div>
+
+    <div style="margin-top:24px; padding:20px; background:rgba(63,185,80,0.05); border:1px solid rgba(63,185,80,0.2); border-radius:10px;">
+      <div style="font-size:14px; font-weight:700; color:var(--green); margin-bottom:8px;">💡 핵심 요약 — 스미스 멘토가 말한 "마이프로틴을 보라"의 의미</div>
+      <div style="font-size:13px; color:var(--muted); line-height:1.8;">
+        마이프로틴의 본질은 <strong style="color:var(--text)">① 처음부터 D2C</strong>, <strong style="color:var(--text)">② 인플루언서로 신뢰 구축</strong>, <strong style="color:var(--text)">③ 가성비 포지셔닝</strong>, <strong style="color:var(--text)">④ 이메일로 재구매 락인</strong>이다.<br>
+        키네메디칼도 1분도수 유튜브(콘텐츠 신뢰)를 기반으로 ES-808(D2C 제품)을 팔고, 
+        도수치료사·재활전문가 앰배서더 프로그램으로 의료계 신뢰를 확보하며, 
+        구독 CRM으로 소모품 재구매를 만드는 구조가 정확히 같은 공식이다.<br>
+        <strong style="color:var(--green)">결론: 마이프로틴이 스포츠 영양 시장에서 한 것을 키네메디칼이 근골격 회복 시장에서 하면 된다.</strong>
+      </div>
+    </div>
+  </div>
+
+</div>
+<div class="footer">마지막 업데이트: 2026. 3. 23. | 리서치: Wikipedia · THG Annual Reports · Oliver Cookson Interviews · The Times · Manchester Evening News | tenex-reports.vercel.app</div>
+</body>
+</html>

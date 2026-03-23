@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>테넥스 × 오픈클로 — 전체 시스템 맵</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: #0d1117; color: #e6edf3; font-family: -apple-system, 'Apple SD Gothic Neo', sans-serif; line-height: 1.6; }
+  
+  .wrap { max-width: 960px; margin: 0 auto; padding: 40px 20px 80px; }
+  
+  h1 { font-size: 26px; font-weight: 700; color: #fff; margin-bottom: 6px; }
+  .subtitle { font-size: 14px; color: #8b949e; margin-bottom: 40px; }
+
+  /* 섹션 */
+  .section { margin-bottom: 40px; }
+  .section-title { font-size: 13px; font-weight: 600; color: #58a6ff; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 16px; }
+
+  /* 메인 플로우 */
+  .flow { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin-bottom: 24px; }
+  .flow-box { background: #161b22; border: 1px solid #21262d; border-radius: 10px; padding: 14px 18px; text-align: center; min-width: 110px; }
+  .flow-box.human { border-color: #388bfd; }
+  .flow-box.ai { border-color: #58a6ff; background: #0d2137; }
+  .flow-box.auto { border-color: #2ea043; background: #0a1f0f; }
+  .flow-box .icon { font-size: 22px; margin-bottom: 4px; }
+  .flow-box .label { font-size: 12px; font-weight: 600; color: #e6edf3; }
+  .flow-box .sub { font-size: 11px; color: #8b949e; margin-top: 2px; }
+  .arrow { color: #30363d; font-size: 20px; }
+
+  /* 그리드 카드 */
+  .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 14px; }
+  .card { background: #161b22; border: 1px solid #21262d; border-radius: 12px; padding: 18px 20px; }
+  .card-title { font-size: 14px; font-weight: 600; color: #e6edf3; margin-bottom: 10px; display: flex; align-items: center; gap: 8px; }
+  .card-title .dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+  .dot-blue { background: #58a6ff; }
+  .dot-green { background: #2ea043; }
+  .dot-yellow { background: #d29922; }
+  .dot-purple { background: #8957e5; }
+  .dot-red { background: #f85149; }
+  .item { font-size: 13px; color: #8b949e; padding: 5px 0; border-bottom: 1px solid #21262d; display: flex; align-items: center; gap: 8px; }
+  .item:last-child { border-bottom: none; }
+  .item .badge { font-size: 10px; padding: 2px 7px; border-radius: 10px; flex-shrink: 0; }
+  .badge-on { background: #0a1f0f; color: #2ea043; border: 1px solid #2ea043; }
+  .badge-off { background: #1c1c1c; color: #6e7681; border: 1px solid #30363d; }
+  .badge-blue { background: #0d2137; color: #58a6ff; border: 1px solid #1d4ed8; }
+
+  /* 계층도 */
+  .hierarchy { display: flex; flex-direction: column; align-items: center; gap: 0; }
+  .h-row { display: flex; gap: 12px; justify-content: center; }
+  .h-box { background: #161b22; border: 1px solid #21262d; border-radius: 10px; padding: 12px 20px; text-align: center; font-size: 13px; }
+  .h-box.top { border-color: #388bfd; background: #0d2137; font-weight: 700; font-size: 15px; padding: 14px 28px; }
+  .h-box.mid { border-color: #58a6ff; min-width: 130px; }
+  .h-box.bot { border-color: #21262d; min-width: 110px; font-size: 12px; color: #8b949e; }
+  .h-label { font-size: 11px; color: #8b949e; margin-top: 4px; }
+  .h-line { width: 1px; height: 16px; background: #30363d; margin: 0 auto; }
+  .h-hline { display: flex; justify-content: center; align-items: center; gap: 0; margin: 0; }
+  .h-hline-inner { height: 1px; background: #30363d; flex: 1; max-width: 280px; }
+
+  /* 타임라인 */
+  .timeline { position: relative; padding-left: 24px; }
+  .timeline::before { content: ''; position: absolute; left: 6px; top: 0; bottom: 0; width: 1px; background: #21262d; }
+  .tl-item { position: relative; margin-bottom: 14px; }
+  .tl-item::before { content: ''; position: absolute; left: -20px; top: 5px; width: 8px; height: 8px; border-radius: 50%; background: #58a6ff; }
+  .tl-time { font-size: 11px; color: #58a6ff; font-weight: 600; }
+  .tl-text { font-size: 13px; color: #8b949e; }
+
+  /* 인사이트 박스 */
+  .insight { background: #0d2137; border: 1px solid #1d4ed8; border-radius: 10px; padding: 18px 20px; margin-bottom: 16px; }
+  .insight p { font-size: 13px; color: #93c5fd; line-height: 1.8; }
+  .insight strong { color: #e6edf3; }
+
+  @media (max-width: 600px) {
+    .flow { gap: 6px; }
+    .flow-box { min-width: 80px; padding: 10px 12px; }
+    .arrow { font-size: 14px; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <h1>테넥스 × 오픈클로 시스템 맵</h1>
+  <p class="subtitle">2026년 3월 기준 — 태훈의 AI 운영 구조 전체 그림</p>
+
+  <!-- 핵심 개념 -->
+  <div class="section">
+    <div class="section-title">핵심 개념</div>
+    <div class="insight">
+      <p>오픈클로는 <strong>맥미니에서 24시간 돌아가는 AI 운영체제</strong>야. 단순한 챗봇이 아니라, 카리나(메인 에이전트)가 태훈의 비서 역할을 하면서 필요할 때 서브에이전트팀을 소환해 병렬로 일 처리. 모든 대화·결정·자동화가 하나의 시스템으로 연결됨.</p>
+    </div>
+  </div>
+
+  <!-- 전체 플로우 -->
+  <div class="section">
+    <div class="section-title">전체 흐름</div>
+    <div class="flow">
+      <div class="flow-box human">
+        <div class="icon">👨‍💼</div>
+        <div class="label">태훈</div>
+        <div class="sub">텔레그램으로 지시</div>
+      </div>
+      <div class="arrow">→</div>
+      <div class="flow-box ai">
+        <div class="icon">🎯</div>
+        <div class="label">카리나</div>
+        <div class="sub">메인 에이전트</div>
+      </div>
+      <div class="arrow">→</div>
+      <div class="flow-box auto">
+        <div class="icon">⚡</div>
+        <div class="label">서브에이전트팀</div>
+        <div class="sub">병렬 작업 처리</div>
+      </div>
+      <div class="arrow">→</div>
+      <div class="flow-box human">
+        <div class="icon">✅</div>
+        <div class="label">결과 보고</div>
+        <div class="sub">텔레그램 수신</div>
+      </div>
+    </div>
+    <div class="flow">
+      <div class="flow-box auto">
+        <div class="icon">⏰</div>
+        <div class="label">크론잡</div>
+        <div class="sub">자동 실행</div>
+      </div>
+      <div class="arrow">→</div>
+      <div class="flow-box ai">
+        <div class="icon">🎯</div>
+        <div class="label">카리나</div>
+        <div class="sub">판단 & 실행</div>
+      </div>
+      <div class="arrow">→</div>
+      <div class="flow-box human">
+        <div class="icon">📱</div>
+        <div class="label">태훈 알림</div>
+        <div class="sub">필요할 때만</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 에이전트 계층 -->
+  <div class="section">
+    <div class="section-title">에이전트 구조</div>
+    <div class="hierarchy">
+      <div class="h-box top">🎯 카리나 (메인 에이전트)<br><span style="font-size:12px;font-weight:400;color:#8b949e">태훈 전담 · 맥미니 24시간 상주</span></div>
+      <div class="h-line"></div>
+      <div class="h-hline">
+        <div class="h-hline-inner"></div>
+        <div class="h-hline-inner"></div>
+        <div class="h-hline-inner"></div>
+      </div>
+      <div class="h-row">
+        <div class="h-box mid">개발 에이전트<div class="h-label">코딩·배포·수정</div></div>
+        <div class="h-box mid">분석 에이전트<div class="h-label">데이터·리포트</div></div>
+        <div class="h-box mid">디자인 에이전트<div class="h-label">HTML·CSS</div></div>
+      </div>
+      <div class="h-line"></div>
+      <div class="h-row">
+        <div class="h-box bot">최대 8개 동시<div class="h-label">병렬 처리</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 자동화 잡 -->
+  <div class="section">
+    <div class="section-title">24시간 자동화 (launchd 크론잡)</div>
+    <div class="grid">
+      <div class="card">
+        <div class="card-title"><div class="dot dot-green"></div>매출 · 광고</div>
+        <div class="item">매일 07:00 매출 리포트 <span class="badge badge-on">ON</span></div>
+        <div class="item">카페24 토큰 90분마다 갱신 <span class="badge badge-on">ON</span></div>
+        <div class="item">메타 광고 소재별 성과 대시보드 <span class="badge badge-on">ON</span></div>
+      </div>
+      <div class="card">
+        <div class="card-title"><div class="dot dot-blue"></div>AI · 메모리</div>
+        <div class="item">하트비트 1시간마다 <span class="badge badge-on">ON</span></div>
+        <div class="item">세션 → brain.db 10분마다 <span class="badge badge-on">ON</span></div>
+        <div class="item">시스템 헬스체크 자정 <span class="badge badge-on">ON</span></div>
+      </div>
+      <div class="card">
+        <div class="card-title"><div class="dot dot-purple"></div>Plaud · 녹음</div>
+        <div class="item">녹음 수집·전사 1시간마다 <span class="badge badge-on">ON</span></div>
+        <div class="item">액션아이템 자동 추출 <span class="badge badge-on">ON</span></div>
+        <div class="item">일일 녹음 요약 텔레그램 <span class="badge badge-on">ON</span></div>
+      </div>
+      <div class="card">
+        <div class="card-title"><div class="dot dot-yellow"></div>CRM · 고객</div>
+        <div class="item">ES-808 배송 문자 매일 18:00 <span class="badge badge-on">ON</span></div>
+        <div class="item">데이터라이즈 캠페인 <span class="badge badge-off">검수 대기</span></div>
+        <div class="item">D+3/7/21 케어 시퀀스 <span class="badge badge-off">준비중</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 연동 서비스 -->
+  <div class="section">
+    <div class="section-title">연동된 서비스</div>
+    <div class="grid">
+      <div class="card">
+        <div class="card-title"><div class="dot dot-blue"></div>데이터 소스</div>
+        <div class="item">카페24 (주문·매출·재고) <span class="badge badge-on">연동</span></div>
+        <div class="item">Meta Ads API (광고 성과) <span class="badge badge-on">연동</span></div>
+        <div class="item">YouTube Analytics <span class="badge badge-on">연동</span></div>
+        <div class="item">Plaud (녹음·전사) <span class="badge badge-on">연동</span></div>
+      </div>
+      <div class="card">
+        <div class="card-title"><div class="dot dot-green"></div>출력 채널</div>
+        <div class="item">텔레그램 (태훈 전용) <span class="badge badge-on">메인</span></div>
+        <div class="item">Slack (팀 채널) <span class="badge badge-on">연동</span></div>
+        <div class="item">tenex-dashboard.vercel.app <span class="badge badge-on">운영중</span></div>
+        <div class="item">tenex-reports.vercel.app <span class="badge badge-on">운영중</span></div>
+      </div>
+      <div class="card">
+        <div class="card-title"><div class="dot dot-yellow"></div>AI 모델</div>
+        <div class="item">Claude Sonnet 4.6 (메인) <span class="badge badge-on">사용중</span></div>
+        <div class="item">Gemini 2.0 Flash (Plaud 전사) <span class="badge badge-on">사용중</span></div>
+        <div class="item">Gemini Flash (인사이트 생성) <span class="badge badge-on">사용중</span></div>
+        <div class="item">로컬 LLM Llama 3.1 8B <span class="badge badge-blue">대기중</span></div>
+      </div>
+      <div class="card">
+        <div class="card-title"><div class="dot dot-purple"></div>메모리 구조</div>
+        <div class="item">brain.db SQLite (장기기억) <span class="badge badge-on">운영중</span></div>
+        <div class="item">MEMORY.md (핵심 결정) <span class="badge badge-on">운영중</span></div>
+        <div class="item">memory/날짜.md (일별 기록) <span class="badge badge-on">운영중</span></div>
+        <div class="item">HEARTBEAT.md (진행중 작업) <span class="badge badge-on">운영중</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 오늘 한 것 타임라인 -->
+  <div class="section">
+    <div class="section-title">오늘(3/19) 만들어진 것</div>
+    <div class="card">
+      <div class="timeline">
+        <div class="tl-item"><div class="tl-time">오후</div><div class="tl-text">tenex-reports 7개 파일 GitHub Dark 테마 리디자인 — 서브에이전트 7개 병렬 작업</div></div>
+        <div class="tl-item"><div class="tl-time">저녁</div><div class="tl-text">session-sync 자동화 — 10분마다 대화 내용 brain.db 저장 (맥락 손실 최소화)</div></div>
+        <div class="tl-item"><div class="tl-time">저녁</div><div class="tl-text">Plaud → 액션아이템 자동 추출 파이프라인 — todo.md 자동 저장 + 텔레그램 전송</div></div>
+        <div class="tl-item"><div class="tl-time">밤</div><div class="tl-text">CEO 대시보드 광고 소재별 성과 탭 — ES-808/CS-25 분리, 지출순 정렬, Gemini 인사이트</div></div>
+        <div class="tl-item"><div class="tl-time">밤</div><div class="tl-text">서브에이전트 타임아웃 규칙 BOOTSTRAP 박기 — runTimeoutSeconds 필수화</div></div>
+        <div class="tl-item"><div class="tl-time">자정</div><div class="tl-text">시스템 헬스체크 크론잡 — 매일 자정 페이지/잡 상태 확인, 오류 시 텔레그램</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 다음 단계 -->
+  <div class="section">
+    <div class="section-title">다음 단계 (백로그)</div>
+    <div class="grid">
+      <div class="card">
+        <div class="card-title"><div class="dot dot-red"></div>우선순위 높음</div>
+        <div class="item">CRM 이미지 자동 생성 + 데이터라이즈 등록</div>
+        <div class="item">주간 광고 소재 성과 리포트 자동화</div>
+        <div class="item">데이터라이즈 알림톡 검수 통과 후 캠페인 ON</div>
+      </div>
+      <div class="card">
+        <div class="card-title"><div class="dot dot-yellow"></div>중간 우선순위</div>
+        <div class="item">웹사이트 리뉴얼 (키네메디칼 자사몰)</div>
+        <div class="item">팀원용 AI 비서 (인규/나현 전용)</div>
+        <div class="item">이상값 감지 광고 자동 알림</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+</body>
+</html>

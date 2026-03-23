@@ -1,0 +1,757 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>자사교 6기 2주차 강의노트 | 자사물산학교</title>
+<style>
+  :root {
+    --bg: #0f1117;
+    --surface: #1a1d27;
+    --surface2: #22263a;
+    --border: #2e3350;
+    --accent: #6c8fff;
+    --accent2: #a78bfa;
+    --accent3: #34d399;
+    --accent4: #fb923c;
+    --text: #e2e8f0;
+    --text-muted: #94a3b8;
+    --quote-bg: #1e2235;
+    --quote-border: #6c8fff;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Apple SD Gothic Neo', 'Noto Sans KR', -apple-system, sans-serif;
+    line-height: 1.7;
+    font-size: 16px;
+  }
+
+  /* Header */
+  .hero {
+    background: linear-gradient(135deg, #0f1117 0%, #1a1d27 50%, #0f1117 100%);
+    border-bottom: 1px solid var(--border);
+    padding: 60px 24px 48px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 600px;
+    height: 300px;
+    background: radial-gradient(ellipse, rgba(108,143,255,0.12) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .hero-tag {
+    display: inline-block;
+    background: rgba(108,143,255,0.15);
+    color: var(--accent);
+    border: 1px solid rgba(108,143,255,0.3);
+    border-radius: 20px;
+    padding: 4px 14px;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    margin-bottom: 20px;
+  }
+  .hero h1 {
+    font-size: clamp(24px, 5vw, 40px);
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    color: #fff;
+    margin-bottom: 10px;
+  }
+  .hero-date {
+    color: var(--text-muted);
+    font-size: 14px;
+    margin-bottom: 20px;
+  }
+  .hero-desc {
+    color: var(--text-muted);
+    font-size: 15px;
+    max-width: 600px;
+    margin: 0 auto;
+  }
+  .hero-tags {
+    display: flex;
+    gap: 8px;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-top: 24px;
+  }
+  .hero-tags span {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 4px 12px;
+    font-size: 12px;
+    color: var(--text-muted);
+  }
+
+  /* Nav */
+  .nav-bar {
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    padding: 0 24px;
+    display: flex;
+    gap: 0;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  .nav-bar::-webkit-scrollbar { display: none; }
+  .nav-item {
+    color: var(--text-muted);
+    font-size: 13px;
+    font-weight: 500;
+    padding: 14px 16px;
+    white-space: nowrap;
+    text-decoration: none;
+    border-bottom: 2px solid transparent;
+    transition: all 0.2s;
+  }
+  .nav-item:hover { color: var(--text); border-bottom-color: var(--accent); }
+
+  /* Layout */
+  .container {
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 48px 24px 80px;
+  }
+
+  /* Section */
+  .section {
+    margin-bottom: 64px;
+  }
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 32px;
+  }
+  .section-icon {
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    flex-shrink: 0;
+  }
+  .icon-ai { background: rgba(108,143,255,0.15); }
+  .icon-meta { background: rgba(167,139,250,0.15); }
+  .icon-pixel { background: rgba(52,211,153,0.15); }
+  .icon-tips { background: rgba(251,146,60,0.15); }
+  .section-title {
+    font-size: 22px;
+    font-weight: 700;
+    color: #fff;
+  }
+  .section-subtitle {
+    font-size: 13px;
+    color: var(--text-muted);
+    margin-top: 2px;
+  }
+
+  /* Cards */
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 24px;
+    margin-bottom: 16px;
+    transition: border-color 0.2s;
+  }
+  .card:hover { border-color: rgba(108,143,255,0.3); }
+  .card-title {
+    font-size: 15px;
+    font-weight: 700;
+    color: #fff;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .card-title .badge {
+    font-size: 11px;
+    font-weight: 600;
+    padding: 2px 8px;
+    border-radius: 4px;
+    background: rgba(108,143,255,0.2);
+    color: var(--accent);
+  }
+  .badge-purple { background: rgba(167,139,250,0.2) !important; color: var(--accent2) !important; }
+  .badge-green { background: rgba(52,211,153,0.2) !important; color: var(--accent3) !important; }
+  .badge-orange { background: rgba(251,146,60,0.2) !important; color: var(--accent4) !important; }
+  .card p {
+    color: var(--text-muted);
+    font-size: 14px;
+    line-height: 1.75;
+  }
+
+  /* Quote */
+  .quote {
+    background: var(--quote-bg);
+    border-left: 3px solid var(--quote-border);
+    border-radius: 0 12px 12px 0;
+    padding: 16px 20px;
+    margin: 16px 0;
+    position: relative;
+  }
+  .quote::before {
+    content: '"';
+    position: absolute;
+    top: -8px;
+    left: 14px;
+    font-size: 48px;
+    color: rgba(108,143,255,0.25);
+    font-family: Georgia, serif;
+    line-height: 1;
+  }
+  .quote p {
+    color: #c7d2fe !important;
+    font-size: 15px !important;
+    font-style: italic;
+    padding-left: 8px;
+  }
+  .quote-author {
+    color: var(--text-muted) !important;
+    font-size: 12px !important;
+    font-style: normal !important;
+    margin-top: 8px;
+    padding-left: 8px;
+  }
+
+  /* Diagram / Flow */
+  .flow {
+    display: flex;
+    align-items: center;
+    gap: 0;
+    flex-wrap: wrap;
+    margin: 20px 0;
+    padding: 20px;
+    background: var(--surface2);
+    border-radius: 12px;
+    border: 1px solid var(--border);
+  }
+  .flow-item {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 10px 16px;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text);
+    text-align: center;
+    min-width: 100px;
+    flex: 1;
+  }
+  .flow-arrow {
+    color: var(--accent);
+    font-size: 18px;
+    padding: 0 8px;
+    flex-shrink: 0;
+  }
+  .flow-loop {
+    width: 100%;
+    text-align: center;
+    margin-top: 12px;
+    font-size: 12px;
+    color: var(--accent);
+    font-weight: 600;
+  }
+
+  /* Timeline */
+  .timeline {
+    position: relative;
+    padding-left: 28px;
+    margin: 16px 0;
+  }
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: 7px;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: linear-gradient(180deg, var(--accent) 0%, var(--accent2) 100%);
+  }
+  .timeline-item {
+    position: relative;
+    margin-bottom: 20px;
+  }
+  .timeline-item::before {
+    content: '';
+    position: absolute;
+    left: -24px;
+    top: 6px;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--accent);
+    border: 2px solid var(--bg);
+  }
+  .timeline-item:last-child::before { background: var(--accent2); }
+  .timeline-label {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    color: var(--accent);
+    text-transform: uppercase;
+    margin-bottom: 4px;
+  }
+  .timeline-text {
+    font-size: 14px;
+    color: var(--text-muted);
+  }
+
+  /* Highlight box */
+  .highlight-box {
+    background: linear-gradient(135deg, rgba(108,143,255,0.08) 0%, rgba(167,139,250,0.08) 100%);
+    border: 1px solid rgba(108,143,255,0.25);
+    border-radius: 12px;
+    padding: 20px 24px;
+    margin: 16px 0;
+  }
+  .highlight-box .hl-title {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--accent);
+    margin-bottom: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+  .highlight-box ul {
+    list-style: none;
+    padding: 0;
+  }
+  .highlight-box ul li {
+    font-size: 14px;
+    color: var(--text-muted);
+    padding: 5px 0;
+    padding-left: 18px;
+    position: relative;
+  }
+  .highlight-box ul li::before {
+    content: '▸';
+    position: absolute;
+    left: 0;
+    color: var(--accent);
+  }
+
+  /* Key number */
+  .key-numbers {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 12px;
+    margin: 20px 0;
+  }
+  .kn-item {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 16px;
+    text-align: center;
+  }
+  .kn-icon { font-size: 28px; margin-bottom: 6px; }
+  .kn-label { font-size: 12px; color: var(--text-muted); }
+  .kn-value { font-size: 15px; font-weight: 700; color: #fff; margin: 4px 0; }
+
+  /* Divider */
+  hr { border: none; border-top: 1px solid var(--border); margin: 40px 0; }
+
+  /* Footer */
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 32px 24px;
+    text-align: center;
+    color: var(--text-muted);
+    font-size: 13px;
+  }
+
+  @media (max-width: 600px) {
+    .hero { padding: 40px 16px 32px; }
+    .container { padding: 32px 16px 60px; }
+    .flow { flex-direction: column; }
+    .flow-arrow { transform: rotate(90deg); }
+    .flow-item { width: 100%; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Hero -->
+<div class="hero">
+  <div class="hero-tag">자사물산학교 6기</div>
+  <h1>2주차 강의노트</h1>
+  <div class="hero-date">2026년 03월 17일 · 태훈(김태훈) 조교</div>
+  <p class="hero-desc">AI 활용의 본질부터 메타 광고 데이터 구조, 픽셀 & 전환API 실전 세팅까지</p>
+  <div class="hero-tags">
+    <span>AI 활용 전략</span>
+    <span>메타 광고</span>
+    <span>픽셀</span>
+    <span>전환API(격리)</span>
+    <span>고급 매칭</span>
+  </div>
+</div>
+
+<!-- Nav -->
+<nav class="nav-bar">
+  <a class="nav-item" href="#ai">🤖 AI 활용</a>
+  <a class="nav-item" href="#meta">📊 메타 데이터 구조</a>
+  <a class="nav-item" href="#pixel">⚡ 픽셀 & 전환API</a>
+  <a class="nav-item" href="#tips">🎯 실전 팁</a>
+</nav>
+
+<div class="container">
+
+  <!-- ===== SECTION 1: AI 활용 ===== -->
+  <div class="section" id="ai">
+    <div class="section-header">
+      <div class="section-icon icon-ai">🤖</div>
+      <div>
+        <div class="section-title">AI 활용 전략</div>
+        <div class="section-subtitle">희소성, 개인화, 학습 루프</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">
+        AI 희소성 문제 <span class="badge">핵심 문제</span>
+      </div>
+      <p>모두가 AI를 쓰기 시작하면 생산된 콘텐츠가 획일화된다. "인스타그램에서 가장 사람들이 좋아하는 형식으로 써 줘"라는 프롬프트를 모두가 쓰면 결과물도 모두 비슷해진다. 희소성이 사라지는 것이다.</p>
+      <div class="quote">
+        <p>다 똑같이 잘한다요? 그래서 그러면 이거 희석성이라는 거 어떻게 만들어야겠어요? 개인화.</p>
+        <p class="quote-author">— 태훈, 오전 강의 중</p>
+      </div>
+      <div class="highlight-box">
+        <div class="hl-title">답: 개인화가 유일한 차별점</div>
+        <ul>
+          <li>얼굴(사람) = 1차 개인화</li>
+          <li>메모리 기능 = AI가 나를 학습하게</li>
+          <li>파인튜닝 = 내 성향으로 출력 방향 잡기</li>
+          <li>구조 정리 = 일관된 브랜드 목소리 유지</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">
+        학습 루프 <span class="badge">시스템</span>
+      </div>
+      <p>콘텐츠를 한번 만들고 끝내는 게 아니다. 발행 → 성과 확인 → AI 재학습 → 더 나은 콘텐츠의 무한 루프를 만들어야 한다.</p>
+
+      <div class="flow">
+        <div class="flow-item">📝<br>콘텐츠 발행</div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-item">📊<br>성과 데이터 수집</div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-item">🤖<br>AI 재학습</div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-item">✨<br>개인화 심화</div>
+        <div class="flow-loop">🔄 무한반복 — 루프가 돌수록 나만의 AI가 된다</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">
+        메모리 & 파인튜닝 <span class="badge">실행 방법</span>
+      </div>
+      <p>AI의 메모리 기능을 활성화하면 대화가 쌓이면서 AI가 점점 나를 정의하게 된다. 내가 어떤 브랜드인지, 어떤 말투를 쓰는지, 무엇을 강조하는지를 AI가 학습한다.</p>
+      <div class="quote">
+        <p>얘가 아웃풋이 나를 정의할 수 있잖아요. 나랑 대화하는 거 저장한 다음에 — AI 메모리가 곧 나의 정체성.</p>
+        <p class="quote-author">— 태훈, AI 개인화 설명 중</p>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">
+        구조(아키텍처) 정리가 먼저 <span class="badge">우선순위</span>
+      </div>
+      <p>AI를 잘 쓰는 스킬보다, 내 브랜드의 구조를 먼저 정리하는 게 핵심이다. 구조가 없으면 AI가 뭘 만들어도 방향이 흔들린다. AI는 도구일 뿐이고, 방향을 잡는 건 사람이다.</p>
+      <div class="quote">
+        <p>파도가 칠 때 치려고 하지 말고 서핑을 해야 된다.</p>
+        <p class="quote-author">— 태훈, AI 변화 대응 전략 설명 중</p>
+      </div>
+      <div class="highlight-box">
+        <div class="hl-title">구조 정리 체크리스트</div>
+        <ul>
+          <li>내 브랜드가 누구에게 무엇을 파는지 1문장으로</li>
+          <li>콘텐츠 생산 → 배포 → 성과 측정 프로세스 시각화</li>
+          <li>AI에게 줄 나만의 컨텍스트(배경, 말투, 금기어) 정리</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">
+        "AI 강의가 필요 없는 이유" <span class="badge badge-orange">명언</span>
+      </div>
+      <div class="quote" style="border-left-color: var(--accent4);">
+        <p>AI 강의 저는 개인적으로 필요 없다고 생각. 왜? AI가 제일 잘 알아. AI한테 직접 물어보는 게 최고야. 중요한 건 사고하는 구조.</p>
+        <p class="quote-author">— 태훈, 강의 마무리 중</p>
+      </div>
+      <p>AI 사용법보다 <strong style="color: #fff;">무엇을 물어볼지</strong>가 더 중요하다. 프롬프트 기술보다 사고 구조가 우선이다.</p>
+    </div>
+  </div>
+
+  <hr>
+
+  <!-- ===== SECTION 2: 메타 데이터 구조 ===== -->
+  <div class="section" id="meta">
+    <div class="section-header">
+      <div class="section-icon icon-meta">📊</div>
+      <div>
+        <div class="section-title">메타 작동 원리 & 데이터 역사</div>
+        <div class="section-subtitle">메타는 마테크(MarTech) 기업이다</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">
+        메타 타겟팅의 본질 <span class="badge badge-purple">핵심 개념</span>
+      </div>
+      <p>메타의 타겟팅은 "30대 여성" 같은 고정된 집단 개념이 아니다. 머신러닝이 1초마다 수백만 개의 신호를 분석해서 지금 이 순간 가장 구매 가능성이 높은 사람에게 광고를 보여준다.</p>
+      <div class="quote" style="border-left-color: var(--accent2);">
+        <p>메타는 삼신 할머니급 중매쟁이. 고객 데이터 분석 능력이 그 수준이야.</p>
+        <p class="quote-author">— 태훈, 메타 타겟팅 설명 중</p>
+      </div>
+
+      <div class="key-numbers">
+        <div class="kn-item">
+          <div class="kn-icon">🧠</div>
+          <div class="kn-value">머신러닝</div>
+          <div class="kn-label">타겟 선별 방식</div>
+        </div>
+        <div class="kn-item">
+          <div class="kn-icon">⚡</div>
+          <div class="kn-value">실시간</div>
+          <div class="kn-label">1초마다 변화</div>
+        </div>
+        <div class="kn-item">
+          <div class="kn-icon">📐</div>
+          <div class="kn-value">목표 기반</div>
+          <div class="kn-label">캠페인 목표 = 고객 분류 기준</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">
+        메타 데이터 수집의 역사 <span class="badge badge-purple">흐름 이해</span>
+      </div>
+      <p>메타가 어떻게 고객 데이터를 수집해왔는지 이해하면, 왜 지금 전환API가 필수인지 알 수 있다.</p>
+
+      <div class="timeline">
+        <div class="timeline-item">
+          <div class="timeline-label">1단계 — 쿠키 시대</div>
+          <div class="timeline-text">브라우저 쿠키를 통해 직접 데이터 수집. 메타 픽셀만 있으면 모든 행동이 추적됐다. "똥을 팔아도 팔리는" 시대.</div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-label">2단계 — 개인정보 보호 강화</div>
+          <div class="timeline-text">애플 iOS 14.5+ 정책으로 앱 추적 동의 의무화. 브라우저도 서드파티 쿠키 차단. 픽셀 데이터 손실 급증.</div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-label">3단계 — 전환API(격리) 시대</div>
+          <div class="timeline-text">서버에서 직접 메타로 데이터 전달. 브라우저 우회. 카카오페이·네이버페이 구매도 추적 가능. 지금이 이 시대.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">
+        캠페인 목표 설정 주의사항 <span class="badge badge-purple">실수 방지</span>
+      </div>
+      <p>메타는 캠페인 목표에 따라 완전히 다른 고객군에게 광고를 보낸다. 참여 캠페인으로 구매를 유도하면 메타는 "참여를 좋아하는 사람"에게만 보여준다. 구매 전환 캠페인과는 전혀 다른 사람들이다.</p>
+      <div class="highlight-box">
+        <div class="hl-title">❌ 흔한 실수</div>
+        <ul>
+          <li>참여(좋아요/댓글) 캠페인으로 구매 전환 기대 → 안 됨</li>
+          <li>브랜드 인지 캠페인으로 매출 측정 → 지표 해석 오류</li>
+          <li>목표 혼합 운영 → 메타 알고리즘 혼란</li>
+        </ul>
+      </div>
+      <div class="highlight-box" style="border-color: rgba(52,211,153,0.25); background: linear-gradient(135deg, rgba(52,211,153,0.06) 0%, transparent 100%);">
+        <div class="hl-title" style="color: var(--accent3);">✅ 올바른 접근</div>
+        <ul>
+          <li>구매 전환이 목표면 → 전환 캠페인</li>
+          <li>캠페인 목표 = 메타가 타겟할 사람 유형을 정의하는 것</li>
+          <li>목표와 크리에이티브가 일치해야 성과가 난다</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <hr>
+
+  <!-- ===== SECTION 3: 픽셀 & 전환API ===== -->
+  <div class="section" id="pixel">
+    <div class="section-header">
+      <div class="section-icon icon-pixel">⚡</div>
+      <div>
+        <div class="section-title">픽셀 & 전환API 실전</div>
+        <div class="section-subtitle">데이터 송수신 진단 및 고급 매칭</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">
+        전환API(격리)란? <span class="badge badge-green">핵심 기능</span>
+      </div>
+      <p>전환API는 서버에서 메타로 직접 데이터를 쏘는 방식이다. 브라우저 픽셀을 우회하기 때문에 쿠키 차단에 영향을 받지 않는다. 구매자의 이름, 전화번호 등 정보를 메타에 안전하게 전달한다.</p>
+
+      <div class="flow" style="background: rgba(52,211,153,0.05); border-color: rgba(52,211,153,0.2);">
+        <div class="flow-item" style="border-color: rgba(52,211,153,0.3);">🛒<br>고객 구매</div>
+        <div class="flow-arrow" style="color: var(--accent3);">→</div>
+        <div class="flow-item" style="border-color: rgba(52,211,153,0.3);">🏪<br>내 서버<br>(카페24 등)</div>
+        <div class="flow-arrow" style="color: var(--accent3);">→</div>
+        <div class="flow-item" style="border-color: rgba(52,211,153,0.3);">🔒<br>전환API<br>(격리)</div>
+        <div class="flow-arrow" style="color: var(--accent3);">→</div>
+        <div class="flow-item" style="border-color: rgba(52,211,153,0.3);">📡<br>메타<br>이벤트 수신</div>
+      </div>
+
+      <div class="highlight-box" style="border-color: rgba(52,211,153,0.25); background: linear-gradient(135deg, rgba(52,211,153,0.06) 0%, transparent 100%);">
+        <div class="hl-title" style="color: var(--accent3);">전환API(격리)의 장점</div>
+        <ul>
+          <li>네이버페이, 카카오페이 구매도 추적 가능 (브라우저 픽셀은 불가)</li>
+          <li>iOS 쿠키 차단에 무관</li>
+          <li>데이터 정확도 대폭 향상</li>
+          <li>메타 광고 최적화 품질 개선</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">
+        픽셀 헬퍼 설치 <span class="badge badge-green">실습</span>
+      </div>
+      <p>크롬 확장프로그램 <strong style="color: #fff;">Meta Pixel Helper</strong>를 설치하면 현재 사이트에서 픽셀이 제대로 작동하는지, 어떤 이벤트가 발사되는지 실시간으로 확인할 수 있다.</p>
+      <div class="highlight-box">
+        <div class="hl-title">주의사항</div>
+        <ul>
+          <li>광고 차단 확장프로그램(AdBlock 등)이 있으면 픽셀 헬퍼가 제대로 동작 안 함 → 삭제 필요</li>
+          <li>픽셀 헬퍼는 데이터가 나가고 들어오는지 확인하는 도구</li>
+          <li>이벤트 관리자에서 실시간 데이터 수신 상태 확인 가능</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">
+        픽셀 진단 탭 읽는 법 <span class="badge badge-green">실전</span>
+      </div>
+      <p>이벤트 관리자 → 픽셀 → 진단 탭에 들어가면 여러 경고처럼 보이는 것들이 뜬다. 다 무서워할 필요 없다.</p>
+      <div class="highlight-box">
+        <div class="hl-title">진단 탭 해석 가이드</div>
+        <ul>
+          <li><strong style="color: #fff;">도메인 항목</strong> — 내 도메인인지 확인. 카페24 연동 초기엔 카페24 도메인이 뜨는 게 정상</li>
+          <li><strong style="color: #fff;">화이트리스트</strong> — 처음엔 설정 안 하는 게 좋음. 특정 도메인만 허용하면 모바일 도메인 누락 가능</li>
+          <li><strong style="color: #fff;">맞춤 전환(★표시)</strong> — 내가 만든 맞춤 전환 이벤트. 승인 필요 시 '확인 → 승인' 클릭</li>
+          <li><strong style="color: #fff;">이상한 도메인</strong> — 이런 경우는 드물지만 발견 시 차단 처리</li>
+        </ul>
+      </div>
+      <div class="quote" style="border-left-color: var(--accent3);">
+        <p>아 굳이 바꿀 필요는 없습니다. 오히려 그게 더 나중에 불편해져요. 관리는 해야 되니까.</p>
+        <p class="quote-author">— 태훈, 픽셀 도메인 설정 설명 중</p>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">
+        수동 고급 매칭 설정 <span class="badge badge-green">필수 설정</span>
+      </div>
+      <p>수동 고급 매칭은 고객의 이름, 전화번호, 주소 등 개인 정보를 메타에 전달하는 기능이다. 이걸 켜야 메타가 더 정확하게 전환을 매칭할 수 있다.</p>
+
+      <div class="highlight-box" style="border-color: rgba(52,211,153,0.25); background: linear-gradient(135deg, rgba(52,211,153,0.06) 0%, transparent 100%);">
+        <div class="hl-title" style="color: var(--accent3);">설정 경로</div>
+        <ul>
+          <li>이벤트 관리자 → 픽셀 선택 → 설정 탭</li>
+          <li>아래로 스크롤 → <strong style="color: #fff;">자동 웹사이트 매칭</strong> 항목 찾기</li>
+          <li><strong style="color: #fff;">고객 정보 매개 변수</strong> 클릭 → 이메일, 전화번호 등 항목 켜기</li>
+          <li>꺼져 있으면 무조건 켜야 함</li>
+        </ul>
+      </div>
+
+      <div class="quote" style="border-left-color: var(--accent3);">
+        <p>수동 고급 매칭이라는 게 간단하게 고객의 이름, 전화번호, 주소 이런 걸 받는 거. 웹사이트에 들어온 사람들 중 개인 정보가 물려 있는 것들을 같이 받아야 된다.</p>
+        <p class="quote-author">— 태훈, 고급 매칭 설명 중</p>
+      </div>
+    </div>
+  </div>
+
+  <hr>
+
+  <!-- ===== SECTION 4: 실전 팁 ===== -->
+  <div class="section" id="tips">
+    <div class="section-header">
+      <div class="section-icon icon-tips">🎯</div>
+      <div>
+        <div class="section-title">실전 팁 & 핵심 요약</div>
+        <div class="section-subtitle">지금 당장 적용할 수 있는 것들</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">
+        오늘의 액션 아이템 <span class="badge badge-orange">즉시 실행</span>
+      </div>
+      <div class="highlight-box" style="border-color: rgba(251,146,60,0.25); background: linear-gradient(135deg, rgba(251,146,60,0.06) 0%, transparent 100%);">
+        <div class="hl-title" style="color: var(--accent4);">지금 바로 해야 할 것</div>
+        <ul>
+          <li>크롬에 <strong style="color: #fff;">Meta Pixel Helper</strong> 설치 (광고 차단 확장 먼저 제거)</li>
+          <li>이벤트 관리자 → 설정 탭 → <strong style="color: #fff;">자동 웹사이트 매칭 켜기</strong></li>
+          <li>픽셀 진단 탭에서 도메인 상태 확인</li>
+          <li>AI 메모리 기능 켜고 내 브랜드 컨텍스트 등록하기</li>
+          <li>콘텐츠 발행 후 성과 데이터를 AI에게 피드백하는 루틴 만들기</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">
+        강의 전체 핵심 요약 <span class="badge badge-orange">10줄 정리</span>
+      </div>
+      <div class="highlight-box" style="border-color: rgba(251,146,60,0.25); background: transparent;">
+        <div class="hl-title" style="color: var(--accent4);">반드시 기억할 10가지</div>
+        <ul>
+          <li>모두가 AI 쓰면 획일화 → 개인화가 유일한 차별점</li>
+          <li>학습 루프: 발행 → 데이터 → 재학습 → 심화 (무한반복)</li>
+          <li>메모리/파인튜닝으로 AI가 나를 정의하게 만들어라</li>
+          <li>AI 잘 쓰는 것보다 구조(아키텍처) 정리가 먼저</li>
+          <li>메타 타겟팅 = 고정 집단 X, 머신러닝으로 1초마다 변하는 것</li>
+          <li>데이터 수집: 쿠키 → 개인정보 보호 → 전환API(격리) 순으로 진화</li>
+          <li>전환API(격리): 카카오페이·네이버페이 구매도 메타에 직접 전달 가능</li>
+          <li>픽셀 헬퍼로 데이터 송수신 실시간 확인</li>
+          <li>참여 캠페인으로 구매 유도 X → 캠페인 목표가 타겟 유형을 결정</li>
+          <li>AI 활용법은 AI에게 직접 물어보면 된다. 사고 구조가 핵심</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">
+        메타 학습 태도 <span class="badge badge-orange">마인드셋</span>
+      </div>
+      <div class="quote" style="border-left-color: var(--accent4);">
+        <p>데이터를 보기 시작하는 순간부터 이제는 질문이 매우 많아질 거 같아요. 그게 맞는 방향이에요.</p>
+        <p class="quote-author">— 태훈, 강의 오프닝 중</p>
+      </div>
+      <p>메타 광고를 단순히 "켜놓고 돈 쓰는 것"이 아니라, 데이터를 보고 이해하고 질문하는 능력을 키우는 것이 장기적으로 광고 성과를 높이는 길이다.</p>
+    </div>
+  </div>
+
+</div>
+
+<footer>
+  <p>자사물산학교 6기 · 2주차 강의노트 · 2026.03.17</p>
+  <p style="margin-top: 8px; color: #64748b;">강의: 김태훈 조교 · 정리: 카리나(AI)</p>
+</footer>
+
+</body>
+</html>
