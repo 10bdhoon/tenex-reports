@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>해일이형 2기 11강 | 랩플 런칭 & 피지오스케일 피드백</title>
+  <title>해일이형 이기수제자 2기 11회차 전사 (풀버전) | 테넥스 리포트</title>
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #0f0f13; color: #e2e8f0; min-height: 100vh; }
@@ -11,28 +11,16 @@
     .header { text-align: center; margin-bottom: 48px; }
     .badge { display: inline-block; background: linear-gradient(135deg, #7c3aed, #4f46e5); color: white; font-size: 12px; font-weight: 700; padding: 4px 12px; border-radius: 20px; margin-bottom: 12px; }
     h1 { font-size: 26px; font-weight: 800; color: #f1f5f9; margin-bottom: 8px; line-height: 1.3; }
-    .subtitle { color: #94a3b8; font-size: 15px; margin-bottom: 24px; }
-    .meta { display: flex; justify-content: center; gap: 24px; flex-wrap: wrap; font-size: 13px; color: #64748b; }
-    .section { background: #1a1a2e; border: 1px solid #2d2d4e; border-radius: 16px; padding: 28px; margin-bottom: 24px; }
-    .section-title { font-size: 16px; font-weight: 700; color: #a78bfa; margin-bottom: 16px; }
-    .one-liner { font-size: 17px; color: #f8fafc; font-weight: 600; line-height: 1.6; padding: 20px; background: linear-gradient(135deg, #1e1b4b, #1a1a2e); border-left: 4px solid #7c3aed; border-radius: 0 12px 12px 0; }
-    ul { list-style: none; }
-    ul li { padding: 8px 0; padding-left: 20px; position: relative; color: #cbd5e1; font-size: 14px; line-height: 1.7; border-bottom: 1px solid #1e293b; }
-    ul li:last-child { border-bottom: none; }
-    ul li::before { content: '▸'; position: absolute; left: 0; color: #7c3aed; font-size: 12px; top: 10px; }
-    .highlight-box { background: #0f172a; border: 1px solid #334155; border-radius: 10px; padding: 14px 18px; margin: 8px 0; }
-    .timeline { display: flex; flex-direction: column; gap: 12px; }
-    .timeline-item { display: flex; gap: 16px; align-items: flex-start; }
-    .time-badge { background: #1e1b4b; color: #a78bfa; font-size: 12px; font-weight: 700; padding: 3px 10px; border-radius: 20px; white-space: nowrap; min-width: 64px; text-align: center; margin-top: 2px; border: 1px solid #4c1d95; }
-    .time-content { color: #cbd5e1; font-size: 14px; line-height: 1.6; flex: 1; }
-    .tag { display: inline-block; background: #14532d; color: #86efac; font-size: 11px; padding: 2px 8px; border-radius: 10px; margin: 2px; }
-    .tag.blue { background: #1e3a8a; color: #93c5fd; }
-    .tag.orange { background: #7c2d12; color: #fdba74; }
-    .tag.purple { background: #4c1d95; color: #c4b5fd; }
-    .tag.red { background: #7f1d1d; color: #fca5a5; }
-    .alert-box { background: #1c1917; border: 2px solid #f59e0b; border-radius: 12px; padding: 20px; margin-bottom: 24px; }
-    .alert-box h3 { color: #fbbf24; font-size: 15px; font-weight: 700; margin-bottom: 8px; }
-    .alert-box p { color: #d6d3d1; font-size: 14px; line-height: 1.6; }
+    .subtitle { color: #94a3b8; font-size: 14px; margin-bottom: 20px; }
+    .meta { display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; font-size: 13px; color: #64748b; }
+    .section { background: #1a1a2e; border: 1px solid #2d2d4e; border-radius: 16px; padding: 24px; margin-bottom: 24px; }
+    .section-title { font-size: 15px; font-weight: 700; color: #a78bfa; margin-bottom: 16px; }
+    .transcript { font-size: 14px; line-height: 1.8; }
+    .seg { padding: 3px 0; color: #cbd5e1; border-bottom: 1px solid #1e293b22; }
+    .seg:hover { background: #1e293b44; }
+    .highlight { background: #fbbf2444; color: #fbbf24; border-radius: 2px; padding: 0 2px; }
+    .search-bar { width: 100%; padding: 10px 16px; background: #0f172a; border: 1px solid #2d2d4e; border-radius: 10px; color: #e2e8f0; font-size: 14px; margin-bottom: 8px; outline: none; }
+    .search-bar:focus { border-color: #7c3aed; }
     .footer { text-align: center; margin-top: 48px; color: #475569; font-size: 13px; }
     a.back { display: inline-flex; align-items: center; gap: 6px; color: #7c3aed; text-decoration: none; font-size: 14px; margin-bottom: 24px; }
   </style>
@@ -40,155 +28,860 @@
 <body>
 <div class="container">
   <a href="/index.html" class="back">← 목록으로</a>
-  
   <div class="header">
-    <div class="badge">🎓 해일이형 이기수제자 2기</div>
-    <h1>11회차 강의 — 랩플 런칭 & 피지오스케일 제품 피드백</h1>
-    <p class="subtitle">이기수제자 2기 · 11강 · 2025년</p>
+    <div class="badge">🎓 해일이형 강의 풀버전 전사</div>
+    <h1>이기수제자 2기 11회차</h1>
+    <p class="subtitle">전체 영상 전사 · Whisper medium · 환각 필터 적용</p>
     <div class="meta">
-      <span>⏱ 4시간 5분</span>
-      <span>📝 전사: Whisper small (ko)</span>
-      <span>✅ 5,499 segments</span>
-    </div>
-  </div>
-
-  <!-- 에디 언급 알림 -->
-  <div class="alert-box">
-    <h3>⭐ 에디님 언급 확인 [224:43]</h3>
-    <p>해일이형이 외출 중 에디님과 마주친 에피소드 언급 — "에디님 성공할 거라가지고, 어떻게 하면 안 돼" (격려 발언)</p>
-  </div>
-
-  <div class="section">
-    <div class="section-title">💬 한줄 요약</div>
-    <div class="one-liner">
-      해일이형이 직접 만든 미식 플랫폼 '랩플'을 실시간 런칭하고, 수제자 프레스포인트의 무릎 재활기구 '피지오스케일' 패키징/마케팅을 집중 피드백하며, 에디님을 거리에서 우연히 만난 에피소드를 공유한 강의.
+      <span>📝 813개 세그먼트</span>
+      <span>🤖 Whisper medium (ko)</span>
+      <span>📅 2026.03.24</span>
     </div>
   </div>
 
   <div class="section">
-    <div class="section-title">📌 주요 주제</div>
-    <ul>
-      <li><strong>랩플(Rappfl) 플랫폼 실시간 런칭</strong> — 해일이형이 직접 운영하는 미식 맛집 추천 플랫폼. "인장 시스템", "랩 응모 시스템" 실제 구동 시연</li>
-      <li><strong>프레스포인트 피지오스케일 언박싱 피드백</strong> — 무릎 재활 밴드. 패키지 디자인 개선, 설명서 개선, 팜플렛 전략 코칭</li>
-      <li>이기수제자 예비 번호 발표 — 안 놀람 예비1, 호만세 예비4 등</li>
-      <li>에디님 거리 조우 에피소드 [224:43]</li>
-      <li>미식 경험 공유 — 1인 소비금액, 까칠한 리뷰어 등 랩플 유기적 성장 전략</li>
-      <li>수제자들 사업 구조(아이디어 검토) 진행 — 사업 눈앞에 온 수제자들 순서대로 피드백</li>
-    </ul>
+    <div class="section-title">🔍 검색</div>
+    <input type="text" class="search-bar" id="srch" placeholder="키워드 검색..." oninput="doSearch()">
+    <div id="srchCnt" style="color:#64748b;font-size:13px;"></div>
   </div>
 
   <div class="section">
-    <div class="section-title">💡 핵심 개념/프레임워크</div>
-    <ul>
-      <li>
-        <strong>랩플 플랫폼 핵심 구조</strong>
-        <div class="highlight-box">
-          인장 시스템(장르별 인증) + 랩 응모 시스템(추첨 방문) + 유명 까칠한 리뷰어 = 유기적 바이럴. 1인 소비금액 표시 기능. "스시인문", "커피인문" 등 장르 인장 보유자만 응모 가능
-        </div>
-      </li>
-      <li>
-        <strong>피지오스케일 패키지 피드백</strong>
-        <div class="highlight-box">
-          ✅ 잘된 것: 단상자 패키지, 어두운 초록색 고급감, 브랜드 사명 카드("세상에 누구도 무릎 통증으로 불행해서는 안 된다"), 얇아진 밴드(장력은 더 셈)<br>
-          ❌ 개선 필요: 설명서 퀄리티 이전과 동일, 팜플렛 매치 안 됨, 폰트/레이아웃 개선 필요<br>
-          💡 제안: 카아라처럼 박을 찍은 접는 팜플렛으로 브랜드 스토리 + 주의사항 분리
-        </div>
-      </li>
-      <li>
-        <strong>"결거(결과)로부터 시작"</strong> — 사업 기획 시 점진적 개선이 아닌 "잘 되는 결과를 먼저 상상하고 역산"해야 함 [180-210분대]
-      </li>
-    </ul>
-  </div>
-
-  <div class="section">
-    <div class="section-title">📊 주요 수치/데이터</div>
-    <ul>
-      <li>강의 길이: <strong>4시간 5분</strong> (전사 5,499 segments)</li>
-      <li>랩플 플랫폼: 1인 소비금액 표시, 장르 인장 보유 시 투표권 부여</li>
-      <li>카네타 VIP 클럽: <strong>20~40명</strong> 한정, 멤버십 수천만원 + 식사 70만원 별도</li>
-      <li>피지오스케일: 무릎 재활 밴드, 얇아진 소재이지만 장력 더 강해짐</li>
-      <li>이기수제자 예비: 안 놀람 1번, 호만세 4번 확인</li>
-    </ul>
-  </div>
-
-  <div class="section">
-    <div class="section-title">🔥 실행 가능한 핵심 인사이트</div>
-    <ul>
-      <li><strong>"유기적 성장은 처음부터 설계된다"</strong> — 랩플 사례. 까칠한 리뷰어를 섭외해 5점을 안 주게 만드는 것 자체가 유입 요소. 완벽한 별점보다 진정성 있는 리뷰가 바이럴됨</li>
-      <li><strong>패키지 팜플렛 = 브랜드의 얼굴과 언어</strong> — 피지오스케일 피드백. 겉포장 잘해도 팜플렛에서 무너지면 고객 경험 망가짐. 몽블랑처럼 접는 종이 하나에 브랜드 스토리 담기</li>
-      <li><strong>결과에서 역산</strong> — 현재 제품 개선보다 "잘 되는 장면을 먼저 상상" 후 역산해서 기획해야 진짜 사업이 됨</li>
-      <li><strong>팜플렛 구조 제안</strong> — 면1: 브랜드 사명/스토리 + 보증, 면2: 설명서/레이아웃, 접이식으로 전통감 + 감성 자극</li>
-    </ul>
-  </div>
-
-  <div class="section">
-    <div class="section-title">🏥 키네메디칼/테넥스 적용 포인트</div>
-    <ul>
-      <li><span class="tag red">에디 언급</span> [224:43] 에디님 거리 조우 — "에디님 성공할 거라가지고 어떻게 하면 안 돼" (해일이형 격려)</li>
-      <li><span class="tag purple">패키지</span> 피지오스케일 피드백이 ES-808/도수넥에 직접 적용 가능 — 팜플렛에 브랜드 사명, 접이식 카드로 "1분도수" 스토리 담기</li>
-      <li><span class="tag orange">마케팅</span> 까칠한 리뷰어 전략 — 1분도수 채널에 완벽한 리뷰 대신 "혹독한 기준의 물리치료사" 캐릭터 활용 가능</li>
-      <li><span class="tag blue">플랫폼</span> 랩플의 "인장 + 랩 응모" 구조 — 1분도수 앱에 "운동인증 + 추첨 이벤트" 구조로 참고</li>
-      <li><span class="tag">사업 원칙</span> "결거로부터 시작" — 제품 개선보다 먼저 "고객이 추천하는 장면을 상상" 후 역산해서 마케팅 설계</li>
-    </ul>
-  </div>
-
-  <div class="section">
-    <div class="section-title">📝 핵심 타임라인</div>
-    <div class="timeline">
-      <div class="timeline-item">
-        <span class="time-badge">00:00</span>
-        <span class="time-content">강의 시작 — 채팅창 크기 항의, 팀원 선물 에피소드</span>
-      </div>
-      <div class="timeline-item">
-        <span class="time-badge">60:00</span>
-        <span class="time-content">랩플 앱 소개 시작 — 미식가 소비금액 표시, 까칠토끼(까칠한 리뷰어) 유입 전략</span>
-      </div>
-      <div class="timeline-item">
-        <span class="time-badge">88:00</span>
-        <span class="time-content">랩플 플랫폼 실시간 런칭 — 쓰시아옥 1호 랩플 가동, 인장 응모 시스템 시연</span>
-      </div>
-      <div class="timeline-item">
-        <span class="time-badge">120:00</span>
-        <span class="time-content">이기수제자 예비 번호 발표 — 안 놀람 예비1, 호만세 예비4 확인</span>
-      </div>
-      <div class="timeline-item">
-        <span class="time-badge">145:00</span>
-        <span class="time-content">프레스포인트 피지오스케일 언박싱 — "세상에 누구도 무릎 통증으로 불행해서는 안 된다" 사명 카드 오픈</span>
-      </div>
-      <div class="timeline-item">
-        <span class="time-badge">149:00</span>
-        <span class="time-content">피지오스케일 강렬한 초록색 = "롤렉스 그린" 고급감. 얇아진 소재, 장력은 더 셈</span>
-      </div>
-      <div class="timeline-item">
-        <span class="time-badge">159:00</span>
-        <span class="time-content">팜플렛 피드백 — 몽블랑/카아라 사례로 접이식 브랜드 스토리 카드 제안</span>
-      </div>
-      <div class="timeline-item">
-        <span class="time-badge">180:00</span>
-        <span class="time-content">사업 기획 원칙 — "결거로부터 시작, 점진적 개선 말고 잘 되는 장면 먼저 상상"</span>
-      </div>
-      <div class="timeline-item">
-        <span class="time-badge">224:43</span>
-        <span class="time-content">⭐ 에디님 거리 조우 에피소드 — "에디님 성공할 거라가지고 어떻게 하면 안 돼" (해일이형 응원)</span>
-      </div>
-      <div class="timeline-item">
-        <span class="time-badge">241:00</span>
-        <span class="time-content">투자 언급 — "내가 투자자니까, 투자도 해주고 싶고"</span>
-      </div>
+    <div class="section-title">📄 전체 전사본 — 이기수제자 2기 11회차</div>
+    <div class="transcript" id="tbody">
+          <div class="seg">[07:30] 아하 내가 또 내가 또 그러고 있을까봐</div>
+          <div class="seg">[07:58] 아 나를 뭘로 보시고 다들 여러분들 제가 누군지 잊으셨나요</div>
+          <div class="seg">[08:07] 아 저를 뭘로 보고 진짜 아 뭘 전국을 질러 아 참 나</div>
+          <div class="seg">[08:17] 여러분들 그게 말이 말이 됩니까</div>
+          <div class="seg">[08:23] 제가 또 그러고 있을 거라는 게 말이 됩니까</div>
+          <div class="seg">[08:27] 아 정말 희한하신 분들이네 깜짝 놀란듯이 못쓰게 아 어이가 없네</div>
+          <div class="seg">[08:36] 지금 채팅창 크기 괜찮아요 여러분들</div>
+          <div class="seg">[08:41] 아 좀 부담스러워요 너무 커요 아 너무 커요 아 되게 까다롭네</div>
+          <div class="seg">[08:51] 이 정도 이 정도 어때요 왜 키우신거니 아 진짜 아 장난 아 이런 이런 공격은 또 처음이네 왜 키우신거에요</div>
+          <div class="seg">[09:09] 애초에 왜 키우셨나요 지금</div>
+          <div class="seg">[09:22] 알을 4분의 1만 가리라고요 아 이 정도 이 정도 원래대로 돌아간거 같은데 지금 괜찮아요</div>
+          <div class="seg">[09:34] 5% 더 키우라고요 줄이라고 합의된거 맞아요 여러분들 의견 아 괜히 키웠다가 지금</div>
+          <div class="seg">[09:46] 아 햇빛 아 햇빛 눈수술 드디어 했냐 아 눈수술 드립 나왔습니다</div>
+          <div class="seg">[09:57] 아 웃는 얼굴로 지금 아 지금 회복 중이냐 나왔습니다 아 충격받았습니다 진짜</div>
+          <div class="seg">[10:10] 얘가 지금 눈이 좀 불편한 것 같다 드립 나왔습니다 지금</div>
+          <div class="seg">[10:15] 아 안구가 안녕하냐 은근 독하다 자 제가 얼른 지금 들어오라고 하세요 문자 다 갔죠</div>
+          <div class="seg">[10:45] 아</div>
+          <div class="seg">[10:47] 아</div>
+          <div class="seg">[10:49] 아</div>
+          <div class="seg">[11:09] 아 문자 안 왔어요 어 거기가 거기가 지금 인사만 하고 간다고요 거기가 지금 저 추워 탄 얘기를 오늘 해야 되는데</div>
+          <div class="seg">[11:23] 아 왜 이렇게 타이밍이 안 맞아 어 거기가</div>
+          <div class="seg">[11:30] 지금 어 안 그래도 지금 음 저 뉴질랜드 가셨지 않나요 지금 바닷가 앞에서 지금 여유를 부리고 계신 줄 알았는데</div>
+          <div class="seg">[11:43] 어 거기가 어딥니까 아 아 거기가 어딥니까 나왔습니다 아 진짜 참을 수 없습니다 오늘 시작부터 너무 힘듭니다</div>
+          <div class="seg">[11:55] 어 너무 너무 힘들어요 오늘 오늘 범상치 않습니다 진짜</div>
+          <div class="seg">[12:01] 어</div>
+          <div class="seg">[12:02] 그 기가로 삼행시 삼행시 하겠습니다 거 만세 거</div>
+          <div class="seg">[12:09] 삼 거기가 어딥니까 기 기</div>
+          <div class="seg">[12:16] 거기가 어딥니까 기 기는 시라고요 가</div>
+          <div class="seg">[12:28] 가</div>
+          <div class="seg">[12:33] 가 가장 빠른 와이파이로 준비하세요 아 가세요</div>
+          <div class="seg">[12:39] 거 만세 가세요</div>
+          <div class="seg">[12:43] 음</div>
+          <div class="seg">[12:45] 어 그냥 가</div>
+          <div class="seg">[12:48] 아 이거 근데 아 아주 아주 아 아주 근데 대단한 순발력이었어요 어 오늘 상황을 응용했다는 거에 대해서 제가</div>
+          <div class="seg">[12:57] 어 어 높은 전소들 이면서 어 3일 정지로 참는 걸로 하겠습니다 3일 차단으로 4일 후에 뵙겠습니다</div>
+          <div class="seg">[13:06] 음</div>
+          <div class="seg">[13:09] 자 어 평소에 마음을 이제 곡 개섰던 것 같긴 한데 어 그냥 본인들 마음이 곱지 않아서 지금 다고를 치고 있는 건데 평소에 마음을 곱게 쓰라고 지금 혼술을 놓고 있는 모습이 아주 보기 좋습니다</div>
+          <div class="seg">[13:23] 아 거기 가님 아무튼 오늘 추어탕 얘기하려고 했는데 또 이제 받은 것도 있고 해가지고 너무 감사하고 어 그래서 여기 좀 하려고 했는데 어</div>
+          <div class="seg">[13:34] 어 다음주에 하면 되죠</div>
+          <div class="seg">[13:37] 음 어 다음주에 하면 되죠 어</div>
+          <div class="seg">[13:43] 아</div>
+          <div class="seg">[13:47] 어 거기 거 님 시간이 있어요 아 되면 채팅 칠게요</div>
+          <div class="seg">[13:56] 아 대면 채팅 친데 알겠습니다 비행기 안에서 오케 그럼 제가 어 물만 한 잔 떠오고 어 떠올게요 얼른 다 들어오라고 그러세요 어 기습</div>
+          <div class="seg">[14:07] 어 지금 얼른 들어오세요 얼른 들어오라고 해주세요 물만 한 잔 떠 오겠습니다</div>
+          <div class="seg">[14:37] 아</div>
+          <div class="seg">[15:07] 아</div>
+          <div class="seg">[15:37] 아</div>
+          <div class="seg">[18:19] 음 자 물 많이 떠 왔습니다 자 여러분들 어 몇 명 들어왔습니다 검사합니다</div>
+          <div class="seg">[18:38] 아</div>
+          <div class="seg">[18:41] 아</div>
+          <div class="seg">[18:49] 으</div>
+          <div class="seg">[18:53] 육심 명 얼른 들어오세요 얼른 아 얼굴 꺼져 있구나 자 여러분들 안녕하세요</div>
+          <div class="seg">[19:03] 안녕하십니까 음</div>
+          <div class="seg">[19:11] 아 지금 음 어 다이어트 48시간 차 어 다이어트 48시간 차입니다</div>
+          <div class="seg">[19:21] 안녕하세요 여러분들 우리 수제자들 어 잘 있었습니까 음 안색이 안좋아 보인대</div>
+          <div class="seg">[19:29] 바로 아 바로 또 인신공격 들어온다 어 뭘 약 48시간밖에 안됐는데</div>
+          <div class="seg">[19:39] 응 아무것도 안바꼈는데</div>
+          <div class="seg">[19:42] 음</div>
+          <div class="seg">[19:44] 아 자 아니 음 사실 제가 이제 마른 편인데 어 결국에는 마른 편인데</div>
+          <div class="seg">[19:51] 전 이제 얼굴 어릴 때부터 얼굴이 잘 부었어요 이 말도 많이 하지만 그래서 이제 이</div>
+          <div class="seg">[19:59] 음 요것만 하려고 합니다 어 너무 자주 말하면은 어 약간 변명을 하게 되는 것 같아서</div>
+          <div class="seg">[20:08] 어 한 번만 말하겠습니다 어 내일 먹방 가는거 아닌가요</div>
+          <div class="seg">[20:14] 어 내일 먹방 갑니다 우리 강작가님 덕분에 강작가님 덕분에 우리 그 유명한 이타닉 가든 그죠</div>
+          <div class="seg">[20:25] 지금 이타닉 가든 어 레벨 랭킹에서도 지금 음 이타닉 가든이 몇위에요 4위에요 4위</div>
+          <div class="seg">[20:34] 그래서 이타닉 가든을 강작가님 덕분에 갈 수 있게 됐어요</div>
+          <div class="seg">[20:39] 물론 이제 돈은 제가 내지만 여러분들 거는 제가 이제 내줬지만 이거는 제가 직접 사먹는</div>
+          <div class="seg">[20:47] 내 것 뿐만이 아니라 이제 4명 방이니까</div>
+          <div class="seg">[20:51] 어 제가 이제 음</div>
+          <div class="seg">[20:54] 마른 하늘의 날벼락 지금 어 지금 4명 분 지금 호강시켜주러 가거든요</div>
+          <div class="seg">[21:00] 오늘 열심히 라이브하고 내일은 또 어 다른 사람들 밥 사주러 가야 돼 이제</div>
+          <div class="seg">[21:07] 그래서 아무튼 어 그렇게 됐는데 아 너무 감사합니다 강작가님</div>
+          <div class="seg">[21:14] 왜냐하면 여기는 이제 지금 돈 있어도 가기가 어려워요</div>
+          <div class="seg">[21:18] 돈 있어도 가기가 어려운데 뭐 예약이 돼야 갈 수 있죠 그래서 여기는 뭐 가서 식사하고도 재예약 같은 게 안되지 않나요</div>
+          <div class="seg">[21:26] 어 요즘에 여기 뭐 몇 달치가 꽉 찼다고 들었습니다 어 뭐 호텔 통해서도 안되고 뭐</div>
+          <div class="seg">[21:33] 뭐 소문이 자자 하더라구요 실제로 그런가요</div>
+          <div class="seg">[21:37] 어 위키도 누가 이렇게 또 멋지게 정리 해놨어</div>
+          <div class="seg">[21:42] 강작가님 필요하시면 또 잡아주겠대</div>
+          <div class="seg">[21:46] 아 어떡해 아이 셰프님이신가요</div>
+          <div class="seg">[21:51] 아니 저 조선 호텔 어 인수하셨나요 어떻게 이게 가능한거지</div>
+          <div class="seg">[21:58] 역시 킹작가 대단합니다 지금 어 지금</div>
+          <div class="seg">[22:04] 여러분 어때요 지금 3월 6일 어 3월 6일 지금 원래는 어 수제자 프로젝트가 끝났어야 됐는데 어</div>
+          <div class="seg">[22:14] 아 그딴거 없고 그냥 달려버리는</div>
+          <div class="seg">[22:18] 어 어 지금 개 지금 계약상 끝나야 되는데 그리고 우리 팀원들 매니저 님도 지금 어 야 왜 안 끝나지</div>
+          <div class="seg">[22:28] 왜 하지 지금 어 왜 이렇게 자연스럽게 하고 있지</div>
+          <div class="seg">[22:32] 이러고 있지만 어 아무랑 그냥 할거야 그냥 합니다 어 그냥 합니다</div>
+          <div class="seg">[22:39] 아무랑 그냥 할거야</div>
+          <div class="seg">[22:43] 지금 레빗까지 서버비에 포함이 되가지고 와 그리고 저는 옛날에 이렇게 서버비가 비싼건줄 몰랐어요</div>
+          <div class="seg">[22:52] 뭐 이게 사실 많이 나올까 왜냐면 우리가 인터넷이 공짜인데 우리가 쓰는건</div>
+          <div class="seg">[22:58] 거의 공짜로 쓰잖아요 웬만한 일 아니면 플랫폼을 공짜로 써왔잖아요</div>
+          <div class="seg">[23:05] 그래서 내가 무슨 이제 공급자의 입장에서 서본 적이 없기 때문에 이거 뭐 비싼가 했는데</div>
+          <div class="seg">[23:11] 했는데 와 비싸더라구요 레빗도 이미지랑 영상을 업로드 하기 때문에 상당히 지금 많이 나오던데</div>
+          <div class="seg">[23:22] 그래서 저는 지금 되게 어 두려운게</div>
+          <div class="seg">[23:28] 아니 이게 사람이 많이 들어오면 어떻게 되는거지 이런 생각이 지금 들어요</div>
+          <div class="seg">[23:33] 아니 지금도 이정도인데 이것보다 10배 100배 1000배 많이 들어와야 되는건데</div>
+          <div class="seg">[23:39] 그럼 어떻게 되는거지 그럼 서버비가 얼마나 오는거지 그런 생각이 들어요</div>
+          <div class="seg">[23:45] 지금 주변에 이제 대표님들은 너무 겁먹지 마라 다 방법이 있다 하는데 어</div>
+          <div class="seg">[23:53] 어 갑자기 처음에 시작할때도 다 그 말 했거든요</div>
+          <div class="seg">[23:57] 아니 아무튼 우리 수제자 프로젝트 할때도 모사모어플 이거 만들면 끝이잖아 했는데</div>
+          <div class="seg">[24:05] 이런 서버비까지 생각을 못했는데 엄청납니다</div>
+          <div class="seg">[24:09] 서버비로 진짜 많이 나가더라구요 괜히 옛날에 카카오가 서버비 때문에 눈물을 흘렸다 막 그런 말이 괜히 있는게 아니었어</div>
+          <div class="seg">[24:19] 아무튼 네 우리 수제자들 들어올 때까지 근황 토크 얘기 좀 해볼까요 근황 토크</div>
+          <div class="seg">[24:26] 마침 랩이 또 킨김에 어제 재밌는 일이 있었죠 여러분들 어제 무슨 일이 있었습니까</div>
+          <div class="seg">[24:32] 약간 재밌는 이벤트가 하나 있었잖아요 미식업계에 이 재밌는 이벤트가 하나 있었어요</div>
+          <div class="seg">[24:37] 맞아요 햇빛 어 아 모자랑 대규모 업데이트 아 모자랑 이렇게 또 이제 아 이렇게 또 로열티를 보여주는가</div>
+          <div class="seg">[24:47] 아 모자랑 합격 아 여기서 주접을 주접이 나와버리네 당했다</div>
+          <div class="seg">[24:57] 어째 미쉐린 가이드 2026년 발표를 했죠</div>
+          <div class="seg">[25:06] 그래서 이제 우리 여기 피디에도 여러분들 남겨주셨는데</div>
+          <div class="seg">[25:13] 어 어 이제</div>
+          <div class="seg">[25:17] 많은 재밌는 일들이 있었죠 이제 소수원 소수원 이제 지금 어</div>
+          <div class="seg">[25:25] 여기에서 랭킹 1위 하고 있는 래빗에서 랭킹 1위 하고 있는 소수원이 소수원의 박경재 셰프님이</div>
+          <div class="seg">[25:34] 어 이제</div>
+          <div class="seg">[25:36] 미쉐린 가이드 투스타에 선정이 됐습니다 예전에 이제 예전에도 이제 코지마라는 식당 하시면서 투스타에</div>
+          <div class="seg">[25:47] 대한민국 최초로 올려놓으셨는데 새로 가게 차리셔가지고 어 바로 또 투스타 어 만들어버렸어요</div>
+          <div class="seg">[25:55] 와우 어 정말 대단합니다 어</div>
+          <div class="seg">[26:00] 어 전 이제 이 소수원은 이제 거의 한 달에 거의 한두 번 가거든요</div>
+          <div class="seg">[26:07] 한두 번 가요 한두 번 그래서 어 그래서 이제</div>
+          <div class="seg">[26:13] 소수원 소식도 너무 좋았고 또 이제 미토우라는 가게가 있어요 미토우 미토우라는 가게가 있는데</div>
+          <div class="seg">[26:21] 미토우도 어 이 투스타 원래 투스타였는데 그린스타라고 해가지고 이 지속 가능성 어 이 식사의 지속 가능성 뭐 예를 들면 이제</div>
+          <div class="seg">[26:33] 팜특 테이블을 한다던가 재료 수급에 있어서 굉장히 이제</div>
+          <div class="seg">[26:40] 어 지속 가능한 방식을 취한다거나 이런 노력들을 인정받아서 주는 스타가 있는데 그린스타까지 받았대</div>
+          <div class="seg">[26:48] 어 와 그래서 제가 이거 미셔링 소식 듣자마자 이제 셰프님들한테</div>
+          <div class="seg">[26:57] 호점란을 보냈어요 어 그래서 어</div>
+          <div class="seg">[27:02] 보자마자 호점란을 다 보내 드렸고 호점란이라고 해서 이제</div>
+          <div class="seg">[27:09] 이 흰 호점란을 보냈습니다 이렇게 이런 식으로 보냈어</div>
+          <div class="seg">[27:17] 그래서 이 요거를 안 그래도 이제 받으시고 어 오늘 이제 다들 감사하다고 이렇게 문자도 나누고 했는데</div>
+          <div class="seg">[27:26] 아 저는 이제 제가 이제</div>
+          <div class="seg">[27:30] 어 너무 저도 이제 어 굉장히 좋아하는 분들이고 존경하는 분들이고 또 이제 앞으로도 자주 뵐 분들이기 때문에</div>
+          <div class="seg">[27:41] 어 이제 바로 이제 소식 듣자마자 다 보냈는데 또 훈훈하게 어 박경재 셰프님도 아까 이제 문자 오셔가지고 어 너무 감사하다고</div>
+          <div class="seg">[27:51] 어 오셨고 미토의 셰프님들도 문자로 아까 너무 고맙다고 어</div>
+          <div class="seg">[27:58] 문자 오셨어요 그래서 또 이렇게 그냥 어 식사 뭐 이제 그냥 뭐 밥집은 밥집이니까 식당이니까 이제</div>
+          <div class="seg">[28:09] 밥 먹고 뭐 내가 손님이니까 뭐 뭐 일해라 절해라 하는 것도 좋지만 이렇게 어</div>
+          <div class="seg">[28:17] 그분들도 이제 한명의 장인으로서 어 셰프로서 좋은 시간을 만들기 위해서 굉장히 고생을 많이 하시잖아요 정말 오랜 시간을</div>
+          <div class="seg">[28:26] 그 짧 우리에겐 짧은 시간이지만 한두시간 되겠지만 그분들은 요</div>
+          <div class="seg">[28:31] 식사 시간을 만들기 위해서 굉장히 고생을 많이 하시고 노력도 많이 하시고 저도 이제 항상 거기에 대해서 이제 존중과 좀 존경의 마음을</div>
+          <div class="seg">[28:39] 표하려고 많이 노력을 합니다.</div>
+          <div class="seg">[28:42] 그래서</div>
+          <div class="seg">[28:45] 어 그러면 참 좋은 것 같아요. 그죠. 참 좋은 것 같아요. 뭐</div>
+          <div class="seg">[28:52] 항상 어떤 일이 됐던 간에 이렇게 식당이 됐던 뭐 일이 됐던 뭐 그냥 스쳐 지나가는 인연이 됐던 항상 서로에게 감사함이나 이제 존중을 표하고 나면은</div>
+          <div class="seg">[29:05] 멋진 일들이 일어나는 것 같아요.</div>
+          <div class="seg">[29:07] 항상 이제 내가 스스로를 다른 사람들을 존중하고 존경할 줄 알면 항상 돌아오는 것 같더라구요.</div>
+          <div class="seg">[29:16] 진우지 감사합니다. 아 아까 아까 어 아까 약간 바로 저</div>
+          <div class="seg">[29:26] 담구던 진우지 같지가 않은데 바로 이제 세탁 들어가는데 아 근데 또 존중을 표했기 때문에 받아줘야 되나? 아 받겠습니다 진우지 정치력 만렙이네.</div>
+          <div class="seg">[29:40] 그래서 어 그런 식으로 이제 관계를 이어오다 보니까 어제 이제 미셰린 가이드</div>
+          <div class="seg">[29:48] 아 콕콕이 하고 그랬어요 진짜. 아 저렇게 직접 주지는 않았고 저렇게 직접 주지는 않았고. 아 근데 너무 고퀄 아니야? 믿겠다 사람들이. 어 믿겠다.</div>
+          <div class="seg">[30:03] 아니 근데 이게</div>
+          <div class="seg">[30:08] 야 짤이 이제 너무 발전했는데? 내가 속겠다. 어 내가 속겠어.</div>
+          <div class="seg">[30:16] 뭐라고 써져 있어 저거. 축하드립니다 라고까지 써져 있는 것 같아요. 와 대박이다 진짜.</div>
+          <div class="seg">[30:23] 반팔 입었대 그 와중에. 아 AI가 입은건데 내가 저걸 또 변명을 해야 돼. AI가 입은 거잖아.</div>
+          <div class="seg">[30:33] 아 투스타 고증까지 해왔어. 어떻게 이런 일이.</div>
+          <div class="seg">[30:41] 아 진짜. 근데 저는 이제 이게 또 약간 좀 그게</div>
+          <div class="seg">[30:49] 원래는 이제 저도 이렇게 좀 예쁘게 보내고 싶었는데 이제 제가</div>
+          <div class="seg">[30:59] 우리 저 팀원한테 그 셰프님들한테 호접란 좀</div>
+          <div class="seg">[31:07] 해주세요 하고 이제 부탁을 했는데 어 그래서 이제 잘 보냈다고 이렇게 말씀하시길래 음 잘했습니다. 아주 민첩하게 잘했습니다 하고 이제 말을 해놨는데</div>
+          <div class="seg">[31:19] 아 이 호접란이 어 저는 뭐 당연히 이렇게 갈 줄 알았는데</div>
+          <div class="seg">[31:28] 이게</div>
+          <div class="seg">[31:31] 약간 약간 아 저도 지금 알았어 방금 알았어</div>
+          <div class="seg">[31:38] 이게 약간</div>
+          <div class="seg">[31:43] 약간 약간 이렇게 이렇게 좀</div>
+          <div class="seg">[31:50] 약간 보라색에 이게</div>
+          <div class="seg">[31:56] 어 이 이상한 리본이 이렇게 다시 가서 간 거예요. 그래서 내가 아 지금 약간 약간 속상해.</div>
+          <div class="seg">[32:05] 약간 나의 취향이 좀 오해가 있으시지 않을까. 약간</div>
+          <div class="seg">[32:14] 개업화한 그런 것처럼 아</div>
+          <div class="seg">[32:20] 아 이럴 수가. 아 이금학 회장님이 보낸 것 같아.</div>
+          <div class="seg">[32:27] 나는 이렇게 원래 이게 어디서 온 문화냐면</div>
+          <div class="seg">[32:34] 이게 두 분 다 일식당을 하시잖아요. 그래서</div>
+          <div class="seg">[32:49] 이게 제가 보여드릴게요.</div>
+          <div class="seg">[33:06] 원래</div>
+          <div class="seg">[33:10] 이렇게</div>
+          <div class="seg">[33:12] 이런 거예요. 이런 일본에서는 뭐 이제 장인들한테 뭔 일 있으면 이렇게 호접을 보내요. 이렇게 흰 호접 완전 흰 거 완전 흰 거 이렇게</div>
+          <div class="seg">[33:27] 되게 멋있잖아요. 이렇게 그래서 이게 약간 이게 권력이라니까 권력이에요 권력</div>
+          <div class="seg">[33:35] 딱 이제 무슨 일이 있을 때 뭐 내가 몇 주년이다. 10주년이다. 개업을 했다 할 때 어디서 이렇게 딱 이렇게 보내는 거야. 근데 이제</div>
+          <div class="seg">[33:43] 뭐 여기는 이제 뭐 좀 약간 멋있게 이렇게 펫말을 끼우지. 대나무 같은 걸로 만든 무슨</div>
+          <div class="seg">[33:51] 대나무란다. 무슨 어 무슨 원 나무로 만든 펫말을 이렇게 끼워서 보내요.</div>
+          <div class="seg">[33:58] 근데 이제 멋진 이렇게 흐드러진 호접란을 이렇게 다 보내는 거지. 얼마나 크고</div>
+          <div class="seg">[34:05] 얼마나 크고 이제 뭐 얼마나 이제 훌륭한 분들이 보냈느냐 이렇게 딱 이제 보이는 거야.</div>
+          <div class="seg">[34:19] 아 무명인님께 제가 연락을 드릴 걸 그죠. 무명인님께 식물의 지배자</div>
+          <div class="seg">[34:27] 코리안 코리안 아마조네스 어 그게 아닌가 코리안 어 코리안 뭐라고 해야지 식물과 유명하신 분들 두고 있죠.</div>
+          <div class="seg">[34:38] 그냥 식물이 많은 아마존 말고 아무튼 드루이드는 동물이고요 포로리아</div>
+          <div class="seg">[34:46] 여러분들 상식이 어떻게 되신 거예요 지금 드루이드는 그 약간 동물 부리는 그런 거 아니에요.</div>
+          <div class="seg">[34:53] 꽃 꽃 아무튼 플로리스트라고 할게요. 플로리스트계의 전설 플로리스트 카페계의 전설</div>
+          <div class="seg">[35:02] 이제 무명인님께 부탁을 드릴 거예요. 아무튼 이렇게 보내는 일본의 문화가 있어요. 일식당에</div>
+          <div class="seg">[35:09] 뭐 꼭 비단 식당 뿐만 아니라 다른 데도 이렇게 하긴 하는데 아무튼 이런 문화가 있는데</div>
+          <div class="seg">[35:16] 그래서 이제 두 분이 미토랑 이제 저 소수원이</div>
+          <div class="seg">[35:24] 일식당이니까 스시집이랑 이제 가이새끼 집이니까 이렇게 보냈던 거죠. 이제 두 분 가오 좀 사르라고 이렇게 딱 보낸 건데</div>
+          <div class="seg">[35:34] 지금 업데이트 됐네 저거 와 지금 되게 속상해 하시는데 저거</div>
+          <div class="seg">[35:42] 리본 리본 때문에 좀 속상해 하시는데 아 왜 또 이거 보라색이야 이거</div>
+          <div class="seg">[35:49] 근데 왜 무명인님 이름으로 또 갔어 또 아 굉장히 속상해 하시네 이거 아 이럴수가</div>
+          <div class="seg">[35:56] 그래도 드렸는데 좀 너무 하시네 아 아까 감사하다고 문자도 오고 했잖아요</div>
+          <div class="seg">[36:04] 지금 문자 왔는데 내가 아는 현실이랑 좀 다른데 감사합니다</div>
+          <div class="seg">[36:10] 항상 감사합니다 이렇게 왔는데 아유 뒤에선 저러고 계셨네 속상하네요</div>
+          <div class="seg">[36:18] 속마음 속마음 에헤이 이거 빨리 찍어서 치워야겠다 야 야 스시 셰프 이거 와가지고 리본 이거 태워버려</div>
+          <div class="seg">[36:29] 이거 저기 이거 뿌리째 뽑아다가 다른 화물에다 심어라 이런 거의 그런급으로 지금</div>
+          <div class="seg">[36:39] 아무튼 아 진짜 여러분들 오늘 시작부터 굉장히 사람을 당황스럽게 하네요 훈훈한 얘기 하려고 그랬더니</div>
+          <div class="seg">[36:47] 참 이야기에 품격이 있으십니다 여러분들 역시 사업가들이야</div>
+          <div class="seg">[36:54] 아무튼 그렇고 야 이거 소손 이거 안 그래도 이거</div>
+          <div class="seg">[37:01] 안 그래도 이거 가기 힘든데 이제 투스타 달았고 엄청 바이럴도 돼가지고 이제 가기 더 힘들겠네</div>
+          <div class="seg">[37:08] 야 이럴 때일수록 내가 우리 수제자들을 한번 싹 데리고 가면은 우리 수제자들 기가 살지 아니 뭐 아니</div>
+          <div class="seg">[37:17] 저 리본만 태워야지 꽃까지 같이 태우면 어떡해 아 왜 이렇게 급하게 만든거야 꽃을 왜 같이 태워 저건 받으라고</div>
+          <div class="seg">[37:26] 저건 받아도 되잖아요 왜 이렇게 빨라 그리고 타이밍이 생명이라 그렇긴 해 아 이제는 그냥</div>
+          <div class="seg">[37:38] 막 나가는데 아무리 그래도 그렇지 보는 앞에서 태우실 줄이야 아 이럴 수가 아무튼</div>
+          <div class="seg">[37:47] 아무튼 언제 소수원도 우리 다 같이 갈 수 있었으면 좋겠네요</div>
+          <div class="seg">[37:55] 가면은 진짜 달라요 가면은 저는 이제 당연히 투스타를 될 수밖에 없다고 생각한게</div>
+          <div class="seg">[38:02] 저는 나중에 3스타도 가능하다고 보는게 이게 미식 경험이 다릅니다 진짜 달라요</div>
+          <div class="seg">[38:09] 다른게 가면은 진짜 도심 속에 갑자기 한옥이 있고 약간 언덕 속에 한옥이 있고</div>
+          <div class="seg">[38:17] 들어가면은 완전 다른 세상이 다른 세상인데 그 안에도 되게 잘 해놨어요 굉장히 잘 해놨어요</div>
+          <div class="seg">[38:24] 와 이거 진짜 잘했다 이 소리가 절로 나오고 그냥 마음이 그냥 들어가자마자 견건에져요</div>
+          <div class="seg">[38:31] 가슴이 웅장해지고 견건에져 들어가면은 또 이제 들어가는 과정도 굉장히 마음이 웅장해지고 가슴이 웅장해지고</div>
+          <div class="seg">[38:44] 그 테이블 카운터가 와 진짜 이게 한국에서 스시를 한다면 이런 식으로 해야 된다 이런 생각이 들어요</div>
+          <div class="seg">[38:52] 우리가 아무리 잘해봐도 일본의 것을 스시가 일본 음식이잖아요 일식이잖아요</div>
+          <div class="seg">[39:00] 근데 우리가 여기에서 최고가 되겠어 아무리 내가 이제 한국에서 스시 최고가 되겠어 이래도</div>
+          <div class="seg">[39:08] 일본의 것을 그냥 마냥 따라하기만 하면 최고가 되기가 어렵잖아요 그죠</div>
+          <div class="seg">[39:16] 근데 이제 우리만의 무언가를 해야 일본 사람들도 할 수 없는 걸 해야 우리가 무언가 최선으로 최선으로 노력하면</div>
+          <div class="seg">[39:27] 세계 최고가 될 수 있는 방법은 우리의 것을 해야 돼 일식은 우리께 아니니까</div>
+          <div class="seg">[39:35] 일본 거니까 우리가 아무리 열심히 해도 일본 사람들의 방식을 답습하면 일본 사람들보다 잘 할 수는 없단 말이죠</div>
+          <div class="seg">[39:43] 일본의 기후 문화 전통 그 사람들의 이제 뭐 삶의 방식 그런 것들이 다 녹아 있기 때문에</div>
+          <div class="seg">[39:52] 우리가 아무리 열심히 따라해도 일본 사람들만큼은 할 수가 없지</div>
+          <div class="seg">[39:56] 근데 이게 한국적으로 우리가 제일 잘할 수 있는 것들 우리가 노력하면 최고가 될 수 있는 것으로</div>
+          <div class="seg">[40:09] 스시를 한다면 어떨까 어떤 모습일까</div>
+          <div class="seg">[40:13] 그게 이제 소수원이에요 가면은 진짜 한옥에서 정말 아름다운 고즈넉한 단아한 진짜 한국계</div>
+          <div class="seg">[40:23] 우리 한국인들만 낼 수 있는 그 최고의 분위기에서 딱 초밥을 지어주시는데</div>
+          <div class="seg">[40:29] 마치 이 초밥이 진짜 한국계 아니었나 이런 생각이 들 정도의 정말 훌륭한 어떤 경지에 이룬 공간이에요</div>
+          <div class="seg">[40:38] 그래서 너무 훌륭하고 되게 비싸 엄청 좋은데 그 값을 내야 돼 여러분들</div>
+          <div class="seg">[40:48] 공짜는 아니야 아무나 그걸 경험할 수는 없고 이 소수원이</div>
+          <div class="seg">[40:57] 뭐 워낙 원래 10년 전부터 최고했던 분이시기 때문에 하루이테라나 이렇게 된 게 아니고 여기 레빗에도 써져 있지만</div>
+          <div class="seg">[41:06] 바로 이제 반영이 됐죠 이게 위키의 위대한 점이야 바로 반영이 되어 있어요 26년 토스타</div>
+          <div class="seg">[41:14] 대한민국에서 예약이 가장 어려운 식당 중 하나 매달 1일 오전 10시에 전화 통화로 이제 예약을 받는데</div>
+          <div class="seg">[41:22] 뭐 뭐 수백 번을 해도 뭐 안 받는 경우가 허다해요 그래서 이제 점심 식사만 그렇게 받고 저녁 식사는 이런 식으로는 신규 고객도 이제 안 받아요</div>
+          <div class="seg">[41:34] 앞으로 더 심해지지 않을까 생각이 듭니다 앞으로 더 심해지지 않을까 왜냐하면 이제 어느 정도 이제 회원제의 성격으로</div>
+          <div class="seg">[41:43] 띄지 않을까 그런 생각이 들어요</div>
+          <div class="seg">[41:51] 요 비즈니스에 대해서도 다 이제 제가 생각이 있죠 다음 스텝으로 갈 때 여러분들한테</div>
+          <div class="seg">[41:58] 장대한 사막을 여러분들께 와 소수원 저렇게 했는데 안 됐단 말이야 몇 통 몇 통 했어요 호만세 호만세 몇 통 전화 걸었어요</div>
+          <div class="seg">[42:09] 와 지금 호만세가 저거 전화 시동시동</div>
+          <div class="seg">[42:12] 근데 저거 한 200통 200통 아 20 30통으로는 안 돼요 월임없어요 진짜 100통은 기본해야 돼</div>
+          <div class="seg">[42:23] 근데 저 집착이 아니라 저 저 예약하려면 매달 1일 날 저 다들 수백 통씩 해요 다들</div>
+          <div class="seg">[42:36] 그러니까 왜 수백 통하냐면 누가 이제 통화 중이니까 아 코코야 오래 살자 아</div>
+          <div class="seg">[42:44] AI 하자 코코야 오래 살자 아 이거 힘드네</div>
+          <div class="seg">[42:50] 아 이거 힘드네 아 소수원 소수만 먹을 수 있어서 소수원이에요 맞으면은 아 다수원까지 나왔다 아 코코야 오래 살자</div>
+          <div class="seg">[43:03] 돌아와 AI가 났다 어 저것도 AI니 저 드립도 AI가 쳐준거면 진짜 아</div>
+          <div class="seg">[43:16] 아 꼬리 두개님 말씀이 어 겁나 상처받는 척 아 코코야 그래서 안 속아 제주도 사람들은 안 속아 저거</div>
+          <div class="seg">[43:25] 아 말씀이 점점점 아 나 못살안다 어 겁나 잘 살 거 다 알아</div>
+          <div class="seg">[43:32] 어 자 아무튼 저 저런 이게 이제 매니저님이 딱 이제 12시 땡 하면은 전화를 받기 시작하셔 가지고</div>
+          <div class="seg">[43:43] 통화 중이니까 그 통화 끝나는 거에 바로 연결되려고 산들이 수백 통 전화 하는거에요 계속 전화를 통화 중입니다 하면 끊고 통화 중입니다 하면 끊고 통화 중입니다 하면 끊고 다시 계속 하는거에요</div>
+          <div class="seg">[43:55] 수백번 올림픽이야 올림픽 통화 올림픽 진짜 신기하죠 어 이것도 이제 사실은 뭐 또 거의 뭐 일본에서 온거죠 일본에서도</div>
+          <div class="seg">[44:08] 옛날에 이 딘자스 집들은 그런 식으로 예약을 했어야 했어요 어</div>
+          <div class="seg">[44:14] 다 계획이 있습니다 다 계획이 있고 어 다 계획이 있는 것이죠</div>
+          <div class="seg">[44:21] 이게 이제 온라인으로 할 법도 한데 이제 이런 방식들을 고수하는 데 있어서 장점들도 있죠 물론 이제 이게 번거롭고 되게 어렵죠 근데</div>
+          <div class="seg">[44:33] 이런 식으로 접근을 하면은 얻을 수 있는 이익이 있죠 분명 첫번째로 이제 마케팅적으로 우리가 좀 이익을 얻을 수도 있고 물론 잘 되는 곳이면</div>
+          <div class="seg">[44:43] 그런게 있을 수 있고 이제 그리고 전통적으로 이런 장인 분들이나 이런 분들은 어 가게 자리가 몇 개 남았는지 뭐 이런 거를 안 올려 안 알</div>
+          <div class="seg">[44:55] 이렇게 공개하고 싶어 하지 않으시고 어 효율성보다는 뭐랄까 이런 신비주의가 얻는 이득이 분명히 있죠 분명히 있습니다</div>
+          <div class="seg">[45:07] 그런게 있고 뭐 도쿄에서도 이런 식으로 이런 마케팅을 되게 잘하는 어 사람들도 있어요 약간 의도적으로 예약 곤란점을 좀 만들고</div>
+          <div class="seg">[45:19] 그러면서 조금씩 폐원수를 늘려가는 그런 데들도 있고 근데 소수어는 그런 거랑 상관없이 뭐 가겠다는 사람들이 뭐 몇천 명씩 줄 서 있으니까</div>
+          <div class="seg">[45:28] 뭐 대단하죠 그죠 이 식비가 한 사람당 50만원인데 이게 한 끼에 뭐 한 사람당 50만원 이랬죠</div>
+          <div class="seg">[45:37] 어 한 사람당 50만원 맞아요 저게 더 공평하다고 하는 사람들도 있어요</div>
+          <div class="seg">[45:43] 온라인은 이제 너무 빨리 하시는 매크로나 이런 뭐 말도 안 되는 로봇들이랑 경쟁까지 해야 되니까</div>
+          <div class="seg">[45:50] 저는 이제 그 박경지 셰프님을 저 처음 이제 저는 이제 코지마 계실 때 처음 왔었고 엄청 옛날이죠</div>
+          <div class="seg">[46:03] 그 때 이제 갔었고 그리고 이제 뭐 더 옛날에 뭐 옛날에 무슨 뭐 스시 초희 뭐 아니면 뭐 뭐지?</div>
+          <div class="seg">[46:12] 아리아계 이때 가셨던 분들은 굉장히 소수일 거고 굉장히 소수일 거고 저는 이제 코지마 코지마 때부터 갔었고</div>
+          <div class="seg">[46:24] 소수어는 특히 많이 다녔죠 소수어는 특히 많이 다니는 거 같아요</div>
+          <div class="seg">[46:30] 옛날에는 뭐 옛날에는 뭐 진짜 어릴 때는 뭐 뭐 아리아계 이런 거는 꿈도 못 꿨지 너무 비싸니까</div>
+          <div class="seg">[46:42] 어 소수어는 너무 가고 싶죠 나중에 어 자리 만들면 같이 갈 사람 손 같이 갈 사람 손</div>
+          <div class="seg">[46:50] 근데 확실히 요 우리 어플이 빨라서 좋다 그죠 어 좋아 좋아 좋아 같이 가시죠</div>
+          <div class="seg">[46:58] 어 굉장한 경험이에요 저는 이제 또 항상 가면 저랑 같이 가는 사람들 거 제가 항상 다 사니까</div>
+          <div class="seg">[47:05] 저는 뭐 이제 거기 가면 50만원이 아니라 항상 진짜 돈 너무 많이 쓰기 때문에</div>
+          <div class="seg">[47:12] 아니 참</div>
+          <div class="seg">[47:19] 아무튼 그럼에도 갈만한 가치가 있는거죠 정말 훌륭한 식당입니다 정말 훌륭한 식당이고</div>
+          <div class="seg">[47:29] 진짜 훌륭하죠</div>
+          <div class="seg">[47:32] 여러분들도 근데 요즘에는 아 49만원만 더 있었으면 먹는데 아 아깝다 아쉽다 49만원만 있으면 되겠는데</div>
+          <div class="seg">[47:42] 그래서 저는 이제 많이 가니까</div>
+          <div class="seg">[47:46] 저는 이제 따로 그냥 연락 드리고 어 자리 잡아서 가고 이렇게 하는데 일반적으로는 신규로 이제 식사하기가 굉장히 어렵죠</div>
+          <div class="seg">[47:55] 이것도 진짜 신기해요 그죠 어떻게 식당에 이렇게 밥 먹기가 이렇게 어려운가</div>
+          <div class="seg">[48:01] 그래서 뭐가 됐든 간에 이제 불공평하기는 하죠 불공평하기는 하죠</div>
+          <div class="seg">[48:08] 이제 그럼 뭐 기존에 이제 계속해서 어 잘 될 때나 어려울 때나 잘 될 때나 항상 와주던 고객들 어</div>
+          <div class="seg">[48:19] 이분들을 먼저 이렇게 챙기는 게 맞긴 하니까 그죠 뭐 예전에 식당도 굉장히 어려웠을 때도 있지 않습니까</div>
+          <div class="seg">[48:29] 그때도 이제 식당들 다니면서 어 자리를 채워주셨던 그 사람들을 셰프님들이 굉장히 고맙게 생각하신다고 하더라고요</div>
+          <div class="seg">[48:38] 저도 이제 우리 뭐야</div>
+          <div class="seg">[48:42] 한창 오마카세 붐 막 이렇었잖아요</div>
+          <div class="seg">[48:45] 저는 이제 예전부터 먹었는데 근데 이 오마카세 붐이 너무 이러가지고 그때는 아니 괜히 저 같은 사람들은 밥을 못 먹는 거예요</div>
+          <div class="seg">[48:56] 아니 맨날 그냥 그 당일날 저 갈게요 하고 갔었는데 아 이제는 막 가지를 못 하는 거야</div>
+          <div class="seg">[49:05] 이제 셰프님들 되게 죄송하게 생각하시고 근데 이제 뭐 시장의 방식이 바뀐 거니까 저라고 어쩔 수 없죠</div>
+          <div class="seg">[49:14] 오는 사람 내쫓을 수도 없고</div>
+          <div class="seg">[49:17] 그래서 저도 저도 뭐 미리미리 예약을 해야 되거나 그랬던 시기가 있는데</div>
+          <div class="seg">[49:22] 그러다가 어 한번 확 무너졌죠 여러분들 코로나 딱 끝나자마자 이거 지옥이 펼쳐졌어요</div>
+          <div class="seg">[49:31] 이 코로나가 딱 끝나자마자 하늘길이 딱 열리자마자 사람들이 굳이 한국에서 비싼 돈 주고 밥 먹거나 그럴 필요 없이 그 돈이면 일본 가고 중국 가고 홍콩 가고 뭐</div>
+          <div class="seg">[49:44] 이래버리니까 오마카세 집들이 그냥 와르르 무너졌어요 진짜 특히 이제 비싼 중저가 오마카세 집들은</div>
+          <div class="seg">[49:54] 계속 잘 됐는데 오히려 예약도 계속 치열하고 그랬는데 막 막 2 30만 원 이상 하는 오마카세 집들은 우스스스 무너졌어요</div>
+          <div class="seg">[50:04] 근데 이제 저는 그때 이제 좋다고 이제 다시 이제 그냥 프리패스로 다닐 수 있겠군 하고 이제 다녔는데 그때 이제 많이 말씀하시더라고요</div>
+          <div class="seg">[50:13] 이렇게 항상 눈이 오나 비가 오나 바람이 부나 이렇게 지지해 준 이런 손님들이 너무 고맙고 항상 이제 생각을 한다 이런 말씀 하시더라고요</div>
+          <div class="seg">[50:26] 근데 또 잘 되면 또 예약하기 힘들어지겠지 그래도 또 잘 되면 또 기다려야 되겠지</div>
+          <div class="seg">[50:34] 이제는 뭐 이런 어려운 식당들도 오랫동안 다녔기 때문에 그런 게 있습니다</div>
+          <div class="seg">[50:44] 근데 저는 식당 다니는데 이렇게까지 하게 될 줄은 몰랐어요 이렇게 사람들이 경쟁하고 저는 좋다고 봅니다</div>
+          <div class="seg">[50:53] 저는 엄청 좋은 일이라고 경쟁하고 막 예약 곤란해지고 막 이런 거 그래야 이제 하나의 문화 업계가 성장하고 더 많은 가치가 창출되니까 아주 좋습니다</div>
+          <div class="seg">[51:08] 아 300통씩 걸겠습니다 아 호만세 안 해도 돼요 호만세 안 해도 됩니다</div>
+          <div class="seg">[51:13] 랩인 열심히 하세요 그럼 내가 랩을 돌려서 데려갈게요 여러분들 뭐 전화하지 마세요 소소하네</div>
+          <div class="seg">[51:20] 진짜 막 도대체 몇 자리 있을까요 이미 예약된 것들 생각하면은 막 진짜 10자리도 안 될 텐데 한 달에 그걸 하려고 진짜 수백 명이 싸우는 거잖아요</div>
+          <div class="seg">[51:32] 여러분들은 제가 데려가겠습니다 어떻게 헤일이 형이 데려가겠습니다 전화 걸지 마 가자 그냥 우리 사부님 따라서 가자 좋습니다</div>
+          <div class="seg">[51:45] 일로 일로 손 들라고도 안 했는데 바로 아 회장님께서 왜 그러십니까 진짜 회장님은 그냥 프리패스 시면서 진짜</div>
+          <div class="seg">[51:59] 아무튼 오늘 오늘은 정규 라이브로 달리니까 오늘은 우리 프레스 포인트 님 거랑 또 이제 그 이후로 순서대로 우리 사업 얘기도 곧 하려고 합니다</div>
+          <div class="seg">[52:20] 어때요 여러분들 좋습니까 3월 되자마자 이제 봄을 알리는 이 봄에도 사업 얘기 같이 해서 같이 성공해야죠 아 좋습니다</div>
+          <div class="seg">[52:31] 성공해야지 그래서 지금 뭐야 지금 몇 명 들어왔어 93 딱 우리 100명 올 때까지 잠깐 한 10분 정도 근황 얘기 더 하면은 여러분들 우리 랩잇이</div>
+          <div class="seg">[52:52] 와 지금 어제 초대규모 업데이트를 했어요 제가 한다 한다 했던 것들을 다 했습니다 그래서 엄청나게 변화 엄청난 변화가 있었어요 이 변화를 주는 과정에서 엄청난 문제도 하나 있었는데 다행히 빠르게 수습해서 우리 개발</div>
+          <div class="seg">[53:12] 개발팀이 와 진짜 어저께 진짜 불호령이 내려가지고 그냥 밤에 새벽에 난리가 났습니다 우리 모두 꼬식이 됐던 사건이 있었죠 우리 모두 꼬식 나는 꼬식이다 사건이 있었습니다 아니 진짜 나는 꼬식이다</div>
+          <div class="seg">[53:31] 아 이거 개정이 정지되어 있다 이거 뭔 상관이야 지금도 이제 어 이거 뭐야 개정이 정지되었습니다 아니 내가 운영자인데 내가 운영자인데 나를 누가 감히 나를 심판하는가 누가 감히 나를 심판하는가 어 내가 바로 정이다 아니 누가 말은</div>
+          <div class="seg">[54:00] 누가 나를 정지시켰는가 어 누가 나를 정지시켰는가 어</div>
+          <div class="seg">[54:09] 누가 나를 심판하는가 내가 바로 랩이시다 아니 지금 이게 무슨 일이야</div>
+          <div class="seg">[54:19] 아 제가 그 실수 실수 제가</div>
+          <div class="seg">[54:24] 제가 저 저런 저 그 금지 닉네임 기능도 생겼거든요 그거 실험하던 계정으로 들어가가지고 내가 정지시킨 거였네 죄송합니다</div>
+          <div class="seg">[54:36] 아 바로 내가 했구나 어 아 나 순간 남피디가 한 건 줄 알고 아 이렇게까지 한다고 순간 그랬습니다 어 내가 정지한 거였구나 자 아무튼 우리 꼬식</div>
+          <div class="seg">[54:50] 아 우리 모두 꼬식이 됐던 사건이 있어요 아 이게 도대체 어떻게 해야 우리 모두가 꼬식이 되나 어 아무리 우리가 래빗에 로그인 하려고 해도 꼬식 페이지로만 들어가면 어떻게</div>
+          <div class="seg">[55:01] 대 꼬식 사건이 있었는데 아무리 래빗에 들어가도 이 꼬식 페이지로 들어가죠 어 그리고 우리가 꼬식으로서 활동할 수 있게 돼 어 엄청난 일이 있었는데</div>
+          <div class="seg">[55:13] 사실 우리가 꼬식이 된 게 아니라 이 꼬식 페이지가 이 꼬식의 페이지가 우리한테 다 덮인 거에요 어 해원 로그나 그런 거는 전부 다 우리 걸로 잘 작동하고 있었는데</div>
+          <div class="seg">[55:25] 이 꼬식으로서 그 위에가 더 펴진 거야 어 꼬식 페이지가 왜 하필 꼬식이었는지는 모르겠습니다 어떤 부분에서 끼어들었는지 모르겠는데</div>
+          <div class="seg">[55:37] 어 우리 다 꼬며들어 버렸던 사건이 있습니다 어 이거 뭐야 이거 되게 여기 되게 맛있어 보인다 버드나무 브로리</div>
+          <div class="seg">[55:46] 이 와중에 어 배고파요 갑자기 너무 맛있겠는데 약간 이 버섯 피자 어 되게 맛있겠다 사쩡 어</div>
+          <div class="seg">[55:58] 어 아무튼 모두가 꼬식이 됐던 사건이 있습니다 근데 우리 랩이 음 뭐 뭐가 바뀌었는지 우리 토끼단 어 알아챈 사람이 있습니까</div>
+          <div class="seg">[56:10] 어저께 대규모 업데이트가 있었는데 어 여러분들의 이제까지의 어 활동 방식이나 기록들 보면서 개발팀이랑 같이 또 신나게 업데이트를 했었어요 어</div>
+          <div class="seg">[56:22] 엄청 열심히 개발을 해가지고 바꿨는데</div>
+          <div class="seg">[56:26] 아 모자랑이 정리해줬대요 어 위에 일단 순위가 없어졌죠 다시 생길 수도 있어요 이제 껐다 켰다 할 수 있게끔 어 개발을 했는데 저는 이제 개인적으로 없어지니까 시원시원하니 좋은 것 같긴 해</div>
+          <div class="seg">[56:39] 어 허전해요 해포즈 아 허전해요 아 또 이제 훈수 시작되네 이거 어 아 이제 또 업데이트 했다고 하니까 바로 반대 의견을</div>
+          <div class="seg">[56:51] 바로 반대 의견 반대 의견부터 아 허전해 어 시원시원하다 하는데 아 난 허전한데 어 안 시원한데 너무 추운데 아 벌써 시작이네 또</div>
+          <div class="seg">[57:03] 허전하긴 함 허전한게 아마 로고가 지금 없어가지고 더 허전해 보일거야 로고를 만들어야 되는데 어 지금 아이디어가 안 떠올라가지고</div>
+          <div class="seg">[57:14] 어 가장 어렵네요 아직까지 좀 못했어 월요일 오픈 어 목표로 하고 있는데 지금 아 이럴수가 자 아무튼 어 바뀐게 어 제가 한번 소개를 드리면 아까 말했던 것처럼 실시간 순위를 일단 잠깐 보류했어요</div>
+          <div class="seg">[57:29] 어 그것보다 일단 유저 활동이 조금 더 주목을 받을 수 있게 해 놨고 또 여러분들이 계속 어 피드백을 많이 줬던 내용들이 많이 해결이 됐습니다</div>
+          <div class="seg">[57:40] 예를 들면은 어</div>
+          <div class="seg">[57:44] 예를 들면 뭐 이 식당 신규 등록 찾기가 너무 힘들다 어 이런 것들 그래서 이제 피드에서 이제 식당 신규 등록을 그냥 할 수 있어 새로운 식당 등록 오 예 훨씬 편하죠</div>
+          <div class="seg">[58:01] 아 이런 여기에서 이제 자연스럽게 새로운 식당 등록도 보이게 돼있어 아 이거 오늘 쓰는데 좋았죠 훨씬 편해졌고 또 식당 등록 하는데 많은 UI가 개선됐어요</div>
+          <div class="seg">[58:13] 예를 들면 어 현재 영업 중인지 휴업 중인지 폐업 중인지를 어 선택할 수 있어요 예전에는 이제 지전명에다가 이제 여러분들이 알아서 어 여기다 써주시거나 하면 괄호로 나오고 그랬는데</div>
+          <div class="seg">[58:26] 이제는 이런 식으로 설정이 가능하고 이제 점심 예산 전용 예산을 적어 놓을 수 있어요 그래서 어 이제 금액 필터도 정상적으로 작동할 수 있게끔 이렇게 했고</div>
+          <div class="seg">[58:40] 여러분들이 가장 많이 욕했던 거 어 시간 설정 아 훨씬 좋아졌어 훨씬 좋아졌어 어 이거 이제 여러분들이 어 진짜 부셔버리고 싶다 너무 힘들다 했는데 어 생겼어</div>
+          <div class="seg">[58:55] 아 코코야 오래 살지 불편했을 때 감성이 좋았는데 아쉽다고 아 진짜 아 억지 엄청 아 억지 심하네</div>
+          <div class="seg">[59:06] 아 점심시간 저녁시간 라스트워드 두 개 있는 경우가 있다 아 그것도 추가할 거에요 어 오케이 오케이 왜냐면은 저도 이제 적당히 이제 개발자님들이 어 감당할 수 있는 어 선에서 지금 하고 있거든요 요청을</div>
+          <div class="seg">[59:20] 이제 요즘엔 개발자님들이 이제 총 들고 일을 하세요 어 제가 직접 나타나면은 그냥 바로 쏴버릴려고 그래서 제가 저도 이제 어 여러분들 눈치 보면서 합니다</div>
+          <div class="seg">[59:32] 아무튼 그런 거 있고 어 이제 또 어 되게 재밌는 게 하나 생겼어 뭐냐면 이제 예를 들면 이런 게 생겼어</div>
+          <div class="seg">[59:46] 어 보면은 어 평균 소비금액이 나와 식당마다 유저들이 지금 얼마 쓰는지 적어 놓잖아요</div>
+          <div class="seg">[59:53] 실제 유저들이 얼마를 썼는지 여기 가면 그게 적혀 사실 이게 우리 캐치테이블이나 네이버나 가면 무슨 막 약간 3만원 5만원 어</div>
+          <div class="seg">[01:00:05] 이렇게 예산에다가 그렇게 써놓고 막상 가면은 그거는 그냥 bc 하나의 가격이고 그래서 돈을 너무 많이 쓰게 되는 경우가 있잖아요</div>
+          <div class="seg">[01:00:13] 그래서 평균 소비금액이 그냥 나와요 어 1인당 평균 얼마 써야 될 거다 이게 나옵니다</div>
+          <div class="seg">[01:00:18] 그리고 그게 이제 여기 지금 표시가 되어야 되는데 제가 어저께 그렇게 해달라고 했다가 장전 소리까지 들었거든요 찰컥 하고</div>
+          <div class="seg">[01:00:26] 그래가지고 그거는 이제 다음 주까지 해줄 거야 여기 나오면 훨씬 편하잖아요 보기가 근데 이제 찰컥 소리가 나더라고요</div>
+          <div class="seg">[01:00:33] 여기 나오면 좋겠 했는데 갑자기 찰컥 하길래 아 여기 잘 나오네 어 글자 잘 나오네 하고 그냥 넘어갔어요</div>
+          <div class="seg">[01:00:41] 그리고 어 1인당인데 1인당 어 그 다음에 또 재밌는 게 여러분들 식당 검색할 때 식당 검색할 때 많이 개선이 돼</div>
+          <div class="seg">[01:00:55] 이 식당이 이 식당 검색 결과에 뭐라고 해야 돼</div>
+          <div class="seg">[01:01:03] 평점 순으로 우리 원래 평점 순으로 안 봐도 순위가 막 나왔었잖아요 그게 다 없어졌어 훨씬 이제 상식적으로 바뀌었지</div>
+          <div class="seg">[01:01:12] 기본적으로 모든 순위에 평점 어 순위가 달렸었는데 이 평점 순으로 봐야만 이 순위가 나와요</div>
+          <div class="seg">[01:01:20] 훨씬 더 이제 설득력이 있는 페이지가 됐죠 그리고 이제 순위도 이제 색깔이 들어가가지고 훨씬 이제 좀 구분이 돼</div>
+          <div class="seg">[01:01:30] 그리고 이제 평점에 관해서 이제 설명하는 그게 있어야 되는데 이건 제가 열심히 주말 동안 써야 됩니다</div>
+          <div class="seg">[01:01:37] 이런거 이런거 다 쓰는거에요 사람이 평점은 어떤 알고리즘으로 하고 뭐 다 사람이 쓰는 건데 제가 써야 되겠죠 아무튼 이런거 해야 되고</div>
+          <div class="seg">[01:01:48] 이제 약간 사소한 디테일도 많이 바뀌었어요 예를 들면은 예전에 검색하면 이 식당 사진이 둥글둥글하게 나왔단 말이에요</div>
+          <div class="seg">[01:01:58] 약간 라운드 졌어요 요 검색창처럼 근데 약간 직각으로 바꾸니까 훨씬 약간 뭔가 품격이 있어지지 않았나요</div>
+          <div class="seg">[01:02:09] 굉장히 사소한 차이인데 이 식당 사진이 그냥 네모나게 딱 직각으로 나오는게 훨씬 나은 것 같아요 왜냐하면 동글동글한게 약간 좀</div>
+          <div class="seg">[01:02:22] 너무 귀여워 캐치테이블이나 이런 애들은 다 식당 사진이 동글동글하게 나오는데 진지하지가 않는데 이 평점 수는 우리한테 되게 중요한건 이 순이잖아요</div>
+          <div class="seg">[01:02:32] 이 레비가이드가 제한하는건 그래서 이 순위의 약간 뭐랄까 품격을 보여주려면은 직각으로 하는게 더 낫겠다 이런 생각을 했고</div>
+          <div class="seg">[01:02:41] 근데 여기 이거 사진 찍은거 누구에요? 정대 셰프님 되게 잘 찍었네 여기 약간 페이지가 훨씬 멋있어진 것 같아요 사진들을 다 잘 찍어줘가지고 정대 셰프님한테 이거 말해야겠다</div>
+          <div class="seg">[01:02:54] 아 모자랑이 찍었어요? 되게 잘 찍었네 되게 잘 나왔습니다 공식 사진인줄 알았어 이건 공식 사진인줄 알았어 사진들 퀄이 되게 좋아요 여러분들</div>
+          <div class="seg">[01:03:07] 너무 좋고 그리고 이제 이 한줄 설명이 같이 나오면서 약간 무게감이 생겼지 식당마다 대신에 이 한줄 설명은 이제 우리 어드민 저 운영자들만 달아줄 수 있어요</div>
+          <div class="seg">[01:03:21] 약간 그 정도 되는급에만 적어주는거죠 아무튼 그렇습니다</div>
+          <div class="seg">[01:03:27] 나중에 이제 식당 주인들이 인증하면 본인이 설정할 수 있게끔 그렇게 제공을 하려고 합니다</div>
+          <div class="seg">[01:03:36] 아무튼 이래서 이 랭킹이 굉장히 우리한테 중요한 핵심 기능인데 여러분들 덕분에 이 랭킹이 어떤 미식가가 보더라도 납득이 가능한 훌륭한 랭킹이 형성이 되었어요</div>
+          <div class="seg">[01:03:52] 그러니까 이제까지는 미식가들이 보면 납득할 수 있는 미식 랭킹이라는게 우리나라에 없었어요 그냥 없었어</div>
+          <div class="seg">[01:03:59] 그냥 뭐 말이 안되니까 뭐 여기 뭐 1위부터 10위 안에 뭐 별의별 동네 맛집 다 들어와있고 이러니까 납득을 할 수가 없었는데</div>
+          <div class="seg">[01:04:09] 지금은 누가 봐도 어 여기는 정말로 미식가들이 선정한 순이네 어 여기 순이는 믿을만하네 요즘엔 여기가 잘나가네 이런 것들을 알 수가 있게 된거고</div>
+          <div class="seg">[01:04:20] 사람들이 여기에는 진짜 순위가 있구나 이런 생각을 하게 된거지 뭐 최상위권들도 다 막 4점 초반대고 막 이러니까</div>
+          <div class="seg">[01:04:28] 아 여기는 되게 믿을만하다 신경쓰이는 순위가 되어버린거죠 자 여기에서 저는 게임이 끝났다고 합니다</div>
+          <div class="seg">[01:04:35] 여기서 게임이 끝났다고 합니다 지금 이 순간에는 그 누구도 그 누구도 이런 순위를 만들 수 없어요</div>
+          <div class="seg">[01:04:43] 여러분들이랑 저랑 같이 만들고 만들었기 때문에 이걸 할 수가 있었던거죠 여러분들 무슨 말인지 알겠죠</div>
+          <div class="seg">[01:04:51] 저희 이번에 다른 대표님들이랑 미팅하면서 이 레빗 순위를 보여드렸어요 평점 체계랑 다들 요구해서 엄청 감탄을 했어요</div>
+          <div class="seg">[01:05:02] 이게 됐다니 한국에서 아 이게 되네 야 이게 되버렸다 어 이 말을 했다니까 이게 되버리다니</div>
+          <div class="seg">[01:05:11] 놀랍다고 아 정말 놀랍다 그리고 캐치 테이블이나 이런거 신경쓰지 말래</div>
+          <div class="seg">[01:05:18] 어 전 신경 안쓰고 있지만 캐치 테이블이나 걔네는 큰일 났다 왜냐 지금 이제 와서 캐치 테이블을 레빗 보고 아 우리도 요런 랭킹 필요하다</div>
+          <div class="seg">[01:05:29] 쟤는 너무 크면 안되겠다 생각해도 이미 늦었을거래 왜냐 캐치 테이블은 이제는 이런 순위를 만들 수가 없어요</div>
+          <div class="seg">[01:05:38] 지금 점수 체계를 이런 식으로 바꾸면 그냥 캐치 테이블 망하는거에요 그냥 식당들 반란 일으켜가지고 그냥 망하는거에요</div>
+          <div class="seg">[01:05:49] 아예 새로운 서비스를 만들지 않는다 이건 불가능한거죠 식당들이 얼마나 어이없겠어요 갑자기 나 5점 만들려고 얼마나 노력했는데</div>
+          <div class="seg">[01:05:57] 갑자기 나 막 3점 되고 4점 되면 끝나는거죠 그래서 요거는 처음에 누가 이걸 형성할 수 있는가 그런 아이디어와 그런 문화를 누가 형성할 수 있는가의 싸움인데</div>
+          <div class="seg">[01:06:09] 어 우리 수제자들이랑 해는거죠 여러분들 여러분들은 벌써 성공의 경험을 하나씩 쌓아가고 있어요</div>
+          <div class="seg">[01:06:18] 어 여러분들 박수 한번 부탁드려요 스스로에게 박수 한번 쳐주세요 대단해 이 미식세계를 혁신할 수 있는 첫번째 결과가 하나 벌써 구현됐죠</div>
+          <div class="seg">[01:06:30] 제가 말했죠 우리가 확실한 결과와 아이디어 전략 그리고 그걸 해낼 수 있는 사람들끼리 모이면 불가능이 아니라니까</div>
+          <div class="seg">[01:06:43] 결과는 분명히 현실이 돼 그래서 지금 정말 멋진 시스템이 완성이 됐고 미식가들은 이거를 무시할 수가 없을거고</div>
+          <div class="seg">[01:06:57] 그리고 미슐랭 자체가 지금 실내가 화제성은 있지만 바닥을 끼고 있기 때문에 우리가 그걸 완전히 박살낼 수 있게 될거에요</div>
+          <div class="seg">[01:07:06] 대단하죠 그리고 식당들은 이 랭킹을 무시할 수 없게 될거고 고객도 식당도 내가 큰 돈 쓰는데 여기 랭킹 높은데 갈 것 같지 않아요 여러분들</div>
+          <div class="seg">[01:07:21] 내가 비싼 돈 주는데 예를 들면 내가 한 3,40만원 써야 되는데 한 끼에 얼마나 큰 돈이에요</div>
+          <div class="seg">[01:07:28] 그러면 내가 초밥집 가려면 어디를 갈까 약간 여기에서 스시조, 스시사인조 둘 중 하나 막 고민하지 않겠어요?</div>
+          <div class="seg">[01:07:38] 예를 들면 열어서 내가 얼마 설정한 뒤 평점순으로 보지 않겠어요?</div>
+          <div class="seg">[01:07:44] 아니면 내가 열어서 나 강남구인데 강남구에 일식 전체 누르고 검색해서 평점순</div>
+          <div class="seg">[01:08:00] 강남구에서 제일 잘 나가는 곳은 정대구나 그 다음에 주연이거든</div>
+          <div class="seg">[01:08:06] 얘네는 너무 어려우니까 그렇다면 내리다 내리다 보면 자기가 갈 수 있는 데가 나오는거죠 사인조는 그래도 예약이 되는구나 이런 식으로</div>
+          <div class="seg">[01:08:15] 무슨 말인지 알죠? 원래 타베로그도 그런 식으로 작동해요 위에는 어차피 예약이 안돼 가고 싶을 뿐</div>
+          <div class="seg">[01:08:23] 그리고 여러분들 사람을 잘 이해해야 되는 게 뭔지 알아요? 사람을 잘 이해해야 되는 게</div>
+          <div class="seg">[01:08:30] 이 순위가 한 번 형성되면 왜 미식가들이 이 순위를 무시하지 못하는지 아세요?</div>
+          <div class="seg">[01:08:35] 이렇게 좋은 식당들 다니는 미식가들 정도 되면 자기들만의 다 생각이 있어가지고 이 순위에 분명 신경 쓰이지만 또 막 휘둘리진 않는단 말이에요</div>
+          <div class="seg">[01:08:45] 내가 뭐 주연이 좋으면 주연은 가는거고 스신이 좋으면 스신은 가는거지 애초에 여러 식당 다닐 수가 없으니까 다 하나 정해놓고 다닌단 말이에요</div>
+          <div class="seg">[01:08:56] 근데 이 순위가 생긴다면 왜 사람들이 요거에 신경을 쓰게 될까요? 신경쓰게 될까?</div>
+          <div class="seg">[01:09:03] 여러분들 왜 미식가들이 이 순위가 또 신경쓰일 것 같아요? 매일 가서 보게 될 것 같아요?</div>
+          <div class="seg">[01:09:11] 여러분들?</div>
+          <div class="seg">[01:09:15] 이게 사람을 잘 이해해야 사업을 할 수가 있는 거예요</div>
+          <div class="seg">[01:09:19] 저는 이게 그래서 이건 먼저 만들어야 된다고 한 거예요</div>
+          <div class="seg">[01:09:27] GQ 아 똑똑해요</div>
+          <div class="seg">[01:09:30] 90% 정도 가까웠어요 바로 내가 다닐 수 있는 식당 거기 순위 올려주려고 할 거란 말이에요 여러분들</div>
+          <div class="seg">[01:09:42] 내가 요거 다닐려고 얼마나 노력했는데 내가 여기 다니는 게 얼마나 더 멋진 일이 되야 되는데</div>
+          <div class="seg">[01:09:49] 나 여기 다닌다고 여기 알아서 바이럴 해주고 여기 들어와서 알아서 리뷰 써주고 옷점 남겨주고 그렇게 관리를 할 거란 말이에요</div>
+          <div class="seg">[01:10:00] 왜냐? 나 여기 다니는 사람이니까 여기가 계속 위대해야 돼</div>
+          <div class="seg">[01:10:04] 고객들끼리 싸우는 거예요 여기 와가지고 평점 올려주려고</div>
+          <div class="seg">[01:10:08] 고객들이 여기 다 있으면 셰프들도 여기를 신경 안 쓸 수가 없는 거예요</div>
+          <div class="seg">[01:10:13] 그리고 고객들이 여기 다 있으면 한 끼에 3-40만 원씩 쓸 수 있는 고객들이 여기 있잖아요</div>
+          <div class="seg">[01:10:18] 그럼 뭐가 여기 있습니까? 광고가 여기 다 붙겠죠</div>
+          <div class="seg">[01:10:24] 여기 광고가 다 들어오겠죠</div>
+          <div class="seg">[01:10:27] 한 끼에 3-40만 원씩 쓸 수 있는 가고가 되어 있는 사람들 여기 들어가 있으면 엄청 비싼 고객 그냥 이 문화 소비의 최상위 계층들에 여기 다 있는 거예요</div>
+          <div class="seg">[01:10:37] 패션이면 패션, 식사면 식사, 대기업들이 제일 좋아하는 카드 사면 카드 사, 은행이면 은행</div>
+          <div class="seg">[01:10:47] 골프 회사면 골프 회사 그 고객 그 사람들이 제 고객이 되는 거예요 랩이세요 여러분들</div>
+          <div class="seg">[01:10:55] 그리고 그 사람들 광고단가 엄청나게 높아요</div>
+          <div class="seg">[01:11:02] 그런 식으로 비즈니스가 성립을 할 수가 있겠죠</div>
+          <div class="seg">[01:11:06] 여러분들 재밌지 않습니까?</div>
+          <div class="seg">[01:11:08] 광고도 이제 들어가죠 한국 미식이 기준이 될 거 같고</div>
+          <div class="seg">[01:11:12] 수제자 광고 할인 가능하다고? 당연하지</div>
+          <div class="seg">[01:11:16] 수제자 광고 할인은 가능하다고 하면</div>
+          <div class="seg">[01:11:20] 수제자 광고 할인은 가능하다고 하면</div>
+          <div class="seg">[01:11:25] 그래서 이 광고는 거의 다 이제</div>
+          <div class="seg">[01:11:31] 이제 이 광고는 이제</div>
+          <div class="seg">[01:11:34] 수제자 광고 할인 가능하다고? 당연하지</div>
+          <div class="seg">[01:11:38] 수제자는 공짜로 해줘야지 뭘 돈을 받아</div>
+          <div class="seg">[01:11:44] 수제자는 맨 앞머리에 올려놔야지</div>
+          <div class="seg">[01:11:51] 광고 안 보게 해주시면 안 될까요?</div>
+          <div class="seg">[01:11:56] 그러려면 이제 돈 내야 돼 레비 프리미엄</div>
+          <div class="seg">[01:11:59] 광고 이제 앞으로 평점 순 보려고 하면 그런 거지</div>
+          <div class="seg">[01:12:07] 평점 순 누르면 광고 떠 딱 10초 광고 봐야 돼</div>
+          <div class="seg">[01:12:14] 이거 보기 싫으면 이제</div>
+          <div class="seg">[01:12:18] 타베로그는 더 심해 타베로그는 이 평점 순으로 보려면</div>
+          <div class="seg">[01:12:23] 타베로그는 이 평점 순을 보려면 돈 내야 돼</div>
+          <div class="seg">[01:12:26] 그 프리미엄 계정만 평점 순으로 볼 수 있어요</div>
+          <div class="seg">[01:12:35] 대박이지 근데 그것도</div>
+          <div class="seg">[01:12:39] 한 달에 리뷰 다섯 개를 쓰면은 다음 달에 공짜야</div>
+          <div class="seg">[01:12:45] 그래서 타베로그가 리뷰를 미친듯이 쓰는 거예요</div>
+          <div class="seg">[01:12:48] 이 데스크톱 버전으로 할 수 있는데 모바일 버전에서는 돈 내야 돼</div>
+          <div class="seg">[01:12:52] 리뷰를 안 쓸 수가 없어</div>
+          <div class="seg">[01:12:56] 어차피 고객한테 돈 벌 생각 없어요 타베로그를</div>
+          <div class="seg">[01:13:00] 리뷰 더 많이 쓰게 하려고 그러는 거지</div>
+          <div class="seg">[01:13:04] 계속 미식 잘하고 싶으면 그 평점 순 보고 싶으면은</div>
+          <div class="seg">[01:13:08] 그렇게 해야 돼</div>
+          <div class="seg">[01:13:11] 아니면 외국 계정으로 들어가야 돼 영어 버전은 보이거든</div>
+          <div class="seg">[01:13:15] 외국인들한테 결제시킬 순 없으니</div>
+          <div class="seg">[01:13:18] 자 아무튼 재밌죠 여러분들</div>
+          <div class="seg">[01:13:20] 그런 거 되고요 이제</div>
+          <div class="seg">[01:13:23] 또 가장 여러분들한테 보여주고 싶었던 건 이거</div>
+          <div class="seg">[01:13:27] 바로 채널 기능이에요 채널</div>
+          <div class="seg">[01:13:30] 채널 기능이 생겼어요 와 여러분들</div>
+          <div class="seg">[01:13:34] 피드에 들어가면은 각자의 관심사에 맞는 채널을 만들어가지고</div>
+          <div class="seg">[01:13:39] 서로 모여서 미식 얘기를 할 수가 있습니다</div>
+          <div class="seg">[01:13:41] 여러분들 어때요 너무 재밌지 않습니까</div>
+          <div class="seg">[01:13:44] 이제는 뭐 예를 들면 미식이라도 뭐</div>
+          <div class="seg">[01:13:47] 전에는 그냥 장르별로 이렇게 자동블루만 됐었잖아요</div>
+          <div class="seg">[01:13:52] 이제는 이 소모임처럼</div>
+          <div class="seg">[01:13:55] 뭐 유명한 디스 인사이드 갤러리 레디스의 서브레디스처럼</div>
+          <div class="seg">[01:13:59] 이렇게 여러분들이 이 채널을 만들어가지고 탭을 만들어가지고</div>
+          <div class="seg">[01:14:05] 여기에서 미식 얘기를 할 수 있어요</div>
+          <div class="seg">[01:14:08] 그래서 이렇게 활동을 할 수가 있고</div>
+          <div class="seg">[01:14:12] 보면은 이제 이런 식으로 여기</div>
+          <div class="seg">[01:14:15] 보면은 각 탭마다</div>
+          <div class="seg">[01:14:18] 일식, 한식, 양식, 이노베이티브, 컨템포러로 이렇게</div>
+          <div class="seg">[01:14:22] 이 주제에 맞는 장르가 연결돼있어</div>
+          <div class="seg">[01:14:26] 그래서 여기에 맞는 리뷰를 쓰면은 여기에 자동으로 딸려와요</div>
+          <div class="seg">[01:14:30] 자동으로</div>
+          <div class="seg">[01:14:32] 그래서 이 채널에서는</div>
+          <div class="seg">[01:14:35] 이 채널의 주제와 맞는 이야기도 나누고</div>
+          <div class="seg">[01:14:39] 리뷰도 볼 수가 있어요</div>
+          <div class="seg">[01:14:42] 너무 편하죠</div>
+          <div class="seg">[01:14:43] 구조가 너무 좋지 않습니까</div>
+          <div class="seg">[01:14:46] 그래서 이제 이렇게 맛있는 스시입니다</div>
+          <div class="seg">[01:14:50] 내 사랑 운이, 내 사랑 단새우</div>
+          <div class="seg">[01:14:53] 사뽀로에서 먹었다고 합니다</div>
+          <div class="seg">[01:14:55] 이런 글도 있고</div>
+          <div class="seg">[01:14:57] 이렇게 미식 관련된 미슐랜 관련된 소식도 있고</div>
+          <div class="seg">[01:15:01] 여기 들어가면</div>
+          <div class="seg">[01:15:03] 리뷰들도</div>
+          <div class="seg">[01:15:05] 이 주제와 이 채널과 관련된 리뷰들도 자동으로</div>
+          <div class="seg">[01:15:08] 이렇게 분류가 돼있는 거죠</div>
+          <div class="seg">[01:15:10] 너무 좋지 않아요?</div>
+          <div class="seg">[01:15:11] 그래서 이제 우리 식대야</div>
+          <div class="seg">[01:15:13] 우리 비대님이죠</div>
+          <div class="seg">[01:15:15] 엄청 글을 잘 써요</div>
+          <div class="seg">[01:15:17] 그래서 완전 이분은</div>
+          <div class="seg">[01:15:19] 비대는 맨날 까불까불 할 줄만 아는 줄 알았는데</div>
+          <div class="seg">[01:15:22] 사람이 내면이 깊어</div>
+          <div class="seg">[01:15:24] 원래 똑똑한 사람들이 더 많이 까불거려요</div>
+          <div class="seg">[01:15:26] 내가 보니까</div>
+          <div class="seg">[01:15:28] 그래서 이제</div>
+          <div class="seg">[01:15:30] 비대의 이 음식 리뷰는 거의 칼럼이에요 칼럼</div>
+          <div class="seg">[01:15:34] 칼럼</div>
+          <div class="seg">[01:15:36] 식대야 진짜 팔로우 하세요 식대야</div>
+          <div class="seg">[01:15:38] 이미 팔로워도 많이 있네</div>
+          <div class="seg">[01:15:40] RP 8000이네</div>
+          <div class="seg">[01:15:42] 와우</div>
+          <div class="seg">[01:15:44] 대단합니다 진짜</div>
+          <div class="seg">[01:15:46] 이</div>
+          <div class="seg">[01:15:48] 채널을 이런 식으로 만들 수 있습니다</div>
+          <div class="seg">[01:15:51] 채널을 이런 식으로 누르면 만들 수가 있어요</div>
+          <div class="seg">[01:15:54] 그래서 되게 쉽습니다</div>
+          <div class="seg">[01:15:56] 채널 이름도 정할 수 있고 영문 이름 정할 수 있고</div>
+          <div class="seg">[01:15:59] 설명 쓰고 장르를 연결하면 돼요</div>
+          <div class="seg">[01:16:02] 되게 쉽죠</div>
+          <div class="seg">[01:16:04] 그리고 이렇게 만들면</div>
+          <div class="seg">[01:16:06] 이렇게 채널을 만들면</div>
+          <div class="seg">[01:16:08] 관리진을 설정할 수 있어요</div>
+          <div class="seg">[01:16:10] 소유자랑</div>
+          <div class="seg">[01:16:12] 커뮤니티 부운영자</div>
+          <div class="seg">[01:16:14] 이런 식으로 게시판 관리자를 설정해가지고</div>
+          <div class="seg">[01:16:18] 여기 커뮤니티를 같이 관리하고 성장시켜 나갈 수가 있습니다</div>
+          <div class="seg">[01:16:22] 그리고 여기 들어가서 보면은</div>
+          <div class="seg">[01:16:24] 계속 멤버들</div>
+          <div class="seg">[01:16:26] 관리하고</div>
+          <div class="seg">[01:16:28] 위키</div>
+          <div class="seg">[01:16:29] 위키를 연결해서 공지사항으로 쓸 수 있어요</div>
+          <div class="seg">[01:16:32] 관련 위키들 같은 거</div>
+          <div class="seg">[01:16:34] 위키를 그런 식으로 활용을 할 수 있어요</div>
+          <div class="seg">[01:16:35] 여기 위키를 연결하면 여기 나와요</div>
+          <div class="seg">[01:16:38] 이 피드 위에다가</div>
+          <div class="seg">[01:16:40] 예를 들면 스파 탭</div>
+          <div class="seg">[01:16:42] 여기 스시아 파인다이니가 스파 탭 공지</div>
+          <div class="seg">[01:16:45] 이런 식으로</div>
+          <div class="seg">[01:16:47] 할 수도 있는 거죠</div>
+          <div class="seg">[01:16:49] 어때요 여러분들?</div>
+          <div class="seg">[01:16:50] 재밌지 않나요?</div>
+          <div class="seg">[01:16:52] 미식 주제만으로 사람들이 다양한 얘기를 나눌 수 있게</div>
+          <div class="seg">[01:17:00] 해놓은 거고</div>
+          <div class="seg">[01:17:01] 이런 게 있으면 또 어떤 게 되겠어요?</div>
+          <div class="seg">[01:17:02] 미식 관련된 사람들이 다 모이니까</div>
+          <div class="seg">[01:17:04] 이런 것도 할 수 있는 거야</div>
+          <div class="seg">[01:17:05] 예를 들면</div>
+          <div class="seg">[01:17:09] 이제</div>
+          <div class="seg">[01:17:12] 뭐라고 해요? 구인 구직</div>
+          <div class="seg">[01:17:15] 구구 탭을 만들 수 있어요</div>
+          <div class="seg">[01:17:16] 구인 구직 탭</div>
+          <div class="seg">[01:17:19] 구인 구직</div>
+          <div class="seg">[01:17:21] 구구 탭</div>
+          <div class="seg">[01:17:22] 이런 식으로 만들어가지고</div>
+          <div class="seg">[01:17:24] 여기서 구인 구직을 할 수도 있고</div>
+          <div class="seg">[01:17:28] 그죠?</div>
+          <div class="seg">[01:17:29] 근데</div>
+          <div class="seg">[01:17:30] 구인 구직 탭을 만들면 신기한</div>
+          <div class="seg">[01:17:31] 우리 피드 기능에 그게 있었잖아요</div>
+          <div class="seg">[01:17:33] 우리 피드를 쓸 때</div>
+          <div class="seg">[01:17:35] 가게 탭을 할 수가 있기 때문에</div>
+          <div class="seg">[01:17:39] 가게 탭을 할 수가 있기 때문에</div>
+          <div class="seg">[01:17:41] 이 식당에 관심 있는 사람들은</div>
+          <div class="seg">[01:17:43] 그 식당 피드에 들어갔다가</div>
+          <div class="seg">[01:17:45] 구직도 볼 수 있고</div>
+          <div class="seg">[01:17:47] 구인난도 볼 수 있고</div>
+          <div class="seg">[01:17:48] 그렇게 되는 거죠</div>
+          <div class="seg">[01:17:49] 되게 유기적이고</div>
+          <div class="seg">[01:17:51] 역동적으로</div>
+          <div class="seg">[01:17:52] 식당에 대한 정보들이 얽혀 있을 수 있고</div>
+          <div class="seg">[01:17:55] 함께 소비할 수가 있는 게</div>
+          <div class="seg">[01:17:56] 레비시</div>
+          <div class="seg">[01:17:58] 되게 재밌다</div>
+          <div class="seg">[01:17:59] 여러분들이 쓰면서</div>
+          <div class="seg">[01:18:01] 많이 알게 될 텐데</div>
+          <div class="seg">[01:18:03] 아무튼 쓰기 어렵지도 않고</div>
+          <div class="seg">[01:18:04] 굉장히 재미있는 거 같아요</div>
+          <div class="seg">[01:18:08] 뭐 중고거래 탭도 있을 수 있죠</div>
+          <div class="seg">[01:18:10] 예를 들면</div>
+          <div class="seg">[01:18:11] 식당들 간의 그런 거래도 많이 하잖아요</div>
+          <div class="seg">[01:18:15] 아무튼 굉장히 재밌어질 것 같습니다</div>
+          <div class="seg">[01:18:18] 그래서</div>
+          <div class="seg">[01:18:19] 그런 거는 여기서 더 많이 거래가 될 수도 있고</div>
+          <div class="seg">[01:18:22] 사람들의 활동에 따라서</div>
+          <div class="seg">[01:18:23] 커뮤니티가 또 유기적으로 성장을 할 수가 있는 거죠</div>
+          <div class="seg">[01:18:26] 모스시가 이렇게 또</div>
+          <div class="seg">[01:18:27] 스시 4인조 동행하실 분 찾습니다</div>
+          <div class="seg">[01:18:29] 잘 활용을 해줬죠</div>
+          <div class="seg">[01:18:31] 너무 고맙네요</div>
+          <div class="seg">[01:18:32] 이렇게 멋있게 활용을 해주면</div>
+          <div class="seg">[01:18:33] 사람들이 이게 이렇게 돌아가는구나</div>
+          <div class="seg">[01:18:35] 이해도 할 수 있을 거고</div>
+          <div class="seg">[01:18:37] 이 가치를 바로 알 수 있을 거죠</div>
+          <div class="seg">[01:18:40] 알 수 있겠죠</div>
+          <div class="seg">[01:18:41] 그래서 여기 보면은</div>
+          <div class="seg">[01:18:42] 팔로우인 할 수 있어요 팔로우를</div>
+          <div class="seg">[01:18:44] 채널 팔로우 할 수 있습니다</div>
+          <div class="seg">[01:18:46] 여러분들 들어가셔 가지고</div>
+          <div class="seg">[01:18:48] 스시와 파인드 다이닝 팔로우 하면은</div>
+          <div class="seg">[01:18:51] 팔로우가 될 수 있어요</div>
+          <div class="seg">[01:18:53] 팔로우가 될 수 있어요</div>
+          <div class="seg">[01:18:54] 팔로우가 될 수 있어요</div>
+          <div class="seg">[01:18:57] 팔로우 하면은</div>
+          <div class="seg">[01:19:00] 팔로우한 채널에서 작성된 글들이</div>
+          <div class="seg">[01:19:04] 여기에 이제</div>
+          <div class="seg">[01:19:06] 보이기도 하고 그래요</div>
+          <div class="seg">[01:19:09] 재밌죠</div>
+          <div class="seg">[01:19:11] 와인이나 사케도 여기서 얘기해도 좋고</div>
+          <div class="seg">[01:19:14] 와인이나 사케를 이미 큰 커뮤니티들이 있기 때문에</div>
+          <div class="seg">[01:19:17] 저는 이제 뭐</div>
+          <div class="seg">[01:19:18] 알아서 잘 발전하기를 바라고 있습니다</div>
+          <div class="seg">[01:19:22] 아무튼 재밌죠</div>
+          <div class="seg">[01:19:23] 또 여러분들 어떤 탭이 있으면 재밌을 거 같아요</div>
+          <div class="seg">[01:19:27] 어떤 탭이 있으면 재밌을 거 같아요</div>
+          <div class="seg">[01:19:29] 어떤 채널이 있으면 재밌을 거 같아요</div>
+          <div class="seg">[01:19:32] 또 어떤 게 있을까요</div>
+          <div class="seg">[01:19:36] 아 식당 철거는 뭐예요</div>
+          <div class="seg">[01:19:39] 식당 철거는 뭐예요</div>
+          <div class="seg">[01:19:40] 아 왜 이렇게 또</div>
+          <div class="seg">[01:19:43] 또 어떤 탭이 있으면은</div>
+          <div class="seg">[01:19:45] 사람들이 좋을 거 같아요</div>
+          <div class="seg">[01:19:48] 아 전매튜 탭</div>
+          <div class="seg">[01:19:49] 아 진짜</div>
+          <div class="seg">[01:19:51] 재밌네</div>
+          <div class="seg">[01:19:52] 전매튜 탭 아니면은 뭐</div>
+          <div class="seg">[01:19:54] 이제</div>
+          <div class="seg">[01:19:56] 이런 탕수육</div>
+          <div class="seg">[01:19:57] 탕수육 마니아 중식 마니아들 탭도 있을 수 있고</div>
+          <div class="seg">[01:20:00] 장르별 탭들이 생길 수도 있겠죠</div>
+          <div class="seg">[01:20:04] 아무튼</div>
+          <div class="seg">[01:20:06] 다양하게 활용을 해주면 좋을 거 같습니다</div>
+          <div class="seg">[01:20:10] 맞아요</div>
+          <div class="seg">[01:20:13] 주류 추천 탭도 있으면 재밌을 거 같고</div>
+          <div class="seg">[01:20:18] 요리 진료에 대해서 같이 얘기하는</div>
+          <div class="seg">[01:20:20] 탭도 있으면 재밌을 거 같습니다</div>
+          <div class="seg">[01:20:24] 아무튼 여러분들 이런 업데이트들이 있었고</div>
+          <div class="seg">[01:20:26] 그 외에도 짜짤한 것들이 굉장히 많이 있는데</div>
+          <div class="seg">[01:20:30] 가장 중요한 거는</div>
+          <div class="seg">[01:20:32] 요런 탭들도 그거지만</div>
+          <div class="seg">[01:20:33] 제가 항상 여러분들한테 사업할 때 뭐를 강조해요</div>
+          <div class="seg">[01:20:37] 좋은 기능 많이 만들라고 제가 하나요</div>
+          <div class="seg">[01:20:39] 최대한 좋은 기능을 많이 만들고 멋진 일을 많이 하고</div>
+          <div class="seg">[01:20:43] 스크립트도 많이 늘리라고 하나요 제가</div>
+          <div class="seg">[01:20:46] 맞아요 제가 여러분들한테 가르친 것 중에 가장 중요한 건</div>
+          <div class="seg">[01:20:50] 하나의 분명한 결과를 구현하라는 거죠</div>
+          <div class="seg">[01:20:54] 우리 사업이 잘 돼서 유기적으로 성장 될 수 있는</div>
+          <div class="seg">[01:20:57] 하나의 분명한 결과를 만들라는 거죠</div>
+          <div class="seg">[01:20:59] 그죠</div>
+          <div class="seg">[01:21:00] 랩이 또 똑같아요</div>
+          <div class="seg">[01:21:01] 하나의 분명한 결과가 있어야 됩니다</div>
+          <div class="seg">[01:21:07] 하나의 분명한 결과를</div>
+          <div class="seg">[01:21:08] 이 랩이시라는 걸 써요</div>
+          <div class="seg">[01:21:10] 좋은 아이디어와 훌륭한 꿈을 만들고</div>
+          <div class="seg">[01:21:12] 이 기능 저 기능 된다고 해서 랩이시 될까요?</div>
+          <div class="seg">[01:21:15] 안 되죠</div>
+          <div class="seg">[01:21:16] 결국엔 사람이</div>
+          <div class="seg">[01:21:18] 많이 몰려서</div>
+          <div class="seg">[01:21:21] 리뷰도 많이 쓰는 환경이 구성이 되어야</div>
+          <div class="seg">[01:21:24] 그 다음도 있는 거겠죠</div>
+          <div class="seg">[01:21:26] 둥글둥글해질 게 아니라 랩이 또 뾰족해져야죠</div>
+          <div class="seg">[01:21:29] 여러분들이 보시기에 랩이신</div>
+          <div class="seg">[01:21:32] 뾰족한 결과가 있나요?</div>
+          <div class="seg">[01:21:34] 여러분들이 볼 때 랩이 또 뾰족해지는 거잖아요</div>
+          <div class="seg">[01:21:37] 랩이 또 뾰족해지는 거잖아요</div>
+          <div class="seg">[01:21:39] 뾰족한 결과가 있나요?</div>
+          <div class="seg">[01:21:41] 여러분들이 발견한 지금 뾰족한 결과가 뭐가 있어요?</div>
+          <div class="seg">[01:21:45] 지금까지 본 래빗의 형태 중에</div>
+          <div class="seg">[01:21:47] 어떤 것을 활용하면</div>
+          <div class="seg">[01:21:49] 사람들이 우글� 우글 들어와 가지고</div>
+          <div class="seg">[01:21:51] 리뷰도 많이 남기고 추천도 하고</div>
+          <div class="seg">[01:21:53] 유기적 성장이 일어날까요?</div>
+          <div class="seg">[01:21:56] 여러분들이 발견한 뾰족한 결과가 뭐예요?</div>
+          <div class="seg">[01:21:58] 래빗에서</div>
+          <div class="seg">[01:21:59] 지금까지 래빗을 살펴보면서</div>
+          <div class="seg">[01:22:05] 래빗의 이 장면을 쓰면은</div>
+          <div class="seg">[01:22:08] 사람들이</div>
+          <div class="seg">[01:22:09] 래빗에 넘쳐날 것이다</div>
+          <div class="seg">[01:22:17] 아까 말했던 평점순위 있죠?</div>
+          <div class="seg">[01:22:20] 평점순위가 있을 겁니다</div>
+          <div class="seg">[01:22:23] 이 순위 보면은</div>
+          <div class="seg">[01:22:24] 이제 미식가들이 와서</div>
+          <div class="seg">[01:22:30] 지금 대한민국 1위 식당은 소수원이구나</div>
+          <div class="seg">[01:22:33] 2위는 정대구나 이런 식으로 생각을 할 수가 있겠죠</div>
+          <div class="seg">[01:22:37] 그래서 어떤 식으로 결과를 만들 수 있을 것 같아요 여러분들?</div>
+          <div class="seg">[01:22:42] 전국의 플랫폼에</div>
+          <div class="seg">[01:22:44] 딱 하나의 장면이 돌아다니겠죠?</div>
+          <div class="seg">[01:22:46] 여러분들</div>
+          <div class="seg">[01:22:48] 뭡니까?</div>
+          <div class="seg">[01:22:51] 현재 대한민국</div>
+          <div class="seg">[01:22:55] 대한민국 식당 탑 10</div>
+          <div class="seg">[01:22:59] 이라는 자료들이 돌아다닐 수가 있겠죠 여러분들</div>
+          <div class="seg">[01:23:03] 대한민국 식당 탑 10</div>
+          <div class="seg">[01:23:06] 실제 미식가들이 선정한</div>
+          <div class="seg">[01:23:09] 탑 10</div>
+          <div class="seg">[01:23:12] 최고의 식당 10개</div>
+          <div class="seg">[01:23:14] 1위 소수원, 2위 정대</div>
+          <div class="seg">[01:23:16] 평점도 같이 나오고</div>
+          <div class="seg">[01:23:20] 미식가들이 평점을 주는 사이트고</div>
+          <div class="seg">[01:23:23] 5점을 10번밖에 못 줘서</div>
+          <div class="seg">[01:23:25] 굉장히 타이트하다</div>
+          <div class="seg">[01:23:28] 굉장히 비판적인 사이트다</div>
+          <div class="seg">[01:23:32] 4.2 정도면</div>
+          <div class="seg">[01:23:34] 전국 최고</div>
+          <div class="seg">[01:23:37] 이런 정보들이 돌아다니겠죠?</div>
+          <div class="seg">[01:23:39] 돌아다니겠죠? 그럼 여러분들 어때요?</div>
+          <div class="seg">[01:23:41] 엣지가 있죠?</div>
+          <div class="seg">[01:23:42] 제가 지난번에 말씀드렸던 것처럼</div>
+          <div class="seg">[01:23:44] 스크래프트 엣지가 있죠?</div>
+          <div class="seg">[01:23:50] 4.2점인데 대한민국 1등이라고?</div>
+          <div class="seg">[01:23:52] 저게 얼마나 빡센데요?</div>
+          <div class="seg">[01:23:57] 요거 이제 돌아다니면 엄청난 유입을 만들 수 있겠죠</div>
+          <div class="seg">[01:24:01] 대한민국 최고 10군데 라고?</div>
+          <div class="seg">[01:24:03] 일단 누가 관심을 가져요?</div>
+          <div class="seg">[01:24:06] 요식업계 사람들은 다 들어오겠죠?</div>
+          <div class="seg">[01:24:10] 뭐야? 우리나라 타베로그 생겼어?</div>
+          <div class="seg">[01:24:12] 다들 긴장해서 들어오겠죠?</div>
+          <div class="seg">[01:24:14] 우리 식당 몇위인지, 내가 가는 식당 몇위인지</div>
+          <div class="seg">[01:24:18] 다 들어와서 보겠죠?</div>
+          <div class="seg">[01:24:20] 난리가 날 것 같아</div>
+          <div class="seg">[01:24:22] 그리고 고객들이, 유저들이 보겠죠?</div>
+          <div class="seg">[01:24:24] 여기가 1위고 여기가 1위고</div>
+          <div class="seg">[01:24:26] 다들 막 왈과왈부하면서 싸우겠죠?</div>
+          <div class="seg">[01:24:29] 싸워야 돼</div>
+          <div class="seg">[01:24:30] 우리가 싸우게 할 거야</div>
+          <div class="seg">[01:24:32] 누가 1위고 누가 2위고</div>
+          <div class="seg">[01:24:36] 지금 걱정하는 거는 최상위 업장들이 다 지금</div>
+          <div class="seg">[01:24:39] 약간</div>
+          <div class="seg">[01:24:40] 1식집이라서 어쩌다가 이렇게 됐는데</div>
+          <div class="seg">[01:24:43] 최상위 업장들이 거의 다 1식인 게 지금</div>
+          <div class="seg">[01:24:49] 아 진짜</div>
+          <div class="seg">[01:24:55] 헤일리 형 셰프님들한테 연락 많이 오실 때</div>
+          <div class="seg">[01:24:57] 아 그러니까 이게</div>
+          <div class="seg">[01:25:00] 약간 순위 낮으면 나 차단 당하는 거 아니야?</div>
+          <div class="seg">[01:25:05] 정대 셰프님이</div>
+          <div class="seg">[01:25:08] 저 왜 2위입니까?</div>
+          <div class="seg">[01:25:10] 그런 식으로</div>
+          <div class="seg">[01:25:13] 처음에는 엄청 논란이 될 거에요</div>
+          <div class="seg">[01:25:14] 그 논란이 바로 우리의 그거에요</div>
+          <div class="seg">[01:25:17] 논란을 돌파할 수 있는 저한테는 돈이 있고 힘이 있습니다</div>
+          <div class="seg">[01:25:21] 그렇기 때문에</div>
+          <div class="seg">[01:25:22] 논란 아주 좋아 아주 좋아</div>
+          <div class="seg">[01:25:25] 사람들이 많이 들어와서 싸우면 너무 좋아요</div>
+          <div class="seg">[01:25:27] 장르별 순위도 있어요</div>
+          <div class="seg">[01:25:29] 장르 이렇게 보시면 되잖아요</div>
+          <div class="seg">[01:25:32] 예를 들면 한식 순위 전체</div>
+          <div class="seg">[01:25:35] 이런 식으로 이제 타베르부도 이렇게 작동하는데</div>
+          <div class="seg">[01:25:39] 민글스가 3.67로 1위라고 나오네요</div>
+          <div class="seg">[01:25:42] 근데 한식이 우리가 좀 약하다</div>
+          <div class="seg">[01:25:44] 한식을 좀 채우고 오픈을 해야 되나?</div>
+          <div class="seg">[01:25:47] 이게 무슨 왜 이렇게 약해</div>
+          <div class="seg">[01:25:49] 1위가 민글스인데 3.67위</div>
+          <div class="seg">[01:25:51] 끝이야</div>
+          <div class="seg">[01:25:52] 약간 온지음 권숙수 이런 데 좀 채워야 되나?</div>
+          <div class="seg">[01:25:55] 이거 약간 주말에 좀 다녀야 되나?</div>
+          <div class="seg">[01:25:58] 근데 이걸 다 채울 수는 없어</div>
+          <div class="seg">[01:26:00] 결국에는 유저들이 사람들이 들어와서 활동을 해줘야 이게 생겨요</div>
+          <div class="seg">[01:26:05] 우리가 이걸 완벽하게 만들려고 하면은 결국에는 끝이 없어요</div>
+          <div class="seg">[01:26:09] 그렇기 때문에</div>
+          <div class="seg">[01:26:12] 지금 보면은 평점이 안 나오죠</div>
+          <div class="seg">[01:26:16] 이 식당들 보면</div>
+          <div class="seg">[01:26:18] 이 식당들은 충분한 양의 평점이 안 쌓여 있으면은</div>
+          <div class="seg">[01:26:21] 이제 평점이 안 보이겠어</div>
+          <div class="seg">[01:26:22] 이거 전 좋은 것 같습니다</div>
+          <div class="seg">[01:26:23] 충분한 양의 평점이</div>
+          <div class="seg">[01:26:27] 이제 있어야 신뢰도 있는 평점이라고 할 수준이 돼야 표기하는 걸로 바꿨어요</div>
+          <div class="seg">[01:26:32] 그냥 뭐 한 명 평점 주면 뭐 3점 몇부터 시작하고 그런 게 아니라</div>
+          <div class="seg">[01:26:36] 적어도 몇 개의 평가는 있어야</div>
+          <div class="seg">[01:26:41] 이제 표기가 되는 걸로 했습니다</div>
+          <div class="seg">[01:26:53] 자 아무튼</div>
+          <div class="seg">[01:26:55] 아마 최상위는 거의 다 파인다이닝 식당이 될 거예요</div>
+          <div class="seg">[01:26:58] 뭐 스시집, 코스하는 프렌치 뭐 이런 것들이 아마</div>
+          <div class="seg">[01:27:04] 이노베이티브 뭐 한식 파인다이닝</div>
+          <div class="seg">[01:27:09] 이게 또 너무 많은 사람들이 리뷰를 써도 문제예요</div>
+          <div class="seg">[01:27:12] 미식에 대해 크게 관심이 없거나 뭐 이렇게 열정이 없는 사람들이 마구잡이로 리뷰를 써도 그것도 문제입니다</div>
+          <div class="seg">[01:27:19] 그래서 미식에 아주 관심 있는 사람들이 계속해서 평점을 다는 문화를 지킬 수 있어야 돼</div>
+          <div class="seg">[01:27:27] 아무튼 이거 있겠죠</div>
+          <div class="seg">[01:27:29] 이거 있을 거고</div>
+          <div class="seg">[01:27:31] 두 번째로 또 뭐 있을까요 여러분들</div>
+          <div class="seg">[01:27:34] 바로 예전에 말했죠</div>
+          <div class="seg">[01:27:37] 이제까지 미식에 소비한 총 금액 난리가 나겠죠</div>
+          <div class="seg">[01:27:42] 나 1년에 이 정도 썼네 님들은요</div>
+          <div class="seg">[01:27:45] 바로 들어와서 리뷰 엄청 쓰겠죠</div>
+          <div class="seg">[01:27:49] 어? 너 500만원 썼다고?</div>
+          <div class="seg">[01:27:52] 나는 임마 나는 얼마 썼어</div>
+          <div class="seg">[01:27:57] 내가 더 많이 리뷰 쓸 거야</div>
+          <div class="seg">[01:28:00] 보게 되겠죠 이거</div>
+          <div class="seg">[01:28:02] 엄청나게 미식가들의 자존심을 긁게 될 겁니다</div>
+          <div class="seg">[01:28:05] 미식가들의 자존심을</div>
+          <div class="seg">[01:28:08] 1년 바깥만 1억 쓴 사람의 탑 10 그런 거 가능할지 해보죠</div>
+          <div class="seg">[01:28:13] 여러분들 이제 보이죠 보이죠</div>
+          <div class="seg">[01:28:15] 보이죠?</div>
+          <div class="seg">[01:28:16] 헤일이 형이 왜 이런 기능들 왜 이런 것들을 만들었는지 지금 보이죠?</div>
+          <div class="seg">[01:28:22] 아 1인 그래서 1인 비용만 쓸 수 있어요</div>
+          <div class="seg">[01:28:26] 1인 비용만 쓸 수 있어요</div>
+          <div class="seg">[01:28:29] 엄청나게 이제 예를 들면 까칠토끼 들어가 볼까요</div>
+          <div class="seg">[01:28:32] 까칠토끼가 얼마 썼는지는 이제 개인 페이지라서 안 나오지만</div>
+          <div class="seg">[01:28:35] 까칠토끼가 어디에</div>
+          <div class="seg">[01:28:41] 평점을 높게 줬는지 이런 것들</div>
+          <div class="seg">[01:28:44] 까칠토끼 진짜 까칠하네</div>
+          <div class="seg">[01:28:46] 까칠토끼는 4점 이상 준 적이 없어</div>
+          <div class="seg">[01:28:50] 이런 것들도 엄청난 바이러니 되겠죠</div>
+          <div class="seg">[01:28:53] 차라리 5점을 어떤 평론가 어떤 유명인을 섭외해놓고</div>
+          <div class="seg">[01:28:57] 5점을 그냥 안 줘버리는 게</div>
+          <div class="seg">[01:29:00] 또 박평식 그 평론가처럼 또 유입 요소가 되겠죠</div>
+          <div class="seg">[01:29:04] 그러니까 유기적 성장이라는 게 여기서 일어날 수 있게 완전히 처음부터 설계가 돼있어요</div>
+          <div class="seg">[01:29:09] 제가 그게 작동하는 거를 보여드릴게요 한번</div>
+          <div class="seg">[01:29:13] 재밌겠죠 여러분들</div>
+          <div class="seg">[01:29:16] 까칠..</div>
+          <div class="seg">[01:29:19] 엄청 까칠토끼 엄청 까칠하죠 진짜</div>
+          <div class="seg">[01:29:24] 저는 진짜 랩이 잘 될 거라고 봅니다</div>
+          <div class="seg">[01:29:27] 벌써 너무 재밌어요 여러분들 덕분에 성공의 결과가 그려져요</div>
+          <div class="seg">[01:29:31] 더 분명하게 너무 고맙습니다 여러분들</div>
+          <div class="seg">[01:29:36] 우리 미식토끼들 너무 고마워요</div>
+          <div class="seg">[01:29:38] 너무 재밌습니다 너무 재밌어요</div>
+          <div class="seg">[01:29:42] 자 그래서 이 랩플</div>
+          <div class="seg">[01:29:47] 그리고 마지막으로 오늘 랩플까지 소개하고</div>
+          <div class="seg">[01:29:50] 사업 얘기 들어가도록 할게요 랩플</div>
+          <div class="seg">[01:29:55] 랩플이 이제 시작이 됩니다</div>
+          <div class="seg">[01:29:59] 여러분들 하나 지금 등록을 해서 보여드릴게요</div>
+          <div class="seg">[01:30:04] 바로 실제로 이제 오픈하게 될</div>
+          <div class="seg">[01:30:13] 랩플입니다</div>
+          <div class="seg">[01:30:35] 보여드릴게요</div>
+          <div class="seg">[01:30:42] 여러분들 되게 재밌죠 세상에 헤일리형 때문에 별의별 걸 다 하지 않습니까</div>
+          <div class="seg">[01:30:47] 별의별 장면을 보고 사업에 있어서 진짜 정말 많은 재밌는 일들을 보고 있지 않나요</div>
+          <div class="seg">[01:30:54] 쉽게 경험하기 어려운 이런 것도 만드는 과정은 지금</div>
+          <div class="seg">[01:31:01] 너무 웃기죠</div>
+          <div class="seg">[01:31:02] 예를 들면</div>
+          <div class="seg">[01:31:04] 이렇게 이거이야</div>
+          <div class="seg">[01:31:06] 이렇게QUE münsang</div>
+          <div class="seg">[01:31:22] 이렇게 이렇게 이런 것이ає</div>
+          <div class="seg">[01:31:27] 이라는 Земvet percent</div>
+          <div class="seg">[01:31:28] wr</div>
+          <div class="seg">[01:31:31] 2</div>
+          <div class="seg">[01:31:33] 2</div>
+          <div class="seg">[01:31:35] 2</div>
     </div>
   </div>
 
-  <div class="section">
-    <div class="section-title">⭐ 에디/1분도수/도수넥/도수펜 언급</div>
-    <ul>
-      <li><span class="tag red">에디</span> <strong>[224:43~225:01]</strong> 해일이형이 외출 중 에디님과 우연히 만남. "에디님 성공할 거라가지고 어떻게 하면 안 돼" — 성공 확신 발언. 에디님을 "시장에서 만난 에디님 의인화 캐릭터"로 비유</li>
-      <li style="color: #64748b; font-style: italic;">1분도수/도수넥/도수펜 직접 언급 없음</li>
-    </ul>
-  </div>
-
-  <div class="footer">
-    <p>생성: 카리나 AI · Whisper small 전사 · 5,499 segments · 2025</p>
-  </div>
+  <div class="footer">해일이형 이기수제자 강의 전사 · Whisper medium · 2026.03.24</div>
 </div>
+<script>
+function doSearch() {
+  const q = document.getElementById('srch').value.toLowerCase();
+  const segs = document.querySelectorAll('.seg');
+  let n = 0;
+  segs.forEach(s => {
+    const t = s.textContent;
+    if (!q) { s.style.display=''; s.textContent=t; return; }
+    if (t.toLowerCase().includes(q)) {
+      s.style.display='';
+      s.innerHTML = t.replace(new RegExp(q.replace(/[.*+?^${}()|[\]\\]/g,'\\$&'),'gi'),m=>'<span class="highlight">'+m+'</span>');
+      n++;
+    } else { s.style.display='none'; }
+  });
+  document.getElementById('srchCnt').textContent = q ? n+' 결과' : '';
+}
+</script>
 </body>
 </html>

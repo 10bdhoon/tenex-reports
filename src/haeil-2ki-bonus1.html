@@ -1,67 +1,775 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>2기 보너스1 — 해일이형 강의</title>
-<style>
-* {margin:0;padding:0;box-sizing:border-box;}
-body {background:#0d1117;color:#e0e0e0;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;min-height:100vh;}
-.header {background:#161b22;border-bottom:1px solid #21262d;padding:20px 32px;display:flex;align-items:center;gap:16px;}
-.back {color:#58a6ff;text-decoration:none;font-size:13px;}
-.header h1 {font-size:20px;font-weight:700;color:#e6edf3;}
-.header .meta {font-size:12px;color:#8b949e;margin-top:3px;}
-.container {max-width:860px;margin:0 auto;padding:32px 24px 64px;}
-.summary-box {background:#161b22;border:1px solid #21262d;border-radius:10px;padding:20px;margin-bottom:24px;}
-.summary-box p {font-size:14px;line-height:1.75;color:#c9d1d9;}
-h2 {font-size:16px;font-weight:700;color:#58a6ff;margin:28px 0 12px;padding-bottom:8px;border-bottom:1px solid #21262d;}
-ul {padding-left:20px;margin:4px 0 8px;}
-li {font-size:14px;line-height:1.7;color:#c9d1d9;margin:3px 0;}
-.star-list li {color:#f0c040;}
-.timeline-item {font-size:13px;color:#8b949e;padding:6px 0 6px 12px;border-left:2px solid #21262d;margin:4px 0;}
-.note-box {background:#1c1a0d;border:1px solid #6e5600;border-radius:8px;padding:12px 16px;margin:16px 0;font-size:12px;color:#8b949e;}
-.progress {font-size:11px;color:#6e7681;margin-top:2px;}
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>해일이형 이기수제자 2기 보너스 1 전사 (풀버전) | 테넥스 리포트</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #0f0f13; color: #e2e8f0; min-height: 100vh; }
+    .container { max-width: 900px; margin: 0 auto; padding: 40px 20px; }
+    .header { text-align: center; margin-bottom: 48px; }
+    .badge { display: inline-block; background: linear-gradient(135deg, #7c3aed, #4f46e5); color: white; font-size: 12px; font-weight: 700; padding: 4px 12px; border-radius: 20px; margin-bottom: 12px; }
+    h1 { font-size: 26px; font-weight: 800; color: #f1f5f9; margin-bottom: 8px; line-height: 1.3; }
+    .subtitle { color: #94a3b8; font-size: 14px; margin-bottom: 20px; }
+    .meta { display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; font-size: 13px; color: #64748b; }
+    .section { background: #1a1a2e; border: 1px solid #2d2d4e; border-radius: 16px; padding: 24px; margin-bottom: 24px; }
+    .section-title { font-size: 15px; font-weight: 700; color: #a78bfa; margin-bottom: 16px; }
+    .transcript { font-size: 14px; line-height: 1.8; }
+    .seg { padding: 3px 0; color: #cbd5e1; border-bottom: 1px solid #1e293b22; }
+    .seg:hover { background: #1e293b44; }
+    .highlight { background: #fbbf2444; color: #fbbf24; border-radius: 2px; padding: 0 2px; }
+    .search-bar { width: 100%; padding: 10px 16px; background: #0f172a; border: 1px solid #2d2d4e; border-radius: 10px; color: #e2e8f0; font-size: 14px; margin-bottom: 8px; outline: none; }
+    .search-bar:focus { border-color: #7c3aed; }
+    .footer { text-align: center; margin-top: 48px; color: #475569; font-size: 13px; }
+    a.back { display: inline-flex; align-items: center; gap: 6px; color: #7c3aed; text-decoration: none; font-size: 14px; margin-bottom: 24px; }
+  </style>
 </head>
 <body>
-<div class="header">
-  <a href="/education.html" class="back">← 교육 목록</a>
-  <div>
-    <h1>2기 보너스1</h1>
-    <div class="meta">해일이형 수제자 강의</div>
-    <div class="progress">전체 진행률: 11/19 (57%)</div>
-  </div>
-</div>
 <div class="container">
+  <a href="/index.html" class="back">← 목록으로</a>
+  <div class="header">
+    <div class="badge">🎓 해일이형 강의 풀버전 전사</div>
+    <h1>이기수제자 2기 보너스 1</h1>
+    <p class="subtitle">전체 영상 전사 · Whisper medium · 환각 필터 적용</p>
+    <div class="meta">
+      <span>📝 701개 세그먼트</span>
+      <span>🤖 Whisper medium (ko)</span>
+      <span>📅 2026.03.24</span>
+    </div>
+  </div>
 
-<div class="summary-box">
-<p>AI 전사(Whisper base) 기반 자동 생성 요약입니다. 파트별 초반 16분을 전사했습니다.</p>
+  <div class="section">
+    <div class="section-title">🔍 검색</div>
+    <input type="text" class="search-bar" id="srch" placeholder="키워드 검색..." oninput="doSearch()">
+    <div id="srchCnt" style="color:#64748b;font-size:13px;"></div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">📄 전체 전사본 — 이기수제자 2기 보너스 1</div>
+    <div class="transcript" id="tbody">
+          <div class="seg">[00:00] 아까 이제 모자랑이 올린 거 먼저 보기로 했잖아요.</div>
+          <div class="seg">[00:04] 여러분들 이제 모자랑의 사업 기획 같은 경우는 우리 다 봤죠 여러분들.</div>
+          <div class="seg">[00:08] 족족음마 겸 슬리퍼에 대해서 그때 올렸었고</div>
+          <div class="seg">[00:12] 바로 볼게요.</div>
+          <div class="seg">[00:14] 음</div>
+          <div class="seg">[00:20] 음</div>
+          <div class="seg">[00:28] 전에 거 한번 살짝 보고</div>
+          <div class="seg">[00:32] 갈게요</div>
+          <div class="seg">[00:34] 음</div>
+          <div class="seg">[00:43] 모자랑이 봐도 되죠? 갑자기 또 이제 어? 아 내 뽀 또 왜</div>
+          <div class="seg">[00:49] 응? 왜 봤어요 형? 아 진짜 아우 아우 아 자존심 상해 막 이럴 수도 있기 때문에 한번 물어보고 가겠습니다.</div>
+          <div class="seg">[00:57] 아 진짜 기분 나빠 아 형 이거 아니야 오늘</div>
+          <div class="seg">[01:06] 아 바지 속도 아 이거 빨리 이거 볼게요. 큰일 날뻔 했네. 어 안 보여주셔도 됩니다. 빨리 이거</div>
+          <div class="seg">[01:14] 요거나 볼게요.</div>
+          <div class="seg">[01:18] 왜 왜 우리가 그거를 보여달라고 할 거라고 생각하시죠?</div>
+          <div class="seg">[01:23] 자 우리 모자랑의 아이디어는 어 바로 족족음마 겸 슬리퍼였어요.</div>
+          <div class="seg">[01:29] 어 족족음마 겸을 해결해 줄 수 있는 논리를</div>
+          <div class="seg">[01:35] 전부 이해하고 있었죠. 시장에 대한 그 조사가 아주 잘 돼 있었던 사례여서 저도 읽으면서 계속 놀랐었던 건데</div>
+          <div class="seg">[01:44] 이제 사업이 이제 성공해야 되니까 여러분들 우리 수재자 2기 라이브 때 가장 큰 충격을 받았던 건 그거죠 여러분들</div>
+          <div class="seg">[01:53] 성공할 수 있는 요소를 여러 가지 넣음으로써 사업이 오히려 둥그러져 버린다는 거에요. 대부분의 사업들이 사업이 둥그러져서 망해요.</div>
+          <div class="seg">[02:02] 동글동글해서 떼글떼글 굴러가니까 팍 쭉 찔러서 이제 없애버려야 되는데 경쟁자를</div>
+          <div class="seg">[02:10] 이제 동글동글 굴러다니면 그냥 바로 빨로 뻥 까가지고 아웃 되겠죠. 지금 모자랑 같은 경우는 이제 시장도 완전 날카롭게 받고</div>
+          <div class="seg">[02:22] 이제 진짜 우등생인게 제한 문화 근거 문화 뭐 고객 문화 잘 설정해 넣고 이제 훌륭한 이제</div>
+          <div class="seg">[02:32] 시장도 타겟팅을 했어. 근데 이제 거기다가 심지어 이거 고객 문화로 이제 바이럴되는 장면들도 다 수집을 해왔죠.</div>
+          <div class="seg">[02:43] 근데 문제는 지금 문제는 지금 너무 훌륭한 바이럴 포인트 고객 문화를 갖다가 붙여놓는 바람에</div>
+          <div class="seg">[02:53] 갑자기 이제 사업의 무기가 두 개가 된 거야. 사업의 무기가 두 개가 돼버린 거지.</div>
+          <div class="seg">[03:01] 그래서 이게 도대체 나는 무엇을 만들려고 하는 것인가. 이 헷갈리는 지점이 와버린 거야. 나는 원래 족저근막염의 가능성을 보고</div>
+          <div class="seg">[03:10] 시작을 했는데 붓기도 제거해 줄 수 있겠다 해서 붓기 제거템 했다가 이제 열감으로 해결한다는 새로운 논리가 부딪힌 거죠.</div>
+          <div class="seg">[03:21] 왜냐하면 족저근막이라는 게 계속 상처가 안 나야 족저근막염이 해결되는 거고 그거에 대한 새로운 논리를 제한해 줘야 되는데</div>
+          <div class="seg">[03:30] 붓기도 같이 빼준다 하다 보니까 족저근막의 상처가 엄청나겠죠. 이분들은 지금 족저근막염이 그냥 기본으로 지금 세팅이 돼 있는 분들일 수도 있어요.</div>
+          <div class="seg">[03:41] 아무튼 그런 문제에 빠져 있었고 제가 피드백 드린 건 사업이</div>
+          <div class="seg">[03:47] 다시 날카로워져야 되고 하나의 전략 하나의 제품 하나의 결과를 만들어야 된다 말씀을 드렸는데 그리고 모자랑에 그때 와 삘 받는다 하면서</div>
+          <div class="seg">[04:00] 바로 한다 이렇게 말한 것까지 들었어요 월낙 모자랑 자체가</div>
+          <div class="seg">[04:08] 모자랑 자체가 똘똘하기 때문에 잘 할 거라고 생각했는데 바로 그날 지금 이거를 올렸습니다. 새로운 구조와 시트를 올렸어요.</div>
+          <div class="seg">[04:21] 자 모자랑 이것도 봐도 돼요? 어떻게 완전 뜯어버릴 뜯겨버릴 찢겨버릴 준비 됐습니까?</div>
+          <div class="seg">[04:31] 좋습니다 아주 좋아 모자란 폰 미쳤다 화면 잘 보여요 여러분들 제가 화면 지금 모니터링이 안 되고 있는 상태라 같고</div>
+          <div class="seg">[04:47] 잘 보여요 이거 빠르게 한번 볼게요 최대한 많은 사람들 걸 좀 오늘 봐주려고</div>
+          <div class="seg">[04:56] 제한 문화는 보면은 딱 이거 보면은 여러분들 알죠? 이런 사업을 하려고 하는 군이 그냥 눈에 보일 거에요</div>
+          <div class="seg">[05:04] 새로운 게 뭔지 공약 공약하려는 공약하려는 고객이 누군지 어떻게 그거를 퍼뜨릴 건지 지금 저 세 줄에 다 담긴 거에요</div>
+          <div class="seg">[05:16] 자 복합 냉감 염증 완화 쿨 패치 결국에는 쿨 패치 쪽으로 갔나봐 근거 문화는 족적음막염이에요</div>
+          <div class="seg">[05:26] 그리고 고객 문화는 지성인 나는 똑똑하게 이거를 발라서 한다 뭐 이렇게 하겠지 여러분들 이제 알디콤 사례로 들어서 사람들 지금 고객 문화를 지금 지성인으로 뭉뚱</div>
+          <div class="seg">[05:36] 그리고 다 통과하려고 하는 거 아니죠 여러분들 어 그러면 안 돼 지금 다 사업에 맞는 사업에 맞는 거를 해야 돼요 여러분들</div>
+          <div class="seg">[05:47] 저 스크립트랑 나 대조해 볼 거야 교수님을 스승님을 속일 순 없는 거예요 저는 안 되면 안 된다고 할 겁니다 지금 억지로 만들어 놓는 거 아니죠</div>
+          <div class="seg">[05:58] 다 그렇게 생각을 하고 있는 거죠</div>
+          <div class="seg">[06:02] 족적음막염은 이걸로 염증부터 빼야 돼</div>
+          <div class="seg">[06:06] 아</div>
+          <div class="seg">[06:16] 괜찮은데 좀 더 좀 더 좀 더 발전할 수 있을 것 같은데</div>
+          <div class="seg">[06:23] 좀 더 발전할 수 있을 것 같아요 어 이게 놓이는 상황이 가장 이득이 되는 거</div>
+          <div class="seg">[06:32] 예를 들면 잘 때도 이거 붙이셔야 돼요 뭐 이런 식으로 하면 와 그러면 보통 잘 때 뭐가 될 거라고 생각을 못 하는데</div>
+          <div class="seg">[06:41] 그리고 얘만 공략할 수 있는 뭐 그런 게 있을 것 같거든요 그러니까 지금 친구나 아니면 인터넷을 처음 보는 사람한테 말을 하는데 그 사람이 그냥 혹할 수밖에 없어야 되는데</div>
+          <div class="seg">[06:52] 음 24시간 비대 진짜 좋은 지적이에요 어</div>
+          <div class="seg">[06:58] 비대 진짜 좋은지 이 24시간 동안 작동할 수도 있다는 게 이 점이 될 수도 있어요</div>
+          <div class="seg">[07:06] 그죠 그래서 스크립트를 더 날카롭게 해봐요</div>
+          <div class="seg">[07:11] 뭐 예를 들면은 패치류니까 그냥 저는 이제 스크립트부터 보면은 이게 막 발전하는 생각을 이게 팔리는 상황을 보면은</div>
+          <div class="seg">[07:21] 족적음막염은 운동화가 문제가 아니라 어차피 걸으면은 계속 상하기 때문에 아무리 신발 잘 신어도 걸으면 무조건 찢어진다</div>
+          <div class="seg">[07:30] 그냥 잘 때 이거 붙여야 이거 밖에 답 없다 어 아이고 괜찮은데 그냥 우리가 알고 있던 논리 자체를 공략하는 거 아 씨 어떻게 모자랑</div>
+          <div class="seg">[07:42] 그냥 이러면 운동화 깔창 이게 전부 다 이 논리가 빈약해지는 거야</div>
+          <div class="seg">[07:49] 이 모자랑이 제안한 스크립트 아 나 진짜 오늘 또 하나 진짜 어떻게</div>
+          <div class="seg">[07:56] 아 나 진짜 헬스하러 가야 되는데 잠깐만 기다려봐</div>
+          <div class="seg">[08:02] 음</div>
+          <div class="seg">[08:05] 아 우리나라에서 24시간 표기 안된대 와 모자랑 다 봤다 확인했어 아주 잘했어요 아주 잘했어요 어차피 나중에 해야 되는 건데 이미</div>
+          <div class="seg">[08:16] 체크했네 야 여러분들 모자랑한테 박수 한번 쳐주세요 시장 상황도 다 체크했어요 그 부분까지 아 이 인간 되겠는데</div>
+          <div class="seg">[08:25] 어떡하지 아 일단 나 봐볼게요 우리가 최선의 결과를 만든 다음에 모자랑이 그렇게 현실에 맞춰서 깎는 거예요</div>
+          <div class="seg">[08:36] 근데 광고를 그렇게 하면 안 된다는 거지 스크립트에서는 된다 이거</div>
+          <div class="seg">[08:44] 자</div>
+          <div class="seg">[08:47] 예</div>
+          <div class="seg">[08:49] 예를 들면 우리 집 근처에 있는 정형외과 내과가 이름이 사실</div>
+          <div class="seg">[08:55] 이름이 학학문 외과인데 우리는 학문 내과인 줄 알고 가잖아요 그런 것처럼 학문 내과라고 쓰면 안 되기 때문에</div>
+          <div class="seg">[09:04] 어 근데 학문 내과라고 학문 마치 아 학구열이 되게 높은 사람이라 이렇게 쓴 건데</div>
+          <div class="seg">[09:12] 근데 사람들은 당연히 학문 외과인 줄 갖고 알고 갖고 들어가면 갑자기 자기가 학문 외과라고 소개하는</div>
+          <div class="seg">[09:20] 그런 사람이죠</div>
+          <div class="seg">[09:23] 이 세상에는 진짜 음 진짜 그렇거든요 학문 내과라고 쓰면 안 돼요 특정 부위를 자기가 잘한다라고 하면 안 돼요 내과가 전부 다 커버할 생각</div>
+          <div class="seg">[09:34] 해야지 나 이것만 볼게 라고 말하면 안 돼 근데</div>
+          <div class="seg">[09:40] 우리 선생님들은 다 방법이 있지</div>
+          <div class="seg">[09:45] 나 학문 내과인데 나 의사인데 당연히 학문을 좋아하지 학문 말고 학문</div>
+          <div class="seg">[09:57] 아 뭔 소리 하는 거야 학문</div>
+          <div class="seg">[10:01] 아 진짜 이상한 사람들이네 아</div>
+          <div class="seg">[10:07] 간호사 봐봐 우리한테 공문 날린 거 봐봐 세상에 모래인 줄 알아 학문 내과래 학문 내과</div>
+          <div class="seg">[10:14] 어머 남사시러라 무슨 소리세요 학문 내과야 우리는</div>
+          <div class="seg">[10:23] 그럼 제일 잘 하시는 게 뭐예요 하면 학문이요</div>
+          <div class="seg">[10:27] 학문이요</div>
+          <div class="seg">[10:31] 아 잠깐만요 구조 아시타리</div>
+          <div class="seg">[10:50] 야 오늘 재밌겠다</div>
+          <div class="seg">[10:57] 아이고 아이고 아이고</div>
+          <div class="seg">[11:04] 이게 아니구나</div>
+          <div class="seg">[11:08] 잠시만요</div>
+          <div class="seg">[11:11] 화면이 좀 작아가지고 얘기 좀 해주세요</div>
+          <div class="seg">[11:17] 약간 세팅하는 시간이 걸립니다</div>
+          <div class="seg">[11:20] 형 발음이 안 좋아서 조심해야 됩니다 아 제 입이 또</div>
+          <div class="seg">[11:27] 아 또 이거 차 이거 또 응 지금 나를 걱정해주는 것처럼 하면서 또 아 또 또 맥이네</div>
+          <div class="seg">[11:38] 아</div>
+          <div class="seg">[11:49] 제 입이 가 걱정해주면은 그런 그 그런 줄 알아야겠죠</div>
+          <div class="seg">[11:58] 자 볼까요</div>
+          <div class="seg">[12:01] 제가 지금 화면이 진짜 작 지금 한 모니터에 이걸 다 우겨나와 가지고 채팅창 이제 방송 장치</div>
+          <div class="seg">[12:11] 포토샵 인터넷 다 지금 콩할 만한 사이즈로 강랑콩 사이즈로 다 켜놓고 하나씩 조절하면서 강랑콩 사이즈 포토샵을 키고</div>
+          <div class="seg">[12:22] 강랑콩 사이즈의 화면 저 송출기로 강랑콩의 강랑콩 같은 강랑콩의 저 심장 같은</div>
+          <div class="seg">[12:31] 어 송출이 화료를 아 할게요</div>
+          <div class="seg">[12:38] 자 여러분들 잘 보여요</div>
+          <div class="seg">[12:42] 아 간장 공장 공장장 여기서 막히네 강랑콩 냥콩 냥콩</div>
+          <div class="seg">[12:48] 잘 보이시죠</div>
+          <div class="seg">[12:51] 뭔지 모르겠지만 강랑콩인걸로 아 그게 더 그게 더 굴욕적이야</div>
+          <div class="seg">[12:56] 어 형 발음 형 발음 안 좋아서 조심해야 될 만큼 굴욕적이야</div>
+          <div class="seg">[13:03] 자 아무튼 여러분들 아 우리 모자랑이</div>
+          <div class="seg">[13:11] 소야님 문서화 하는게 왜 이리 어려울까요 처음이 어려워요 처음이 어려워 근데 이제 걱정하지 마세요 소야님 결국에는 지금 AI가 결국 다 해줄 것 같아요</div>
+          <div class="seg">[13:21] AI가 다 해줄 것 같습니다 지금 AI가 너무 속도가 빨라 가지고 이런 기본적인 작업은</div>
+          <div class="seg">[13:31] 얼마 안 남은 것 같아요 얼마 안남았어요 너무 걱정하지 마세요</div>
+          <div class="seg">[13:45] 너무 작아서</div>
+          <div class="seg">[13:51] 아</div>
+          <div class="seg">[14:14] 자 일단 모자랑이 사업에 지금</div>
+          <div class="seg">[14:20] 모자랑 사업 피드백인데 지금 중요한 건 스크립트인데요 스크립트가 저는 이제</div>
+          <div class="seg">[14:27] 스크립트에서 이미 제한 문화와 근거 문화와 고객 문화가 전부 다 잘 녹여져서 결과를 만들 수 있는 것들은 많이 뜰 것 같아요</div>
+          <div class="seg">[14:36] 예를 들면은 정보가 있는 거죠 뭐 어차피 하나 하겸</div>
+          <div class="seg">[14:49] 아</div>
+          <div class="seg">[15:03] 와 기가 막히는데 아 이거 진짜 어떡하죠 여러분들</div>
+          <div class="seg">[15:14] 내가 뺏어야 겠다</div>
+          <div class="seg">[15:17] 아 이거는 그냥 실내도 100%의 새로운 논리에요 기존에 기존의 최강 논리였던 신발이나 깔창 그냥</div>
+          <div class="seg">[15:27] 구식 논리가 되잖아요 구식 논리</div>
+          <div class="seg">[15:35] 얘네가 지금 와 여러분들 지금 이거는 미쳤다</div>
+          <div class="seg">[15:42] 아 미쳤는데 뭐 체외 충격파 같은 거는 진짜 우리가 어차피 제공할 수 없는 것이 때문에 인질로 끌고 가는 거예요</div>
+          <div class="seg">[15:52] 와 미쳤네</div>
+          <div class="seg">[15:56] 와 아 노트북 토독토독 좋아요 토독토독 좋아요 좀 더 해드릴게요</div>
+          <div class="seg">[16:11] 아</div>
+          <div class="seg">[16:18] 또 쓸까요</div>
+          <div class="seg">[16:23] 어떤 말을 써줄까</div>
+          <div class="seg">[16:30] 아 갑자기 약간 창작의 고통이 아 대박 충격 사업 얘기 쓸 때는 그냥 바로 나오는데</div>
+          <div class="seg">[16:38] 뻘소리 쓰려니까 못 쓰겠어 뭘 써야 될지 모르겠어 어이 사업에 미쳤나 아니 사업 얘기는 그냥 눈 감아도 작성이 쩌자작 되는데</div>
+          <div class="seg">[16:48] 아무 말 쓰려고 하니까 못 쓰겠는데요 뭔 말을 써야 돼 사업 얘기랑 가져와 정도는 제가 쓸 수 있는 것 같습니다</div>
+          <div class="seg">[16:57] 아 피드백이나 할까요 아 알겠습니다</div>
+          <div class="seg">[17:01] 아 피드백으로 복귀하겠습니다 죄송해요</div>
+          <div class="seg">[17:06] 여러분들이 ASMR 그런말 하니까 제가 욕심이 생겨 가지고 아 나 ASMR도 잘하는 건가</div>
+          <div class="seg">[17:12] 자 아 너무 여러분들 지금 너무 재밌네요 형 타자 몇 나와요 저 저 분당</div>
+          <div class="seg">[17:19] 분당 1억 타 나옵니다 분당 1억 타 나옵니다</div>
+          <div class="seg">[17:25] 아</div>
+          <div class="seg">[17:31] 감사합니다</div>
+          <div class="seg">[17:35] 아</div>
+          <div class="seg">[17:39] 자 여러분들 사업 얘기 합시다 비 많이 와요 뭔 소리 하는 거야</div>
+          <div class="seg">[17:48] 아 이랬다 좋다 가만히 있다가 여기서 좋대 도대체 뭐가 진심인지 아 난 너무 이 고도의 이 사람들의 이 지금</div>
+          <div class="seg">[18:02] 아 이렇게 했는데 1500타 정도 됐대 아 구력적이다</div>
+          <div class="seg">[18:08] 자 여러분들 진정해 나 무슨 말 하고 있었죠 아 정말 저 사업 얘기하고 싶은데 여러분들이 자꾸 방해하니까</div>
+          <div class="seg">[18:17] 집중력이 흐려져요 아 뭐 써져 있는 대로 얘기하고 있었겠지</div>
+          <div class="seg">[18:22] 자 아무튼 근데 진짜 여러분들 재밌지 않아요 지금 모자랑의 사업 피드백이니까 결과가 스크립트가 써지는 순간 바로 재미</div>
+          <div class="seg">[18:30] 써지는 여러분들 이거 얘기해 드릴게요 사업할 때 결과가 딱 나오자마자 스크립트 쓰자 마자 재밌지</div>
+          <div class="seg">[18:36] 않아요 항상 제가 이 스크립트 부터 쓰잖아요 결과 나오면 재밌어요</div>
+          <div class="seg">[18:44] 그 결과에 맞춰서 전략이랑 제품 만들면 되거든</div>
+          <div class="seg">[18:50] 그래서 이 스크립트 나오면은 재밌고 나오면 자신감이 생기고 그러는 거예요 그러니까 결과부터 가야 되네</div>
+          <div class="seg">[19:00] 자 다시 한번 설명할게요 이 족저근마겸이라는 건 지금 한 달에 십 몇 만의 키워드가 발생 여러분 들이 찾은 찾은 모든 사업 기회보다</div>
+          <div class="seg">[19:12] 족저근마겸이 사업적 기회는 더 클 거에요 왜냐 인간이면 다 족저근마겸에 걸려요</div>
+          <div class="seg">[19:19] 안 움직이고 계신 잘 안 움직이시는 여러분들이라면 잘 모를 수도 있는데 대부분의 사람들은 족저근마겸에 걸리고 발이 많이 아파요</div>
+          <div class="seg">[19:30] 어 그래서 이게 언젠간 걸립니다 몬스터워킹 하면서 들어요 몬스터워킹을 해도</div>
+          <div class="seg">[19:40] 이 족저근마겸은 이게 인대 같은 거라서 근막이라 단련이 안 돼요</div>
+          <div class="seg">[19:48] 자영업하면 특히 많이 아파요 오래 서 있는 사람들 계속 늘어나 있어서 그래서 족저근마겸은 아무튼 여러분들이 찾을 수 있는 정말 큰 사업 기회 중에 하나고</div>
+          <div class="seg">[19:59] 어 그리고 정보 의전도도 높으며 아무튼 제가 추천한 최고의 시장 중 하나인데 제가 이렇게 던져놓으면 여러분들 중 한명이 이거에서 기회를 찾을 수 있을까 했는데</div>
+          <div class="seg">[20:10] 모자랑이 지금 갖고 온 거죠 원래는 이 신발이나 깔창으로 여러분들이 접근하는 것까지 제가 생각을 했고 그렇게 해오면은 뚝배기를 딱 때려드리면서</div>
+          <div class="seg">[20:19] 어 다시 찾아와 이렇게 하려고 했는데 모자랑이 이거 스킵을 하고 여기까지 했는데 나는 못 싸우겠군 그래서 어 뭔가 발바닥에 붙어 있는 무언가로 가려고 했는데</div>
+          <div class="seg">[20:31] 거기에서 이제 사업이 뚱그러지니까 제가 뾰족하게 만들려고 했더니 엄청 뾰족하게 만들어 온 거죠 어 근데 이제</div>
+          <div class="seg">[20:40] 저는 이제 지금 그 사업이 뭔지 안 봤습니다 뭔지 안 봤어요 어떤 형태인지 몰라요 근데도 이 제한문화에서 어</div>
+          <div class="seg">[20:49] 냉감 열감을 관리해주는 염증 완화 패치와 같은 무언가를 지금 제안했기 때문에</div>
+          <div class="seg">[20:58] 여기에서 논리가 갖춰져 있으면 정확한 형태가 없어도 결과부터 나오는 거예요 오늘 너무 재밌죠 자 보세요 지금 제한문화가 나왔는데 이게 정확히 어떤 제품인</div>
+          <div class="seg">[21:09] 지 제가 모르는데 논리만 보고 스크립트를 먼저 떠올린 거예요 저는 지금 제품의 형태를 제가 정확히 제안을 한 게 아니에요</div>
+          <div class="seg">[21:18] 되는 결과부터 여러분들 떠올린 거예요 제일 쉬운 말부터요 말 여기서 여러분들 힌트를 찾아야 되요 지금 수지자들 지금 듣고 있어요 듣고</div>
+          <div class="seg">[21:28] 이따 손 들어보세요 지금 이거 엄청난 힌트에요 오늘 아주 아주 모자란이 좋은 지금 기획을 갖고 왔기 때문에 이 정말 사업을 구조하는 데 있어서 좋은 지금 장면을 본 거예요</div>
+          <div class="seg">[21:41] 여러분들 뭔가 정확한 제품을 떠올려야 되는 게 아니라 제일 중요하게 여러분들이 떠올려야 되는 거는 결과예요 그냥</div>
+          <div class="seg">[21:51] 사람들이 말하는 말 아니면 신문에 나오는 헤드라인 같은 이 한마디 모두가 놀라 자빠질 이 한마디를 먼저 만들고</div>
+          <div class="seg">[22:01] 그걸 구현할 수 있는 제품을 거기다가 만들어야 돼요 여러분들 이게 중요한 겁니다</div>
+          <div class="seg">[22:10] 결과를 만든다는 건 결과라는 건 뭉뚱그려진 게 아니라 이렇게 정확하게 여러분들 이 말을 보면 제품이 뭔지 모르는데 검색해 볼 거 아니에요</div>
+          <div class="seg">[22:20] 아니에요 그렇죠 그게 결과예요</div>
+          <div class="seg">[22:26] 이게 지금 정확히 어떤 건지 모르는데 이름만 보고 여러분들이 인터넷에 검색할 거죠</div>
+          <div class="seg">[22:33] 이거 보고 누가 이렇게 말하면 헐 헐키 감사해요 찾아볼게요</div>
+          <div class="seg">[22:41] 아니면 여러분들 이제 내 티켓이 없으시면 무응답으로 답변을 하고 이제 바로 검색해 보겠죠 뭐 땡땡땡 하고 이제 네이버 검색 하겠죠</div>
+          <div class="seg">[22:54] 그럼 나오는 거예요 자 그때 이제 이 논리가 소화가 되는 훌륭한 제품이 있으면 돼요</div>
+          <div class="seg">[23:03] 실제로 사람들한테 혜택을 줄 만한 여러분들 제가 이 모자랑이 지금 모자랑이 지금 말한 이 아이디어를 제가 그냥 좋다고 하는 게 아니고</div>
+          <div class="seg">[23:15] 제가 이 시장을 찾아봤을 때 실제로 이 족저 금막이라는 거는 물리적으로 대중적으로 보완하는 수밖에 없어요 이거를</div>
+          <div class="seg">[23:27] 무슨 외과적인 무언가로 치료할 수 있는 게 아니에요 무슨 말인지 아시죠 여러분들 뭔가 이 염증이나 이 미세 미세</div>
+          <div class="seg">[23:40] 이런 상처들을 몸이 회복할 수 있게 도와주는 수밖에 없어요 그 신발이랑 깔 차는 추가적으로 그런 게 나오지 않도록 안 걸을 수 없으니까</div>
+          <div class="seg">[23:54] 약간 완화해 주는 거지 진짜 본격적인 해결책이 아니에요 뭔가 치료를 도어 치료를 할 수 있게 뭔가 자극을 주는 게 아니에요</div>
+          <div class="seg">[24:02] 푸시해 주는 게 아니에요 무슨 말인지 알죠 근데 이게 진짜 말이 되는 제가 제한 문화기 때문에</div>
+          <div class="seg">[24:10] 이거 디벨롭 시켜보라고 한 거고 그래서 지금 디벨롭 된 거 보고 제가 스크립트 바로 나오는 거예요</div>
+          <div class="seg">[24:17] 바닐라 형 저 아이디어 있어요 패치는 아니고 사실 발가락과 발목 사이를 당겨주는 벨트를 구상했고</div>
+          <div class="seg">[24:26] 아플 때마다 벨트로 고정하면 좀 시원해요 이거 모자랑 형 원하시면 아이디어 쓰셔도 돼요</div>
+          <div class="seg">[24:33] 저 아는 의사분께 여쭤보려고 했는데 시간이 없어서 병원을 못 가고 있어가지고 사용은 자는 동안 착용하는 거였어요</div>
+          <div class="seg">[24:40] 자 자 지금 이렇게 아이디어들 나오기 시작했죠 아이디어들 나오기 시작했죠</div>
+          <div class="seg">[24:47] 저 나중에 바닐라 님 이거 정확히 어떤 아이디어인지 한번 글 써주시면은 제가 이것도 한번 참고해 보도록 하겠습니다</div>
+          <div class="seg">[24:55] 발가락과 발목 사이를 당겨준다 이거 그림자료 바닐라 님 올려주시면 제가 어</div>
+          <div class="seg">[25:03] 그림판으로 하도 그려주시면은 제가 바로 지금 참고 자료로 쓰겠습니다</div>
+          <div class="seg">[25:10] 자 아주 좋습니다 여러분들 이렇게 지금 지금 이렇게 지금 아이디어 주는 거 좋아요</div>
+          <div class="seg">[25:19] 자 여러분들 아무튼 그렇습니다 여기까지 이해되신 분</div>
+          <div class="seg">[25:25] 정확한 완벽한 제품의 형태가 아니라 무조건 전환이 되는 결과 먼저 생각하세요 제품은 결과가 아니에요</div>
+          <div class="seg">[25:35] 여러분들 제품은 결과가 아닙니다 제품은 그냥 제품이에요 결과를 만들 수 있는 제품이어야 돼요 그러려면 결과 먼저 떠올라야 돼요</div>
+          <div class="seg">[25:47] 여러분들 제가 간단한 예시를 들어볼게요 스티브 잡스가 아이팟 만들 때 좋은 mp3 플레이어 만들자 이랬으면 답없을 거예요</div>
+          <div class="seg">[25:55] 근데 내 주머니에다가 천국에 천국을 넣을 수 있다고 말할 수 있으면 어떻게 될까</div>
+          <div class="seg">[26:03] 그렇게 했을 때 아이팟이 그렇게 슬림해졌어야 됐고 요만큼 작아져야 됐고 요만큼 이뻐야 됐고 요만한 용량이 되어야 됐고</div>
+          <div class="seg">[26:11] 그거 하라고 엔지니어들이 겁나 갈군 거예요</div>
+          <div class="seg">[26:16] 무슨 말인지 알겠죠 세상이 놀랄 말을 먼저 만든 거예요 놀랄만한 결과를</div>
+          <div class="seg">[26:25] 아이팟이 세상에 모든 것보다 더 뛰어난 mp3 플레이어였다? 결과론적으로는 그렇지만</div>
+          <div class="seg">[26:32] 그냥 뭐 다양한 장점을 가진 mp3는 많았어요 하지만 중요한 거는 사람들이 내 주머니 안에 천국을 넣고 다닌다?</div>
+          <div class="seg">[26:41] 이게 가장 사람들이 원하는 거였고 놀랄만한 거였죠 그죠? 그냥 좋은 mp3 플레이어 만들자고 하면 음질 개선하고</div>
+          <div class="seg">[26:53] 두께가 조금 더 두꺼워지더라도 음질 좋게 만들고</div>
+          <div class="seg">[26:58] 뭐 이것도 되고 저것도 되고 뭐 전자사전도 되고 뭐 별짓을 다 했겠지 하지만 내 주머니에 천국을 넣자</div>
+          <div class="seg">[27:06] 여기에는 그런 것들 하등 쓸모없는 기능이었던 거야</div>
+          <div class="seg">[27:12] 여러분들 될 수 있는 결과부터 떠올리세요 이 한마디</div>
+          <div class="seg">[27:17] 자 아무튼 지금 저는 이걸 떠올렸는데 뭔가가 있으면 좋을 것 같습니다</div>
+          <div class="seg">[27:22] 자</div>
+          <div class="seg">[27:28] 그래서 여기서 엄청 좋은 기술이 나오죠 근거문화 들어갔고요</div>
+          <div class="seg">[27:34] 근거문화 들어갔고 기존의 논리를 기존의 논리를 논리가 가진 한계를 지적하면서</div>
+          <div class="seg">[27:44] 훨씬 신뢰도 있는 신뢰 있는 믿기까지 하나 끌고 와가지고 근데 사람들 이제 자주 받기가 힘들죠</div>
+          <div class="seg">[27:54] 응 받거나 24시간 이거 붙여놓고 있어야 돼 얘가 가장 합리적인</div>
+          <div class="seg">[28:03] 사실상 얘를 위한 지금 말이에요 근데 가장 합리적이죠 24시간 그냥 붙여놓고만 있으면 된다</div>
+          <div class="seg">[28:11] 아주 합리적이고 합리적이고 뛰어나고 효율적이고</div>
+          <div class="seg">[28:25] 이거 부정할 수가 있습니까 내가 잘 때 그냥 붙여놓기만 하면 된다는데 이거 아파 죽겠는 사람 이거 안 하겠습니까</div>
+          <div class="seg">[28:31] 뭔지 잘 모르겠지만 다시 한번 볼게요 와 진짜 이건 일 날 수도 있을 것 같아요 여러분들</div>
+          <div class="seg">[28:38] 일 날 수도 있을 것 같습니다</div>
+          <div class="seg">[28:47] 아 너무 재밌는데</div>
+          <div class="seg">[28:50] 음 너무 재밌습니다 너무 재밌습니다 저는 진짜 여러분들이 성공했으면 좋겠어요</div>
+          <div class="seg">[28:57] 하고 싶은 사람이 성공했으면 좋겠어요 겁나 하기 싫어하는 사람들 말고 하고 싶어 하는 사람들 되고 싶은 사람들</div>
+          <div class="seg">[29:07] 스크립트가 훨씬 지금 나아졌죠</div>
+          <div class="seg">[29:11] 훨씬 나아졌죠 염증 빼라 이거 저 논리도 들어가면 되고 여러가지 방향으로 발전할 수 있겠죠</div>
+          <div class="seg">[29:20] 아</div>
+          <div class="seg">[29:33] 아 뿜사모의 자랑 뿜자랑이 야이 뺏겼다 뭐 인정합니다 아 오사모 뺏겼어 뿜자 뿜사모야</div>
+          <div class="seg">[29:43] 어 뿜자 돌림을 사랑하는 사람들의 모임입니다 어 뿜자랑 좋았어 내가 아무리 이렇게 해봤죠 어차피 회장님 편이구만</div>
+          <div class="seg">[29:57] 자</div>
+          <div class="seg">[30:00] 제가 그때 준 숙제도 잘 노트가 되어 있네요 24시간과 가까워질 수 있어야 되고 문제를 준 시간과 딱 붙을 수 있어야 되고</div>
+          <div class="seg">[30:07] 와 피드백 대박 잘 줬네</div>
+          <div class="seg">[30:12] 새로운 방식 형태 어 장기적으로 대명사의 형태도 갖출 수 있어야 된다 어</div>
+          <div class="seg">[30:20] 자</div>
+          <div class="seg">[30:24] 그래서 새로운 방식을 몇 개 떠올렸는데</div>
+          <div class="seg">[30:28] 어</div>
+          <div class="seg">[30:36] 자</div>
+          <div class="seg">[30:38] 지금 새로운 방식은 복합 냉감 염증 완화 쿨패치입니다 야 슈퍼 울트라</div>
+          <div class="seg">[30:47] 슈퍼 울트라 오메가 썬더 어 제타 건담 같은 그런 느낌인데</div>
+          <div class="seg">[30:54] 자 뭔가 뭔가 뭔가 굉장히 굉장히 세보이죠 어</div>
+          <div class="seg">[31:01] 약 발을 꽝꽝 얼려버릴 것 같습니다 복합 냉감 염증 완화 쿨패치입니다</div>
+          <div class="seg">[31:07] 자 엄격 진지 근엄합니다 어 슈퍼 울트라 마징가 어</div>
+          <div class="seg">[31:16] 슈퍼 울트라 마징가 제타 오메가 썬더 파이어 어 건담 그런 느낌입니다 지금 아무튼 보면</div>
+          <div class="seg">[31:26] 응</div>
+          <div class="seg">[31:29] 쿨파스 정확</div>
+          <div class="seg">[31:34] 이건 원래 있는 것들인 거예요 모자랑 지금 저 두 가지 구분해 놓은 거는 두 가지가 지금 원래 존재하는 걸 비교해 놓은 거에요</div>
+          <div class="seg">[31:43] 아 원래 존재하는 거 그래서 쿨파스라는 것들은 물리적으로 냉감을 주는 열 완화하는 게 없고 쿨링 시트라는 거 있어요</div>
+          <div class="seg">[31:51] 붙여 놓으니까 있겠지 화학적 냉감 감각을 완화하는 건 쿨파스 있지 그건 이게 쫙 뿌려 가지고 그냥</div>
+          <div class="seg">[31:59] 어 그냥 감각 자체를 완전 무디게 만들어버리는 일시적인 그런 게 있겠지 쿨링 시트도 그런 게 있고</div>
+          <div class="seg">[32:09] 쿨파스는 심지어 소염 진통 기능도 있대요 오 원래 쿨파스가 소염 진통 기능이 있어요 소염 기능도 있어요</div>
+          <div class="seg">[32:17] 나 그거 몰랐네 파스가 소염 진통에 그 그냥 그 진통제가 아니라 비스텔로이드 진통제가 아니라</div>
+          <div class="seg">[32:27] 소염 기능도 있어요</div>
+          <div class="seg">[32:31] 어 신기하네 쿨파스 대박이다 쿨링 시트는 그런 게 없을 거고 당연히 의료용 그게 아니니까 주요 목적으로 쿨파스는 부상에서 회복하는 거고 쿨링 시트는 피로회복이지</div>
+          <div class="seg">[32:44] 기존에 쿨파스에 없었던 이런 물리적 냉감도 주고 쿨링 시트에는 없었던 소염 진통을 더해서</div>
+          <div class="seg">[32:53] 시트의 형태지만 쿨파스의 장점을 가져온 그런 걸 만들면 되겠다</div>
+          <div class="seg">[33:01] 땀 움직임에도 떨어지지 않고 착용감도 좋고 밀착감도 좋고 12시간 이상 효과가 지속되고 편리하대</div>
+          <div class="seg">[33:10] 아</div>
+          <div class="seg">[33:12] 야 이것도 뭐 만들어왔어 야 진짜 이제 수제자들은 야 이 사람들 어떻게</div>
+          <div class="seg">[33:21] 너무 잘한다 야 이거 지금 거의 뭐 약국에 가면은 저기 구석에 어 저기 구석에 거미줄 쳐져 있는 데 쪽에 이렇게 있어 가지고</div>
+          <div class="seg">[33:32] 그 자리에 지금 어 그냥 자기 자리야 거기는 그냥 그냥 이제 어 그 자리에 있으면은 약사가 그냥 딱 꺼내면은 주는</div>
+          <div class="seg">[33:42] 어 그냥 옛날부터 있었던 애야 얘는 그냥 어 야</div>
+          <div class="seg">[33:48] 먹으면 죽을 것 같은 느낌이 그러면 잘 된 거 먹으면 죽을 것 같다 아 이거 이거 먹지만 않으면 몸에 도움이 된다</div>
+          <div class="seg">[33:58] 어 먹으면 죽을 것 같다</div>
+          <div class="seg">[34:03] 아 효과가 엄청 좋다는 거야 뭐가 됐든 섭취하면 죽는다는 거는 섭취만 안 하면은 엄청난 무언가를 보장하는 건데</div>
+          <div class="seg">[34:12] 먹으면 꼭 죽어야 돼 어 그 정도 효과를 만들려면은 어 내 내장기관이 감당해서는 안 되거든</div>
+          <div class="seg">[34:20] 내가 먹어도 안 죽는다 아 약해 먹어도 죽을 것 같이 안 아프다 약해</div>
+          <div class="seg">[34:26] 센 걸로 더 세게 말아와 어 나 이거 가지고 나의 염증은 낫지 않아</div>
+          <div class="seg">[34:33] 음 알보칄 약해지니까 지금 사람들이 어 그거 희석했다고 엄청 싫어하죠 옛날에 아프다고 난리 치더니</div>
+          <div class="seg">[34:40] 알디콘도 옛날에 맛없다고 난리 치더니 이제는 맛있게 해주니까 어 잘 안 낫는 것 같다고 뭘 하죠</div>
+          <div class="seg">[34:47] 어 성분은 똑같은데 아이 그런 거야 먹으면 죽어야 돼 어 그런 약점이 있어야 돼</div>
+          <div class="seg">[34:54] 어 안 죽일 수 있는데 일단 죽여야 돼 한두 번 죽었다 소리가 나와야 아 저건 진짜 찐으로 효과 좋나 보다</div>
+          <div class="seg">[35:03] 저거 먹으면 대신 죽음 어 먹으면은 죽을 수도 있어요</div>
+          <div class="seg">[35:09] 아무튼 이게 이게 그거에요 의도적인 결핍이에요 의도적인 먹으면 죽어버려야 돼</div>
+          <div class="seg">[35:17] 어 아 진짜 의도적 결핍입니다</div>
+          <div class="seg">[35:23] 알디콤 이제 밥도 바람 밥도 말아먹겠다 그래서 진짜 그런 사람들 있더라구요 음료수에 타먹고</div>
+          <div class="seg">[35:30] 어 그냥 안 마시면 안 아픈데 타 마시더라고 폭탄주 그 칵테일 제조법 떴어 아무튼 안 마시면 되는데 어 꼭 그걸 마셔가지고</div>
+          <div class="seg">[35:43] 자</div>
+          <div class="seg">[35:45] 아무튼 신크리는 와 영어도 만들었어요</div>
+          <div class="seg">[35:51] 아 복합과 차가움 의약품 성분명에 자주 쓰이는 점미어 어 이거 점미어 이거 지금 채취 pt 가 써줬지</div>
+          <div class="seg">[36:02] 아 이거 너무 너무 이거는 인간이 쓴 게 아닌데</div>
+          <div class="seg">[36:09] 점미어 야 이거 아 아니에요 아니에요 아 오케이 믿을게요 믿을게요</div>
+          <div class="seg">[36:17] 나에요 아 ai 급 지능 축하드립니다 진짜 아 역시 모자랑이야 어</div>
+          <div class="seg">[36:24] 아 이런 티가 났으면은 이제 어 이런 티는 졸쟁 숲째 객 길쨕 왕익 길부재 왕창쿵 이런거 있으면은 바로</div>
+          <div class="seg">[36:35] 알았는데 아 여기서는 내가 구분이 안 되니까 그런 걸로 할게요</div>
+          <div class="seg">[36:41] 자 여기 이런 거 보면 알 수 있는데 어 크게 이렇게 봤을 땐 몰랐는데 가까이서 보면은 여기 있어요</div>
+          <div class="seg">[36:50] 질쟁 숙제 갱 결작 왕익 결 불째 어 약간 이런 숨어 있습니다 여러분 약간 이제 어 얘 못 보겠지 하면 자기 그래픽 카드 아끼려고 채취 pt가 날림으로 하는 데가 있어요</div>
+          <div class="seg">[37:03] 어 아 이거 까진 안보겠지</div>
+          <div class="seg">[37:07] 자 아무튼</div>
+          <div class="seg">[37:11] 대명세가 될 수 있습니다</div>
+          <div class="seg">[37:15] 이거는</div>
+          <div class="seg">[37:28] 자 여러분들 어떻습니까 여러분들 지금 어때요 여러분들 의견을 줘요 여기까지 지금</div>
+          <div class="seg">[37:35] 지금 이 실현 가능성이나 그런 것보다 지금 모자랑이 잘한 거 결과부터 만들어 왔다는 거에요</div>
+          <div class="seg">[37:43] 결과부터 만들어 왔다는 거고</div>
+          <div class="seg">[37:50] 어 여러분들 지금까지 보시면 어때요 브라보 억만장자 브라보 나왔다</div>
+          <div class="seg">[37:57] 어 지금 이 실현 가능성이랑 이 제품의 주요한 그거에 대해서는 너무 생각하지 마세요 그건 어차피 만들면서</div>
+          <div class="seg">[38:07] 지금 모자랑이 해결해야 돼</div>
+          <div class="seg">[38:13] 이런 제품이 지금</div>
+          <div class="seg">[38:17] 나와서</div>
+          <div class="seg">[38:20] 이 제품이 나와가지고 무슨 말을 하냐면 이 말을</div>
+          <div class="seg">[38:27] 어차피 족적음마겸이나 신족적음마경 어차피 이미 발병 했으면 신발이나 깔창으로 안됩니다</div>
+          <div class="seg">[38:35] 뭐 체위 충격파 받으면서 병원 다듬 다니시거나 뭐 24시간 동안 싱크림 붙여놓고 있거나 하나 미쳤는데</div>
+          <div class="seg">[38:48] 싱크림에서 지금 터졌다</div>
+          <div class="seg">[38:51] 아</div>
+          <div class="seg">[38:58] 아 여러분들 지금</div>
+          <div class="seg">[39:05] 와 프레스 포인트는 지금 k lpga 선수들 시합 끝나고 붙일 수 있도록 바로 도움 주 드리겠대</div>
+          <div class="seg">[39:12] 아</div>
+          <div class="seg">[39:20] 와 이거 잠깐만</div>
+          <div class="seg">[39:26] 남 pd 있어요</div>
+          <div class="seg">[39:29] 아</div>
+          <div class="seg">[39:39] 왜 또 내 내 계정으로 들어가 있어요 잡았다 유놈 일본에서 잡았다 지금 지금 내가 일본 가자마자 바로 지금 왜 내 계정으로 들어가</div>
+          <div class="seg">[39:49] 있어요</div>
+          <div class="seg">[39:52] 지금 빨리 대답하려다가 지금 실수했어 내 계정으로 뭐 하고 있어요</div>
+          <div class="seg">[39:59] 내 계정 내 이메일 주소로 뭐 하고 있어요 지금 여러분들 제가 하고 있는 거 지금 1인 2역 하는 거 아닙니다 지금 저</div>
+          <div class="seg">[40:07] asmr 안들렸죠 타자 소리 어 와 지금 남 pd 무슨 짓이에요 제 이름으로 뭐 하고 있었어요</div>
+          <div class="seg">[40:15] 제 이름으로 문 헤일 이름 달고 어 문 헤일 계정으로 어 이메일 돌리고 서명하고 은행 다니고 뭐 하고 있었어요</div>
+          <div class="seg">[40:29] 아</div>
+          <div class="seg">[40:33] 아 어떤 업무를 했을까 은행 업무 보고 있진 않았어요</div>
+          <div class="seg">[40:40] 아 지금 뭐 결제해놓고 결제 내역 다 지우고 있는 거 아니었어요</div>
+          <div class="seg">[40:50] 으</div>
+          <div class="seg">[40:53] 아</div>
+          <div class="seg">[40:55] 아 오해십니다 보통 키키 아닙니다인데 오해십니다 는 뭐지 보통 오해라는 거는 약간 좀 뭔가가 있는데 그게</div>
+          <div class="seg">[41:05] 아니다 아 그렇게 그것 때문에 그런 건 아니다 라고 해야 되는데 아 그런 말인데</div>
+          <div class="seg">[41:16] 와 이거 참 여러분들</div>
+          <div class="seg">[41:23] 저 지금 막 비행기 타러 가겠습니다 어 지금 큰일 납니다 지금 후대타 떴습니다 지금 아 역시 본체가 자리를 비우니까</div>
+          <div class="seg">[41:33] 이사단이 납니다 사업이 이렇게 어렵습니다 여러분들 진압하러 가겠습니다 진짜 어 사실 저는 서울이었습니다</div>
+          <div class="seg">[41:41] 여러분들 어 이럴 줄 알고 내가 지금 오늘 여러분들 오늘 이거는 회의크였습니다</div>
+          <div class="seg">[41:48] 어 제가 이거 다 지금 이 오늘 이 라이브는 어 이 쿠데타를 진압하기 위한 어 함정이었습니다 저는 사실 지금 어</div>
+          <div class="seg">[42:02] 명동 남산에서 어 진압 부대랑 함께 있습니다 자 오늘 오늘 사단 났다 어 남 pd 4호 뽑습니다</div>
+          <div class="seg">[42:13] 어 남 pd 4호 채용하겠습니다 많은 지원 바랍니다 야 사모도 이거 참 야망이 너무 심했다</div>
+          <div class="seg">[42:22] 자 아무튼 아 이게 지금 어 지금 잠깐만 아 남 pd 지금 남 pd 자 갑자기 지금</div>
+          <div class="seg">[42:31] 어 남 pd 지금 쿠데타 커밍아웃 때문에 아 지금 뭔 말 하려고 이제 까먹었어요 아 아 아 아 아 이게 지금 지금 몇 명 들어와 있어요</div>
+          <div class="seg">[42:40] 지금 몇 명 들어가 있어요 아 오늘 아 오늘 제가 진짜 초 기습이라 가지고</div>
+          <div class="seg">[42:54] 112명</div>
+          <div class="seg">[42:58] 자 오늘 이거는 다시 보기는 어 유튜브에서 비공개로 잠그고 어</div>
+          <div class="seg">[43:05] 저 우리 플랫폼에다가 올릴게요 일단 어</div>
+          <div class="seg">[43:10] 혹시라도 공유되면 안될 것 같아요 지금</div>
+          <div class="seg">[43:16] 112명 명단은 남 pd 님이 어 확보하세요</div>
+          <div class="seg">[43:26] 문제 생기면 이 명단 버튼 누르시면 됩니다</div>
+          <div class="seg">[43:32] 어 그러면 띠리리리</div>
+          <div class="seg">[43:35] 아무튼 어 지금 지금 어플은 못키잖아요</div>
+          <div class="seg">[43:51] 어 이게</div>
+          <div class="seg">[43:55] 와 이거는 음 오늘 내가 링크를 지금 전체로 공유했나요</div>
+          <div class="seg">[44:04] 가서 파야 겠다</div>
+          <div class="seg">[44:23] 그러면은 일단은 일단은 그냥 이대로 가도 돼요 모자랑</div>
+          <div class="seg">[44:29] 수제 잡방 알았어요 그럼 수제 잡방이면은 일단은 그냥 아 뭐 모자랑 그냥 고 그냥 고</div>
+          <div class="seg">[44:42] 여러분들 생각은 어때요 그냥 고</div>
+          <div class="seg">[44:48] 그냥 고 오케이 좋았어</div>
+          <div class="seg">[44:52] 따라하면 담구면 돼 모자랑 담궈버리면 되죠</div>
+          <div class="seg">[44:57] 모자랑 담궈버리면 되죠 어 좋았어 따라하면 담군다</div>
+          <div class="seg">[45:06] 아우 야 이거 피드백이 야 할 때마다 레전드 찍어 찍어버리는데 여러분들 진짜 이기는 진짜 진짜 초대박 날 것</div>
+          <div class="seg">[45:17] 어떻게 난 모르겠다 근데 여러분들 아무튼 뭐가 시작되면 열심히 하세요 진짜</div>
+          <div class="seg">[45:25] 열심히 하세요 진짜 이 모든 것들이 시작되면</div>
+          <div class="seg">[45:33] 절대 지지 마세요 다들 지켜보고 있으니까 자 여러분들</div>
+          <div class="seg">[45:41] 어</div>
+          <div class="seg">[45:47] 아 너무 재밌네 아 미쳤다 진짜 자 여러분들 이 싱크린은요 제가 피드백을 한번 할게요</div>
+          <div class="seg">[45:58] 스크립트 아까처럼 개선해야 되구요 모자랑 듣고 있죠 스크립트 아까처럼 개선해야 되고</div>
+          <div class="seg">[46:06] 싱크린의 정확한 작동 방식이랑 착용 형태 떠올려야 돼요 착용 형태는 최소 3개 떠올리세요</div>
+          <div class="seg">[46:16] 어떤 게 가장 시장성이 있는지 봐야 됩니다 왜냐하면 지금 싱크린은 뭐 어떤 건지 모르겠지만 일단은 이게 딱 발바닥에 붙어 있다</div>
+          <div class="seg">[46:26] 뭐 이런 식으로 지금 되어 있는데 어떤 약간 특이점을 보여주는 것도 좋아요 그리고 성분 성분이랑 유효 성분들 찾아오세요</div>
+          <div class="seg">[46:39] 유효 성분들 찾아오시고 유효 성분은 저한테만 공유하고</div>
+          <div class="seg">[46:47] 유효 성분은 저한테만 공유해서 제가</div>
+          <div class="seg">[46:52] 그걸로 우리 가족들이랑 피드백 같이 볼 때는</div>
+          <div class="seg">[47:01] 아 아니다 그거를</div>
+          <div class="seg">[47:06] 그거 얘기할 땐 그냥 그거 얘기할 땐 그냥</div>
+          <div class="seg">[47:11] 혹시 모르니까 유효 성분은 저한테만 공유를 하고</div>
+          <div class="seg">[47:17] 어 그거 제외한 거는 구조화 해가지고 올리세요 착용 형태 한 3가지 떠올리세요 지금</div>
+          <div class="seg">[47:28] 아 진짜 재밌네 미쳤네</div>
+          <div class="seg">[47:32] 내가 아이디어 시장 던져준 지 얼마나 지났죠 지금 한 달도 안 됐어요</div>
+          <div class="seg">[47:49] 여러분들 진짜 되겠네요 여러분들 저 이거 발전 과정에서 또 엇나가면은 확실하게 피드백 할게요</div>
+          <div class="seg">[48:00] 아 지금 재밌는 사람 손 들어봐</div>
+          <div class="seg">[48:05] 합이 이렇게 탄생하는 거예요 되는 사업 저 맨날 이랬어요 이렇게 한 대 안 될 수가 있겠어요</div>
+          <div class="seg">[48:12] 아</div>
+          <div class="seg">[48:16] 와 전설이 됐으면 좋겠네요 자 지금은 저의 저의 피카소급 그림 실력으로 보여드릴게요</div>
+          <div class="seg">[48:27] 여러분들이 이해를 잘 하셔야 되니까</div>
+          <div class="seg">[48:57] 응</div>
+          <div class="seg">[49:07] 잠시만요</div>
+          <div class="seg">[49:10] 네</div>
+          <div class="seg">[49:23] set</div>
+          <div class="seg">[49:25] � It 어디 갔어</div>
+          <div class="seg">[49:28] 아 진짜 미쳤다 너무 재밌다 지금 화면 잘 보이세요?</div>
+          <div class="seg">[49:55] 확인하면서 갈게요 지금 화면 잘 보여요?</div>
+          <div class="seg">[50:16] 왼쪽으로 조금 더 아 나 진짜 아 혼수 너무 미쳤다</div>
+          <div class="seg">[50:22] 왼쪽으로 좀 더 왼쪽으로 좀 더 오른쪽으로 3번 왼쪽으로 조금만 더</div>
+          <div class="seg">[50:30] 아 진짜 까다롭네 이분들 좋았어</div>
+          <div class="seg">[50:36] 아 오케이 이제 잘 보이죠?</div>
+          <div class="seg">[50:41] 프리지아 님도 오셨고 찡찡대지마로도 이제 들어왔네 지금 지각생들 누구 있어요?</div>
+          <div class="seg">[50:46] 와 이거 대박인데 오늘?</div>
+          <div class="seg">[50:48] 아 오늘은 아 나 헬스장 언제가?</div>
+          <div class="seg">[50:59] 자 지금은</div>
+          <div class="seg">[51:23] 자 이렇게 발이 있으면 이렇게 발이 있으면 여러분들 발이죠?</div>
+          <div class="seg">[51:35] 뭉크 발이라뇨 아 너무 아 이거 뭉크 뭉크 좋습니다</div>
+          <div class="seg">[51:45] 최고의 최고의 작가 최고의 아티스트</div>
+          <div class="seg">[51:48] 자 여기에 지금은</div>
+          <div class="seg">[51:55] 이렇게 하는 거 맞죠 모자랑</div>
+          <div class="seg">[52:02] 신크린 이게 지금 신크린의 1안인데</div>
+          <div class="seg">[52:12] 이게 신크린인데 이게 어떻게든 이게 딱 붙어가지고 잘 때 이걸 딱 붙여 놓으면은 이게 뭐</div>
+          <div class="seg">[52:19] 12시간 이상 뭐 작동을 하니까 자는 동안 딱 붙여놔라 아니면 그냥 요 위에 이렇게 양말도 신어가지고</div>
+          <div class="seg">[52:28] 양말도 이렇게 신어가지고 여기 살아도 되겠죠? 그죠?</div>
+          <div class="seg">[52:36] 아 저거 아니래 저거 아니래 아 맞다며 갑자기 왜 아니에요 또</div>
+          <div class="seg">[52:42] 하트 붙이면 당연히 다 한 다음에 하트를 붙인건데</div>
+          <div class="seg">[52:47] 완벽하게 구현하고 지금 물음표 뭐예요?</div>
+          <div class="seg">[52:51] 자 아무튼 이게 12시간 간다 이렇게 하고 뭐 이런거잖아요</div>
+          <div class="seg">[52:55] 근데 자 봐봐요 이런 형태 우리가 많이 봤잖아</div>
+          <div class="seg">[53:04] 우리가 이런 형태 많이 봤잖아 사실</div>
+          <div class="seg">[53:08] 많이 봄</div>
+          <div class="seg">[53:15] 우리가 이런거 많이 봤거든 그렇기 때문에 무언가 우리가 이 형태적으로도 뭔가 차별점이 있으면은</div>
+          <div class="seg">[53:24] 거기서 오는 그 확산력이 다를 수가 있어요</div>
+          <div class="seg">[53:30] 무슨 말인지 알죠? 이게 지금</div>
+          <div class="seg">[53:36] 누가 쓴다고 유기적으로 래퍼를 되는 장치가 필요해 뭔 말인지 알죠?</div>
+          <div class="seg">[53:42] 그냥 이제 넣는 만큼 예를 들면은 우리가 넣는 만큼 고객에게 넘는 만큼</div>
+          <div class="seg">[53:51] 결과가 나오면은</div>
+          <div class="seg">[53:54] 한계가 있어 근데 이 넣었는데 이 고객을 통해서</div>
+          <div class="seg">[54:01] 막 이렇게 될 수가 있어야 돼</div>
+          <div class="seg">[54:06] 뭔 말인지 알죠? 이 형태만 봐도 아 저거 뭐지 나도 저거</div>
+          <div class="seg">[54:15] 그래서 지금 이게 갖고 있는 논리가 괜찮아요</div>
+          <div class="seg">[54:19] 지금 여기 써져 있진 않지만 염증을 완화시킨다는 논리</div>
+          <div class="seg">[54:22] 근데 이 족적음악이라는게</div>
+          <div class="seg">[54:28] 족적음악염이라는게 여러분들 아쉬워하지 마시고 좀 이따 그려줄게요 지금 이 명작은</div>
+          <div class="seg">[54:34] 두 번 그릴 수가 없기 때문에</div>
+          <div class="seg">[54:38] 족적음악이라는게 이렇게 돼 있기 때문에</div>
+          <div class="seg">[54:44] 이렇게 돼 있기 때문에</div>
+          <div class="seg">[54:48] 이걸 어떻게 이제 딱 지지를 하고</div>
+          <div class="seg">[54:53] 그걸 가주는지가 중요할 것 같아요</div>
+          <div class="seg">[54:58] 그래서 지금 1번</div>
+          <div class="seg">[55:02] 아 1번 지금 이제 프레스 포인트 님은 여기에 경험도 많기 때문에 아이디어가 막 나오는 것 같은데</div>
+          <div class="seg">[55:10] 여러분들도 아이디어 주세요 이게 1번 지금 발바닥에 착 붙이는 1번</div>
+          <div class="seg">[55:15] 뭐 어떤 형태로든</div>
+          <div class="seg">[55:30] 아 이건 망했다 아무튼</div>
+          <div class="seg">[55:35] 발가락 어떻게 생겼지?</div>
+          <div class="seg">[55:46] 자 이 발바닥 안 보이잖아요 안 보여</div>
+          <div class="seg">[55:55] 안 보임</div>
+          <div class="seg">[56:03] 그래서 무언가 어떤 형태를 쓰면 뭐 이렇게 뭐 이렇게 고리 형태로 이렇게 잡고 있다거나</div>
+          <div class="seg">[56:12] 그러면 이제 객단가를 늘릴 수 있는 방법이 될 수도 있지</div>
+          <div class="seg">[56:25] 뒤꿈치 쪽으로 또 통증을 많이 호소하거든요</div>
+          <div class="seg">[56:29] 금막이 다 다친 거예요 금막이 다 다친 건데 사실은 아치 쪽이 진짜 제일 아프거든요 근데</div>
+          <div class="seg">[56:37] 신기하게 뒤가 제일 아파요 여러분들 이거 아실지 모르겠는데 아주 좋은 지적이에요</div>
+          <div class="seg">[56:48] 발이 이렇게 있으면</div>
+          <div class="seg">[56:51] 자 발이 이렇게 있으면 여기를 여기를 제일 아파요 여기 여기를 제일 아프다고 생각해</div>
+          <div class="seg">[57:03] 근데 문제는 이게 사실 거기만 찢어졌고 그런 게 아니라 전체가 아프고</div>
+          <div class="seg">[57:08] 사실은 아치가 문제인데 진짜 문제</div>
+          <div class="seg">[57:14] 아치 쪽이 아프고 아치 쪽이 아프고 아치 쪽이 아프고 아치 쪽이 아프고 아치 쪽이 아프고</div>
+          <div class="seg">[57:21] 이게 진짜 문제</div>
+          <div class="seg">[57:27] 여기를 제일 아파</div>
+          <div class="seg">[57:32] 자 아무튼 여러분들 제가 무슨 말 하는지 알겠죠 여러분들 확실한 논리만 있다고 해서 상품이 갑자기 대박 나는 게 아니에요</div>
+          <div class="seg">[57:42] 우리가 조건만 갖췄다고 대박 나는 게 아니라 고객의 힘을 쓸 수 있는 형태를 갖추고 있어야 돼 구전성을 갖추고 있어야 돼요</div>
+          <div class="seg">[57:49] 아 오늘 너무 많은 팁이 나오는데 오늘이 진짜 대박이다</div>
+          <div class="seg">[57:54] 여러분들</div>
+          <div class="seg">[57:58] 제품이</div>
+          <div class="seg">[58:06] 이게 왜 이래요 제품이 어떤 논리만 갖춘다고 대박 나지가 않아요 왜냐하면</div>
+          <div class="seg">[58:19] 응 구전력이 필요해 구전력과</div>
+          <div class="seg">[58:30] 이거는 정말 중요해 고객이 봐서 한 방에 알 수가 있어야 돼</div>
+          <div class="seg">[58:38] 어 근데 이제 신크린이 그냥 패드 형태면</div>
+          <div class="seg">[58:46] 응 누구나 따라 할 수 있지 그리고 기존에 보던 느낌이지</div>
+          <div class="seg">[58:54] 아무리 화학적으로 새로운 제안이라도 이해하기가 어렵고 그 차이를 인지하기 힘든</div>
+          <div class="seg">[59:05] 음 그래서 새로운 제한 문화로 안 보일 수도 있고</div>
+          <div class="seg">[59:13] 고객 문화에서</div>
+          <div class="seg">[59:17] 고객 문화에서 고객이 하는 말에 이</div>
+          <div class="seg">[59:22] 고객 문화랑 스크립트 구현을 할 때 이게 안 될 수가 있어</div>
+          <div class="seg">[59:30] 그래서 제가 이제 형태랑 디자인이 엄청 중요하다고 했죠 이 작동 방식이</div>
+          <div class="seg">[59:38] 와 너무 재밌다 지금 지금 모자랑은 진짜 사업을 기획하고 있어요 여러분</div>
+          <div class="seg">[59:47] 진짜 물론 제가 이제 옆에서 이렇게 옆에서 이렇게 멱살을 잡고 끌고 막 질질 끌고 가고 있는데</div>
+          <div class="seg">[59:55] 결국에 생각은 모자랑이 해야 되는 거잖아</div>
+          <div class="seg">[59:59] 그냥 여러분들 지금 뭐 모르겠습니다 제가 생각하고 있는 건지 모자랑이 생각하고 있는 건지 모르지만</div>
+          <div class="seg">[01:00:07] 모자랑이 이거를 계속 빌드업을 하지 않았으면 저는 이거를 따로 해줄 수가 없었어요</div>
+          <div class="seg">[01:00:14] 저는 계속 이렇게 펑 펑 쳐주는 거예요 모자랑이 내 앞에 준비해 가지고</div>
+          <div class="seg">[01:00:20] 형 화양 넣어줘 하고 딱 이렇게 들이대고 있으니까 제가 이게 지금 방아쇠를 계속 눌러버리는 거예요</div>
+          <div class="seg">[01:00:29] 아니면 나라는 화약이 계속 터지면서 앞으로 각인을 해주는 거죠</div>
+          <div class="seg">[01:00:40] 여러분들 지금 모자랑은 진짜 되는 제품을 만들고 있습니다 여러분들</div>
+          <div class="seg">[01:00:47] 이렇게 타협하지 않고 아까 여러분들 싱크림 볼 때까지만 해도 아 이거 그냥 되겠다 했죠</div>
+          <div class="seg">[01:00:53] 그냥 팔 수 있었을 거야 그 정도만 해도 뭐 어느 정도는 팔 수 있었을 거야</div>
+          <div class="seg">[01:00:59] 근데 확실한 형태 지금 타협하지 않고 계속 스크립트가 구현되게끔 끝까지 밀어붙이다 보면</div>
+          <div class="seg">[01:01:07] 이 모자랑만의 것이 나옵니다</div>
+          <div class="seg">[01:01:13] 거기에서 우리가 최선의 선택을 하면 돼요 결과를 만들 수 있는</div>
+          <div class="seg">[01:01:19] 오늘 진짜 대박이네요 여러분들 이래서 제가 피드백으로 이 수제자 이기를 끌고 가야 된다고 말하는 게 뭐냐면</div>
+          <div class="seg">[01:01:28] 여러분들이 힌트를 얻을 수 있는 지금 창구가 진짜 100만 개는 넘을 거예요 여러분들의 사업을 캐리해 줄 수 있는 지금</div>
+          <div class="seg">[01:01:39] 아이디어와 방식과 개선점과 그런 진행방식과 경험이 진짜 하나씩 조합하면 진짜 진짜</div>
+          <div class="seg">[01:01:48] 여러분들의 수의 몇백 배는 될 거예요</div>
+          <div class="seg">[01:01:52] 지금 되는 사업이 될 때까지 계속 하고 있는 거예요 제가 여기에서</div>
+          <div class="seg">[01:01:58] 음 좀 여기에서 지금 이렇게 이렇게만 보여주면 에 싶지만 지금 여기에서 내가 이거 될 것 같다 해도</div>
+          <div class="seg">[01:02:07] 분명 매출 나왔을 거고 저는 어 잘하고 있다 했겠지만 저는 거기서 만족하면 안 된다고</div>
+          <div class="seg">[01:02:15] 진짜 대박은 안 날 거거든</div>
+          <div class="seg">[01:02:19] 열심히 하면 한 몇십억 하겠지 근데 대박을 내야 돼</div>
+          <div class="seg">[01:02:27] 자</div>
+          <div class="seg">[01:02:30] 모자랑 지금 전부 다</div>
+          <div class="seg">[01:02:34] 이해됐어요</div>
+          <div class="seg">[01:02:38] 모자랑 이해됐어요</div>
+          <div class="seg">[01:02:42] 모자랑 지금</div>
+          <div class="seg">[01:02:46] 이제 현실화 하면서 지금 형태를 잡아갈 때가 된 것 같아요 결과가 나왔잖아요</div>
+          <div class="seg">[01:02:53] 결과가 나왔잖아요 얘는 무시하시고 이 위에 얘를 보세요 결과가 나왔잖아요</div>
+          <div class="seg">[01:03:01] 얘를 구현할 수 있는 가장 합리적이고 가장 전략적이고 가장 유기적인 형태를 만드세요</div>
+          <div class="seg">[01:03:10] 음 지금 프레스 포인트 님께서</div>
+          <div class="seg">[01:03:16] 현장에서 나오는 현장감은 제가 서포트 해보겠다</div>
+          <div class="seg">[01:03:20] 그러니까 지금 프레스 포인트님 여러분들 지금 여러분들의 커뮤니티가 얼마나 대단하냐면</div>
+          <div class="seg">[01:03:26] 여러분들 제가 말씀드렸잖아요 여러분들 지금 커뮤니티가 얼마나 대단하냐면</div>
+          <div class="seg">[01:03:31] 프레스 포인트 님은 저 거의 동계 올림픽 쪽에서 황제시래요</div>
+          <div class="seg">[01:03:37] 그래서 이제 동계 쪽의 선수들은 프레스 포인트 앞에서 전부 다 무릎을 끌린다고 합니다</div>
+          <div class="seg">[01:03:44] 그래서 너네 이거 써라 쓰겠습니다</div>
+          <div class="seg">[01:03:50] 껴라 하면 끼겠습니다</div>
+          <div class="seg">[01:03:55] 해라 하면 하겠습니다 이렇게 된대요</div>
+          <div class="seg">[01:03:58] 근데 그게 이제 올림픽 국가대표 메달리스트나 이런 분들 다 포함 근데 지금 그분들이 쓴다</div>
+          <div class="seg">[01:04:06] 그냥 처음에 그냥 헤리티지 갖고 가는 거예요 제가 지금 만들려고 했던 게 이겁니다</div>
+          <div class="seg">[01:04:13] 수제자 이기로 만들려고 했던 장면이</div>
+          <div class="seg">[01:04:18] 이 중에서 몇 명 도우기 시작해서 나 도와줄게 너도 나 도와줘</div>
+          <div class="seg">[01:04:26] 이렇게 가는 겁니다 약사 분 우리 있었잖아요 약사 분들도 몇 분 해갖고</div>
+          <div class="seg">[01:04:35] 레퍼런스 만들면서 가는 거지 뭔 말인지 알죠</div>
+          <div class="seg">[01:04:41] 자 우리 수제자들 중에 약사 분 계셨거든요 약사 분 갑자기 광고 모델로 쓰는 거지</div>
+          <div class="seg">[01:04:51] 약사가 추천하는 딱 게임 끝 이게 무슨 약사 분이지 검색하면 안 나와 근데</div>
+          <div class="seg">[01:04:59] 일단 처음만</div>
+          <div class="seg">[01:05:05] 아</div>
+          <div class="seg">[01:05:08] 우리 왕오리 님 계세요</div>
+          <div class="seg">[01:05:15] 이기 진짜 미쳤다 진짜 와 지금 여러분들 가슴이 두근두근 하신 분 손 들어보세요</div>
+          <div class="seg">[01:05:22] 아 이게 이렇게 가네 모자랑 같은 경우는 2주 전까지만 2주가 뭐 1주 전까지만 해도 지금</div>
+          <div class="seg">[01:05:32] 그냥 기획 자체를 혼자 하고 있었어요 근데 보세요 진짜 저는 한달만 합니다 진짜</div>
+          <div class="seg">[01:05:41] 제가 작정하고 패면은 패면서 가면 이렇게 됩니다</div>
+          <div class="seg">[01:05:45] 근데 여러분들이 진짜 열심히만 하면 이게 제 번업이에요</div>
+          <div class="seg">[01:05:54] 자 이거 지금 야</div>
+          <div class="seg">[01:05:59] 모자랑</div>
+          <div class="seg">[01:06:04] 모사모의 자랑 지금</div>
+          <div class="seg">[01:06:09] 스승의 은혜를 잊지 않을 거죠</div>
+          <div class="seg">[01:06:13] 스승의 은혜를 잊지 않을 거죠 지금 맹세해 지금 라이브 하는 데서 맹세해 나 이렇게 받아 넣어야겠어</div>
+          <div class="seg">[01:06:22] 모자랑 실명 주민번호 집전화 엄마 아빠 주민번호 건강국 보험 등록번호 써서 지금 맹세</div>
+          <div class="seg">[01:06:33] 농담이고요 쓰지마 쓰지마 음 나왔다 음 아 음 나왔다 벌써 아 음 나왔다 시즌 1호 음 나왔다</div>
+          <div class="seg">[01:06:44] 아 시즌 1호 지금 지금 흠 떴다 아 어 협상 협상 떴다 지금 와 벌써 야 호랑이를 키웠다</div>
+          <div class="seg">[01:06:54] 비번 줄 알았는데 호랑이였어 아 지금 농담입니다 저는 스승님과 끝까지 갑니다 와 제 2의 남 pd 같으니 와 저 끝까지</div>
+          <div class="seg">[01:07:04] 간다 무슨 말이지 저거 어 아 아주</div>
+          <div class="seg">[01:07:10] 아 진짜 아 남 pd가 보인다 진짜</div>
+          <div class="seg">[01:07:17] 아 모사모의 자랑 2호도 준비해 놔야 되나</div>
+          <div class="seg">[01:07:26] 아 너무 너무 재밌는데</div>
+          <div class="seg">[01:07:31] 아 너무 재밌다 자 모사모 모자랑 제가 미션 뭐 줬는지 다 이해했죠</div>
+          <div class="seg">[01:07:39] 다 이해했죠 제한문화 강화하고 결과에 맞춰서 제한문화 강화하고 오세요</div>
+          <div class="seg">[01:07:47] 그리고 구체화하고 오고 어 이미 잘하고 있으니까 만들어놓은 거 실현 가능성 있는지랑 어 대체품 있는지랑</div>
+          <div class="seg">[01:07:56] 경쟁자 있는지 보세요 미친듯이 찾았는데 안 나오면 진짜 없다고 해도</div>
+          <div class="seg">[01:08:06] 이제 구체화 하면서 지금은 결과 밖에 안 나와서 이렇게 될 수 있으면 진짜 짱인데 어</div>
+          <div class="seg">[01:08:15] 제가 그리고 이렇게 말했다고 해서 너무 복잡하게만 생각은 하지 마세요 단순한 게 지금은 짱이에요</div>
+          <div class="seg">[01:08:22] 사람들이 또 이제 제품이 너무 복잡해지면 또 신뢰를 안 하는 경향이 있어요</div>
+          <div class="seg">[01:08:28] 이게 제일 신뢰가 가는 제품인 이유가 있는 거 너무 불편해지면 안 돼</div>
+          <div class="seg">[01:08:36] 불편해지면 안 돼요 무슨 말인지 알겠죠 모자랑 불편해지면 안 됩니다 얘가 좋았던 건 일단은 엄청 편했을 거야</div>
+          <div class="seg">[01:08:45] 근데 더 나은 가능성이 뭐가 있는지 아니면 이런 방향에서도 어떤 형태적으로 변화를 줄 수 있는지</div>
+          <div class="seg">[01:08:51] 그걸 한번 보세요 얘가 형태만 바뀔 수도 있지</div>
+          <div class="seg">[01:08:56] 저 지금 여러가지 가능성을 지금 다 말하는 거예요</div>
+          <div class="seg">[01:09:00] 얘가 뭐 형태만 진짜 이 족적음막 모양으로 돼 있고 족적음막 뭐</div>
+          <div class="seg">[01:09:07] 결 분석해가지고 그 결처럼 이렇게 뭐 프린팅이 돼 있거나 붙어 있을 수 있거나 뭐 그럴 수도 있어요 그게 사람들이 더 신뢰가 갈 수도 있어요</div>
+          <div class="seg">[01:09:15] 예전에 저희 이거 족적음막 저희 지금 아이디어 주는 거예요 지금 모자랑 우리가 지금 베트남에서 연구하고 있는 거 아이디어 주는 거예요</div>
+          <div class="seg">[01:09:27] 그</div>
+          <div class="seg">[01:09:30] 이 사람들이 그냥 봤을 때 신뢰가 가는 것들이 있어요 뭐냐면 아 얘는 진짜 이거에 이렇게 작동하겠구나 하는 건 그냥 그렇게 생기면 돼</div>
+          <div class="seg">[01:09:42] 만약에 내가 족적음막에다가 효과가 있게 만들었다 그냥 족적음막이 이렇게 생겼고요</div>
+          <div class="seg">[01:09:51] 얘는 그걸 이렇게 대응하게 생겼습니다 생긴 게 그렇게 생겨 있으면 돼</div>
+          <div class="seg">[01:09:56] 진짜 복잡한 걸 원하지 않아요 얘가 이렇게 생겼고요 얘는</div>
+          <div class="seg">[01:10:02] 족적음막은 결이 이렇게 생겼는데 여기 이렇게 딱 붙습니다 이렇게 침투합니다 이런 식으로도 할 수 있겠죠</div>
+          <div class="seg">[01:10:09] 와 미쳤다 그냥 진짜 선생님 다 간다</div>
+          <div class="seg">[01:10:15] 금막이 금막이 이렇게 생겼는데요 미안해 미안해 실장님 미안해 실장님</div>
+          <div class="seg">[01:10:25] 일단은</div>
+          <div class="seg">[01:10:29] 금막이 이렇게 생겼고 뭐 이런 식으로 생겼는데 예시를 듣는 거 이렇게 생겼는데</div>
+          <div class="seg">[01:10:36] 해부학적으로 보면 이렇게 생겼는데 얘네 여기에 무슨 돌기나 프린팅이 여기 쫙 붙어가지고 1대1로 대응을 해서</div>
+          <div class="seg">[01:10:44] 이 성분이 이렇게 들어갑니다</div>
+          <div class="seg">[01:10:48] 이해 특헌 해봐요</div>
+          <div class="seg">[01:11:04] 지금 우리 팀원들이 베트남에서 지금 온 공장이랑 같이 만들고 있는 게 이런 건데</div>
+          <div class="seg">[01:11:15] 모자랑 모자랑의 영역이 있으니까</div>
+          <div class="seg">[01:11:20] 미쳤죠</div>
+          <div class="seg">[01:11:22] 우리 실장님이 이기나 모자랑이 이기나 한번 해보자</div>
+          <div class="seg">[01:11:29] 난 둘 다 투자해가지고 경쟁시켜야 겠다 둘 다 잘 되면 돼</div>
+          <div class="seg">[01:11:35] 약간 헷증 해야 겠다</div>
+          <div class="seg">[01:11:40] 아 여러분들 지금 미쳤는데요</div>
+          <div class="seg">[01:11:47] 아 지금 미쳤는데요</div>
+          <div class="seg">[01:11:51] 이거 만드는 건 어렵지 않습니다 패턴 만들면 돼요</div>
+          <div class="seg">[01:11:56] 펄프로 어떤 걸로 재질이 뭐가 될지 모르겠는데 생산량이 좀 이렇게 들어가면 많을 수도 있는데</div>
+          <div class="seg">[01:12:05] 그거는 일단 모자랑의 견적 받아오면</div>
+          <div class="seg">[01:12:14] 아 이거 지금 지금</div>
+          <div class="seg">[01:12:19] 아 나도 진짜 열정이 넘친다 미치겠다 하시는 분들 손 들어보세요</div>
+          <div class="seg">[01:12:25] 바로 이거야</div>
+          <div class="seg">[01:12:28] 이게 사업이야</div>
+          <div class="seg">[01:12:31] 지금 소리 끄고 이것만 이 그림만 보여주고 있으면 사람들이 이게 뭔</div>
+          <div class="seg">[01:12:38] 저 자기들 뭐 하냐 이럴 수 있겠지만</div>
+          <div class="seg">[01:12:41] 어 지금 이 고도에 지금 고도로 진화한 사업은 놀이와 다를 바가 없다</div>
+          <div class="seg">[01:12:48] 고도로 진화한 사업은 어 휴가와 다를 바가 없다</div>
+          <div class="seg">[01:12:56] 음</div>
+          <div class="seg">[01:12:58] 아기낙서 떴습니다 아기낙서 떴습니다 아 그래도 아기낙서 약간 예술적이고 좋습니다 듣기 좋습니다</div>
+          <div class="seg">[01:13:08] 피카소 떴습니다 좋습니다 아 너무 재밌는데</div>
+          <div class="seg">[01:13:13] 아 모회장</div>
+          <div class="seg">[01:13:17] 음 나야나</div>
+          <div class="seg">[01:13:21] 나야나 나 잊었나 문자랑이야 어</div>
+          <div class="seg">[01:13:27] 나야나 문자랑 어 모회장</div>
+          <div class="seg">[01:13:32] 내가 그때 다 그려줬잖아 잊은건 아니지</div>
+          <div class="seg">[01:13:36] 어 아니 아니 생생내는게 아니고 생생내는게 아니고</div>
+          <div class="seg">[01:13:43] 어 아니 알지 알지 다 알지 이게 다 이제</div>
+          <div class="seg">[01:13:49] 우리 모회장님이 다 해서 한거 알지 하지만 그래도 좀 날 잊지 말아주게</div>
+          <div class="seg">[01:13:57] 잊지 말아주게나 우리 그때 함께 했던 밤을 우리 우리 가족들도 좀 챙겨주게</div>
+          <div class="seg">[01:14:05] 아 미쳤다 모자랑 언제까지 해올래요</div>
+          <div class="seg">[01:14:12] 2기부터는 제 스타일대로 가겠습니다</div>
+          <div class="seg">[01:14:19] 내일 내일 너무 빨라 더 제대로 알아봐야 돼 모자랑은</div>
+          <div class="seg">[01:14:26] 어 다음주까지 구조와 완성시켜 놓으세요</div>
+          <div class="seg">[01:14:34] 제가 미리 검토하고</div>
+          <div class="seg">[01:14:43] 하겠습니다 좋습니다</div>
+          <div class="seg">[01:14:47] 다음주 금요일까지 제대로 해놓으세요</div>
+          <div class="seg">[01:14:51] 자문자답하고</div>
+          <div class="seg">[01:14:54] 안 되는거면은 그냥 보여주지도 마세요 무슨 말인지 알죠</div>
+          <div class="seg">[01:14:59] 안 되는 거 이제 보여주면 시간 낭비 이 정도 단계에서부터는 아 이거 진짜 될 수 밖에 없다</div>
+          <div class="seg">[01:15:04] 이거 자신있게 보여주고 그냥 깨지는 게 낫겠다 그냥 욕먹는 게 낫겠다 할 때 보여주세요</div>
+          <div class="seg">[01:15:12] 좋았어 다음주 금요일까지 구조와 한번 더 올리세요 좋습니다</div>
+          <div class="seg">[01:15:19] 앞으로 여러분들 피드백 받은다면 제가 바로 데드라인 정해서 말하겠습니다</div>
+          <div class="seg">[01:15:26] 여러분 매일 매주 박살 내야 돼요 이 정도 수준으로</div>
+          <div class="seg">[01:15:32] 여러분들 모자랑한테 박수 한번 주세요 엄청난 그야말로</div>
+          <div class="seg">[01:15:40] 오늘 정말 제대로 된 사업 판타지를 봤습니다</div>
+          <div class="seg">[01:15:45] 정말 환상적인 사업 기획 과정을 봤습니다 이렇게 탄생한 것들이</div>
+          <div class="seg">[01:15:53] 전국적인 국제적인 사업이 돼요 나중에</div>
+          <div class="seg">[01:16:01] 모자랑 다음 구조와 시트 갖고 올 때 스크립트를 어디서 어떻게</div>
+          <div class="seg">[01:16:08] 구현할 건지 구체적인 상황도 한번 써보세요 예를 들면은 어떤 채널에서 내가 어떻게 고객들한테 스크립트 도달시킬 거다</div>
+          <div class="seg">[01:16:19] 그것도 한번 같이 갖고 올 때가 됐네요</div>
+          <div class="seg">[01:16:25] 진짜 훌륭합니다</div>
+          <div class="seg">[01:16:29] 아 진짜 훌륭한데 여러분들 제가</div>
+          <div class="seg">[01:16:34] 하나 더 볼까요? 하나 더 볼까요?</div>
+          <div class="seg">[01:16:41] 아 미쳤는데 오늘 아 나 헬스장</div>
+          <div class="seg">[01:16:46] 하나 더 볼까요? 여러분들 다시 물어볼게요 여러분들</div>
+          <div class="seg">[01:16:52] 진짜</div>
+          <div class="seg">[01:16:55] 진짜</div>
+          <div class="seg">[01:17:01] 되겠는데요? 지금 한번 할 때마다</div>
+          <div class="seg">[01:17:10] 절대 하나의 라이브도 빠트리지 마세요</div>
+          <div class="seg">[01:17:15] 절대 하나의 라이브도 빼트리지 마시고</div>
+          <div class="seg">[01:17:20] 모두 다 현장에서 보면서 그 감각을 계속 유지하세요 여러분들</div>
+          <div class="seg">[01:17:28] 이거 보시면은 시즌 2 지금 2기 첫 번째 라이브 보셨을 때도 그렇고 지금도 그렇고 여러분들 머리 속이 막 복잡하고</div>
+          <div class="seg">[01:17:38] 가슴이 두근거리고 머리 팽팽 돌고 지금 아 나도 나도 빨리 하고 싶다 아니면 아 난 어떻게 떠올리지 이런 생각이 들고 있으면 그 감각을 유지하세요</div>
+          <div class="seg">[01:17:47] 원래 그래요 그냥 갑자기 어느 날 빵 떠오른 거 아니잖아요 모자랑 어느 날 갑자기 빵 떠올랐어요?</div>
+          <div class="seg">[01:17:54] 아니죠</div>
+          <div class="seg">[01:17:58] 지금 저한테 피드백 받고 지금 속도 붙은 사람들 립뿜뿜 어느 날 빵 떠올랐어요?</div>
+          <div class="seg">[01:18:07] 아니죠 그냥 아 진짜</div>
+          <div class="seg">[01:18:12] 진짜 미친듯이 맨날 생각하다가 그냥 이거 진짜 괜찮은 것 같아가지고</div>
+          <div class="seg">[01:18:19] 말했더니 제가 지금 그거 끌고 가면서 패고 있는 거죠</div>
+          <div class="seg">[01:18:25] 그거 맞는 거예요 여러분들 그게 맞아요 그게 맞는데 그거를 포기해 버리면 아 나는 뭔가 안 되나?</div>
+          <div class="seg">[01:18:33] 아 나는 지금 다른 사람들에 대해서 딸리나? 그 생각 립뿜뿜 모자랑 부대리 또 누구 있었죠?</div>
+          <div class="seg">[01:18:43] 얼마 전에 피드백했던 아이린 리 루시윤 또 누구 있었죠?</div>
+          <div class="seg">[01:18:50] 또 누구 있었어요?</div>
+          <div class="seg">[01:18:54] 하도 많이 피드백해서 프레스 포인트 이분들 다 지금 자기 거 피드백 하기 전까지만 해도</div>
+          <div class="seg">[01:19:03] 아 나는 아닌가 보다 이 생각했죠 에디님 이민영</div>
+          <div class="seg">[01:19:10] 용만장재 님도 진짜 그 실행력이랑 그 접근 좋았어요 계속 다시 생각하세요</div>
+          <div class="seg">[01:19:19] 여러분들이 아 다들 앞서 나가는데 나는 진짜 아 나는 답 없나? 이 생각하고 있었죠</div>
+          <div class="seg">[01:19:26] 이 사람들이 그랬다니까? 여러분들이 지금 이 사람들 아 저분들은 지금 떠올라가지고</div>
+          <div class="seg">[01:19:32] 와 저게 되네 이러고 있지만 그 바로 그 전주까지만 해도 이 사람들이 그랬다니까? 그래서</div>
+          <div class="seg">[01:19:39] 그랬다니까요 진짜</div>
+          <div class="seg">[01:19:42] 제가 보기엔 여러분들 다 똑같아요 제가 보기엔 그냥 여러분들 계속 가르쳐야 되고 계속 푸시해야 되는거</div>
+          <div class="seg">[01:19:48] 그냥 다 똑같아요 여러분들 중에서 뭐 엄청 특출난 천재가 있고 그러지 않아요</div>
+          <div class="seg">[01:19:56] 우리 피글렛 양양 강작가 억만장재 햇빛 프리지아님 바닐라님</div>
+          <div class="seg">[01:20:04] 전부 다 우리 다 똑같아요 진짜</div>
+          <div class="seg">[01:20:07] 진짜 잘하고 있어요</div>
+          <div class="seg">[01:20:15] 생각을 해보세요 여러분들이 구조와 잘 안올리고 한각이 있으면은 저는 챙길 사람이 적어져 가지고 더 좋겠죠 근데 제가 왜 이러겠어요</div>
+          <div class="seg">[01:20:24] 진짜 전 여러분들이 성공했으면 좋겠고 착각하지 않았으면 좋겠어요 착각하지 않았으면 좋겠어요 뭔가</div>
+          <div class="seg">[01:20:32] 난 아닌가 저 사람들이 특별한가 저 사람들도 특별한 사람 아니였어요 우리 다 똑같은 출발선에서 시작했고 똑같이 어려웠고 똑같이 힘들었었어</div>
+          <div class="seg">[01:20:49] 오늘도 못 자겠다? 자지 마세요 레드오션 레드오션 엄청 똑똑해요 저분 진짜 제가 너무 많이 말해서 레드오션 민망할 수도 있는데</div>
+          <div class="seg">[01:21:01] 제가 보면은 진짜</div>
+          <div class="seg">[01:21:06] 경험이 없어가지고 포기해요 사람들이 중간에 와 이거 진짜 이거</div>
+          <div class="seg">[01:21:13] 이제는 그냥 입에다가 떠먹여주고 있잖아요 그러니까 절대 그 감각을 느슨하게 만들지 마세요</div>
+          <div class="seg">[01:21:28] 한 번만 경험하면 됩니다 여러분 한 번만 한 번만 되면 아 이거였구나 하고</div>
+          <div class="seg">[01:21:35] 하게 될거에요 그러니까 다시 말을 할게요 여러분들 절대 포기하지 마세요 저도 진짜 포기하고 싶었을 때 엄청 많아요</div>
+          <div class="seg">[01:21:50] 절대 포기하지 마세요 하나 더 보겠습니다 여러분들 그렇기 때문에 저 어차피 헬스장 가야 되니까 한 시간만 더 볼게요</div>
+          <div class="seg">[01:22:00] 진짜 여러분들을 위해서 지금 나 출장 와가지고 오늘도 지금 이거</div>
+          <div class="seg">[01:22:13] 여러분들 한시에 다시 와요 한시</div>
+          <div class="seg">[01:22:21] 5분 동안 물떠와요 오레오스키 오레오스키</div>
+          <div class="seg">[01:22:29] 어허 나의 지금 수제자를 사랑하는 지금 스승의 마음을 지금 아 또 또 또</div>
+          <div class="seg">[01:22:39] 정곡 뭐야 억만장자 정곡 뭡니까 아 진짜 어허</div>
+          <div class="seg">[01:22:48] 자</div>
+          <div class="seg">[01:22:50] 5분 뒤에 봐요 그리고 나 2시에 헬스장 보내주죠</div>
+          <div class="seg">[01:22:58] 으</div>
+          <div class="seg">[01:28:58] 으</div>
+          <div class="seg">[01:29:18] 아 이거 마이크가 꺼져 있었구나</div>
+          <div class="seg">[01:29:23] 다 돌아왔어요 끝장을 봅시다</div>
+          <div class="seg">[01:29:35] 100명의 초 정규 인원들</div>
+          <div class="seg">[01:29:44] 죄송해요 제가 이제 출장 와가지고 오늘</div>
+          <div class="seg">[01:29:48] 어 그냥 킹거라 가지고 원래 피드백 하려면은 모사모어 풀로 진행을 했어야 했는데 오늘</div>
+          <div class="seg">[01:30:00] 제가 또 하면서도 아무래도 유튜브로 하니까</div>
+          <div class="seg">[01:30:05] 약간 걱정되는 게 좀 있기는 한데 모르잖아요 이게 사실 링크만 있으면 뭐</div>
+          <div class="seg">[01:30:12] 뭐 공유도 될 수도 있고 그래서</div>
+          <div class="seg">[01:30:16] 뭐</div>
+          <div class="seg">[01:30:19] 약간 아까 걱정하기는 했는데 다음부터는 좀</div>
+          <div class="seg">[01:30:25] 어떻게 좀 해외에서도 모사모어 풀로 진행을 할 수 있게</div>
+          <div class="seg">[01:30:31] 일단 어떻게 한번 해볼게요 그래도 안 하는 것보다 하는 게 낫잖아요</div>
+          <div class="seg">[01:30:37] 어 뻔한 쓰라이브는 스님이 진짜</div>
+          <div class="seg">[01:30:43] 진짜 여러분들 생각을 안 하면 할 수가 없는 거기 때문에</div>
+          <div class="seg">[01:30:52] 그쵸 100배 낫죠</div>
+          <div class="seg">[01:30:56] 저 강작가님이 만들어주신 키링 지금도 달고 있어요 지금도 달고 있어요</div>
+          <div class="seg">[01:31:03] 제 가방에 지금 달려 있습니다 모사모어 해가지고 강작가님 엄청 감사해요 진짜</div>
+          <div class="seg">[01:31:10] 정말 자랑스러워요</div>
+          <div class="seg">[01:31:14] 자 여러분들 바로 들어가도 되겠어요</div>
+          <div class="seg">[01:31:18] 바로 들어가도 되겠어요</div>
+          <div class="seg">[01:31:28] 여러분들 재밌습니까 찌리리공 님도 달고 다니는데 프리지아 님이랑 찌리리공 님</div>
+          <div class="seg">[01:31:36] 우리 찌리리공 님</div>
+          <div class="seg">[01:31:40] 결혼식 후기 안 올리나 아 찌리리공 지금 결혼식 후기 후딱후딱 올려야지 지금</div>
+          <div class="seg">[01:31:52] 고이 모셔놨다 그럴 수도 있습니다 하지만 저는 파워 실착러라 가지고 뭐든지 이제 써야 의미가 있기 때문에 하긴 했는데</div>
+          <div class="seg">[01:32:01] 고이 모셔놓은 분들도 있더라고 벽에 걸어놓거나</div>
+          <div class="seg">[01:32:06] 아 꼬꼬마지 님 저도 갖고 싶습니다 그러니까 강작가님 2기 2기 우리 러너들을 위해서 한번</div>
+          <div class="seg">[01:32:16] 어 한번 또 오다를 한번 드릴까요 그러면은 받으실 분들</div>
+          <div class="seg">[01:32:22] 강작가님 한 번 더 근데 그때 너무 빡세게 작업하셔가지고 너무 힘들었다고</div>
+          <div class="seg">[01:32:30] 그래서 저는 이제 어떻게든 우리 저 강작가님 엄청 좋아하기 때문에 강작가님한테 좀</div>
+          <div class="seg">[01:32:37] 오다를 드리면 좋아하실 줄 알았는데 너무 그때 빡세게 하셔서 너무 힘들었다</div>
+          <div class="seg">[01:32:43] 어 그리고 진짜 하나도 안 남기신 것 같더라구요 그래서 아 너무 이럴려고 한 게 아닌데</div>
+          <div class="seg">[01:32:51] 아 또 진짜 사람이 너무 좋아 가지고</div>
+          <div class="seg">[01:32:57] 이번엔 가죽 자켓으로 될까요 아</div>
+          <div class="seg">[01:33:10] 음 자 아무튼 여러분들 한번 가죽 갑옷으로 달라고 그러지</div>
+          <div class="seg">[01:33:18] 가죽으로 된 거 기왕 이렇게 막 나갈 거</div>
+          <div class="seg">[01:33:27] 음 이런 걸로 달라고 그러지</div>
+          <div class="seg">[01:33:34] 강작가님 가능하십니까</div>
+          <div class="seg">[01:33:39] 강작가님 가능한 거 이거 마음에 드는데 저는 풀세트 헬멧까지</div>
+          <div class="seg">[01:33:47] 이런 사진도 찍고 칼을 들고 이런 사진도 찍고 야</div>
+          <div class="seg">[01:33:54] 니가 우리 가족 건드렸냐 죽을래 진짜</div>
+          <div class="seg">[01:34:03] 잘 어울릴 것 같은데</div>
+          <div class="seg">[01:34:08] 여성용은 약간 이렇게 경량화해서 활도 같이 가능한가요 강작가님</div>
+          <div class="seg">[01:34:14] 형님들이라면 뭐든 해야 된대 아 안 돼 안 돼 안 돼 진짜 하실 각이다 안 돼 안 돼 안 돼 안 돼</div>
+          <div class="seg">[01:34:20] 닫아 닫아 닫아 강작가님은 진짜 해 진짜 여러분들 너도 너도 저분 진짜 해주셔</div>
+          <div class="seg">[01:34:27] 저러고 만원 불러도 진짜 해주셔 그래서 안 돼 안 돼 안 돼</div>
+          <div class="seg">[01:34:37] 자 죄송합니다 농담이었어요 다시 끈해주세요 끈</div>
+          <div class="seg">[01:34:45] 여러분들 강작가님 너무 좋으셔가지고 진짜 또 이제 파트너 분한테 엄청 욕먹으면서 가죽가보여 다 만든다고</div>
+          <div class="seg">[01:34:54] 주문 제작으로</div>
+          <div class="seg">[01:34:58] 좋았어 한번 볼까</div>
+    </div>
+  </div>
+
+  <div class="footer">해일이형 이기수제자 강의 전사 · Whisper medium · 2026.03.24</div>
 </div>
-
-<h2>📝 핵심 타임라인</h2>
-<div class='timeline-item'>[00:00:00] 아까 모자랑이 올린 거 먼저 보기로 했잖아요.</div>
-<div class='timeline-item'>[00:00:04] 여러분들이 모자랑의 사각 기회 같은 경우 우리 다 봤죠, 여러분.</div>
-<div class='timeline-item'>[00:00:08] 적적음악염 슬리퍼에 대해서 그때 올렸었고 바로 볼게요.</div>
-<div class='timeline-item'>[00:00:27] 전외과 한 번 살짝 보고 갈게요.</div>
-<div class='timeline-item'>[00:00:52] 아, 자존심 상해. 막 이럴 수도 있고 있기 때문에 물어보고 가겠습니다.</div>
-<div class='timeline-item'>[00:01:17] 왜 왜 우리가 그거를 보여달라고 할 거라고 생각하시죠?</div>
-<div class='timeline-item'>[00:01:21] 자 우리 모자랑의 아이디언은 바로 적적음악염 슬리퍼였어요.</div>
-<div class='timeline-item'>[00:01:29] 적적음악염을 해결해 줄 수 있는 논리를 전부 이해하고 있었죠.</div>
-<div class='timeline-item'>[00:01:36] 자존심이 되었고 그 조사가 아주 잘되어있었던 사례가서</div>
-<div class='timeline-item'>[00:01:40] 저도 이그면서 계속 놀랐었던 건데</div>
-<div class='timeline-item'>[00:01:43] 이제 사업이 이제 성공해야 되니까</div>
-<div class='timeline-item'>[00:01:47] 여러분들 우리 수제자 이기라이브 때 가장 큰 충격을 받았던 그런 글쎄요 여러분들.</div>
-<div class='timeline-item'>[00:01:53] 성공할 수 있는 요소를 여러가지 넘어가면서 사업이 오히려 둥그러져버린다는 거예요.</div>
-<div class='timeline-item'>[00:01:59] 대부분의 사업들이 사업이 둥그러져서 망해.</div>
-<div class='timeline-item'>[00:02:02] 그래서 떼굴떼굴떼 굴러가니까 팍 찔러서 이제 없애버려야 되는데 경쟁자를</div>
-
-
-<h2>⭐ 에디/1분도수/도수넥/도수펜 언급</h2>
-<ul class="star-list">
-<li>이 영상 전사 범위(초반 16분)에서 직접 언급 없음</li>
-</ul>
-
-<div class="note-box">⚠️ 전사 범위: 파트별 초반 16분. 전체 내용은 원본 영상 시청 권장.</div>
-</div>
+<script>
+function doSearch() {
+  const q = document.getElementById('srch').value.toLowerCase();
+  const segs = document.querySelectorAll('.seg');
+  let n = 0;
+  segs.forEach(s => {
+    const t = s.textContent;
+    if (!q) { s.style.display=''; s.textContent=t; return; }
+    if (t.toLowerCase().includes(q)) {
+      s.style.display='';
+      s.innerHTML = t.replace(new RegExp(q.replace(/[.*+?^${}()|[\]\\]/g,'\\$&'),'gi'),m=>'<span class="highlight">'+m+'</span>');
+      n++;
+    } else { s.style.display='none'; }
+  });
+  document.getElementById('srchCnt').textContent = q ? n+' 결과' : '';
+}
+</script>
 </body>
 </html>
