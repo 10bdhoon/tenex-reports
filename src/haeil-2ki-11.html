@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>해일이형 2기 11강 | 랩플 런칭 & 피지오스케일 피드백</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #0f0f13; color: #e2e8f0; min-height: 100vh; }
+    .container { max-width: 900px; margin: 0 auto; padding: 40px 20px; }
+    .header { text-align: center; margin-bottom: 48px; }
+    .badge { display: inline-block; background: linear-gradient(135deg, #7c3aed, #4f46e5); color: white; font-size: 12px; font-weight: 700; padding: 4px 12px; border-radius: 20px; margin-bottom: 12px; }
+    h1 { font-size: 26px; font-weight: 800; color: #f1f5f9; margin-bottom: 8px; line-height: 1.3; }
+    .subtitle { color: #94a3b8; font-size: 15px; margin-bottom: 24px; }
+    .meta { display: flex; justify-content: center; gap: 24px; flex-wrap: wrap; font-size: 13px; color: #64748b; }
+    .section { background: #1a1a2e; border: 1px solid #2d2d4e; border-radius: 16px; padding: 28px; margin-bottom: 24px; }
+    .section-title { font-size: 16px; font-weight: 700; color: #a78bfa; margin-bottom: 16px; }
+    .one-liner { font-size: 17px; color: #f8fafc; font-weight: 600; line-height: 1.6; padding: 20px; background: linear-gradient(135deg, #1e1b4b, #1a1a2e); border-left: 4px solid #7c3aed; border-radius: 0 12px 12px 0; }
+    ul { list-style: none; }
+    ul li { padding: 8px 0; padding-left: 20px; position: relative; color: #cbd5e1; font-size: 14px; line-height: 1.7; border-bottom: 1px solid #1e293b; }
+    ul li:last-child { border-bottom: none; }
+    ul li::before { content: '▸'; position: absolute; left: 0; color: #7c3aed; font-size: 12px; top: 10px; }
+    .highlight-box { background: #0f172a; border: 1px solid #334155; border-radius: 10px; padding: 14px 18px; margin: 8px 0; }
+    .timeline { display: flex; flex-direction: column; gap: 12px; }
+    .timeline-item { display: flex; gap: 16px; align-items: flex-start; }
+    .time-badge { background: #1e1b4b; color: #a78bfa; font-size: 12px; font-weight: 700; padding: 3px 10px; border-radius: 20px; white-space: nowrap; min-width: 64px; text-align: center; margin-top: 2px; border: 1px solid #4c1d95; }
+    .time-content { color: #cbd5e1; font-size: 14px; line-height: 1.6; flex: 1; }
+    .tag { display: inline-block; background: #14532d; color: #86efac; font-size: 11px; padding: 2px 8px; border-radius: 10px; margin: 2px; }
+    .tag.blue { background: #1e3a8a; color: #93c5fd; }
+    .tag.orange { background: #7c2d12; color: #fdba74; }
+    .tag.purple { background: #4c1d95; color: #c4b5fd; }
+    .tag.red { background: #7f1d1d; color: #fca5a5; }
+    .alert-box { background: #1c1917; border: 2px solid #f59e0b; border-radius: 12px; padding: 20px; margin-bottom: 24px; }
+    .alert-box h3 { color: #fbbf24; font-size: 15px; font-weight: 700; margin-bottom: 8px; }
+    .alert-box p { color: #d6d3d1; font-size: 14px; line-height: 1.6; }
+    .footer { text-align: center; margin-top: 48px; color: #475569; font-size: 13px; }
+    a.back { display: inline-flex; align-items: center; gap: 6px; color: #7c3aed; text-decoration: none; font-size: 14px; margin-bottom: 24px; }
+  </style>
+</head>
+<body>
+<div class="container">
+  <a href="/index.html" class="back">← 목록으로</a>
+  
+  <div class="header">
+    <div class="badge">🎓 해일이형 이기수제자 2기</div>
+    <h1>11회차 강의 — 랩플 런칭 & 피지오스케일 제품 피드백</h1>
+    <p class="subtitle">이기수제자 2기 · 11강 · 2025년</p>
+    <div class="meta">
+      <span>⏱ 4시간 5분</span>
+      <span>📝 전사: Whisper small (ko)</span>
+      <span>✅ 5,499 segments</span>
+    </div>
+  </div>
+
+  <!-- 에디 언급 알림 -->
+  <div class="alert-box">
+    <h3>⭐ 에디님 언급 확인 [224:43]</h3>
+    <p>해일이형이 외출 중 에디님과 마주친 에피소드 언급 — "에디님 성공할 거라가지고, 어떻게 하면 안 돼" (격려 발언)</p>
+  </div>
+
+  <div class="section">
+    <div class="section-title">💬 한줄 요약</div>
+    <div class="one-liner">
+      해일이형이 직접 만든 미식 플랫폼 '랩플'을 실시간 런칭하고, 수제자 프레스포인트의 무릎 재활기구 '피지오스케일' 패키징/마케팅을 집중 피드백하며, 에디님을 거리에서 우연히 만난 에피소드를 공유한 강의.
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">📌 주요 주제</div>
+    <ul>
+      <li><strong>랩플(Rappfl) 플랫폼 실시간 런칭</strong> — 해일이형이 직접 운영하는 미식 맛집 추천 플랫폼. "인장 시스템", "랩 응모 시스템" 실제 구동 시연</li>
+      <li><strong>프레스포인트 피지오스케일 언박싱 피드백</strong> — 무릎 재활 밴드. 패키지 디자인 개선, 설명서 개선, 팜플렛 전략 코칭</li>
+      <li>이기수제자 예비 번호 발표 — 안 놀람 예비1, 호만세 예비4 등</li>
+      <li>에디님 거리 조우 에피소드 [224:43]</li>
+      <li>미식 경험 공유 — 1인 소비금액, 까칠한 리뷰어 등 랩플 유기적 성장 전략</li>
+      <li>수제자들 사업 구조(아이디어 검토) 진행 — 사업 눈앞에 온 수제자들 순서대로 피드백</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <div class="section-title">💡 핵심 개념/프레임워크</div>
+    <ul>
+      <li>
+        <strong>랩플 플랫폼 핵심 구조</strong>
+        <div class="highlight-box">
+          인장 시스템(장르별 인증) + 랩 응모 시스템(추첨 방문) + 유명 까칠한 리뷰어 = 유기적 바이럴. 1인 소비금액 표시 기능. "스시인문", "커피인문" 등 장르 인장 보유자만 응모 가능
+        </div>
+      </li>
+      <li>
+        <strong>피지오스케일 패키지 피드백</strong>
+        <div class="highlight-box">
+          ✅ 잘된 것: 단상자 패키지, 어두운 초록색 고급감, 브랜드 사명 카드("세상에 누구도 무릎 통증으로 불행해서는 안 된다"), 얇아진 밴드(장력은 더 셈)<br>
+          ❌ 개선 필요: 설명서 퀄리티 이전과 동일, 팜플렛 매치 안 됨, 폰트/레이아웃 개선 필요<br>
+          💡 제안: 카아라처럼 박을 찍은 접는 팜플렛으로 브랜드 스토리 + 주의사항 분리
+        </div>
+      </li>
+      <li>
+        <strong>"결거(결과)로부터 시작"</strong> — 사업 기획 시 점진적 개선이 아닌 "잘 되는 결과를 먼저 상상하고 역산"해야 함 [180-210분대]
+      </li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <div class="section-title">📊 주요 수치/데이터</div>
+    <ul>
+      <li>강의 길이: <strong>4시간 5분</strong> (전사 5,499 segments)</li>
+      <li>랩플 플랫폼: 1인 소비금액 표시, 장르 인장 보유 시 투표권 부여</li>
+      <li>카네타 VIP 클럽: <strong>20~40명</strong> 한정, 멤버십 수천만원 + 식사 70만원 별도</li>
+      <li>피지오스케일: 무릎 재활 밴드, 얇아진 소재이지만 장력 더 강해짐</li>
+      <li>이기수제자 예비: 안 놀람 1번, 호만세 4번 확인</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <div class="section-title">🔥 실행 가능한 핵심 인사이트</div>
+    <ul>
+      <li><strong>"유기적 성장은 처음부터 설계된다"</strong> — 랩플 사례. 까칠한 리뷰어를 섭외해 5점을 안 주게 만드는 것 자체가 유입 요소. 완벽한 별점보다 진정성 있는 리뷰가 바이럴됨</li>
+      <li><strong>패키지 팜플렛 = 브랜드의 얼굴과 언어</strong> — 피지오스케일 피드백. 겉포장 잘해도 팜플렛에서 무너지면 고객 경험 망가짐. 몽블랑처럼 접는 종이 하나에 브랜드 스토리 담기</li>
+      <li><strong>결과에서 역산</strong> — 현재 제품 개선보다 "잘 되는 장면을 먼저 상상" 후 역산해서 기획해야 진짜 사업이 됨</li>
+      <li><strong>팜플렛 구조 제안</strong> — 면1: 브랜드 사명/스토리 + 보증, 면2: 설명서/레이아웃, 접이식으로 전통감 + 감성 자극</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <div class="section-title">🏥 키네메디칼/테넥스 적용 포인트</div>
+    <ul>
+      <li><span class="tag red">에디 언급</span> [224:43] 에디님 거리 조우 — "에디님 성공할 거라가지고 어떻게 하면 안 돼" (해일이형 격려)</li>
+      <li><span class="tag purple">패키지</span> 피지오스케일 피드백이 ES-808/도수넥에 직접 적용 가능 — 팜플렛에 브랜드 사명, 접이식 카드로 "1분도수" 스토리 담기</li>
+      <li><span class="tag orange">마케팅</span> 까칠한 리뷰어 전략 — 1분도수 채널에 완벽한 리뷰 대신 "혹독한 기준의 물리치료사" 캐릭터 활용 가능</li>
+      <li><span class="tag blue">플랫폼</span> 랩플의 "인장 + 랩 응모" 구조 — 1분도수 앱에 "운동인증 + 추첨 이벤트" 구조로 참고</li>
+      <li><span class="tag">사업 원칙</span> "결거로부터 시작" — 제품 개선보다 먼저 "고객이 추천하는 장면을 상상" 후 역산해서 마케팅 설계</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <div class="section-title">📝 핵심 타임라인</div>
+    <div class="timeline">
+      <div class="timeline-item">
+        <span class="time-badge">00:00</span>
+        <span class="time-content">강의 시작 — 채팅창 크기 항의, 팀원 선물 에피소드</span>
+      </div>
+      <div class="timeline-item">
+        <span class="time-badge">60:00</span>
+        <span class="time-content">랩플 앱 소개 시작 — 미식가 소비금액 표시, 까칠토끼(까칠한 리뷰어) 유입 전략</span>
+      </div>
+      <div class="timeline-item">
+        <span class="time-badge">88:00</span>
+        <span class="time-content">랩플 플랫폼 실시간 런칭 — 쓰시아옥 1호 랩플 가동, 인장 응모 시스템 시연</span>
+      </div>
+      <div class="timeline-item">
+        <span class="time-badge">120:00</span>
+        <span class="time-content">이기수제자 예비 번호 발표 — 안 놀람 예비1, 호만세 예비4 확인</span>
+      </div>
+      <div class="timeline-item">
+        <span class="time-badge">145:00</span>
+        <span class="time-content">프레스포인트 피지오스케일 언박싱 — "세상에 누구도 무릎 통증으로 불행해서는 안 된다" 사명 카드 오픈</span>
+      </div>
+      <div class="timeline-item">
+        <span class="time-badge">149:00</span>
+        <span class="time-content">피지오스케일 강렬한 초록색 = "롤렉스 그린" 고급감. 얇아진 소재, 장력은 더 셈</span>
+      </div>
+      <div class="timeline-item">
+        <span class="time-badge">159:00</span>
+        <span class="time-content">팜플렛 피드백 — 몽블랑/카아라 사례로 접이식 브랜드 스토리 카드 제안</span>
+      </div>
+      <div class="timeline-item">
+        <span class="time-badge">180:00</span>
+        <span class="time-content">사업 기획 원칙 — "결거로부터 시작, 점진적 개선 말고 잘 되는 장면 먼저 상상"</span>
+      </div>
+      <div class="timeline-item">
+        <span class="time-badge">224:43</span>
+        <span class="time-content">⭐ 에디님 거리 조우 에피소드 — "에디님 성공할 거라가지고 어떻게 하면 안 돼" (해일이형 응원)</span>
+      </div>
+      <div class="timeline-item">
+        <span class="time-badge">241:00</span>
+        <span class="time-content">투자 언급 — "내가 투자자니까, 투자도 해주고 싶고"</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">⭐ 에디/1분도수/도수넥/도수펜 언급</div>
+    <ul>
+      <li><span class="tag red">에디</span> <strong>[224:43~225:01]</strong> 해일이형이 외출 중 에디님과 우연히 만남. "에디님 성공할 거라가지고 어떻게 하면 안 돼" — 성공 확신 발언. 에디님을 "시장에서 만난 에디님 의인화 캐릭터"로 비유</li>
+      <li style="color: #64748b; font-style: italic;">1분도수/도수넥/도수펜 직접 언급 없음</li>
+    </ul>
+  </div>
+
+  <div class="footer">
+    <p>생성: 카리나 AI · Whisper small 전사 · 5,499 segments · 2025</p>
+  </div>
+</div>
+</body>
+</html>
