@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>플랫폼 공식 API 분석 — 인플루언서 아웃리치 자동화</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: #0d1117; color: #e0e0e0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; min-height: 100vh; padding: 24px 16px; }
+  .container { max-width: 860px; margin: 0 auto; }
+  h1 { font-size: clamp(18px, 4vw, 26px); font-weight: 700; color: #e6edf3; margin-bottom: 6px; line-height: 1.3; }
+  .subtitle { font-size: 13px; color: #8b949e; margin-bottom: 32px; }
+  .badge { display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 11px; font-weight: 600; }
+  .badge-date { background: #161b22; border: 1px solid #21262d; color: #8b949e; }
+
+  /* Summary Table */
+  .summary-box { background: #161b22; border: 1px solid #21262d; border-radius: 12px; padding: 20px; margin-bottom: 32px; }
+  .summary-box h2 { font-size: 14px; color: #58a6ff; margin-bottom: 16px; letter-spacing: 0.5px; text-transform: uppercase; }
+  .summary-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  .summary-table th { text-align: left; padding: 8px 10px; color: #8b949e; font-weight: 500; border-bottom: 1px solid #21262d; font-size: 12px; }
+  .summary-table th:not(:first-child) { text-align: center; }
+  .summary-table td { padding: 10px 10px; border-bottom: 1px solid #161b22; vertical-align: middle; }
+  .summary-table td:not(:first-child) { text-align: center; font-size: 16px; }
+  .summary-table tr:last-child td { border-bottom: none; }
+  .summary-table .highlight-row td { background: #1a1420; }
+  .summary-table .feature-name { color: #e6edf3; }
+  .summary-table .feature-name strong { color: #f85149; }
+
+  /* Verdict Box */
+  .verdict { background: linear-gradient(135deg, #1a0a0a, #160808); border: 1px solid #f8514940; border-radius: 12px; padding: 20px 24px; margin-bottom: 32px; }
+  .verdict .label { font-size: 11px; font-weight: 700; color: #f85149; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; }
+  .verdict p { font-size: 14px; color: #ffa198; line-height: 1.6; }
+
+  /* Platform Sections */
+  .platform-section { margin-bottom: 28px; }
+  .platform-header { display: flex; align-items: center; gap: 10px; padding: 14px 18px; border-radius: 10px 10px 0 0; }
+  .platform-header.instagram { background: linear-gradient(135deg, #2d1b2e, #1f1429); border: 1px solid #8b5cf640; }
+  .platform-header.tiktok { background: linear-gradient(135deg, #0a1a1a, #071414); border: 1px solid #00f2ea40; }
+  .platform-header.youtube { background: linear-gradient(135deg, #1a0a0a, #130606); border: 1px solid #ff000040; }
+  .platform-icon { font-size: 24px; }
+  .platform-name { font-size: 16px; font-weight: 700; color: #e6edf3; }
+  .platform-name .sub { font-size: 12px; font-weight: 400; color: #8b949e; margin-left: 6px; }
+  .platform-body { background: #161b22; border: 1px solid #21262d; border-top: none; border-radius: 0 0 10px 10px; padding: 0; }
+  .feature-row { display: grid; grid-template-columns: 1fr auto; gap: 16px; padding: 14px 18px; border-bottom: 1px solid #21262d; align-items: start; }
+  .feature-row:last-child { border-bottom: none; }
+  .feature-label { font-size: 13px; font-weight: 600; color: #e6edf3; margin-bottom: 4px; }
+  .feature-detail { font-size: 12px; color: #8b949e; line-height: 1.5; margin-top: 4px; }
+  .feature-detail li { margin-left: 14px; margin-bottom: 2px; }
+  .feature-badge { font-size: 11px; font-weight: 700; padding: 3px 10px; border-radius: 20px; white-space: nowrap; flex-shrink: 0; }
+  .badge-ok { background: #0f2a1a; color: #3fb950; border: 1px solid #3fb95040; }
+  .badge-ng { background: #2a0f0f; color: #f85149; border: 1px solid #f8514940; }
+  .badge-limited { background: #1a1a0f; color: #d29922; border: 1px solid #d2992240; }
+
+  /* Action Table */
+  .action-section { margin-bottom: 32px; }
+  .action-section h2 { font-size: 14px; color: #58a6ff; margin-bottom: 14px; text-transform: uppercase; letter-spacing: 0.5px; }
+  .action-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  .action-table th { text-align: left; padding: 8px 12px; background: #161b22; color: #8b949e; font-weight: 500; font-size: 12px; border: 1px solid #21262d; }
+  .action-table td { padding: 10px 12px; border: 1px solid #21262d; vertical-align: top; line-height: 1.5; color: #cdd6df; }
+  .action-table .ok-row td:first-child { color: #3fb950; }
+  .action-table .ng-row td:first-child { color: #f85149; font-weight: 600; }
+
+  /* Recommendation */
+  .rec-section { background: #0c1a14; border: 1px solid #3fb95030; border-radius: 12px; padding: 20px 24px; margin-bottom: 32px; }
+  .rec-section h2 { font-size: 14px; color: #3fb950; margin-bottom: 16px; text-transform: uppercase; letter-spacing: 0.5px; }
+  .rec-step { display: flex; gap: 12px; margin-bottom: 14px; align-items: flex-start; }
+  .rec-num { width: 24px; height: 24px; border-radius: 50%; background: #1a3a2a; color: #3fb950; font-size: 12px; font-weight: 700; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 1px; }
+  .rec-content { font-size: 13px; color: #cdd6df; line-height: 1.5; }
+  .rec-content strong { color: #e6edf3; }
+
+  /* Rate limit table */
+  .mini-table { width: 100%; border-collapse: collapse; font-size: 12px; margin-top: 8px; }
+  .mini-table th { padding: 5px 8px; background: #0d1117; color: #8b949e; font-weight: 500; border: 1px solid #21262d; }
+  .mini-table td { padding: 5px 8px; border: 1px solid #21262d; color: #cdd6df; }
+
+  /* Back link */
+  .back { display: inline-flex; align-items: center; gap: 6px; color: #58a6ff; font-size: 13px; text-decoration: none; margin-bottom: 20px; }
+  .back:hover { text-decoration: underline; }
+
+  /* References */
+  .refs { margin-top: 16px; }
+  .refs a { color: #58a6ff; font-size: 12px; display: block; margin-bottom: 4px; word-break: break-all; }
+
+  @media (max-width: 600px) {
+    .feature-row { grid-template-columns: 1fr; }
+    .feature-badge { display: inline-block; }
+    .summary-table { font-size: 11px; }
+    .summary-table td:not(:first-child) { font-size: 14px; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+  <a href="/" class="back">← 대시보드</a>
+  <h1>플랫폼 공식 API 분석</h1>
+  <p style="font-size:14px;color:#8b949e;margin-bottom:4px;">인플루언서 아웃리치 자동화 — 가능한 것과 불가능한 것</p>
+  <p class="subtitle">
+    <span class="badge badge-date">조사일: 2026-03-23</span>
+    &nbsp;출처: Meta 공식 개발자 문서, TikTok Developers, Google YouTube Data API v3
+  </p>
+
+  <!-- 결론 요약 테이블 -->
+  <div class="summary-box">
+    <h2>📊 기능별 플랫폼 비교</h2>
+    <div style="overflow-x:auto;">
+      <table class="summary-table">
+        <thead>
+          <tr>
+            <th>기능</th>
+            <th>Instagram</th>
+            <th>TikTok</th>
+            <th>YouTube</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="feature-name">키워드/카테고리로 인플루언서 검색</td>
+            <td>❌</td>
+            <td>△</td>
+            <td>✅</td>
+          </tr>
+          <tr>
+            <td class="feature-name">특정 계정 데이터 조회 (팔로워/참여율)</td>
+            <td>✅</td>
+            <td>✅</td>
+            <td>✅</td>
+          </tr>
+          <tr class="highlight-row">
+            <td class="feature-name"><strong>DM 자동 발송 (콜드 아웃리치)</strong></td>
+            <td>❌</td>
+            <td>❌</td>
+            <td>❌</td>
+          </tr>
+          <tr>
+            <td class="feature-name">인바운드 메시지 응답 자동화</td>
+            <td>✅</td>
+            <td>❌</td>
+            <td>N/A</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- 핵심 결론 -->
+  <div class="verdict">
+    <div class="label">⚠️ 핵심 결론</div>
+    <p><strong>어떤 플랫폼의 공식 API로도 "콜드 DM 자동 발송"은 불가능하다.</strong><br>
+    인플루언서 검색은 YouTube API만 제대로 되고, 나머지는 제한적이다.<br>
+    스미스 멘토의 "공식 API 쓰면 되잖아" 발언은 API 기능을 오해한 것이다.</p>
+  </div>
+
+  <!-- Instagram -->
+  <div class="platform-section">
+    <div class="platform-header instagram">
+      <span class="platform-icon">📸</span>
+      <div>
+        <span class="platform-name">Instagram Graph API<span class="sub">Meta 공식</span></span>
+      </div>
+    </div>
+    <div class="platform-body">
+      <div class="feature-row">
+        <div>
+          <div class="feature-label">인플루언서 검색 (카테고리별)</div>
+          <ul class="feature-detail">
+            <li>Business Discovery API: username을 이미 알아야만 조회 가능</li>
+            <li>Hashtag Search: 게시물 ID만 반환, 계정 목록 추출 불가 (rate limit + 권한)</li>
+            <li>"물리치료사 1000명 리스트" API로 뽑기 = <strong style="color:#f85149">불가능</strong></li>
+          </ul>
+        </div>
+        <span class="feature-badge badge-ng">❌ 불가</span>
+      </div>
+      <div class="feature-row">
+        <div>
+          <div class="feature-label">DM 자동 발송 (콜드 아웃리치)</div>
+          <ul class="feature-detail">
+            <li>Send API는 IGSID(수신자 ID) 필수 — 상대방이 먼저 DM 보냈을 때만 생성됨</li>
+            <li>내가 먼저 DM 보내는 것(콜드) = API 구조상 원천 불가</li>
+            <li>설령 IGSID 있어도 메시지 창은 24시간만 유효</li>
+          </ul>
+        </div>
+        <span class="feature-badge badge-ng">❌ 절대불가</span>
+      </div>
+      <div class="feature-row">
+        <div>
+          <div class="feature-label">인바운드 메시지 응답 자동화</div>
+          <ul class="feature-detail">
+            <li>내 계정에 먼저 DM 보낸 사람에게 자동 응답 가능</li>
+            <li>단, 이건 아웃리치가 아님 (기존 팔로워 응대용)</li>
+          </ul>
+        </div>
+        <span class="feature-badge badge-ok">✅ 가능</span>
+      </div>
+      <div class="feature-row">
+        <div>
+          <div class="feature-label">계정 데이터 수집 (팔로워/참여율)</div>
+          <ul class="feature-detail">
+            <li>Business Discovery API: followers_count, like_count, comments_count 등</li>
+            <li>단, username을 이미 알고 있어야 함</li>
+            <li>Advanced Access: App Review + Business Verification 필요</li>
+          </ul>
+        </div>
+        <span class="feature-badge badge-limited">△ 제한적</span>
+      </div>
+      <div style="padding:12px 18px;background:#0d1117;border-radius:0 0 10px 10px;">
+        <table class="mini-table">
+          <tr><th>항목</th><th>내용</th></tr>
+          <tr><td>API 비용</td><td>무료</td></tr>
+          <tr><td>기본 요건</td><td>Instagram Professional Account</td></tr>
+          <tr><td>Rate Limit</td><td>4,800 × 지난 24h Impressions 수 calls/일</td></tr>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- TikTok -->
+  <div class="platform-section">
+    <div class="platform-header tiktok">
+      <span class="platform-icon">🎵</span>
+      <div>
+        <span class="platform-name">TikTok Research API<span class="sub">TikTok Developers</span></span>
+      </div>
+    </div>
+    <div class="platform-body">
+      <div class="feature-row">
+        <div>
+          <div class="feature-label">인플루언서 검색 (카테고리별)</div>
+          <ul class="feature-detail">
+            <li>비디오 검색 API로 해시태그+지역 필터 가능 (쿼리당 최대 100건)</li>
+            <li>영상 → creator_username 추출 → 크리에이터 목록 구성 (우회 가능)</li>
+            <li>Research API 승인 조건: 학술/연구 목적. 마케팅 용도 승인 불투명</li>
+          </ul>
+        </div>
+        <span class="feature-badge badge-limited">△ 조건부 가능</span>
+      </div>
+      <div class="feature-row">
+        <div>
+          <div class="feature-label">DM 자동 발송</div>
+          <ul class="feature-detail">
+            <li>TikTok 공식 API 제품군에 DM 기능 자체가 없음</li>
+            <li>Research API는 읽기 전용(read-only)</li>
+            <li>Login Kit, Share Kit, Content Posting API — 모두 DM 없음</li>
+          </ul>
+        </div>
+        <span class="feature-badge badge-ng">❌ API 없음</span>
+      </div>
+      <div class="feature-row">
+        <div>
+          <div class="feature-label">계정 데이터 수집</div>
+          <ul class="feature-detail">
+            <li>follower_count, likes_count, video_count, bio_description 등</li>
+            <li>username을 알아야만 계정 조회 가능 (Research API 승인 후)</li>
+          </ul>
+        </div>
+        <span class="feature-badge badge-limited">△ 승인 필요</span>
+      </div>
+      <div style="padding:12px 18px;background:#0d1117;border-radius:0 0 10px 10px;">
+        <table class="mini-table">
+          <tr><th>항목</th><th>내용</th></tr>
+          <tr><td>API 비용</td><td>무료</td></tr>
+          <tr><td>승인 필요</td><td>Research API 별도 신청 + 심사 (학술 목적 중심)</td></tr>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- YouTube -->
+  <div class="platform-section">
+    <div class="platform-header youtube">
+      <span class="platform-icon">▶️</span>
+      <div>
+        <span class="platform-name">YouTube Data API v3<span class="sub">Google</span></span>
+      </div>
+    </div>
+    <div class="platform-body">
+      <div class="feature-row">
+        <div>
+          <div class="feature-label">채널 검색 (키워드/카테고리)</div>
+          <ul class="feature-detail">
+            <li><code style="background:#0d1117;padding:1px 5px;border-radius:3px;font-size:11px;">q=물리치료사 &type=channel &regionCode=KR &relevanceLanguage=ko</code></li>
+            <li>한 번에 최대 50개, pageToken으로 페이징</li>
+            <li>세 플랫폼 중 유일하게 제대로 되는 검색</li>
+          </ul>
+        </div>
+        <span class="feature-badge badge-ok">✅ 완전 가능</span>
+      </div>
+      <div class="feature-row">
+        <div>
+          <div class="feature-label">채널 상세 데이터 수집</div>
+          <ul class="feature-detail">
+            <li>subscriberCount, videoCount, viewCount, description (이메일 파싱 가능)</li>
+            <li>단, 구독자 수는 1000단위 반올림 (2019년부터 YouTube 정책)</li>
+          </ul>
+        </div>
+        <span class="feature-badge badge-ok">✅ 가능</span>
+      </div>
+      <div class="feature-row">
+        <div>
+          <div class="feature-label">DM 자동 발송</div>
+          <ul class="feature-detail">
+            <li>YouTube에는 DM 기능 자체가 없음 (API도 없음)</li>
+            <li>댓글 작성(commentThreads.insert)은 가능하나 스팸 간주 + ToS 위반 리스크</li>
+          </ul>
+        </div>
+        <span class="feature-badge badge-ng">❌ DM 없음</span>
+      </div>
+      <div style="padding:12px 18px;background:#0d1117;border-radius:0 0 10px 10px;">
+        <table class="mini-table">
+          <tr><th>항목</th><th>내용</th></tr>
+          <tr><td>API 비용</td><td>무료 (10,000 units/일 기본)</td></tr>
+          <tr><td>검색 비용</td><td>100 units/회 → 하루 100회 검색 가능</td></tr>
+          <tr><td>실용 계산</td><td>채널 500개 수집 = 약 1,500 units → 하루 안에 완료</td></tr>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- 가능 vs 불가능 -->
+  <div class="action-section">
+    <h2>✅ 가능한 것 vs ❌ 불가능한 것</h2>
+    <table class="action-table">
+      <thead>
+        <tr><th>작업</th><th>방법/이유</th></tr>
+      </thead>
+      <tbody>
+        <tr class="ok-row"><td>✅ 물리치료사 유튜브 채널 목록 수집</td><td>YouTube Search API (q=물리치료사&type=channel) — 무료, 즉시 가능</td></tr>
+        <tr class="ok-row"><td>✅ 각 채널 구독자·조회수 조회</td><td>YouTube Channels API</td></tr>
+        <tr class="ok-row"><td>✅ 특정 인스타 계정 팔로워/참여율</td><td>Instagram Business Discovery API (username 알아야)</td></tr>
+        <tr class="ok-row"><td>✅ 특정 틱톡 계정 팔로워 수</td><td>TikTok Research API (username 알아야, 승인 필요)</td></tr>
+        <tr class="ng-row"><td>❌ 인스타 DM 자동 발송 (콜드)</td><td>API 구조상 인바운드 응답만 가능. 콜드 발송 원천 불가</td></tr>
+        <tr class="ng-row"><td>❌ 틱톡 DM 자동 발송</td><td>DM API 자체가 존재하지 않음</td></tr>
+        <tr class="ng-row"><td>❌ 유튜브 DM 발송</td><td>유튜브에 DM 기능 없음</td></tr>
+        <tr class="ng-row"><td>❌ 인스타 인플루언서 검색 (카테고리)</td><td>검색 API 없음, username 알아야만 조회</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- 권장 플로우 -->
+  <div class="rec-section">
+    <h2>🚀 현실적인 500~1000명 아웃리치 플로우</h2>
+    <div class="rec-step">
+      <div class="rec-num">1</div>
+      <div class="rec-content">
+        <strong>YouTube API로 물리치료 관련 채널 목록 수집</strong> (무료, 즉시 가능)<br>
+        구독자 수·조회수 기준 필터링 + 채널 소개에서 이메일 주소 파싱
+      </div>
+    </div>
+    <div class="rec-step">
+      <div class="rec-num">2</div>
+      <div class="rec-content">
+        <strong>인스타/틱톡은 수동 또는 SaaS 활용</strong><br>
+        유튜브에서 찾은 크리에이터의 인스타/틱톡은 직접 확인, 또는 Modash 등 SaaS
+      </div>
+    </div>
+    <div class="rec-step">
+      <div class="rec-num">3</div>
+      <div class="rec-content">
+        <strong>아웃리치 채널: 이메일 우선</strong><br>
+        채널 소개에 공개된 이메일: 가장 현실적<br>
+        인스타 DM: 수동 발송 (하루 20~30개 한도 내에서)
+      </div>
+    </div>
+    <div class="rec-step">
+      <div class="rec-num">4</div>
+      <div class="rec-content">
+        <strong>비공식 자동화 도구는 금지</strong><br>
+        셀레니움 기반 DM 자동화 = 계정 정지 리스크 100%
+      </div>
+    </div>
+  </div>
+
+  <!-- 참고 문서 -->
+  <div class="summary-box">
+    <h2>📚 참고 문서</h2>
+    <div class="refs">
+      <a href="https://developers.facebook.com/docs/instagram-platform/overview/" target="_blank">Instagram Platform Overview</a>
+      <a href="https://developers.facebook.com/docs/instagram-platform/instagram-api-with-facebook-login/business-discovery" target="_blank">Instagram Business Discovery API</a>
+      <a href="https://developers.facebook.com/docs/messenger-platform/instagram/features/send-message" target="_blank">Instagram Send Message API</a>
+      <a href="https://developers.tiktok.com/doc/research-api-get-started/" target="_blank">TikTok Research API Getting Started</a>
+      <a href="https://developers.google.com/youtube/v3/getting-started" target="_blank">YouTube Data API v3 Overview</a>
+      <a href="https://developers.google.com/youtube/v3/docs/search/list" target="_blank">YouTube Search API</a>
+      <a href="https://developers.google.com/youtube/v3/docs/channels/list" target="_blank">YouTube Channels API</a>
+    </div>
+  </div>
+
+  <p style="font-size:11px;color:#484f58;text-align:center;margin-top:24px;">TENEX Internal · 2026-03-23 · 카리나</p>
+</div>
+</body>
+</html>
