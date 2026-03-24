@@ -131,7 +131,7 @@ tr:hover td{background:#161b22}
     <div class="arrow">→</div>
     <div class="flow-box ai"><div class="icon">🎯</div><div class="label">카리나</div><div class="sub">판단 & 지휘</div></div>
     <div class="arrow">→</div>
-    <div class="flow-box auto"><div class="icon">⚡</div><div class="label">서브에이전트팀</div><div class="sub">병렬 작업</div></div>
+    <div class="flow-box auto"><div class="icon">⚡</div><div class="label">에이전트팀</div><div class="sub">상시/이벤트 병렬</div></div>
     <div class="arrow">→</div>
     <div class="flow-box human"><div class="icon">✅</div><div class="label">결과 보고</div><div class="sub">텔레그램 수신</div></div>
   </div>
@@ -151,7 +151,7 @@ tr:hover td{background:#161b22}
   <div class="card-grid">
     <div>
       <h3>에이전트</h3>
-      <p style="font-size:.9em;margin-top:6px">🎯 카리나 (Opus) — 메인 비서 1개<br>가끔 서브에이전트 (Sonnet) — 일회용</p>
+      <p style="font-size:.9em;margin-top:6px">🎯 카리나 (Opus) — 메인 비서 1개<br>팀 에이전트 (Sonnet) — 상시 또는 이벤트 기반</p>
     </div>
     <div>
       <h3>채널</h3>
@@ -171,7 +171,7 @@ tr:hover td{background:#161b22}
 <div class="card">
   <h3>🔴 현재 문제점</h3>
   <ul class="problem-list">
-    <li>서브에이전트 30분 타임아웃 → 큰 작업 불가</li>
+    <li>일회용 서브에이전트 30분 타임아웃 → 큰 작업 불가 (상시 에이전트는 해당 없음)</li>
     <li>OpenClaw 재시작 시 진행 중 작업 소실</li>
     <li>PDF 입력 시 컨텍스트 폭발 → 다운</li>
     <li>마케팅 세션 528KB → 자동 리셋</li>
@@ -266,7 +266,7 @@ tr:hover td{background:#161b22}
 <div class="agent-card" style="grid-column:span 2">
   <div class="emoji">📣</div>
   <div class="name">마케팅팀</div>
-  <div class="role">팀장(메인, 슬랙 상주) + 전문가 서브에이전트 소환</div>
+  <div class="role">팀장(상시 에이전트, 슬랙 상주) + 전문가 에이전트 소환</div>
   <div class="details">
     <p>모델: Sonnet | 채널: 슬랙 #marketing | <span class="badge badge-planned">📋 Phase 2</span></p>
     <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:7px;margin-top:10px">
@@ -427,7 +427,7 @@ tr:hover td{background:#161b22}
 <tr><td>고객 문의 응대</td><td class="status-partial">⚠️ 업무시간만</td><td>24/7 자동</td><td>💬 CS봇</td></tr>
 <tr><td>비용 관리</td><td class="status-partial">⚠️ 수동</td><td>영수증→자동 처리</td><td>💰 재무봇</td></tr>
 <tr><td>재고 트래킹</td><td class="status-partial">⚠️ 수동</td><td>자동 알림</td><td>🏭 운영봇</td></tr>
-<tr><td>코드 개발</td><td class="status-partial">⚠️ 서브에이전트</td><td>Claude Code 상시</td><td>🔧 개발봇</td></tr>
+<tr><td>코드 개발</td><td class="status-partial">⚠️ 일회성</td><td>Claude Code Agent Team</td><td>🔧 개발팀</td></tr>
 <tr><td>Gmail/Calendar</td><td class="status-no">❌</td><td>자동 연동</td><td>🎯 카리나</td></tr>
 <tr><td>서버 모니터링</td><td class="status-no">❌</td><td>장애 자동 알림</td><td>🏭 운영봇</td></tr>
 <tr><td>에이전트 회의</td><td class="status-no">❌</td><td>슬랙 자율 토론</td><td>전체</td></tr>
@@ -490,7 +490,36 @@ tr:hover td{background:#161b22}
 
 <div class="insight">
   <div class="insight-label">💡 Phase 2 핵심 개념 — 멀티에이전트 빌딩</div>
-  <p>에이전트 하나 = 하나의 역할. <strong>에이전트별로 SOUL.md / AGENTS.md / MEMORY.md를 분리</strong>해서 성격/역할/기억을 독립시킴. 카리나가 PM처럼 지휘하고, 팀 에이전트는 호출될 때만 깨어났다 작업 후 소멸 (이벤트 기반). 최대 8개 서브에이전트 병렬 처리 가능.</p>
+  <p>에이전트 하나 = 하나의 역할. <strong>에이전트별로 SOUL.md / AGENTS.md / MEMORY.md를 분리</strong>해서 성격/역할/기억을 독립시킴. 카리나가 PM처럼 지휘하고, 팀 에이전트는 역할에 따라 상시 운영 또는 이벤트 기반 호출. 최대 8개 병렬 처리 가능.</p>
+
+<!-- 에이전트 유형 3가지 -->
+<div class="insight" style="margin-top:14px">
+  <div class="insight-label">💡 에이전트 유형 3가지</div>
+  <div style="overflow-x:auto;margin-top:10px">
+  <table style="width:100%;border-collapse:collapse;font-size:.88em">
+    <tr style="background:#21262d">
+      <th style="padding:8px 12px;text-align:left;border:1px solid #30363d">유형</th>
+      <th style="padding:8px 12px;text-align:left;border:1px solid #30363d">설명</th>
+      <th style="padding:8px 12px;text-align:left;border:1px solid #30363d">예시</th>
+    </tr>
+    <tr>
+      <td style="padding:8px 12px;border:1px solid #30363d"><strong style="color:#3fb950">🟢 상시 에이전트</strong></td>
+      <td style="padding:8px 12px;border:1px solid #30363d">자기만의 SOUL.md + 메모리, 슬랙에 상주, 지속적 컨텍스트 유지</td>
+      <td style="padding:8px 12px;border:1px solid #30363d">마케팅팀장, 데이터팀장, CS매니저</td>
+    </tr>
+    <tr style="background:#0d1117">
+      <td style="padding:8px 12px;border:1px solid #30363d"><strong style="color:#d2a8ff">👑 Claude Code Agent Team</strong></td>
+      <td style="padding:8px 12px;border:1px solid #30363d">코드 개발 전용, tmux 연동, Leader→delegate 구조</td>
+      <td style="padding:8px 12px;border:1px solid #30363d">개발팀 (프론트/백엔드/코드 리뷰어)</td>
+    </tr>
+    <tr>
+      <td style="padding:8px 12px;border:1px solid #30363d"><strong style="color:#8b949e">⚡ 일회용 서브에이전트</strong></td>
+      <td style="padding:8px 12px;border:1px solid #30363d">단발 조사/디버깅, 완료 후 소멸, 30분 타임아웃</td>
+      <td style="padding:8px 12px;border:1px solid #30363d">"이거 검색해봐", "에러 원인 찾아"</td>
+    </tr>
+  </table>
+  </div>
+</div>
 </div>
 
 <!-- Phase 3 -->
@@ -566,7 +595,7 @@ tr:hover td{background:#161b22}
 <table>
 <tr><th>항목</th><th>일일</th><th>월간</th><th>비고</th></tr>
 <tr><td>카리나 (Opus, 상시)</td><td>~$5</td><td>~$150</td><td>메인 세션 + 하트비트</td></tr>
-<tr><td>팀 에이전트 (Sonnet, 이벤트)</td><td>~$3-5</td><td>~$100-150</td><td>호출 시에만 비용</td></tr>
+<tr><td>팀 에이전트 (Sonnet, 상시/이벤트)</td><td>~$3-5</td><td>~$100-150</td><td>상시 에이전트 상주 + 이벤트 에이전트 호출 시</td></tr>
 <tr><td>Claude Code (개발)</td><td>~$1-3</td><td>~$30-90</td><td>개발 작업 시에만</td></tr>
 <tr class="cost-highlight"><td><strong>합계</strong></td><td><strong>~$10-13</strong></td><td><strong>~$300-400</strong></td><td><strong>≈ 40-55만원/월</strong></td></tr>
 </table>
@@ -693,7 +722,7 @@ tr:hover td{background:#161b22}
 <li><strong>메인 세션</strong> — 1:1 DM</li>
 <li><strong>그룹 세션</strong> — 채널/그룹별 별도</li>
 <li><strong>크론 세션</strong> — 자동화 격리 실행</li>
-<li><strong>서브에이전트 세션</strong> — 일회용</li>
+<li><strong>일회용 서브에이전트 세션</strong> — 단발 조사/디버깅, 완료 후 소멸</li>
 </ul>
 <p style="margin-top:6px">🌅 매일 새벽 4시 자동 리셋</p>
 </div>
