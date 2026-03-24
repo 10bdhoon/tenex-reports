@@ -292,13 +292,35 @@ tr:hover td{background:#161b22}
   </div>
 </div>
 
-<div class="agent-card">
+<div class="agent-card" style="grid-column:span 2">
   <div class="emoji">🔧</div>
-  <div class="name">개발봇</div>
-  <div class="role">자사몰/대시보드 개선, 자동화 스크립트 작성</div>
+  <div class="name">개발팀</div>
+  <div class="role">팀장(리더, 설계/리뷰) + 전문가 서브에이전트 소환</div>
   <div class="details">
-    <p>모델: Claude Code | 채널: 슬랙 | 주기: 요청 시</p>
-    <p style="margin-top:6px"><span class="badge badge-planned">📋 Phase 2</span></p>
+    <p>모델: Claude Code (Sonnet) | 채널: 슬랙 #dev | <span class="badge badge-planned">📋 Phase 2</span></p>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:8px;margin-top:12px">
+      <div style="background:#0d2240;border:1px solid #1f6feb;border-radius:8px;padding:10px;font-size:.85em">
+        <strong>🏗️ 개발 팀장</strong><br>설계/아키텍처/코드리뷰<br>TASK.md 품질 = 결과물 품질<br>
+        <span class="badge badge-critical" style="margin-top:4px;display:inline-block">🔴 1순위</span>
+      </div>
+      <div style="background:#1a2332;border:1px solid #21262d;border-radius:8px;padding:10px;font-size:.85em">
+        <strong>🎨 프론트엔드</strong><br>UI/페이지/카페24 스킨/대시보드<br>
+        <span class="badge badge-progress" style="margin-top:4px;display:inline-block">🟡 2순위</span>
+      </div>
+      <div style="background:#1a2332;border:1px solid #21262d;border-radius:8px;padding:10px;font-size:.85em">
+        <strong>⚙️ 백엔드</strong><br>API/자동화/크론잡/데이터 파이프라인<br>
+        <span class="badge badge-progress" style="margin-top:4px;display:inline-block">🟡 2순위</span>
+      </div>
+      <div style="background:#1a2332;border:1px solid #21262d;border-radius:8px;padding:10px;font-size:.85em">
+        <strong>🧪 QA</strong><br>테스트/검증/브라우저 QA<br>
+        <span class="badge badge-critical" style="margin-top:4px;display:inline-block">🔴 항상</span>
+      </div>
+    </div>
+    <p style="margin-top:12px;padding:10px;background:#1a3a2a;border:1px solid #3fb950;border-radius:8px;font-size:.85em">
+      💡 <strong>PDC 9단계</strong>: TASK.md → 리뷰 → 보고서 → 피드백 → 승인 → validate → 개발 → QA → 보고<br>
+      핵심: TASK.md 품질 = 결과물 품질. 현재 코드 인라인 필수. 엣지케이스 10개+
+    </p>
+    <p style="margin-top:6px;color:#8b949e;font-size:.85em">※ 팀장이 TASK.md 작성 → 승인 후 → 프론트/백 병렬 개발 → QA 검증 → 배포</p>
   </div>
 </div>
 
