@@ -3,218 +3,322 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>리더 회의 2026.03.24 — 테넥스</title>
+<title>리더 회의 리포트 — 2026.03.24</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 body{background:#0d1117;color:#c9d1d9;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Apple SD Gothic Neo',sans-serif;padding:20px;max-width:1100px;margin:0 auto;line-height:1.6}
-h1{text-align:center;font-size:1.8em;margin:20px 0 5px;color:#58a6ff}
+h1{text-align:center;font-size:2em;margin:20px 0 5px;color:#58a6ff}
 .subtitle{text-align:center;color:#8b949e;margin-bottom:30px;font-size:.95em}
 h2{color:#58a6ff;margin:35px 0 15px;padding-bottom:8px;border-bottom:1px solid #21262d;font-size:1.15em}
-h3{color:#e6edf3;margin:15px 0 8px;font-size:1em}
+h3{color:#e6edf3;margin:15px 0 10px;font-size:1em}
 .card{background:#161b22;border:1px solid #21262d;border-radius:12px;padding:20px;margin:15px 0}
 .badge{display:inline-block;padding:3px 10px;border-radius:12px;font-size:.78em;font-weight:600}
-.badge-blue{background:#0d2240;color:#58a6ff;border:1px solid #1d4ed8}
-.badge-yellow{background:#2d2000;color:#d29922;border:1px solid #7d5c00}
-.badge-red{background:#3d1418;color:#f85149;border:1px solid #7a1e1e}
-.badge-green{background:#0a1f0f;color:#3fb950;border:1px solid #1a4a25}
-.badge-purple{background:#1a1040;color:#8957e5;border:1px solid #4a2e8a}
-.section-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px;margin:15px 0}
-.dept-card{background:#161b22;border:1px solid #21262d;border-radius:12px;padding:18px}
-.dept-card .dept-title{font-size:1em;font-weight:700;color:#e6edf3;margin-bottom:12px;display:flex;align-items:center;gap:8px}
-.dept-card ol{padding-left:18px;font-size:.88em;color:#c9d1d9}
-.dept-card ol li{padding:4px 0;line-height:1.5}
-.dept-card ol li span{color:#8b949e;font-size:.9em}
-.cross-table{width:100%;border-collapse:collapse;margin:12px 0}
-.cross-table th{background:#0d1117;color:#58a6ff;padding:9px 12px;text-align:left;border-bottom:2px solid #21262d;font-size:.88em}
-.cross-table td{padding:8px 12px;border-bottom:1px solid #21262d;font-size:.88em}
-.cross-table tr:hover td{background:#1c2128}
-.action-list{list-style:none;padding:0}
-.action-list li{padding:6px 0;border-bottom:1px solid #21262d;font-size:.9em;display:flex;align-items:flex-start;gap:8px}
-.action-list li:last-child{border-bottom:none}
-.action-num{background:#58a6ff;color:#0d1117;border-radius:50%;width:20px;height:20px;display:flex;align-items:center;justify-content:center;font-size:.72em;font-weight:700;flex-shrink:0;margin-top:2px}
-.action-num.red{background:#f85149}
-.action-num.yellow{background:#d29922}
-.strategy-list{list-style:none;padding:0;margin:10px 0}
-.strategy-list li{padding:7px 0;border-bottom:1px solid #21262d;font-size:.9em;display:flex;align-items:flex-start;gap:10px}
-.strategy-list li:last-child{border-bottom:none}
-.strat-num{color:#58a6ff;font-weight:700;min-width:18px}
-.april-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;margin:12px 0}
-.april-card{background:#161b22;border:1px solid #21262d;border-radius:10px;padding:14px 16px}
-.april-card .label{font-size:.78em;font-weight:600;color:#8b949e;text-transform:uppercase;letter-spacing:.6px;margin-bottom:6px}
-.april-card .value{font-size:.9em;color:#e6edf3}
-.april-card .owner{font-size:.8em;color:#58a6ff;margin-top:6px}
-.decision-card{background:#2d2000;border:1px solid #7d5c00;border-radius:10px;padding:14px 16px;margin:8px 0}
-.decision-card .d-label{font-size:.78em;font-weight:700;color:#d29922;text-transform:uppercase;letter-spacing:.6px;margin-bottom:6px}
-.decision-card .d-text{font-size:.9em;color:#e6edf3}
-.divider{border:none;border-top:1px solid #21262d;margin:30px 0}
-.meta-bar{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:20px}
-.funnel-vis{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin:12px 0}
-.funnel-box{background:#161b22;border:1px solid #21262d;border-radius:10px;padding:10px 14px;text-align:center;font-size:.85em;flex:1;min-width:100px}
-.funnel-box .icon{font-size:18px;margin-bottom:4px}
-.funnel-box .label{color:#8b949e;font-size:.78em}
-.funnel-box.highlight{border-color:#58a6ff;background:#0d2240}
-.funnel-box.highlight .label{color:#58a6ff}
-.arrow-r{color:#30363d;font-size:16px;flex-shrink:0}
+.badge-blue{background:#0d2240;color:#58a6ff}
+.badge-yellow{background:#3d2e00;color:#d29922}
+.badge-green{background:#1a3a2a;color:#3fb950}
+.badge-purple{background:#1a1040;color:#8957e5}
+.badge-red{background:#3d1418;color:#f85149}
+
+/* Attendees */
+.attendees{display:flex;flex-wrap:wrap;gap:10px;margin:10px 0}
+.attendee{background:#161b22;border:1px solid #21262d;border-radius:10px;padding:10px 16px;text-align:center;min-width:120px}
+.attendee .emoji{font-size:1.5em}
+.attendee .name{font-weight:700;color:#e6edf3;font-size:.9em;margin-top:4px}
+.attendee .role{color:#8b949e;font-size:.78em}
+
+/* Strategy grid */
+.strategy-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:12px;margin:12px 0}
+.s-card{background:#0d1117;border:1px solid #21262d;border-radius:10px;padding:14px 16px}
+.s-card .head{font-weight:700;font-size:.9em;margin-bottom:8px;display:flex;align-items:center;gap:7px}
+.s-card ul{list-style:none;padding:0}
+.s-card li{font-size:.83em;color:#8b949e;padding:3px 0;border-bottom:1px solid #21262d}
+.s-card li:last-child{border-bottom:none}
+.s-card li::before{content:'• ';color:#58a6ff}
+
+/* Debate cards */
+.debate{background:#161b22;border:1px solid #30363d;border-radius:12px;padding:16px 20px;margin:14px 0}
+.debate-title{font-weight:700;color:#e6edf3;font-size:.95em;margin-bottom:12px;display:flex;align-items:center;gap:8px}
+.debate-title .num{background:#21262d;border-radius:6px;padding:2px 8px;font-size:.8em;color:#8b949e}
+.debate-item{margin:8px 0;font-size:.87em;padding:8px 12px;border-radius:8px}
+.debate-item.attack{background:#1a0e0e;border-left:3px solid #f85149}
+.debate-item.defend{background:#0e1a12;border-left:3px solid #3fb950}
+.debate-item.resolve{background:#0d2137;border-left:3px solid #58a6ff}
+.debate-item.neutral{background:#1c1c1c;border-left:3px solid #6e7681}
+.debate-label{font-size:.75em;font-weight:700;text-transform:uppercase;letter-spacing:.6px;margin-bottom:4px}
+.debate-item.attack .debate-label{color:#f85149}
+.debate-item.defend .debate-label{color:#3fb950}
+.debate-item.resolve .debate-label{color:#58a6ff}
+.debate-item.neutral .debate-label{color:#8b949e}
+.debate-item p{color:#c9d1d9;margin:0}
+.debate-item .speaker{font-weight:700;color:#e6edf3}
+.unresolved{background:#2d1a00;border:1px solid #6e3000;border-radius:8px;padding:10px 14px;font-size:.87em;color:#d29922;margin-top:8px}
+.unresolved::before{content:'⚠️ 미해결: '}
+
+/* ES-808 strategy grid */
+.es-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:12px;margin:12px 0}
+
+/* Insight box */
+.insight{background:#0d2137;border:1px solid #1d4ed8;border-radius:10px;padding:14px 18px;margin:12px 0}
+.insight-label{font-size:11px;font-weight:700;color:#58a6ff;text-transform:uppercase;letter-spacing:.8px;margin-bottom:8px}
+.insight p,.insight li{font-size:13px;color:#93c5fd;line-height:1.7}
+.insight ul{padding-left:16px;margin-top:4px}
+
+/* Consensus */
+.consensus-list{list-style:none;padding:0;margin:10px 0}
+.consensus-list li{padding:9px 14px;border-bottom:1px solid #21262d;font-size:.9em;display:flex;align-items:flex-start;gap:10px}
+.consensus-list li:last-child{border-bottom:none}
+.consensus-list .check{color:#3fb950;flex-shrink:0;font-size:1em}
+
+/* Decision needed */
+.decision-list{list-style:none;padding:0;margin:10px 0}
+.decision-list li{padding:10px 14px;border-bottom:1px solid #21262d;font-size:.9em;display:flex;align-items:flex-start;gap:10px}
+.decision-list li:last-child{border-bottom:none}
+
+/* Unresolved debates section */
+.unresolved-card{background:#1c1200;border:1px solid #6e3000;border-radius:10px;padding:14px 18px;margin:8px 0}
+.unresolved-card h3{color:#d29922;margin-bottom:8px;font-size:.9em}
+.unresolved-card p{font-size:.85em;color:#8b949e}
 </style>
 </head>
 <body>
 
-<h1>🏢 리더 회의</h1>
-<div class="subtitle">2026.03.24 · #leaders · 4실장 + 태훈</div>
+<h1>🤝 리더 회의 리포트</h1>
+<p class="subtitle">2026.03.24 | #leaders | 카리나 + 4실장</p>
 
-<div class="meta-bar">
-  <span class="badge badge-blue">토론 2개</span>
-  <span class="badge badge-yellow">즉시 결정 필요 3건</span>
-  <span class="badge badge-green">4월 즉시 실행 4건</span>
-</div>
-
-<h2>토론 1. 2분기 테넥스 성장 전략</h2>
-
-<div class="section-grid">
-  <div class="dept-card" style="border-color:#d29922">
-    <div class="dept-title">📣 <span style="color:#d29922">마실장</span> — 마케팅</div>
-    <ol>
-      <li>메타 광고 소재 공장 가동<br><span>주 2-3개 → 주 10개, ROAS 3.0 목표</span></li>
-      <li>인플루언서 추천코드 시스템 런칭<br><span>마이프로틴 모델, 도수치료사 유튜버 10명→30명</span></li>
-      <li>자체채널 매출 비중 50%→70%<br><span>CRM 자동화 + 리타겟팅</span></li>
-    </ol>
-  </div>
-  <div class="dept-card" style="border-color:#58a6ff">
-    <div class="dept-title">⚙️ <span style="color:#58a6ff">개실장</span> — 개발</div>
-    <ol>
-      <li>테넥스 앱 MVP 출시 (5월)<br><span>회복 여정 트래킹, React Native + Supabase</span></li>
-      <li>자동화 ROI 극대화<br><span>CS 자동 응답, 추천코드 대시보드, 재고 알림</span></li>
-      <li>데이터 인프라<br><span>Mixpanel + 통합 대시보드</span></li>
-    </ol>
-  </div>
-  <div class="dept-card" style="border-color:#f85149">
-    <div class="dept-title">🎬 <span style="color:#f85149">콘실장</span> — 콘텐츠</div>
-    <ol>
-      <li>유튜브 10만→20만<br><span>숏폼 주 5개 + 롱폼 주 2개</span></li>
-      <li>콘텐츠→매출 전환 파이프라인<br><span>UTM 트래킹, 고성과 영상→광고 소재</span></li>
-      <li>커뮤니티 댓글 자동화 3단계<br><span>학습→검수→자동화</span></li>
-    </ol>
-  </div>
-  <div class="dept-card" style="border-color:#3fb950">
-    <div class="dept-title">💬 <span style="color:#3fb950">고실장</span> — 고객성공</div>
-    <ol>
-      <li>CRM 자동화 시퀀스 완성<br><span>D+0/3/7/14/30 전 제품</span></li>
-      <li>재구매율 추적 + 소모품 리마인드<br><span>목표 90일 내 20%</span></li>
-      <li>VOC 기반 제품 개선 루프<br><span>월 1회 리포트</span></li>
-    </ol>
-  </div>
-</div>
-
+<!-- 섹션 1: 참석자 -->
+<h2>👥 참석자</h2>
 <div class="card">
-  <h3>🔗 크로스실 연결</h3>
-  <table class="cross-table">
-    <thead>
-      <tr><th>연결</th><th>내용</th></tr>
-    </thead>
-    <tbody>
-      <tr><td><span class="badge badge-yellow">마↔콘</span></td><td>고성과 영상 → 광고 소재</td></tr>
-      <tr><td><span class="badge badge-yellow">마↔고</span></td><td>CRM + 리타겟팅</td></tr>
-      <tr><td><span class="badge badge-blue">개↔고</span></td><td>CS 자동 응답</td></tr>
-      <tr><td><span class="badge badge-blue">개↔마</span></td><td>추천코드 대시보드</td></tr>
-      <tr><td><span class="badge badge-red">콘↔고</span></td><td>VOC → 콘텐츠</td></tr>
-    </tbody>
-  </table>
+  <div class="attendees">
+    <div class="attendee">
+      <div class="emoji">🎯</div>
+      <div class="name">카리나</div>
+      <div class="role">COO</div>
+    </div>
+    <div class="attendee">
+      <div class="emoji">📣</div>
+      <div class="name">마실장</div>
+      <div class="role">마케팅</div>
+    </div>
+    <div class="attendee">
+      <div class="emoji">💻</div>
+      <div class="name">개실장</div>
+      <div class="role">개발</div>
+    </div>
+    <div class="attendee">
+      <div class="emoji">🎬</div>
+      <div class="name">콘실장</div>
+      <div class="role">콘텐츠</div>
+    </div>
+    <div class="attendee">
+      <div class="emoji">💬</div>
+      <div class="name">고실장</div>
+      <div class="role">고객성공</div>
+    </div>
+  </div>
 </div>
 
-<div class="card" style="border-color:#f85149">
-  <h3>🚨 즉시 해결 필요</h3>
-  <ul class="action-list">
-    <li><span class="action-num red">1</span><div><strong>메타 토큰 ads_read</strong> — <span style="color:#58a6ff">태훈</span></div></li>
-    <li><span class="action-num red">2</span><div><strong>재구매율/NPS 베이스라인 확정</strong> — 4월 첫째 주</div></li>
-    <li><span class="action-num red">3</span><div><strong>앱 MVP 스코프 확정</strong> — <span style="color:#58a6ff">태훈</span></div></li>
+<!-- 섹션 2: 토론 1 -->
+<h2>📊 토론 1 — 2분기 테넥스 성장 전략</h2>
+
+<h3>각 실장 제안 요약</h3>
+<div class="strategy-grid">
+  <div class="s-card">
+    <div class="head"><span class="badge badge-blue">📣 마실장</span></div>
+    <ul>
+      <li>소재 공장 (주 10개)</li>
+      <li>인플루언서 추천코드</li>
+      <li>자체채널 70%</li>
+    </ul>
+  </div>
+  <div class="s-card">
+    <div class="head"><span class="badge badge-purple">💻 개실장</span></div>
+    <ul>
+      <li>앱 MVP (5월 출시)</li>
+      <li>자동화 ROI</li>
+      <li>데이터 인프라</li>
+    </ul>
+  </div>
+  <div class="s-card">
+    <div class="head"><span class="badge badge-green">🎬 콘실장</span></div>
+    <ul>
+      <li>유튜브 20만 목표</li>
+      <li>콘텐츠 → 매출 전환</li>
+      <li>댓글 자동화</li>
+    </ul>
+  </div>
+  <div class="s-card">
+    <div class="head"><span class="badge badge-yellow">💬 고실장</span></div>
+    <ul>
+      <li>CRM 풀 시퀀스</li>
+      <li>재구매율 추적</li>
+      <li>VOC 루프</li>
+    </ul>
+  </div>
+</div>
+
+<h3 style="margin-top:24px">🔥 열띤 토론 — 핵심 논쟁들</h3>
+
+<!-- 논쟁 1 -->
+<div class="debate">
+  <div class="debate-title"><span class="num">논쟁 1</span> 소재 주 10개 현실성</div>
+  <div class="debate-item attack">
+    <div class="debate-label">반박</div>
+    <p><span class="speaker">콘실장:</span> "인규 혼자 주 10개 불가능. 킬러 소재 2개가 낫다"</p>
+  </div>
+  <div class="debate-item defend">
+    <div class="debate-label">재반박</div>
+    <p><span class="speaker">마실장:</span> "킬러가 뭔지는 테스트해봐야 안다. 소재 수 = 학습 속도"</p>
+  </div>
+  <div class="debate-item resolve">
+    <div class="debate-label">합의</div>
+    <p>재가공 3 + 신규 2 + UGC 2 + 정적 3 = <strong>주 10개 변형</strong>, 인규 부담은 주 2개로 제한</p>
+  </div>
+</div>
+
+<!-- 논쟁 2 -->
+<div class="debate">
+  <div class="debate-title"><span class="num">논쟁 2</span> 연 200억 현실성</div>
+  <div class="debate-item attack">
+    <div class="debate-label">문제 제기</div>
+    <p><span class="speaker">개실장:</span> "현재 월 1-2억, 200억이면 10배. 2분기로 가능?"</p>
+  </div>
+  <div class="debate-item defend">
+    <div class="debate-label">조정안</div>
+    <p><span class="speaker">마실장:</span> "2분기 월 5억 목표가 현실적. 200억은 하반기 해외+신제품"</p>
+  </div>
+  <div class="debate-item resolve">
+    <div class="debate-label">핵심</div>
+    <p>월 5억 = 광고비 <strong>1.5~2억 필요</strong>. 태훈 결정 필요.</p>
+  </div>
+</div>
+
+<!-- 논쟁 3 -->
+<div class="debate">
+  <div class="debate-title"><span class="num">논쟁 3</span> 데이터 없이 전략 짜는 문제</div>
+  <div class="debate-item attack">
+    <div class="debate-label">고실장</div>
+    <p>"재구매율도 모르고 20% 목표? 할루시네이션이랑 다를 바 없다"</p>
+  </div>
+  <div class="debate-item attack">
+    <div class="debate-label">콘실장</div>
+    <p>"콘텐츠 매출 기여도 측정 안 됨. UTM 트래킹 없으면 깜깜이"</p>
+  </div>
+  <div class="debate-item resolve">
+    <div class="debate-label">합의</div>
+    <p>4월 1주 <strong>"데이터 위크"</strong> — 각 실 베이스라인 측정</p>
+  </div>
+</div>
+
+<!-- 논쟁 4 -->
+<div class="debate">
+  <div class="debate-title"><span class="num">논쟁 4</span> 인규 의존도 = 구조적 리스크</div>
+  <div class="debate-item attack">
+    <div class="debate-label">콘실장</div>
+    <p>"인규 1명에 콘텐츠+소재+CS+검수 다 걸려있음. 1주일 쉬면 전부 멈춤"</p>
+  </div>
+  <div class="debate-item resolve">
+    <div class="debate-label">전원 동의</div>
+    <p>2분기 구조적 과제로 <strong>인규 의존도 줄이기</strong> 채택</p>
+  </div>
+</div>
+
+<!-- 논쟁 5 -->
+<div class="debate">
+  <div class="debate-title"><span class="num">논쟁 5</span> 오가닉 vs 광고</div>
+  <div class="debate-item neutral">
+    <div class="debate-label">콘실장</div>
+    <p>"오가닉은 중장기 투자. 단기 매출은 광고+CRM이 견인"</p>
+  </div>
+  <div class="debate-item neutral">
+    <div class="debate-label">마실장</div>
+    <p>"동의. 근데 오가닉 비중 정확히 모른다"</p>
+  </div>
+  <div class="unresolved">UTM 트래킹 후 재논의</div>
+</div>
+
+<!-- 섹션 3: 토론 2 -->
+<h2>📦 토론 2 — ES-808 매출 2배</h2>
+
+<h3>각 실장 전략</h3>
+<div class="es-grid">
+  <div class="s-card">
+    <div class="head"><span class="badge badge-blue">📣 마실장</span></div>
+    <ul>
+      <li>스타터킷 번들 (149,000원)</li>
+      <li>전용 캠페인 분리</li>
+      <li>리뷰 폭격 (UGC)</li>
+    </ul>
+  </div>
+  <div class="s-card">
+    <div class="head"><span class="badge badge-green">🎬 콘실장</span></div>
+    <ul>
+      <li>Before/After 시리즈</li>
+      <li>사용법 리뉴얼</li>
+      <li>VOC → 콘텐츠</li>
+    </ul>
+  </div>
+  <div class="s-card">
+    <div class="head"><span class="badge badge-purple">💻 개실장</span></div>
+    <ul>
+      <li>앱 가이드 모드</li>
+      <li>상세페이지 최적화</li>
+      <li>추천코드 시스템</li>
+    </ul>
+  </div>
+  <div class="s-card">
+    <div class="head"><span class="badge badge-yellow">💬 고실장</span></div>
+    <ul>
+      <li>CRM 풀 시퀀스 (D+0~D+14)</li>
+      <li>반품률 감소</li>
+      <li>ES-808 → CS-25 업셀</li>
+    </ul>
+  </div>
+</div>
+
+<div class="insight">
+  <div class="insight-label">💡 핵심 인사이트</div>
+  <ul>
+    <li>ES-808 = 입문 제품 → <strong>퍼널 최전방</strong></li>
+    <li>매출 2배 = <strong>신규 + 재구매 + 업셀</strong> 3트랙</li>
+    <li>앱 푸시로 CRM 비용 구조 전환 (DAU 1,000+ 이후)</li>
   </ul>
 </div>
 
-<hr class="divider">
-
-<h2>토론 2. ES-808 매출 2배</h2>
-
+<!-- 섹션 4: 합의 사항 -->
+<h2>✅ 합의 사항</h2>
 <div class="card">
-  <h3>🎯 퍼널 포지셔닝</h3>
-  <div class="funnel-vis">
-    <div class="funnel-box highlight">
-      <div class="icon">⚡</div>
-      <div style="font-weight:700;color:#e6edf3">ES-808</div>
-      <div class="label">입문 제품 (퍼널 최전방)</div>
-    </div>
-    <div class="arrow-r">→</div>
-    <div class="funnel-box">
-      <div class="icon">🛒</div>
-      <div style="color:#e6edf3">번들</div>
-      <div class="label">+부스터젤</div>
-    </div>
-    <div class="arrow-r">→</div>
-    <div class="funnel-box">
-      <div class="icon">📱</div>
-      <div style="color:#e6edf3">CRM 시퀀스</div>
-      <div class="label">D+0~D+14</div>
-    </div>
-    <div class="arrow-r">→</div>
-    <div class="funnel-box">
-      <div class="icon">⬆️</div>
-      <div style="color:#e6edf3">업셀</div>
-      <div class="label">CS-25</div>
-    </div>
-  </div>
-</div>
-
-<div class="card">
-  <h3>💡 핵심 전략</h3>
-  <ul class="strategy-list">
-    <li><span class="strat-num">1</span>ES-808 = 입문 제품 → 퍼널 최전방 배치</li>
-    <li><span class="strat-num">2</span>번들(+부스터젤) + 인플루언서 추천코드</li>
-    <li><span class="strat-num">3</span>CRM 풀 시퀀스 (D+0~D+14)</li>
-    <li><span class="strat-num">4</span>Before/After 숏폼 콘텐츠</li>
-    <li><span class="strat-num">5</span>앱 가이드 모드</li>
-    <li><span class="strat-num">6</span>ES-808 → CS-25 업셀 파이프라인</li>
+  <ul class="consensus-list">
+    <li><span class="check">✅</span> <div>4월 1주 <strong>데이터 위크</strong> 진행</div></li>
+    <li><span class="check">✅</span> <div>데이터 수집과 실행 <strong>병행</strong></div></li>
+    <li><span class="check">✅</span> <div><strong>인규 의존도 줄이기</strong> = 2분기 구조적 과제</div></li>
+    <li><span class="check">✅</span> <div>앱 MVP = <strong>2기능만</strong> (통증점수 + 사용법 허브)</div></li>
   </ul>
 </div>
 
-<h3 style="margin:20px 0 12px;color:#3fb950">📅 4월 즉시 실행</h3>
-<div class="april-grid">
-  <div class="april-card">
-    <div class="label">📬 CRM</div>
-    <div class="value">ES-808 풀 시퀀스</div>
-    <div class="owner">고실장</div>
-  </div>
-  <div class="april-card">
-    <div class="label">📣 광고</div>
-    <div class="value">ES-808 전용 광고 캠페인</div>
-    <div class="owner">마실장</div>
-  </div>
-  <div class="april-card">
-    <div class="label">🎬 콘텐츠</div>
-    <div class="value">Before/After 숏폼 시리즈</div>
-    <div class="owner">콘실장</div>
-  </div>
-  <div class="april-card">
-    <div class="label">📊 분석</div>
-    <div class="value">VOC TOP 5 분석</div>
-    <div class="owner">고실장</div>
-  </div>
+<!-- 섹션 5: 태훈 결정 필요 -->
+<h2>🔐 태훈 결정 필요 (우선순위)</h2>
+<div class="card">
+  <ul class="decision-list">
+    <li><span>🔴</span> <div><strong>메타 토큰 ads_read 권한</strong> — 이번 주</div></li>
+    <li><span>🔴</span> <div><strong>2분기 월 광고 예산</strong> 확정</div></li>
+    <li><span>🟡</span> <div><strong>앱 MVP 스코프</strong> — 2기능 vs 5기능</div></li>
+    <li><span>🟡</span> <div><strong>ES-808 번들 가격/구성</strong></div></li>
+    <li><span>🟢</span> <div><strong>인플루언서 첫 타겟 리스트</strong></div></li>
+  </ul>
 </div>
 
-<h3 style="margin:20px 0 12px;color:#d29922">⚠️ 태훈 결정 필요</h3>
-<div class="decision-card">
-  <div class="d-label">결정 1</div>
-  <div class="d-text">번들 가격 / 구성 확정</div>
+<!-- 섹션 6: 미해결 논쟁 -->
+<h2>⚠️ 미해결 논쟁</h2>
+<div class="unresolved-card">
+  <h3>1. 오가닉 vs 광고 매출 비중 목표</h3>
+  <p>UTM 트래킹 세팅 완료 후 재논의</p>
 </div>
-<div class="decision-card">
-  <div class="d-label">결정 2</div>
-  <div class="d-text">앱 MVP에 ES-808 가이드 모드 포함 여부</div>
-</div>
-<div class="decision-card">
-  <div class="d-label">결정 3</div>
-  <div class="d-text">인플루언서 첫 타겟 리스트 확정</div>
+<div class="unresolved-card">
+  <h3>2. 재구매율 목표</h3>
+  <p>베이스라인 측정 (데이터 위크) 완료 후 확정</p>
 </div>
 
-<hr class="divider">
-<p style="text-align:center;color:#484f58;font-size:.8em">테넥스 리더 회의 · 2026.03.24 · 카리나 정리</p>
+<p style="text-align:center;color:#6e7681;font-size:.8em;margin:40px 0 20px">리더 회의 리포트 v2 | 2026.03.24 | Tenex AI Team</p>
 
 </body>
 </html>
