@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>테넥스 에이전트 팀 기획서</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#0d1117;color:#c9d1d9;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;padding:20px;max-width:1200px;margin:0 auto}
+h1{text-align:center;font-size:2em;margin:20px 0 5px;color:#58a6ff}
+.subtitle{text-align:center;color:#8b949e;margin-bottom:30px}
+h2{color:#58a6ff;margin:30px 0 15px;padding-bottom:8px;border-bottom:1px solid #21262d}
+h3{color:#c9d1d9;margin:15px 0 10px}
+.card{background:#161b22;border:1px solid #21262d;border-radius:12px;padding:20px;margin:15px 0}
+.card-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:15px}
+.agent-card{background:#161b22;border:1px solid #21262d;border-radius:12px;padding:20px;position:relative}
+.agent-card .emoji{font-size:2em;margin-bottom:10px}
+.agent-card .name{font-size:1.2em;font-weight:bold;color:#e6edf3}
+.agent-card .role{color:#8b949e;margin:8px 0}
+.agent-card .details{font-size:.9em;margin-top:10px}
+.badge{display:inline-block;padding:3px 10px;border-radius:12px;font-size:.8em;font-weight:600}
+.badge-done{background:#1a3a2a;color:#3fb950}
+.badge-progress{background:#3d2e00;color:#d29922}
+.badge-planned{background:#1c2333;color:#58a6ff}
+.badge-critical{background:#3d1418;color:#f85149}
+table{width:100%;border-collapse:collapse;margin:15px 0}
+th{background:#161b22;color:#58a6ff;padding:12px;text-align:left;border-bottom:2px solid #21262d}
+td{padding:10px 12px;border-bottom:1px solid #21262d}
+tr:hover{background:#161b22}
+.status-yes{color:#3fb950}
+.status-no{color:#f85149}
+.status-partial{color:#d29922}
+.org-tree{display:flex;flex-direction:column;align-items:center;margin:20px 0}
+.org-node{background:#161b22;border:2px solid #30363d;border-radius:12px;padding:12px 20px;text-align:center;margin:5px;min-width:140px}
+.org-node.ceo{border-color:#58a6ff;background:#0d2240}
+.org-node.main{border-color:#d29922;background:#2d2000}
+.org-children{display:flex;flex-wrap:wrap;justify-content:center;gap:10px;margin-top:10px;position:relative}
+.org-children::before{content:'';position:absolute;top:-10px;left:50%;width:2px;height:10px;background:#30363d}
+.org-connector{display:flex;justify-content:center;margin:0}
+.org-connector::after{content:'';display:block;width:2px;height:15px;background:#30363d}
+.timeline{margin:20px 0}
+.phase{display:flex;margin:15px 0;align-items:stretch}
+.phase-label{min-width:200px;padding:15px;background:#161b22;border-radius:12px 0 0 12px;border:1px solid #21262d;border-right:none}
+.phase-bar{flex:1;padding:15px;border-radius:0 12px 12px 0;border:1px solid #21262d}
+.phase-1 .phase-bar{background:linear-gradient(90deg,#1a3a2a 60%,#161b22 60%);border-color:#3fb950}
+.phase-2 .phase-bar{background:#161b22;border-color:#d29922}
+.phase-3 .phase-bar{background:#161b22;border-color:#58a6ff}
+.phase-4 .phase-bar{background:#161b22;border-color:#8b949e}
+.phase-label h3{margin:0 0 5px;font-size:1em}
+.phase-label .date{color:#8b949e;font-size:.85em}
+.phase-bar ul{list-style:none;padding:0}
+.phase-bar li{padding:3px 0;font-size:.9em}
+.phase-bar li::before{content:'• ';color:#58a6ff}
+.check{color:#3fb950}
+.problem-list{columns:2;column-gap:20px}
+.problem-list li{break-inside:avoid;padding:5px 0;list-style:none}
+.problem-list li::before{content:'⚠️ '}
+.solution-card{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:15px}
+.solution-item{background:#161b22;border:1px solid #21262d;border-radius:12px;padding:15px}
+.solution-item h4{color:#3fb950;margin-bottom:8px}
+@media(max-width:768px){.card-grid{grid-template-columns:1fr}.phase{flex-direction:column}.phase-label{border-radius:12px 12px 0 0;border-right:1px solid #21262d;border-bottom:none}.phase-bar{border-radius:0 0 12px 12px}.problem-list{columns:1}.org-children{flex-direction:column;align-items:center}}
+</style>
+</head>
+<body>
+
+<h1>🤖 테넥스 에이전트 팀 기획서</h1>
+<p class="subtitle">TENEX AI Agent Team Blueprint — 2026.03.24</p>
+
+<!-- AS-IS -->
+<h2>📍 현재 상태 (AS-IS)</h2>
+<div class="card">
+<div class="card-grid">
+<div>
+<h3>에이전트</h3>
+<p>🎯 카리나 (Opus) — 메인 비서 1개</p>
+<p>가끔 서브에이전트 (Sonnet) — 일회용</p>
+</div>
+<div>
+<h3>채널</h3>
+<p>📱 텔레그램만 사용</p>
+<p>슬랙 미연동</p>
+</div>
+<div>
+<h3>자동화</h3>
+<p>⚙️ launchd 크론잡 9개</p>
+<p>수동 관리, 모니터링 없음</p>
+</div>
+<div>
+<h3>외부 연동</h3>
+<p>🔗 카페24, Plaud</p>
+<p>Gmail/Calendar ❌</p>
+</div>
+</div>
+</div>
+
+<div class="card">
+<h3>🔴 현재 문제점</h3>
+<ul class="problem-list" style="margin-top:10px">
+<li>서브에이전트 30분 타임아웃 → 큰 작업 불가</li>
+<li>OpenClaw 재시작 시 진행 중 작업 소실</li>
+<li>PDF 입력 시 컨텍스트 폭발 → 다운</li>
+<li>마케팅 세션 528KB → 자동 리셋</li>
+<li>보안 Critical 5개 (와일드카드 권한)</li>
+<li>에이전트 자율 운영 구조 없음</li>
+</ul>
+</div>
+
+<!-- TO-BE -->
+<h2>🎯 목표 시스템 (TO-BE)</h2>
+
+<div class="card">
+<h3>조직도</h3>
+<div class="org-tree">
+<div class="org-node ceo">👤 태훈 (CEO)</div>
+<div class="org-connector"></div>
+<div class="org-node main">🎯 카리나 (Opus)<br><small>대화 · 의사결정 · 지휘</small></div>
+<div class="org-connector"></div>
+<div class="org-children">
+<div class="org-node">📊 데이터봇<br><small>매출·리뷰·경쟁사</small></div>
+<div class="org-node">📣 마케터봇<br><small>소재·콘텐츠·SNS</small></div>
+<div class="org-node">💬 CS봇<br><small>고객문의 24/7</small></div>
+<div class="org-node">🔧 개발봇<br><small>자사몰·자동화</small></div>
+<div class="org-node">💰 재무봇<br><small>영수증·정산</small></div>
+<div class="org-node">🏭 운영봇<br><small>재고·물류·제조사</small></div>
+</div>
+</div>
+</div>
+
+<h3 style="margin-top:25px">에이전트 상세</h3>
+<div class="card-grid">
+
+<div class="agent-card">
+<div class="emoji">🎯</div>
+<div class="name">카리나 (CEO 비서)</div>
+<div class="role">태훈과 직접 대화, 의사결정 지원, 팀 지휘</div>
+<div class="details">
+<p>모델: Claude Opus | 채널: 텔레그램</p>
+<p>주기: 실시간 | <span class="badge badge-done">✅ 운영 중</span></p>
+</div>
+</div>
+
+<div class="agent-card">
+<div class="emoji">📊</div>
+<div class="name">데이터봇</div>
+<div class="role">매출 리포트, 리뷰 크롤링, 경쟁사 SNS 모니터링</div>
+<div class="details">
+<p>모델: Sonnet | 채널: 슬랙 + 텔레그램</p>
+<p>주기: 매일/매주 | <span class="badge badge-planned">📋 Phase 2</span></p>
+</div>
+</div>
+
+<div class="agent-card">
+<div class="emoji">📣</div>
+<div class="name">마케터봇</div>
+<div class="role">광고 소재 분석, 콘텐츠 아이디어, SNS 게시글 초안</div>
+<div class="details">
+<p>모델: Sonnet | 채널: 슬랙</p>
+<p>주기: 주 5회 | <span class="badge badge-planned">📋 Phase 2</span></p>
+</div>
+</div>
+
+<div class="agent-card">
+<div class="emoji">💬</div>
+<div class="name">CS봇</div>
+<div class="role">고객 문의 자동 응대 (카페24 채팅 연동)</div>
+<div class="details">
+<p>모델: Sonnet | 채널: 카페24 + 슬랙</p>
+<p>주기: 24/7 실시간 | <span class="badge badge-planned">📋 Phase 3</span></p>
+</div>
+</div>
+
+<div class="agent-card">
+<div class="emoji">🔧</div>
+<div class="name">개발봇</div>
+<div class="role">자사몰/대시보드 개선, 자동화 스크립트 작성</div>
+<div class="details">
+<p>모델: Claude Code | 채널: 슬랙</p>
+<p>주기: 요청 시 | <span class="badge badge-planned">📋 Phase 2</span></p>
+</div>
+</div>
+
+<div class="agent-card">
+<div class="emoji">💰</div>
+<div class="name">재무봇</div>
+<div class="role">영수증 처리, 비용 관리, 월 정산</div>
+<div class="details">
+<p>모델: Sonnet | 채널: 슬랙</p>
+<p>주기: 매일/매월 | <span class="badge badge-planned">📋 Phase 3</span></p>
+</div>
+</div>
+
+<div class="agent-card">
+<div class="emoji">🏭</div>
+<div class="name">운영봇</div>
+<div class="role">재고/물류 트래킹, 제조사 팔로업, 서버 모니터링</div>
+<div class="details">
+<p>모델: Sonnet | 채널: 슬랙</p>
+<p>주기: 매일 | <span class="badge badge-planned">📋 Phase 3</span></p>
+</div>
+</div>
+
+</div>
+
+<!-- FEATURE MATRIX -->
+<h2>📋 핵심 기능 매트릭스</h2>
+<div class="card" style="overflow-x:auto">
+<table>
+<tr><th>기능</th><th>현재</th><th>목표</th><th>담당</th></tr>
+<tr><td>매출 리포트</td><td class="status-yes">✅ 매일 07:00</td><td>실시간 대시보드</td><td>📊 데이터봇</td></tr>
+<tr><td>리뷰 크롤링</td><td class="status-no">❌</td><td>자동 수집+분석</td><td>📊 데이터봇</td></tr>
+<tr><td>경쟁사 모니터링</td><td class="status-no">❌</td><td>주간 리포트</td><td>📊 데이터봇</td></tr>
+<tr><td>광고 소재 분석</td><td class="status-partial">⚠️ 수동</td><td>자동 분석+제안</td><td>📣 마케터봇</td></tr>
+<tr><td>콘텐츠 아이디어</td><td class="status-partial">⚠️ 수동</td><td>주 5개 자동 생성</td><td>📣 마케터봇</td></tr>
+<tr><td>SNS 게시글 초안</td><td class="status-no">❌</td><td>자동 작성→승인</td><td>📣 마케터봇</td></tr>
+<tr><td>고객 문의 응대</td><td class="status-partial">⚠️ 업무시간만</td><td>24/7 자동</td><td>💬 CS봇</td></tr>
+<tr><td>비용 관리</td><td class="status-partial">⚠️ 수동</td><td>영수증→자동 처리</td><td>💰 재무봇</td></tr>
+<tr><td>재고 트래킹</td><td class="status-partial">⚠️ 수동</td><td>자동 알림</td><td>🏭 운영봇</td></tr>
+<tr><td>코드 개발</td><td class="status-partial">⚠️ 서브에이전트</td><td>Claude Code 상시</td><td>🔧 개발봇</td></tr>
+<tr><td>Gmail/Calendar</td><td class="status-no">❌</td><td>자동 연동</td><td>🎯 카리나</td></tr>
+<tr><td>서버 모니터링</td><td class="status-no">❌</td><td>장애 자동 알림</td><td>🏭 운영봇</td></tr>
+<tr><td>에이전트 회의</td><td class="status-no">❌</td><td>슬랙 자율 토론</td><td>전체</td></tr>
+</table>
+</div>
+
+<!-- ROADMAP -->
+<h2>🗺️ 실행 로드맵</h2>
+
+<div class="timeline">
+<div class="phase phase-1">
+<div class="phase-label">
+<h3>Phase 1: 기반</h3>
+<div class="date">3/24 ~ 3/28 (이번 주)</div>
+<span class="badge badge-progress">🔧 진행 중</span>
+</div>
+<div class="phase-bar">
+<ul>
+<li><span class="check">✅</span> MEMORY.md 다이어트 (22KB→7KB)</li>
+<li>보안 하드닝 (Critical 5개 해결)</li>
+<li>에이전트 안정성 구조 (타임아웃/리셋 방어)</li>
+<li>슬랙 연동 셋업</li>
+</ul>
+</div>
+</div>
+
+<div class="phase phase-2">
+<div class="phase-label">
+<h3>Phase 2: 에이전트 팀</h3>
+<div class="date">3/31 ~ 4/4 (다음 주)</div>
+<span class="badge badge-planned">📋 예정</span>
+</div>
+<div class="phase-bar">
+<ul>
+<li>📊 데이터봇 구축 (리뷰·경쟁사·리포트)</li>
+<li>📣 마케터봇 구축 (소재·콘텐츠·SNS)</li>
+<li>🔧 개발봇 구축 (Claude Code 상시)</li>
+<li>슬랙 에이전트 자율 토론 구조</li>
+</ul>
+</div>
+</div>
+
+<div class="phase phase-3">
+<div class="phase-label">
+<h3>Phase 3: 비즈니스 통합</h3>
+<div class="date">4/7 ~ 4/11</div>
+<span class="badge badge-planned">📋 예정</span>
+</div>
+<div class="phase-bar">
+<ul>
+<li>📧 Gmail + Calendar 연동</li>
+<li>💬 CS봇 (고객 문의 자동 응대)</li>
+<li>💰 재무봇 + 🏭 운영봇</li>
+</ul>
+</div>
+</div>
+
+<div class="phase phase-4">
+<div class="phase-label">
+<h3>Phase 4: 고급 자동화</h3>
+<div class="date">4/14 ~</div>
+<span class="badge badge-planned">📋 예정</span>
+</div>
+<div class="phase-bar">
+<ul>
+<li>에이전트 간 협업/회의 구조</li>
+<li>서버/서비스 모니터링 + 장애 대응</li>
+<li>전화 AI 응대 연동</li>
+<li>링크→사업계획서 자동 생성</li>
+</ul>
+</div>
+</div>
+</div>
+
+<!-- STABILITY -->
+<h2>🛡️ 안정성 설계</h2>
+<div class="solution-card">
+<div class="solution-item">
+<h4>⏱️ 타임아웃 방어</h4>
+<p>작업 분할 + 체크포인트. 중간 저장 후 이어서 작업. 큰 작업은 자동 분할.</p>
+</div>
+<div class="solution-item">
+<h4>🔄 리셋 방어</h4>
+<p>상태를 파일(TASK.md, STATUS.md)로 관리. 세션 리셋돼도 파일 읽고 이어서.</p>
+</div>
+<div class="solution-item">
+<h4>📦 컨텍스트 관리</h4>
+<p>MEMORY.md 20,000자 이하 유지. brain.db로 아카이브. PDF는 서브에이전트 처리.</p>
+</div>
+<div class="solution-item">
+<h4>🚫 폭주 방지</h4>
+<p>에이전트별 일일 실행 횟수 제한. 비용 상한선 설정. 무한 루프 감지.</p>
+</div>
+<div class="solution-item">
+<h4>👁️ 모니터링</h4>
+<p>HEARTBEAT.md로 에이전트 상태 추적. 장애 시 즉시 슬랙/텔레그램 알림.</p>
+</div>
+<div class="solution-item">
+<h4>🔒 보안</h4>
+<p>와일드카드 권한 제거. groupPolicy 제한. elevated 명령 화이트리스트.</p>
+</div>
+</div>
+
+<div style="text-align:center;margin:40px 0 20px;color:#8b949e;font-size:.9em">
+테넥스(TENEX) × 카리나 AI | 2026.03.24 | v1.0
+</div>
+
+</body>
+</html>
