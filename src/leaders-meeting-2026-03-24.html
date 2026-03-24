@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>리더 회의 2026.03.24 — 테넥스</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#0d1117;color:#c9d1d9;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Apple SD Gothic Neo',sans-serif;padding:20px;max-width:1100px;margin:0 auto;line-height:1.6}
+h1{text-align:center;font-size:1.8em;margin:20px 0 5px;color:#58a6ff}
+.subtitle{text-align:center;color:#8b949e;margin-bottom:30px;font-size:.95em}
+h2{color:#58a6ff;margin:35px 0 15px;padding-bottom:8px;border-bottom:1px solid #21262d;font-size:1.15em}
+h3{color:#e6edf3;margin:15px 0 8px;font-size:1em}
+.card{background:#161b22;border:1px solid #21262d;border-radius:12px;padding:20px;margin:15px 0}
+.badge{display:inline-block;padding:3px 10px;border-radius:12px;font-size:.78em;font-weight:600}
+.badge-blue{background:#0d2240;color:#58a6ff;border:1px solid #1d4ed8}
+.badge-yellow{background:#2d2000;color:#d29922;border:1px solid #7d5c00}
+.badge-red{background:#3d1418;color:#f85149;border:1px solid #7a1e1e}
+.badge-green{background:#0a1f0f;color:#3fb950;border:1px solid #1a4a25}
+.badge-purple{background:#1a1040;color:#8957e5;border:1px solid #4a2e8a}
+.section-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px;margin:15px 0}
+.dept-card{background:#161b22;border:1px solid #21262d;border-radius:12px;padding:18px}
+.dept-card .dept-title{font-size:1em;font-weight:700;color:#e6edf3;margin-bottom:12px;display:flex;align-items:center;gap:8px}
+.dept-card ol{padding-left:18px;font-size:.88em;color:#c9d1d9}
+.dept-card ol li{padding:4px 0;line-height:1.5}
+.dept-card ol li span{color:#8b949e;font-size:.9em}
+.cross-table{width:100%;border-collapse:collapse;margin:12px 0}
+.cross-table th{background:#0d1117;color:#58a6ff;padding:9px 12px;text-align:left;border-bottom:2px solid #21262d;font-size:.88em}
+.cross-table td{padding:8px 12px;border-bottom:1px solid #21262d;font-size:.88em}
+.cross-table tr:hover td{background:#1c2128}
+.action-list{list-style:none;padding:0}
+.action-list li{padding:6px 0;border-bottom:1px solid #21262d;font-size:.9em;display:flex;align-items:flex-start;gap:8px}
+.action-list li:last-child{border-bottom:none}
+.action-num{background:#58a6ff;color:#0d1117;border-radius:50%;width:20px;height:20px;display:flex;align-items:center;justify-content:center;font-size:.72em;font-weight:700;flex-shrink:0;margin-top:2px}
+.action-num.red{background:#f85149}
+.action-num.yellow{background:#d29922}
+.strategy-list{list-style:none;padding:0;margin:10px 0}
+.strategy-list li{padding:7px 0;border-bottom:1px solid #21262d;font-size:.9em;display:flex;align-items:flex-start;gap:10px}
+.strategy-list li:last-child{border-bottom:none}
+.strat-num{color:#58a6ff;font-weight:700;min-width:18px}
+.april-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;margin:12px 0}
+.april-card{background:#161b22;border:1px solid #21262d;border-radius:10px;padding:14px 16px}
+.april-card .label{font-size:.78em;font-weight:600;color:#8b949e;text-transform:uppercase;letter-spacing:.6px;margin-bottom:6px}
+.april-card .value{font-size:.9em;color:#e6edf3}
+.april-card .owner{font-size:.8em;color:#58a6ff;margin-top:6px}
+.decision-card{background:#2d2000;border:1px solid #7d5c00;border-radius:10px;padding:14px 16px;margin:8px 0}
+.decision-card .d-label{font-size:.78em;font-weight:700;color:#d29922;text-transform:uppercase;letter-spacing:.6px;margin-bottom:6px}
+.decision-card .d-text{font-size:.9em;color:#e6edf3}
+.divider{border:none;border-top:1px solid #21262d;margin:30px 0}
+.meta-bar{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:20px}
+.funnel-vis{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin:12px 0}
+.funnel-box{background:#161b22;border:1px solid #21262d;border-radius:10px;padding:10px 14px;text-align:center;font-size:.85em;flex:1;min-width:100px}
+.funnel-box .icon{font-size:18px;margin-bottom:4px}
+.funnel-box .label{color:#8b949e;font-size:.78em}
+.funnel-box.highlight{border-color:#58a6ff;background:#0d2240}
+.funnel-box.highlight .label{color:#58a6ff}
+.arrow-r{color:#30363d;font-size:16px;flex-shrink:0}
+</style>
+</head>
+<body>
+
+<h1>🏢 리더 회의</h1>
+<div class="subtitle">2026.03.24 · #leaders · 4실장 + 태훈</div>
+
+<div class="meta-bar">
+  <span class="badge badge-blue">토론 2개</span>
+  <span class="badge badge-yellow">즉시 결정 필요 3건</span>
+  <span class="badge badge-green">4월 즉시 실행 4건</span>
+</div>
+
+<h2>토론 1. 2분기 테넥스 성장 전략</h2>
+
+<div class="section-grid">
+  <div class="dept-card" style="border-color:#d29922">
+    <div class="dept-title">📣 <span style="color:#d29922">마실장</span> — 마케팅</div>
+    <ol>
+      <li>메타 광고 소재 공장 가동<br><span>주 2-3개 → 주 10개, ROAS 3.0 목표</span></li>
+      <li>인플루언서 추천코드 시스템 런칭<br><span>마이프로틴 모델, 도수치료사 유튜버 10명→30명</span></li>
+      <li>자체채널 매출 비중 50%→70%<br><span>CRM 자동화 + 리타겟팅</span></li>
+    </ol>
+  </div>
+  <div class="dept-card" style="border-color:#58a6ff">
+    <div class="dept-title">⚙️ <span style="color:#58a6ff">개실장</span> — 개발</div>
+    <ol>
+      <li>테넥스 앱 MVP 출시 (5월)<br><span>회복 여정 트래킹, React Native + Supabase</span></li>
+      <li>자동화 ROI 극대화<br><span>CS 자동 응답, 추천코드 대시보드, 재고 알림</span></li>
+      <li>데이터 인프라<br><span>Mixpanel + 통합 대시보드</span></li>
+    </ol>
+  </div>
+  <div class="dept-card" style="border-color:#f85149">
+    <div class="dept-title">🎬 <span style="color:#f85149">콘실장</span> — 콘텐츠</div>
+    <ol>
+      <li>유튜브 10만→20만<br><span>숏폼 주 5개 + 롱폼 주 2개</span></li>
+      <li>콘텐츠→매출 전환 파이프라인<br><span>UTM 트래킹, 고성과 영상→광고 소재</span></li>
+      <li>커뮤니티 댓글 자동화 3단계<br><span>학습→검수→자동화</span></li>
+    </ol>
+  </div>
+  <div class="dept-card" style="border-color:#3fb950">
+    <div class="dept-title">💬 <span style="color:#3fb950">고실장</span> — 고객성공</div>
+    <ol>
+      <li>CRM 자동화 시퀀스 완성<br><span>D+0/3/7/14/30 전 제품</span></li>
+      <li>재구매율 추적 + 소모품 리마인드<br><span>목표 90일 내 20%</span></li>
+      <li>VOC 기반 제품 개선 루프<br><span>월 1회 리포트</span></li>
+    </ol>
+  </div>
+</div>
+
+<div class="card">
+  <h3>🔗 크로스실 연결</h3>
+  <table class="cross-table">
+    <thead>
+      <tr><th>연결</th><th>내용</th></tr>
+    </thead>
+    <tbody>
+      <tr><td><span class="badge badge-yellow">마↔콘</span></td><td>고성과 영상 → 광고 소재</td></tr>
+      <tr><td><span class="badge badge-yellow">마↔고</span></td><td>CRM + 리타겟팅</td></tr>
+      <tr><td><span class="badge badge-blue">개↔고</span></td><td>CS 자동 응답</td></tr>
+      <tr><td><span class="badge badge-blue">개↔마</span></td><td>추천코드 대시보드</td></tr>
+      <tr><td><span class="badge badge-red">콘↔고</span></td><td>VOC → 콘텐츠</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="card" style="border-color:#f85149">
+  <h3>🚨 즉시 해결 필요</h3>
+  <ul class="action-list">
+    <li><span class="action-num red">1</span><div><strong>메타 토큰 ads_read</strong> — <span style="color:#58a6ff">태훈</span></div></li>
+    <li><span class="action-num red">2</span><div><strong>재구매율/NPS 베이스라인 확정</strong> — 4월 첫째 주</div></li>
+    <li><span class="action-num red">3</span><div><strong>앱 MVP 스코프 확정</strong> — <span style="color:#58a6ff">태훈</span></div></li>
+  </ul>
+</div>
+
+<hr class="divider">
+
+<h2>토론 2. ES-808 매출 2배</h2>
+
+<div class="card">
+  <h3>🎯 퍼널 포지셔닝</h3>
+  <div class="funnel-vis">
+    <div class="funnel-box highlight">
+      <div class="icon">⚡</div>
+      <div style="font-weight:700;color:#e6edf3">ES-808</div>
+      <div class="label">입문 제품 (퍼널 최전방)</div>
+    </div>
+    <div class="arrow-r">→</div>
+    <div class="funnel-box">
+      <div class="icon">🛒</div>
+      <div style="color:#e6edf3">번들</div>
+      <div class="label">+부스터젤</div>
+    </div>
+    <div class="arrow-r">→</div>
+    <div class="funnel-box">
+      <div class="icon">📱</div>
+      <div style="color:#e6edf3">CRM 시퀀스</div>
+      <div class="label">D+0~D+14</div>
+    </div>
+    <div class="arrow-r">→</div>
+    <div class="funnel-box">
+      <div class="icon">⬆️</div>
+      <div style="color:#e6edf3">업셀</div>
+      <div class="label">CS-25</div>
+    </div>
+  </div>
+</div>
+
+<div class="card">
+  <h3>💡 핵심 전략</h3>
+  <ul class="strategy-list">
+    <li><span class="strat-num">1</span>ES-808 = 입문 제품 → 퍼널 최전방 배치</li>
+    <li><span class="strat-num">2</span>번들(+부스터젤) + 인플루언서 추천코드</li>
+    <li><span class="strat-num">3</span>CRM 풀 시퀀스 (D+0~D+14)</li>
+    <li><span class="strat-num">4</span>Before/After 숏폼 콘텐츠</li>
+    <li><span class="strat-num">5</span>앱 가이드 모드</li>
+    <li><span class="strat-num">6</span>ES-808 → CS-25 업셀 파이프라인</li>
+  </ul>
+</div>
+
+<h3 style="margin:20px 0 12px;color:#3fb950">📅 4월 즉시 실행</h3>
+<div class="april-grid">
+  <div class="april-card">
+    <div class="label">📬 CRM</div>
+    <div class="value">ES-808 풀 시퀀스</div>
+    <div class="owner">고실장</div>
+  </div>
+  <div class="april-card">
+    <div class="label">📣 광고</div>
+    <div class="value">ES-808 전용 광고 캠페인</div>
+    <div class="owner">마실장</div>
+  </div>
+  <div class="april-card">
+    <div class="label">🎬 콘텐츠</div>
+    <div class="value">Before/After 숏폼 시리즈</div>
+    <div class="owner">콘실장</div>
+  </div>
+  <div class="april-card">
+    <div class="label">📊 분석</div>
+    <div class="value">VOC TOP 5 분석</div>
+    <div class="owner">고실장</div>
+  </div>
+</div>
+
+<h3 style="margin:20px 0 12px;color:#d29922">⚠️ 태훈 결정 필요</h3>
+<div class="decision-card">
+  <div class="d-label">결정 1</div>
+  <div class="d-text">번들 가격 / 구성 확정</div>
+</div>
+<div class="decision-card">
+  <div class="d-label">결정 2</div>
+  <div class="d-text">앱 MVP에 ES-808 가이드 모드 포함 여부</div>
+</div>
+<div class="decision-card">
+  <div class="d-label">결정 3</div>
+  <div class="d-text">인플루언서 첫 타겟 리스트 확정</div>
+</div>
+
+<hr class="divider">
+<p style="text-align:center;color:#484f58;font-size:.8em">테넥스 리더 회의 · 2026.03.24 · 카리나 정리</p>
+
+</body>
+</html>
