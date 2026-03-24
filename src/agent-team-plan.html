@@ -472,6 +472,96 @@ tr:hover{background:#161b22}
 </div>
 </div>
 
+<!-- TECH FUNDAMENTALS -->
+<h2>📚 기술 기반 이해</h2>
+
+<div class="card-grid">
+<div class="card">
+<h3>1. 자동화 vs AI 에이전트</h3>
+<table>
+<tr><th>구분</th><th>방식</th><th>특징</th></tr>
+<tr><td>Zapier / Make</td><td>트리거 → 액션 → 끝</td><td>고정 파이프라인</td></tr>
+<tr><td>AI 에이전트</td><td>목표 → 판단 → 도구 선택 → 실행 → 반복</td><td>스스로 도구 선택</td></tr>
+</table>
+<p style="margin-top:10px;padding:8px;background:#0d2240;border:1px solid #58a6ff;border-radius:8px;font-size:.9em">💡 <strong>핵심 차이</strong>: 에이전트는 도구를 스스로 골라서 씀</p>
+</div>
+
+<div class="card">
+<h3>2. OpenClaw 구조 (3요소)</h3>
+<table>
+<tr><th>요소</th><th>역할</th><th>설명</th></tr>
+<tr><td><strong>Gateway</strong></td><td>서버</td><td>맥미니 24시간 (포트 18789), 메시지 라우팅/세션/크론</td></tr>
+<tr><td><strong>Channel</strong></td><td>입출구</td><td>텔레그램, 슬랙 등. 같은 에이전트를 여러 채널에서 접근</td></tr>
+<tr><td><strong>Agent</strong></td><td>두뇌</td><td>Claude API + 도구 + 메모리. md 파일로 성격 결정</td></tr>
+</table>
+</div>
+</div>
+
+<div class="card">
+<h3>3. 에이전트 커스터마이징 (부트스트랩 파일)</h3>
+<table>
+<tr><th>파일</th><th>역할</th><th>예시</th></tr>
+<tr><td><strong>SOUL.md</strong></td><td>성격/톤</td><td>"결론부터, 반말, 추측금지"</td></tr>
+<tr><td><strong>USER.md</strong></td><td>사용자 정보</td><td>프로필, 선호</td></tr>
+<tr><td><strong>AGENTS.md</strong></td><td>운영 규칙</td><td>서브에이전트, 작업흐름</td></tr>
+<tr><td><strong>TOOLS.md</strong></td><td>환경 메모</td><td>API 키, 디바이스</td></tr>
+<tr><td><strong>IDENTITY.md</strong></td><td>이름/이모지</td><td></td></tr>
+<tr><td><strong>HEARTBEAT.md</strong></td><td>주기 체크</td><td>매출, 일정</td></tr>
+<tr><td><strong>BOOTSTRAP.md</strong></td><td>절대 규칙</td><td></td></tr>
+</table>
+<p style="margin-top:10px;color:#8b949e;font-size:.9em">⚠️ 제한: 파일당 20,000자, 전체 150,000자</p>
+</div>
+
+<div class="card-grid">
+<div class="card">
+<h3>4. 메모리 &amp; 컴팩션</h3>
+<ul style="margin-top:10px;padding-left:0;list-style:none">
+<li style="padding:4px 0">📝 <strong>MEMORY.md</strong> = 장기기억 (curated)</li>
+<li style="padding:4px 0">📅 <strong>memory/YYYY-MM-DD.md</strong> = 일일 로그 (raw)</li>
+<li style="padding:4px 0">🔄 <strong>컴팩션</strong> = 컨텍스트 윈도우 꽉 차면 오래된 대화 요약 압축</li>
+<li style="padding:4px 0">🛡️ <strong>방어</strong>: 중요한 건 파일로 저장, 컴팩션 전 자동 플러시</li>
+</ul>
+</div>
+
+<div class="card">
+<h3>5. 세션 (대화 단위)</h3>
+<ul style="margin-top:10px;padding-left:0;list-style:none">
+<li style="padding:4px 0">💬 <strong>메인 세션</strong>: 1:1 DM</li>
+<li style="padding:4px 0">👥 <strong>그룹 세션</strong>: 채널/그룹별 별도</li>
+<li style="padding:4px 0">⏰ <strong>크론 세션</strong>: 자동화 격리 실행</li>
+<li style="padding:4px 0">🤖 <strong>서브에이전트 세션</strong>: 일회용</li>
+<li style="padding:4px 0">🌅 매일 새벽 4시 자동 리셋</li>
+</ul>
+</div>
+</div>
+
+<div class="card-grid">
+<div class="card">
+<h3>6. API vs MCP</h3>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:15px;margin-top:12px">
+<div style="background:#0d2240;border:1px solid #58a6ff;border-radius:8px;padding:12px">
+<h4 style="color:#58a6ff">API</h4>
+<p style="margin-top:8px;font-size:.9em">직접 호출<br>코드 필요<br>자유도 높음</p>
+</div>
+<div style="background:#1a3a2a;border:1px solid #3fb950;border-radius:8px;padding:12px">
+<h4 style="color:#3fb950">MCP</h4>
+<p style="margin-top:8px;font-size:.9em">통역사<br>에이전트가 도구처럼 직접 호출<br>코드 불필요</p>
+</div>
+</div>
+</div>
+
+<div class="card">
+<h3>7. 도구 &amp; 스킬</h3>
+<table>
+<tr><th>종류</th><th>내용</th></tr>
+<tr><td><strong>빌트인 도구</strong></td><td>read, write, edit, exec, browser, web_search, web_fetch, message</td></tr>
+<tr><td><strong>스킬 (번들)</strong></td><td>내장 — 설치 없이 사용</td></tr>
+<tr><td><strong>스킬 (ClawHub)</strong></td><td>마켓 — 커뮤니티 제작</td></tr>
+<tr><td><strong>스킬 (커스텀)</strong></td><td>직접 만들기 — SKILL.md + 스크립트</td></tr>
+</table>
+</div>
+</div>
+
 <div style="text-align:center;margin:40px 0 20px;color:#8b949e;font-size:.9em">
 테넥스(TENEX) × 카리나 AI | 2026.03.24 | v2.0 — 이벤트 기반 + 2인1조
 </div>
