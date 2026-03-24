@@ -70,6 +70,14 @@
   .insight p { font-size: 13px; color: #93c5fd; line-height: 1.8; }
   .insight strong { color: #e6edf3; }
 
+
+  /* 비교표 */
+  .compare-table { width: 100%; border-collapse: collapse; margin: 12px 0; font-size: 12px; }
+  .compare-table th { background: #0d2137; color: #58a6ff; font-weight: 600; padding: 8px 12px; text-align: left; border: 1px solid #21262d; }
+  .compare-table td { padding: 7px 12px; border: 1px solid #21262d; color: #8b949e; }
+  .compare-table tr:nth-child(even) td { background: #161b22; }
+  .compare-table .highlight { color: #e6edf3; font-weight: 600; }
+
   @media (max-width: 600px) {
     .flow { gap: 6px; }
     .flow-box { min-width: 80px; padding: 10px 12px; }
@@ -241,6 +249,66 @@
         <div class="tl-item"><div class="tl-time">밤</div><div class="tl-text">서브에이전트 타임아웃 규칙 BOOTSTRAP 박기 — runTimeoutSeconds 필수화</div></div>
         <div class="tl-item"><div class="tl-time">자정</div><div class="tl-text">시스템 헬스체크 크론잡 — 매일 자정 페이지/잡 상태 확인, 오류 시 텔레그램</div></div>
       </div>
+    </div>
+  </div>
+
+
+  <!-- Lv3 실전 자동화 · 보안 · 멀티에이전트 -->
+  <div class="section">
+    <div class="section-title">Lv3. 실전 자동화 · 보안 · 멀티에이전트</div>
+
+    <div class="grid">
+
+      <!-- STEP 01 자동화 엔진 -->
+      <div class="card">
+        <div class="card-title"><div class="dot dot-green"></div>STEP 01. 자동화 엔진 — 크론잡 · 하트비트 · 웹훅</div>
+        <div class="item">⏰ <strong style="color:#e6edf3">크론잡</strong> = 알람시계 — 정해진 시간에 실행 (매일 07:00 매출 리포트)</div>
+        <div class="item">💓 <strong style="color:#e6edf3">하트비트</strong> = 심장박동 — 30분마다 HEARTBEAT.md 확인, 할 일 있으면 실행</div>
+        <div class="item">🔔 <strong style="color:#e6edf3">웹훅</strong> = 외부 트리거 — 주문 들어오면 → 에이전트 즉시 깨어남</div>
+        <table class="compare-table">
+          <tr>
+            <th>방식</th><th>트리거</th><th>정확도</th><th>비용</th>
+          </tr>
+          <tr>
+            <td class="highlight">크론잡</td><td>정해진 시간</td><td>정확</td><td>실행 시만</td>
+          </tr>
+          <tr>
+            <td class="highlight">하트비트</td><td>주기적 체크</td><td>느슨</td><td>매번 API콜</td>
+          </tr>
+          <tr>
+            <td class="highlight">웹훅</td><td>외부 이벤트</td><td>즉시</td><td>이벤트 시만</td>
+          </tr>
+        </table>
+        <div class="item" style="color:#2ea043">✅ 우리 사례: daily-report 크론잡, HEARTBEAT.md 체크리스트</div>
+      </div>
+
+      <!-- STEP 02 보안 하드닝 -->
+      <div class="card">
+        <div class="card-title"><div class="dot dot-red"></div>STEP 02. 보안 하드닝</div>
+        <div class="item">🔒 <strong style="color:#e6edf3">Gateway 보안</strong> — TLS 암호화, bind 127.0.0.1, 토큰 인증</div>
+        <div class="item">🛡️ <strong style="color:#e6edf3">에이전트 권한</strong> — 도구 정책, exec allowlist (node/curl/git만)</div>
+        <div class="item">🔑 <strong style="color:#e6edf3">API 키 관리</strong> — TOOLS.md 직접 노출 위험 → .env / 키체인 사용</div>
+        <div class="item">🔍 <strong style="color:#e6edf3">보안 감사</strong> — <code style="background:#161b22;padding:2px 6px;border-radius:4px;font-size:11px">openclaw security audit</code></div>
+        <div class="item" style="color:#f85149">⚠️ 현재 상태: 와일드카드(*) 권한 = <strong style="color:#f85149">Critical</strong></div>
+      </div>
+
+      <!-- STEP 03 멀티에이전트 -->
+      <div class="card">
+        <div class="card-title"><div class="dot dot-purple"></div>STEP 03. 멀티에이전트 — AI 팀 빌딩</div>
+        <div class="item">📁 에이전트별 SOUL.md / AGENTS.md / MEMORY.md 분리</div>
+        <div class="item">🎯 <strong style="color:#e6edf3">우리 구조</strong> — 카리나(CEO비서) → 데이터봇 / 마케터봇 / 개발봇</div>
+        <div class="item">🔄 <strong style="color:#e6edf3">협업 패턴</strong> — 크론잡 → 데이터봇 → 분석 → 카리나 → 태훈 보고</div>
+        <div class="item">🚦 <strong style="color:#e6edf3">폭주 방지</strong> — 일일 실행 횟수 제한, 비용 상한, 타임아웃, 이벤트 기반 + 2인1조</div>
+      </div>
+
+    </div>
+
+    <div class="insight">
+      <p>
+        <strong>핵심:</strong> 크론잡은 정확한 스케줄, 하트비트는 유연한 주기 체크, 웹훅은 즉각 반응.
+        세 가지를 조합하면 <strong>잠자는 동안에도 돌아가는 자동화 팀</strong>이 완성됨.
+        단, 보안은 출발점부터 — 와일드카드(*) 권한은 즉시 제거 대상.
+      </p>
     </div>
   </div>
 
