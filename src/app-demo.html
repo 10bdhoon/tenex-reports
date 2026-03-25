@@ -1,0 +1,1206 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>1분도수 앱 데모</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, 'Apple SD Gothic Neo', 'Pretendard', sans-serif;
+    background: #f0f2f5;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 20px;
+  }
+
+  /* Phone Frame */
+  .phone {
+    width: 375px;
+    height: 812px;
+    background: #fff;
+    border-radius: 50px;
+    box-shadow: 0 30px 80px rgba(0,0,0,0.25), inset 0 0 0 2px #e0e0e0;
+    overflow: hidden;
+    position: relative;
+    flex-shrink: 0;
+  }
+  .phone-notch {
+    position: absolute;
+    top: 0; left: 50%;
+    transform: translateX(-50%);
+    width: 130px; height: 28px;
+    background: #fff;
+    border-radius: 0 0 18px 18px;
+    z-index: 100;
+  }
+  .phone-screen {
+    width: 100%; height: 100%;
+    overflow: hidden;
+    border-radius: 50px;
+    position: relative;
+  }
+
+  /* Screens */
+  .screen {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: #fff;
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.35s cubic-bezier(.4,0,.2,1), opacity 0.35s;
+    transform: translateX(100%);
+    opacity: 0;
+    pointer-events: none;
+  }
+  .screen.active {
+    transform: translateX(0);
+    opacity: 1;
+    pointer-events: all;
+  }
+  .screen.exit-left {
+    transform: translateX(-100%);
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  /* Status Bar */
+  .status-bar {
+    height: 44px;
+    padding: 12px 20px 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-shrink: 0;
+    font-size: 12px;
+    font-weight: 600;
+    color: #002855;
+  }
+
+  /* Nav Bar */
+  .nav-bar {
+    height: 60px;
+    background: #fff;
+    border-top: 1px solid #f0f0f0;
+    display: flex;
+    flex-shrink: 0;
+    padding-bottom: 8px;
+  }
+  .nav-item {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 3px;
+    cursor: pointer;
+    color: #aaa;
+    font-size: 10px;
+    font-weight: 500;
+    transition: color 0.2s;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .nav-item.active { color: #002855; }
+  .nav-icon { font-size: 22px; }
+
+  /* Scroll Content */
+  .scroll-content {
+    flex: 1;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  .scroll-content::-webkit-scrollbar { display: none; }
+
+  /* ===================== ONBOARDING ===================== */
+  #screen-welcome {
+    background: linear-gradient(160deg, #002855 0%, #003f7f 60%, #0057b7 100%);
+    justify-content: center;
+    align-items: center;
+    padding: 40px 32px;
+    text-align: center;
+  }
+  .welcome-logo {
+    width: 80px; height: 80px;
+    background: rgba(255,255,255,0.15);
+    border-radius: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 40px;
+    margin: 0 auto 28px;
+    backdrop-filter: blur(10px);
+  }
+  .welcome-title {
+    font-size: 26px;
+    font-weight: 700;
+    color: #fff;
+    line-height: 1.3;
+    margin-bottom: 12px;
+  }
+  .welcome-sub {
+    font-size: 14px;
+    color: rgba(255,255,255,0.7);
+    line-height: 1.6;
+    margin-bottom: 48px;
+  }
+  .btn-primary {
+    width: 100%;
+    padding: 16px;
+    background: #fff;
+    color: #002855;
+    font-size: 16px;
+    font-weight: 700;
+    border: none;
+    border-radius: 16px;
+    cursor: pointer;
+    transition: transform 0.1s, opacity 0.1s;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .btn-primary:active { transform: scale(0.97); opacity: 0.9; }
+  .btn-primary.dark {
+    background: #002855;
+    color: #fff;
+  }
+
+  /* Onboarding Q screens */
+  .onboard-screen {
+    background: #fff;
+    padding: 0;
+  }
+  .onboard-header {
+    background: #002855;
+    padding: 52px 24px 28px;
+    color: #fff;
+  }
+  .onboard-step {
+    font-size: 12px;
+    color: rgba(255,255,255,0.6);
+    margin-bottom: 8px;
+    font-weight: 500;
+  }
+  .onboard-q {
+    font-size: 20px;
+    font-weight: 700;
+    line-height: 1.4;
+  }
+  .onboard-body {
+    padding: 24px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .choice-btn {
+    padding: 18px 20px;
+    border: 2px solid #eee;
+    border-radius: 14px;
+    background: #fff;
+    font-size: 15px;
+    font-weight: 500;
+    color: #333;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    transition: border-color 0.2s, background 0.2s, color 0.2s;
+    -webkit-tap-highlight-color: transparent;
+    text-align: left;
+  }
+  .choice-btn.selected {
+    border-color: #002855;
+    background: #f0f4ff;
+    color: #002855;
+    font-weight: 600;
+  }
+  .choice-icon { font-size: 20px; flex-shrink: 0; }
+  .onboard-footer {
+    padding: 16px 24px 32px;
+  }
+
+  /* Progress bar */
+  .progress-bar {
+    height: 4px;
+    background: rgba(255,255,255,0.2);
+    border-radius: 2px;
+    margin-top: 16px;
+  }
+  .progress-fill {
+    height: 100%;
+    background: #fff;
+    border-radius: 2px;
+    transition: width 0.3s;
+  }
+
+  /* ===================== HOME ===================== */
+  .home-header {
+    background: #002855;
+    padding: 44px 20px 20px;
+    color: #fff;
+    flex-shrink: 0;
+  }
+  .home-greeting {
+    font-size: 13px;
+    color: rgba(255,255,255,0.7);
+    margin-bottom: 4px;
+  }
+  .home-title {
+    font-size: 20px;
+    font-weight: 700;
+  }
+
+  /* VAS Section */
+  .vas-card {
+    margin: 16px;
+    background: #f8f9ff;
+    border-radius: 20px;
+    padding: 20px;
+    border: 1px solid #e8ecf8;
+  }
+  .vas-label {
+    font-size: 15px;
+    font-weight: 700;
+    color: #002855;
+    margin-bottom: 6px;
+  }
+  .vas-sub {
+    font-size: 12px;
+    color: #999;
+    margin-bottom: 16px;
+  }
+  .vas-score-display {
+    text-align: center;
+    margin-bottom: 12px;
+  }
+  .vas-score-num {
+    font-size: 48px;
+    font-weight: 800;
+    color: #002855;
+    transition: color 0.3s;
+    line-height: 1;
+  }
+  .vas-score-label {
+    font-size: 13px;
+    color: #666;
+    margin-top: 4px;
+    transition: color 0.3s;
+    font-weight: 500;
+  }
+  .vas-slider-wrap { position: relative; margin: 8px 0 16px; }
+  input[type=range] {
+    -webkit-appearance: none;
+    width: 100%;
+    height: 8px;
+    border-radius: 4px;
+    outline: none;
+    cursor: pointer;
+    transition: background 0.3s;
+  }
+  input[type=range]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 26px; height: 26px;
+    border-radius: 50%;
+    background: #fff;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+    border: 3px solid #002855;
+    cursor: pointer;
+    transition: border-color 0.3s;
+  }
+  .vas-ticks {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 6px;
+    padding: 0 2px;
+  }
+  .vas-ticks span { font-size: 10px; color: #bbb; }
+  .vas-submit {
+    width: 100%;
+    padding: 13px;
+    background: #002855;
+    color: #fff;
+    border: none;
+    border-radius: 12px;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: opacity 0.1s, transform 0.1s;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .vas-submit:active { opacity: 0.85; transform: scale(0.98); }
+
+  /* Prescription */
+  .prescription { display: none; padding-bottom: 80px; }
+  .prescription.visible { display: block; }
+  .section-header {
+    padding: 16px 16px 8px;
+    font-size: 13px;
+    font-weight: 700;
+    color: #002855;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .section-header .emoji { font-size: 16px; }
+
+  /* Care cards */
+  .care-card {
+    margin: 0 16px 10px;
+    background: #f8f9ff;
+    border-radius: 16px;
+    padding: 16px;
+    border: 1px solid #e8ecf8;
+    cursor: pointer;
+    transition: transform 0.15s;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .care-card:active { transform: scale(0.98); }
+  .care-card-title {
+    font-size: 14px;
+    font-weight: 600;
+    color: #002855;
+    margin-bottom: 4px;
+  }
+  .care-card-desc {
+    font-size: 12px;
+    color: #888;
+  }
+  .care-card-device {
+    display: inline-block;
+    margin-top: 8px;
+    padding: 4px 10px;
+    background: #002855;
+    color: #fff;
+    font-size: 11px;
+    font-weight: 600;
+    border-radius: 20px;
+  }
+
+  /* Video cards */
+  .video-cards {
+    display: flex;
+    gap: 10px;
+    padding: 0 16px;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  .video-cards::-webkit-scrollbar { display: none; }
+  .video-card {
+    flex-shrink: 0;
+    width: 140px;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+    transition: transform 0.15s;
+  }
+  .video-card:active { transform: scale(0.96); }
+  .video-thumb {
+    width: 140px;
+    height: 88px;
+    background: linear-gradient(135deg, #002855, #0057b7);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .video-thumb .play-btn {
+    width: 36px; height: 36px;
+    background: rgba(255,255,255,0.9);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+  }
+  .video-thumb .duration {
+    position: absolute;
+    bottom: 6px; right: 8px;
+    font-size: 10px;
+    color: #fff;
+    font-weight: 600;
+    background: rgba(0,0,0,0.5);
+    padding: 2px 5px;
+    border-radius: 4px;
+  }
+  .video-num {
+    position: absolute;
+    top: 6px; left: 8px;
+    font-size: 10px;
+    color: rgba(255,255,255,0.8);
+    font-weight: 600;
+  }
+  .video-title {
+    font-size: 12px;
+    font-weight: 500;
+    color: #333;
+    margin-top: 6px;
+    line-height: 1.4;
+  }
+
+  .btn-routine {
+    margin: 12px 16px 0;
+    width: calc(100% - 32px);
+    padding: 14px;
+    background: #002855;
+    color: #fff;
+    border: none;
+    border-radius: 12px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+    transition: opacity 0.1s, transform 0.1s;
+  }
+  .btn-routine:active { opacity: 0.85; transform: scale(0.98); }
+
+  /* Emergency button */
+  .emergency-btn {
+    margin: 16px 16px 0;
+    width: calc(100% - 32px);
+    padding: 13px;
+    background: #fff;
+    color: #e53e3e;
+    border: 2px solid #ffd6d6;
+    border-radius: 12px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+    transition: background 0.15s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+  }
+  .emergency-btn:active { background: #fff5f5; }
+
+  /* ===================== JOURNEY ===================== */
+  .journey-header {
+    background: #002855;
+    padding: 44px 20px 20px;
+    color: #fff;
+    flex-shrink: 0;
+  }
+  .journey-title {
+    font-size: 20px;
+    font-weight: 700;
+  }
+  .journey-sub {
+    font-size: 13px;
+    color: rgba(255,255,255,0.7);
+    margin-top: 4px;
+  }
+  .stat-row {
+    display: flex;
+    gap: 10px;
+    padding: 16px;
+  }
+  .stat-card {
+    flex: 1;
+    background: #f8f9ff;
+    border-radius: 16px;
+    padding: 16px;
+    text-align: center;
+    border: 1px solid #e8ecf8;
+  }
+  .stat-num {
+    font-size: 32px;
+    font-weight: 800;
+    color: #002855;
+    line-height: 1;
+    margin-bottom: 4px;
+  }
+  .stat-label {
+    font-size: 11px;
+    color: #888;
+    font-weight: 500;
+  }
+  .chart-card {
+    margin: 0 16px;
+    background: #f8f9ff;
+    border-radius: 20px;
+    padding: 20px;
+    border: 1px solid #e8ecf8;
+  }
+  .chart-title {
+    font-size: 14px;
+    font-weight: 700;
+    color: #002855;
+    margin-bottom: 4px;
+  }
+  .chart-sub {
+    font-size: 11px;
+    color: #aaa;
+    margin-bottom: 16px;
+  }
+  svg.chart { width: 100%; overflow: visible; }
+  .encourage-card {
+    margin: 16px;
+    background: linear-gradient(135deg, #002855, #0057b7);
+    border-radius: 20px;
+    padding: 20px;
+    color: #fff;
+    display: flex;
+    gap: 14px;
+    align-items: flex-start;
+  }
+  .encourage-avatar {
+    width: 44px; height: 44px;
+    background: rgba(255,255,255,0.15);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    flex-shrink: 0;
+  }
+  .encourage-text {
+    font-size: 14px;
+    line-height: 1.6;
+    color: rgba(255,255,255,0.9);
+  }
+  .encourage-name {
+    font-size: 12px;
+    color: rgba(255,255,255,0.6);
+    margin-top: 6px;
+    font-weight: 600;
+  }
+
+  /* ===================== MODALS ===================== */
+  .modal-overlay {
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0,0,0,0.5);
+    display: none;
+    align-items: flex-end;
+    z-index: 200;
+    backdrop-filter: blur(2px);
+  }
+  .modal-overlay.open { display: flex; }
+  .modal-sheet {
+    width: 100%;
+    background: #fff;
+    border-radius: 24px 24px 0 0;
+    padding: 16px 24px 36px;
+    animation: slideUp 0.3s cubic-bezier(.4,0,.2,1);
+  }
+  @keyframes slideUp {
+    from { transform: translateY(100%); }
+    to { transform: translateY(0); }
+  }
+  .modal-handle {
+    width: 36px; height: 4px;
+    background: #e0e0e0;
+    border-radius: 2px;
+    margin: 0 auto 20px;
+  }
+  .modal-title {
+    font-size: 18px;
+    font-weight: 700;
+    color: #002855;
+    margin-bottom: 8px;
+  }
+  .modal-body {
+    font-size: 14px;
+    color: #555;
+    line-height: 1.7;
+    margin-bottom: 20px;
+  }
+  .modal-actions { display: flex; gap: 10px; }
+  .modal-btn {
+    flex: 1;
+    padding: 14px;
+    border: none;
+    border-radius: 12px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .modal-btn.primary { background: #002855; color: #fff; }
+  .modal-btn.secondary { background: #f0f0f0; color: #333; }
+  .emergency-option {
+    padding: 14px 16px;
+    background: #f8f9ff;
+    border-radius: 12px;
+    margin-bottom: 10px;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+    transition: background 0.15s;
+  }
+  .emergency-option:active { background: #eef0ff; }
+  .emergency-option-title { font-size: 14px; font-weight: 600; color: #002855; margin-bottom: 3px; }
+  .emergency-option-desc { font-size: 12px; color: #888; }
+
+  /* Video play simulation */
+  .video-playing-overlay {
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: #000;
+    z-index: 300;
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+  }
+  .video-playing-overlay.open { display: flex; }
+  .video-play-icon { font-size: 60px; margin-bottom: 16px; }
+  .video-play-title { font-size: 18px; font-weight: 700; margin-bottom: 8px; }
+  .video-play-sub { font-size: 13px; color: rgba(255,255,255,0.6); margin-bottom: 40px; }
+  .video-progress-bar {
+    width: 80%;
+    height: 4px;
+    background: rgba(255,255,255,0.2);
+    border-radius: 2px;
+    margin-bottom: 24px;
+    overflow: hidden;
+  }
+  .video-progress-fill {
+    height: 100%;
+    background: #fff;
+    border-radius: 2px;
+    width: 0%;
+    animation: videoProgress 3s linear forwards;
+  }
+  @keyframes videoProgress {
+    to { width: 100%; }
+  }
+  .video-close-btn {
+    padding: 12px 32px;
+    background: rgba(255,255,255,0.15);
+    color: #fff;
+    border: none;
+    border-radius: 24px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+  }
+
+  /* Color status helpers */
+  .status-green { color: #22c55e; }
+  .status-yellow { color: #f59e0b; }
+  .status-orange { color: #f97316; }
+  .status-red { color: #ef4444; }
+</style>
+</head>
+<body>
+
+<div class="phone">
+  <div class="phone-notch"></div>
+  <div class="phone-screen" id="app">
+
+    <!-- ========== WELCOME ========== -->
+    <div class="screen active" id="screen-welcome">
+      <div class="welcome-logo">🦴</div>
+      <div class="welcome-title">1분도수에<br>오신 것을 환영합니다</div>
+      <div class="welcome-sub">집에서 하는 정확한 목 재활<br>매일 1분, 꾸준히 회복하세요</div>
+      <button class="btn-primary" onclick="goTo('screen-q1')">시작하기 →</button>
+    </div>
+
+    <!-- ========== Q1: 기기 ========== -->
+    <div class="screen onboard-screen" id="screen-q1">
+      <div class="onboard-header">
+        <div class="onboard-step">1 / 2 &nbsp;·&nbsp; 기기 확인</div>
+        <div class="onboard-q">어떤 기기를<br>보유하고 계신가요?</div>
+        <div style="font-size:12px;color:rgba(255,255,255,0.6);margin-top:8px;">복수 선택 가능</div>
+        <div class="progress-bar"><div class="progress-fill" style="width:50%"></div></div>
+      </div>
+      <div class="onboard-body">
+        <button class="choice-btn" onclick="toggleChoice(this)">
+          <span class="choice-icon">⚡</span>
+          <div>
+            <div style="font-weight:600">ES-808</div>
+            <div style="font-size:12px;color:#888;margin-top:2px">전기자극 목 케어 기기</div>
+          </div>
+        </button>
+        <button class="choice-btn" onclick="toggleChoice(this)">
+          <span class="choice-icon">🌊</span>
+          <div>
+            <div style="font-weight:600">WS-200</div>
+            <div style="font-size:12px;color:#888;margin-top:2px">온열 마사지 기기</div>
+          </div>
+        </button>
+        <button class="choice-btn" onclick="toggleChoice(this)">
+          <span class="choice-icon">🌙</span>
+          <div>
+            <div style="font-weight:600">CS-25</div>
+            <div style="font-size:12px;color:#888;margin-top:2px">C커브 견인 베개</div>
+          </div>
+        </button>
+        <button class="choice-btn" onclick="toggleChoice(this)">
+          <span class="choice-icon">🛒</span>
+          <div>
+            <div style="font-weight:600">아직 없어요</div>
+            <div style="font-size:12px;color:#888;margin-top:2px">기기 없이 시작해요</div>
+          </div>
+        </button>
+      </div>
+      <div class="onboard-footer">
+        <button class="btn-primary dark" onclick="goTo('screen-q2')">다음 →</button>
+      </div>
+    </div>
+
+    <!-- ========== Q2: 시기 ========== -->
+    <div class="screen onboard-screen" id="screen-q2">
+      <div class="onboard-header">
+        <div class="onboard-step">2 / 2 &nbsp;·&nbsp; 회복 단계</div>
+        <div class="onboard-q">현재 어떤 상태인가요?</div>
+        <div style="font-size:12px;color:rgba(255,255,255,0.6);margin-top:8px;">가장 가까운 것을 선택하세요</div>
+        <div class="progress-bar"><div class="progress-fill" style="width:100%"></div></div>
+      </div>
+      <div class="onboard-body">
+        <button class="choice-btn" onclick="selectSingle(this,'period')">
+          <span class="choice-icon">🔴</span>
+          <div>
+            <div style="font-weight:600">급성기</div>
+            <div style="font-size:12px;color:#888;margin-top:2px">통증 시작 2주 이내, 가만히 있어도 아픔</div>
+          </div>
+        </button>
+        <button class="choice-btn" onclick="selectSingle(this,'period')">
+          <span class="choice-icon">🟡</span>
+          <div>
+            <div style="font-weight:600">아급성기</div>
+            <div style="font-size:12px;color:#888;margin-top:2px">2주~3개월, 움직이면 불편</div>
+          </div>
+        </button>
+        <button class="choice-btn" onclick="selectSingle(this,'period')">
+          <span class="choice-icon">🟢</span>
+          <div>
+            <div style="font-weight:600">만성기</div>
+            <div style="font-size:12px;color:#888;margin-top:2px">3개월 이상, 재발 방지 단계</div>
+          </div>
+        </button>
+      </div>
+      <div class="onboard-footer">
+        <button class="btn-primary dark" onclick="startApp()">1분도수 시작하기 🚀</button>
+      </div>
+    </div>
+
+    <!-- ========== HOME ========== -->
+    <div class="screen" id="screen-home" style="transform:translateX(0);opacity:1;">
+      <div class="home-header">
+        <div class="home-greeting">안녕하세요 👋 오늘도 화이팅!</div>
+        <div class="home-title">목 컨디션 체크</div>
+      </div>
+      <div class="scroll-content" id="home-scroll">
+        <!-- VAS card -->
+        <div class="vas-card" id="vas-card">
+          <div class="vas-label">오늘 목 컨디션은 몇 점인가요?</div>
+          <div class="vas-sub">1 = 거의 괜찮음 · 10 = 참기 힘든 통증</div>
+          <div class="vas-score-display">
+            <div class="vas-score-num" id="vas-num">5</div>
+            <div class="vas-score-label" id="vas-label-text">🟡 고개 돌리면 불편</div>
+          </div>
+          <div class="vas-slider-wrap">
+            <input type="range" id="vas-slider" min="1" max="10" value="5" oninput="updateVAS(this.value)">
+          </div>
+          <div class="vas-ticks">
+            <span>1</span><span>2</span><span>3</span><span>4</span><span>5</span>
+            <span>6</span><span>7</span><span>8</span><span>9</span><span>10</span>
+          </div>
+          <button class="vas-submit" style="margin-top:16px" onclick="submitVAS()">오늘의 처방전 받기 ✓</button>
+        </div>
+
+        <!-- Prescription (hidden until VAS submit) -->
+        <div class="prescription" id="prescription">
+
+          <!-- 운동 전 케어 -->
+          <div class="section-header"><span class="emoji">⚡</span> 운동 전 케어</div>
+          <div class="care-card" onclick="openModal('modal-es808')">
+            <div class="care-card-title">ES-808 전기자극 케어 · 15분</div>
+            <div class="care-card-desc">근육 이완 → 운동 효율 2배 UP</div>
+            <span class="care-card-device">ES-808 사용</span>
+          </div>
+
+          <!-- 본 운동 -->
+          <div class="section-header"><span class="emoji">🏃</span> 본 운동</div>
+          <div class="video-cards">
+            <div class="video-card" onclick="playVideo('목 가동 운동 1단계', '00:58')">
+              <div class="video-thumb">
+                <span class="video-num">#1</span>
+                <div class="play-btn">▶</div>
+                <span class="duration">00:58</span>
+              </div>
+              <div class="video-title">목 가동 운동<br>1단계</div>
+            </div>
+            <div class="video-card" onclick="playVideo('턱 당기기 운동', '01:12')">
+              <div class="video-thumb" style="background:linear-gradient(135deg,#003f7f,#006ab7)">
+                <span class="video-num">#2</span>
+                <div class="play-btn">▶</div>
+                <span class="duration">01:12</span>
+              </div>
+              <div class="video-title">턱 당기기<br>기본 동작</div>
+            </div>
+            <div class="video-card" onclick="playVideo('경추 안정화 운동', '01:05')">
+              <div class="video-thumb" style="background:linear-gradient(135deg,#005599,#0077cc)">
+                <span class="video-num">#3</span>
+                <div class="play-btn">▶</div>
+                <span class="duration">01:05</span>
+              </div>
+              <div class="video-title">경추 안정화<br>운동</div>
+            </div>
+          </div>
+          <button class="btn-routine" onclick="playVideo('오늘 루틴 전체', '03:15')">🎬 오늘 루틴 한 번에 따라하기</button>
+
+          <!-- 응급 버튼 -->
+          <button class="emergency-btn" onclick="openModal('modal-emergency')">
+            🚨 앗! 아파요 / 저려요
+          </button>
+
+          <!-- 사후 케어 -->
+          <div class="section-header" style="margin-top:8px"><span class="emoji">🛌</span> 사후 케어</div>
+          <div class="care-card" onclick="openModal('modal-cs25')">
+            <div class="care-card-title">CS-25 견인 케어 · 10분</div>
+            <div class="care-card-desc">자기 전 목 견인으로 디스크 간격 회복</div>
+            <span class="care-card-device">CS-25 사용</span>
+          </div>
+
+          <div style="height:20px"></div>
+        </div>
+      </div>
+
+      <!-- Nav -->
+      <div class="nav-bar">
+        <div class="nav-item active" onclick="switchTab('home')">
+          <span class="nav-icon">🏠</span>홈
+        </div>
+        <div class="nav-item" onclick="switchTab('journey')">
+          <span class="nav-icon">📈</span>나의 여정
+        </div>
+      </div>
+    </div>
+
+    <!-- ========== JOURNEY ========== -->
+    <div class="screen" id="screen-journey">
+      <div class="journey-header">
+        <div class="journey-title">나의 회복 여정 📈</div>
+        <div class="journey-sub">꾸준히 하고 있어요!</div>
+      </div>
+      <div class="scroll-content">
+        <div class="stat-row">
+          <div class="stat-card">
+            <div class="stat-num">12</div>
+            <div class="stat-label">운동 완료 일수</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-num" style="color:#22c55e">🔥 5</div>
+            <div class="stat-label">연속 기록</div>
+          </div>
+        </div>
+
+        <!-- VAS Chart -->
+        <div class="chart-card">
+          <div class="chart-title">VAS 통증 추이</div>
+          <div class="chart-sub">최근 7일 · 낮을수록 좋아요</div>
+          <svg class="chart" viewBox="0 0 300 120" height="120">
+            <defs>
+              <linearGradient id="chartGrad" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="#002855" stop-opacity="0.15"/>
+                <stop offset="100%" stop-color="#002855" stop-opacity="0"/>
+              </linearGradient>
+            </defs>
+            <!-- Grid lines -->
+            <line x1="0" y1="20" x2="300" y2="20" stroke="#eee" stroke-width="1"/>
+            <line x1="0" y1="50" x2="300" y2="50" stroke="#eee" stroke-width="1"/>
+            <line x1="0" y1="80" x2="300" y2="80" stroke="#eee" stroke-width="1"/>
+            <line x1="0" y1="110" x2="300" y2="110" stroke="#eee" stroke-width="1"/>
+            <!-- Y labels -->
+            <text x="0" y="23" font-size="9" fill="#ccc">10</text>
+            <text x="0" y="53" font-size="9" fill="#ccc">7</text>
+            <text x="0" y="83" font-size="9" fill="#ccc">4</text>
+            <text x="0" y="113" font-size="9" fill="#ccc">1</text>
+            <!-- Area fill: data points mapped: val=(v-1)/9*(110-20)+20, x spacing=40 start=25 -->
+            <!-- Days: 8,7,7,6,5,4,4 → y: 8→97,7→87,7→87,6→77,5→67,4→57,4→57 -->
+            <polygon
+              points="25,97 65,87 105,87 145,77 185,67 225,57 265,57 265,110 25,110"
+              fill="url(#chartGrad)"/>
+            <polyline
+              points="25,97 65,87 105,87 145,77 185,67 225,57 265,57"
+              fill="none" stroke="#002855" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+            <!-- Dots -->
+            <circle cx="25" cy="97" r="4" fill="#002855"/>
+            <circle cx="65" cy="87" r="4" fill="#002855"/>
+            <circle cx="105" cy="87" r="4" fill="#002855"/>
+            <circle cx="145" cy="77" r="4" fill="#002855"/>
+            <circle cx="185" cy="67" r="4" fill="#002855"/>
+            <circle cx="225" cy="57" r="4" fill="#002855"/>
+            <circle cx="265" cy="57" r="5" fill="#fff" stroke="#002855" stroke-width="2.5"/>
+            <!-- X labels -->
+            <text x="18" y="124" font-size="9" fill="#bbb">월</text>
+            <text x="58" y="124" font-size="9" fill="#bbb">화</text>
+            <text x="98" y="124" font-size="9" fill="#bbb">수</text>
+            <text x="138" y="124" font-size="9" fill="#bbb">목</text>
+            <text x="178" y="124" font-size="9" fill="#bbb">금</text>
+            <text x="218" y="124" font-size="9" fill="#bbb">토</text>
+            <text x="258" y="124" font-size="9" fill="#002855" font-weight="bold">오늘</text>
+            <!-- Score labels on last 3 dots -->
+            <text x="220" y="52" font-size="9" fill="#002855" font-weight="600">4</text>
+            <text x="260" y="52" font-size="9" fill="#002855" font-weight="600">4</text>
+          </svg>
+        </div>
+
+        <!-- Encourage -->
+        <div class="encourage-card">
+          <div class="encourage-avatar">👨‍⚕️</div>
+          <div>
+            <div class="encourage-text">
+              일주일 만에 VAS 8 → 4로 절반이나 줄었어요! 이 속도라면 2주 안에 일상생활이 훨씬 편해질 거예요. 지금처럼만 해주세요 💪
+            </div>
+            <div class="encourage-name">1분도수 원장님</div>
+          </div>
+        </div>
+
+        <div style="height:80px"></div>
+      </div>
+
+      <!-- Nav -->
+      <div class="nav-bar">
+        <div class="nav-item" onclick="switchTab('home')">
+          <span class="nav-icon">🏠</span>홈
+        </div>
+        <div class="nav-item active" onclick="switchTab('journey')">
+          <span class="nav-icon">📈</span>나의 여정
+        </div>
+      </div>
+    </div>
+
+    <!-- ========== MODALS ========== -->
+
+    <!-- ES-808 modal -->
+    <div class="modal-overlay" id="modal-es808" onclick="closeModalOutside(event,'modal-es808')">
+      <div class="modal-sheet">
+        <div class="modal-handle"></div>
+        <div class="modal-title">⚡ ES-808 전기자극 케어</div>
+        <div class="modal-body">
+          운동 전 15분 전기자극으로 목 근육을 이완시켜 주세요.<br><br>
+          <strong>사용 방법</strong><br>
+          1. 패드를 목 양쪽 근육에 부착<br>
+          2. 강도 3단계부터 시작<br>
+          3. 편안한 느낌이 드는 강도 유지<br><br>
+          <span style="color:#002855;font-weight:600">운동 효율이 2배 높아져요 ✓</span>
+        </div>
+        <div class="modal-actions">
+          <button class="modal-btn secondary" onclick="closeModal('modal-es808')">닫기</button>
+          <button class="modal-btn primary" onclick="closeModal('modal-es808')">확인했어요 ✓</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- CS-25 modal -->
+    <div class="modal-overlay" id="modal-cs25" onclick="closeModalOutside(event,'modal-cs25')">
+      <div class="modal-sheet">
+        <div class="modal-handle"></div>
+        <div class="modal-title">🛌 CS-25 견인 케어</div>
+        <div class="modal-body">
+          하루 종일 눌린 목, 자기 전 10분 견인으로 디스크 간격을 벌려주세요.<br><br>
+          CS-25로 정확한 C커브 견인이 가능합니다.<br><br>
+          <span style="color:#002855;font-weight:600">자는 동안 목이 회복돼요 🌙</span>
+        </div>
+        <div class="modal-actions">
+          <button class="modal-btn secondary" onclick="closeModal('modal-cs25')">닫기</button>
+          <button class="modal-btn primary" onclick="openCrossSell()">CS-25 알아보기 →</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- CS-25 cross-sell modal -->
+    <div class="modal-overlay" id="modal-crosssell" onclick="closeModalOutside(event,'modal-crosssell')">
+      <div class="modal-sheet">
+        <div class="modal-handle"></div>
+        <div style="background:linear-gradient(135deg,#002855,#0057b7);border-radius:16px;padding:20px;margin-bottom:16px;color:#fff;text-align:center">
+          <div style="font-size:36px;margin-bottom:8px">🌙</div>
+          <div style="font-size:18px;font-weight:700;margin-bottom:4px">CS-25 견인 베개</div>
+          <div style="font-size:12px;color:rgba(255,255,255,0.7)">정확한 C커브 견인</div>
+        </div>
+        <div class="modal-body">
+          자기 전 10분으로 디스크 간격 회복.<br>
+          지금 구매 시 <strong style="color:#002855">1분도수 회원 특가</strong>로 제공됩니다.
+        </div>
+        <div class="modal-actions">
+          <button class="modal-btn secondary" onclick="closeModal('modal-crosssell')">나중에</button>
+          <button class="modal-btn primary" onclick="closeModal('modal-crosssell')">지금 구매하기 →</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Emergency modal -->
+    <div class="modal-overlay" id="modal-emergency" onclick="closeModalOutside(event,'modal-emergency')">
+      <div class="modal-sheet">
+        <div class="modal-handle"></div>
+        <div class="modal-title">🚨 지금 어떤 증상인가요?</div>
+        <div style="margin-bottom:12px">
+          <div class="emergency-option" onclick="closeModal('modal-emergency')">
+            <div class="emergency-option-title">운동 중 통증이 심해졌어요</div>
+            <div class="emergency-option-desc">→ 운동 범위를 50%로 줄이고 계속</div>
+          </div>
+          <div class="emergency-option" onclick="closeModal('modal-emergency')">
+            <div class="emergency-option-title">팔이나 손이 저려요</div>
+            <div class="emergency-option-desc">→ 즉시 중단, 기초 이완 운동으로 변경</div>
+          </div>
+          <div class="emergency-option" onclick="closeModal('modal-emergency')">
+            <div class="emergency-option-title">어지러워요 / 두통이 있어요</div>
+            <div class="emergency-option-desc">→ 오늘 운동 중단, 내일 다시 시작</div>
+          </div>
+        </div>
+        <button class="modal-btn secondary" style="width:100%" onclick="closeModal('modal-emergency')">닫기</button>
+      </div>
+    </div>
+
+    <!-- Video player overlay -->
+    <div class="video-playing-overlay" id="video-overlay">
+      <div class="video-play-icon">▶️</div>
+      <div class="video-play-title" id="video-overlay-title">목 가동 운동 1단계</div>
+      <div class="video-play-sub" id="video-overlay-duration">00:58</div>
+      <div class="video-progress-bar">
+        <div class="video-progress-fill" id="video-progress"></div>
+      </div>
+      <button class="video-close-btn" onclick="closeVideo()">✕ 닫기</button>
+    </div>
+
+  </div><!-- phone-screen -->
+</div><!-- phone -->
+
+<script>
+  let currentScreen = 'screen-welcome';
+  let vasSubmitted = false;
+
+  function goTo(id) {
+    const current = document.querySelector('.screen.active');
+    const next = document.getElementById(id);
+    if (!next || current === next) return;
+    current.classList.remove('active');
+    current.classList.add('exit-left');
+    setTimeout(() => current.classList.remove('exit-left'), 400);
+    next.style.transform = 'translateX(100%)';
+    next.style.opacity = '0';
+    next.classList.add('active');
+    setTimeout(() => {
+      next.style.transform = '';
+      next.style.opacity = '';
+    }, 20);
+    currentScreen = id;
+  }
+
+  function startApp() {
+    const homeScreen = document.getElementById('screen-home');
+    const q2Screen = document.getElementById('screen-q2');
+    q2Screen.classList.remove('active');
+    q2Screen.classList.add('exit-left');
+    setTimeout(() => q2Screen.classList.remove('exit-left'), 400);
+    homeScreen.style.transform = 'translateX(100%)';
+    homeScreen.style.opacity = '0';
+    homeScreen.classList.add('active');
+    setTimeout(() => {
+      homeScreen.style.transform = '';
+      homeScreen.style.opacity = '';
+    }, 20);
+    currentScreen = 'screen-home';
+  }
+
+  function toggleChoice(btn) {
+    btn.classList.toggle('selected');
+  }
+
+  function selectSingle(btn, group) {
+    document.querySelectorAll(`[data-group="${group}"]`).forEach(b => b.classList.remove('selected'));
+    btn.setAttribute('data-group', group);
+    document.querySelectorAll('[onclick*="period"]').forEach(b => b.classList.remove('selected'));
+    btn.classList.add('selected');
+  }
+
+  const vasData = {
+    1: { label: '🟢 거의 괜찮아요', color: '#22c55e', bg: 'linear-gradient(to right, #22c55e, #22c55e)', track: '#22c55e' },
+    2: { label: '🟢 거의 괜찮아요', color: '#22c55e', bg: '', track: '#22c55e' },
+    3: { label: '🟢 약간 뻐근함', color: '#22c55e', bg: '', track: '#22c55e' },
+    4: { label: '🟡 고개 돌리면 불편', color: '#f59e0b', bg: '', track: '#f59e0b' },
+    5: { label: '🟡 고개 돌리면 불편', color: '#f59e0b', bg: '', track: '#f59e0b' },
+    6: { label: '🟠 가만히 있어도 아픔', color: '#f97316', bg: '', track: '#f97316' },
+    7: { label: '🟠 가만히 있어도 아픔', color: '#f97316', bg: '', track: '#f97316' },
+    8: { label: '🔴 잠 설침', color: '#ef4444', bg: '', track: '#ef4444' },
+    9: { label: '🔴 잠 설침', color: '#ef4444', bg: '', track: '#ef4444' },
+    10: { label: '🔴 참기 힘든 통증', color: '#ef4444', bg: '', track: '#ef4444' }
+  };
+
+  function updateVAS(val) {
+    const v = parseInt(val);
+    const d = vasData[v];
+    const numEl = document.getElementById('vas-num');
+    const labelEl = document.getElementById('vas-label-text');
+    const slider = document.getElementById('vas-slider');
+    numEl.textContent = v;
+    numEl.style.color = d.color;
+    labelEl.textContent = d.label;
+    labelEl.style.color = d.color;
+    const pct = (v - 1) / 9 * 100;
+    slider.style.background = `linear-gradient(to right, ${d.track} 0%, ${d.track} ${pct}%, #e5e7eb ${pct}%, #e5e7eb 100%)`;
+    const thumb = slider;
+    thumb.style.setProperty('--thumb-color', d.track);
+  }
+  updateVAS(5);
+
+  function submitVAS() {
+    const vasCard = document.getElementById('vas-card');
+    const prescription = document.getElementById('prescription');
+    vasCard.style.opacity = '0.5';
+    vasCard.style.pointerEvents = 'none';
+    prescription.classList.add('visible');
+    setTimeout(() => {
+      document.getElementById('home-scroll').scrollTo({ top: vasCard.offsetHeight + 20, behavior: 'smooth' });
+    }, 100);
+    vasSubmitted = true;
+  }
+
+  function switchTab(tab) {
+    const homeScreen = document.getElementById('screen-home');
+    const journeyScreen = document.getElementById('screen-journey');
+    const homeNavItems = homeScreen.querySelectorAll('.nav-item');
+    const journeyNavItems = journeyScreen.querySelectorAll('.nav-item');
+
+    if (tab === 'home') {
+      journeyScreen.classList.remove('active');
+      homeScreen.classList.add('active');
+      homeNavItems[0].classList.add('active');
+      homeNavItems[1].classList.remove('active');
+    } else {
+      homeScreen.classList.remove('active');
+      journeyScreen.classList.add('active');
+      journeyNavItems[0].classList.remove('active');
+      journeyNavItems[1].classList.add('active');
+    }
+  }
+
+  function openModal(id) {
+    document.getElementById(id).classList.add('open');
+  }
+  function closeModal(id) {
+    document.getElementById(id).classList.remove('open');
+  }
+  function closeModalOutside(e, id) {
+    if (e.target === e.currentTarget) closeModal(id);
+  }
+  function openCrossSell() {
+    closeModal('modal-cs25');
+    setTimeout(() => openModal('modal-crosssell'), 200);
+  }
+
+  let videoTimer = null;
+  function playVideo(title, duration) {
+    const overlay = document.getElementById('video-overlay');
+    document.getElementById('video-overlay-title').textContent = title;
+    document.getElementById('video-overlay-duration').textContent = duration;
+    // Reset progress animation
+    const fill = document.getElementById('video-progress');
+    fill.style.animation = 'none';
+    fill.offsetHeight; // reflow
+    fill.style.animation = '';
+    overlay.classList.add('open');
+  }
+  function closeVideo() {
+    document.getElementById('video-overlay').classList.remove('open');
+  }
+</script>
+</body>
+</html>
