@@ -1,0 +1,1093 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>1분도수 앱 고객 여정 기획안 (최종본)</title>
+<style>
+  :root {
+    --navy: #002855;
+    --navy-light: #003f7f;
+    --accent: #0066cc;
+    --accent2: #00a8e8;
+    --green: #22c55e;
+    --yellow: #eab308;
+    --orange: #f97316;
+    --red: #ef4444;
+    --bg: #f0f4f8;
+    --card: #ffffff;
+    --text: #1a2332;
+    --muted: #64748b;
+    --border: #e2e8f0;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans KR', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+  }
+  /* HEADER */
+  .header {
+    background: linear-gradient(135deg, var(--navy) 0%, var(--navy-light) 100%);
+    color: white;
+    padding: 48px 24px 40px;
+    text-align: center;
+  }
+  .header-badge {
+    display: inline-block;
+    background: rgba(255,255,255,0.15);
+    border: 1px solid rgba(255,255,255,0.3);
+    border-radius: 20px;
+    padding: 4px 16px;
+    font-size: 12px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-bottom: 16px;
+  }
+  .header h1 {
+    font-size: clamp(20px, 4vw, 30px);
+    font-weight: 800;
+    margin-bottom: 12px;
+    line-height: 1.3;
+  }
+  .header p {
+    font-size: 14px;
+    opacity: 0.75;
+    margin-top: 8px;
+  }
+  /* CONTAINER */
+  .container {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 32px 16px;
+  }
+  /* SECTION */
+  .section {
+    margin-bottom: 40px;
+  }
+  .section-label {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+  .step-badge {
+    background: var(--navy);
+    color: white;
+    border-radius: 8px;
+    padding: 4px 12px;
+    font-size: 12px;
+    font-weight: 700;
+    white-space: nowrap;
+  }
+  .section-title {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--navy);
+  }
+  /* CARD */
+  .card {
+    background: var(--card);
+    border-radius: 16px;
+    padding: 24px;
+    box-shadow: 0 2px 8px rgba(0,40,85,0.08);
+    border: 1px solid var(--border);
+  }
+  .card + .card { margin-top: 12px; }
+  /* GRID */
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+  @media (max-width: 600px) {
+    .grid-2 { grid-template-columns: 1fr; }
+    .grid-3 { grid-template-columns: 1fr; }
+  }
+  /* ONBOARDING */
+  .q-block {
+    background: #f8fafd;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 16px;
+    margin-bottom: 12px;
+  }
+  .q-label {
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--accent);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 8px;
+  }
+  .q-text { font-weight: 600; font-size: 14px; margin-bottom: 10px; }
+  .chips { display: flex; flex-wrap: wrap; gap: 6px; }
+  .chip {
+    background: white;
+    border: 1.5px solid var(--border);
+    border-radius: 20px;
+    padding: 4px 12px;
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--text);
+  }
+  .chip.device { border-color: var(--accent); color: var(--accent); }
+  .chip.time { border-color: var(--navy); color: var(--navy); }
+  /* VAS SLIDER */
+  .vas-section { margin-top: 16px; }
+  .vas-title { font-size: 13px; font-weight: 600; margin-bottom: 10px; color: var(--muted); }
+  .vas-bar {
+    display: flex;
+    border-radius: 8px;
+    overflow: hidden;
+    height: 48px;
+  }
+  .vas-seg {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    font-size: 10px;
+    font-weight: 600;
+    color: white;
+    padding: 2px 4px;
+    text-align: center;
+    line-height: 1.3;
+  }
+  .vas-1-3 { background: var(--green); flex: 3; }
+  .vas-4-5 { background: var(--yellow); flex: 2; color: #333; }
+  .vas-6-7 { background: var(--orange); flex: 2; }
+  .vas-8-10 { background: var(--red); flex: 3; }
+  .vas-labels {
+    display: flex;
+    margin-top: 6px;
+  }
+  .vas-label-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 4px;
+    font-size: 11px;
+    padding: 0 4px;
+  }
+  .vas-label-item:nth-child(1) { flex: 3; color: #166534; }
+  .vas-label-item:nth-child(2) { flex: 2; color: #854d0e; }
+  .vas-label-item:nth-child(3) { flex: 2; color: #9a3412; }
+  .vas-label-item:nth-child(4) { flex: 3; color: #991b1b; }
+  .vas-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; margin-top: 2px; }
+  /* ALGORITHM MATRIX */
+  .algo-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    font-size: 13px;
+  }
+  .algo-table th {
+    background: var(--navy);
+    color: white;
+    padding: 10px 12px;
+    text-align: left;
+    font-size: 12px;
+  }
+  .algo-table th:first-child { border-radius: 8px 0 0 0; }
+  .algo-table th:last-child { border-radius: 0 8px 0 0; }
+  .algo-table td {
+    padding: 10px 12px;
+    border-bottom: 1px solid var(--border);
+    vertical-align: top;
+  }
+  .algo-table tr:last-child td { border-bottom: none; }
+  .algo-table tr:nth-child(even) td { background: #f8fafd; }
+  .group-a { border-left: 4px solid var(--accent2); }
+  .group-b { border-left: 4px solid var(--green); }
+  .badge-num {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 22px; height: 22px;
+    border-radius: 50%;
+    background: var(--navy);
+    color: white;
+    font-size: 11px;
+    font-weight: 700;
+    flex-shrink: 0;
+    margin-right: 4px;
+  }
+  .demotion-tag {
+    display: inline-block;
+    background: #fef3c7;
+    color: #92400e;
+    border-radius: 4px;
+    padding: 1px 6px;
+    font-size: 10px;
+    font-weight: 600;
+    margin-left: 4px;
+  }
+  .group-badge {
+    display: inline-block;
+    border-radius: 4px;
+    padding: 2px 8px;
+    font-size: 10px;
+    font-weight: 700;
+    margin-bottom: 4px;
+  }
+  .group-badge-a { background: #dbeafe; color: #1e40af; }
+  .group-badge-b { background: #dcfce7; color: #166534; }
+  /* PHONE MOCKUP */
+  .phone-wrap {
+    display: flex;
+    justify-content: center;
+    padding: 8px 0 16px;
+  }
+  .phone {
+    width: 260px;
+    background: #111;
+    border-radius: 36px;
+    padding: 12px;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+  }
+  .phone-screen {
+    background: white;
+    border-radius: 26px;
+    overflow: hidden;
+  }
+  .phone-topbar {
+    background: var(--navy);
+    color: white;
+    text-align: center;
+    padding: 10px;
+    font-size: 13px;
+    font-weight: 700;
+  }
+  .phone-section {
+    padding: 12px;
+    border-bottom: 1px solid var(--border);
+  }
+  .phone-section:last-child { border-bottom: none; }
+  .phone-section-title {
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: var(--muted);
+    letter-spacing: 0.5px;
+    margin-bottom: 6px;
+  }
+  .phone-card {
+    background: #f8fafd;
+    border-radius: 10px;
+    padding: 10px;
+    font-size: 12px;
+    margin-bottom: 6px;
+    border: 1px solid var(--border);
+  }
+  .phone-card.highlight {
+    background: var(--navy);
+    color: white;
+    border-color: var(--navy);
+  }
+  .phone-card.cross-sell {
+    background: #fff7ed;
+    border-color: #fed7aa;
+    font-size: 11px;
+    color: #9a3412;
+  }
+  .emergency-btn {
+    background: var(--red);
+    color: white;
+    border-radius: 8px;
+    padding: 8px;
+    text-align: center;
+    font-size: 11px;
+    font-weight: 700;
+    margin-top: 6px;
+  }
+  /* FLOWCHART */
+  .flow {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0;
+  }
+  .flow-node {
+    background: white;
+    border: 2px solid var(--navy);
+    border-radius: 12px;
+    padding: 12px 20px;
+    text-align: center;
+    font-size: 13px;
+    font-weight: 600;
+    min-width: 200px;
+    max-width: 320px;
+    width: 100%;
+  }
+  .flow-node.red { border-color: var(--red); background: #fef2f2; color: var(--red); }
+  .flow-node.green { border-color: var(--green); background: #f0fdf4; color: #166534; }
+  .flow-node.orange { border-color: var(--orange); background: #fff7ed; color: #9a3412; }
+  .flow-arrow {
+    font-size: 20px;
+    color: var(--muted);
+    margin: 4px 0;
+    line-height: 1;
+  }
+  .flow-branch {
+    display: flex;
+    gap: 16px;
+    width: 100%;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  .flow-branch .flow-node {
+    min-width: 140px;
+    flex: 1;
+  }
+  /* DATA SECTION */
+  .data-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
+  @media (max-width: 600px) { .data-grid { grid-template-columns: 1fr; } }
+  .data-card {
+    background: white;
+    border-radius: 12px;
+    padding: 16px;
+    border: 1px solid var(--border);
+    border-top: 3px solid var(--accent);
+  }
+  .data-card-icon { font-size: 24px; margin-bottom: 8px; }
+  .data-card-title { font-weight: 700; font-size: 14px; margin-bottom: 6px; color: var(--navy); }
+  .data-card-items { list-style: none; }
+  .data-card-items li {
+    font-size: 12px;
+    color: var(--muted);
+    padding: 3px 0;
+    border-bottom: 1px solid #f1f5f9;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .data-card-items li:last-child { border-bottom: none; }
+  .data-card-items li::before { content: "→"; color: var(--accent); font-weight: 700; }
+  /* RETENTION */
+  .retention-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+  @media (max-width: 600px) { .retention-grid { grid-template-columns: 1fr; } }
+  .ret-card {
+    background: white;
+    border-radius: 12px;
+    padding: 16px;
+    border: 1px solid var(--border);
+    text-align: center;
+  }
+  .ret-icon { font-size: 28px; margin-bottom: 8px; }
+  .ret-title { font-weight: 700; font-size: 13px; color: var(--navy); margin-bottom: 6px; }
+  .ret-desc { font-size: 12px; color: var(--muted); line-height: 1.5; }
+  /* JOURNEY GRAPH MOCKUP */
+  .journey-card {
+    background: var(--navy);
+    color: white;
+    border-radius: 16px;
+    padding: 20px;
+  }
+  .journey-title { font-size: 15px; font-weight: 700; margin-bottom: 4px; }
+  .journey-sub { font-size: 12px; opacity: 0.7; margin-bottom: 16px; }
+  .vas-graph {
+    background: rgba(255,255,255,0.1);
+    border-radius: 8px;
+    padding: 12px;
+    height: 80px;
+    position: relative;
+    margin-bottom: 12px;
+    overflow: hidden;
+  }
+  .vas-graph svg { width: 100%; height: 100%; }
+  .journey-stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+  }
+  .journey-stat {
+    background: rgba(255,255,255,0.1);
+    border-radius: 8px;
+    padding: 8px;
+    text-align: center;
+  }
+  .journey-stat-num { font-size: 20px; font-weight: 800; }
+  .journey-stat-label { font-size: 10px; opacity: 0.7; }
+  /* POPUP MOCKUP */
+  .popup-card {
+    background: white;
+    border-radius: 16px;
+    padding: 20px;
+    box-shadow: 0 8px 32px rgba(0,40,85,0.15);
+    border: 1px solid var(--border);
+    position: relative;
+    overflow: hidden;
+  }
+  .popup-card::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, var(--navy), var(--accent2));
+  }
+  .popup-tag {
+    display: inline-block;
+    background: #dbeafe;
+    color: #1e40af;
+    border-radius: 6px;
+    padding: 2px 8px;
+    font-size: 11px;
+    font-weight: 700;
+    margin-bottom: 10px;
+  }
+  .popup-text {
+    font-size: 13px;
+    line-height: 1.6;
+    color: var(--text);
+  }
+  .popup-cta {
+    margin-top: 14px;
+    display: flex;
+    gap: 8px;
+  }
+  .btn-primary {
+    background: var(--navy);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 8px 16px;
+    font-size: 12px;
+    font-weight: 700;
+    cursor: pointer;
+    flex: 1;
+  }
+  .btn-secondary {
+    background: white;
+    color: var(--navy);
+    border: 1.5px solid var(--navy);
+    border-radius: 8px;
+    padding: 8px 16px;
+    font-size: 12px;
+    font-weight: 700;
+    cursor: pointer;
+    flex: 1;
+  }
+  /* FOOTER */
+  footer {
+    background: var(--navy);
+    color: rgba(255,255,255,0.6);
+    text-align: center;
+    padding: 24px;
+    font-size: 12px;
+    margin-top: 40px;
+  }
+  footer strong { color: white; }
+  /* DIVIDER */
+  .divider {
+    height: 1px;
+    background: var(--border);
+    margin: 8px 0;
+  }
+  /* TAG */
+  .tag {
+    display: inline-block;
+    border-radius: 6px;
+    padding: 2px 8px;
+    font-size: 11px;
+    font-weight: 600;
+  }
+  .tag-normal { background: #dcfce7; color: #166534; }
+  .tag-warn { background: #fef9c3; color: #854d0e; }
+  .tag-danger { background: #fee2e2; color: #991b1b; }
+  /* CHANGES LIST */
+  .changes-list { list-style: none; }
+  .changes-list li {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--border);
+    font-size: 13px;
+  }
+  .changes-list li:last-child { border-bottom: none; }
+  .change-num {
+    flex-shrink: 0;
+    width: 22px; height: 22px;
+    background: var(--accent);
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    font-weight: 700;
+    margin-top: 1px;
+  }
+  .change-content strong { color: var(--navy); display: block; margin-bottom: 2px; }
+  .change-content span { color: var(--muted); font-size: 12px; }
+  /* TOC */
+  .toc {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 32px;
+  }
+  .toc-item {
+    background: white;
+    border: 1.5px solid var(--border);
+    border-radius: 20px;
+    padding: 6px 14px;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--navy);
+    text-decoration: none;
+    transition: all 0.2s;
+  }
+  .toc-item:hover {
+    background: var(--navy);
+    color: white;
+    border-color: var(--navy);
+  }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="header">
+  <div class="header-badge">키네메디칼 앱 기획안</div>
+  <h1>📱 [키네메디칼 앱] 고객 여정 &amp; 메인 화면<br>통합 기획안 (최종본)</h1>
+  <p>1분도수 앱 · 맞춤 처방 알고리즘 · 리텐션 설계 · 데이터 수집 구조</p>
+</div>
+
+<div class="container">
+
+  <!-- TOC -->
+  <div class="toc">
+    <a href="#step1" class="toc-item">📋 STEP 1. 온보딩</a>
+    <a href="#step2" class="toc-item">🧠 STEP 2. 처방 알고리즘</a>
+    <a href="#step3" class="toc-item">📱 STEP 3. 메인 UI</a>
+    <a href="#step4" class="toc-item">🚨 STEP 4. 응급 로직</a>
+    <a href="#data" class="toc-item">📊 데이터 수집</a>
+    <a href="#retention" class="toc-item">🔔 리텐션</a>
+    <a href="#journey" class="toc-item">🌱 회복 여정</a>
+    <a href="#changes" class="toc-item">✅ 수정 반영</a>
+  </div>
+
+  <!-- STEP 1 -->
+  <div class="section" id="step1">
+    <div class="section-label">
+      <span class="step-badge">STEP 1</span>
+      <span class="section-title">앱 진입 &amp; 온보딩 문진</span>
+    </div>
+    <div class="card">
+      <!-- Q0 -->
+      <div class="q-block" style="border: 1.5px dashed #cbd5e1; background: #f8fafd;">
+        <div class="q-label">Q0 · 확장 예약 자리 (향후)</div>
+        <div class="q-text">어느 부위를 케어하고 싶으신가요?</div>
+        <div class="chips">
+          <span class="chip" style="background:#f1f5f9; color:#94a3b8;">목 (MVP 현재)</span>
+          <span class="chip" style="background:#f1f5f9; color:#94a3b8;">어깨 (예정)</span>
+          <span class="chip" style="background:#f1f5f9; color:#94a3b8;">허리 (예정)</span>
+        </div>
+        <div style="font-size:11px; color:#94a3b8; margin-top:8px;">💡 MVP는 목 고정. Q0 자리만 설계에 포함하고 비워둠</div>
+      </div>
+
+      <!-- Q1 -->
+      <div class="q-block">
+        <div class="q-label">Q1 · 기기 보유 확인 (복수 선택)</div>
+        <div class="q-text">현재 보유하신 기기를 선택해주세요</div>
+        <div class="chips">
+          <span class="chip device">ES-808 📟</span>
+          <span class="chip device">WS-200 💆</span>
+          <span class="chip device">CS-25 🛏</span>
+          <span class="chip" style="color: var(--muted);">아직 없어요</span>
+        </div>
+        <div style="font-size:11px; color:var(--muted); margin-top:8px;">→ 미보유 선택 시 운동 전/후 케어 섹션에 크로스셀링 카드 노출</div>
+      </div>
+
+      <!-- Q2 -->
+      <div class="q-block">
+        <div class="q-label">Q2 · 현재 시기 파악</div>
+        <div class="q-text">증상이 시작된 지 얼마나 됐나요?</div>
+        <div class="chips">
+          <span class="chip time">급성기 (0~1주) 🔴</span>
+          <span class="chip time">아급성기 (2~3주) 🟠</span>
+          <span class="chip time">만성기 (1달+) 🟢</span>
+        </div>
+      </div>
+
+      <!-- VAS -->
+      <div class="vas-section">
+        <div class="vas-title">📅 매일 데일리 체크인 — VAS 통증 슬라이더 (1~10)</div>
+        <div class="vas-bar">
+          <div class="vas-seg vas-1-3">🟢<br>1~3</div>
+          <div class="vas-seg vas-4-5">🟡<br>4~5</div>
+          <div class="vas-seg vas-6-7">🟠<br>6~7</div>
+          <div class="vas-seg vas-8-10">🔴<br>8~10</div>
+        </div>
+        <div class="vas-labels">
+          <div class="vas-label-item">
+            <div class="vas-dot" style="background:var(--green)"></div>
+            <div>약간 뻐근하지만 일상 편안<br><strong>정상 진도 ✅</strong></div>
+          </div>
+          <div class="vas-label-item">
+            <div class="vas-dot" style="background:var(--yellow)"></div>
+            <div>오래 앉으면 불편<br><strong>정상 진도 ✅</strong></div>
+          </div>
+          <div class="vas-label-item">
+            <div class="vas-dot" style="background:var(--orange)"></div>
+            <div>가만히 있어도 꽤 아픔<br><strong>안전 강등 ⬇️</strong></div>
+          </div>
+          <div class="vas-label-item">
+            <div class="vas-dot" style="background:var(--red)"></div>
+            <div>잠 설치고 손도 못 댐<br><strong>안전 강등 ⬇️</strong></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- STEP 2 -->
+  <div class="section" id="step2">
+    <div class="section-label">
+      <span class="step-badge">STEP 2</span>
+      <span class="section-title">6가지 맞춤 처방 알고리즘</span>
+    </div>
+    <div class="card" style="padding: 0; overflow: hidden;">
+      <div style="padding: 16px 20px 12px; border-bottom: 1px solid var(--border);">
+        <div style="display: flex; gap: 12px; flex-wrap: wrap;">
+          <div style="display:flex; align-items:center; gap:6px; font-size:12px;">
+            <div style="width:12px; height:12px; border-radius:2px; background:var(--accent2);"></div>
+            <strong>그룹 A</strong> — 안전 최우선 · 매일 동일 기초 고정
+          </div>
+          <div style="display:flex; align-items:center; gap:6px; font-size:12px;">
+            <div style="width:12px; height:12px; border-radius:2px; background:var(--green);"></div>
+            <strong>그룹 B</strong> — 회복/강화 · 매주 새 운동
+          </div>
+        </div>
+      </div>
+      <table class="algo-table">
+        <thead>
+          <tr>
+            <th style="width:40px;">#</th>
+            <th>조건 (시기 + VAS)</th>
+            <th>처방 운동</th>
+            <th style="width:90px;">상태</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="group-a"><span class="badge-num">1</span></td>
+            <td>
+              <div class="group-badge group-badge-a">그룹 A</div><br>
+              <strong>급성기</strong> + VAS <strong style="color:var(--red);">6↑</strong>
+            </td>
+            <td>
+              ES-808 진통 + 깃털마사지 + 초미세 도리도리
+              <div style="font-size:11px; color:var(--muted); margin-top:4px;">기기 우선 진통 → 초미세 가동성 회복</div>
+            </td>
+            <td><span class="tag tag-danger">🔴 고위험</span></td>
+          </tr>
+          <tr>
+            <td class="group-a"><span class="badge-num">2</span></td>
+            <td>
+              <div class="group-badge group-badge-a">그룹 A</div><br>
+              <strong>급성기</strong> + VAS <strong style="color:var(--green);">5↓</strong>
+            </td>
+            <td>
+              수건 받치고 정수리 빼기 + 횡격막 호흡
+              <div style="font-size:11px; color:var(--muted); margin-top:4px;">자세 교정 + 이완 호흡으로 통증 조절</div>
+            </td>
+            <td><span class="tag tag-warn">🟡 주의</span></td>
+          </tr>
+          <tr>
+            <td class="group-a"><span class="badge-num">3</span></td>
+            <td>
+              <div class="group-badge group-badge-a">그룹 A</div><br>
+              <strong>아급성기</strong> + VAS <strong style="color:var(--red);">6↑</strong>
+            </td>
+            <td>
+              <span style="color:var(--muted);">→ 2번으로 강등</span>
+              <span class="demotion-tag">⬇️ 강등</span>
+              <div style="font-size:11px; color:var(--orange); margin-top:4px;">"오늘은 몸이 좀 힘든 날이에요. 무리하지 말고 가장 안전한 운동으로 바꿔드릴게요"</div>
+            </td>
+            <td><span class="tag tag-danger">🔴 강등</span></td>
+          </tr>
+          <tr>
+            <td class="group-b"><span class="badge-num">4</span></td>
+            <td>
+              <div class="group-badge group-badge-b">그룹 B</div><br>
+              <strong>아급성기</strong> + VAS <strong style="color:var(--green);">5↓</strong>
+            </td>
+            <td>
+              네발기기, W-I 운동 등 가동성 확보
+              <div style="font-size:11px; color:var(--muted); margin-top:4px;">주간 단위 새 운동 세트 업데이트</div>
+            </td>
+            <td><span class="tag tag-normal">🟢 회복중</span></td>
+          </tr>
+          <tr>
+            <td class="group-b"><span class="badge-num">5</span></td>
+            <td>
+              <div class="group-badge group-badge-b">그룹 B</div><br>
+              <strong>만성기</strong> + VAS <strong style="color:var(--red);">6↑</strong>
+            </td>
+            <td>
+              <span style="color:var(--muted);">→ 4번으로 강등</span>
+              <span class="demotion-tag">⬇️ 강등</span>
+              <div style="font-size:11px; color:var(--orange); margin-top:4px;">"오늘은 몸이 좀 힘든 날이에요. 무리하지 말고 가장 안전한 운동으로 바꿔드릴게요"</div>
+            </td>
+            <td><span class="tag tag-danger">🔴 강등</span></td>
+          </tr>
+          <tr>
+            <td class="group-b"><span class="badge-num">6</span></td>
+            <td>
+              <div class="group-badge group-badge-b">그룹 B</div><br>
+              <strong>만성기</strong> + VAS <strong style="color:var(--green);">5↓</strong>
+            </td>
+            <td>
+              벽스쿼트, 런지 &amp; Y자만세 — 전신 사슬 운동
+              <div style="font-size:11px; color:var(--muted); margin-top:4px;">전신 강화 단계. 재발 예방 집중</div>
+            </td>
+            <td><span class="tag tag-normal">🟢 강화기</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="card" style="margin-top:12px; background: #fffbeb; border-color: #fde68a;">
+      <div style="font-size:13px; font-weight:700; color:#92400e; margin-bottom:6px;">⬇️ 강등 UX 팝업 메시지</div>
+      <div style="font-size:13px; color:#78350f; background:white; border-radius:8px; padding:12px; border: 1px solid #fde68a; font-style:italic;">
+        "오늘은 몸이 좀 힘든 날이에요. 무리하지 말고 가장 안전한 운동으로 바꿔드릴게요" 🙏
+      </div>
+    </div>
+  </div>
+
+  <!-- STEP 3 -->
+  <div class="section" id="step3">
+    <div class="section-label">
+      <span class="step-badge">STEP 3</span>
+      <span class="section-title">메인 화면 1자형 UI 목업</span>
+    </div>
+    <div class="grid-2">
+      <div class="phone-wrap" style="align-items: flex-start; padding-top: 0;">
+        <div class="phone">
+          <div class="phone-screen">
+            <div class="phone-topbar">🏃 오늘의 1분도수</div>
+            <!-- 운동 전 케어 -->
+            <div class="phone-section">
+              <div class="phone-section-title">① 운동 전 케어</div>
+              <div class="phone-card highlight">
+                📟 ES-808으로 5분 진통 케어<br>
+                <span style="font-size:10px; opacity:0.8;">기기 사용 유도</span>
+              </div>
+              <div class="phone-card cross-sell">
+                🛒 ES-808 없으신가요?<br>
+                <span style="font-size:10px;">→ 기기 유저는 평균 2주 더 빨리 회복</span>
+              </div>
+            </div>
+            <!-- 본 운동 -->
+            <div class="phone-section">
+              <div class="phone-section-title">② 본 운동 (숏폼 3~4개)</div>
+              <div class="phone-card" style="background:#f0f9ff; border-color:#bae6fd;">
+                ▶️ 1분도수 숏폼 연속 재생<br>
+                <span style="font-size:10px; color:var(--muted);">동연님 기존 영상 재활용 + 신규 촬영</span>
+              </div>
+              <div class="emergency-btn">🚨 통증 응급버튼</div>
+            </div>
+            <!-- 운동 후 케어 -->
+            <div class="phone-section">
+              <div class="phone-section-title">③ 운동 후 케어</div>
+              <div class="phone-card" style="background:#f0fdf4; border-color:#bbf7d0;">
+                🛏 취침 전 CS-25 견인 케어<br>
+                <span style="font-size:10px; color:var(--muted);">자기 전 딱 10분</span>
+              </div>
+              <div class="phone-card cross-sell">
+                🛒 CS-25 없으신가요?<br>
+                <span style="font-size:10px;">→ 자기 전 10분, 디스크 간격을 벌려드려요</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div class="card" style="margin-bottom:12px;">
+          <div style="font-weight:700; font-size:14px; margin-bottom:12px; color:var(--navy);">UI 설계 원칙</div>
+          <div style="display:flex; flex-direction:column; gap:10px;">
+            <div style="display:flex; gap:10px; align-items:flex-start; font-size:13px;">
+              <div style="width:24px; height:24px; background:var(--navy); color:white; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:11px; font-weight:700; flex-shrink:0;">1</div>
+              <div><strong>운동 전 케어</strong><br><span style="color:var(--muted); font-size:12px;">ES-808·WS-200 기기 사용 유도. 미보유자는 크로스셀링 카드</span></div>
+            </div>
+            <div style="display:flex; gap:10px; align-items:flex-start; font-size:13px;">
+              <div style="width:24px; height:24px; background:var(--navy); color:white; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:11px; font-weight:700; flex-shrink:0;">2</div>
+              <div><strong>본 운동 (숏폼 3~4개)</strong><br><span style="color:var(--muted); font-size:12px;">1분도수 숏폼 연속 재생 + 통증 응급버튼. MVP = 1주차 콘텐츠만</span></div>
+            </div>
+            <div style="display:flex; gap:10px; align-items:flex-start; font-size:13px;">
+              <div style="width:24px; height:24px; background:var(--navy); color:white; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:11px; font-weight:700; flex-shrink:0;">3</div>
+              <div><strong>운동 후 케어</strong><br><span style="color:var(--muted); font-size:12px;">CS-25 취침 전 10분 견인 케어. 미보유자 크로스셀링</span></div>
+            </div>
+          </div>
+        </div>
+        <!-- CS-25 팝업 -->
+        <div class="popup-card">
+          <div class="popup-tag">🛏 CS-25 취침 전 견인 케어</div>
+          <div class="popup-text">
+            낮에 펴놓은 척추가 밤사이 다시 눌리지 않도록, 자기 전 딱 10분!<br><br>
+            <strong>CS-25로 디스크 간격을 부드럽게 벌려주세요.</strong><br><br>
+            견인 후 바로 주무시면 하루 중 가장 좋은 정렬 상태로 잠들 수 있습니다. 🌙
+          </div>
+          <div class="popup-cta">
+            <button class="btn-primary">CS-25 알아보기</button>
+            <button class="btn-secondary">나중에</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- STEP 4 -->
+  <div class="section" id="step4">
+    <div class="section-label">
+      <span class="step-badge">STEP 4</span>
+      <span class="section-title">응급 대처 로직</span>
+    </div>
+    <div class="card">
+      <div class="flow">
+        <div class="flow-node red">🚨 통증 응급버튼 탭</div>
+        <div class="flow-arrow">↓</div>
+        <div class="flow-node" style="background:#fef9c3; border-color:#eab308; color:#78350f;">
+          👨‍⚕️ 1분도수님 긴급 팝업 영상<br>
+          <span style="font-size:11px;">"지금 어디가 제일 아프세요?"</span>
+        </div>
+        <div class="flow-arrow">↓</div>
+        <div style="font-size:12px; color:var(--muted); margin-bottom:4px;">유저 선택</div>
+        <div class="flow-branch">
+          <div class="flow-node green">
+            ✂️ 범위 줄여서 계속<br>
+            <span style="font-size:11px;">현재 운동 강도·범위 축소</span>
+          </div>
+          <div class="flow-node orange">
+            🔄 기초 운동으로 변경<br>
+            <span style="font-size:11px;">강등 로직 실행 (STEP 2)</span>
+          </div>
+        </div>
+        <div class="flow-arrow">↓</div>
+        <div class="flow-node" style="border-color:var(--muted); color:var(--muted);">
+          📊 응급 이벤트 로그 저장<br>
+          <span style="font-size:11px;">VAS + 이탈 지점 데이터 수집</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- DATA -->
+  <div class="section" id="data">
+    <div class="section-label">
+      <span class="step-badge" style="background:#0066cc;">데이터 수집</span>
+      <span class="section-title">4축 데이터 수집 설계</span>
+    </div>
+    <div class="data-grid">
+      <div class="data-card" style="border-top-color: var(--red);">
+        <div class="data-card-icon">📈</div>
+        <div class="data-card-title">Axis 1. VAS 추이</div>
+        <ul class="data-card-items">
+          <li>일별 VAS 점수 기록</li>
+          <li>7일 이동평균 그래프</li>
+          <li>회복 속도 세그먼트 분석</li>
+          <li>악화/개선 패턴 감지</li>
+        </ul>
+      </div>
+      <div class="data-card" style="border-top-color: var(--green);">
+        <div class="data-card-icon">✅</div>
+        <div class="data-card-title">Axis 2. 운동 완료율</div>
+        <ul class="data-card-items">
+          <li>숏폼별 완료/이탈 측정</li>
+          <li>3개 중 몇 개 완료했는지</li>
+          <li>주차별 완료율 트렌드</li>
+          <li>운동 시간대 분포</li>
+        </ul>
+      </div>
+      <div class="data-card" style="border-top-color: var(--orange);">
+        <div class="data-card-icon">🚪</div>
+        <div class="data-card-title">Axis 3. 이탈 지점</div>
+        <ul class="data-card-items">
+          <li>어느 운동에서 이탈하는지</li>
+          <li>응급버튼 탭 지점 추적</li>
+          <li>운동 전/본/후 각각 이탈률</li>
+          <li>이탈 후 재진입 패턴</li>
+        </ul>
+      </div>
+      <div class="data-card" style="border-top-color: var(--accent);">
+        <div class="data-card-icon">📟</div>
+        <div class="data-card-title">Axis 4. 기기 사용 여부 세그먼트</div>
+        <ul class="data-card-items">
+          <li>기기 보유 vs 미보유 회복 속도 비교</li>
+          <li>크로스셀링 전환율 측정</li>
+          <li>기기별 VAS 개선 차이</li>
+          <li>"2주 더 빠른 회복" 실증 데이터 생성</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- RETENTION -->
+  <div class="section" id="retention">
+    <div class="section-label">
+      <span class="step-badge" style="background:#166534;">리텐션</span>
+      <span class="section-title">리텐션 설계 3종</span>
+    </div>
+    <div class="retention-grid">
+      <div class="ret-card">
+        <div class="ret-icon">🔔</div>
+        <div class="ret-title">푸시 알림</div>
+        <div class="ret-desc">매일 최적 시간대 운동 알림. VAS 미입력 시 "오늘 몸 상태 어때요?" 리마인더</div>
+      </div>
+      <div class="ret-card">
+        <div class="ret-icon">🔥</div>
+        <div class="ret-title">연속 출석 스트릭</div>
+        <div class="ret-desc">연속 출석 일수 표시 + 뱃지. 7일/14일/30일 달성 시 특별 메시지</div>
+      </div>
+      <div class="ret-card">
+        <div class="ret-icon">📋</div>
+        <div class="ret-title">주간 리포트</div>
+        <div class="ret-desc">VAS 변화 그래프 + 운동 완료일 + 1분도수님 격려 한마디 포함. 매주 일요일 발송</div>
+      </div>
+    </div>
+    <!-- 무료 유저 전환 팝업 -->
+    <div style="margin-top: 16px;">
+      <div class="popup-card">
+        <div class="popup-tag">💡 운동 완료 후 전환 팝업</div>
+        <div class="popup-text">
+          <strong>🎉 오늘 운동 완료!</strong> 수고하셨어요.<br><br>
+          혹시 알고 계셨나요?<br>
+          <strong>기기 유저는 평균 2주 더 빨리 회복</strong>한다는 사실!
+        </div>
+        <div style="background:#f0f9ff; border-radius:8px; padding:12px; margin-top:12px;">
+          <div style="display:flex; gap:16px; justify-content:center; font-size:12px; text-align:center;">
+            <div>
+              <div style="font-size:22px; font-weight:800; color:var(--muted);">6.2주</div>
+              <div style="color:var(--muted);">앱만 사용</div>
+            </div>
+            <div style="display:flex; align-items:center; font-size:20px;">→</div>
+            <div>
+              <div style="font-size:22px; font-weight:800; color:var(--navy);">4.1주</div>
+              <div style="color:var(--navy); font-weight:600;">기기 병행</div>
+            </div>
+          </div>
+        </div>
+        <div class="popup-cta">
+          <button class="btn-primary">ES-808 알아보기</button>
+          <button class="btn-secondary">괜찮아요</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- JOURNEY PAGE -->
+  <div class="section" id="journey">
+    <div class="section-label">
+      <span class="step-badge" style="background:#0891b2;">회복 여정</span>
+      <span class="section-title">나의 회복 여정 페이지</span>
+    </div>
+    <div class="journey-card">
+      <div class="journey-title">🌱 나의 회복 여정</div>
+      <div class="journey-sub">지난 14일간 VAS 추이</div>
+      <div class="vas-graph">
+        <svg viewBox="0 0 300 60" preserveAspectRatio="none">
+          <polyline points="0,50 20,48 40,45 60,42 80,38 100,35 120,30 140,28 160,25 180,22 200,20 220,18 240,16 260,15 280,14 300,12"
+            fill="none" stroke="rgba(255,255,255,0.3)" stroke-width="1.5"/>
+          <polyline points="0,50 20,48 40,45 60,42 80,38 100,35 120,30 140,28 160,25 180,22 200,20 220,18 240,16 260,15 280,14 300,12"
+            fill="none" stroke="#00a8e8" stroke-width="2.5" stroke-linecap="round"/>
+          <circle cx="0" cy="50" r="3" fill="#ef4444"/>
+          <circle cx="300" cy="12" r="3" fill="#22c55e"/>
+        </svg>
+      </div>
+      <div class="journey-stats">
+        <div class="journey-stat">
+          <div class="journey-stat-num">14</div>
+          <div class="journey-stat-label">연속 운동일</div>
+        </div>
+        <div class="journey-stat">
+          <div class="journey-stat-num">8→3</div>
+          <div class="journey-stat-label">VAS 변화</div>
+        </div>
+        <div class="journey-stat">
+          <div class="journey-stat-num">92%</div>
+          <div class="journey-stat-label">완료율</div>
+        </div>
+      </div>
+      <div style="background:rgba(255,255,255,0.1); border-radius:8px; padding:12px; margin-top:12px; font-size:12px; line-height:1.6; font-style:italic;">
+        👨‍⚕️ "2주 만에 VAS 8에서 3으로! 정말 열심히 하셨어요. 이제 일상 복귀까지 얼마 안 남았습니다. 오늘도 화이팅! 💪"<br>
+        <span style="font-size:10px; opacity:0.6;">— 1분도수님의 한마디</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- CHANGES -->
+  <div class="section" id="changes">
+    <div class="section-label">
+      <span class="step-badge" style="background:#059669;">✅ 확정</span>
+      <span class="section-title">수정 반영 사항 (최종 확정 8건)</span>
+    </div>
+    <div class="card">
+      <ul class="changes-list">
+        <li>
+          <div class="change-num">1</div>
+          <div class="change-content">
+            <strong>데이터 수집 설계 추가</strong>
+            <span>VAS 추이 + 운동 완료율 + 이탈 지점 + 기기 사용 여부별 세그먼트 4축 설계 포함</span>
+          </div>
+        </li>
+        <li>
+          <div class="change-num">2</div>
+          <div class="change-content">
+            <strong>주차별 콘텐츠 — MVP = 1주차만</strong>
+            <span>기존 동연님 숏폼 재활용 + 부족분 신규 촬영</span>
+          </div>
+        </li>
+        <li>
+          <div class="change-num">3</div>
+          <div class="change-content">
+            <strong>확장 구조 — Q0 부위 선택 자리 확보</strong>
+            <span>온보딩에 "부위 선택" Q0 비워둠. 목 → 어깨 → 허리 순 확장 예정</span>
+          </div>
+        </li>
+        <li>
+          <div class="change-num">4</div>
+          <div class="change-content">
+            <strong>무료 유저 전환 팝업</strong>
+            <span>"기기 유저는 평균 2주 더 빨리 회복" + 비교 그래프. 운동 완료 후 노출</span>
+          </div>
+        </li>
+        <li>
+          <div class="change-num">5</div>
+          <div class="change-content">
+            <strong>개인 변화 페이지 — "나의 회복 여정"</strong>
+            <span>VAS 추이 그래프 + 운동 일수 + 1분도수님 한마디 포함</span>
+          </div>
+        </li>
+        <li>
+          <div class="change-num">6</div>
+          <div class="change-content">
+            <strong>CS-25 크로스셀링 수정</strong>
+            <span>"취침 모드 예약" → "취침 전 견인 케어". 베고 자는 용도 아님. 자기 전 10분 디스크 견인 용도로 명확화</span>
+          </div>
+        </li>
+        <li>
+          <div class="change-num">7</div>
+          <div class="change-content">
+            <strong>리텐션 장치 — 푸시 알림 + 연속 출석 + 주간 리포트</strong>
+            <span>주간 리포트에 1분도수님 격려 한마디 포함</span>
+          </div>
+        </li>
+        <li>
+          <div class="change-num">8</div>
+          <div class="change-content">
+            <strong>강등 시 UX 메시지 확정</strong>
+            <span>"오늘은 몸이 좀 힘든 날이에요. 무리하지 말고 가장 안전한 운동으로 바꿔드릴게요" 팝업</span>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+</div>
+
+<footer>
+  <strong>최종 확정: 2026-03-25</strong> &nbsp;|&nbsp; 작성: 인규 &nbsp;|&nbsp; 검토: 카리나, 콘실장<br>
+  <span style="font-size:11px; margin-top:4px; display:block;">키네메디칼 · 1분도수 앱 고객 여정 &amp; 메인 화면 통합 기획안 (최종본)</span>
+</footer>
+
+</body>
+</html>
