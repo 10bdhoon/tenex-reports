@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>키네메디칼 Mixpanel 분석 리포트 (3/19~3/25)</title>
+<title>키네메디칼 Mixpanel + 카페24 분석 리포트 (3/19~3/25)</title>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-annotation@3.0.1/dist/chartjs-plugin-annotation.min.js"></script>
 <style>
@@ -13,6 +13,7 @@
   .header h1 { font-size: 28px; color: #fff; margin-bottom: 8px; }
   .header .sub { font-size: 14px; color: #8b949e; }
   .header .period { display: inline-block; background: #1c6ef2; color: #fff; padding: 4px 12px; border-radius: 16px; font-size: 13px; margin-top: 8px; }
+  .header .source-tag { display: inline-block; background: #238636; color: #fff; padding: 4px 10px; border-radius: 16px; font-size: 12px; margin-top: 6px; margin-left: 6px; }
   .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; max-width: 1400px; margin: 0 auto; }
   .card { background: #161b22; border: 1px solid #30363d; border-radius: 12px; padding: 24px; }
   .card.full { grid-column: 1 / -1; }
@@ -29,6 +30,7 @@
   .kpi .delta.bad { color: #f85149; }
   .note { background: #1c1f26; border-left: 3px solid #d29922; padding: 12px 16px; margin-top: 16px; font-size: 13px; color: #8b949e; border-radius: 0 8px 8px 0; }
   .note.alert { border-left-color: #f85149; }
+  .note.info { border-left-color: #1c6ef2; }
   .note strong { color: #e1e4e8; }
   .legend-custom { display: flex; gap: 16px; margin-bottom: 12px; flex-wrap: wrap; }
   .legend-custom .item { display: flex; align-items: center; gap: 6px; font-size: 12px; color: #8b949e; }
@@ -42,47 +44,48 @@
 <body>
 
 <div class="header">
-  <h1>📊 키네메디칼 Mixpanel 분석 리포트</h1>
-  <div class="sub">사용자 행동 데이터 기반 마케팅 인사이트</div>
+  <h1>📊 키네메디칼 분석 리포트</h1>
+  <div class="sub">Mixpanel 행동 데이터 + 카페24 실매출 교차검증</div>
   <div class="period">2026.03.19 ~ 03.25 (7일)</div>
+  <div class="source-tag">매출: 카페24 기준</div>
+  <div class="source-tag">행동: Mixpanel 기준</div>
 </div>
 
 <div class="kpi-row">
   <div class="kpi">
     <div class="label">총 방문자</div>
     <div class="value">7,221</div>
-    <div class="delta warn">유니크 유저</div>
+    <div class="delta warn">Mixpanel 유니크 유저</div>
   </div>
   <div class="kpi">
     <div class="label">상품 조회</div>
-    <div class="value">39,083</div>
-    <div class="delta good">유저당 5.4회</div>
+    <div class="value">6,686</div>
+    <div class="delta good">유니크 유저 기준</div>
   </div>
   <div class="kpi">
     <div class="label">구매 전환율</div>
-    <div class="value">3.1%</div>
+    <div class="value">3.7%</div>
     <div class="delta good">업계평균 2.5% ↑</div>
   </div>
   <div class="kpi">
     <div class="label">총 구매</div>
-    <div class="value">812건</div>
-    <div class="delta good">일평균 116건</div>
+    <div class="value">265건</div>
+    <div class="delta good">카페24 기준 일평균 38건</div>
   </div>
   <div class="kpi">
     <div class="label">재구매율</div>
     <div class="value">73.6%</div>
-    <div class="delta good">업계평균 30% ↑↑</div>
+    <div class="delta warn">⚠️ Mixpanel 기준, 검증 필요</div>
   </div>
   <div class="kpi">
     <div class="label">7일 매출</div>
-    <div class="value">₩129M</div>
-    <div class="delta good">일평균 ₩18.4M</div>
+    <div class="value">₩35.7M</div>
+    <div class="delta good">카페24 기준 일평균 ₩5.1M</div>
   </div>
 </div>
 
 <div class="grid">
 
-  <!-- 1. Funnel -->
   <div class="card">
     <h2><span class="emoji">🔻</span> 사용자 퍼널 (유니크 유저)</h2>
     <div class="legend-custom">
@@ -93,11 +96,13 @@
       <canvas id="funnelChart"></canvas>
     </div>
     <div class="note">
-      <strong>⚠️ 최대 병목:</strong> 상품 조회 → 결제 시작 (94.4% 이탈). 네이버페이 즉시결제로 장바구니 스킵 多 → begin_checkout(368) > add_to_cart(122)
+      <strong>⚠️ 최대 병목:</strong> 상품 조회 → 결제 시작 (94.5% 이탈). 네이버페이 즉시결제로 장바구니 스킵 多
+    </div>
+    <div class="note info">
+      <strong>📌 데이터 소스:</strong> 방문~결제시작: Mixpanel / 구매완료: 카페24 실주문 265건
     </div>
   </div>
 
-  <!-- 5. Repeat Donut -->
   <div class="card">
     <h2><span class="emoji">🔄</span> 재구매율 분석</h2>
     <div class="chart-wrap" style="display:flex; align-items:center; justify-content:center; gap: 32px;">
@@ -119,45 +124,60 @@
     <div class="note">
       <strong>💡 인사이트:</strong> 재구매율 73.6%는 업계 평균(30%)의 2.5배. 글루코사민 크림 등 소모품 반복구매 + CRM 효과 추정
     </div>
+    <div class="note alert">
+      <strong>⚠️ 주의:</strong> 재구매율은 Mixpanel 기준 (중복 발화 문제로 과대 계상 가능). 카페24 회원 주문 기반 재산출 필요.
+    </div>
   </div>
 
-  <!-- 2. Traffic Source -->
   <div class="card full">
-    <h2><span class="emoji">📡</span> 트래픽 소스별 매출</h2>
+    <h2><span class="emoji">🏷️</span> 제품별 매출 (카페24 실매출)</h2>
     <div class="chart-wrap">
-      <canvas id="trafficChart"></canvas>
+      <canvas id="productRevChart"></canvas>
     </div>
-    <div class="note">
-      <strong>⚠️ UTM 미태깅:</strong> unattributed ₩20.7M (126건) → 모든 유입경로 UTM 필수 적용 필요
+    <div class="note info">
+      <strong>📌 데이터 소스:</strong> 카페24 주문 API (payment_amount 기준). ES-808이 전체 매출의 69% 차지.
     </div>
   </div>
 
-  <!-- 3. Product CVR -->
   <div class="card">
-    <h2><span class="emoji">🏷️</span> 제품별 전환율 (CVR)</h2>
+    <h2><span class="emoji">📊</span> 제품별 전환율 (CVR)</h2>
     <div class="chart-wrap">
       <canvas id="productChart"></canvas>
     </div>
     <div class="note">
-      <strong>※ 주의:</strong> 크림류(글루코사민/호랑이*) CVR 22~27%는 ES-808 구매 동선에서 함께 담는 크로스셀 효과. 광고 단독 전환이 아님.
+      <strong>※ 주의:</strong> 크림류(글루코사민/호랑이) CVR 34~57%는 ES-808 구매 동선에서 함께 담는 크로스셀 효과. 광고 단독 전환이 아님.
+    </div>
+    <div class="note info">
+      <strong>📌 CVR 산출:</strong> 카페24 주문건수 / Mixpanel 상품조회 유니크유저
     </div>
   </div>
 
-  <!-- 4. Daily Trend -->
   <div class="card">
-    <h2><span class="emoji">📈</span> 일별 매출 추이</h2>
+    <h2><span class="emoji">📈</span> 일별 매출 추이 (카페24 실매출)</h2>
     <div class="chart-wrap">
       <canvas id="dailyChart"></canvas>
     </div>
-    <div class="note alert">
-      <strong>🚨 3/23(일) 주문 4건:</strong> order_date 기준으로도 4건. 임포트 지연 아닌 실제 주문 급감 — 결제 시스템 장애 가능성. 카페24 로그 확인 필요.
+    <div class="note info">
+      <strong>📌 3/23(일) 정상:</strong> 카페24 기준 30건/₩414만으로 정상 수준. Mixpanel에서만 12건으로 보인 것은 서버사이드 임포트 누락 때문.
     </div>
   </div>
 
 </div>
 
+<div style="max-width:1400px; margin:24px auto 0;">
+  <div class="card full">
+    <h2><span class="emoji">⚠️</span> 데이터 정합성 노트</h2>
+    <div class="note alert">
+      <strong>🚨 Mixpanel purchase 이벤트 중복 문제 발견:</strong><br>
+      Mixpanel purchase 821건 vs 카페24 실주문 265건 (3.1배 중복). 서버사이드 임포트 + 클라이언트사이드 트래킹 이중 발화 추정.<br>
+      → 본 리포트의 매출·구매건수는 카페24 실매출 기준으로 교체 완료.<br>
+      → 행동 데이터(방문, 조회, 결제시작)는 Mixpanel 유지 (purchase 외 이벤트는 정상).
+    </div>
+  </div>
+</div>
+
 <div style="text-align:center; margin-top:40px; padding:20px; color:#484f58; font-size:12px;">
-  생성: 마실장 (테넥스 마케팅실) | 데이터 소스: Mixpanel Export API | 2026-03-26
+  생성: 마실장 (테넥스 마케팅실) | 매출 소스: 카페24 API | 행동 소스: Mixpanel Export API | 2026-03-26 (v2 교차검증 수정)
 </div>
 
 <script>
@@ -165,14 +185,13 @@ Chart.defaults.color = '#8b949e';
 Chart.defaults.borderColor = '#30363d';
 Chart.defaults.font.family = "'Pretendard', -apple-system, sans-serif";
 
-// 1. Funnel
 new Chart(document.getElementById('funnelChart'), {
   type: 'bar',
   data: {
     labels: ['페이지 방문', '상품 조회', '결제 시작', '구매 완료'],
     datasets: [{
       label: '키네메디칼',
-      data: [7221, 6620, 368, 208],
+      data: [7221, 6686, 368, 265],
       backgroundColor: '#1c6ef2',
       borderRadius: 6, barPercentage: 0.5
     }, {
@@ -192,16 +211,15 @@ new Chart(document.getElementById('funnelChart'), {
   }
 });
 
-// 2. Traffic Source
-new Chart(document.getElementById('trafficChart'), {
+new Chart(document.getElementById('productRevChart'), {
   type: 'bar',
   data: {
-    labels: ['IG Feed', 'IG Reels', 'Unattributed', '네이버검색', '유튜브', 'CRM메시지', 'IG 오가닉', 'IG Stories', 'IG Paid', '네이버쇼핑', 'Google', 'FB'],
+    labels: ['ES-808 도수펜', 'CS-25 도수넥', 'WS-200 도수워머', '글루코사민 크림*', '호랑이 크림*'],
     datasets: [{
-      label: '매출 (₩만)',
-      data: [2478.6, 2047.3, 2071.0, 1936.3, 945.9, 940.7, 757.9, 363.9, 258.0, 225.8, 155.2, 153.6],
-      backgroundColor: ['#1c6ef2','#3b82f6','#6b7280','#3fb950','#f85149','#d29922','#8b5cf6','#a78bfa','#60a5fa','#34d399','#94a3b8','#fb923c'],
-      borderRadius: 6, barPercentage: 0.7
+      label: '매출',
+      data: [3005.7, 1154.2, 115.2, 50.5, 5.0],
+      backgroundColor: ['#1c6ef2','#3b82f6','#60a5fa','#d29922','#d29922'],
+      borderRadius: 6, barPercentage: 0.6
     }]
   },
   options: {
@@ -218,15 +236,14 @@ new Chart(document.getElementById('trafficChart'), {
   }
 });
 
-// 3. Product CVR
 new Chart(document.getElementById('productChart'), {
   type: 'bar',
   data: {
-    labels: ['호랑이 크림*', '글루코사민 크림*', 'ES-808 도수펜', 'ES-808', 'WS-200', 'CS-25'],
+    labels: ['호랑이 크림*', '글루코사민 크림*', 'WS-200', 'ES-808', 'CS-25'],
     datasets: [{
       label: 'CVR',
-      data: [27.3, 22.6, 7.5, 2.2, 2.0, 1.8],
-      backgroundColor: ['#d29922','#d29922','#3fb950','#1c6ef2','#1c6ef2','#1c6ef2'],
+      data: [57.1, 34.5, 4.0, 3.9, 3.0],
+      backgroundColor: ['#d29922','#d29922','#1c6ef2','#1c6ef2','#1c6ef2'],
       borderRadius: 6, barPercentage: 0.6
     }]
   },
@@ -251,23 +268,21 @@ new Chart(document.getElementById('productChart'), {
   }
 });
 
-// 4. Daily Trend
-const dailyCtx = document.getElementById('dailyChart');
-new Chart(dailyCtx, {
+new Chart(document.getElementById('dailyChart'), {
   type: 'line',
   data: {
     labels: ['3/19(수)', '3/20(목)', '3/21(금)', '3/22(토)', '3/23(일)', '3/24(월)', '3/25(화)'],
     datasets: [{
       label: '매출 (₩만)',
-      data: [1737.6, 2765.4, 1267.5, 2261.9, 103.2, 1734.2, 2981.2],
+      data: [468.3, 629.9, 279.9, 508.0, 414.6, 588.9, 683.2],
       borderColor: '#1c6ef2', backgroundColor: 'rgba(28,110,242,0.1)',
       fill: true, tension: 0.3,
-      pointBackgroundColor: ctx => ctx.dataIndex === 4 ? '#f85149' : '#1c6ef2',
-      pointBorderColor: ctx => ctx.dataIndex === 4 ? '#f85149' : '#1c6ef2',
-      pointRadius: ctx => ctx.dataIndex === 4 ? 8 : 5
+      pointBackgroundColor: '#1c6ef2',
+      pointBorderColor: '#1c6ef2',
+      pointRadius: 5
     }, {
-      label: '상품 조회',
-      data: [3733, 5625, 5280, 6435, 6136, 6816, 5086],
+      label: '주문건수',
+      data: [36, 42, 24, 38, 30, 48, 47],
       borderColor: '#3fb950', borderDash: [4,4],
       fill: false, tension: 0.3, pointRadius: 3, yAxisID: 'y1'
     }]
@@ -277,24 +292,18 @@ new Chart(dailyCtx, {
     plugins: {
       tooltip: {
         callbacks: {
-          label: ctx => ctx.datasetIndex === 0 ? '매출: ₩' + (ctx.raw * 10000).toLocaleString() : '상품조회: ' + ctx.raw.toLocaleString() + '회'
-        }
-      },
-      annotation: {
-        annotations: {
-          alertBox: { type: 'box', xMin: 3.7, xMax: 4.3, backgroundColor: 'rgba(248,81,73,0.1)', borderColor: '#f85149', borderWidth: 1 }
+          label: ctx => ctx.datasetIndex === 0 ? '매출: ₩' + (ctx.raw * 10000).toLocaleString() : '주문: ' + ctx.raw + '건'
         }
       }
     },
     scales: {
       y: { beginAtZero: true, grid: { color: 'rgba(255,255,255,0.04)' }, ticks: { callback: v => '₩' + v + '만' }, position: 'left' },
-      y1: { beginAtZero: true, grid: { display: false }, ticks: { callback: v => v.toLocaleString() }, position: 'right' },
+      y1: { beginAtZero: true, grid: { display: false }, ticks: { callback: v => v + '건' }, position: 'right' },
       x: { grid: { display: false } }
     }
   }
 });
 
-// 5. Repeat Donuts
 new Chart(document.getElementById('repeatChart'), {
   type: 'doughnut',
   data: {
