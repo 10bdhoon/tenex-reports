@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>자사몰 사관학교 5기 — 강의 정리</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700&display=swap');
+  body { font-family: 'Noto Sans KR', -apple-system, sans-serif; background: #0d1117; color: #e6edf3; }
+  .gradient-text { background: linear-gradient(135deg, #58a6ff 0%, #bc8cff 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+  .week-card { background: #161b22; border: 1px solid #21262d; border-radius: 12px; transition: all 0.2s; }
+  .week-card:hover { border-color: #30363d; transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,0,0,0.3); }
+  .tag { display: inline-block; padding: 3px 10px; border-radius: 20px; font-size: 11px; font-weight: 600; }
+  .insight-card { background: rgba(88,166,255,0.06); border: 1px solid rgba(88,166,255,0.15); border-radius: 8px; padding: 14px 16px; }
+  .quote-card { background: rgba(188,140,255,0.06); border-left: 3px solid #bc8cff; padding: 12px 16px; border-radius: 0 8px 8px 0; }
+  .lesson-card { background: #161b22; border: 1px solid #21262d; border-radius: 10px; padding: 14px 16px; }
+  .lesson-card:hover { border-color: #3fb950; }
+  .week-num { font-size: 11px; font-weight: 700; letter-spacing: 1px; }
+  .tip-badge { background: rgba(63,185,80,0.1); border: 1px solid rgba(63,185,80,0.25); color: #3fb950; padding: 2px 8px; border-radius: 12px; font-size: 10px; font-weight: 700; }
+</style>
+</head>
+<body class="min-h-screen">
+
+<!-- HERO -->
+<div class="border-b border-gray-800" style="background: linear-gradient(135deg, #0d1117 0%, #161b22 100%);">
+  <div class="max-w-5xl mx-auto px-6 py-10">
+    <div class="mb-3">
+      <span class="text-xs font-bold text-blue-400 uppercase tracking-widest">📚 자사몰 사관학교 5기</span>
+    </div>
+    <h1 class="text-3xl font-bold mb-2">
+      <span class="gradient-text">메타 광고 × 자사몰</span><br>
+      <span class="text-white">완전정복 강의 정리</span>
+    </h1>
+    <p class="text-gray-400 text-sm mb-6">총 5주 · 12강 · 스미스 코치(김성현) | 2025 자사몰 사관학교 5기</p>
+    <div class="flex flex-wrap gap-3">
+      <div class="bg-gray-800 rounded-lg px-4 py-2 text-center border border-gray-700">
+        <div class="text-xl font-bold text-white">5주</div>
+        <div class="text-xs text-gray-400 mt-0.5">커리큘럼</div>
+      </div>
+      <div class="bg-gray-800 rounded-lg px-4 py-2 text-center border border-gray-700">
+        <div class="text-xl font-bold text-white">12강</div>
+        <div class="text-xs text-gray-400 mt-0.5">자막 강의</div>
+      </div>
+      <div class="bg-gray-800 rounded-lg px-4 py-2 text-center border border-gray-700">
+        <div class="text-xl font-bold text-white">10</div>
+        <div class="text-xs text-gray-400 mt-0.5">핵심 교훈</div>
+      </div>
+      <div class="bg-gray-800 rounded-lg px-4 py-2 text-center border border-gray-700">
+        <div class="text-xl font-bold text-blue-400">메타 1티어</div>
+        <div class="text-xs text-gray-400 mt-0.5">광고채널</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="max-w-5xl mx-auto px-6 py-10">
+
+  <!-- ============================
+       WEEK 1
+  ============================= -->
+  <div class="week-card mb-8 overflow-hidden">
+    <div class="p-6 border-b border-gray-800" style="background: linear-gradient(90deg, rgba(88,166,255,0.08) 0%, transparent 100%);">
+      <div class="flex items-center gap-3 mb-1">
+        <span class="week-num text-blue-400 bg-blue-900/30 px-3 py-1 rounded-full">WEEK 1</span>
+        <span class="tag bg-blue-900/30 text-blue-300">오리엔테이션</span>
+        <span class="tag bg-purple-900/30 text-purple-300">비즈니스 포트폴리오</span>
+        <span class="tag bg-gray-800 text-gray-400">메타 기초</span>
+      </div>
+      <h2 class="text-xl font-bold text-white mt-2">자사몰 + 메타 광고의 본질, 경매 원리, 시스템 셋업</h2>
+    </div>
+    <div class="p-6 grid md:grid-cols-2 gap-6">
+      <!-- 핵심 요약 -->
+      <div>
+        <h3 class="text-sm font-semibold text-gray-400 uppercase tracking-wide mb-3">핵심 내용</h3>
+        <ul class="space-y-2 text-sm text-gray-300">
+          <li class="flex gap-2"><span class="text-blue-400 mt-0.5 flex-shrink-0">▸</span><span><strong class="text-white">자사몰을 하는 이유</strong>: 고객 데이터 소유, 재구매 루프 설계, 영업이익 극대화. 오픈마켓은 플랫폼 의존, 자사몰은 내 자산.</span></li>
+          <li class="flex gap-2"><span class="text-blue-400 mt-0.5 flex-shrink-0">▸</span><span><strong class="text-white">메타 경매 공식</strong>: 총가치 = 광고비 × 추산행동률 + 광고품질. 돈 많이 쓴다고 이기는 게 아님. 이재용도 못 이김.</span></li>
+          <li class="flex gap-2"><span class="text-blue-400 mt-0.5 flex-shrink-0">▸</span><span><strong class="text-white">천국/지옥/소멸</strong>: 잘되는 놈은 계속 잘되고(스노볼), 안 되는 놈은 계속 안 됨. 총가치 높이면 천국행.</span></li>
+          <li class="flex gap-2"><span class="text-blue-400 mt-0.5 flex-shrink-0">▸</span><span><strong class="text-white">메타 성공 3요소</strong>: ① 규칙 이해 ② 좋은 콘텐츠 ③ 깨끗한 데이터. 이 셋이 유기적으로 연결돼야 스노볼이 굴러감.</span></li>
+          <li class="flex gap-2"><span class="text-blue-400 mt-0.5 flex-shrink-0">▸</span><span><strong class="text-white">비즈니스 포트폴리오</strong>: 법인처럼 운영. 전체관리권은 대표 2명만. 직원=부분관리권, 대행사=파트너 등록.</span></li>
+          <li class="flex gap-2"><span class="text-blue-400 mt-0.5 flex-shrink-0">▸</span><span><strong class="text-white">데이터 경리(전환API)</strong>: 픽셀(브라우저)만으로 부족 → 서버에서 직접 메타로 데이터 전송. 고객정보 풍부하게 보낼수록 유리.</span></li>
+          <li class="flex gap-2"><span class="text-blue-400 mt-0.5 flex-shrink-0">▸</span><span><strong class="text-white">재구매 루프</strong>: 스킨스쿨 사례—매출 80%가 재구매. 마케팅비 최소화하면서 영업이익 극대화한 구조.</span></li>
+        </ul>
+      </div>
+      <!-- 실행 팁 + 인용구 -->
+      <div class="space-y-4">
+        <div>
+          <h3 class="text-sm font-semibold text-gray-400 uppercase tracking-wide mb-3">실행 팁</h3>
+          <div class="space-y-2">
+            <div class="insight-card text-sm text-gray-300"><span class="tip-badge mr-2">SETUP</span>비즈니스 포트폴리오 → 비즈니스 인증 → 도메인 인증 → 2단계 OTP 인증 순서로 셋업 필수</div>
+            <div class="insight-card text-sm text-gray-300"><span class="tip-badge mr-2">DATA</span>카페24 회원가입 시 성별·생년월일 필수 수집 → 메타에 더 풍부한 데이터 전송</div>
+            <div class="insight-card text-sm text-gray-300"><span class="tip-badge mr-2">TRACK</span>믹스패널 설치하면 신규/재구매 비율, LTV, 이탈 구간 추적 가능. 오늘부터 쌓으면 나중에 큰 차이.</div>
+            <div class="insight-card text-sm text-gray-300"><span class="tip-badge mr-2">CRM</span>광고 잘 하는 것보다 구매 후 CRM(문자 플로우, 리뷰 요청, 재구매 유도)이 장기 매출의 핵심</div>
+          </div>
+        </div>
+        <div>
+          <h3 class="text-sm font-semibold text-gray-400 uppercase tracking-wide mb-3">주요 인용구</h3>
+          <div class="quote-card text-sm text-purple-200 italic mb-2">"메타는 모든 과정을 점수화해요. 광고만 바꾼다고 성과가 나지 않아요."</div>
+          <div class="quote-card text-sm text-purple-200 italic">"자사몰의 꽃은 재구매예요. 1억에서 10억은 방법론이 있어요."</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================
+       WEEK 2
+  ============================= -->
+  <div class="week-card mb-8 overflow-hidden">
+    <div class="p-6 border-b border-gray-800" style="background: linear-gradient(90deg, rgba(210,153,34,0.08) 0%, transparent 100%);">
+      <div class="flex items-center gap-3 mb-1">
+        <span class="week-num text-yellow-400 bg-yellow-900/30 px-3 py-1 rounded-full">WEEK 2</span>
+        <span class="tag bg-yellow-900/30 text-yellow-300">경매 심화</span>
+        <span class="tag bg-orange-900/30 text-orange-300">마케팅팀 구조</span>
+        <span class="tag bg-gray-800 text-gray-400">타겟팅 패러다임</span>
+      </div>
+      <h2 class="text-xl font-bold text-white mt-2">캠페인·세트·광고 역할 + 타겟팅의 진화 + VOC 중요성</h2>
+    </div>
+    <div class="p-6 grid md:grid-cols-2 gap-6">
+      <div>
+        <h3 class="text-sm font-semibold text-gray-400 uppercase tracking-wide mb-3">핵심 내용</h3>
+        <ul class="space-y-2 text-sm text-gray-300">
+          <li class="flex gap-2"><span class="text-yellow-400 mt-0.5 flex-shrink-0">▸</span><span><strong class="text-white">캠페인 = 구단주</strong>: 목표 설정(판매 캠페인만 쓸 것) + 예산 배분(CBO). 세부 목표 이외엔 건들지 않음.</span></li>
+          <li class="flex gap-2"><span class="text-yellow-400 mt-0.5 flex-shrink-0">▸</span><span><strong class="text-white">세트 = 감독(심폴)아 됨</strong>: 과거엔 히딩크급, 지금은 감스트급. 하는 일: 세부목표 설정 + 페이싱(예산 시간배분)만.</span></li>
+          <li class="flex gap-2"><span class="text-yellow-400 mt-0.5 flex-shrink-0">▸</span><span><strong class="text-white">광고 = 선수(학습 주체)</strong>: 지금 메타에서 실질 학습은 광고 단위가 담당. 광고마다 타겟 지문이 다름.</span></li>
+          <li class="flex gap-2"><span class="text-yellow-400 mt-0.5 flex-shrink-0">▸</span><span><strong class="text-white">타겟팅 혁명</strong>: 집단 타겟(조선시대) → 행동 지문 기반 타겟(AI 리트리벌). 이제 수동 타겟 설정은 의미 없음.</span></li>
+          <li class="flex gap-2"><span class="text-yellow-400 mt-0.5 flex-shrink-0">▸</span><span><strong class="text-white">입찰 전략</strong>: 지출 기반 입찰(메타에 맡김) vs 목표 기반 입찰(결과당 비용/목표 로아스 설정). 예산 스케일업 시 유용.</span></li>
+          <li class="flex gap-2"><span class="text-yellow-400 mt-0.5 flex-shrink-0">▸</span><span><strong class="text-white">VOC = 정성 데이터</strong>: 믹스패널이 "문제 위치"를 알려주면, 고객 통화(VOC)가 "해결책"을 알려줌. 달마다 반복.</span></li>
+        </ul>
+      </div>
+      <div class="space-y-4">
+        <div>
+          <h3 class="text-sm font-semibold text-gray-400 uppercase tracking-wide mb-3">실행 팁</h3>
+          <div class="space-y-2">
+            <div class="insight-card text-sm text-gray-300"><span class="tip-badge mr-2">구조</span>판매 캠페인만 사용. 트래픽/참여 캠페인은 커머스에 불필요. 같은 소구점 광고는 한 세트에 모아도 됨.</div>
+            <div class="insight-card text-sm text-gray-300"><span class="tip-badge mr-2">타겟</span>어드밴티지 플러스 타겟 사용 필수. 수동 타겟으로 좁히면 오히려 손해. AI가 지문으로 찾게 둬야.</div>
+            <div class="insight-card text-sm text-gray-300"><span class="tip-badge mr-2">VOC</span>구매 고객에게 직접 전화. 20명만 해봐도 이탈 이유 3가지 나옴. 그 문제 해결 반복 = 재구매율 상승.</div>
+          </div>
+        </div>
+        <div>
+          <h3 class="text-sm font-semibold text-gray-400 uppercase tracking-wide mb-3">주요 인용구</h3>
+          <div class="quote-card text-sm text-purple-200 italic mb-2">"파도에 맞서 싸우지 마세요. 메타 AI를 이길 수 없어요. 올라타야 해요."</div>
+          <div class="quote-card text-sm text-purple-200 italic">"우리 엄마도 짜장면 팔면서 고객이랑 매일 얘기하는데, 나는 10만원짜리 팔면서 왜 안 했지?"</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================
+       WEEK 3
+  ============================= -->
+  <div class="week-card mb-8 overflow-hidden">
+    <div class="p-6 border-b border-gray-800" style="background: linear-gradient(90deg, rgba(63,185,80,0.08) 0%, transparent 100%);">
+      <div class="flex items-center gap-3 mb-1">
+        <span class="week-num text-green-400 bg-green-900/30 px-3 py-1 rounded-full">WEEK 3</span>
+        <span class="tag bg-green-900/30 text-green-300">광고 셋업 실습</span>
+        <span class="tag bg-teal-900/30 text-teal-300">콘텐츠 전략</span>
+        <span class="tag bg-gray-800 text-gray-400">크리에이티브 테스트</span>
+      </div>
+      <h2 class="text-xl font-bold text-white mt-2">광고 관리자 A-Z 셋업 + 콘텐츠 테스트 + 지표 읽기</h2>
+    </div>
+    <div class="p-6 grid md:grid-cols-2 gap-6">
+      <div>
+        <h3 class="text-sm font-semibold text-gray-400 uppercase tracking-wide mb-3">핵심 내용</h3>
+        <ul class="space-y-2 text-sm text-gray-300">
+          <li class="flex gap-2"><span class="text-green-400 mt-0.5 flex-shrink-0">▸</span><span><strong class="text-white">어드밴티지 플러스 캠페인</strong>: 성능 때문이 아니라 메타 생태계 규칙상 무조건 써야 함. 안 쓰면 불이익.</span></li>
+          <li class="flex gap-2"><span class="text-green-400 mt-0.5 flex-shrink-0">▸</span><span><strong class="text-white">크리에이티브 테스트(신기능)</strong>: 잘 타는 캠페인 학습을 방해하지 않고 새 소재 테스트 가능. 별도 캠페인 만들 필요 없음.</span></li>
+          <li class="flex gap-2"><span class="text-green-400 mt-0.5 flex-shrink-0">▸</span><span><strong class="text-white">광고 성과 지표 우선순위</strong>: 총가치(경매 점수) → CTR → CPM → 구매전환율. 로아스만 보는 건 잘못된 접근.</span></li>
+          <li class="flex gap-2"><span class="text-green-400 mt-0.5 flex-shrink-0">▸</span><span><strong class="text-white">평균 이상 기준</strong>: 구매전환율 4~5%, CTR 1.5% 이상, 빈도 1.1~1.3 이내. 이게 "천국 단계" 진입 기준.</span></li>
+          <li class="flex gap-2"><span class="text-green-400 mt-0.5 flex-shrink-0">▸</span><span><strong class="text-white">소재 형식별 역할</strong>: 릴스=신규 획득(CPM 저렴), 이미지=리타겟+재노출(빈도 높음), 각 포지션이 다름.</span></li>
+          <li class="flex gap-2"><span class="text-green-400 mt-0.5 flex-shrink-0">▸</span><span><strong class="text-white">콘텐츠 기획법</strong>: 소구점 1개 → 15~30초 영상 → 문제 제시 → 해결 → CTA. 하루 1개 기획 습관화.</span></li>
+        </ul>
+      </div>
+      <div class="space-y-4">
+        <div>
+          <h3 class="text-sm font-semibold text-gray-400 uppercase tracking-wide mb-3">실행 팁</h3>
+          <div class="space-y-2">
+            <div class="insight-card text-sm text-gray-300"><span class="tip-badge mr-2">광고</span>세트 하나에 광고 5개 이내(예산 100만원 기준). 소구점 다르게, 소재 형식 믹스(릴스+이미지 각 1개 이상).</div>
+            <div class="insight-card text-sm text-gray-300"><span class="tip-badge mr-2">분석</span>성과 보고서 열 설정 필수: 총가치, 노출, 클릭률, CPM, 빈도, 구매전환율, 구매당비용 추가하기.</div>
+            <div class="insight-card text-sm text-gray-300"><span class="tip-badge mr-2">금지</span>성과 안 좋다고 광고 끄지 말 것. 일주일은 절대 건들지 말아야 학습이 됨. 꺼버리면 데이터 초기화.</div>
+          </div>
+        </div>
+        <div>
+          <h3 class="text-sm font-semibold text-gray-400 uppercase tracking-wide mb-3">주요 인용구</h3>
+          <div class="quote-card text-sm text-purple-200 italic mb-2">"총가치가 높은데 로아스가 낮다? 제품 가격 올리는 게 답이에요."</div>
+          <div class="quote-card text-sm text-purple-200 italic">"수능도 한 과목 잘한다고 좋은 데 못 가잖아요. 자사몰 점수도 똑같아요."</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================
+       WEEK 4
+  ============================= -->
+  <div class="week-card mb-8 overflow-hidden">
+    <div class="p-6 border-b border-gray-800" style="background: linear-gradient(90deg, rgba(188,140,255,0.08) 0%, transparent 100%);">
+      <div class="flex items-center gap-3 mb-1">
+        <span class="week-num text-purple-400 bg-purple-900/30 px-3 py-1 rounded-full">WEEK 4</span>
+        <span class="tag bg-purple-900/30 text-purple-300">머신러닝 심화</span>
+        <span class="tag bg-pink-900/30 text-pink-300">성과 분석</span>
+        <span class="tag bg-gray-800 text-gray-400">퍼널 최적화</span>
+      </div>
+      <h2 class="text-xl font-bold text-white mt-2">머신러닝 원리 + 퍼널 곱셈 법칙 + 데이터 기반 의사결정</h2>
+    </div>
+    <div class="p-6 grid md:grid-cols-2 gap-6">
+      <div>
+        <h3 class="text-sm font-semibold text-gray-400 uppercase tracking-wide mb-3">핵심 내용</h3>
+        <ul class="space-y-2 text-sm text-gray-300">
+          <li class="flex gap-2"><span class="text-purple-400 mt-0.5 flex-shrink-0">▸</span><span><strong class="text-white">머신러닝 = 경매 반복</strong>: 후보 선별 → 확률 예측 → 노출 → 데이터 수집 → 반복. 끄면 리셋됨. 계속 켜둬야 학습 축적.</span></li>
+          <li class="flex gap-2"><span class="text-purple-400 mt-0.5 flex-shrink-0">▸</span><span><strong class="text-white">50개 기준은 옛말</strong>: AI 발전으로 지금은 20개만 팔아도 학습 진행. 숫자보다 데이터 품질이 중요.</span></li>
+          <li class="flex gap-2"><span class="text-purple-400 mt-0.5 flex-shrink-0">▸</span><span><strong class="text-white">퍼널 곱셈 법칙</strong>: 광고CTR × 상세조회율 × 결제시작율 × 구매율 = 최종 성과. 각 단계 10%씩 개선하면 복리 효과.</span></li>
+          <li class="flex gap-2"><span class="text-purple-400 mt-0.5 flex-shrink-0">▸</span><span><strong class="text-white">이탈 구간 파악</strong>: 믹스패널 히트맵+세션 리플레이로 어느 구간에서 이탈하는지 확인 → 상세페이지/결제 UX 개선.</span></li>
+          <li class="flex gap-2"><span class="text-purple-400 mt-0.5 flex-shrink-0">▸</span><span><strong class="text-white">주단위 성과 분석</strong>: 매주 월요일 광고 성과 보고서 작성. 지표가 나쁜 이유를 분석하고 단계별 개선 액션 정의.</span></li>
+          <li class="flex gap-2"><span class="text-purple-400 mt-0.5 flex-shrink-0">▸</span><span><strong class="text-white">세트 단위로 보기</strong>: 광고 1개가 80%를 타도 끄면 안 됨. 나머지가 시퀀스(신규 획득→리타겟→구매) 역할을 함.</span></li>
+        </ul>
+      </div>
+      <div class="space-y-4">
+        <div>
+          <h3 class="text-sm font-semibold text-gray-400 uppercase tracking-wide mb-3">실행 팁</h3>
+          <div class="space-y-2">
+            <div class="insight-card text-sm text-gray-300"><span class="tip-badge mr-2">분석</span>광고 반응(CTR, CPM)과 퍼널(전환율, 결제시작율) 두 축을 분리해서 봐야 문제 위치를 알 수 있음.</div>
+            <div class="insight-card text-sm text-gray-300"><span class="tip-badge mr-2">개선</span>상세페이지 히트맵 확인 → 중요 정보가 스크롤 하단에 있으면 상단으로 올리기만 해도 전환율 상승.</div>
+            <div class="insight-card text-sm text-gray-300"><span class="tip-badge mr-2">보고</span>매주 탐색 실험 대시보드로 CTR, CPM, 구매전환율 기록 → 전주 대비 변화 트렌드로 문제 조기 발견.</div>
+          </div>
+        </div>
+        <div>
+          <h3 class="text-sm font-semibold text-gray-400 uppercase tracking-wide mb-3">주요 인용구</h3>
+          <div class="quote-card text-sm text-purple-200 italic mb-2">"광고 성과는 확률의 곱셈이에요. 각 단계를 10%씩 올리면 복리로 커져요."</div>
+          <div class="quote-card text-sm text-purple-200 italic">"광고만 보고 자사몰 퍼널을 모르는 건, 수도꼭지만 트는데 파이프에 구멍 난 걸 모르는 거예요."</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================
+       WEEK 5
+  ============================= -->
+  <div class="week-card mb-8 overflow-hidden">
+    <div class="p-6 border-b border-gray-800" style="background: linear-gradient(90deg, rgba(255,166,87,0.08) 0%, transparent 100%);">
+      <div class="flex items-center gap-3 mb-1">
+        <span class="week-num text-orange-400 bg-orange-900/30 px-3 py-1 rounded-full">WEEK 5</span>
+        <span class="tag bg-orange-900/30 text-orange-300">커머스 관리자</span>
+        <span class="tag bg-red-900/30 text-red-300">카탈로그 최적화</span>
+        <span class="tag bg-gray-800 text-gray-400">쇼스 준비</span>
+      </div>
+      <h2 class="text-xl font-bold text-white mt-2">카탈로그 최적화 + 메타 쇼스(Shops) 미래 전략 + 수강생 성공사례</h2>
+    </div>
+    <div class="p-6 grid md:grid-cols-2 gap-6">
+      <div>
+        <h3 class="text-sm font-semibold text-gray-400 uppercase tracking-wide mb-3">핵심 내용</h3>
+        <ul class="space-y-2 text-sm text-gray-300">
+          <li class="flex gap-2"><span class="text-orange-400 mt-0.5 flex-shrink-0">▸</span><span><strong class="text-white">카탈로그 = 데이터 저장소</strong>: 광고 도구가 아님. AI가 제품 정보를 여기서 학습함. 잘못 채우면 경매에서 손해.</span></li>
+          <li class="flex gap-2"><span class="text-orange-400 mt-0.5 flex-shrink-0">▸</span><span><strong class="text-white">제품명 작성법</strong>: 단일제품=특징+제품명+용량/수량. 옵션상품=제품명+색상+사이즈. 카페24 기본값 그대로 쓰면 안 됨.</span></li>
+          <li class="flex gap-2"><span class="text-orange-400 mt-0.5 flex-shrink-0">▸</span><span><strong class="text-white">설명(Description)</strong>: 상세페이지라 생각하고 작성. 문제→해결→혜택(무료배송/3+1 등) 포함. GPT 활용 OK.</span></li>
+          <li class="flex gap-2"><span class="text-orange-400 mt-0.5 flex-shrink-0">▸</span><span><strong class="text-white">속성 필드</strong>: 구글 카테고리, 페이스북 카테고리, 사이즈, 색상, 소재 등. 도서 분류코드 같은 역할. AI 리트리벌에 직접 사용.</span></li>
+          <li class="flex gap-2"><span class="text-orange-400 mt-0.5 flex-shrink-0">▸</span><span><strong class="text-white">메타 쇼스(Shops)</strong>: 2026년 메타의 핵심 전략. 틱톡샵처럼 인스타 내 구매 완결. 지금부터 준비 필요. 자사몰 대체 위협.</span></li>
+          <li class="flex gap-2"><span class="text-orange-400 mt-0.5 flex-shrink-0">▸</span><span><strong class="text-white">성공사례(엔젤비)</strong>: 1기 수강 후 소재 1개로 1년 이상 성과 유지. 리뷰 분석 → VOC → 소구점 1개 선정 → 체험단 촬영 순서.</span></li>
+        </ul>
+      </div>
+      <div class="space-y-4">
+        <div>
+          <h3 class="text-sm font-semibold text-gray-400 uppercase tracking-wide mb-3">실행 팁</h3>
+          <div class="space-y-2">
+            <div class="insight-card text-sm text-gray-300"><span class="tip-badge mr-2">카탈로그</span>카페24 기본 제품명/설명 그대로 사용 금지. 직접 작성하거나 GPT로 메타 최적화 버전 만들기.</div>
+            <div class="insight-card text-sm text-gray-300"><span class="tip-badge mr-2">쇼스</span>지금 당장 커머스 계정 → 쇼스 탭 활성화 + 인스타그램 제품 태그 연동 준비. 2026년 급성장 예정.</div>
+            <div class="insight-card text-sm text-gray-300"><span class="tip-badge mr-2">소재</span>리뷰 서칭 → 공통 불만/니즈 추출 → VOC로 확인 → 소구점 1개 선정 → 체험단 촬영 → 메타 집행.</div>
+          </div>
+        </div>
+        <div>
+          <h3 class="text-sm font-semibold text-gray-400 uppercase tracking-wide mb-3">주요 인용구</h3>
+          <div class="quote-card text-sm text-purple-200 italic mb-2">"메타가 지향하는 건 자사몰을 없애는 거예요. 지금 쇼스 준비 안 하면 미래에 위기가 옵니다."</div>
+          <div class="quote-card text-sm text-purple-200 italic">"카탈로그는 광고 도구가 아니라 AI 학습 데이터예요. 잘못 채우면 경매에서 질 수밖에 없어요."</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================
+       10가지 핵심 교훈
+  ============================= -->
+  <div class="mb-10">
+    <div class="flex items-center gap-3 mb-6">
+      <div class="w-1 h-6 rounded-full" style="background: linear-gradient(180deg, #58a6ff, #bc8cff);"></div>
+      <h2 class="text-xl font-bold text-white">5주 완주 후 가져가야 할 <span class="gradient-text">핵심 10가지 교훈</span></h2>
+    </div>
+    <div class="grid md:grid-cols-2 gap-3">
+
+      <div class="lesson-card">
+        <div class="flex gap-3 items-start">
+          <span class="text-2xl font-bold text-blue-400 leading-none">01</span>
+          <div>
+            <div class="font-semibold text-white text-sm mb-1">메타는 경매다 — 돈보다 총가치가 중요</div>
+            <div class="text-xs text-gray-400">광고비 × 추산행동률 + 광고품질 = 총가치. 이재용도 총가치 낮으면 경매에서 짐. 상대평가 게임임.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="lesson-card">
+        <div class="flex gap-3 items-start">
+          <span class="text-2xl font-bold text-blue-400 leading-none">02</span>
+          <div>
+            <div class="font-semibold text-white text-sm mb-1">파도에 맞서 싸우지 말고 올라타라</div>
+            <div class="text-xs text-gray-400">메타 AI를 이기려 하면 안 됨. 어드밴티지 플러스, 타겟 확장, 예산 최적화 — 메타가 권하는 대로 따라가야 성과 남.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="lesson-card">
+        <div class="flex gap-3 items-start">
+          <span class="text-2xl font-bold text-yellow-400 leading-none">03</span>
+          <div>
+            <div class="font-semibold text-white text-sm mb-1">광고를 껐다 켰다 하는 게 가장 큰 실수</div>
+            <div class="text-xs text-gray-400">학습은 광고 단위에서 일어남. 끄면 지문이 리셋됨. 최소 1주일은 건들지 말아야 함. 성과 안 나도 인내 필요.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="lesson-card">
+        <div class="flex gap-3 items-start">
+          <span class="text-2xl font-bold text-yellow-400 leading-none">04</span>
+          <div>
+            <div class="font-semibold text-white text-sm mb-1">타겟은 집단이 아니라 행동 지문</div>
+            <div class="text-xs text-gray-400">뷰티 여성 30대 타겟 → 조선시대 방식. 메타는 이미 행동 지문 기반으로 타겟 찾음. 어드밴티지 플러스 풀어두고 믿어야.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="lesson-card">
+        <div class="flex gap-3 items-start">
+          <span class="text-2xl font-bold text-green-400 leading-none">05</span>
+          <div>
+            <div class="font-semibold text-white text-sm mb-1">데이터를 깨끗하게 많이 줄수록 유리</div>
+            <div class="text-xs text-gray-400">픽셀 + 전환API 병행. 성별/생년 필수 수집. 카탈로그 속성 필드 채우기. 경쟁사 90%가 안 함 → 우리만 해도 우위.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="lesson-card">
+        <div class="flex gap-3 items-start">
+          <span class="text-2xl font-bold text-green-400 leading-none">06</span>
+          <div>
+            <div class="font-semibold text-white text-sm mb-1">자사몰의 진짜 힘은 재구매 루프</div>
+            <div class="text-xs text-gray-400">신규 구매자 유치보다 재구매율 높이는 게 영업이익의 핵심. 스킨스쿨은 재구매 80%로 광고비 최소화 실현.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="lesson-card">
+        <div class="flex gap-3 items-start">
+          <span class="text-2xl font-bold text-purple-400 leading-none">07</span>
+          <div>
+            <div class="font-semibold text-white text-sm mb-1">광고 성과는 퍼널 곱셈이다</div>
+            <div class="text-xs text-gray-400">CTR × 상세조회율 × 결제시작율 × 구매율. 각 단계 10% 개선 = 복리 효과. 광고만 보지 말고 자사몰 퍼널 전체 봐야.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="lesson-card">
+        <div class="flex gap-3 items-start">
+          <span class="text-2xl font-bold text-purple-400 leading-none">08</span>
+          <div>
+            <div class="font-semibold text-white text-sm mb-1">VOC가 정량 데이터보다 더 중요한 답을 준다</div>
+            <div class="text-xs text-gray-400">믹스패널은 "어디서 이탈하는지" 알려줌. 전화는 "왜"를 알려줌. 20명만 전화해도 공통 이유 3개 나옴. 그거 고치면 됨.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="lesson-card">
+        <div class="flex gap-3 items-start">
+          <span class="text-2xl font-bold text-orange-400 leading-none">09</span>
+          <div>
+            <div class="font-semibold text-white text-sm mb-1">콘텐츠 소구점은 하나로 뾰족하게</div>
+            <div class="text-xs text-gray-400">15~30초 영상, 소구점 1개, 문제 제시 → 해결 → CTA. 여러 장점 나열하면 총가치 낮아짐. 리뷰에서 소구점 발굴하라.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="lesson-card">
+        <div class="flex gap-3 items-start">
+          <span class="text-2xl font-bold text-orange-400 leading-none">10</span>
+          <div>
+            <div class="font-semibold text-white text-sm mb-1">메타 쇼스가 자사몰의 미래를 바꾼다</div>
+            <div class="text-xs text-gray-400">2026년 메타는 쇼스로 인스타 내 구매 완결 목표. 자사몰 없애려는 전략. 지금부터 커머스 관리자 + 카탈로그 최적화 선행 필수.</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- 빠른 참조 -->
+  <div class="rounded-xl border border-gray-800 p-6 mb-8" style="background: linear-gradient(135deg, rgba(88,166,255,0.04) 0%, rgba(188,140,255,0.04) 100%);">
+    <h3 class="text-sm font-bold text-gray-300 uppercase tracking-wide mb-4">📊 핵심 지표 기준표 (총가치 평균 이상)</h3>
+    <div class="overflow-x-auto">
+      <table class="w-full text-sm">
+        <thead>
+          <tr class="border-b border-gray-700">
+            <th class="text-left py-2 px-3 text-gray-400 font-semibold">지표</th>
+            <th class="text-left py-2 px-3 text-gray-400 font-semibold">평균 이상 기준</th>
+            <th class="text-left py-2 px-3 text-gray-400 font-semibold">의미</th>
+          </tr>
+        </thead>
+        <tbody class="text-gray-300">
+          <tr class="border-b border-gray-800">
+            <td class="py-2 px-3 font-medium text-white">구매 전환율</td>
+            <td class="py-2 px-3 text-green-400 font-bold">4~5% 이상</td>
+            <td class="py-2 px-3 text-gray-400">광고 클릭 후 실제 구매율</td>
+          </tr>
+          <tr class="border-b border-gray-800">
+            <td class="py-2 px-3 font-medium text-white">CTR (클릭률)</td>
+            <td class="py-2 px-3 text-green-400 font-bold">1.5% 이상</td>
+            <td class="py-2 px-3 text-gray-400">광고 노출 대비 클릭 비율</td>
+          </tr>
+          <tr class="border-b border-gray-800">
+            <td class="py-2 px-3 font-medium text-white">빈도</td>
+            <td class="py-2 px-3 text-yellow-400 font-bold">1.1~1.5 (1주)</td>
+            <td class="py-2 px-3 text-gray-400">동일인 평균 노출 횟수. 높으면 리타겟 역할</td>
+          </tr>
+          <tr class="border-b border-gray-800">
+            <td class="py-2 px-3 font-medium text-white">성과 이클릭 순위</td>
+            <td class="py-2 px-3 text-green-400 font-bold">평균 이상</td>
+            <td class="py-2 px-3 text-gray-400">경매 내 상대 순위. 가장 먼저 확인해야 할 지표</td>
+          </tr>
+          <tr>
+            <td class="py-2 px-3 font-medium text-white">머신러닝 학습</td>
+            <td class="py-2 px-3 text-blue-400 font-bold">20~50개 구매</td>
+            <td class="py-2 px-3 text-gray-400">학습 진행을 위한 최소 구매 수 (지금은 20개도 OK)</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+</div>
+
+<div class="text-center py-6 border-t border-gray-800 text-gray-600 text-xs">
+  자사몰 사관학교 5기 강의 정리 | 카리나 생성 · 2026.03.25 | <a href="/index.html" class="text-blue-500 hover:text-blue-400">← 테넥스 리포트 홈</a>
+</div>
+
+</body>
+</html>
