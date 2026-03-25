@@ -43,6 +43,20 @@
     position: relative;
   }
 
+  /* Mobile: full screen, no phone frame */
+  @media (max-width: 500px) {
+    body { padding: 0; background: #fff; }
+    .phone {
+      width: 100vw;
+      height: 100vh;
+      height: 100dvh;
+      border-radius: 0;
+      box-shadow: none;
+    }
+    .phone-notch { display: none; }
+    .phone-screen { border-radius: 0; }
+  }
+
   /* Screens */
   .screen {
     position: absolute;
