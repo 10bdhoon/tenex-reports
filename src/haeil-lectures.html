@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>해일이형 강의 전사 정리 — 테넥스</title>
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+body { background:#0d1117; color:#e0e0e0; font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif; min-height:100vh; }
+.hero { background:linear-gradient(135deg,#0d1117 0%,#161b22 100%); border-bottom:1px solid #21262d; padding:40px 40px 32px; }
+.hero-inner { max-width:1000px; margin:0 auto; display:flex; align-items:flex-end; justify-content:space-between; gap:20px; flex-wrap:wrap; }
+.hero-badge { font-size:11px; font-weight:600; color:#d2a8ff; text-transform:uppercase; letter-spacing:1.5px; margin-bottom:10px; }
+.hero h1 { font-size:28px; font-weight:700; color:#fff; letter-spacing:-0.5px; margin-bottom:4px; }
+.hero-sub { color:#8b949e; font-size:14px; }
+.hero-stats { display:flex; gap:16px; flex-shrink:0; }
+.stat { text-align:center; background:#161b22; border:1px solid #30363d; border-radius:8px; padding:10px 18px; }
+.stat-num { font-size:22px; font-weight:700; color:#e6edf3; }
+.stat-label { font-size:11px; color:#8b949e; margin-top:2px; }
+.container { max-width:1000px; margin:0 auto; padding:32px 40px 48px; }
+.cat-section { margin-bottom:36px; }
+.cat-header { display:flex; align-items:center; justify-content:space-between; border-left:3px solid; padding-left:12px; margin-bottom:14px; }
+.cat-name { font-size:16px; font-weight:700; margin-right:10px; }
+.cat-count { font-size:12px; color:#8b949e; }
+.cat-audio-count { font-size:11px; color:#3fb950; background:rgba(63,185,80,0.1); border:1px solid rgba(63,185,80,0.2); border-radius:10px; padding:2px 8px; }
+.lessons-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(280px,1fr)); gap:10px; }
+.lesson-card { background:#161b22; border:1px solid #21262d; border-radius:10px; padding:14px 16px; text-decoration:none; color:inherit; display:block; transition:all 0.15s; position:relative; }
+.lesson-card:hover { border-color:#58a6ff; background:#1c2128; transform:translateY(-1px); }
+.lesson-locked { opacity:0.5; cursor:default; pointer-events:none; }
+.lock-icon { position:absolute; top:12px; right:12px; font-size:14px; }
+.lesson-title { font-size:13px; font-weight:600; color:#e6edf3; line-height:1.5; margin-bottom:6px; padding-right:24px; }
+.lesson-meta { display:flex; gap:6px; align-items:center; flex-wrap:wrap; }
+.lesson-meta > span:first-child { font-size:11px; color:#8b949e; flex:1; }
+.l-badge { font-size:10px; font-weight:600; padding:2px 6px; border-radius:8px; }
+.l-badge.insight { background:rgba(214,153,50,0.15); color:#e3b341; }
+.l-badge.taehoon { background:rgba(88,166,255,0.15); color:#58a6ff; }
+.legend { display:flex; gap:16px; flex-wrap:wrap; background:#161b22; border:1px solid #21262d; border-radius:8px; padding:12px 16px; margin-bottom:28px; font-size:12px; color:#8b949e; }
+.back-link { display:inline-flex; align-items:center; gap:6px; color:#58a6ff; text-decoration:none; font-size:13px; margin-bottom:24px; }
+.footer { text-align:center; padding:24px; color:#484f58; font-size:11px; border-top:1px solid #21262d; }
+</style>
+</head>
+<body>
+<div class="hero">
+  <div class="hero-inner">
+    <div>
+      <div class="hero-badge">🎓 해일이형 강의</div>
+      <h1>문혜일의 사업의 비밀</h1>
+      <div class="hero-sub">수제자 프로젝트 전 강의 Whisper 전사 정리본</div>
+    </div>
+    <div class="hero-stats">
+      <div class="stat"><div class="stat-num">74</div><div class="stat-label">총 레슨</div></div>
+      <div class="stat"><div class="stat-num">64</div><div class="stat-label">전사 완료</div></div>
+      <div class="stat"><div class="stat-num">6</div><div class="stat-label">카테고리</div></div>
+    </div>
+  </div>
+</div>
+<div class="container">
+  <a href="/index.html" class="back-link">← 테넥스 리포트 홈으로</a>
+  <div class="legend">
+    <span>⭐ 사업 인사이트 하이라이트 수</span>
+    <span>👤 에디/1분도수 언급 수</span>
+    <span>🔒 VOD 미제공 (잠금)</span>
+  </div>
+  <div class="cat-section">
+<div class="cat-header" style="border-left-color:#f0883e">
+  <div><span class="cat-name" style="color:#f0883e">수제자 프로젝트 2기</span><span class="cat-count">11개 레슨</span></div>
+  <span class="cat-audio-count">5개 전사본</span>
+</div>
+<div class="lessons-grid"><a href="/haeil-lesson-1090893.html" class="lesson-card"><div class="lesson-title">사업을 성공시키는 비밀 무기, 스크립트</div><div class="lesson-meta"><span>⏱ 02:28:13</span><span class="l-badge insight">⭐ 30</span></div></a>
+<a href="/haeil-lesson-1090894.html" class="lesson-card"><div class="lesson-title">사업을 성공시키는 비밀 도구, '플랫폼'</div><div class="lesson-meta"><span>⏱ 02:33:19</span><span class="l-badge insight">⭐ 27</span></div></a>
+<a href="/haeil-lesson-1005347.html" class="lesson-card"><div class="lesson-title">'사업의 비밀 _ 사업으로 부자 되는 유일한 방법_1'.mp4</div><div class="lesson-meta"><span>⏱ 56:30</span><span class="l-badge insight">⭐ 12</span></div></a>
+<a href="#" class="lesson-card lesson-locked"><span class="lock-icon">🔒</span><div class="lesson-title">'사업의 비밀 _ 사업으로 부자 되는 유일한 방법_2'.mp4</div><div class="lesson-meta"><span>⏱ 01:07:33</span></div></a>
+<a href="#" class="lesson-card lesson-locked"><span class="lock-icon">🔒</span><div class="lesson-title">'사업의 비밀 _ 사업으로 부자 되는 유일한 방법'.mp4</div><div class="lesson-meta"><span>⏱ 01:19:57</span></div></a>
+<a href="/haeil-lesson-1011017.html" class="lesson-card"><div class="lesson-title">사업으로 부자되는 유일한 방법 (2편) - 1</div><div class="lesson-meta"><span>⏱ 45:01</span><span class="l-badge insight">⭐ 9</span></div></a>
+<a href="#" class="lesson-card lesson-locked"><span class="lock-icon">🔒</span><div class="lesson-title">사업으로 부자되는 유일한 방법 (2편) - 2</div><div class="lesson-meta"><span>⏱ 34:54</span></div></a>
+<a href="#" class="lesson-card lesson-locked"><span class="lock-icon">🔒</span><div class="lesson-title">사업으로 부자되는 유일한 방법 (2편) - 3</div><div class="lesson-meta"><span>⏱ 45:38</span></div></a>
+<a href="#" class="lesson-card lesson-locked"><span class="lock-icon">🔒</span><div class="lesson-title">사업으로 부자되는 유일한 방법 (2편) - 4</div><div class="lesson-meta"><span>⏱ 36:23</span></div></a>
+<a href="#" class="lesson-card lesson-locked"><span class="lock-icon">🔒</span><div class="lesson-title">사업으로 부자되는 유일한 방법 (2편) - 5</div><div class="lesson-meta"><span>⏱ 21:52</span></div></a>
+<a href="/haeil-lesson-1029047.html" class="lesson-card"><div class="lesson-title">3/7 유튜브 기습 라이브 다시보기</div><div class="lesson-meta"><span>⏱ 02:34:14</span><span class="l-badge insight">⭐ 11</span></div></a>
+</div>
+</div><div class="cat-section">
+<div class="cat-header" style="border-left-color:#58a6ff">
+  <div><span class="cat-name" style="color:#58a6ff">수제자 1기 라이브 다시보기 (1-6)</span><span class="cat-count">8개 레슨</span></div>
+  <span class="cat-audio-count">8개 전사본</span>
+</div>
+<div class="lessons-grid"><a href="/haeil-lesson-998262.html" class="lesson-card"><div class="lesson-title">1) '문화 혁신론'</div><div class="lesson-meta"><span>⏱ 05:10:39</span><span class="l-badge insight">⭐ 40</span></div></a>
+<a href="/haeil-lesson-998240.html" class="lesson-card"><div class="lesson-title">2-1) 사업구조화.mp4</div><div class="lesson-meta"><span>⏱ 01:00:00</span><span class="l-badge insight">⭐ 12</span></div></a>
+<a href="/haeil-lesson-998244.html" class="lesson-card"><div class="lesson-title">2-2) 사업구조화.mp4</div><div class="lesson-meta"><span>⏱ 01:07:43</span><span class="l-badge insight">⭐ 14</span></div></a>
+<a href="/haeil-lesson-998165.html" class="lesson-card"><div class="lesson-title">2-3) 사업구조화.mp4</div><div class="lesson-meta"><span>⏱ 02:01:41</span><span class="l-badge insight">⭐ 25</span></div></a>
+<a href="/haeil-lesson-998263.html" class="lesson-card"><div class="lesson-title">3) 원칙 구조화, 제품과 마케팅의 시작</div><div class="lesson-meta"><span>⏱ 04:30:53</span><span class="l-badge insight">⭐ 8</span></div></a>
+<a href="/haeil-lesson-998492.html" class="lesson-card"><div class="lesson-title">4) 성공하는 회사를 만드는 법</div><div class="lesson-meta"><span>⏱ 04:49:32</span><span class="l-badge insight">⭐ 8</span></div></a>
+<a href="/haeil-lesson-1011038.html" class="lesson-card"><div class="lesson-title">5) 실전의 비밀</div><div class="lesson-meta"><span>⏱ 03:55:58</span><span class="l-badge insight">⭐ 23</span><span class="l-badge taehoon">👤 3</span></div></a>
+<a href="/haeil-lesson-1011039.html" class="lesson-card"><div class="lesson-title">6) 실전의 비밀, 두 번째 이야기</div><div class="lesson-meta"><span>⏱ 04:21:55</span><span class="l-badge insight">⭐ 20</span></div></a>
+</div>
+</div><div class="cat-section">
+<div class="cat-header" style="border-left-color:#3fb950">
+  <div><span class="cat-name" style="color:#3fb950">수제자 2기 보너스 라이브</span><span class="cat-count">15개 레슨</span></div>
+  <span class="cat-audio-count">15개 전사본</span>
+</div>
+<div class="lessons-grid"><a href="/haeil-lesson-1014498.html" class="lesson-card"><div class="lesson-title">7) 제품 기획과 제작 경험의 기적</div><div class="lesson-meta"><span>⏱ 04:23:56</span><span class="l-badge insight">⭐ 14</span></div></a>
+<a href="/haeil-lesson-1014489.html" class="lesson-card"><div class="lesson-title">성공을 완성하는 가장 중요한 순간 - 1</div><div class="lesson-meta"><span>⏱ 31:46</span><span class="l-badge insight">⭐ 6</span></div></a>
+<a href="/haeil-lesson-1014490.html" class="lesson-card"><div class="lesson-title">성공을 완성하는 가장 중요한 순간 - 2</div><div class="lesson-meta"><span>⏱ 01:18:02</span><span class="l-badge insight">⭐ 16</span><span class="l-badge taehoon">👤 1</span></div></a>
+<a href="/haeil-lesson-1014491.html" class="lesson-card"><div class="lesson-title">성공을 완성하는 가장 중요한 순간 - 3</div><div class="lesson-meta"><span>⏱ 01:13:22</span><span class="l-badge insight">⭐ 15</span></div></a>
+<a href="/haeil-lesson-1014497.html" class="lesson-card"><div class="lesson-title">성공을 완성하는 가장 중요한 순간 - 4</div><div class="lesson-meta"><span>⏱ 59:42</span><span class="l-badge insight">⭐ 12</span></div></a>
+<a href="/haeil-lesson-1014501.html" class="lesson-card"><div class="lesson-title"> 성공을 완성하는 가장 중요한 순간 - 5</div><div class="lesson-meta"><span>⏱ 50:41</span><span class="l-badge insight">⭐ 9</span></div></a>
+<a href="/haeil-lesson-1033839.html" class="lesson-card"><div class="lesson-title">마케팅은 어떻게 불가능을 이루는 힘이 되는가 - 1</div><div class="lesson-meta"><span>⏱ 02:34:38</span><span class="l-badge insight">⭐ 23</span></div></a>
+<a href="/haeil-lesson-1033841.html" class="lesson-card"><div class="lesson-title">마케팅은 어떻게 불가능을 이루는 힘이 되는가 - 2</div><div class="lesson-meta"><span>⏱ 02:24:53</span><span class="l-badge insight">⭐ 26</span></div></a>
+<a href="/haeil-lesson-1043765.html" class="lesson-card"><div class="lesson-title">마케팅, 유기적 성장의 모든 것 1</div><div class="lesson-meta"><span>⏱ 03:36:16</span><span class="l-badge insight">⭐ 39</span><span class="l-badge taehoon">👤 3</span></div></a>
+<a href="/haeil-lesson-1043768.html" class="lesson-card"><div class="lesson-title">마케팅, 유기적 성장의 모든 것 2</div><div class="lesson-meta"><span>⏱ 02:04:45</span><span class="l-badge insight">⭐ 24</span></div></a>
+<a href="/haeil-lesson-1054213.html" class="lesson-card"><div class="lesson-title">지극히 거대한, 그러나 작은 끝으로 - 01</div><div class="lesson-meta"><span>⏱ 02:50:12</span><span class="l-badge insight">⭐ 19</span></div></a>
+<a href="/haeil-lesson-1054222.html" class="lesson-card"><div class="lesson-title">지극히 거대한, 그러나 작은 끝으로 - 02</div><div class="lesson-meta"><span>⏱ 02:30:20</span><span class="l-badge insight">⭐ 21</span></div></a>
+<a href="/haeil-lesson-1064595.html" class="lesson-card"><div class="lesson-title">수제자 마지막 라이브 1</div><div class="lesson-meta"><span>⏱ 02:05:45</span><span class="l-badge insight">⭐ 14</span><span class="l-badge taehoon">👤 1</span></div></a>
+<a href="/haeil-lesson-1064609.html" class="lesson-card"><div class="lesson-title">수제자 마지막 라이브 2</div><div class="lesson-meta"><span>⏱ 02:33:02</span><span class="l-badge insight">⭐ 18</span><span class="l-badge taehoon">👤 3</span></div></a>
+<a href="/haeil-lesson-1064615.html" class="lesson-card"><div class="lesson-title">수제자 마지막 라이브 3</div><div class="lesson-meta"><span>⏱ 01:49:44</span><span class="l-badge insight">⭐ 15</span></div></a>
+</div>
+</div><div class="cat-section">
+<div class="cat-header" style="border-left-color:#d2a8ff">
+  <div><span class="cat-name" style="color:#d2a8ff">수제자 1기 라이브 다시보기 (7-12)</span><span class="cat-count">11개 레슨</span></div>
+  <span class="cat-audio-count">9개 전사본</span>
+</div>
+<div class="lessons-grid"><a href="/haeil-lesson-998495.html" class="lesson-card"><div class="lesson-title">[ 수제자 보너스 ] 사업 &amp; 아이디어 피드백</div><div class="lesson-meta"><span>⏱ 04:45:43</span><span class="l-badge insight">⭐ 19</span></div></a>
+<a href="/haeil-lesson-998497.html" class="lesson-card"><div class="lesson-title"> [ 수제자 보너스 2 - 1 ]</div><div class="lesson-meta"><span>⏱ 01:02:56</span><span class="l-badge insight">⭐ 10</span></div></a>
+<a href="#" class="lesson-card lesson-locked"><span class="lock-icon">🔒</span><div class="lesson-title"> [ 수제자 보너스 2 - 2 ]</div><div class="lesson-meta"><span>⏱ 01:32:06</span></div></a>
+<a href="#" class="lesson-card lesson-locked"><span class="lock-icon">🔒</span><div class="lesson-title"> [ 수제자 보너스 2 - 3 ]</div><div class="lesson-meta"><span>⏱ 01:52:36</span></div></a>
+<a href="/haeil-lesson-1011036.html" class="lesson-card"><div class="lesson-title">1/4 수제자 보너스 라이브 다시보기</div><div class="lesson-meta"><span>⏱ 03:47:50</span><span class="l-badge insight">⭐ 6</span></div></a>
+<a href="/haeil-lesson-1014502.html" class="lesson-card"><div class="lesson-title">2/5 수제자 보너스 라이브</div><div class="lesson-meta"><span>⏱ 03:18:36</span><span class="l-badge insight">⭐ 18</span><span class="l-badge taehoon">👤 3</span></div></a>
+<a href="/haeil-lesson-1014503.html" class="lesson-card"><div class="lesson-title">2/11 수제자 보너스 라이브</div><div class="lesson-meta"><span>⏱ 03:51:18</span><span class="l-badge insight">⭐ 14</span></div></a>
+<a href="/haeil-lesson-1011033.html" class="lesson-card"><div class="lesson-title">2/22 수제자 보너스 라이브 - 1</div><div class="lesson-meta"><span>⏱ 01:39:40</span></div></a>
+<a href="/haeil-lesson-1011034.html" class="lesson-card"><div class="lesson-title">2/22 수제자 보너스 라이브 - 2</div><div class="lesson-meta"><span>⏱ 01:22:13</span><span class="l-badge insight">⭐ 16</span></div></a>
+<a href="/haeil-lesson-1011035.html" class="lesson-card"><div class="lesson-title">2/22 수제자 보너스 라이브 - 3</div><div class="lesson-meta"><span>⏱ 45:21</span><span class="l-badge insight">⭐ 8</span></div></a>
+<a href="/haeil-lesson-1035418.html" class="lesson-card"><div class="lesson-title">3/18 수제자 보너스 라이브</div><div class="lesson-meta"><span>⏱ 03:52:54</span><span class="l-badge insight">⭐ 12</span></div></a>
+</div>
+</div><div class="cat-section">
+<div class="cat-header" style="border-left-color:#ffa657">
+  <div><span class="cat-name" style="color:#ffa657">수제자 1기 보너스 라이브</span><span class="cat-count">18개 레슨</span></div>
+  <span class="cat-audio-count">17개 전사본</span>
+</div>
+<div class="lessons-grid"><a href="/haeil-lesson-1305453.html" class="lesson-card"><div class="lesson-title">12) 수제자 2기 라이브 - 1</div><div class="lesson-meta"><span>⏱ 02:09:20</span><span class="l-badge insight">⭐ 24</span></div></a>
+<a href="/haeil-lesson-1305454.html" class="lesson-card"><div class="lesson-title">12) 수제자 2기 라이브 - 2</div><div class="lesson-meta"><span>⏱ 02:23:46</span><span class="l-badge insight">⭐ 25</span></div></a>
+<a href="/haeil-lesson-1305452.html" class="lesson-card"><div class="lesson-title">11) 수제자 2기 라이브</div><div class="lesson-meta"><span>⏱ 04:05:21</span></div></a>
+<a href="/haeil-lesson-1297981.html" class="lesson-card"><div class="lesson-title">10) 수제자 2기 라이브</div><div class="lesson-meta"><span>⏱ 04:56:56</span><span class="l-badge insight">⭐ 27</span></div></a>
+<a href="/haeil-lesson-1269143.html" class="lesson-card"><div class="lesson-title">9) 수제자 2기 라이브 - 1</div><div class="lesson-meta"><span>⏱ 01:35:45</span><span class="l-badge insight">⭐ 16</span></div></a>
+<a href="/haeil-lesson-1269144.html" class="lesson-card"><div class="lesson-title">9) 수제자 2기 라이브 - 2</div><div class="lesson-meta"><span>⏱ 01:36:44</span><span class="l-badge insight">⭐ 13</span></div></a>
+<a href="/haeil-lesson-1269147.html" class="lesson-card"><div class="lesson-title">9) 수제자 2기 라이브 - 3</div><div class="lesson-meta"><span>⏱ 02:17:09</span><span class="l-badge insight">⭐ 27</span></div></a>
+<a href="/haeil-lesson-1259763.html" class="lesson-card"><div class="lesson-title">8) 수제자 2기 라이브 - 1</div><div class="lesson-meta"><span>⏱ 02:22:50</span></div></a>
+<a href="#" class="lesson-card lesson-locked"><span class="lock-icon">🔒</span><div class="lesson-title">8) 수제자 2기 라이브 - 2</div><div class="lesson-meta"><span>⏱ 02:03:06</span></div></a>
+<a href="/haeil-lesson-1243792.html" class="lesson-card"><div class="lesson-title">7) 수제자 2기 라이브</div><div class="lesson-meta"><span>⏱ 03:57:58</span><span class="l-badge insight">⭐ 45</span><span class="l-badge taehoon">👤 3</span></div></a>
+<a href="/haeil-lesson-1225819.html" class="lesson-card"><div class="lesson-title">6) 수제자 2기 라이브 - 1</div><div class="lesson-meta"><span>⏱ 02:05:31</span><span class="l-badge insight">⭐ 23</span><span class="l-badge taehoon">👤 4</span></div></a>
+<a href="/haeil-lesson-1225939.html" class="lesson-card"><div class="lesson-title">6) 수제자 2기 라이브 - 2</div><div class="lesson-meta"><span>⏱ 02:05:45</span><span class="l-badge insight">⭐ 23</span><span class="l-badge taehoon">👤 2</span></div></a>
+<a href="/haeil-lesson-1232174.html" class="lesson-card"><div class="lesson-title">5) 수제자 2기 라이브 - 1</div><div class="lesson-meta"><span>⏱ 02:19:41</span><span class="l-badge insight">⭐ 21</span><span class="l-badge taehoon">👤 1</span></div></a>
+<a href="/haeil-lesson-1252169.html" class="lesson-card"><div class="lesson-title">5) 수제자 2기 라이브 - 2</div><div class="lesson-meta"><span>⏱ 02:43:40</span><span class="l-badge insight">⭐ 32</span><span class="l-badge taehoon">👤 1</span></div></a>
+<a href="/haeil-lesson-1202173.html" class="lesson-card"><div class="lesson-title">4) 수제자 2기 라이브 -1</div><div class="lesson-meta"><span>⏱ 01:30:00</span><span class="l-badge insight">⭐ 13</span></div></a>
+<a href="/haeil-lesson-1202174.html" class="lesson-card"><div class="lesson-title">4) 수제자 2기 라이브 -2</div><div class="lesson-meta"><span>⏱ 01:30:01</span><span class="l-badge insight">⭐ 11</span></div></a>
+<a href="/haeil-lesson-1202175.html" class="lesson-card"><div class="lesson-title">4) 수제자 2기 라이브 -3</div><div class="lesson-meta"><span>⏱ 02:08:22</span><span class="l-badge insight">⭐ 24</span></div></a>
+<a href="/haeil-lesson-1214612.html" class="lesson-card"><div class="lesson-title">3) 수제자 2기 라이브</div><div class="lesson-meta"><span>⏱ 03:33:39</span><span class="l-badge insight">⭐ 19</span><span class="l-badge taehoon">👤 2</span></div></a>
+</div>
+</div><div class="cat-section">
+<div class="cat-header" style="border-left-color:#ff7b72">
+  <div><span class="cat-name" style="color:#ff7b72">비공개 라이브 다시보기</span><span class="cat-count">11개 레슨</span></div>
+  <span class="cat-audio-count">10개 전사본</span>
+</div>
+<div class="lessons-grid"><a href="/haeil-lesson-1245988.html" class="lesson-card"><div class="lesson-title">7) 수제자 2기 보너스 라이브 -1</div><div class="lesson-meta"><span>⏱ 03:02:47</span><span class="l-badge insight">⭐ 9</span><span class="l-badge taehoon">👤 4</span></div></a>
+<a href="/haeil-lesson-1245990.html" class="lesson-card"><div class="lesson-title">7) 수제자 2기 보너스 라이브 -2</div><div class="lesson-meta"><span>⏱ 01:49:12</span><span class="l-badge insight">⭐ 6</span><span class="l-badge taehoon">👤 1</span></div></a>
+<a href="/haeil-lesson-1259758.html" class="lesson-card"><div class="lesson-title">7) 수제자 2기 보너스 라이브 - 1</div><div class="lesson-meta"><span>⏱ 01:25:53</span><span class="l-badge insight">⭐ 10</span><span class="l-badge taehoon">👤 3</span></div></a>
+<a href="/haeil-lesson-1259761.html" class="lesson-card"><div class="lesson-title">7) 수제자 2기 보너스 라이브 - 2</div><div class="lesson-meta"><span>⏱ 03:43:03</span><span class="l-badge insight">⭐ 34</span><span class="l-badge taehoon">👤 1</span></div></a>
+<a href="/haeil-lesson-1211383.html" class="lesson-card"><div class="lesson-title">6) 수제자 2기 보너스 라이브</div><div class="lesson-meta"><span>⏱ 04:13:44</span><span class="l-badge insight">⭐ 19</span><span class="l-badge taehoon">👤 3</span></div></a>
+<a href="/haeil-lesson-1211382.html" class="lesson-card"><div class="lesson-title">5) 수제자 2기 보너스 라이브</div><div class="lesson-meta"><span>⏱ 05:06:19</span><span class="l-badge insight">⭐ 51</span><span class="l-badge taehoon">👤 2</span></div></a>
+<a href="/haeil-lesson-1211380.html" class="lesson-card"><div class="lesson-title">4) 수제자 2기 보너스 라이브</div><div class="lesson-meta"><span>⏱ 04:56:07</span><span class="l-badge insight">⭐ 33</span></div></a>
+<a href="/haeil-lesson-1195879.html" class="lesson-card"><div class="lesson-title">3) 수제자 2기 보너스 라이브</div><div class="lesson-meta"><span>⏱ 04:24:35</span></div></a>
+<a href="/haeil-lesson-1184164.html" class="lesson-card"><div class="lesson-title">수제자 2기 보너스 라이브</div><div class="lesson-meta"><span>⏱ 05:19:07</span><span class="l-badge insight">⭐ 43</span><span class="l-badge taehoon">👤 5</span></div></a>
+<a href="/haeil-lesson-1164660.html" class="lesson-card"><div class="lesson-title">수제자 2기 보너스 라이브 01</div><div class="lesson-meta"><span>⏱ 01:35:02</span><span class="l-badge insight">⭐ 15</span><span class="l-badge taehoon">👤 1</span></div></a>
+<a href="#" class="lesson-card lesson-locked"><span class="lock-icon">🔒</span><div class="lesson-title">수제자 2기 보너스 라이브 02</div><div class="lesson-meta"><span>⏱ 01:57:11</span></div></a>
+</div>
+</div>
+</div>
+<div class="footer">해일이형 강의 전사 정리 · 카리나 생성 · 2026-03-25</div>
+</body>
+</html>
