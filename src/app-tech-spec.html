@@ -900,6 +900,281 @@
   </div>
 </div>
 
+<!-- ============================= PUSH 알림 ============================= -->
+<div id="push" class="section">
+  <div class="section-header">
+    <div class="section-num" style="background:var(--accent);">📱</div>
+    <div>
+      <div class="section-title">푸시 알림 시스템</div>
+      <div class="section-sub">FCM + Supabase Edge Functions + 관리자 대시보드 | 자동 트리거 · 4단계 솔루션 교차판매</div>
+    </div>
+  </div>
+
+  <!-- 스택 요약 -->
+  <div class="card">
+    <div class="card-title"><span class="icon">⚙️</span> 푸시 알림 스택</div>
+    <div class="grid-3">
+      <div class="infra-item">
+        <div class="infra-icon">🔥</div>
+        <div class="infra-name">Firebase FCM</div>
+        <div class="infra-desc">iOS / Android 푸시 발송 엔진. Expo Push Notifications 래퍼 사용</div>
+        <span class="infra-badge ib-primary">발송 엔진</span>
+      </div>
+      <div class="infra-item">
+        <div class="infra-icon">⚡</div>
+        <div class="infra-name">Supabase Edge Functions</div>
+        <div class="infra-desc">트리거 감지 → 세그먼트 쿼리 → FCM 발송 자동화</div>
+        <span class="infra-badge ib-primary">자동화</span>
+      </div>
+      <div class="infra-item">
+        <div class="infra-icon">📊</div>
+        <div class="infra-name">관리자 대시보드</div>
+        <div class="infra-desc">캠페인 생성 · 템플릿 관리 · 발송률/오픈율 확인</div>
+        <span class="infra-badge ib-alt">운영 도구</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- DB 스키마 -->
+  <div class="card">
+    <div class="card-title"><span class="icon">🗃️</span> 푸시 알림 DB 스키마</div>
+
+    <div class="table-wrap">
+      <div class="table-name">📝 push_templates</div>
+      <table class="db-table">
+        <tr><th>컬럼</th><th>타입</th><th>설명</th></tr>
+        <tr><td class="col-pk">id</td><td class="col-type">uuid PK</td><td></td></tr>
+        <tr><td>name</td><td class="col-type">text</td><td>템플릿 내부명 (예: "D+1 첫운동 유도")</td></tr>
+        <tr><td>title</td><td class="col-type">text</td><td>푸시 제목 (변수 지원: {{nickname}})</td></tr>
+        <tr><td>body</td><td class="col-type">text</td><td>푸시 본문</td></tr>
+        <tr><td>type</td><td class="col-type">enum</td><td>운동리마인더 / 회복진전 / 교차판매 / 교육</td></tr>
+        <tr><td>deeplink</td><td class="col-type">text</td><td>앱 딥링크 (예: /exercises, /shop/cs25)</td></tr>
+        <tr><td>is_active</td><td class="col-type">bool</td><td>템플릿 활성화 여부</td></tr>
+        <tr><td>created_at</td><td class="col-type">timestamptz</td><td></td></tr>
+      </table>
+    </div>
+
+    <div class="table-wrap">
+      <div class="table-name">📣 push_campaigns</div>
+      <table class="db-table">
+        <tr><th>컬럼</th><th>타입</th><th>설명</th></tr>
+        <tr><td class="col-pk">id</td><td class="col-type">uuid PK</td><td></td></tr>
+        <tr><td class="col-fk">template_id</td><td class="col-type">uuid FK</td><td>→ push_templates.id</td></tr>
+        <tr><td>segment_query</td><td class="col-type">text</td><td>대상 세그먼트 SQL 쿼리 (예: VAS 5+ &amp; 3일 미접속)</td></tr>
+        <tr><td>scheduled_at</td><td class="col-type">timestamptz</td><td>예약 발송 시각</td></tr>
+        <tr><td>sent_count</td><td class="col-type">int</td><td>실제 발송 수 (집계)</td></tr>
+        <tr><td>open_count</td><td class="col-type">int</td><td>오픈 수</td></tr>
+        <tr><td>click_count</td><td class="col-type">int</td><td>클릭 수</td></tr>
+        <tr><td>status</td><td class="col-type">enum</td><td>draft / scheduled / sending / sent / failed</td></tr>
+        <tr><td>created_at</td><td class="col-type">timestamptz</td><td></td></tr>
+      </table>
+    </div>
+
+    <div class="table-wrap">
+      <div class="table-name">📬 push_logs</div>
+      <table class="db-table">
+        <tr><th>컬럼</th><th>타입</th><th>설명</th></tr>
+        <tr><td class="col-pk">id</td><td class="col-type">bigserial PK</td><td></td></tr>
+        <tr><td class="col-fk">user_id</td><td class="col-type">uuid FK</td><td>→ users.id</td></tr>
+        <tr><td class="col-fk">campaign_id</td><td class="col-type">uuid FK</td><td>→ push_campaigns.id (null = 자동트리거)</td></tr>
+        <tr><td>sent_at</td><td class="col-type">timestamptz</td><td>발송 시각</td></tr>
+        <tr><td>opened_at</td><td class="col-type">timestamptz</td><td>오픈 시각 (null = 미오픈)</td></tr>
+        <tr><td>clicked_at</td><td class="col-type">timestamptz</td><td>클릭 시각 (null = 미클릭)</td></tr>
+        <tr><td>fcm_message_id</td><td class="col-type">text</td><td>FCM 메시지 ID (디버깅용)</td></tr>
+      </table>
+    </div>
+
+    <div class="table-wrap">
+      <div class="table-name">⚡ automated_triggers</div>
+      <table class="db-table">
+        <tr><th>컬럼</th><th>타입</th><th>설명</th></tr>
+        <tr><td class="col-pk">id</td><td class="col-type">uuid PK</td><td></td></tr>
+        <tr><td>event_type</td><td class="col-type">text</td><td>트리거 이벤트 (user_signup / vas_submit / inactivity 등)</td></tr>
+        <tr><td>delay_hours</td><td class="col-type">int</td><td>이벤트 후 N시간 뒤 발송 (0 = 즉시)</td></tr>
+        <tr><td class="col-fk">template_id</td><td class="col-type">uuid FK</td><td>→ push_templates.id</td></tr>
+        <tr><td>condition_query</td><td class="col-type">text</td><td>추가 발송 조건 SQL (선택)</td></tr>
+        <tr><td>is_active</td><td class="col-type">bool</td><td>트리거 ON/OFF</td></tr>
+        <tr><td>max_per_user</td><td class="col-type">int</td><td>사용자당 최대 발송 횟수 (스팸 방지)</td></tr>
+      </table>
+    </div>
+
+    <div class="table-wrap">
+      <div class="table-name">🗺️ user_solution_progress <span style="font-size:0.75rem;color:#059669;margin-left:8px;">✦ 4단계 솔루션 교차판매</span></div>
+      <table class="db-table">
+        <tr><th>컬럼</th><th>타입</th><th>설명</th></tr>
+        <tr><td class="col-pk">id</td><td class="col-type">uuid PK</td><td></td></tr>
+        <tr><td class="col-fk">user_id</td><td class="col-type">uuid FK</td><td>→ users.id</td></tr>
+        <tr><td>step</td><td class="col-type">enum</td><td>운동 / 회복 / 교정 / 고정 (4단계 솔루션)</td></tr>
+        <tr><td class="col-fk">device_id</td><td class="col-type">uuid FK</td><td>→ user_devices.id (연결된 기기, null = 미보유)</td></tr>
+        <tr><td>completed_at</td><td class="col-type">timestamptz</td><td>단계 완료 시점 (null = 진행 중 or 미시작)</td></tr>
+        <tr><td>crosssell_triggered</td><td class="col-type">bool</td><td>교차판매 푸시 이미 발송됐는지 여부</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <!-- 자동 트리거 플로우 -->
+  <div class="card">
+    <div class="card-title"><span class="icon">🔄</span> 자동화 푸시 플로우 — 신규 가입자 온보딩 시퀀스</div>
+    <div class="grid-2">
+      <div>
+        <div class="push-timeline">
+          <div class="pt-item">
+            <div class="pt-day">D+0</div>
+            <div class="pt-content">
+              <strong>🎉 가입 환영 + 첫 운동 안내</strong>
+              <span>온보딩 완료 직후 즉시 발송. 처방된 첫 운동 딥링크 포함</span>
+            </div>
+          </div>
+          <div class="pt-connector"></div>
+          <div class="pt-item">
+            <div class="pt-day">D+1</div>
+            <div class="pt-content">
+              <strong>🏋️ 첫 운동 유도</strong>
+              <span>아직 운동 시작 안 한 사용자만. "오늘 딱 5분, {{nickname}}님 처방 운동 시작해볼까요?"</span>
+            </div>
+          </div>
+          <div class="pt-connector"></div>
+          <div class="pt-item">
+            <div class="pt-day">D+3</div>
+            <div class="pt-content">
+              <strong>🔔 미접속 리마인더</strong>
+              <span>3일 이상 앱 미접속 시. "목이 많이 나아지셨나요? 2분만 확인해보세요"</span>
+            </div>
+          </div>
+          <div class="pt-connector"></div>
+          <div class="pt-item">
+            <div class="pt-day">D+7</div>
+            <div class="pt-content">
+              <strong>📊 주간 리포트 알림</strong>
+              <span>1주차 VAS 변화 요약. "이번 주 통증 점수 X → Y로 개선됐어요!"</span>
+            </div>
+          </div>
+          <div class="pt-connector"></div>
+          <div class="pt-item">
+            <div class="pt-day">D+14</div>
+            <div class="pt-content">
+              <strong>🛍️ 기기 교차판매 (조건부)</strong>
+              <span>기기 미보유 + VAS 개선 중 사용자에게만. "CS-25 있으면 회복이 2배 빨라져요"</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div class="card-title" style="margin-bottom:12px;"><span class="icon">🎯</span> 운동 리마인더 로직</div>
+        <div class="push-flow">
+          <div class="push-trigger">
+            <div class="push-trigger-icon">📅</div>
+            <div class="push-trigger-text">
+              <strong>매일 오전 9시 스케줄러 실행</strong>
+              <span>Supabase Edge Function (cron)</span>
+            </div>
+          </div>
+          <div class="push-arrow">↓</div>
+          <div class="push-action">
+            <div class="push-action-icon">🔍</div>
+            <div class="push-action-text">
+              <strong>어제 운동 미완료 사용자 쿼리</strong>
+              <span>sessions WHERE completed_at IS NULL AND date = yesterday</span>
+            </div>
+          </div>
+          <div class="push-arrow">↓</div>
+          <div class="push-action">
+            <div class="push-action-icon">🚫</div>
+            <div class="push-action-text">
+              <strong>스팸 필터링</strong>
+              <span>오늘 이미 푸시 받은 사용자 제외. max_per_user 체크</span>
+            </div>
+          </div>
+          <div class="push-arrow">↓</div>
+          <div class="push-trigger">
+            <div class="push-trigger-icon">📲</div>
+            <div class="push-trigger-text">
+              <strong>개인화 푸시 발송</strong>
+              <span>FCM → {{nickname}} + 운동 이름 + 딥링크</span>
+            </div>
+          </div>
+          <div class="push-arrow">↓</div>
+          <div class="push-action">
+            <div class="push-action-icon">📝</div>
+            <div class="push-action-text">
+              <strong>push_logs에 기록</strong>
+              <span>user_events에도 push_sent 이벤트 저장</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 4단계 솔루션 교차판매 -->
+  <div class="card">
+    <div class="card-title"><span class="icon">🗺️</span> 4단계 솔루션 교차판매 — 빈 단계 자동 감지</div>
+    <div class="solution-steps">
+      <div class="solution-step ss-1">
+        <div class="ss-num" style="color:#3b82f6;">①</div>
+        <div class="ss-name">운동</div>
+        <div class="ss-device">📱 앱 (처방 운동)</div>
+        <div class="ss-push">🔔 미시작 감지 → "처방 운동 시작해볼까요?"</div>
+      </div>
+      <div class="solution-step ss-2">
+        <div class="ss-num" style="color:#22c55e;">②</div>
+        <div class="ss-name">회복</div>
+        <div class="ss-device">🔧 ES-808 (전기자극)</div>
+        <div class="ss-push">🔔 기기 미보유 + 운동 진행 중 → "ES-808로 회복 2배"</div>
+      </div>
+      <div class="solution-step ss-3">
+        <div class="ss-num" style="color:#f59e0b;">③</div>
+        <div class="ss-name">교정</div>
+        <div class="ss-device">⚙️ CS-25 (자세교정)</div>
+        <div class="ss-push">🔔 2주 사용 후 VAS 정체 → "CS-25로 자세부터 잡으세요"</div>
+      </div>
+      <div class="solution-step ss-4">
+        <div class="ss-num" style="color:#a855f7;">④</div>
+        <div class="ss-name">고정</div>
+        <div class="ss-device">🛡️ WS-200 (보조기)</div>
+        <div class="ss-push">🔔 만성기 진입 → "활동 중 보호, WS-200 추천"</div>
+      </div>
+    </div>
+    <div style="margin-top:16px; padding:14px; background:linear-gradient(135deg,#002855,#003f7f); border-radius:10px; color:white; font-size:0.85rem;">
+      <strong>🤖 교차판매 트리거 로직:</strong> <code>user_solution_progress</code> 스캔 → 빈 step(device_id IS NULL) 감지 → 해당 단계 기기 교차판매 푸시 자동 발송 → <code>crosssell_triggered = true</code> 업데이트 (중복 방지)
+    </div>
+  </div>
+
+  <!-- 푸시 타입 & KPI -->
+  <div class="card">
+    <div class="card-title"><span class="icon">📈</span> 푸시 유형 & 목표 KPI</div>
+    <div class="table-wrap">
+      <table class="db-table">
+        <tr><th>유형</th><th>예시 메시지</th><th>목표 오픈율</th><th>목표 전환</th></tr>
+        <tr>
+          <td><span class="pill pill-navy" style="font-size:0.75rem;">운동리마인더</span></td>
+          <td style="font-size:0.82rem;">{{nickname}}님, 오늘 처방 운동 잊지 마세요 💪</td>
+          <td>35%+</td>
+          <td>세션 시작률 25%+</td>
+        </tr>
+        <tr>
+          <td><span class="pill pill-green" style="font-size:0.75rem;">회복진전</span></td>
+          <td style="font-size:0.82rem;">이번 주 VAS 7 → 4로 개선! 이대로 계속해요 🎉</td>
+          <td>55%+</td>
+          <td>리텐션 +15%</td>
+        </tr>
+        <tr>
+          <td><span class="pill pill-gold" style="font-size:0.75rem;">교차판매</span></td>
+          <td style="font-size:0.82rem;">CS-25 보유자가 2주 회복 목표를 3배 더 달성해요</td>
+          <td>25%+</td>
+          <td>구매전환 5%+</td>
+        </tr>
+        <tr>
+          <td><span class="pill pill-blue" style="font-size:0.75rem;">교육</span></td>
+          <td style="font-size:0.82rem;">목디스크 급성기에 절대 하면 안 되는 자세 3가지</td>
+          <td>40%+</td>
+          <td>앱 체류시간 +20%</td>
+        </tr>
+      </table>
+    </div>
+  </div>
+</div>
+
 <!-- ============================= PART 2 ============================= -->
 <div id="part2" class="section">
   <div class="section-header">
