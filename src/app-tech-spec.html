@@ -1,0 +1,1163 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🏗️ 1분도수 앱 — 기술 스펙 & AI 해자 전략</title>
+<style>
+  :root {
+    --navy: #002855;
+    --navy-light: #003f7f;
+    --navy-dark: #001a3a;
+    --accent: #0066cc;
+    --accent2: #00a8e8;
+    --gold: #f0a500;
+    --green: #00b894;
+    --red: #e17055;
+    --bg: #f4f7fb;
+    --card: #ffffff;
+    --text: #1a1a2e;
+    --muted: #6b7280;
+    --border: #e2e8f0;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Apple SD Gothic Neo', 'Noto Sans KR', -apple-system, sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; }
+  
+  /* HEADER */
+  .header {
+    background: linear-gradient(135deg, var(--navy-dark) 0%, var(--navy) 50%, var(--navy-light) 100%);
+    color: white;
+    padding: 48px 24px 40px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .header::before {
+    content: '';
+    position: absolute;
+    top: -50%; left: -50%;
+    width: 200%; height: 200%;
+    background: radial-gradient(circle at 30% 50%, rgba(0,168,232,0.15) 0%, transparent 50%),
+                radial-gradient(circle at 70% 50%, rgba(0,102,204,0.1) 0%, transparent 50%);
+    animation: pulse 8s ease-in-out infinite;
+  }
+  @keyframes pulse { 0%,100%{transform:scale(1)} 50%{transform:scale(1.05)} }
+  .header h1 { font-size: clamp(1.5rem, 4vw, 2.4rem); font-weight: 800; position: relative; margin-bottom: 12px; }
+  .header p { color: rgba(255,255,255,0.75); font-size: 0.95rem; position: relative; }
+  .badges { display: flex; gap: 8px; justify-content: center; margin-top: 16px; flex-wrap: wrap; position: relative; }
+  .badge { background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.25); border-radius: 20px; padding: 4px 14px; font-size: 0.8rem; color: rgba(255,255,255,0.9); }
+
+  /* NAV */
+  .nav { background: var(--navy); position: sticky; top: 0; z-index: 100; overflow-x: auto; }
+  .nav-inner { display: flex; gap: 0; min-width: max-content; padding: 0 16px; }
+  .nav a { color: rgba(255,255,255,0.7); text-decoration: none; padding: 14px 18px; font-size: 0.85rem; white-space: nowrap; border-bottom: 3px solid transparent; transition: all 0.2s; }
+  .nav a:hover { color: white; border-bottom-color: var(--accent2); }
+
+  /* CONTAINER */
+  .container { max-width: 1100px; margin: 0 auto; padding: 32px 16px; }
+  
+  /* SECTION */
+  .section { margin-bottom: 48px; }
+  .section-header { display: flex; align-items: center; gap: 12px; margin-bottom: 24px; padding-bottom: 12px; border-bottom: 2px solid var(--navy); }
+  .section-num { background: var(--navy); color: white; width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 0.9rem; flex-shrink: 0; }
+  .section-title { font-size: 1.4rem; font-weight: 800; color: var(--navy); }
+  .section-sub { font-size: 0.85rem; color: var(--muted); }
+
+  /* CARD */
+  .card { background: var(--card); border-radius: 12px; padding: 24px; box-shadow: 0 1px 4px rgba(0,0,0,0.06), 0 4px 16px rgba(0,0,0,0.04); border: 1px solid var(--border); margin-bottom: 16px; }
+  .card-title { font-size: 1rem; font-weight: 700; color: var(--navy); margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
+  .card-title .icon { font-size: 1.1rem; }
+  
+  /* GRID */
+  .grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 16px; }
+  .grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; }
+
+  /* STACK PILL */
+  .stack-group { margin-bottom: 16px; }
+  .stack-label { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); margin-bottom: 8px; font-weight: 600; }
+  .pills { display: flex; flex-wrap: wrap; gap: 8px; }
+  .pill { padding: 6px 14px; border-radius: 20px; font-size: 0.82rem; font-weight: 600; }
+  .pill-navy { background: var(--navy); color: white; }
+  .pill-blue { background: #dbeafe; color: #1e40af; }
+  .pill-green { background: #d1fae5; color: #065f46; }
+  .pill-gold { background: #fef3c7; color: #92400e; }
+  .pill-red { background: #fee2e2; color: #991b1b; }
+  .pill-gray { background: #f3f4f6; color: #374151; }
+
+  /* ARCHITECTURE SVG */
+  .arch-wrap { overflow-x: auto; }
+  svg.arch { min-width: 600px; width: 100%; }
+
+  /* DB TABLE */
+  .db-table { width: 100%; border-collapse: collapse; font-size: 0.83rem; }
+  .db-table th { background: var(--navy); color: white; padding: 10px 12px; text-align: left; }
+  .db-table td { padding: 8px 12px; border-bottom: 1px solid var(--border); vertical-align: top; }
+  .db-table tr:hover td { background: #f0f6ff; }
+  .db-table .col-pk { color: var(--gold); font-weight: 700; }
+  .db-table .col-fk { color: var(--accent); font-weight: 600; }
+  .db-table .col-type { color: var(--muted); font-family: monospace; font-size: 0.78rem; }
+  .table-wrap { overflow-x: auto; margin-bottom: 20px; }
+  .table-name { font-weight: 700; color: var(--navy); font-size: 0.95rem; margin-bottom: 8px; padding: 6px 12px; background: #f0f6ff; border-left: 4px solid var(--navy); border-radius: 0 6px 6px 0; }
+
+  /* API TABLE */
+  .api-table { width: 100%; border-collapse: collapse; font-size: 0.82rem; }
+  .api-table th { background: #1e3a5f; color: white; padding: 10px 12px; text-align: left; }
+  .api-table td { padding: 8px 12px; border-bottom: 1px solid var(--border); }
+  .api-table tr:hover td { background: #f8faff; }
+  .method { padding: 2px 8px; border-radius: 4px; font-weight: 700; font-size: 0.75rem; font-family: monospace; }
+  .m-get { background: #d1fae5; color: #065f46; }
+  .m-post { background: #dbeafe; color: #1e40af; }
+  .m-put { background: #fef3c7; color: #92400e; }
+  .m-delete { background: #fee2e2; color: #991b1b; }
+
+  /* TIMELINE */
+  .timeline { position: relative; padding-left: 32px; }
+  .timeline::before { content: ''; position: absolute; left: 12px; top: 0; bottom: 0; width: 2px; background: linear-gradient(to bottom, var(--navy), var(--accent2)); }
+  .timeline-item { position: relative; margin-bottom: 24px; }
+  .timeline-dot { position: absolute; left: -26px; top: 4px; width: 14px; height: 14px; border-radius: 50%; background: var(--navy); border: 2px solid var(--accent2); }
+  .timeline-period { font-size: 0.75rem; font-weight: 700; color: var(--accent); text-transform: uppercase; letter-spacing: 0.05em; }
+  .timeline-title { font-weight: 700; color: var(--navy); margin: 2px 0 6px; }
+  .timeline-tasks { list-style: none; }
+  .timeline-tasks li { font-size: 0.85rem; color: var(--muted); padding: 2px 0; padding-left: 14px; position: relative; }
+  .timeline-tasks li::before { content: '→'; position: absolute; left: 0; color: var(--accent2); }
+
+  /* RAG FLOW */
+  .flow { display: flex; flex-wrap: wrap; gap: 0; align-items: stretch; }
+  .flow-step { flex: 1; min-width: 120px; }
+  .flow-box { background: var(--card); border: 2px solid var(--border); border-radius: 10px; padding: 16px 12px; text-align: center; height: 100%; transition: all 0.2s; }
+  .flow-box:hover { border-color: var(--accent); transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,102,204,0.15); }
+  .flow-icon { font-size: 1.8rem; margin-bottom: 8px; }
+  .flow-name { font-weight: 700; font-size: 0.85rem; color: var(--navy); margin-bottom: 4px; }
+  .flow-desc { font-size: 0.75rem; color: var(--muted); }
+  .flow-arrow { display: flex; align-items: center; padding: 0 4px; color: var(--accent2); font-size: 1.2rem; flex-shrink: 0; }
+
+  /* MOAT TIMELINE */
+  .moat-timeline { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; }
+  .moat-card { border-radius: 12px; padding: 20px; position: relative; overflow: hidden; }
+  .moat-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px; }
+  .moat-now { background: #f0f6ff; border: 2px solid #93c5fd; }
+  .moat-now::before { background: #3b82f6; }
+  .moat-6m { background: #f0fdf4; border: 2px solid #86efac; }
+  .moat-6m::before { background: #22c55e; }
+  .moat-1y { background: #fffbeb; border: 2px solid #fcd34d; }
+  .moat-1y::before { background: #f59e0b; }
+  .moat-2y { background: #fef2f2; border: 2px solid #fca5a5; }
+  .moat-2y::before { background: var(--navy); }
+  .moat-period { font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 8px; }
+  .moat-depth { font-size: 2rem; font-weight: 900; margin-bottom: 4px; }
+  .moat-title { font-weight: 700; font-size: 0.9rem; margin-bottom: 8px; color: var(--navy); }
+  .moat-list { list-style: none; }
+  .moat-list li { font-size: 0.8rem; color: var(--muted); padding: 2px 0; padding-left: 12px; position: relative; }
+  .moat-list li::before { content: '•'; position: absolute; left: 0; }
+
+  /* CONCENTRIC */
+  .concentric-wrap { display: flex; justify-content: center; padding: 20px 0; }
+  .concentric { position: relative; width: 320px; height: 320px; }
+  .ring { position: absolute; border-radius: 50%; display: flex; align-items: center; justify-content: center; text-align: center; }
+  .ring-4 { width: 320px; height: 320px; top: 0; left: 0; background: rgba(0,40,85,0.08); border: 2px solid rgba(0,40,85,0.2); }
+  .ring-3 { width: 240px; height: 240px; top: 40px; left: 40px; background: rgba(0,40,85,0.12); border: 2px solid rgba(0,40,85,0.3); }
+  .ring-2 { width: 160px; height: 160px; top: 80px; left: 80px; background: rgba(0,40,85,0.18); border: 2px solid rgba(0,40,85,0.4); }
+  .ring-1 { width: 80px; height: 80px; top: 120px; left: 120px; background: var(--navy); border: none; }
+  .ring-label { font-size: 0.7rem; font-weight: 700; color: var(--navy); }
+  .ring-1 .ring-label { color: white; font-size: 0.65rem; }
+  .ring-outer-label { position: absolute; font-size: 0.65rem; color: var(--muted); }
+
+  /* PHASE CARDS */
+  .phase-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 16px; }
+  .phase-card { border-radius: 12px; padding: 20px; border-left: 5px solid; }
+  .phase-1 { background: #f0f6ff; border-color: #3b82f6; }
+  .phase-2 { background: #f0fdf4; border-color: #22c55e; }
+  .phase-3 { background: #fffbeb; border-color: #f59e0b; }
+  .phase-label { font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: var(--muted); }
+  .phase-name { font-weight: 800; color: var(--navy); font-size: 1rem; margin: 4px 0 10px; }
+  .phase-list { list-style: none; }
+  .phase-list li { font-size: 0.85rem; color: #374151; padding: 3px 0; padding-left: 16px; position: relative; }
+  .phase-list li::before { content: '✓'; position: absolute; left: 0; color: var(--green); font-weight: 700; }
+
+  /* INFRA */
+  .infra-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; }
+  .infra-item { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 16px; text-align: center; }
+  .infra-icon { font-size: 2rem; margin-bottom: 8px; }
+  .infra-name { font-weight: 700; font-size: 0.9rem; color: var(--navy); margin-bottom: 4px; }
+  .infra-desc { font-size: 0.75rem; color: var(--muted); }
+  .infra-badge { display: inline-block; margin-top: 6px; padding: 2px 10px; border-radius: 10px; font-size: 0.72rem; font-weight: 600; }
+  .ib-primary { background: var(--navy); color: white; }
+  .ib-alt { background: #f3f4f6; color: #374151; }
+
+  /* DATA MOAT */
+  .moat-item { display: flex; gap: 16px; margin-bottom: 16px; align-items: flex-start; }
+  .moat-icon-wrap { width: 48px; height: 48px; border-radius: 12px; background: var(--navy); display: flex; align-items: center; justify-content: center; font-size: 1.4rem; flex-shrink: 0; }
+  .moat-content h4 { font-weight: 700; color: var(--navy); margin-bottom: 4px; }
+  .moat-content p { font-size: 0.85rem; color: var(--muted); }
+
+  /* FOOTER */
+  .footer { background: var(--navy); color: rgba(255,255,255,0.6); text-align: center; padding: 24px; font-size: 0.85rem; margin-top: 48px; }
+  .footer strong { color: white; }
+
+  /* HIGHLIGHT BOX */
+  .highlight { background: linear-gradient(135deg, #002855 0%, #003f7f 100%); color: white; border-radius: 12px; padding: 20px 24px; margin-bottom: 16px; }
+  .highlight h3 { font-size: 1rem; margin-bottom: 8px; }
+  .highlight p { font-size: 0.88rem; opacity: 0.85; }
+
+  /* TAG */
+  .tag { display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 0.72rem; font-weight: 600; background: #e0e7ff; color: #3730a3; margin-left: 6px; }
+
+  @media (max-width: 600px) {
+    .flow { flex-direction: column; }
+    .flow-arrow { transform: rotate(90deg); justify-content: center; }
+    .concentric { width: 260px; height: 260px; }
+    .ring-4 { width: 260px; height: 260px; }
+    .ring-3 { width: 195px; height: 195px; top: 32px; left: 32px; }
+    .ring-2 { width: 130px; height: 130px; top: 65px; left: 65px; }
+    .ring-1 { width: 65px; height: 65px; top: 97px; left: 97px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="header">
+  <h1>🏗️ 1분도수 앱<br>기술 스펙 & AI 해자 전략</h1>
+  <p>키네메디칼 × 1분도수 — 대표 검토용 기술 기획서</p>
+  <div class="badges">
+    <span class="badge">🎯 MVP → AI 플랫폼</span>
+    <span class="badge">📱 React Native</span>
+    <span class="badge">🧠 RAG Pipeline</span>
+    <span class="badge">🏰 데이터 해자</span>
+  </div>
+</div>
+
+<!-- NAV -->
+<nav class="nav">
+  <div class="nav-inner">
+    <a href="#part1">Part 1. 기술 스펙</a>
+    <a href="#arch">아키텍처</a>
+    <a href="#schema">DB 스키마</a>
+    <a href="#api">API</a>
+    <a href="#infra">인프라</a>
+    <a href="#part2">Part 2. RAG</a>
+    <a href="#data">데이터 전략</a>
+    <a href="#pipeline">파이프라인</a>
+    <a href="#part3">Part 3. 해자</a>
+  </div>
+</nav>
+
+<div class="container">
+
+<!-- ============================= PART 1 ============================= -->
+<div id="part1" class="section">
+  <div class="section-header">
+    <div class="section-num">1</div>
+    <div>
+      <div class="section-title">앱 기술 스펙</div>
+      <div class="section-sub">기술 스택 · 아키텍처 · DB 스키마 · API · 인프라 · 일정</div>
+    </div>
+  </div>
+
+  <!-- 기술 스택 -->
+  <div class="card">
+    <div class="card-title"><span class="icon">📦</span> 기술 스택 추천</div>
+    <div class="grid-2">
+      <div>
+        <div class="stack-group">
+          <div class="stack-label">📱 모바일 앱</div>
+          <div class="pills">
+            <span class="pill pill-navy">React Native</span>
+            <span class="pill pill-blue">Expo</span>
+            <span class="pill pill-blue">TypeScript</span>
+          </div>
+        </div>
+        <div class="stack-group">
+          <div class="stack-label">🎨 UI / State</div>
+          <div class="pills">
+            <span class="pill pill-blue">NativeWind (Tailwind)</span>
+            <span class="pill pill-blue">Zustand</span>
+            <span class="pill pill-blue">React Query</span>
+          </div>
+        </div>
+        <div class="stack-group">
+          <div class="stack-label">🎬 영상</div>
+          <div class="pills">
+            <span class="pill pill-gold">expo-av</span>
+            <span class="pill pill-gold">react-native-video</span>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div class="stack-group">
+          <div class="stack-label">⚙️ 백엔드 / BaaS</div>
+          <div class="pills">
+            <span class="pill pill-navy">Supabase</span>
+            <span class="pill pill-blue">Edge Functions</span>
+            <span class="pill pill-blue">PostgREST</span>
+          </div>
+        </div>
+        <div class="stack-group">
+          <div class="stack-label">🧠 AI / RAG</div>
+          <div class="pills">
+            <span class="pill pill-gold">OpenAI GPT-4o</span>
+            <span class="pill pill-gold">pgvector</span>
+            <span class="pill pill-gold">LangChain</span>
+          </div>
+        </div>
+        <div class="stack-group">
+          <div class="stack-label">📊 분석 / 알림</div>
+          <div class="pills">
+            <span class="pill pill-gray">Mixpanel</span>
+            <span class="pill pill-gray">Expo Push</span>
+            <span class="pill pill-gray">Sentry</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div style="margin-top:12px; padding:12px; background:#f8faff; border-radius:8px; font-size:0.83rem; color:#374151;">
+      💡 <strong>React Native + Expo 선택 이유:</strong> iOS/Android 동시 개발 → 개발 비용 50% 절감. Expo는 OTA 업데이트로 심사 없이 빠른 배포 가능. Supabase = PostgreSQL 기반으로 pgvector 확장 → RAG까지 한 인프라에서 해결.
+    </div>
+  </div>
+
+  <!-- 아키텍처 -->
+  <div id="arch" class="card">
+    <div class="card-title"><span class="icon">🏛️</span> 시스템 아키텍처</div>
+    <div class="arch-wrap">
+      <svg class="arch" viewBox="0 0 720 460" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <!-- 배경 레이어 -->
+        <rect x="8" y="8" width="704" height="444" rx="16" fill="#f8faff" stroke="#e2e8f0" stroke-width="1.5"/>
+        
+        <!-- 모바일 앱 영역 -->
+        <rect x="24" y="24" width="190" height="200" rx="10" fill="#002855" fill-opacity="0.06" stroke="#002855" stroke-width="1.5" stroke-dasharray="4 2"/>
+        <text x="119" y="44" font-size="11" fill="#002855" font-weight="700" text-anchor="middle">📱 React Native App</text>
+        
+        <rect x="34" y="54" width="170" height="36" rx="8" fill="#002855"/>
+        <text x="119" y="68" font-size="10" fill="white" font-weight="600" text-anchor="middle">온보딩 / 처방 알고리즘</text>
+        <text x="119" y="81" font-size="9" fill="rgba(255,255,255,0.7)" text-anchor="middle">기기보유 → 시기 → VAS → 처방</text>
+        
+        <rect x="34" y="96" width="80" height="32" rx="8" fill="#0066cc"/>
+        <text x="74" y="113" font-size="9" fill="white" font-weight="600" text-anchor="middle">운동 숏폼</text>
+        <text x="74" y="124" font-size="8" fill="rgba(255,255,255,0.7)" text-anchor="middle">1자형 UI</text>
+        
+        <rect x="124" y="96" width="80" height="32" rx="8" fill="#0066cc"/>
+        <text x="164" y="113" font-size="9" fill="white" font-weight="600" text-anchor="middle">AI 코치</text>
+        <text x="164" y="124" font-size="8" fill="rgba(255,255,255,0.7)" text-anchor="middle">채팅 / 추천</text>
+        
+        <rect x="34" y="136" width="80" height="32" rx="8" fill="#005aa0"/>
+        <text x="74" y="153" font-size="9" fill="white" font-weight="600" text-anchor="middle">VAS 트래킹</text>
+        <text x="74" y="164" font-size="8" fill="rgba(255,255,255,0.7)" text-anchor="middle">회복 여정</text>
+        
+        <rect x="124" y="136" width="80" height="32" rx="8" fill="#005aa0"/>
+        <text x="164" y="153" font-size="9" fill="white" font-weight="600" text-anchor="middle">기기 연동</text>
+        <text x="164" y="164" font-size="8" fill="rgba(255,255,255,0.7)" text-anchor="middle">CS-25/ES-808</text>
+        
+        <rect x="34" y="176" width="170" height="36" rx="8" fill="#e0e7ff"/>
+        <text x="119" y="190" font-size="9" fill="#3730a3" font-weight="600" text-anchor="middle">Zustand · React Query · expo-av</text>
+        <text x="119" y="203" font-size="8" fill="#6b7280" text-anchor="middle">NativeWind · Expo Push · Mixpanel</text>
+
+        <!-- 화살표: App → API -->
+        <line x1="214" y1="124" x2="256" y2="124" stroke="#0066cc" stroke-width="2" marker-end="url(#arr)"/>
+        <text x="235" y="118" font-size="8" fill="#0066cc" text-anchor="middle">HTTPS</text>
+        <text x="235" y="132" font-size="8" fill="#0066cc" text-anchor="middle">/ WS</text>
+
+        <!-- API Gateway -->
+        <rect x="256" y="60" width="180" height="128" rx="10" fill="#003f7f" fill-opacity="0.08" stroke="#003f7f" stroke-width="1.5" stroke-dasharray="4 2"/>
+        <text x="346" y="80" font-size="11" fill="#002855" font-weight="700" text-anchor="middle">⚡ Supabase Edge Fn</text>
+        
+        <rect x="266" y="88" width="160" height="28" rx="7" fill="#002855"/>
+        <text x="346" y="105" font-size="9" fill="white" font-weight="600" text-anchor="middle">Auth · PostgREST · Realtime</text>
+        
+        <rect x="266" y="122" width="74" height="28" rx="7" fill="#0066cc"/>
+        <text x="303" y="136" font-size="9" fill="white" font-weight="600" text-anchor="middle">처방 API</text>
+        <text x="303" y="148" font-size="8" fill="rgba(255,255,255,0.75)" text-anchor="middle">/prescribe</text>
+        
+        <rect x="348" y="122" width="78" height="28" rx="7" fill="#0066cc"/>
+        <text x="387" y="136" font-size="9" fill="white" font-weight="600" text-anchor="middle">RAG API</text>
+        <text x="387" y="148" font-size="8" fill="rgba(255,255,255,0.75)" text-anchor="middle">/ai/coach</text>
+        
+        <rect x="266" y="156" width="160" height="24" rx="7" fill="#1a5276"/>
+        <text x="346" y="170" font-size="9" fill="white" font-weight="600" text-anchor="middle">Rate Limit · JWT Validation</text>
+
+        <!-- 화살표: API → DB -->
+        <line x1="436" y1="124" x2="474" y2="124" stroke="#0066cc" stroke-width="2" marker-end="url(#arr)"/>
+
+        <!-- DB 영역 -->
+        <rect x="474" y="24" width="228" height="200" rx="10" fill="#022540" fill-opacity="0.05" stroke="#002855" stroke-width="1.5" stroke-dasharray="4 2"/>
+        <text x="588" y="44" font-size="11" fill="#002855" font-weight="700" text-anchor="middle">🗄️ Supabase (PostgreSQL)</text>
+        
+        <rect x="484" y="54" width="100" height="32" rx="8" fill="#002855"/>
+        <text x="534" y="68" font-size="9" fill="white" font-weight="600" text-anchor="middle">관계형 DB</text>
+        <text x="534" y="80" font-size="8" fill="rgba(255,255,255,0.7)" text-anchor="middle">users/prescriptions</text>
+        
+        <rect x="592" y="54" width="100" height="32" rx="8" fill="#8e44ad"/>
+        <text x="642" y="68" font-size="9" fill="white" font-weight="600" text-anchor="middle">벡터 DB</text>
+        <text x="642" y="80" font-size="8" fill="rgba(255,255,255,0.7)" text-anchor="middle">pgvector 임베딩</text>
+        
+        <rect x="484" y="94" width="208" height="32" rx="8" fill="#1a6b3c"/>
+        <text x="588" y="108" font-size="9" fill="white" font-weight="600" text-anchor="middle">시계열: VAS 추이 / 운동 패턴</text>
+        <text x="588" y="120" font-size="8" fill="rgba(255,255,255,0.7)" text-anchor="middle">vas_records · sessions · exercise_logs</text>
+        
+        <rect x="484" y="134" width="208" height="32" rx="8" fill="#c0392b"/>
+        <text x="588" y="148" font-size="9" fill="white" font-weight="600" text-anchor="middle">Supabase Storage</text>
+        <text x="588" y="160" font-size="8" fill="rgba(255,255,255,0.7)" text-anchor="middle">운동 영상 / 썸네일</text>
+        
+        <rect x="484" y="174" width="208" height="40" rx="8" fill="#1a4a7a"/>
+        <text x="588" y="189" font-size="9" fill="white" font-weight="600" text-anchor="middle">Row Level Security (RLS)</text>
+        <text x="588" y="201" font-size="8" fill="rgba(255,255,255,0.7)" text-anchor="middle">사용자별 데이터 격리 · GDPR 대비</text>
+        <text x="588" y="212" font-size="8" fill="rgba(255,255,255,0.7)" text-anchor="middle">Daily Backups · Supabase Vault</text>
+
+        <!-- AI 영역 -->
+        <rect x="256" y="240" width="448" height="120" rx="10" fill="#f59e0b" fill-opacity="0.06" stroke="#f59e0b" stroke-width="1.5" stroke-dasharray="4 2"/>
+        <text x="480" y="260" font-size="11" fill="#92400e" font-weight="700" text-anchor="middle">🧠 AI / RAG 레이어</text>
+        
+        <rect x="266" y="268" width="120" height="36" rx="8" fill="#7c3aed"/>
+        <text x="326" y="283" font-size="9" fill="white" font-weight="600" text-anchor="middle">OpenAI GPT-4o</text>
+        <text x="326" y="295" font-size="8" fill="rgba(255,255,255,0.75)" text-anchor="middle">응답 생성 / 코칭</text>
+        
+        <rect x="396" y="268" width="120" height="36" rx="8" fill="#0891b2"/>
+        <text x="456" y="283" font-size="9" fill="white" font-weight="600" text-anchor="middle">LangChain RAG</text>
+        <text x="456" y="295" font-size="8" fill="rgba(255,255,255,0.75)" text-anchor="middle">검색 → 증강 → 생성</text>
+        
+        <rect x="526" y="268" width="120" height="36" rx="8" fill="#059669"/>
+        <text x="586" y="283" font-size="9" fill="white" font-weight="600" text-anchor="middle">임베딩 파이프</text>
+        <text x="586" y="295" font-size="8" fill="rgba(255,255,255,0.75)" text-anchor="middle">text-embedding-3</text>
+        
+        <rect x="266" y="312" width="380" height="36" rx="8" fill="#1f2937"/>
+        <text x="456" y="326" font-size="9" fill="white" font-weight="600" text-anchor="middle">지식베이스: 도수치료 프로토콜 + 운동 가이드 + 기기 사용법 + FAQ</text>
+        <text x="456" y="340" font-size="8" fill="rgba(255,255,255,0.65)" text-anchor="middle">Phase2: 협업 필터링 모델 | Phase3: 강화학습 처방 최적화</text>
+
+        <!-- AI → API 화살표 -->
+        <line x1="346" y1="240" x2="346" y2="188" stroke="#7c3aed" stroke-width="1.5" stroke-dasharray="4 2" marker-end="url(#arr2)"/>
+        <line x1="456" y1="240" x2="456" y2="188" stroke="#7c3aed" stroke-width="1.5" stroke-dasharray="4 2" marker-end="url(#arr2)"/>
+
+        <!-- 외부 서비스 -->
+        <rect x="24" y="240" width="190" height="120" rx="10" fill="#e5e7eb" fill-opacity="0.5" stroke="#d1d5db" stroke-width="1.5" stroke-dasharray="4 2"/>
+        <text x="119" y="260" font-size="11" fill="#374151" font-weight="700" text-anchor="middle">🔌 외부 연동</text>
+        <rect x="34" y="268" width="80" height="28" rx="7" fill="#374151"/>
+        <text x="74" y="283" font-size="9" fill="white" font-weight="600" text-anchor="middle">Mixpanel</text>
+        <text x="74" y="293" font-size="8" fill="rgba(255,255,255,0.7)" text-anchor="middle">행동 분석</text>
+        <rect x="124" y="268" width="80" height="28" rx="7" fill="#374151"/>
+        <text x="164" y="283" font-size="9" fill="white" font-weight="600" text-anchor="middle">Expo Push</text>
+        <text x="164" y="293" font-size="8" fill="rgba(255,255,255,0.7)" text-anchor="middle">알림</text>
+        <rect x="34" y="304" width="170" height="28" rx="7" fill="#4b5563"/>
+        <text x="119" y="319" font-size="9" fill="white" font-weight="600" text-anchor="middle">App Store / Google Play</text>
+        <text x="119" y="331" font-size="8" fill="rgba(255,255,255,0.7)" text-anchor="middle">결제 · 리뷰 · 통계</text>
+
+        <!-- 화살표 from App to External -->
+        <line x1="119" y1="224" x2="119" y2="240" stroke="#9ca3af" stroke-width="1.5" marker-end="url(#arr3)"/>
+
+        <!-- 하단 레이어 설명 -->
+        <rect x="24" y="388" width="680" height="48" rx="8" fill="white" stroke="#e2e8f0" stroke-width="1"/>
+        <text x="364" y="406" font-size="9" fill="#6b7280" text-anchor="middle" font-weight="600">📡 CDN (Cloudflare) → Supabase Edge Functions → PostgreSQL + pgvector + Storage</text>
+        <text x="364" y="422" font-size="9" fill="#9ca3af" text-anchor="middle">Supabase Pro: 8GB DB / 250GB Storage / 자동 확장 | 월 ~$25 (MVP 기준)</text>
+        <text x="364" y="432" font-size="9" fill="#9ca3af" text-anchor="middle"> </text>
+
+        <!-- 화살표 마커 -->
+        <defs>
+          <marker id="arr" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+            <path d="M0,0 L0,6 L8,3 z" fill="#0066cc"/>
+          </marker>
+          <marker id="arr2" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+            <path d="M0,0 L0,6 L8,3 z" fill="#7c3aed"/>
+          </marker>
+          <marker id="arr3" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+            <path d="M0,0 L0,6 L8,3 z" fill="#9ca3af"/>
+          </marker>
+        </defs>
+      </svg>
+    </div>
+  </div>
+
+  <!-- DB 스키마 -->
+  <div id="schema" class="card">
+    <div class="card-title"><span class="icon">🗃️</span> DB 스키마 설계</div>
+    
+    <div class="table-wrap">
+      <div class="table-name">👤 users</div>
+      <table class="db-table">
+        <tr><th>컬럼</th><th>타입</th><th>설명</th></tr>
+        <tr><td class="col-pk">id</td><td class="col-type">uuid PK</td><td>사용자 고유 ID (Supabase Auth 연동)</td></tr>
+        <tr><td>phone</td><td class="col-type">text</td><td>휴대폰 번호 (OTP 인증)</td></tr>
+        <tr><td>nickname</td><td class="col-type">text</td><td>닉네임</td></tr>
+        <tr><td>onboarding_completed</td><td class="col-type">bool</td><td>온보딩 완료 여부</td></tr>
+        <tr><td>current_prescription_id</td><td class="col-type">uuid FK</td><td>현재 처방 ID</td></tr>
+        <tr><td>streak_days</td><td class="col-type">int</td><td>연속 출석일</td></tr>
+        <tr><td>created_at</td><td class="col-type">timestamptz</td><td>가입일</td></tr>
+        <tr><td>fcm_token</td><td class="col-type">text</td><td>Expo Push 토큰</td></tr>
+        <tr><td>locale</td><td class="col-type">text</td><td>ko/en (다국어 대비)</td></tr>
+      </table>
+    </div>
+
+    <div class="table-wrap">
+      <div class="table-name">🔧 user_devices</div>
+      <table class="db-table">
+        <tr><th>컬럼</th><th>타입</th><th>설명</th></tr>
+        <tr><td class="col-pk">id</td><td class="col-type">uuid PK</td><td></td></tr>
+        <tr><td class="col-fk">user_id</td><td class="col-type">uuid FK</td><td>→ users.id</td></tr>
+        <tr><td>device_type</td><td class="col-type">enum</td><td>CS-25 / ES-808 / WS-200 / none</td></tr>
+        <tr><td>owned</td><td class="col-type">bool</td><td>보유 여부 (온보딩에서 수집)</td></tr>
+        <tr><td>purchase_date</td><td class="col-type">date</td><td>구매일 (기기 수명 추적)</td></tr>
+        <tr><td>last_used_at</td><td class="col-type">timestamptz</td><td>마지막 사용일</td></tr>
+        <tr><td>usage_count</td><td class="col-type">int</td><td>총 사용 횟수</td></tr>
+      </table>
+    </div>
+
+    <div class="table-wrap">
+      <div class="table-name">📊 vas_records (시계열)</div>
+      <table class="db-table">
+        <tr><th>컬럼</th><th>타입</th><th>설명</th></tr>
+        <tr><td class="col-pk">id</td><td class="col-type">uuid PK</td><td></td></tr>
+        <tr><td class="col-fk">user_id</td><td class="col-type">uuid FK</td><td>→ users.id</td></tr>
+        <tr><td>score</td><td class="col-type">int 0-10</td><td>VAS 통증 점수</td></tr>
+        <tr><td>body_part</td><td class="col-type">text</td><td>목 / 허리 / 어깨 etc.</td></tr>
+        <tr><td>context</td><td class="col-type">enum</td><td>before_exercise / after_exercise / daily</td></tr>
+        <tr><td>note</td><td class="col-type">text</td><td>사용자 메모 (선택)</td></tr>
+        <tr><td>recorded_at</td><td class="col-type">timestamptz</td><td>기록 시간 (인덱스)</td></tr>
+      </table>
+    </div>
+
+    <div class="table-wrap">
+      <div class="table-name">💊 prescriptions</div>
+      <table class="db-table">
+        <tr><th>컬럼</th><th>타입</th><th>설명</th></tr>
+        <tr><td class="col-pk">id</td><td class="col-type">uuid PK</td><td></td></tr>
+        <tr><td class="col-fk">user_id</td><td class="col-type">uuid FK</td><td>→ users.id</td></tr>
+        <tr><td>prescription_type</td><td class="col-type">int 1-6</td><td>6가지 처방 코드 (시기×VAS 매트릭스)</td></tr>
+        <tr><td>onset_phase</td><td class="col-type">enum</td><td>acute / subacute / chronic</td></tr>
+        <tr><td>vas_at_prescription</td><td class="col-type">int</td><td>처방 시점 VAS 점수</td></tr>
+        <tr><td>device_included</td><td class="col-type">jsonb</td><td>포함된 기기 목록</td></tr>
+        <tr><td>exercise_ids</td><td class="col-type">uuid[]</td><td>처방된 운동 목록</td></tr>
+        <tr><td>ai_reasoning</td><td class="col-type">text</td><td>AI 처방 근거 (RAG 출력)</td></tr>
+        <tr><td>created_at</td><td class="col-type">timestamptz</td><td>처방 생성일</td></tr>
+        <tr><td>upgraded_at</td><td class="col-type">timestamptz</td><td>강등/승급 시점</td></tr>
+      </table>
+    </div>
+
+    <div class="table-wrap">
+      <div class="table-name">🏋️ exercises</div>
+      <table class="db-table">
+        <tr><th>컬럼</th><th>타입</th><th>설명</th></tr>
+        <tr><td class="col-pk">id</td><td class="col-type">uuid PK</td><td></td></tr>
+        <tr><td>title</td><td class="col-type">text</td><td>운동 제목</td></tr>
+        <tr><td>phase</td><td class="col-type">enum</td><td>before / main / after</td></tr>
+        <tr><td>prescription_types</td><td class="col-type">int[]</td><td>해당되는 처방 코드들</td></tr>
+        <tr><td>video_url</td><td class="col-type">text</td><td>Supabase Storage URL</td></tr>
+        <tr><td>duration_sec</td><td class="col-type">int</td><td>영상 길이 (초)</td></tr>
+        <tr><td>requires_device</td><td class="col-type">text</td><td>필요 기기 (null = 맨몸)</td></tr>
+        <tr><td>embedding</td><td class="col-type">vector(1536)</td><td>pgvector 임베딩 (운동 메타데이터)</td></tr>
+        <tr><td>completion_rate</td><td class="col-type">float</td><td>평균 완료율 (집계 업데이트)</td></tr>
+        <tr><td>avg_vas_improvement</td><td class="col-type">float</td><td>평균 VAS 개선 효과</td></tr>
+      </table>
+    </div>
+
+    <div class="table-wrap">
+      <div class="table-name">📅 sessions (운동 세션)</div>
+      <table class="db-table">
+        <tr><th>컬럼</th><th>타입</th><th>설명</th></tr>
+        <tr><td class="col-pk">id</td><td class="col-type">uuid PK</td><td></td></tr>
+        <tr><td class="col-fk">user_id</td><td class="col-type">uuid FK</td><td>→ users.id</td></tr>
+        <tr><td class="col-fk">prescription_id</td><td class="col-type">uuid FK</td><td>→ prescriptions.id</td></tr>
+        <tr><td>started_at</td><td class="col-type">timestamptz</td><td>세션 시작</td></tr>
+        <tr><td>completed_at</td><td class="col-type">timestamptz</td><td>세션 완료 (null = 미완)</td></tr>
+        <tr><td>completion_rate</td><td class="col-type">float</td><td>이 세션 완료율 0.0~1.0</td></tr>
+        <tr><td>dropout_exercise_id</td><td class="col-type">uuid</td><td>이탈 지점 운동 ID</td></tr>
+        <tr><td>device_used</td><td class="col-type">text</td><td>이 세션에서 사용한 기기</td></tr>
+        <tr><td>vas_before</td><td class="col-type">int</td><td>운동 전 VAS</td></tr>
+        <tr><td>vas_after</td><td class="col-type">int</td><td>운동 후 VAS</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <!-- API 엔드포인트 -->
+  <div id="api" class="card">
+    <div class="card-title"><span class="icon">🔌</span> API 엔드포인트</div>
+    <div class="table-wrap">
+      <table class="api-table">
+        <tr><th>Method</th><th>엔드포인트</th><th>설명</th></tr>
+        <tr>
+          <td><span class="method m-post">POST</span></td>
+          <td><code>/auth/otp/send</code></td>
+          <td>휴대폰 OTP 발송</td>
+        </tr>
+        <tr>
+          <td><span class="method m-post">POST</span></td>
+          <td><code>/auth/otp/verify</code></td>
+          <td>OTP 확인 → JWT 발급</td>
+        </tr>
+        <tr>
+          <td><span class="method m-post">POST</span></td>
+          <td><code>/onboarding</code></td>
+          <td>온보딩 데이터 저장 (기기/시기/VAS)</td>
+        </tr>
+        <tr>
+          <td><span class="method m-post">POST</span></td>
+          <td><code>/prescriptions/generate</code></td>
+          <td>6가지 알고리즘 처방 생성</td>
+        </tr>
+        <tr>
+          <td><span class="method m-get">GET</span></td>
+          <td><code>/prescriptions/current</code></td>
+          <td>현재 처방 조회</td>
+        </tr>
+        <tr>
+          <td><span class="method m-get">GET</span></td>
+          <td><code>/exercises?prescription=:type&phase=:phase</code></td>
+          <td>처방별 운동 목록 (전/본/후)</td>
+        </tr>
+        <tr>
+          <td><span class="method m-post">POST</span></td>
+          <td><code>/sessions/start</code></td>
+          <td>운동 세션 시작</td>
+        </tr>
+        <tr>
+          <td><span class="method m-put">PUT</span></td>
+          <td><code>/sessions/:id/complete</code></td>
+          <td>세션 완료 + VAS 기록</td>
+        </tr>
+        <tr>
+          <td><span class="method m-post">POST</span></td>
+          <td><code>/vas</code></td>
+          <td>VAS 점수 기록</td>
+        </tr>
+        <tr>
+          <td><span class="method m-get">GET</span></td>
+          <td><code>/vas/trend?days=30</code></td>
+          <td>VAS 추이 조회 (회복 여정)</td>
+        </tr>
+        <tr>
+          <td><span class="method m-post">POST</span></td>
+          <td><code>/ai/coach</code></td>
+          <td>AI 코치 채팅 (RAG)</td>
+        </tr>
+        <tr>
+          <td><span class="method m-get">GET</span></td>
+          <td><code>/ai/recommend</code></td>
+          <td>맞춤 운동 추천 (협업 필터링)</td>
+        </tr>
+        <tr>
+          <td><span class="method m-post">POST</span></td>
+          <td><code>/prescriptions/:id/upgrade</code></td>
+          <td>처방 강등/승급 트리거</td>
+        </tr>
+        <tr>
+          <td><span class="method m-get">GET</span></td>
+          <td><code>/reports/weekly</code></td>
+          <td>주간 리포트 데이터</td>
+        </tr>
+        <tr>
+          <td><span class="method m-post">POST</span></td>
+          <td><code>/devices</code></td>
+          <td>기기 보유 정보 등록/수정</td>
+        </tr>
+        <tr>
+          <td><span class="method m-get">GET</span></td>
+          <td><code>/shop/crosssell</code></td>
+          <td>맥락 기반 기기 추천 팝업 데이터</td>
+        </tr>
+        <tr>
+          <td><span class="method m-put">PUT</span></td>
+          <td><code>/users/fcm-token</code></td>
+          <td>Expo Push 토큰 등록</td>
+        </tr>
+        <tr>
+          <td><span class="method m-get">GET</span></td>
+          <td><code>/emergency/check</code></td>
+          <td>응급 로직 (VAS 9-10 감지 → 병원 안내)</td>
+        </tr>
+      </table>
+    </div>
+  </div>
+
+  <!-- 인프라 -->
+  <div id="infra" class="card">
+    <div class="card-title"><span class="icon">☁️</span> 인프라 구성</div>
+    <div class="infra-grid">
+      <div class="infra-item">
+        <div class="infra-icon">🟢</div>
+        <div class="infra-name">Supabase Pro</div>
+        <div class="infra-desc">DB + Auth + Storage + Edge Functions + Realtime + pgvector</div>
+        <span class="infra-badge ib-primary">핵심 인프라</span>
+      </div>
+      <div class="infra-item">
+        <div class="infra-icon">🟠</div>
+        <div class="infra-name">Expo (EAS)</div>
+        <div class="infra-desc">OTA 업데이트 + 빌드 + App Store 배포 자동화</div>
+        <span class="infra-badge ib-primary">앱 배포</span>
+      </div>
+      <div class="infra-item">
+        <div class="infra-icon">🟣</div>
+        <div class="infra-name">OpenAI API</div>
+        <div class="infra-desc">GPT-4o (코칭) + text-embedding-3 (벡터화)</div>
+        <span class="infra-badge ib-primary">AI 엔진</span>
+      </div>
+      <div class="infra-item">
+        <div class="infra-icon">🔵</div>
+        <div class="infra-name">Cloudflare</div>
+        <div class="infra-desc">CDN + WAF + DDoS 보호. 영상 스트리밍 최적화</div>
+        <span class="infra-badge ib-alt">보안/성능</span>
+      </div>
+      <div class="infra-item">
+        <div class="infra-icon">📊</div>
+        <div class="infra-name">Mixpanel</div>
+        <div class="infra-desc">사용자 행동 분석. 퍼널 · 이탈 · 리텐션 트래킹</div>
+        <span class="infra-badge ib-alt">분석</span>
+      </div>
+      <div class="infra-item">
+        <div class="infra-icon">🚨</div>
+        <div class="infra-name">Sentry</div>
+        <div class="infra-desc">앱 에러 트래킹 + 알림. 크래시 즉시 감지</div>
+        <span class="infra-badge ib-alt">모니터링</span>
+      </div>
+    </div>
+    <div style="margin-top:16px; padding:14px; background:#f0fdf4; border-radius:8px; border-left:4px solid #22c55e;">
+      <strong>💰 MVP 월 예상 비용:</strong> Supabase Pro $25 + OpenAI ~$50 + Expo EAS $29 + Mixpanel Free tier + Cloudflare Free = <strong>약 $100~150/월</strong> (DAU 1,000명 기준)
+    </div>
+  </div>
+
+  <!-- MVP 일정 -->
+  <div class="card">
+    <div class="card-title"><span class="icon">📅</span> MVP 개발 일정 (16주)</div>
+    <div class="grid-2">
+      <div>
+        <div class="timeline">
+          <div class="timeline-item">
+            <div class="timeline-dot"></div>
+            <div class="timeline-period">Week 1-2</div>
+            <div class="timeline-title">기반 세팅</div>
+            <ul class="timeline-tasks">
+              <li>Supabase 프로젝트 생성 + DB 스키마</li>
+              <li>Expo 프로젝트 초기화 + 디자인 시스템</li>
+              <li>Supabase Auth (OTP) 연동</li>
+            </ul>
+          </div>
+          <div class="timeline-item">
+            <div class="timeline-dot"></div>
+            <div class="timeline-period">Week 3-5</div>
+            <div class="timeline-title">핵심 플로우 구현</div>
+            <ul class="timeline-tasks">
+              <li>온보딩 (기기/시기/VAS) 화면</li>
+              <li>6가지 처방 알고리즘 엔진</li>
+              <li>1자형 UI (운동전/본/후)</li>
+              <li>운동 영상 플레이어</li>
+            </ul>
+          </div>
+          <div class="timeline-item">
+            <div class="timeline-dot"></div>
+            <div class="timeline-period">Week 6-8</div>
+            <div class="timeline-title">VAS + 리텐션</div>
+            <ul class="timeline-tasks">
+              <li>VAS 기록 + 회복 여정 페이지</li>
+              <li>푸시 알림 + 연속 출석</li>
+              <li>응급 로직 (VAS 9-10)</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div class="timeline">
+          <div class="timeline-item">
+            <div class="timeline-dot"></div>
+            <div class="timeline-period">Week 9-11</div>
+            <div class="timeline-title">AI/RAG 1차</div>
+            <ul class="timeline-tasks">
+              <li>지식베이스 구축 (도수치료 프로토콜)</li>
+              <li>pgvector 임베딩 파이프라인</li>
+              <li>AI 코치 채팅 UI + API</li>
+            </ul>
+          </div>
+          <div class="timeline-item">
+            <div class="timeline-dot"></div>
+            <div class="timeline-period">Week 12-13</div>
+            <div class="timeline-title">크로스셀링 + 주간 리포트</div>
+            <ul class="timeline-tasks">
+              <li>기기 미보유자 맥락 팝업</li>
+              <li>주간 리포트 (VAS 추이 + 완료율)</li>
+              <li>Mixpanel 이벤트 연동</li>
+            </ul>
+          </div>
+          <div class="timeline-item">
+            <div class="timeline-dot"></div>
+            <div class="timeline-period">Week 14-16</div>
+            <div class="timeline-title">테스트 + 출시</div>
+            <ul class="timeline-tasks">
+              <li>베타 사용자 50명 테스트</li>
+              <li>App Store / Play Store 심사</li>
+              <li>1분도수 커뮤니티 론칭</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============================= PART 2 ============================= -->
+<div id="part2" class="section">
+  <div class="section-header">
+    <div class="section-num">2</div>
+    <div>
+      <div class="section-title">RAG 파이프라인 & 데이터 전략</div>
+      <div class="section-sub">수집 데이터 · 구조 설계 · AI 파이프라인 · 학습 단계</div>
+    </div>
+  </div>
+
+  <!-- 데이터 전략 -->
+  <div id="data" class="card">
+    <div class="card-title"><span class="icon">📡</span> 수집할 데이터 5가지</div>
+    <div class="grid-2">
+      <div>
+        <div style="padding:14px; background:#f0f6ff; border-radius:10px; margin-bottom:12px; border-left:4px solid #3b82f6;">
+          <strong>① 사용자 행동 데이터</strong>
+          <ul style="margin-top:8px; font-size:0.83rem; color:#374151; padding-left:16px;">
+            <li>VAS 입력 시간 · 빈도 · 패턴</li>
+            <li>운동 완료/스킵/중단 시점</li>
+            <li>이탈 지점 (어떤 운동에서 멈추는지)</li>
+            <li>앱 체류시간 · 재방문 주기</li>
+          </ul>
+        </div>
+        <div style="padding:14px; background:#f0fdf4; border-radius:10px; margin-bottom:12px; border-left:4px solid #22c55e;">
+          <strong>② 회복 데이터</strong>
+          <ul style="margin-top:8px; font-size:0.83rem; color:#374151; padding-left:16px;">
+            <li>VAS 추이 (시계열)</li>
+            <li>회복 속도 (일 단위 VAS 감소)</li>
+            <li>처방 강등/승급 빈도</li>
+            <li>회복 완료까지 걸린 기간</li>
+          </ul>
+        </div>
+        <div style="padding:14px; background:#fffbeb; border-radius:10px; border-left:4px solid #f59e0b;">
+          <strong>③ 콘텐츠 효과 데이터</strong>
+          <ul style="margin-top:8px; font-size:0.83rem; color:#374151; padding-left:16px;">
+            <li>영상별 완주율 · 재시청률</li>
+            <li>운동 후 VAS 개선 연관성</li>
+            <li>어떤 운동이 탈주율 낮은지</li>
+          </ul>
+        </div>
+      </div>
+      <div>
+        <div style="padding:14px; background:#fdf4ff; border-radius:10px; margin-bottom:12px; border-left:4px solid #a855f7;">
+          <strong>④ 기기 연동 데이터</strong>
+          <ul style="margin-top:8px; font-size:0.83rem; color:#374151; padding-left:16px;">
+            <li>기기별 사용 빈도 · 세션당 시간</li>
+            <li>기기+운동 조합별 회복 효과</li>
+            <li>기기 미보유자 vs 보유자 회복 속도 비교</li>
+            <li>→ 기기 구매 전환 근거 데이터</li>
+          </ul>
+        </div>
+        <div style="padding:14px; background:#fff1f2; border-radius:10px; border-left:4px solid #f43f5e;">
+          <strong>⑤ 외부 지식 데이터</strong>
+          <ul style="margin-top:8px; font-size:0.83rem; color:#374151; padding-left:16px;">
+            <li>도수치료 임상 논문 (PubMed)</li>
+            <li>운동치료 가이드라인</li>
+            <li>기기 사용 매뉴얼 + FAQ</li>
+            <li>인규 선생님 프로토콜 (암묵지 → 문서화)</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 데이터 구조 -->
+  <div class="card">
+    <div class="card-title"><span class="icon">🏗️</span> 데이터 구조 3레이어</div>
+    <div class="grid-3">
+      <div style="padding:16px; background:linear-gradient(135deg,#7c3aed,#a855f7); border-radius:10px; color:white;">
+        <div style="font-size:1.5rem; margin-bottom:8px;">🔮</div>
+        <div style="font-weight:700; margin-bottom:4px;">벡터 DB (pgvector)</div>
+        <div style="font-size:0.8rem; opacity:0.85;">운동 영상 메타데이터 임베딩<br>사용자 증상 임베딩<br>의학 지식 임베딩<br><br>→ 유사도 기반 검색<br>→ RAG 컨텍스트 구성</div>
+      </div>
+      <div style="padding:16px; background:linear-gradient(135deg,#002855,#0066cc); border-radius:10px; color:white;">
+        <div style="font-size:1.5rem; margin-bottom:8px;">🗄️</div>
+        <div style="font-weight:700; margin-bottom:4px;">관계형 DB (PostgreSQL)</div>
+        <div style="font-size:0.8rem; opacity:0.85;">사용자 프로필/처방 이력<br>운동 콘텐츠 메타데이터<br>기기 보유/사용 기록<br>세션 완료/이탈 기록<br><br>→ 트랜잭션 보장<br>→ 복잡한 쿼리</div>
+      </div>
+      <div style="padding:16px; background:linear-gradient(135deg,#065f46,#059669); border-radius:10px; color:white;">
+        <div style="font-size:1.5rem; margin-bottom:8px;">📈</div>
+        <div style="font-weight:700; margin-bottom:4px;">시계열 (TimescaleDB ext)</div>
+        <div style="font-size:0.8rem; opacity:0.85;">VAS 추이 (날짜별)<br>운동 완료 패턴<br>앱 사용 빈도<br>기기 사용 빈도<br><br>→ 회복 여정 시각화<br>→ 개인화 패턴 학습</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- RAG 파이프라인 -->
+  <div id="pipeline" class="card">
+    <div class="card-title"><span class="icon">🔄</span> RAG 파이프라인 플로우차트</div>
+    
+    <div style="margin-bottom:20px;">
+      <div style="font-size:0.85rem; font-weight:700; color:var(--navy); margin-bottom:12px;">📥 지식 주입 파이프라인 (오프라인)</div>
+      <div class="flow">
+        <div class="flow-step">
+          <div class="flow-box">
+            <div class="flow-icon">📄</div>
+            <div class="flow-name">원본 문서</div>
+            <div class="flow-desc">논문·가이드·FAQ·인규 프로토콜</div>
+          </div>
+        </div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-step">
+          <div class="flow-box">
+            <div class="flow-icon">✂️</div>
+            <div class="flow-name">청킹</div>
+            <div class="flow-desc">512 token 단위 분할 + 메타데이터 태깅</div>
+          </div>
+        </div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-step">
+          <div class="flow-box">
+            <div class="flow-icon">🔢</div>
+            <div class="flow-name">임베딩</div>
+            <div class="flow-desc">text-embedding-3-small → 1536차원 벡터</div>
+          </div>
+        </div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-step">
+          <div class="flow-box">
+            <div class="flow-icon">🗄️</div>
+            <div class="flow-name">pgvector 저장</div>
+            <div class="flow-desc">HNSW 인덱스 + 코사인 유사도</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div>
+      <div style="font-size:0.85rem; font-weight:700; color:var(--navy); margin-bottom:12px;">🤖 실시간 추론 파이프라인 (온라인)</div>
+      <div class="flow">
+        <div class="flow-step">
+          <div class="flow-box" style="border-color:#0066cc;">
+            <div class="flow-icon">💬</div>
+            <div class="flow-name">사용자 질문</div>
+            <div class="flow-desc">"목이 너무 아파요. 어떻게 하면 되나요?"</div>
+          </div>
+        </div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-step">
+          <div class="flow-box">
+            <div class="flow-icon">🔍</div>
+            <div class="flow-name">컨텍스트 수집</div>
+            <div class="flow-desc">현재 처방 + VAS 추이 + 기기 보유 현황</div>
+          </div>
+        </div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-step">
+          <div class="flow-box">
+            <div class="flow-icon">🎯</div>
+            <div class="flow-name">벡터 검색</div>
+            <div class="flow-desc">pgvector Top-5 유사 청크 추출</div>
+          </div>
+        </div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-step">
+          <div class="flow-box">
+            <div class="flow-icon">📝</div>
+            <div class="flow-name">프롬프트 구성</div>
+            <div class="flow-desc">사용자 컨텍스트 + RAG 지식 + 시스템 프롬프트</div>
+          </div>
+        </div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-step">
+          <div class="flow-box" style="border-color:#7c3aed;">
+            <div class="flow-icon">🧠</div>
+            <div class="flow-name">GPT-4o 생성</div>
+            <div class="flow-desc">개인화된 코칭 응답 + 운동 추천</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div style="margin-top:20px; padding:16px; background:#f8f0ff; border-radius:10px; border-left:4px solid #7c3aed;">
+      <strong>🔑 개인화 핵심:</strong> 단순 RAG가 아니라 "사용자 컨텍스트 레이어"를 추가.<br>
+      <span style="font-size:0.85rem; color:#374151;">프롬프트 = <strong>[시스템 역할]</strong> + <strong>[사용자 현재 상태: VAS/처방/기기]</strong> + <strong>[RAG 지식 청크 Top-5]</strong> + <strong>[대화 히스토리 최근 5턴]</strong> + <strong>[질문]</strong></span>
+    </div>
+  </div>
+
+  <!-- 학습 전략 -->
+  <div class="card">
+    <div class="card-title"><span class="icon">🎓</span> AI 학습 전략 3단계</div>
+    <div class="phase-grid">
+      <div class="phase-card phase-1">
+        <div class="phase-label">Phase 1 · MVP (0~6개월)</div>
+        <div class="phase-name">규칙 기반 + RAG</div>
+        <ul class="phase-list">
+          <li>6가지 처방 알고리즘 → 규칙 그대로 구현</li>
+          <li>RAG로 FAQ/상담 응답 생성</li>
+          <li>지식베이스 구축 (도수치료 프로토콜)</li>
+          <li>데이터 수집 파이프라인 확립</li>
+          <li>목표: 사용자 데이터 1만 세션 축적</li>
+        </ul>
+      </div>
+      <div class="phase-card phase-2">
+        <div class="phase-label">Phase 2 · 성장 (6~18개월)</div>
+        <div class="phase-name">개인화 협업 필터링</div>
+        <ul class="phase-list">
+          <li>"비슷한 증상 유저가 가장 빨리 회복한 루틴"</li>
+          <li>User-Based CF: 증상 프로필 유사도</li>
+          <li>Item-Based CF: 운동 효과 패턴</li>
+          <li>처방 자동 강등/승급 최적화</li>
+          <li>목표: VAS 개선율 20% 향상</li>
+        </ul>
+      </div>
+      <div class="phase-card phase-3">
+        <div class="phase-label">Phase 3 · AI 플랫폼 (18개월+)</div>
+        <div class="phase-name">강화학습 최적화</div>
+        <ul class="phase-list">
+          <li>보상 함수: VAS 감소 속도 + 리텐션</li>
+          <li>RL 에이전트가 처방 순서 최적화</li>
+          <li>기기+운동 조합 최적 시퀀스 발견</li>
+          <li>미국 시장 적용 (근골격계 보편적)</li>
+          <li>목표: 경쟁사 대비 2배 빠른 회복</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============================= PART 3 ============================= -->
+<div id="part3" class="section">
+  <div class="section-header">
+    <div class="section-num">3</div>
+    <div>
+      <div class="section-title">AI 해자 전략</div>
+      <div class="section-sub">경쟁자가 복제 불가능한 데이터 · 네트워크 · 기기 해자</div>
+    </div>
+  </div>
+
+  <!-- 5가지 해자 -->
+  <div class="card">
+    <div class="card-title"><span class="icon">🏰</span> 5가지 해자 구조</div>
+    <div>
+      <div class="moat-item">
+        <div class="moat-icon-wrap">📊</div>
+        <div class="moat-content">
+          <h4>① 데이터 해자 — 증상-운동-회복 매핑</h4>
+          <p>시간이 갈수록 축적되는 "증상 × 처방 × 회복 결과" 데이터셋. 10만 사용자가 1년간 생성하면 경쟁자는 같은 데이터 모으는 데 수년 걸림. 이 데이터로 만든 AI 처방 정확도는 복제 불가.</p>
+        </div>
+      </div>
+      <div class="moat-item">
+        <div class="moat-icon-wrap">🔄</div>
+        <div class="moat-content">
+          <h4>② 네트워크 효과 — 플라이휠</h4>
+          <p>사용자 ↑ → 데이터 ↑ → 알고리즘 정확도 ↑ → 회복 속도 ↑ → 입소문 ↑ → 사용자 ↑. 선두 주자가 굴리기 시작하면 후발주자는 따라잡기 불가.</p>
+        </div>
+      </div>
+      <div class="moat-item">
+        <div class="moat-icon-wrap">🧑‍⚕️</div>
+        <div class="moat-content">
+          <h4>③ 전문가 지식 해자 — 인규의 암묵지 디지털화</h4>
+          <p>도수치료사 인규 선생님의 20년 임상 경험을 구조화된 프로토콜로 변환. 이 지식 베이스는 다른 앱이 가질 수 없음. 인규의 판단 = AI 처방의 근거.</p>
+        </div>
+      </div>
+      <div class="moat-item">
+        <div class="moat-icon-wrap">⚙️</div>
+        <div class="moat-content">
+          <h4>④ 기기 연동 해자 — 타사 앱 진입 불가</h4>
+          <p>CS-25, ES-808, WS-200 사용 데이터를 앱과 통합. "기기 X + 운동 Y = 회복 Z일 단축" 데이터는 자사만 보유. 타사 앱은 기기 데이터 자체가 없음.</p>
+        </div>
+      </div>
+      <div class="moat-item">
+        <div class="moat-icon-wrap">🌍</div>
+        <div class="moat-content">
+          <h4>⑤ 글로벌 확장 해자 — 한국 검증 → 미국 직수출</h4>
+          <p>근골격계는 보편적. 한국에서 검증된 AI 처방 모델을 미국에 바로 적용. 미국 시장 진입 시 이미 수만 명의 학습 데이터 보유 → 미국 경쟁자 대비 우위.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 해자 타임라인 -->
+  <div class="card">
+    <div class="card-title"><span class="icon">⏳</span> 해자 깊이 타임라인</div>
+    <div class="moat-timeline">
+      <div class="moat-card moat-now">
+        <div class="moat-period" style="color:#3b82f6;">지금 (Day 1)</div>
+        <div class="moat-depth" style="color:#3b82f6;">🌱</div>
+        <div class="moat-title">씨앗 단계</div>
+        <ul class="moat-list">
+          <li>인규 프로토콜 디지털화</li>
+          <li>6가지 처방 알고리즘</li>
+          <li>데이터 수집 파이프라인</li>
+          <li>1분도수 10만 팔로워 = 초기 유입</li>
+        </ul>
+      </div>
+      <div class="moat-card moat-6m">
+        <div class="moat-period" style="color:#22c55e;">6개월 후</div>
+        <div class="moat-depth" style="color:#22c55e;">🌿</div>
+        <div class="moat-title">데이터 축적</div>
+        <ul class="moat-list">
+          <li>DAU 3,000+ · 세션 50만+</li>
+          <li>VAS 데이터 10만 건</li>
+          <li>RAG 코치 베타 론칭</li>
+          <li>기기 보유/미보유 효과 비교</li>
+          <li>해자 깊이: ★★☆☆☆</li>
+        </ul>
+      </div>
+      <div class="moat-card moat-1y">
+        <div class="moat-period" style="color:#f59e0b;">1년 후</div>
+        <div class="moat-depth" style="color:#f59e0b;">🌳</div>
+        <div class="moat-title">개인화 AI 가동</div>
+        <ul class="moat-list">
+          <li>DAU 10,000+ · 세션 300만+</li>
+          <li>협업 필터링 처방 정확도↑</li>
+          <li>경쟁사 진입 시 2년 데이터 격차</li>
+          <li>기기+운동 조합 최적 루틴 확립</li>
+          <li>해자 깊이: ★★★☆☆</li>
+        </ul>
+      </div>
+      <div class="moat-card moat-2y">
+        <div class="moat-period" style="color:#002855;">2년 후</div>
+        <div class="moat-depth" style="color:#002855;">🏔️</div>
+        <div class="moat-title">난공불락 해자</div>
+        <ul class="moat-list">
+          <li>DAU 50,000+ · 글로벌 진출</li>
+          <li>강화학습 처방 최적화 가동</li>
+          <li>경쟁사 추격 사실상 불가</li>
+          <li>미국 시장 한국 모델 직적용</li>
+          <li>해자 깊이: ★★★★★</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- 동심원 해자 -->
+  <div class="card">
+    <div class="card-title"><span class="icon">🎯</span> 해자 구조 — 동심원 시각화</div>
+    <div style="display:flex; gap:24px; flex-wrap:wrap; align-items:center; justify-content:center;">
+      <div class="concentric-wrap">
+        <div class="concentric">
+          <div class="ring ring-4">
+            <div style="position:absolute; bottom:8px; font-size:0.65rem; color:#002855; font-weight:700; text-align:center; width:100%;">🌍 글로벌 확장 해자</div>
+          </div>
+          <div class="ring ring-3">
+            <div style="position:absolute; bottom:8px; font-size:0.65rem; color:#002855; font-weight:700; text-align:center; width:100%;">🔄 네트워크 효과</div>
+          </div>
+          <div class="ring ring-2">
+            <div style="position:absolute; bottom:8px; font-size:0.62rem; color:#002855; font-weight:700; text-align:center; width:100%;">⚙️ 기기 연동</div>
+          </div>
+          <div class="ring ring-1">
+            <div class="ring-label">📊<br>데이터<br>해자</div>
+          </div>
+        </div>
+      </div>
+      <div style="flex:1; min-width:200px;">
+        <div style="font-size:0.85rem; color:#374151; line-height:1.8;">
+          <div style="margin-bottom:10px;"><strong style="color:#002855;">🔵 핵심 (중앙)</strong><br>증상-운동-회복 매핑 데이터<br><span style="color:#6b7280;font-size:0.8rem;">→ 절대 복제 불가, 시간 = 경쟁력</span></div>
+          <div style="margin-bottom:10px;"><strong style="color:#002855;">🔵 2레이어</strong><br>기기 연동 데이터<br><span style="color:#6b7280;font-size:0.8rem;">→ 자사 기기 보유자만 접근 가능</span></div>
+          <div style="margin-bottom:10px;"><strong style="color:#002855;">🔵 3레이어</strong><br>사용자 네트워크 플라이휠<br><span style="color:#6b7280;font-size:0.8rem;">→ 사용자 많을수록 더 정확해짐</span></div>
+          <div><strong style="color:#002855;">🔵 외곽</strong><br>글로벌 확장 (한국 검증 → 미국)<br><span style="color:#6b7280;font-size:0.8rem;">→ 해외 진입 시 이미 수년 앞서있음</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 핵심 메시지 -->
+  <div class="highlight">
+    <h3>🎯 결론: 1분도수 앱이 AI 기업이 되는 이유</h3>
+    <p>단순한 운동 앱이 아닌, "근골격계 회복 데이터 플랫폼"이다. 앱은 데이터 수집 도구이고, 기기는 데이터 품질 향상 도구다. 인규의 암묵지 + 사용자 회복 데이터 + 기기 사용 패턴이 결합되면 — 전 세계 어떤 경쟁자도 가질 수 없는 "목디스크 회복 AI"가 탄생한다. 이것이 해자다.</p>
+  </div>
+</div>
+
+</div><!-- /container -->
+
+<div class="footer">
+  작성: <strong>카리나</strong> &nbsp;|&nbsp; 2026-03-25 &nbsp;|&nbsp; <strong>대표 검토용</strong>
+  <br><br>
+  <span style="font-size:0.75rem;">키네메디칼 × 1분도수 — 목디스크 회복 AI 플랫폼 기술 기획서 v1.0</span>
+</div>
+
+</body>
+</html>
