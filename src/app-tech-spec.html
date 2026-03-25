@@ -202,6 +202,49 @@
   /* TAG */
   .tag { display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 0.72rem; font-weight: 600; background: #e0e7ff; color: #3730a3; margin-left: 6px; }
 
+  /* PUSH FLOW */
+  .push-flow { display: flex; flex-direction: column; gap: 0; }
+  .push-trigger { background: linear-gradient(135deg,#002855,#003f7f); color:white; border-radius:10px; padding:14px 18px; display:flex; align-items:center; gap:12px; margin-bottom:4px; }
+  .push-trigger-icon { font-size:1.5rem; }
+  .push-trigger-text { flex:1; }
+  .push-trigger-text strong { display:block; font-size:0.9rem; }
+  .push-trigger-text span { font-size:0.78rem; opacity:0.8; }
+  .push-arrow { text-align:center; color:var(--accent2); font-size:1rem; padding:2px 0; }
+  .push-action { background:#f0f6ff; border:1px solid #bfdbfe; border-radius:10px; padding:12px 18px; display:flex; align-items:center; gap:12px; margin-bottom:4px; }
+  .push-action-icon { font-size:1.3rem; }
+  .push-action-text strong { font-size:0.85rem; color:var(--navy); display:block; }
+  .push-action-text span { font-size:0.78rem; color:var(--muted); }
+
+  /* 4-STEP SOLUTION */
+  .solution-steps { display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:16px; }
+  .solution-step { border-radius:12px; padding:20px; position:relative; overflow:hidden; }
+  .solution-step::after { content:''; position:absolute; top:0; right:0; width:60px; height:60px; border-radius:0 12px 0 100%; opacity:0.15; }
+  .ss-1 { background:#f0f6ff; border:2px solid #93c5fd; }
+  .ss-1::after { background:#3b82f6; }
+  .ss-2 { background:#f0fdf4; border:2px solid #86efac; }
+  .ss-2::after { background:#22c55e; }
+  .ss-3 { background:#fffbeb; border:2px solid #fcd34d; }
+  .ss-3::after { background:#f59e0b; }
+  .ss-4 { background:#fdf4ff; border:2px solid #d8b4fe; }
+  .ss-4::after { background:#a855f7; }
+  .ss-num { font-size:2rem; font-weight:900; margin-bottom:4px; }
+  .ss-name { font-weight:800; font-size:0.95rem; color:var(--navy); margin-bottom:6px; }
+  .ss-device { font-size:0.8rem; color:var(--muted); margin-bottom:8px; }
+  .ss-push { font-size:0.78rem; background:white; border-radius:6px; padding:6px 10px; border-left:3px solid; }
+  .ss-1 .ss-push { border-color:#3b82f6; color:#1e40af; }
+  .ss-2 .ss-push { border-color:#22c55e; color:#065f46; }
+  .ss-3 .ss-push { border-color:#f59e0b; color:#92400e; }
+  .ss-4 .ss-push { border-color:#a855f7; color:#6b21a8; }
+
+  /* TIMELINE PUSH */
+  .push-timeline { display:flex; flex-direction:column; gap:8px; }
+  .pt-item { display:flex; gap:12px; align-items:flex-start; }
+  .pt-day { background:var(--navy); color:white; border-radius:8px; padding:4px 10px; font-size:0.75rem; font-weight:700; min-width:48px; text-align:center; flex-shrink:0; margin-top:2px; }
+  .pt-content { flex:1; background:white; border:1px solid var(--border); border-radius:8px; padding:10px 14px; }
+  .pt-content strong { font-size:0.85rem; color:var(--navy); display:block; margin-bottom:2px; }
+  .pt-content span { font-size:0.78rem; color:var(--muted); }
+  .pt-connector { width:2px; height:12px; background:var(--border); margin-left:24px; }
+
   @media (max-width: 600px) {
     .flow { flex-direction: column; }
     .flow-arrow { transform: rotate(90deg); justify-content: center; }
@@ -238,6 +281,7 @@
     <a href="#part2">Part 2. RAG</a>
     <a href="#data">데이터 전략</a>
     <a href="#pipeline">파이프라인</a>
+    <a href="#push">📱 푸시 알림</a>
     <a href="#part3">Part 3. 해자</a>
   </div>
 </nav>
@@ -530,20 +574,89 @@
     </div>
 
     <div class="table-wrap">
-      <div class="table-name">🏋️ exercises</div>
+      <div class="table-name">🏋️ exercises <span style="font-size:0.75rem;color:#059669;margin-left:8px;">✦ 영상 교체 유연성 최적화</span></div>
       <table class="db-table">
         <tr><th>컬럼</th><th>타입</th><th>설명</th></tr>
         <tr><td class="col-pk">id</td><td class="col-type">uuid PK</td><td></td></tr>
         <tr><td>title</td><td class="col-type">text</td><td>운동 제목</td></tr>
         <tr><td>phase</td><td class="col-type">enum</td><td>before / main / after</td></tr>
-        <tr><td>prescription_types</td><td class="col-type">int[]</td><td>해당되는 처방 코드들</td></tr>
-        <tr><td>video_url</td><td class="col-type">text</td><td>Supabase Storage URL</td></tr>
+        <tr style="background:#f0fdf4;"><td><strong>body_part</strong></td><td class="col-type">text</td><td>목 / 어깨 / 허리 등 (확장 대비)</td></tr>
+        <tr style="background:#f0fdf4;"><td><strong>stage</strong></td><td class="col-type">enum</td><td>acute(급성) / subacute(아급성) / chronic(만성)</td></tr>
+        <tr style="background:#f0fdf4;"><td><strong>vas_min</strong></td><td class="col-type">int</td><td>적용 VAS 최솟값 (0-10)</td></tr>
+        <tr style="background:#f0fdf4;"><td><strong>vas_max</strong></td><td class="col-type">int</td><td>적용 VAS 최댓값 (0-10)</td></tr>
+        <tr style="background:#f0fdf4;"><td><strong>week</strong></td><td class="col-type">int</td><td>적용 주차 (1주차, 2주차…)</td></tr>
+        <tr style="background:#f0fdf4;"><td><strong>video_url</strong></td><td class="col-type">text</td><td>YouTube URL — 인규가 코드 수정 없이 교체 가능</td></tr>
+        <tr style="background:#f0fdf4;"><td><strong>thumbnail_url</strong></td><td class="col-type">text</td><td>썸네일 이미지 URL</td></tr>
         <tr><td>duration_sec</td><td class="col-type">int</td><td>영상 길이 (초)</td></tr>
         <tr><td>requires_device</td><td class="col-type">text</td><td>필요 기기 (null = 맨몸)</td></tr>
+        <tr style="background:#f0fdf4;"><td><strong>sort_order</strong></td><td class="col-type">int</td><td>화면 표시 순서</td></tr>
+        <tr style="background:#f0fdf4;"><td><strong>is_active</strong></td><td class="col-type">bool</td><td>ON/OFF 토글 — 비활성화 시 처방에서 제외</td></tr>
         <tr><td>embedding</td><td class="col-type">vector(1536)</td><td>pgvector 임베딩 (운동 메타데이터)</td></tr>
         <tr><td>completion_rate</td><td class="col-type">float</td><td>평균 완료율 (집계 업데이트)</td></tr>
         <tr><td>avg_vas_improvement</td><td class="col-type">float</td><td>평균 VAS 개선 효과</td></tr>
       </table>
+    </div>
+
+    <div style="padding:12px 16px; background:#f0fdf4; border-radius:8px; border-left:4px solid #22c55e; margin-bottom:20px; font-size:0.83rem;">
+      💡 <strong>영상 교체 운영 방법:</strong> 인규가 YouTube에 새 영상 업로드 → 관리자 대시보드에서 <code>video_url</code> 만 변경 → 앱 배포 없이 즉시 반영. <code>is_active=false</code>로 특정 운동 임시 제거 가능.
+    </div>
+
+    <div class="table-wrap">
+      <div class="table-name">📐 exercise_groups <span style="font-size:0.75rem;color:#059669;margin-left:8px;">✦ 신규</span></div>
+      <table class="db-table">
+        <tr><th>컬럼</th><th>타입</th><th>설명</th></tr>
+        <tr><td class="col-pk">id</td><td class="col-type">uuid PK</td><td></td></tr>
+        <tr><td>name</td><td class="col-type">text</td><td>그룹명 (예: "목 급성기 1주차 기본")</td></tr>
+        <tr><td>description</td><td class="col-type">text</td><td>그룹 설명</td></tr>
+        <tr><td>exercise_ids</td><td class="col-type">uuid[]</td><td>포함된 운동 ID 배열 (순서 보존)</td></tr>
+        <tr><td>created_at</td><td class="col-type">timestamptz</td><td></td></tr>
+      </table>
+    </div>
+
+    <div class="table-wrap">
+      <div class="table-name">📏 prescription_rules <span style="font-size:0.75rem;color:#059669;margin-left:8px;">✦ 신규 — 코드 수정 없이 처방 알고리즘 변경</span></div>
+      <table class="db-table">
+        <tr><th>컬럼</th><th>타입</th><th>설명</th></tr>
+        <tr><td class="col-pk">id</td><td class="col-type">uuid PK</td><td></td></tr>
+        <tr><td>body_part</td><td class="col-type">text</td><td>목 / 어깨 / 허리 등</td></tr>
+        <tr><td>stage</td><td class="col-type">enum</td><td>acute / subacute / chronic</td></tr>
+        <tr><td>vas_min</td><td class="col-type">int</td><td>적용 VAS 범위 최솟값</td></tr>
+        <tr><td>vas_max</td><td class="col-type">int</td><td>적용 VAS 범위 최댓값</td></tr>
+        <tr><td>week</td><td class="col-type">int</td><td>적용 주차 (null = 전체)</td></tr>
+        <tr><td class="col-fk">exercise_group_id</td><td class="col-type">uuid FK</td><td>→ exercise_groups.id (해당 조건의 운동 그룹)</td></tr>
+        <tr><td>priority</td><td class="col-type">int</td><td>규칙 우선순위 (높을수록 먼저 적용)</td></tr>
+        <tr><td>is_active</td><td class="col-type">bool</td><td>규칙 ON/OFF</td></tr>
+        <tr><td>updated_at</td><td class="col-type">timestamptz</td><td>마지막 수정일 (인규 수정 추적)</td></tr>
+      </table>
+    </div>
+    <div style="padding:12px 16px; background:#f0f6ff; border-radius:8px; border-left:4px solid #3b82f6; margin-bottom:20px; font-size:0.83rem;">
+      💡 <strong>처방 알고리즘 변경 방법:</strong> <code>prescription_rules</code> 테이블을 수정하면 코드 배포 없이 처방 로직 변경 가능. 예: "목 급성기 VAS 7-10에 새 운동 그룹 적용" → 테이블 한 줄 추가로 완료.
+    </div>
+
+    <div class="table-wrap">
+      <div class="table-name">📊 user_events <span style="font-size:0.75rem;color:#059669;margin-left:8px;">✦ 신규 — 모든 사용자 행동 타임스탬프 로그</span></div>
+      <table class="db-table">
+        <tr><th>컬럼</th><th>타입</th><th>설명</th></tr>
+        <tr><td class="col-pk">id</td><td class="col-type">bigserial PK</td><td>(uuid 대신 bigserial — 고성능 삽입)</td></tr>
+        <tr><td class="col-fk">user_id</td><td class="col-type">uuid FK</td><td>→ users.id</td></tr>
+        <tr><td>event_type</td><td class="col-type">text</td><td>이벤트 유형 (아래 목록 참고)</td></tr>
+        <tr><td>event_data</td><td class="col-type">jsonb</td><td>이벤트 상세 데이터 (유연한 스키마)</td></tr>
+        <tr><td>created_at</td><td class="col-type">timestamptz</td><td>발생 시각 (인덱스 필수)</td></tr>
+      </table>
+      <div style="margin-top:12px; display:flex; flex-wrap:wrap; gap:8px;">
+        <span style="font-size:0.75rem; font-weight:700; color:var(--muted); width:100%; margin-bottom:4px;">event_type 목록</span>
+        <span class="pill pill-navy" style="font-size:0.72rem;">vas_submit</span>
+        <span class="pill pill-blue" style="font-size:0.72rem;">exercise_start</span>
+        <span class="pill pill-blue" style="font-size:0.72rem;">exercise_complete</span>
+        <span class="pill pill-blue" style="font-size:0.72rem;">exercise_skip</span>
+        <span class="pill pill-green" style="font-size:0.72rem;">screen_view</span>
+        <span class="pill pill-gold" style="font-size:0.72rem;">push_opened</span>
+        <span class="pill pill-gold" style="font-size:0.72rem;">push_clicked</span>
+        <span class="pill pill-red" style="font-size:0.72rem;">device_connected</span>
+        <span class="pill pill-gray" style="font-size:0.72rem;">session_start</span>
+        <span class="pill pill-gray" style="font-size:0.72rem;">prescription_generated</span>
+        <span class="pill pill-gray" style="font-size:0.72rem;">crosssell_viewed</span>
+      </div>
     </div>
 
     <div class="table-wrap">

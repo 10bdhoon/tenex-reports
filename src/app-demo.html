@@ -2,1219 +2,1006 @@
 <html lang="ko">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>1분도수 앱 데모</title>
 <style>
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  body {
-    font-family: -apple-system, 'Apple SD Gothic Neo', 'Pretendard', sans-serif;
-    background: #f0f2f5;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-    padding: 20px;
-  }
+* { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
 
-  /* Phone Frame */
-  .phone {
-    width: 375px;
-    height: 812px;
-    background: #fff;
-    border-radius: 50px;
-    box-shadow: 0 30px 80px rgba(0,0,0,0.25), inset 0 0 0 2px #e0e0e0;
-    overflow: hidden;
-    position: relative;
-    flex-shrink: 0;
-  }
-  .phone-notch {
-    position: absolute;
-    top: 0; left: 50%;
-    transform: translateX(-50%);
-    width: 130px; height: 28px;
-    background: #fff;
-    border-radius: 0 0 18px 18px;
-    z-index: 100;
-  }
-  .phone-screen {
-    width: 100%; height: 100%;
-    overflow: hidden;
-    border-radius: 50px;
-    position: relative;
-  }
+:root {
+  --primary: #002855;
+  --primary-light: #1a4a8a;
+  --accent: #0066cc;
+  --bg: #f5f7fa;
+  --white: #fff;
+  --text: #1a1a2e;
+  --text-muted: #666;
+  --radius: 16px;
+  --nav-height: 64px;
+}
 
-  /* Mobile: full screen, no phone frame */
-  @media (max-width: 500px) {
-    body { padding: 0; background: #fff; }
-    .phone {
-      width: 100vw;
-      height: 100vh;
-      height: 100dvh;
-      border-radius: 0;
-      box-shadow: none;
-    }
-    .phone-notch { display: none; }
-    .phone-screen { border-radius: 0; }
-  }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Noto Sans KR', sans-serif;
+  background: #e8edf2;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
 
-  /* Screens */
-  .screen {
-    position: absolute;
-    top: 0; left: 0;
-    width: 100%; height: 100%;
-    background: #fff;
-    display: flex;
-    flex-direction: column;
-    transition: transform 0.35s cubic-bezier(.4,0,.2,1), opacity 0.35s;
-    transform: translateX(100%);
-    opacity: 0;
-    pointer-events: none;
-  }
-  .screen.active {
-    transform: translateX(0);
-    opacity: 1;
-    pointer-events: all;
-  }
-  .screen.exit-left {
-    transform: translateX(-100%);
-    opacity: 0;
-    pointer-events: none;
-  }
+/* PC: phone frame */
+#app-wrapper {
+  position: relative;
+  width: 375px;
+  height: 812px;
+  background: #1a1a2e;
+  border-radius: 48px;
+  padding: 12px;
+  box-shadow: 0 30px 80px rgba(0,0,0,0.4);
+}
+#app-wrapper::before {
+  content: '';
+  position: absolute;
+  top: 22px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100px;
+  height: 6px;
+  background: #333;
+  border-radius: 3px;
+  z-index: 9999;
+}
 
-  /* Status Bar */
-  .status-bar {
-    height: 44px;
-    padding: 12px 20px 0;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    flex-shrink: 0;
-    font-size: 12px;
-    font-weight: 600;
-    color: #002855;
-  }
+#app {
+  width: 100%;
+  height: 100%;
+  background: var(--bg);
+  border-radius: 38px;
+  overflow: hidden;
+  position: relative;
+}
 
-  /* Nav Bar */
-  .nav-bar {
-    height: 60px;
-    background: #fff;
-    border-top: 1px solid #f0f0f0;
-    display: flex;
-    flex-shrink: 0;
-    padding-bottom: 8px;
-  }
-  .nav-item {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 3px;
-    cursor: pointer;
-    color: #aaa;
-    font-size: 10px;
-    font-weight: 500;
-    transition: color 0.2s;
-    -webkit-tap-highlight-color: transparent;
-  }
-  .nav-item.active { color: #002855; }
-  .nav-icon { font-size: 22px; }
+/* Mobile: fullscreen */
+@media (max-width: 480px) {
+  body { background: var(--bg); align-items: flex-start; }
+  #app-wrapper { width: 100%; height: 100%; min-height: 100vh; background: none; border-radius: 0; padding: 0; box-shadow: none; }
+  #app-wrapper::before { display: none; }
+  #app { border-radius: 0; height: 100vh; }
+}
 
-  /* Scroll Content */
-  .scroll-content {
-    flex: 1;
-    overflow-y: auto;
-    -webkit-overflow-scrolling: touch;
-  }
-  .scroll-content::-webkit-scrollbar { display: none; }
+/* ====== SCREENS ====== */
+.screen {
+  position: absolute;
+  inset: 0;
+  display: none;
+  flex-direction: column;
+  background: var(--bg);
+}
+.screen.active { display: flex; }
 
-  /* ===================== ONBOARDING ===================== */
-  #screen-welcome {
-    background: linear-gradient(160deg, #002855 0%, #003f7f 60%, #0057b7 100%);
-    justify-content: center;
-    align-items: center;
-    padding: 40px 32px;
-    text-align: center;
-  }
-  .welcome-logo {
-    width: 80px; height: 80px;
-    background: rgba(255,255,255,0.15);
-    border-radius: 24px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 40px;
-    margin: 0 auto 28px;
-    backdrop-filter: blur(10px);
-  }
-  .welcome-title {
-    font-size: 26px;
-    font-weight: 700;
-    color: #fff;
-    line-height: 1.3;
-    margin-bottom: 12px;
-  }
-  .welcome-sub {
-    font-size: 14px;
-    color: rgba(255,255,255,0.7);
-    line-height: 1.6;
-    margin-bottom: 48px;
-  }
-  .btn-primary {
-    width: 100%;
-    padding: 16px;
-    background: #fff;
-    color: #002855;
-    font-size: 16px;
-    font-weight: 700;
-    border: none;
-    border-radius: 16px;
-    cursor: pointer;
-    transition: transform 0.1s, opacity 0.1s;
-    -webkit-tap-highlight-color: transparent;
-  }
-  .btn-primary:active { transform: scale(0.97); opacity: 0.9; }
-  .btn-primary.dark {
-    background: #002855;
-    color: #fff;
-  }
+/* ====== ONBOARDING ====== */
+#screen-welcome {
+  background: linear-gradient(160deg, var(--primary) 0%, #1a4a8a 60%, #2060a0 100%);
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 40px 32px;
+}
+.welcome-logo {
+  width: 80px;
+  height: 80px;
+  background: rgba(255,255,255,0.15);
+  border-radius: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 40px;
+  margin: 0 auto 24px;
+}
+.welcome-title {
+  color: white;
+  font-size: 28px;
+  font-weight: 800;
+  line-height: 1.3;
+  margin-bottom: 12px;
+}
+.welcome-sub {
+  color: rgba(255,255,255,0.75);
+  font-size: 15px;
+  line-height: 1.6;
+  margin-bottom: 48px;
+}
 
-  /* Onboarding Q screens */
-  .onboard-screen {
-    background: #fff;
-    padding: 0;
-  }
-  .onboard-header {
-    background: #002855;
-    padding: 52px 24px 28px;
-    color: #fff;
-  }
-  .onboard-step {
-    font-size: 12px;
-    color: rgba(255,255,255,0.6);
-    margin-bottom: 8px;
-    font-weight: 500;
-  }
-  .onboard-q {
-    font-size: 20px;
-    font-weight: 700;
-    line-height: 1.4;
-  }
-  .onboard-body {
-    padding: 24px;
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-  }
-  .choice-btn {
-    padding: 18px 20px;
-    border: 2px solid #eee;
-    border-radius: 14px;
-    background: #fff;
-    font-size: 15px;
-    font-weight: 500;
-    color: #333;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    transition: border-color 0.2s, background 0.2s, color 0.2s;
-    -webkit-tap-highlight-color: transparent;
-    text-align: left;
-  }
-  .choice-btn.selected {
-    border-color: #002855;
-    background: #f0f4ff;
-    color: #002855;
-    font-weight: 600;
-  }
-  .choice-icon { font-size: 20px; flex-shrink: 0; }
-  .onboard-footer {
-    padding: 16px 24px 32px;
-  }
+#screen-q1, #screen-q2 {
+  padding: 0;
+}
+.onboard-header {
+  background: var(--primary);
+  padding: 48px 24px 24px;
+  color: white;
+}
+.onboard-step {
+  font-size: 12px;
+  color: rgba(255,255,255,0.6);
+  margin-bottom: 8px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+.onboard-header h2 {
+  font-size: 22px;
+  font-weight: 700;
+  line-height: 1.4;
+}
+.onboard-body {
+  flex: 1;
+  padding: 24px;
+  overflow-y: auto;
+}
+.progress-bar {
+  height: 4px;
+  background: rgba(255,255,255,0.2);
+  border-radius: 2px;
+  margin-top: 16px;
+}
+.progress-fill {
+  height: 100%;
+  background: white;
+  border-radius: 2px;
+  transition: width 0.3s;
+}
 
-  /* Progress bar */
-  .progress-bar {
-    height: 4px;
-    background: rgba(255,255,255,0.2);
-    border-radius: 2px;
-    margin-top: 16px;
-  }
-  .progress-fill {
-    height: 100%;
-    background: #fff;
-    border-radius: 2px;
-    transition: width 0.3s;
-  }
+/* Device & Stage cards */
+.device-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-bottom: 24px;
+}
+.device-card {
+  background: white;
+  border: 2px solid #e0e6ed;
+  border-radius: var(--radius);
+  padding: 20px 12px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.2s;
+  user-select: none;
+}
+.device-card.selected {
+  border-color: var(--primary);
+  background: #f0f4ff;
+}
+.device-card .icon { font-size: 32px; margin-bottom: 8px; }
+.device-card .name { font-size: 14px; font-weight: 700; color: var(--text); }
+.device-card .desc { font-size: 11px; color: var(--text-muted); margin-top: 4px; }
+.device-card.selected .name { color: var(--primary); }
 
-  /* ===================== HOME ===================== */
-  .home-header {
-    background: #002855;
-    padding: 44px 20px 20px;
-    color: #fff;
-    flex-shrink: 0;
-  }
-  .home-greeting {
-    font-size: 13px;
-    color: rgba(255,255,255,0.7);
-    margin-bottom: 4px;
-  }
-  .home-title {
-    font-size: 20px;
-    font-weight: 700;
-  }
+.stage-list { display: flex; flex-direction: column; gap: 12px; margin-bottom: 24px; }
+.stage-card {
+  background: white;
+  border: 2px solid #e0e6ed;
+  border-radius: var(--radius);
+  padding: 18px 20px;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  user-select: none;
+}
+.stage-card.selected {
+  border-color: var(--primary);
+  background: #f0f4ff;
+}
+.stage-card .s-icon { font-size: 28px; }
+.stage-card .s-info { flex: 1; }
+.stage-card .s-name { font-size: 16px; font-weight: 700; color: var(--text); }
+.stage-card .s-desc { font-size: 12px; color: var(--text-muted); margin-top: 3px; }
+.stage-card.selected .s-name { color: var(--primary); }
 
-  /* VAS Section */
-  .vas-card {
-    margin: 16px;
-    background: #f8f9ff;
-    border-radius: 20px;
-    padding: 20px;
-    border: 1px solid #e8ecf8;
-  }
-  .vas-label {
-    font-size: 15px;
-    font-weight: 700;
-    color: #002855;
-    margin-bottom: 6px;
-  }
-  .vas-sub {
-    font-size: 12px;
-    color: #999;
-    margin-bottom: 16px;
-  }
-  .vas-score-display {
-    text-align: center;
-    margin-bottom: 12px;
-  }
-  .vas-score-num {
-    font-size: 48px;
-    font-weight: 800;
-    color: #002855;
-    transition: color 0.3s;
-    line-height: 1;
-  }
-  .vas-score-label {
-    font-size: 13px;
-    color: #666;
-    margin-top: 4px;
-    transition: color 0.3s;
-    font-weight: 500;
-  }
-  .vas-slider-wrap { position: relative; margin: 8px 0 16px; }
-  input[type=range] {
-    -webkit-appearance: none;
-    width: 100%;
-    height: 8px;
-    border-radius: 4px;
-    outline: none;
-    cursor: pointer;
-    transition: background 0.3s;
-  }
-  input[type=range]::-webkit-slider-thumb {
-    -webkit-appearance: none;
-    width: 26px; height: 26px;
-    border-radius: 50%;
-    background: #fff;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
-    border: 3px solid #002855;
-    cursor: pointer;
-    transition: border-color 0.3s;
-  }
-  .vas-ticks {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 6px;
-    padding: 0 2px;
-  }
-  .vas-ticks span { font-size: 10px; color: #bbb; }
-  .vas-submit {
-    width: 100%;
-    padding: 13px;
-    background: #002855;
-    color: #fff;
-    border: none;
-    border-radius: 12px;
-    font-size: 15px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: opacity 0.1s, transform 0.1s;
-    -webkit-tap-highlight-color: transparent;
-  }
-  .vas-submit:active { opacity: 0.85; transform: scale(0.98); }
+/* Buttons */
+.btn-primary {
+  display: block;
+  width: 100%;
+  padding: 16px;
+  background: var(--primary);
+  color: white;
+  font-size: 17px;
+  font-weight: 700;
+  border: none;
+  border-radius: 14px;
+  cursor: pointer;
+  text-align: center;
+  transition: background 0.2s;
+}
+.btn-primary:active { background: var(--primary-light); }
 
-  /* Prescription */
-  .prescription { display: none; padding-bottom: 80px; }
-  .prescription.visible { display: block; }
-  .section-header {
-    padding: 16px 16px 8px;
-    font-size: 13px;
-    font-weight: 700;
-    color: #002855;
-    display: flex;
-    align-items: center;
-    gap: 6px;
-  }
-  .section-header .emoji { font-size: 16px; }
+/* ====== HOME ====== */
+#screen-home {
+  padding-bottom: var(--nav-height);
+}
+.home-header {
+  background: var(--primary);
+  padding: 48px 20px 24px;
+  color: white;
+}
+.home-header h2 { font-size: 22px; font-weight: 700; }
+.home-header p { font-size: 14px; color: rgba(255,255,255,0.7); margin-top: 4px; }
+.home-scroll {
+  flex: 1;
+  overflow-y: auto;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
 
-  /* Care cards */
-  .care-card {
-    margin: 0 16px 10px;
-    background: #f8f9ff;
-    border-radius: 16px;
-    padding: 16px;
-    border: 1px solid #e8ecf8;
-    cursor: pointer;
-    transition: transform 0.15s;
-    -webkit-tap-highlight-color: transparent;
-  }
-  .care-card:active { transform: scale(0.98); }
-  .care-card-title {
-    font-size: 14px;
-    font-weight: 600;
-    color: #002855;
-    margin-bottom: 4px;
-  }
-  .care-card-desc {
-    font-size: 12px;
-    color: #888;
-  }
-  .care-card-device {
-    display: inline-block;
-    margin-top: 8px;
-    padding: 4px 10px;
-    background: #002855;
-    color: #fff;
-    font-size: 11px;
-    font-weight: 600;
-    border-radius: 20px;
-  }
+/* VAS Card */
+.card {
+  background: white;
+  border-radius: var(--radius);
+  padding: 20px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+}
+.card-title { font-size: 13px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 12px; }
+.vas-value { font-size: 48px; font-weight: 800; text-align: center; margin: 8px 0; }
+.vas-label { text-align: center; font-size: 13px; color: var(--text-muted); margin-bottom: 12px; }
+input[type=range] {
+  width: 100%;
+  height: 8px;
+  -webkit-appearance: none;
+  appearance: none;
+  border-radius: 4px;
+  outline: none;
+  cursor: pointer;
+}
+input[type=range]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: white;
+  border: 3px solid var(--primary);
+  cursor: pointer;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+}
+.vas-ticks { display: flex; justify-content: space-between; margin-top: 6px; }
+.vas-ticks span { font-size: 11px; color: var(--text-muted); }
 
-  /* Video cards */
-  .video-cards {
-    display: flex;
-    gap: 10px;
-    padding: 0 16px;
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
-  }
-  .video-cards::-webkit-scrollbar { display: none; }
-  .video-card {
-    flex-shrink: 0;
-    width: 140px;
-    cursor: pointer;
-    -webkit-tap-highlight-color: transparent;
-    transition: transform 0.15s;
-  }
-  .video-card:active { transform: scale(0.96); }
-  .video-thumb {
-    width: 140px;
-    height: 88px;
-    background: linear-gradient(135deg, #002855, #0057b7);
-    border-radius: 12px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: relative;
-    overflow: hidden;
-  }
-  .video-thumb .play-btn {
-    width: 36px; height: 36px;
-    background: rgba(255,255,255,0.9);
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 14px;
-  }
-  .video-thumb .duration {
-    position: absolute;
-    bottom: 6px; right: 8px;
-    font-size: 10px;
-    color: #fff;
-    font-weight: 600;
-    background: rgba(0,0,0,0.5);
-    padding: 2px 5px;
-    border-radius: 4px;
-  }
-  .video-num {
-    position: absolute;
-    top: 6px; left: 8px;
-    font-size: 10px;
-    color: rgba(255,255,255,0.8);
-    font-weight: 600;
-  }
-  .video-title {
-    font-size: 12px;
-    font-weight: 500;
-    color: #333;
-    margin-top: 6px;
-    line-height: 1.4;
-  }
+/* Prescription */
+.rx-section { margin-top: 8px; }
+.rx-section-title {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.rx-text-card {
+  background: #f0f4ff;
+  border-radius: 12px;
+  padding: 14px 16px;
+  font-size: 14px;
+  color: var(--text);
+  margin-bottom: 16px;
+  line-height: 1.5;
+}
+.video-cards { display: flex; flex-direction: column; gap: 10px; margin-bottom: 16px; }
+.video-card {
+  background: white;
+  border: 1px solid #e0e6ed;
+  border-radius: 12px;
+  padding: 14px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  transition: background 0.15s;
+}
+.video-card:active { background: #f5f7fa; }
+.video-thumb {
+  width: 56px;
+  height: 56px;
+  background: linear-gradient(135deg, var(--primary), var(--accent));
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+  flex-shrink: 0;
+}
+.video-info { flex: 1; }
+.video-title { font-size: 14px; font-weight: 600; color: var(--text); }
+.video-meta { font-size: 12px; color: var(--text-muted); margin-top: 3px; }
+.video-play { font-size: 18px; color: var(--text-muted); }
 
-  .btn-routine {
-    margin: 12px 16px 0;
-    width: calc(100% - 32px);
-    padding: 14px;
-    background: #002855;
-    color: #fff;
-    border: none;
-    border-radius: 12px;
-    font-size: 14px;
-    font-weight: 600;
-    cursor: pointer;
-    -webkit-tap-highlight-color: transparent;
-    transition: opacity 0.1s, transform 0.1s;
-  }
-  .btn-routine:active { opacity: 0.85; transform: scale(0.98); }
+/* Emergency button */
+.emergency-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  padding: 14px;
+  background: #fff0f0;
+  border: 2px solid #ffcccc;
+  border-radius: 14px;
+  color: #cc0000;
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+}
+.emergency-btn:active { background: #ffe0e0; }
 
-  /* Emergency button */
-  .emergency-btn {
-    margin: 16px 16px 0;
-    width: calc(100% - 32px);
-    padding: 13px;
-    background: #fff;
-    color: #e53e3e;
-    border: 2px solid #ffd6d6;
-    border-radius: 12px;
-    font-size: 14px;
-    font-weight: 600;
-    cursor: pointer;
-    -webkit-tap-highlight-color: transparent;
-    transition: background 0.15s;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-  }
-  .emergency-btn:active { background: #fff5f5; }
+/* ====== JOURNEY ====== */
+#screen-journey {
+  padding-bottom: var(--nav-height);
+}
+.journey-header {
+  background: var(--primary);
+  padding: 48px 20px 24px;
+  color: white;
+}
+.journey-header h2 { font-size: 22px; font-weight: 700; }
+.journey-scroll {
+  flex: 1;
+  overflow-y: auto;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.stats-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.stat-card { background: white; border-radius: var(--radius); padding: 20px; text-align: center; box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
+.stat-value { font-size: 36px; font-weight: 800; color: var(--primary); }
+.stat-unit { font-size: 14px; color: var(--text-muted); font-weight: 600; }
+.stat-label { font-size: 12px; color: var(--text-muted); margin-top: 4px; }
+.encourage-card {
+  background: linear-gradient(135deg, var(--primary), var(--primary-light));
+  border-radius: var(--radius);
+  padding: 20px;
+  color: white;
+}
+.encourage-card .enc-label { font-size: 12px; color: rgba(255,255,255,0.7); margin-bottom: 8px; font-weight: 600; }
+.encourage-card .enc-text { font-size: 15px; line-height: 1.6; }
 
-  /* ===================== JOURNEY ===================== */
-  .journey-header {
-    background: #002855;
-    padding: 44px 20px 20px;
-    color: #fff;
-    flex-shrink: 0;
-  }
-  .journey-title {
-    font-size: 20px;
-    font-weight: 700;
-  }
-  .journey-sub {
-    font-size: 13px;
-    color: rgba(255,255,255,0.7);
-    margin-top: 4px;
-  }
-  .stat-row {
-    display: flex;
-    gap: 10px;
-    padding: 16px;
-  }
-  .stat-card {
-    flex: 1;
-    background: #f8f9ff;
-    border-radius: 16px;
-    padding: 16px;
-    text-align: center;
-    border: 1px solid #e8ecf8;
-  }
-  .stat-num {
-    font-size: 32px;
-    font-weight: 800;
-    color: #002855;
-    line-height: 1;
-    margin-bottom: 4px;
-  }
-  .stat-label {
-    font-size: 11px;
-    color: #888;
-    font-weight: 500;
-  }
-  .chart-card {
-    margin: 0 16px;
-    background: #f8f9ff;
-    border-radius: 20px;
-    padding: 20px;
-    border: 1px solid #e8ecf8;
-  }
-  .chart-title {
-    font-size: 14px;
-    font-weight: 700;
-    color: #002855;
-    margin-bottom: 4px;
-  }
-  .chart-sub {
-    font-size: 11px;
-    color: #aaa;
-    margin-bottom: 16px;
-  }
-  svg.chart { width: 100%; overflow: visible; }
-  .encourage-card {
-    margin: 16px;
-    background: linear-gradient(135deg, #002855, #0057b7);
-    border-radius: 20px;
-    padding: 20px;
-    color: #fff;
-    display: flex;
-    gap: 14px;
-    align-items: flex-start;
-  }
-  .encourage-avatar {
-    width: 44px; height: 44px;
-    background: rgba(255,255,255,0.15);
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 24px;
-    flex-shrink: 0;
-  }
-  .encourage-text {
-    font-size: 14px;
-    line-height: 1.6;
-    color: rgba(255,255,255,0.9);
-  }
-  .encourage-name {
-    font-size: 12px;
-    color: rgba(255,255,255,0.6);
-    margin-top: 6px;
-    font-weight: 600;
-  }
+/* ====== BOTTOM NAV ====== */
+#bottom-nav {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: var(--nav-height);
+  background: white;
+  border-top: 1px solid #e0e6ed;
+  display: none;
+  z-index: 100;
+}
+#bottom-nav.visible { display: flex; }
+.nav-item {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  cursor: pointer;
+  padding: 8px;
+  color: var(--text-muted);
+  font-size: 11px;
+  font-weight: 600;
+  transition: color 0.2s;
+  border: none;
+  background: none;
+}
+.nav-item.active { color: var(--primary); }
+.nav-icon { font-size: 22px; }
 
-  /* ===================== MODALS ===================== */
-  .modal-overlay {
-    position: absolute;
-    top: 0; left: 0; width: 100%; height: 100%;
-    background: rgba(0,0,0,0.5);
-    display: none;
-    align-items: flex-end;
-    z-index: 200;
-    backdrop-filter: blur(2px);
-  }
-  .modal-overlay.open { display: flex; }
-  .modal-sheet {
-    width: 100%;
-    background: #fff;
-    border-radius: 24px 24px 0 0;
-    padding: 16px 24px 36px;
-    animation: slideUp 0.3s cubic-bezier(.4,0,.2,1);
-  }
-  @keyframes slideUp {
-    from { transform: translateY(100%); }
-    to { transform: translateY(0); }
-  }
-  .modal-handle {
-    width: 36px; height: 4px;
-    background: #e0e0e0;
-    border-radius: 2px;
-    margin: 0 auto 20px;
-  }
-  .modal-title {
-    font-size: 18px;
-    font-weight: 700;
-    color: #002855;
-    margin-bottom: 8px;
-  }
-  .modal-body {
-    font-size: 14px;
-    color: #555;
-    line-height: 1.7;
-    margin-bottom: 20px;
-  }
-  .modal-actions { display: flex; gap: 10px; }
-  .modal-btn {
-    flex: 1;
-    padding: 14px;
-    border: none;
-    border-radius: 12px;
-    font-size: 14px;
-    font-weight: 600;
-    cursor: pointer;
-    -webkit-tap-highlight-color: transparent;
-  }
-  .modal-btn.primary { background: #002855; color: #fff; }
-  .modal-btn.secondary { background: #f0f0f0; color: #333; }
-  .emergency-option {
-    padding: 14px 16px;
-    background: #f8f9ff;
-    border-radius: 12px;
-    margin-bottom: 10px;
-    cursor: pointer;
-    -webkit-tap-highlight-color: transparent;
-    transition: background 0.15s;
-  }
-  .emergency-option:active { background: #eef0ff; }
-  .emergency-option-title { font-size: 14px; font-weight: 600; color: #002855; margin-bottom: 3px; }
-  .emergency-option-desc { font-size: 12px; color: #888; }
+/* ====== OVERLAYS ====== */
+.overlay {
+  position: absolute;
+  inset: 0;
+  display: none;
+  z-index: 200;
+}
+.overlay.visible { display: flex; }
 
-  /* Video play simulation */
-  .video-playing-overlay {
-    position: absolute;
-    top: 0; left: 0; width: 100%; height: 100%;
-    background: #000;
-    z-index: 300;
-    display: none;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    color: #fff;
-  }
-  .video-playing-overlay.open { display: flex; }
-  .video-play-icon { font-size: 60px; margin-bottom: 16px; }
-  .video-play-title { font-size: 18px; font-weight: 700; margin-bottom: 8px; }
-  .video-play-sub { font-size: 13px; color: rgba(255,255,255,0.6); margin-bottom: 40px; }
-  .video-progress-bar {
-    width: 80%;
-    height: 4px;
-    background: rgba(255,255,255,0.2);
-    border-radius: 2px;
-    margin-bottom: 24px;
-    overflow: hidden;
-  }
-  .video-progress-fill {
-    height: 100%;
-    background: #fff;
-    border-radius: 2px;
-    width: 0%;
-    animation: videoProgress 3s linear forwards;
-  }
-  @keyframes videoProgress {
-    to { width: 100%; }
-  }
-  .video-close-btn {
-    padding: 12px 32px;
-    background: rgba(255,255,255,0.15);
-    color: #fff;
-    border: none;
-    border-radius: 24px;
-    font-size: 14px;
-    font-weight: 600;
-    cursor: pointer;
-  }
+/* Video player overlay */
+#video-overlay {
+  background: black;
+  flex-direction: column;
+}
+.video-player-area {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+.play-big { font-size: 72px; cursor: pointer; }
+.video-controls {
+  background: rgba(0,0,0,0.8);
+  padding: 16px 20px 24px;
+  color: white;
+}
+.video-title-bar { font-size: 16px; font-weight: 700; margin-bottom: 12px; }
+.seek-bar {
+  width: 100%;
+  height: 4px;
+  background: rgba(255,255,255,0.3);
+  border-radius: 2px;
+  margin-bottom: 10px;
+  position: relative;
+  overflow: hidden;
+}
+.seek-fill {
+  height: 100%;
+  background: var(--accent);
+  border-radius: 2px;
+  width: 30%;
+  animation: seekAnim 4s linear infinite;
+}
+@keyframes seekAnim { from { width: 0% } to { width: 100% } }
+.video-bottom { display: flex; justify-content: space-between; align-items: center; }
+.close-btn {
+  background: rgba(255,255,255,0.1);
+  border: none;
+  color: white;
+  font-size: 14px;
+  padding: 8px 16px;
+  border-radius: 8px;
+  cursor: pointer;
+}
 
-  /* Color status helpers */
-  .status-green { color: #22c55e; }
-  .status-yellow { color: #f59e0b; }
-  .status-orange { color: #f97316; }
-  .status-red { color: #ef4444; }
+/* Emergency modal */
+#emergency-overlay {
+  background: rgba(0,0,0,0.6);
+  align-items: flex-end;
+}
+.emergency-sheet {
+  background: white;
+  border-radius: 24px 24px 0 0;
+  padding: 24px 20px 36px;
+  width: 100%;
+}
+.sheet-handle { width: 40px; height: 4px; background: #ddd; border-radius: 2px; margin: 0 auto 20px; }
+.sheet-title { font-size: 20px; font-weight: 800; color: #cc0000; margin-bottom: 6px; }
+.sheet-sub { font-size: 14px; color: var(--text-muted); margin-bottom: 20px; }
+.emergency-option {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 16px;
+  background: #f5f7fa;
+  border-radius: 14px;
+  cursor: pointer;
+  margin-bottom: 10px;
+  border: none;
+  width: 100%;
+  text-align: left;
+}
+.emergency-option:active { background: #eef0f5; }
+.emergency-option .eo-icon { font-size: 28px; }
+.emergency-option .eo-info { flex: 1; }
+.emergency-option .eo-title { font-size: 15px; font-weight: 700; color: var(--text); }
+.emergency-option .eo-desc { font-size: 12px; color: var(--text-muted); margin-top: 2px; }
+.sheet-close {
+  display: block;
+  width: 100%;
+  padding: 14px;
+  background: none;
+  border: 2px solid #e0e6ed;
+  border-radius: 14px;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text-muted);
+  cursor: pointer;
+  margin-top: 4px;
+}
+
+/* Cross-sell popup */
+#crosssell-overlay {
+  background: rgba(0,0,0,0.6);
+  align-items: flex-end;
+}
+.crosssell-sheet {
+  background: white;
+  border-radius: 24px 24px 0 0;
+  padding: 24px 20px 36px;
+  width: 100%;
+}
+.cs-tag {
+  display: inline-block;
+  background: #002855;
+  color: white;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 4px 10px;
+  border-radius: 20px;
+  margin-bottom: 12px;
+}
+.cs-title { font-size: 20px; font-weight: 800; color: var(--text); line-height: 1.4; margin-bottom: 10px; }
+.cs-body { font-size: 14px; color: var(--text-muted); line-height: 1.6; margin-bottom: 20px; }
+.cs-product {
+  background: #f0f4ff;
+  border-radius: 14px;
+  padding: 16px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 16px;
+}
+.cs-product-icon { font-size: 36px; }
+.cs-product-info { flex: 1; }
+.cs-product-name { font-size: 16px; font-weight: 700; color: var(--primary); }
+.cs-product-sub { font-size: 12px; color: var(--text-muted); margin-top: 3px; }
+.cs-btn-row { display: flex; gap: 10px; }
+.cs-btn-secondary {
+  flex: 1;
+  padding: 14px;
+  background: none;
+  border: 2px solid #e0e6ed;
+  border-radius: 14px;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-muted);
+  cursor: pointer;
+}
+.cs-btn-primary {
+  flex: 2;
+  padding: 14px;
+  background: var(--primary);
+  border: none;
+  border-radius: 14px;
+  font-size: 14px;
+  font-weight: 700;
+  color: white;
+  cursor: pointer;
+}
+
+/* SVG chart */
+.chart-wrap { overflow: visible; }
 </style>
 </head>
 <body>
 
-<div class="phone">
-  <div class="phone-notch"></div>
-  <div class="phone-screen" id="app">
+<div id="app-wrapper">
+<div id="app">
 
-    <!-- ========== WELCOME ========== -->
-    <div class="screen active" id="screen-welcome">
-      <div class="welcome-logo">🦴</div>
-      <div class="welcome-title">1분도수에<br>오신 것을 환영합니다</div>
-      <div class="welcome-sub">집에서 하는 정확한 목 재활<br>매일 1분, 꾸준히 회복하세요</div>
-      <button class="btn-primary" onclick="goTo('screen-q1')">시작하기 →</button>
-    </div>
+<!-- ====== SCREEN: WELCOME ====== -->
+<div id="screen-welcome" class="screen active">
+  <div class="welcome-logo">🦴</div>
+  <div class="welcome-title">1분도수</div>
+  <p class="welcome-sub">매일 1분, 전문 도수치료사가 설계한<br>맞춤 운동 처방전을 받아보세요.</p>
+  <button class="btn-primary" onclick="goTo('screen-q1')">시작하기 →</button>
+</div>
 
-    <!-- ========== Q1: 기기 ========== -->
-    <div class="screen onboard-screen" id="screen-q1">
-      <div class="onboard-header">
-        <div class="onboard-step">1 / 2 &nbsp;·&nbsp; 기기 확인</div>
-        <div class="onboard-q">어떤 기기를<br>보유하고 계신가요?</div>
-        <div style="font-size:12px;color:rgba(255,255,255,0.6);margin-top:8px;">복수 선택 가능</div>
-        <div class="progress-bar"><div class="progress-fill" style="width:50%"></div></div>
+<!-- ====== SCREEN: Q1 기기 ====== -->
+<div id="screen-q1" class="screen">
+  <div class="onboard-header">
+    <div class="onboard-step">STEP 1 / 2</div>
+    <h2>보유하신 기기를<br>선택해주세요</h2>
+    <div class="progress-bar"><div class="progress-fill" style="width:50%"></div></div>
+  </div>
+  <div class="onboard-body">
+    <p style="font-size:13px;color:var(--text-muted);margin-bottom:16px;">복수 선택 가능</p>
+    <div class="device-grid">
+      <div class="device-card" onclick="toggleDevice(this, 'ES-808')">
+        <div class="icon">⚡</div>
+        <div class="name">ES-808</div>
+        <div class="desc">전기자극 치료기</div>
       </div>
-      <div class="onboard-body">
-        <button class="choice-btn" onclick="toggleChoice(this)">
-          <span class="choice-icon">⚡</span>
-          <div>
-            <div style="font-weight:600">ES-808</div>
-            <div style="font-size:12px;color:#888;margin-top:2px">전기자극 목 케어 기기</div>
-          </div>
-        </button>
-        <button class="choice-btn" onclick="toggleChoice(this)">
-          <span class="choice-icon">🌊</span>
-          <div>
-            <div style="font-weight:600">WS-200</div>
-            <div style="font-size:12px;color:#888;margin-top:2px">온열 마사지 기기</div>
-          </div>
-        </button>
-        <button class="choice-btn" onclick="toggleChoice(this)">
-          <span class="choice-icon">🌙</span>
-          <div>
-            <div style="font-weight:600">CS-25</div>
-            <div style="font-size:12px;color:#888;margin-top:2px">C커브 견인 베개</div>
-          </div>
-        </button>
-        <button class="choice-btn" onclick="toggleChoice(this)">
-          <span class="choice-icon">🛒</span>
-          <div>
-            <div style="font-weight:600">아직 없어요</div>
-            <div style="font-size:12px;color:#888;margin-top:2px">기기 없이 시작해요</div>
-          </div>
-        </button>
+      <div class="device-card" onclick="toggleDevice(this, 'WS-200')">
+        <div class="icon">🌊</div>
+        <div class="name">WS-200</div>
+        <div class="desc">수압 마사지</div>
       </div>
-      <div class="onboard-footer">
-        <button class="btn-primary dark" onclick="goTo('screen-q2')">다음 →</button>
+      <div class="device-card" onclick="toggleDevice(this, 'CS-25')">
+        <div class="icon">🌙</div>
+        <div class="name">CS-25</div>
+        <div class="desc">경추 견인기</div>
+      </div>
+      <div class="device-card" onclick="toggleDevice(this, 'none')">
+        <div class="icon">🛒</div>
+        <div class="name">미보유</div>
+        <div class="desc">기기 없이 시작</div>
       </div>
     </div>
+    <button class="btn-primary" onclick="goTo('screen-q2')">다음</button>
+  </div>
+</div>
 
-    <!-- ========== Q2: 시기 ========== -->
-    <div class="screen onboard-screen" id="screen-q2">
-      <div class="onboard-header">
-        <div class="onboard-step">2 / 2 &nbsp;·&nbsp; 회복 단계</div>
-        <div class="onboard-q">현재 어떤 상태인가요?</div>
-        <div style="font-size:12px;color:rgba(255,255,255,0.6);margin-top:8px;">가장 가까운 것을 선택하세요</div>
-        <div class="progress-bar"><div class="progress-fill" style="width:100%"></div></div>
-      </div>
-      <div class="onboard-body">
-        <button class="choice-btn" onclick="selectSingle(this,'period')">
-          <span class="choice-icon">🔴</span>
-          <div>
-            <div style="font-weight:600">급성기</div>
-            <div style="font-size:12px;color:#888;margin-top:2px">통증 시작 2주 이내, 가만히 있어도 아픔</div>
-          </div>
-        </button>
-        <button class="choice-btn" onclick="selectSingle(this,'period')">
-          <span class="choice-icon">🟡</span>
-          <div>
-            <div style="font-weight:600">아급성기</div>
-            <div style="font-size:12px;color:#888;margin-top:2px">2주~3개월, 움직이면 불편</div>
-          </div>
-        </button>
-        <button class="choice-btn" onclick="selectSingle(this,'period')">
-          <span class="choice-icon">🟢</span>
-          <div>
-            <div style="font-weight:600">만성기</div>
-            <div style="font-size:12px;color:#888;margin-top:2px">3개월 이상, 재발 방지 단계</div>
-          </div>
-        </button>
-      </div>
-      <div class="onboard-footer">
-        <button class="btn-primary dark" onclick="startApp()">1분도수 시작하기 🚀</button>
-      </div>
-    </div>
-
-    <!-- ========== HOME ========== -->
-    <div class="screen" id="screen-home">
-      <div class="home-header">
-        <div class="home-greeting">안녕하세요 👋 오늘도 화이팅!</div>
-        <div class="home-title">목 컨디션 체크</div>
-      </div>
-      <div class="scroll-content" id="home-scroll">
-        <!-- VAS card -->
-        <div class="vas-card" id="vas-card">
-          <div class="vas-label">오늘 목 컨디션은 몇 점인가요?</div>
-          <div class="vas-sub">1 = 거의 괜찮음 · 10 = 참기 힘든 통증</div>
-          <div class="vas-score-display">
-            <div class="vas-score-num" id="vas-num">5</div>
-            <div class="vas-score-label" id="vas-label-text">🟡 고개 돌리면 불편</div>
-          </div>
-          <div class="vas-slider-wrap">
-            <input type="range" id="vas-slider" min="1" max="10" value="5" oninput="updateVAS(this.value)">
-          </div>
-          <div class="vas-ticks">
-            <span>1</span><span>2</span><span>3</span><span>4</span><span>5</span>
-            <span>6</span><span>7</span><span>8</span><span>9</span><span>10</span>
-          </div>
-          <button class="vas-submit" style="margin-top:16px" onclick="submitVAS()">오늘의 처방전 받기 ✓</button>
+<!-- ====== SCREEN: Q2 단계 ====== -->
+<div id="screen-q2" class="screen">
+  <div class="onboard-header">
+    <div class="onboard-step">STEP 2 / 2</div>
+    <h2>현재 회복 단계를<br>알려주세요</h2>
+    <div class="progress-bar"><div class="progress-fill" style="width:100%"></div></div>
+  </div>
+  <div class="onboard-body">
+    <div class="stage-list">
+      <div class="stage-card" onclick="selectStage(this, 'acute')">
+        <div class="s-icon">🔴</div>
+        <div class="s-info">
+          <div class="s-name">급성기</div>
+          <div class="s-desc">통증이 심하고 움직이기 힘들어요</div>
         </div>
+      </div>
+      <div class="stage-card" onclick="selectStage(this, 'subacute')">
+        <div class="s-icon">🟡</div>
+        <div class="s-info">
+          <div class="s-name">아급성기</div>
+          <div class="s-desc">통증이 조금 줄었지만 불편해요</div>
+        </div>
+      </div>
+      <div class="stage-card" onclick="selectStage(this, 'chronic')">
+        <div class="s-icon">🟢</div>
+        <div class="s-info">
+          <div class="s-name">만성기</div>
+          <div class="s-desc">만성 통증, 재발 방지가 필요해요</div>
+        </div>
+      </div>
+    </div>
+    <button class="btn-primary" onclick="startApp()">처방전 받기</button>
+  </div>
+</div>
 
-        <!-- Prescription (hidden until VAS submit) -->
-        <div class="prescription" id="prescription">
+<!-- ====== SCREEN: HOME ====== -->
+<div id="screen-home" class="screen">
+  <div class="home-header">
+    <h2>안녕하세요, 미영 님 👋</h2>
+    <p>오늘도 회복을 향해 한 걸음씩</p>
+  </div>
+  <div class="home-scroll">
 
-          <!-- 운동 전 케어 -->
-          <div class="section-header"><span class="emoji">⚡</span> 운동 전 케어</div>
-          <div class="care-card" onclick="openModal('modal-es808')">
-            <div class="care-card-title">ES-808 전기자극 케어 · 15분</div>
-            <div class="care-card-desc">근육 이완 → 운동 효율 2배 UP</div>
-            <span class="care-card-device">ES-808 사용</span>
-          </div>
+    <!-- VAS 카드 -->
+    <div class="card">
+      <div class="card-title">오늘의 통증 점수 (VAS)</div>
+      <div class="vas-value" id="vas-display" style="color:#22c55e">3</div>
+      <div class="vas-label" id="vas-label">경미한 통증</div>
+      <input type="range" id="vas-slider" min="1" max="10" value="3" oninput="updateVas(this.value)">
+      <div class="vas-ticks">
+        <span>1<br>없음</span>
+        <span style="text-align:center">5<br>중등</span>
+        <span style="text-align:right">10<br>극심</span>
+      </div>
+    </div>
 
-          <!-- 본 운동 -->
-          <div class="section-header"><span class="emoji">🏃</span> 본 운동</div>
+    <!-- 처방전 받기 버튼 -->
+    <button class="btn-primary" onclick="showPrescription()">오늘의 처방전 받기 📋</button>
+
+    <!-- 처방전 섹션 (처음엔 숨김) -->
+    <div id="prescription" style="display:none">
+      <div class="card">
+        <div class="rx-section">
+          <div class="rx-section-title">⚡ 운동 전 케어</div>
+          <div class="rx-text-card">ES-808으로 3분간 목 양쪽에 전기자극을 적용하세요. 근육 이완 효과로 본 운동 효율이 높아집니다.</div>
+
+          <div class="rx-section-title">🏃 본 운동</div>
           <div class="video-cards">
-            <div class="video-card" onclick="playVideo('목 가동 운동 1단계', '00:58')">
-              <div class="video-thumb">
-                <span class="video-num">#1</span>
-                <div class="play-btn">▶</div>
-                <span class="duration">00:58</span>
+            <div class="video-card" onclick="playVideo('목 전방전단 교정 운동', '5:32')">
+              <div class="video-thumb">🎯</div>
+              <div class="video-info">
+                <div class="video-title">목 전방전단 교정 운동</div>
+                <div class="video-meta">5:32 · 도수치료사 직강</div>
               </div>
-              <div class="video-title">목 가동 운동<br>1단계</div>
+              <div class="video-play">▶</div>
             </div>
-            <div class="video-card" onclick="playVideo('턱 당기기 운동', '01:12')">
-              <div class="video-thumb" style="background:linear-gradient(135deg,#003f7f,#006ab7)">
-                <span class="video-num">#2</span>
-                <div class="play-btn">▶</div>
-                <span class="duration">01:12</span>
+            <div class="video-card" onclick="playVideo('경추 심부근 강화 운동', '7:15')">
+              <div class="video-thumb">💪</div>
+              <div class="video-info">
+                <div class="video-title">경추 심부근 강화 운동</div>
+                <div class="video-meta">7:15 · 레벨 1</div>
               </div>
-              <div class="video-title">턱 당기기<br>기본 동작</div>
+              <div class="video-play">▶</div>
             </div>
-            <div class="video-card" onclick="playVideo('경추 안정화 운동', '01:05')">
-              <div class="video-thumb" style="background:linear-gradient(135deg,#005599,#0077cc)">
-                <span class="video-num">#3</span>
-                <div class="play-btn">▶</div>
-                <span class="duration">01:05</span>
+            <div class="video-card" onclick="playVideo('흉추 가동성 운동', '4:48')">
+              <div class="video-thumb">🌀</div>
+              <div class="video-info">
+                <div class="video-title">흉추 가동성 운동</div>
+                <div class="video-meta">4:48 · 필수 보조 운동</div>
               </div>
-              <div class="video-title">경추 안정화<br>운동</div>
+              <div class="video-play">▶</div>
             </div>
           </div>
-          <button class="btn-routine" onclick="playVideo('오늘 루틴 전체', '03:15')">🎬 오늘 루틴 한 번에 따라하기</button>
 
-          <!-- 응급 버튼 -->
-          <button class="emergency-btn" onclick="openModal('modal-emergency')">
-            🚨 앗! 아파요 / 저려요
-          </button>
-
-          <!-- 사후 케어 -->
-          <div class="section-header" style="margin-top:8px"><span class="emoji">🛌</span> 사후 케어</div>
-          <div class="care-card" onclick="openModal('modal-cs25')">
-            <div class="care-card-title">CS-25 견인 케어 · 10분</div>
-            <div class="care-card-desc">자기 전 목 견인으로 디스크 간격 회복</div>
-            <span class="care-card-device">CS-25 사용</span>
-          </div>
-
-          <div style="height:20px"></div>
-        </div>
-      </div>
-
-      <!-- Nav -->
-      <div class="nav-bar">
-        <div class="nav-item active" onclick="switchTab('home')">
-          <span class="nav-icon">🏠</span>홈
-        </div>
-        <div class="nav-item" onclick="switchTab('journey')">
-          <span class="nav-icon">📈</span>나의 여정
+          <div class="rx-section-title">🛏️ 사후 케어</div>
+          <div class="rx-text-card">운동 후 10분, CS-25로 경추 견인을 시행하면 디스크 간격을 넓혀 회복을 가속화합니다.</div>
         </div>
       </div>
     </div>
 
-    <!-- ========== JOURNEY ========== -->
-    <div class="screen" id="screen-journey">
-      <div class="journey-header">
-        <div class="journey-title">나의 회복 여정 📈</div>
-        <div class="journey-sub">꾸준히 하고 있어요!</div>
+    <!-- 응급 버튼 -->
+    <button class="emergency-btn" onclick="showEmergency()">🚨 갑자기 통증이 심해졌어요</button>
+
+    <div style="height:8px"></div>
+  </div>
+</div>
+
+<!-- ====== SCREEN: JOURNEY ====== -->
+<div id="screen-journey" class="screen">
+  <div class="journey-header">
+    <h2>📈 나의 여정</h2>
+  </div>
+  <div class="journey-scroll">
+
+    <div class="stats-row">
+      <div class="stat-card">
+        <div class="stat-value">12</div>
+        <div class="stat-unit">일</div>
+        <div class="stat-label">운동 완료 일수</div>
       </div>
-      <div class="scroll-content">
-        <div class="stat-row">
-          <div class="stat-card">
-            <div class="stat-num">12</div>
-            <div class="stat-label">운동 완료 일수</div>
-          </div>
-          <div class="stat-card">
-            <div class="stat-num" style="color:#22c55e">🔥 5</div>
-            <div class="stat-label">연속 기록</div>
-          </div>
-        </div>
-
-        <!-- VAS Chart -->
-        <div class="chart-card">
-          <div class="chart-title">VAS 통증 추이</div>
-          <div class="chart-sub">최근 7일 · 낮을수록 좋아요</div>
-          <svg class="chart" viewBox="0 0 300 120" height="120">
-            <defs>
-              <linearGradient id="chartGrad" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="0%" stop-color="#002855" stop-opacity="0.15"/>
-                <stop offset="100%" stop-color="#002855" stop-opacity="0"/>
-              </linearGradient>
-            </defs>
-            <!-- Grid lines -->
-            <line x1="0" y1="20" x2="300" y2="20" stroke="#eee" stroke-width="1"/>
-            <line x1="0" y1="50" x2="300" y2="50" stroke="#eee" stroke-width="1"/>
-            <line x1="0" y1="80" x2="300" y2="80" stroke="#eee" stroke-width="1"/>
-            <line x1="0" y1="110" x2="300" y2="110" stroke="#eee" stroke-width="1"/>
-            <!-- Y labels -->
-            <text x="0" y="23" font-size="9" fill="#ccc">10</text>
-            <text x="0" y="53" font-size="9" fill="#ccc">7</text>
-            <text x="0" y="83" font-size="9" fill="#ccc">4</text>
-            <text x="0" y="113" font-size="9" fill="#ccc">1</text>
-            <!-- Area fill: data points mapped: val=(v-1)/9*(110-20)+20, x spacing=40 start=25 -->
-            <!-- Days: 8,7,7,6,5,4,4 → y: 8→97,7→87,7→87,6→77,5→67,4→57,4→57 -->
-            <polygon
-              points="25,97 65,87 105,87 145,77 185,67 225,57 265,57 265,110 25,110"
-              fill="url(#chartGrad)"/>
-            <polyline
-              points="25,97 65,87 105,87 145,77 185,67 225,57 265,57"
-              fill="none" stroke="#002855" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
-            <!-- Dots -->
-            <circle cx="25" cy="97" r="4" fill="#002855"/>
-            <circle cx="65" cy="87" r="4" fill="#002855"/>
-            <circle cx="105" cy="87" r="4" fill="#002855"/>
-            <circle cx="145" cy="77" r="4" fill="#002855"/>
-            <circle cx="185" cy="67" r="4" fill="#002855"/>
-            <circle cx="225" cy="57" r="4" fill="#002855"/>
-            <circle cx="265" cy="57" r="5" fill="#fff" stroke="#002855" stroke-width="2.5"/>
-            <!-- X labels -->
-            <text x="18" y="124" font-size="9" fill="#bbb">월</text>
-            <text x="58" y="124" font-size="9" fill="#bbb">화</text>
-            <text x="98" y="124" font-size="9" fill="#bbb">수</text>
-            <text x="138" y="124" font-size="9" fill="#bbb">목</text>
-            <text x="178" y="124" font-size="9" fill="#bbb">금</text>
-            <text x="218" y="124" font-size="9" fill="#bbb">토</text>
-            <text x="258" y="124" font-size="9" fill="#002855" font-weight="bold">오늘</text>
-            <!-- Score labels on last 3 dots -->
-            <text x="220" y="52" font-size="9" fill="#002855" font-weight="600">4</text>
-            <text x="260" y="52" font-size="9" fill="#002855" font-weight="600">4</text>
-          </svg>
-        </div>
-
-        <!-- Encourage -->
-        <div class="encourage-card">
-          <div class="encourage-avatar">👨‍⚕️</div>
-          <div>
-            <div class="encourage-text">
-              일주일 만에 VAS 8 → 4로 절반이나 줄었어요! 이 속도라면 2주 안에 일상생활이 훨씬 편해질 거예요. 지금처럼만 해주세요 💪
-            </div>
-            <div class="encourage-name">1분도수 원장님</div>
-          </div>
-        </div>
-
-        <div style="height:80px"></div>
-      </div>
-
-      <!-- Nav -->
-      <div class="nav-bar">
-        <div class="nav-item" onclick="switchTab('home')">
-          <span class="nav-icon">🏠</span>홈
-        </div>
-        <div class="nav-item active" onclick="switchTab('journey')">
-          <span class="nav-icon">📈</span>나의 여정
-        </div>
+      <div class="stat-card">
+        <div class="stat-value">🔥5</div>
+        <div class="stat-unit"></div>
+        <div class="stat-label">연속 기록</div>
       </div>
     </div>
 
-    <!-- ========== MODALS ========== -->
-
-    <!-- ES-808 modal -->
-    <div class="modal-overlay" id="modal-es808" onclick="closeModalOutside(event,'modal-es808')">
-      <div class="modal-sheet">
-        <div class="modal-handle"></div>
-        <div class="modal-title">⚡ ES-808 전기자극 케어</div>
-        <div class="modal-body">
-          운동 전 15분 전기자극으로 목 근육을 이완시켜 주세요.<br><br>
-          <strong>사용 방법</strong><br>
-          1. 패드를 목 양쪽 근육에 부착<br>
-          2. 강도 3단계부터 시작<br>
-          3. 편안한 느낌이 드는 강도 유지<br><br>
-          <span style="color:#002855;font-weight:600">운동 효율이 2배 높아져요 ✓</span>
-        </div>
-        <div class="modal-actions">
-          <button class="modal-btn secondary" onclick="closeModal('modal-es808')">닫기</button>
-          <button class="modal-btn primary" onclick="closeModal('modal-es808')">확인했어요 ✓</button>
-        </div>
-      </div>
+    <!-- VAS 그래프 -->
+    <div class="card">
+      <div class="card-title">VAS 7일 추이</div>
+      <svg width="100%" viewBox="0 0 320 140" class="chart-wrap">
+        <!-- Grid lines -->
+        <line x1="30" y1="10" x2="30" y2="110" stroke="#e0e6ed" stroke-width="1"/>
+        <line x1="30" y1="110" x2="310" y2="110" stroke="#e0e6ed" stroke-width="1"/>
+        <line x1="30" y1="10" x2="310" y2="10" stroke="#f0f0f0" stroke-width="1" stroke-dasharray="4,3"/>
+        <line x1="30" y1="35" x2="310" y2="35" stroke="#f0f0f0" stroke-width="1" stroke-dasharray="4,3"/>
+        <line x1="30" y1="60" x2="310" y2="60" stroke="#f0f0f0" stroke-width="1" stroke-dasharray="4,3"/>
+        <line x1="30" y1="85" x2="310" y2="85" stroke="#f0f0f0" stroke-width="1" stroke-dasharray="4,3"/>
+        <!-- Y axis labels -->
+        <text x="24" y="14" text-anchor="end" font-size="9" fill="#aaa">10</text>
+        <text x="24" y="39" text-anchor="end" font-size="9" fill="#aaa">7</text>
+        <text x="24" y="64" text-anchor="end" font-size="9" fill="#aaa">5</text>
+        <text x="24" y="89" text-anchor="end" font-size="9" fill="#aaa">2</text>
+        <!-- Data: VAS scores 7,6,5,4,5,3,3 -->
+        <!-- x: 30+(i*40+20), y: 110 - (val/10)*100 -->
+        <!-- points: (50,40) (90,50) (130,60) (170,70) (210,60) (250,80) (290,80) -->
+        <polyline points="50,40 90,50 130,60 170,70 210,60 250,80 290,80"
+          fill="none" stroke="#002855" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+        <!-- Area fill -->
+        <polygon points="50,40 90,50 130,60 170,70 210,60 250,80 290,80 290,110 50,110"
+          fill="rgba(0,40,85,0.08)"/>
+        <!-- Dots -->
+        <circle cx="50" cy="40" r="5" fill="white" stroke="#002855" stroke-width="2.5"/>
+        <circle cx="90" cy="50" r="5" fill="white" stroke="#002855" stroke-width="2.5"/>
+        <circle cx="130" cy="60" r="5" fill="white" stroke="#002855" stroke-width="2.5"/>
+        <circle cx="170" cy="70" r="5" fill="white" stroke="#002855" stroke-width="2.5"/>
+        <circle cx="210" cy="60" r="5" fill="white" stroke="#002855" stroke-width="2.5"/>
+        <circle cx="250" cy="80" r="5" fill="white" stroke="#002855" stroke-width="2.5"/>
+        <circle cx="290" cy="80" r="5" fill="#002855" stroke="#002855" stroke-width="2.5"/>
+        <!-- X labels -->
+        <text x="50" y="126" text-anchor="middle" font-size="9" fill="#aaa">월</text>
+        <text x="90" y="126" text-anchor="middle" font-size="9" fill="#aaa">화</text>
+        <text x="130" y="126" text-anchor="middle" font-size="9" fill="#aaa">수</text>
+        <text x="170" y="126" text-anchor="middle" font-size="9" fill="#aaa">목</text>
+        <text x="210" y="126" text-anchor="middle" font-size="9" fill="#aaa">금</text>
+        <text x="250" y="126" text-anchor="middle" font-size="9" fill="#aaa">토</text>
+        <text x="290" y="126" text-anchor="middle" font-size="9" fill="#002855" font-weight="bold">오늘</text>
+        <!-- VAS value labels -->
+        <text x="50" y="34" text-anchor="middle" font-size="9" fill="#666">7</text>
+        <text x="90" y="44" text-anchor="middle" font-size="9" fill="#666">6</text>
+        <text x="130" y="54" text-anchor="middle" font-size="9" fill="#666">5</text>
+        <text x="170" y="64" text-anchor="middle" font-size="9" fill="#666">4</text>
+        <text x="210" y="54" text-anchor="middle" font-size="9" fill="#666">5</text>
+        <text x="250" y="74" text-anchor="middle" font-size="9" fill="#666">3</text>
+        <text x="290" y="74" text-anchor="middle" font-size="9" fill="#002855" font-weight="bold">3</text>
+      </svg>
     </div>
 
-    <!-- CS-25 modal -->
-    <div class="modal-overlay" id="modal-cs25" onclick="closeModalOutside(event,'modal-cs25')">
-      <div class="modal-sheet">
-        <div class="modal-handle"></div>
-        <div class="modal-title">🛌 CS-25 견인 케어</div>
-        <div class="modal-body">
-          하루 종일 눌린 목, 자기 전 10분 견인으로 디스크 간격을 벌려주세요.<br><br>
-          CS-25로 정확한 C커브 견인이 가능합니다.<br><br>
-          <span style="color:#002855;font-weight:600">자는 동안 목이 회복돼요 🌙</span>
-        </div>
-        <div class="modal-actions">
-          <button class="modal-btn secondary" onclick="closeModal('modal-cs25')">닫기</button>
-          <button class="modal-btn primary" onclick="openCrossSell()">CS-25 알아보기 →</button>
-        </div>
-      </div>
+    <!-- 격려 메시지 -->
+    <div class="encourage-card">
+      <div class="enc-label">🏆 1분도수 원장님의 메시지</div>
+      <div class="enc-text">"미영 님, 5일 연속으로 운동을 완료하셨네요! 꾸준함이 회복의 핵심입니다. VAS 점수가 7에서 3으로 줄었어요. 이 페이스로 계속 가면 2주 후엔 일상 복귀가 가능할 거예요. 응원합니다! 💪"</div>
     </div>
 
-    <!-- CS-25 cross-sell modal -->
-    <div class="modal-overlay" id="modal-crosssell" onclick="closeModalOutside(event,'modal-crosssell')">
-      <div class="modal-sheet">
-        <div class="modal-handle"></div>
-        <div style="background:linear-gradient(135deg,#002855,#0057b7);border-radius:16px;padding:20px;margin-bottom:16px;color:#fff;text-align:center">
-          <div style="font-size:36px;margin-bottom:8px">🌙</div>
-          <div style="font-size:18px;font-weight:700;margin-bottom:4px">CS-25 견인 베개</div>
-          <div style="font-size:12px;color:rgba(255,255,255,0.7)">정확한 C커브 견인</div>
-        </div>
-        <div class="modal-body">
-          자기 전 10분으로 디스크 간격 회복.<br>
-          지금 구매 시 <strong style="color:#002855">1분도수 회원 특가</strong>로 제공됩니다.
-        </div>
-        <div class="modal-actions">
-          <button class="modal-btn secondary" onclick="closeModal('modal-crosssell')">나중에</button>
-          <button class="modal-btn primary" onclick="closeModal('modal-crosssell')">지금 구매하기 →</button>
-        </div>
+    <div style="height:8px"></div>
+  </div>
+</div>
+
+<!-- ====== BOTTOM NAV ====== -->
+<nav id="bottom-nav">
+  <button class="nav-item active" id="nav-home" onclick="switchTab('home')">
+    <span class="nav-icon">🏠</span>
+    홈
+  </button>
+  <button class="nav-item" id="nav-journey" onclick="switchTab('journey')">
+    <span class="nav-icon">📈</span>
+    나의 여정
+  </button>
+</nav>
+
+<!-- ====== OVERLAY: VIDEO ====== -->
+<div id="video-overlay" class="overlay">
+  <div class="video-player-area">
+    <div style="text-align:center">
+      <div style="font-size:64px;margin-bottom:16px;">🎬</div>
+      <div id="video-playing-title" style="color:white;font-size:18px;font-weight:700;"></div>
+      <div style="color:rgba(255,255,255,0.6);font-size:14px;margin-top:8px;">재생 중...</div>
+    </div>
+  </div>
+  <div class="video-controls">
+    <div class="video-title-bar" id="video-ctrl-title"></div>
+    <div class="seek-bar"><div class="seek-fill"></div></div>
+    <div class="video-bottom">
+      <span style="color:rgba(255,255,255,0.7);font-size:12px;" id="video-duration"></span>
+      <button class="close-btn" onclick="closeVideo()">✕ 닫기</button>
+    </div>
+  </div>
+</div>
+
+<!-- ====== OVERLAY: EMERGENCY ====== -->
+<div id="emergency-overlay" class="overlay" onclick="closeEmergency(event)">
+  <div class="emergency-sheet">
+    <div class="sheet-handle"></div>
+    <div class="sheet-title">🚨 응급 안내</div>
+    <div class="sheet-sub">증상에 맞는 도움을 받으세요</div>
+    <button class="emergency-option" onclick="alert('전문 상담사 연결 중...')">
+      <div class="eo-icon">📞</div>
+      <div class="eo-info">
+        <div class="eo-title">전문가 상담 연결</div>
+        <div class="eo-desc">도수치료사와 직접 통화</div>
+      </div>
+    </button>
+    <button class="emergency-option" onclick="alert('응급처치 가이드를 표시합니다')">
+      <div class="eo-icon">📋</div>
+      <div class="eo-info">
+        <div class="eo-title">응급처치 가이드</div>
+        <div class="eo-desc">즉시 따라 할 수 있는 자가처치법</div>
+      </div>
+    </button>
+    <button class="emergency-option" onclick="alert('가까운 병원 목록을 찾습니다')">
+      <div class="eo-icon">🏥</div>
+      <div class="eo-info">
+        <div class="eo-title">가까운 병원 찾기</div>
+        <div class="eo-desc">현재 위치 기반 정형외과 검색</div>
+      </div>
+    </button>
+    <button class="sheet-close" onclick="closeEmergency(null)">닫기</button>
+  </div>
+</div>
+
+<!-- ====== OVERLAY: CROSS-SELL ====== -->
+<div id="crosssell-overlay" class="overlay" onclick="closeCrosssell(event)">
+  <div class="crosssell-sheet">
+    <div class="sheet-handle"></div>
+    <div class="cs-tag">💡 맞춤 추천</div>
+    <div class="cs-title">하루 종일 눌린 목,<br>자기 전 10분이면 달라집니다</div>
+    <div class="cs-body">하루 종일 눌린 목, 자기 전 10분 견인으로 디스크 간격을 벌려주세요. CS-25로 정확한 C커브 견인이 가능합니다.</div>
+    <div class="cs-product">
+      <div class="cs-product-icon">🌙</div>
+      <div class="cs-product-info">
+        <div class="cs-product-name">CS-25 경추 견인기</div>
+        <div class="cs-product-sub">정확한 C커브 · 10분 프로그램</div>
       </div>
     </div>
-
-    <!-- Emergency modal -->
-    <div class="modal-overlay" id="modal-emergency" onclick="closeModalOutside(event,'modal-emergency')">
-      <div class="modal-sheet">
-        <div class="modal-handle"></div>
-        <div class="modal-title">🚨 지금 어떤 증상인가요?</div>
-        <div style="margin-bottom:12px">
-          <div class="emergency-option" onclick="closeModal('modal-emergency')">
-            <div class="emergency-option-title">운동 중 통증이 심해졌어요</div>
-            <div class="emergency-option-desc">→ 운동 범위를 50%로 줄이고 계속</div>
-          </div>
-          <div class="emergency-option" onclick="closeModal('modal-emergency')">
-            <div class="emergency-option-title">팔이나 손이 저려요</div>
-            <div class="emergency-option-desc">→ 즉시 중단, 기초 이완 운동으로 변경</div>
-          </div>
-          <div class="emergency-option" onclick="closeModal('modal-emergency')">
-            <div class="emergency-option-title">어지러워요 / 두통이 있어요</div>
-            <div class="emergency-option-desc">→ 오늘 운동 중단, 내일 다시 시작</div>
-          </div>
-        </div>
-        <button class="modal-btn secondary" style="width:100%" onclick="closeModal('modal-emergency')">닫기</button>
-      </div>
+    <div class="cs-btn-row">
+      <button class="cs-btn-secondary" onclick="closeCrosssell(null)">나중에</button>
+      <button class="cs-btn-primary" onclick="alert('쇼핑몰로 이동합니다')">자세히 보기</button>
     </div>
+  </div>
+</div>
 
-    <!-- Video player overlay -->
-    <div class="video-playing-overlay" id="video-overlay">
-      <div class="video-play-icon">▶️</div>
-      <div class="video-play-title" id="video-overlay-title">목 가동 운동 1단계</div>
-      <div class="video-play-sub" id="video-overlay-duration">00:58</div>
-      <div class="video-progress-bar">
-        <div class="video-progress-fill" id="video-progress"></div>
-      </div>
-      <button class="video-close-btn" onclick="closeVideo()">✕ 닫기</button>
-    </div>
-
-  </div><!-- phone-screen -->
-</div><!-- phone -->
+</div><!-- #app -->
+</div><!-- #app-wrapper -->
 
 <script>
-  let currentScreen = 'screen-welcome';
-  let vasSubmitted = false;
+// State
+var selectedDevices = [];
+var selectedStage = null;
+var crosssellShown = false;
 
-  function goTo(id) {
-    const current = document.querySelector('.screen.active');
-    const next = document.getElementById(id);
-    if (!next || current === next) return;
-    current.classList.remove('active');
-    current.classList.add('exit-left');
-    setTimeout(() => current.classList.remove('exit-left'), 400);
-    next.style.transform = 'translateX(100%)';
-    next.style.opacity = '0';
-    next.classList.add('active');
-    setTimeout(() => {
-      next.style.transform = '';
-      next.style.opacity = '';
-    }, 20);
-    currentScreen = id;
-  }
+// Screen navigation
+function goTo(screenId) {
+  document.querySelectorAll('.screen').forEach(function(s) {
+    s.classList.remove('active');
+    s.style.display = 'none';
+  });
+  var target = document.getElementById(screenId);
+  target.style.display = 'flex';
+  target.classList.add('active');
+}
 
-  function startApp() {
-    const homeScreen = document.getElementById('screen-home');
-    const q2Screen = document.getElementById('screen-q2');
-    q2Screen.classList.remove('active');
-    q2Screen.classList.add('exit-left');
-    setTimeout(() => q2Screen.classList.remove('exit-left'), 400);
-    homeScreen.style.transform = 'translateX(100%)';
-    homeScreen.style.opacity = '0';
-    homeScreen.classList.add('active');
-    setTimeout(() => {
-      homeScreen.style.transform = '';
-      homeScreen.style.opacity = '';
-    }, 20);
-    currentScreen = 'screen-home';
+function startApp() {
+  goTo('screen-home');
+  document.getElementById('bottom-nav').classList.add('visible');
+  // Show cross-sell after 3 seconds
+  if (!crosssellShown) {
+    setTimeout(function() {
+      crosssellShown = true;
+      document.getElementById('crosssell-overlay').classList.add('visible');
+    }, 3000);
   }
+}
 
-  function toggleChoice(btn) {
-    btn.classList.toggle('selected');
+function switchTab(tab) {
+  if (tab === 'home') {
+    goTo('screen-home');
+    document.getElementById('nav-home').classList.add('active');
+    document.getElementById('nav-journey').classList.remove('active');
+  } else {
+    goTo('screen-journey');
+    document.getElementById('nav-journey').classList.add('active');
+    document.getElementById('nav-home').classList.remove('active');
   }
+  // Keep nav visible
+  document.getElementById('bottom-nav').classList.add('visible');
+}
 
-  function selectSingle(btn, group) {
-    document.querySelectorAll(`[data-group="${group}"]`).forEach(b => b.classList.remove('selected'));
-    btn.setAttribute('data-group', group);
-    document.querySelectorAll('[onclick*="period"]').forEach(b => b.classList.remove('selected'));
-    btn.classList.add('selected');
+// Device selection (Q1)
+function toggleDevice(el, device) {
+  el.classList.toggle('selected');
+  var idx = selectedDevices.indexOf(device);
+  if (idx > -1) {
+    selectedDevices.splice(idx, 1);
+  } else {
+    selectedDevices.push(device);
   }
+}
 
-  const vasData = {
-    1: { label: '🟢 거의 괜찮아요', color: '#22c55e', bg: 'linear-gradient(to right, #22c55e, #22c55e)', track: '#22c55e' },
-    2: { label: '🟢 거의 괜찮아요', color: '#22c55e', bg: '', track: '#22c55e' },
-    3: { label: '🟢 약간 뻐근함', color: '#22c55e', bg: '', track: '#22c55e' },
-    4: { label: '🟡 고개 돌리면 불편', color: '#f59e0b', bg: '', track: '#f59e0b' },
-    5: { label: '🟡 고개 돌리면 불편', color: '#f59e0b', bg: '', track: '#f59e0b' },
-    6: { label: '🟠 가만히 있어도 아픔', color: '#f97316', bg: '', track: '#f97316' },
-    7: { label: '🟠 가만히 있어도 아픔', color: '#f97316', bg: '', track: '#f97316' },
-    8: { label: '🔴 잠 설침', color: '#ef4444', bg: '', track: '#ef4444' },
-    9: { label: '🔴 잠 설침', color: '#ef4444', bg: '', track: '#ef4444' },
-    10: { label: '🔴 참기 힘든 통증', color: '#ef4444', bg: '', track: '#ef4444' }
-  };
+// Stage selection (Q2)
+function selectStage(el, stage) {
+  document.querySelectorAll('.stage-card').forEach(function(c) { c.classList.remove('selected'); });
+  el.classList.add('selected');
+  selectedStage = stage;
+}
 
-  function updateVAS(val) {
-    const v = parseInt(val);
-    const d = vasData[v];
-    const numEl = document.getElementById('vas-num');
-    const labelEl = document.getElementById('vas-label-text');
-    const slider = document.getElementById('vas-slider');
-    numEl.textContent = v;
-    numEl.style.color = d.color;
-    labelEl.textContent = d.label;
-    labelEl.style.color = d.color;
-    const pct = (v - 1) / 9 * 100;
-    slider.style.background = `linear-gradient(to right, ${d.track} 0%, ${d.track} ${pct}%, #e5e7eb ${pct}%, #e5e7eb 100%)`;
-    const thumb = slider;
-    thumb.style.setProperty('--thumb-color', d.track);
-  }
-  updateVAS(5);
+// VAS slider
+var vasLabels = ['','없음','경미한 통증','경미한 통증','가벼운 통증','보통 통증','보통 통증','중등 통증','심한 통증','심한 통증','극심한 통증'];
+var vasColors = ['','#22c55e','#22c55e','#22c55e','#84cc16','#eab308','#eab308','#f97316','#ef4444','#ef4444','#dc2626'];
 
-  function submitVAS() {
-    const vasCard = document.getElementById('vas-card');
-    const prescription = document.getElementById('prescription');
-    vasCard.style.opacity = '0.5';
-    vasCard.style.pointerEvents = 'none';
-    prescription.classList.add('visible');
-    setTimeout(() => {
-      document.getElementById('home-scroll').scrollTo({ top: vasCard.offsetHeight + 20, behavior: 'smooth' });
-    }, 100);
-    vasSubmitted = true;
-  }
+function updateVas(val) {
+  val = parseInt(val);
+  var display = document.getElementById('vas-display');
+  display.textContent = val;
+  display.style.color = vasColors[val];
+  document.getElementById('vas-label').textContent = vasLabels[val];
+  // Update slider background
+  var slider = document.getElementById('vas-slider');
+  var pct = ((val - 1) / 9) * 100;
+  slider.style.background = 'linear-gradient(to right, ' + vasColors[val] + ' ' + pct + '%, #e0e6ed ' + pct + '%)';
+}
+updateVas(3);
 
-  function switchTab(tab) {
-    const homeScreen = document.getElementById('screen-home');
-    const journeyScreen = document.getElementById('screen-journey');
-    const homeNavItems = homeScreen.querySelectorAll('.nav-item');
-    const journeyNavItems = journeyScreen.querySelectorAll('.nav-item');
+// Prescription
+function showPrescription() {
+  var p = document.getElementById('prescription');
+  p.style.display = 'block';
+  setTimeout(function() {
+    p.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }, 100);
+}
 
-    if (tab === 'home') {
-      journeyScreen.classList.remove('active');
-      homeScreen.classList.add('active');
-      homeNavItems[0].classList.add('active');
-      homeNavItems[1].classList.remove('active');
-    } else {
-      homeScreen.classList.remove('active');
-      journeyScreen.classList.add('active');
-      journeyNavItems[0].classList.remove('active');
-      journeyNavItems[1].classList.add('active');
-    }
-  }
+// Video player
+function playVideo(title, duration) {
+  document.getElementById('video-playing-title').textContent = title;
+  document.getElementById('video-ctrl-title').textContent = title;
+  document.getElementById('video-duration').textContent = duration;
+  document.getElementById('video-overlay').classList.add('visible');
+}
+function closeVideo() {
+  document.getElementById('video-overlay').classList.remove('visible');
+}
 
-  function openModal(id) {
-    document.getElementById(id).classList.add('open');
+// Emergency
+function showEmergency() {
+  document.getElementById('emergency-overlay').classList.add('visible');
+}
+function closeEmergency(e) {
+  if (!e || e.target === document.getElementById('emergency-overlay')) {
+    document.getElementById('emergency-overlay').classList.remove('visible');
   }
-  function closeModal(id) {
-    document.getElementById(id).classList.remove('open');
-  }
-  function closeModalOutside(e, id) {
-    if (e.target === e.currentTarget) closeModal(id);
-  }
-  function openCrossSell() {
-    closeModal('modal-cs25');
-    setTimeout(() => openModal('modal-crosssell'), 200);
-  }
+}
 
-  let videoTimer = null;
-  function playVideo(title, duration) {
-    const overlay = document.getElementById('video-overlay');
-    document.getElementById('video-overlay-title').textContent = title;
-    document.getElementById('video-overlay-duration').textContent = duration;
-    // Reset progress animation
-    const fill = document.getElementById('video-progress');
-    fill.style.animation = 'none';
-    fill.offsetHeight; // reflow
-    fill.style.animation = '';
-    overlay.classList.add('open');
+// Cross-sell
+function closeCrosssell(e) {
+  if (!e || e.target === document.getElementById('crosssell-overlay')) {
+    document.getElementById('crosssell-overlay').classList.remove('visible');
   }
-  function closeVideo() {
-    document.getElementById('video-overlay').classList.remove('open');
-  }
+}
 </script>
 </body>
 </html>
