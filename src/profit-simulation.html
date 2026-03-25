@@ -1,0 +1,824 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>테넥스 수익/자금조달 시뮬레이션</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<style>
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{background:#0d1117;color:#e0e0e0;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;min-height:100vh;}
+  
+  /* HERO */
+  .hero{background:linear-gradient(135deg,#001a3a 0%,#002855 50%,#0d1117 100%);border-bottom:1px solid #21262d;padding:36px 40px 28px;}
+  .hero-inner{max-width:1200px;margin:0 auto;}
+  .hero-badge{font-size:11px;font-weight:600;color:#58a6ff;text-transform:uppercase;letter-spacing:1.5px;margin-bottom:8px;}
+  .hero h1{font-size:26px;font-weight:700;color:#fff;margin-bottom:4px;}
+  .hero-sub{color:#8b949e;font-size:13px;}
+  .hero-kpi{display:flex;gap:12px;margin-top:20px;flex-wrap:wrap;}
+  .kpi{background:rgba(0,40,85,0.6);border:1px solid rgba(0,100,200,0.3);border-radius:8px;padding:10px 16px;text-align:center;}
+  .kpi-num{font-size:18px;font-weight:700;color:#79c0ff;}
+  .kpi-label{font-size:10px;color:#8b949e;margin-top:2px;}
+
+  /* MAIN TABS */
+  .main-tabs{max-width:1200px;margin:24px auto 0;padding:0 40px;}
+  .main-tab-bar{display:flex;gap:4px;border-bottom:1px solid #21262d;margin-bottom:0;}
+  .main-tab-btn{padding:10px 24px;font-size:14px;font-weight:600;border:none;background:none;color:#8b949e;cursor:pointer;border-bottom:2px solid transparent;transition:all 0.2s;}
+  .main-tab-btn.active{color:#fff;border-bottom-color:#002855;}
+  .main-tab-btn:hover:not(.active){color:#e0e0e0;}
+
+  /* CONTENT */
+  .content{max-width:1200px;margin:0 auto;padding:28px 40px 60px;}
+  .tab-panel{display:none;}
+  .tab-panel.active{display:block;}
+
+  /* SCENARIO TOGGLES */
+  .scenario-bar{display:flex;gap:8px;margin-bottom:24px;flex-wrap:wrap;align-items:center;}
+  .scenario-bar label{font-size:12px;color:#8b949e;margin-right:4px;}
+  .sc-btn{padding:7px 18px;border-radius:20px;border:1px solid #30363d;background:#161b22;color:#8b949e;cursor:pointer;font-size:13px;font-weight:500;transition:all 0.15s;}
+  .sc-btn.active{border-color:#002855;background:#002855;color:#fff;}
+  .sc-btn:hover:not(.active){border-color:#58a6ff;color:#58a6ff;}
+
+  /* SUMMARY CARDS */
+  .summary-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:12px;margin-bottom:28px;}
+  .sum-card{background:#161b22;border:1px solid #21262d;border-radius:10px;padding:16px;border-top:3px solid #002855;}
+  .sum-card.green{border-top-color:#3fb950;}
+  .sum-card.yellow{border-top-color:#d29922;}
+  .sum-card.red{border-top-color:#f85149;}
+  .sum-card.blue{border-top-color:#58a6ff;}
+  .sum-val{font-size:20px;font-weight:700;color:#e6edf3;}
+  .sum-label{font-size:11px;color:#8b949e;margin-top:3px;}
+  .sum-sub{font-size:11px;color:#3fb950;margin-top:4px;}
+
+  /* CHARTS */
+  .chart-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:24px;}
+  .chart-grid.single{grid-template-columns:1fr;}
+  .chart-box{background:#161b22;border:1px solid #21262d;border-radius:10px;padding:20px;}
+  .chart-title{font-size:13px;font-weight:600;color:#e6edf3;margin-bottom:4px;}
+  .chart-sub{font-size:11px;color:#8b949e;margin-bottom:16px;}
+  .chart-wrap{position:relative;height:260px;}
+
+  /* TABLES */
+  .table-box{background:#161b22;border:1px solid #21262d;border-radius:10px;padding:20px;margin-bottom:20px;overflow-x:auto;}
+  .table-title{font-size:13px;font-weight:600;color:#e6edf3;margin-bottom:12px;}
+  table{width:100%;border-collapse:collapse;font-size:12px;}
+  th{background:#0d1117;color:#8b949e;padding:8px 12px;text-align:right;border-bottom:1px solid #21262d;white-space:nowrap;}
+  th:first-child{text-align:left;}
+  td{padding:7px 12px;text-align:right;border-bottom:1px solid #161b22;color:#e6edf3;}
+  td:first-child{text-align:left;color:#8b949e;}
+  tr:hover td{background:rgba(88,166,255,0.04);}
+  .pos{color:#3fb950;}
+  .neg{color:#f85149;}
+  .highlight{background:rgba(0,40,85,0.3)!important;}
+  .highlight td{color:#79c0ff!important;}
+
+  /* SENSITIVITY */
+  .sens-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:2px;margin-top:8px;}
+  .sens-cell{padding:8px 4px;text-align:center;border-radius:4px;font-size:11px;font-weight:600;}
+
+  /* FUNDING SPECIFIC */
+  .fund-scenario-cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px;margin-bottom:24px;}
+  .fund-card{background:#161b22;border:1px solid #21262d;border-radius:10px;padding:18px;}
+  .fund-card-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px;}
+  .fund-card-name{font-size:14px;font-weight:700;color:#e6edf3;}
+  .fund-card-amount{font-size:13px;font-weight:600;color:#79c0ff;background:rgba(0,100,200,0.15);padding:2px 10px;border-radius:10px;}
+  .fund-card-rate{font-size:11px;color:#d29922;margin-bottom:8px;}
+  .fund-card-desc{font-size:11px;color:#8b949e;line-height:1.6;}
+  .fund-toggle{display:flex;gap:6px;margin-bottom:20px;flex-wrap:wrap;}
+  .fund-btn{padding:7px 16px;border-radius:6px;border:1px solid #30363d;background:#161b22;color:#8b949e;cursor:pointer;font-size:12px;font-weight:500;transition:all 0.15s;}
+  .fund-btn.active{border-color:#002855;background:#002855;color:#fff;}
+
+  /* VALUATION */
+  .val-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:20px;}
+  .val-card{background:#161b22;border:1px solid #21262d;border-radius:10px;padding:16px;text-align:center;}
+  .val-mult{font-size:13px;color:#8b949e;margin-bottom:6px;}
+  .val-num{font-size:22px;font-weight:700;color:#79c0ff;}
+  .val-label{font-size:10px;color:#8b949e;margin-top:4px;}
+
+  /* SECTION TITLES */
+  .section-title{font-size:15px;font-weight:700;color:#e6edf3;border-left:3px solid #002855;padding-left:10px;margin:28px 0 14px;}
+
+  /* RESPONSIVE */
+  @media(max-width:768px){
+    .hero{padding:24px 20px 20px;}
+    .main-tabs{padding:0 16px;}
+    .content{padding:20px 16px 40px;}
+    .chart-grid{grid-template-columns:1fr;}
+    .val-grid{grid-template-columns:1fr;}
+    .summary-grid{grid-template-columns:1fr 1fr;}
+  }
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-inner">
+    <div class="hero-badge">🎯 테넥스 | 수익/자금조달 시뮬레이션</div>
+    <h1>테넥스 재무 시뮬레이션 2026–2028</h1>
+    <div class="hero-sub">2026년 3월 25일 기준 · 연매출 200억 목표 달성 시나리오</div>
+    <div class="hero-kpi">
+      <div class="kpi"><div class="kpi-num">1.15억</div><div class="kpi-label">현재 월 순매출</div></div>
+      <div class="kpi"><div class="kpi-num">51.7%</div><div class="kpi-label">공헌이익률</div></div>
+      <div class="kpi"><div class="kpi-num">3,954만</div><div class="kpi-label">월 영업이익</div></div>
+      <div class="kpi"><div class="kpi-num">34%</div><div class="kpi-label">영업이익률</div></div>
+      <div class="kpi"><div class="kpi-num">200억</div><div class="kpi-label">목표 연매출</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- MAIN TABS -->
+<div class="main-tabs">
+  <div class="main-tab-bar">
+    <button class="main-tab-btn active" onclick="switchMain('profit')">📈 수익 시뮬레이션</button>
+    <button class="main-tab-btn" onclick="switchMain('funding')">💰 자금조달 시뮬레이션</button>
+  </div>
+</div>
+
+<!-- CONTENT -->
+<div class="content">
+
+  <!-- ===================== TAB 1: 수익 시뮬레이션 ===================== -->
+  <div id="panel-profit" class="tab-panel active">
+
+    <div class="scenario-bar">
+      <label>시나리오:</label>
+      <button class="sc-btn" onclick="setScenario('conservative')" id="btn-conservative">🔵 보수적</button>
+      <button class="sc-btn active" onclick="setScenario('base')" id="btn-base">🟢 기본</button>
+      <button class="sc-btn" onclick="setScenario('aggressive')" id="btn-aggressive">🔴 공격적</button>
+    </div>
+
+    <!-- SUMMARY -->
+    <div class="summary-grid" id="profit-summary"></div>
+
+    <!-- CHARTS ROW 1 -->
+    <div class="chart-grid">
+      <div class="chart-box">
+        <div class="chart-title">📊 월별 매출 & 영업이익 추이</div>
+        <div class="chart-sub">2026.04 ~ 2028.12 (단위: 억원)</div>
+        <div class="chart-wrap"><canvas id="chart-revenue"></canvas></div>
+      </div>
+      <div class="chart-box">
+        <div class="chart-title">📉 비용 구조 변화 추이</div>
+        <div class="chart-sub">광고비/고정비/공헌이익률 비중 (%)</div>
+        <div class="chart-wrap"><canvas id="chart-cost"></canvas></div>
+      </div>
+    </div>
+
+    <!-- CHARTS ROW 2 -->
+    <div class="chart-grid">
+      <div class="chart-box">
+        <div class="chart-title">🏢 밸류에이션 추이 (매출 멀티플 3~8x)</div>
+        <div class="chart-sub">연간 매출 기준 밸류에이션 레인지 (억원)</div>
+        <div class="chart-wrap"><canvas id="chart-valuation"></canvas></div>
+      </div>
+      <div class="chart-box">
+        <div class="chart-title">🎁 성과급 풀 시뮬레이션</div>
+        <div class="chart-sub">영업이익의 3~10% (월별, 단위: 만원)</div>
+        <div class="chart-wrap"><canvas id="chart-bonus"></canvas></div>
+      </div>
+    </div>
+
+    <!-- KEY MILESTONES TABLE -->
+    <div class="section-title">📅 주요 마일스톤 & 연간 요약</div>
+    <div class="table-box">
+      <table id="tbl-annual"></table>
+    </div>
+
+    <!-- SENSITIVITY -->
+    <div class="section-title">🔬 오가닉 비중 민감도 분석 (영업이익률 %)</div>
+    <div class="chart-box" style="margin-bottom:20px;">
+      <div class="chart-sub">행: 오가닉 비중 / 열: 매출 (억원) — 공헌이익률 52% 기준</div>
+      <div id="sensitivity-table"></div>
+    </div>
+
+    <!-- BEP -->
+    <div class="section-title">⚖️ 손익분기점 분석</div>
+    <div class="summary-grid" id="bep-cards"></div>
+
+  </div><!-- /panel-profit -->
+
+  <!-- ===================== TAB 2: 자금조달 시뮬레이션 ===================== -->
+  <div id="panel-funding" class="tab-panel">
+
+    <div class="section-title" style="margin-top:0;">💡 자금조달 수단 개요</div>
+    <div class="fund-scenario-cards">
+      <div class="fund-card">
+        <div class="fund-card-header">
+          <div class="fund-card-name">🏆 팁스(TIPS)</div>
+          <div class="fund-card-amount">최대 5억</div>
+        </div>
+        <div class="fund-card-rate">정부 2.5억 + VC 2.5억 · 무상/지분희석 최소</div>
+        <div class="fund-card-desc">R&amp;D + 제품개발 + 해외진출 용도<br>신제품 출시 6개월 단축 → 매출 성장률 +5%p<br>이자 없음 (R&amp;D 지원금 형태)</div>
+      </div>
+      <div class="fund-card">
+        <div class="fund-card-header">
+          <div class="fund-card-name">🏦 기보대출</div>
+          <div class="fund-card-amount">3~5억</div>
+        </div>
+        <div class="fund-card-rate">연 3~4% · 기술보증기금 보증</div>
+        <div class="fund-card-desc">운영자금 + 재고 + 마케팅 확대<br>광고비 확대 → 매출 성장 가속<br>월 이자: ~83~167만원</div>
+      </div>
+      <div class="fund-card">
+        <div class="fund-card-header">
+          <div class="fund-card-name">🏛️ 신보대출</div>
+          <div class="fund-card-amount">2~3억</div>
+        </div>
+        <div class="fund-card-rate">연 3~5% · 신용보증기금 보증</div>
+        <div class="fund-card-desc">운영자금 안정화<br>캐시플로우 버퍼 확보<br>월 이자: ~50~125만원</div>
+      </div>
+      <div class="fund-card" style="border-color:#002855;">
+        <div class="fund-card-header">
+          <div class="fund-card-name">🎯 복합 시나리오</div>
+          <div class="fund-card-amount">최대 13억</div>
+        </div>
+        <div class="fund-card-rate">팁스+기보+신보 동시 수령 시</div>
+        <div class="fund-card-desc">전략적 투자 집행 가능<br>광고+제품개발+해외 동시 추진<br>연말 밸류에이션 극대화</div>
+      </div>
+    </div>
+
+    <!-- FUNDING SCENARIO TOGGLE -->
+    <div class="scenario-bar">
+      <label>자금조달 시나리오:</label>
+      <button class="fund-btn active" onclick="setFunding('all')" id="fbtn-all">✅ 전부 받음 (팁스+기보+신보)</button>
+      <button class="fund-btn" onclick="setFunding('partial')" id="fbtn-partial">🟡 일부 받음 (기보+신보)</button>
+      <button class="fund-btn" onclick="setFunding('none')" id="fbtn-none">❌ 없음 (자체 현금흐름)</button>
+    </div>
+
+    <!-- FUNDING SUMMARY -->
+    <div class="summary-grid" id="fund-summary"></div>
+
+    <!-- FUNDING CHARTS -->
+    <div class="chart-grid">
+      <div class="chart-box">
+        <div class="chart-title">💵 월별 현금잔고 추이</div>
+        <div class="chart-sub">조달 자금 + 영업현금흐름 합산 (단위: 억원)</div>
+        <div class="chart-wrap"><canvas id="chart-cash"></canvas></div>
+      </div>
+      <div class="chart-box">
+        <div class="chart-title">📈 자금조달별 매출 영향</div>
+        <div class="chart-sub">시나리오별 월별 매출 비교 (단위: 억원)</div>
+        <div class="chart-wrap"><canvas id="chart-fund-rev"></canvas></div>
+      </div>
+    </div>
+
+    <div class="chart-grid single">
+      <div class="chart-box">
+        <div class="chart-title">🏢 시나리오별 연말 밸류에이션 비교 (매출 5x 기준, 억원)</div>
+        <div class="chart-sub">2026년 말 / 2027년 말 / 2028년 말</div>
+        <div class="chart-wrap" style="height:220px;"><canvas id="chart-fund-val"></canvas></div>
+      </div>
+    </div>
+
+    <!-- FUNDING TABLE -->
+    <div class="section-title">📋 자금조달 시나리오별 연간 재무 요약</div>
+    <div class="table-box">
+      <table id="tbl-funding"></table>
+    </div>
+
+    <!-- INTEREST COST -->
+    <div class="section-title">💳 대출 이자 비용 분석</div>
+    <div class="summary-grid" id="interest-cards"></div>
+
+  </div><!-- /panel-funding -->
+
+</div><!-- /content -->
+
+<div style="text-align:center;padding:20px;color:#484f58;font-size:11px;border-top:1px solid #21262d;">
+  테넥스 재무 시뮬레이션 · 2026.03.25 · 카리나 생성 · 내부용
+</div>
+
+<script>
+// ============================================================
+// DATA ENGINE
+// ============================================================
+
+const MONTHS = [];
+const START = {y:2026, m:4};
+for(let i=0;i<33;i++){
+  let y = START.y + Math.floor((START.m-1+i)/12);
+  let m = ((START.m-1+i)%12)+1;
+  MONTHS.push(`${y}.${String(m).padStart(2,'0')}`);
+}
+
+// Scenario parameters
+const SCENARIOS = {
+  conservative: { name:'보수적', color:'#79c0ff', growthRate:0.15, organic:0.45, adRatio:0.20, cm:0.48 },
+  base:         { name:'기본',   color:'#3fb950', growthRate:0.20, organic:0.50, adRatio:0.18, cm:0.52 },
+  aggressive:   { name:'공격적', color:'#f85149', growthRate:0.25, organic:0.60, adRatio:0.15, cm:0.58 }
+};
+
+// Base monthly revenue: 1.15억
+const BASE_REV = 1.15;
+const FIXED_COST = 0.20; // 억 (2000만)
+const CURRENT_AD = 0.2784; // 억
+
+function buildRevData(sc) {
+  const p = SCENARIOS[sc];
+  let rev = BASE_REV;
+  return MONTHS.map((m, i) => {
+    if(i>0) rev = rev * (1 + p.growthRate * (1 + Math.sin(i*0.3)*0.05));
+    return parseFloat(rev.toFixed(4));
+  });
+}
+
+function buildProfitData(sc, revData) {
+  const p = SCENARIOS[sc];
+  return revData.map(rev => {
+    const ad = rev * p.adRatio;
+    const fixed = FIXED_COST;
+    const cm_profit = rev * p.cm;
+    const op_profit = cm_profit - fixed;
+    return parseFloat(op_profit.toFixed(4));
+  });
+}
+
+// Current scenario
+let currentScenario = 'base';
+let currentFunding = 'all';
+let charts = {};
+
+// ============================================================
+// PROFIT TAB
+// ============================================================
+
+function setScenario(sc) {
+  currentScenario = sc;
+  ['conservative','base','aggressive'].forEach(s => {
+    document.getElementById('btn-'+s).classList.toggle('active', s===sc);
+  });
+  renderProfit();
+}
+
+function renderProfit() {
+  const sc = currentScenario;
+  const p = SCENARIOS[sc];
+  const revData = buildRevData(sc);
+  const profitData = buildProfitData(sc, revData);
+  const lastRev = revData[revData.length-1];
+  const lastProfit = profitData[profitData.length-1];
+  const annualRev2028 = revData.slice(-12).reduce((a,b)=>a+b,0);
+  const annualProfit2028 = profitData.slice(-12).reduce((a,b)=>a+b,0);
+
+  // Summary cards
+  document.getElementById('profit-summary').innerHTML = `
+    <div class="sum-card blue">
+      <div class="sum-val">${(annualRev2028).toFixed(0)}억</div>
+      <div class="sum-label">2028년 연매출</div>
+      <div class="sum-sub">${annualRev2028>=200?'✅ 200억 달성':'목표까지 '+(200-annualRev2028).toFixed(0)+'억'}</div>
+    </div>
+    <div class="sum-card green">
+      <div class="sum-val">${(annualProfit2028).toFixed(0)}억</div>
+      <div class="sum-label">2028년 연 영업이익</div>
+      <div class="sum-sub">이익률 ${(annualProfit2028/annualRev2028*100).toFixed(1)}%</div>
+    </div>
+    <div class="sum-card yellow">
+      <div class="sum-val">${(annualRev2028*5).toFixed(0)}억</div>
+      <div class="sum-label">2028 밸류에이션 (5x)</div>
+      <div class="sum-sub">3x: ${(annualRev2028*3).toFixed(0)}억 ~ 8x: ${(annualRev2028*8).toFixed(0)}억</div>
+    </div>
+    <div class="sum-card green">
+      <div class="sum-val">${(lastRev).toFixed(2)}억</div>
+      <div class="sum-label">2028.12 월매출</div>
+      <div class="sum-sub">성장률 +${(p.growthRate*100).toFixed(0)}%/월</div>
+    </div>
+    <div class="sum-card">
+      <div class="sum-val">${(p.organic*100).toFixed(0)}%</div>
+      <div class="sum-label">오가닉 비중 (목표)</div>
+      <div class="sum-sub">광고비 ${(p.adRatio*100).toFixed(0)}%로 절감</div>
+    </div>
+    <div class="sum-card green">
+      <div class="sum-val">${(p.cm*100).toFixed(0)}%</div>
+      <div class="sum-label">목표 공헌이익률</div>
+      <div class="sum-sub">현재 51.7% → 개선</div>
+    </div>
+  `;
+
+  // Chart 1: Revenue & Profit
+  const labels = MONTHS;
+  destroyChart('chart-revenue');
+  charts['chart-revenue'] = new Chart(document.getElementById('chart-revenue'), {
+    type:'line',
+    data:{
+      labels,
+      datasets:[
+        {label:'매출(억)',data:revData,borderColor:'#58a6ff',backgroundColor:'rgba(88,166,255,0.08)',tension:0.4,fill:true,pointRadius:0,borderWidth:2},
+        {label:'영업이익(억)',data:profitData,borderColor:p.color,backgroundColor:'rgba(63,185,80,0.06)',tension:0.4,fill:true,pointRadius:0,borderWidth:2}
+      ]
+    },
+    options:chartOpts('억원')
+  });
+
+  // Chart 2: Cost structure
+  const adRatioData = revData.map((_,i)=>{
+    const progress = i/MONTHS.length;
+    return parseFloat(((0.242 - (0.242-p.adRatio)*progress)*100).toFixed(1));
+  });
+  const fixedRatioData = revData.map(r=>parseFloat((FIXED_COST/r*100).toFixed(1)));
+  const cmData = revData.map((_,i)=>{
+    const progress = i/MONTHS.length;
+    return parseFloat(((0.517 + (p.cm-0.517)*progress)*100).toFixed(1));
+  });
+  destroyChart('chart-cost');
+  charts['chart-cost'] = new Chart(document.getElementById('chart-cost'), {
+    type:'line',
+    data:{
+      labels,
+      datasets:[
+        {label:'공헌이익률(%)',data:cmData,borderColor:'#3fb950',tension:0.4,pointRadius:0,borderWidth:2,yAxisID:'y'},
+        {label:'광고비비중(%)',data:adRatioData,borderColor:'#d29922',tension:0.4,pointRadius:0,borderWidth:2,yAxisID:'y'},
+        {label:'고정비비중(%)',data:fixedRatioData,borderColor:'#f85149',tension:0.4,pointRadius:0,borderWidth:2,yAxisID:'y'}
+      ]
+    },
+    options:chartOpts('%')
+  });
+
+  // Chart 3: Valuation
+  const annualRevs = [];
+  for(let yr=2026;yr<=2028;yr++){
+    let sum=0, count=0;
+    MONTHS.forEach((m,i)=>{if(m.startsWith(String(yr))){sum+=revData[i];count++;}});
+    annualRevs.push({yr, sum});
+  }
+  const valLabels = annualRevs.map(a=>String(a.yr));
+  const val3 = annualRevs.map(a=>parseFloat((a.sum*3).toFixed(0)));
+  const val5 = annualRevs.map(a=>parseFloat((a.sum*5).toFixed(0)));
+  const val8 = annualRevs.map(a=>parseFloat((a.sum*8).toFixed(0)));
+  destroyChart('chart-valuation');
+  charts['chart-valuation'] = new Chart(document.getElementById('chart-valuation'), {
+    type:'bar',
+    data:{
+      labels:valLabels,
+      datasets:[
+        {label:'3x',data:val3,backgroundColor:'rgba(88,166,255,0.4)',borderColor:'#58a6ff',borderWidth:1},
+        {label:'5x',data:val5,backgroundColor:'rgba(63,185,80,0.4)',borderColor:'#3fb950',borderWidth:1},
+        {label:'8x',data:val8,backgroundColor:'rgba(248,81,73,0.3)',borderColor:'#f85149',borderWidth:1}
+      ]
+    },
+    options:{
+      responsive:true,maintainAspectRatio:false,
+      plugins:{legend:{labels:{color:'#8b949e',font:{size:11}}},tooltip:{callbacks:{label:ctx=>`${ctx.dataset.label}: ${ctx.raw}억원`}}},
+      scales:{x:{ticks:{color:'#8b949e'},grid:{color:'#21262d'}},y:{ticks:{color:'#8b949e',callback:v=>v+'억'},grid:{color:'#21262d'}}}
+    }
+  });
+
+  // Chart 4: Bonus pool
+  const bonusData3 = profitData.map(p=>Math.max(0,parseFloat((p*0.03*10000).toFixed(0))));
+  const bonusData10 = profitData.map(p=>Math.max(0,parseFloat((p*0.10*10000).toFixed(0))));
+  destroyChart('chart-bonus');
+  charts['chart-bonus'] = new Chart(document.getElementById('chart-bonus'), {
+    type:'line',
+    data:{
+      labels,
+      datasets:[
+        {label:'3% 성과급풀(만원)',data:bonusData3,borderColor:'#79c0ff',tension:0.4,pointRadius:0,borderWidth:2,fill:false},
+        {label:'10% 성과급풀(만원)',data:bonusData10,borderColor:'#d29922',tension:0.4,pointRadius:0,borderWidth:2,fill:false}
+      ]
+    },
+    options:chartOpts('만원')
+  });
+
+  // Annual table
+  renderAnnualTable(revData, profitData);
+  // BEP
+  renderBEP(revData, profitData);
+  // Sensitivity
+  renderSensitivity();
+}
+
+function renderAnnualTable(revData, profitData) {
+  const years = [2026, 2027, 2028];
+  let html = `<thead><tr>
+    <th>연도</th><th>연매출(억)</th><th>연 영업이익(억)</th><th>영업이익률</th>
+    <th>밸류에이션 5x(억)</th><th>성과급풀 5%(만)</th><th>목표달성</th>
+  </tr></thead><tbody>`;
+  years.forEach(yr => {
+    let rev=0, profit=0;
+    MONTHS.forEach((m,i)=>{if(m.startsWith(String(yr))){rev+=revData[i];profit+=profitData[i];}});
+    const margin = (profit/rev*100).toFixed(1);
+    const val = (rev*5).toFixed(0);
+    const bonus = (Math.max(0,profit)*0.05*10000).toFixed(0);
+    const achieved = rev >= 200;
+    html += `<tr${achieved?' class="highlight"':''}>
+      <td>${yr}년</td>
+      <td>${rev.toFixed(1)}억</td>
+      <td class="${profit>0?'pos':'neg'}">${profit.toFixed(1)}억</td>
+      <td>${margin}%</td>
+      <td>${val}억</td>
+      <td>${Number(bonus).toLocaleString()}만</td>
+      <td>${achieved?'✅ 달성':'❌ 미달성'}</td>
+    </tr>`;
+  });
+  html += '</tbody>';
+  document.getElementById('tbl-annual').innerHTML = html;
+}
+
+function renderBEP(revData, profitData) {
+  // BEP month = when profit first goes positive (already positive at start)
+  // Calculate minimum revenue to break even
+  const bepRev = FIXED_COST / SCENARIOS[currentScenario].cm;
+  const currentBEP = (bepRev * 100).toFixed(0);
+  const monthlyFixed = FIXED_COST * 10000;
+  
+  document.getElementById('bep-cards').innerHTML = `
+    <div class="sum-card blue">
+      <div class="sum-val">${bepRev.toFixed(2)}억</div>
+      <div class="sum-label">손익분기 월매출</div>
+      <div class="sum-sub">현재 1.15억 (이미 초과)</div>
+    </div>
+    <div class="sum-card green">
+      <div class="sum-val">${monthlyFixed.toFixed(0)}만원</div>
+      <div class="sum-label">월 고정비</div>
+      <div class="sum-sub">AI자동화로 3,000만 유지 목표</div>
+    </div>
+    <div class="sum-card yellow">
+      <div class="sum-val">${(FIXED_COST/SCENARIOS[currentScenario].cm*100).toFixed(1)}%</div>
+      <div class="sum-label">매출 대비 BEP 비율</div>
+      <div class="sum-sub">낮을수록 안전마진 ↑</div>
+    </div>
+    <div class="sum-card green">
+      <div class="sum-val">${((BASE_REV - FIXED_COST/SCENARIOS[currentScenario].cm)/BASE_REV*100).toFixed(1)}%</div>
+      <div class="sum-label">현재 안전마진</div>
+      <div class="sum-sub">매출이 이만큼 줄어야 손실</div>
+    </div>
+  `;
+}
+
+function renderSensitivity() {
+  const revenues = [1.5, 3, 5, 10, 16.7]; // 월 매출 억
+  const organics = [0.30, 0.40, 0.50, 0.60, 0.70];
+  const adBaseRatio = 0.242;
+  const CM = 0.52;
+  
+  let html = '<div class="sens-grid">';
+  // Header row
+  html += '<div class="sens-cell" style="background:#0d1117;color:#8b949e;"></div>';
+  revenues.forEach(r => {
+    html += `<div class="sens-cell" style="background:#0d1117;color:#8b949e;">${r>=10?r+'억/월':'월'+r+'억'}</div>`;
+  });
+  
+  organics.forEach(org => {
+    html += `<div class="sens-cell" style="background:#0d1117;color:#8b949e;">오가닉${(org*100).toFixed(0)}%</div>`;
+    revenues.forEach(rev => {
+      // ad cost reduces with organic ratio
+      const adCost = rev * adBaseRatio * (1 - org * 0.8);
+      const cmProfit = rev * CM;
+      const opProfit = cmProfit - adCost - FIXED_COST;
+      const margin = (opProfit / rev * 100);
+      const bg = margin > 40 ? '#0d4429' : margin > 25 ? '#1b4a1b' : margin > 10 ? '#3d3200' : margin > 0 ? '#3d1a00' : '#3d0000';
+      const color = margin > 25 ? '#3fb950' : margin > 10 ? '#d29922' : '#f85149';
+      html += `<div class="sens-cell" style="background:${bg};color:${color};">${margin.toFixed(1)}%</div>`;
+    });
+  });
+  html += '</div>';
+  document.getElementById('sensitivity-table').innerHTML = html;
+}
+
+// ============================================================
+// FUNDING TAB
+// ============================================================
+
+const FUNDING_PARAMS = {
+  all:     { name:'전부 받음', tips:5, kibo:5, sinbo:3, totalDebt:8, totalGrant:5, adBoost:0.03, growthBoost:0.05, color:'#3fb950' },
+  partial: { name:'일부 받음', tips:0, kibo:5, sinbo:3, totalDebt:8, totalGrant:0, adBoost:0.015, growthBoost:0.02, color:'#d29922' },
+  none:    { name:'없음',      tips:0, kibo:0, sinbo:0, totalDebt:0, totalGrant:0, adBoost:0,    growthBoost:0,    color:'#f85149' }
+};
+
+function calcInterest(fp) {
+  // kibo at 3.5%, sinbo at 4%
+  const kiboMonthly = fp.kibo * 100000000 * 0.035 / 12 / 10000; // 만원
+  const sinboMonthly = fp.sinbo * 100000000 * 0.04 / 12 / 10000;
+  return { kibo: kiboMonthly, sinbo: sinboMonthly, total: kiboMonthly + sinboMonthly };
+}
+
+function buildFundRevData(fundKey) {
+  const fp = FUNDING_PARAMS[fundKey];
+  const baseGrowth = 0.20;
+  const growth = baseGrowth + fp.growthBoost;
+  let rev = BASE_REV;
+  return MONTHS.map((m, i) => {
+    if(i>0) rev = rev * (1 + growth * (1 + Math.sin(i*0.3)*0.05));
+    return parseFloat(rev.toFixed(4));
+  });
+}
+
+function buildCashData(fundKey, revData) {
+  const fp = FUNDING_PARAMS[fundKey];
+  const interest = calcInterest(fp);
+  const initialCash = fp.totalGrant + fp.totalDebt; // 억
+  let cash = initialCash + 0.5; // assume 5000만 operating buffer
+  
+  return revData.map((rev, i) => {
+    const cmProfit = rev * 0.52;
+    const adCost = rev * (0.18 - fp.adBoost);
+    const fixedCost = FIXED_COST + interest.total / 10000; // 이자 포함
+    const monthlyProfit = cmProfit - adCost - fixedCost;
+    cash += monthlyProfit;
+    return parseFloat(Math.max(0, cash).toFixed(3));
+  });
+}
+
+function setFunding(key) {
+  currentFunding = key;
+  ['all','partial','none'].forEach(k => {
+    document.getElementById('fbtn-'+k).classList.toggle('active', k===key);
+  });
+  renderFunding();
+}
+
+function renderFunding() {
+  const fp = FUNDING_PARAMS[currentFunding];
+  const interest = calcInterest(fp);
+  const revData = buildFundRevData(currentFunding);
+  const cashData = buildCashData(currentFunding, revData);
+  const annualRev2028 = revData.slice(-12).reduce((a,b)=>a+b,0);
+  const profitData28 = revData.slice(-12).map(r => r*0.52 - r*(0.18-fp.adBoost) - FIXED_COST - interest.total/10000);
+  const annualProfit2028 = profitData28.reduce((a,b)=>a+b,0);
+
+  // Summary
+  document.getElementById('fund-summary').innerHTML = `
+    <div class="sum-card blue">
+      <div class="sum-val">${(fp.totalGrant + fp.totalDebt).toFixed(0)}억</div>
+      <div class="sum-label">총 조달 자금</div>
+      <div class="sum-sub">무상 ${fp.totalGrant}억 + 대출 ${fp.totalDebt}억</div>
+    </div>
+    <div class="sum-card ${fp.growthBoost>0?'green':'red'}">
+      <div class="sum-val">+${(fp.growthBoost*100).toFixed(0)}%p</div>
+      <div class="sum-label">성장률 추가 부스트</div>
+      <div class="sum-sub">기본 20%/월 → ${(20+fp.growthBoost*100).toFixed(0)}%/월</div>
+    </div>
+    <div class="sum-card yellow">
+      <div class="sum-val">${interest.total.toFixed(0)}만원</div>
+      <div class="sum-label">월 이자 비용</div>
+      <div class="sum-sub">기보 ${interest.kibo.toFixed(0)}만 + 신보 ${interest.sinbo.toFixed(0)}만</div>
+    </div>
+    <div class="sum-card green">
+      <div class="sum-val">${(annualRev2028).toFixed(0)}억</div>
+      <div class="sum-label">2028 연매출 (이 시나리오)</div>
+      <div class="sum-sub">${annualRev2028>=200?'✅ 200억 달성':'목표까지 '+(200-annualRev2028).toFixed(0)+'억'}</div>
+    </div>
+    <div class="sum-card green">
+      <div class="sum-val">${(annualRev2028*5).toFixed(0)}억</div>
+      <div class="sum-label">2028 밸류에이션 (5x)</div>
+      <div class="sum-sub">이익률 ${(annualProfit2028/annualRev2028*100).toFixed(1)}%</div>
+    </div>
+    <div class="sum-card ${fp.tips>0?'blue':''}">
+      <div class="sum-val">${fp.tips>0?'6개월 단축':'현행 유지'}</div>
+      <div class="sum-label">팁스 신제품 효과</div>
+      <div class="sum-sub">${fp.tips>0?'R&D 투자로 신제품 출시 가속':'자체 개발 속도로 진행'}</div>
+    </div>
+  `;
+
+  // Cash chart
+  destroyChart('chart-cash');
+  charts['chart-cash'] = new Chart(document.getElementById('chart-cash'), {
+    type:'line',
+    data:{
+      labels: MONTHS,
+      datasets:[{
+        label:'현금잔고(억)',data:cashData,
+        borderColor:fp.color,backgroundColor:fp.color+'18',
+        tension:0.4,fill:true,pointRadius:0,borderWidth:2
+      }]
+    },
+    options: chartOpts('억원')
+  });
+
+  // Fund rev comparison chart
+  const allRev = buildFundRevData('all');
+  const partialRev = buildFundRevData('partial');
+  const noneRev = buildFundRevData('none');
+  destroyChart('chart-fund-rev');
+  charts['chart-fund-rev'] = new Chart(document.getElementById('chart-fund-rev'), {
+    type:'line',
+    data:{
+      labels: MONTHS,
+      datasets:[
+        {label:'전부 받음',data:allRev,borderColor:'#3fb950',tension:0.4,pointRadius:0,borderWidth:2,fill:false},
+        {label:'일부 받음',data:partialRev,borderColor:'#d29922',tension:0.4,pointRadius:0,borderWidth:2,fill:false},
+        {label:'없음',data:noneRev,borderColor:'#f85149',tension:0.4,pointRadius:0,borderWidth:2,fill:false}
+      ]
+    },
+    options: chartOpts('억원')
+  });
+
+  // Valuation comparison bar
+  const scenarios = ['all','partial','none'];
+  const scNames = ['전부 받음','일부 받음','없음'];
+  const valData = [2026,2027,2028].map(yr => {
+    return scenarios.map(sc => {
+      const rd = buildFundRevData(sc);
+      let sum=0; MONTHS.forEach((m,i)=>{if(m.startsWith(String(yr)))sum+=rd[i];});
+      return parseFloat((sum*5).toFixed(0));
+    });
+  });
+
+  destroyChart('chart-fund-val');
+  charts['chart-fund-val'] = new Chart(document.getElementById('chart-fund-val'), {
+    type:'bar',
+    data:{
+      labels: scNames,
+      datasets:[
+        {label:'2026년말',data:valData[0],backgroundColor:'rgba(88,166,255,0.5)',borderColor:'#58a6ff',borderWidth:1},
+        {label:'2027년말',data:valData[1],backgroundColor:'rgba(63,185,80,0.5)',borderColor:'#3fb950',borderWidth:1},
+        {label:'2028년말',data:valData[2],backgroundColor:'rgba(210,153,34,0.5)',borderColor:'#d29922',borderWidth:1}
+      ]
+    },
+    options:{
+      responsive:true,maintainAspectRatio:false,
+      plugins:{legend:{labels:{color:'#8b949e',font:{size:11}}},tooltip:{callbacks:{label:ctx=>`${ctx.dataset.label}: ${ctx.raw}억원`}}},
+      scales:{x:{ticks:{color:'#8b949e'},grid:{color:'#21262d'}},y:{ticks:{color:'#8b949e',callback:v=>v+'억'},grid:{color:'#21262d'}}}
+    }
+  });
+
+  // Funding table
+  renderFundingTable();
+  renderInterestCards(interest);
+}
+
+function renderFundingTable() {
+  const years = [2026,2027,2028];
+  const scenarios = ['all','partial','none'];
+  const scNames = {all:'전부 받음',partial:'일부 받음',none:'없음'};
+  
+  let html = `<thead><tr><th>연도/시나리오</th>`;
+  scenarios.forEach(sc => { html += `<th>${scNames[sc]} - 연매출</th><th>영업이익</th><th>밸류에이션 5x</th>`; });
+  html += '</tr></thead><tbody>';
+  
+  years.forEach(yr => {
+    html += `<tr><td>${yr}년</td>`;
+    scenarios.forEach(sc => {
+      const fp = FUNDING_PARAMS[sc];
+      const rd = buildFundRevData(sc);
+      const interest = calcInterest(fp);
+      let rev=0;
+      MONTHS.forEach((m,i)=>{if(m.startsWith(String(yr)))rev+=rd[i];});
+      const profit = rd.filter((_,i)=>MONTHS[i].startsWith(String(yr)))
+        .reduce((sum,r)=> sum + r*0.52 - r*(0.18-fp.adBoost) - FIXED_COST - interest.total/10000, 0);
+      html += `<td>${rev.toFixed(1)}억</td><td class="${profit>0?'pos':'neg'}">${profit.toFixed(1)}억</td><td>${(rev*5).toFixed(0)}억</td>`;
+    });
+    html += '</tr>';
+  });
+  html += '</tbody>';
+  document.getElementById('tbl-funding').innerHTML = html;
+}
+
+function renderInterestCards(interest) {
+  document.getElementById('interest-cards').innerHTML = `
+    <div class="sum-card yellow">
+      <div class="sum-val">${interest.kibo.toFixed(0)}만원/월</div>
+      <div class="sum-label">기보대출 이자 (5억 @ 3.5%)</div>
+      <div class="sum-sub">연 ${(interest.kibo*12).toFixed(0)}만원</div>
+    </div>
+    <div class="sum-card yellow">
+      <div class="sum-val">${interest.sinbo.toFixed(0)}만원/월</div>
+      <div class="sum-label">신보대출 이자 (3억 @ 4%)</div>
+      <div class="sum-sub">연 ${(interest.sinbo*12).toFixed(0)}만원</div>
+    </div>
+    <div class="sum-card red">
+      <div class="sum-val">${interest.total.toFixed(0)}만원/월</div>
+      <div class="sum-label">총 이자 비용</div>
+      <div class="sum-sub">매출 대비 ${(interest.total/(BASE_REV*10000)*100).toFixed(2)}% 수준</div>
+    </div>
+    <div class="sum-card green">
+      <div class="sum-val">${(interest.total/3954*100).toFixed(1)}%</div>
+      <div class="sum-label">현재 영업이익 대비 이자</div>
+      <div class="sum-sub">3,954만 영업이익 기준 · 충분히 감당 가능</div>
+    </div>
+  `;
+}
+
+// ============================================================
+// UTILS
+// ============================================================
+
+function destroyChart(id) {
+  if(charts[id]) { charts[id].destroy(); delete charts[id]; }
+}
+
+function chartOpts(unit) {
+  return {
+    responsive:true, maintainAspectRatio:false,
+    interaction:{mode:'index',intersect:false},
+    plugins:{
+      legend:{labels:{color:'#8b949e',font:{size:11}}},
+      tooltip:{callbacks:{label:ctx=>`${ctx.dataset.label}: ${ctx.raw}${unit}`}}
+    },
+    scales:{
+      x:{ticks:{color:'#8b949e',maxTicksLimit:10,maxRotation:0},grid:{color:'#21262d'}},
+      y:{ticks:{color:'#8b949e'},grid:{color:'#21262d'}}
+    }
+  };
+}
+
+function switchMain(tab) {
+  document.querySelectorAll('.main-tab-btn').forEach((b,i)=>b.classList.toggle('active',['profit','funding'][i]===tab));
+  document.querySelectorAll('.tab-panel').forEach(p=>p.classList.toggle('active',p.id==='panel-'+tab));
+  if(tab==='funding') renderFunding();
+}
+
+// INIT
+renderProfit();
+</script>
+</body>
+</html>
