@@ -136,9 +136,9 @@
     <div class="hero-sub">2026년 3월 26일 기준 · 실데이터 반영 · 스케일업 이벤트 모델</div>
     <div class="hero-kpi">
       <div class="kpi"><div class="kpi-num">1.3억</div><div class="kpi-label">현재 월 전채널 매출</div></div>
-      <div class="kpi"><div class="kpi-num">51.7%</div><div class="kpi-label">공헌이익률</div></div>
-      <div class="kpi"><div class="kpi-num">3,954만</div><div class="kpi-label">월 영업이익</div></div>
-      <div class="kpi"><div class="kpi-num">34%</div><div class="kpi-label">영업이익률</div></div>
+      <div class="kpi"><div class="kpi-num">75.3%</div><div class="kpi-label">공헌이익률</div></div>
+      <div class="kpi"><div class="kpi-num">7,800만</div><div class="kpi-label">월 영업이익</div></div>
+      <div class="kpi"><div class="kpi-num">60%</div><div class="kpi-label">영업이익률</div></div>
       <div class="kpi"><div class="kpi-num">200억</div><div class="kpi-label">목표 연매출</div></div>
     </div>
   </div>
@@ -178,7 +178,7 @@
     <div class="chart-grid single">
       <div class="chart-box">
         <div class="chart-title">🎯 연매출 200억 달성 경로: 현재 속도 vs 스케일업 실행</div>
-        <div class="chart-sub">월매출 기준 · 점선: 200억/12월 = 16.7억 목표선 · 마커: 이벤트 발생 시점</div>
+        <div class="chart-sub">2026.01~ · 실선: 실적(1~3월) / 점선: 예측(4월~) · 마커: 이벤트 발생 시점 · 노란점선: 16.7억 목표</div>
         <div class="chart-wrap" style="height:300px;"><canvas id="chart-200path"></canvas></div>
       </div>
     </div>
@@ -187,7 +187,7 @@
     <div class="chart-grid">
       <div class="chart-box">
         <div class="chart-title">📊 월별 매출 & 영업이익 추이</div>
-        <div class="chart-sub">2026.04 ~ 2028.12 (단위: 억원)</div>
+        <div class="chart-sub">2026.01 ~ 2028.12 · 실선: 실적(1~3월) / 점선: 예측(4월~) (단위: 억원)</div>
         <div class="chart-wrap"><canvas id="chart-revenue"></canvas></div>
       </div>
       <div class="chart-box">
@@ -220,7 +220,7 @@
     <!-- SENSITIVITY -->
     <div class="section-title">🔬 오가닉 비중 민감도 분석 (영업이익률 %)</div>
     <div class="chart-box" style="margin-bottom:20px;">
-      <div class="chart-sub">행: 오가닉 비중 / 열: 매출 (억원) — 공헌이익률 52% 기준</div>
+      <div class="chart-sub">행: 오가닉 비중 / 열: 매출 (억원) — 공헌이익률 75% 기준</div>
       <div id="sensitivity-table"></div>
     </div>
 
@@ -326,12 +326,20 @@
 // ============================================================
 
 const MONTHS = [];
-const START = {y:2026, m:4};
-for(let i=0;i<33;i++){
+const START = {y:2026, m:1};
+for(let i=0;i<36;i++){
   let y = START.y + Math.floor((START.m-1+i)/12);
   let m = ((START.m-1+i)%12)+1;
   MONTHS.push(`${y}.${String(m).padStart(2,'0')}`);
 }
+
+// 실적 데이터 (1-3월 실제값)
+const ACTUAL_DATA = [
+  { month:'2026.01', rev:2.00, adCost:1.00 },
+  { month:'2026.02', rev:1.00, adCost:0.15 },
+  { month:'2026.03', rev:1.30, adCost:0.28 },
+];
+const ACTUAL_COUNT = ACTUAL_DATA.length; // 3 (1~3월은 실적, 4월부터 예측)
 
 // Base monthly revenue: 1.3억 (전체채널 기준, 3월 추정치)
 const BASE_REV = 1.30;
@@ -342,12 +350,12 @@ const FIXED_COST = 0.20; // 억 (2000만)
 // ============================================================
 
 const EVENTS = [
-  { id:'ev1', monthIdx:0,  month:'2026.04', emoji:'📢', title:'광고 스케일업',       desc:'월 광고비 3000만→5000만', jumpBase:0.30, color:'#58a6ff' },
-  { id:'ev2', monthIdx:1,  month:'2026.05', emoji:'🤝', title:'인플루언서 추천코드', desc:'추천코드 시스템 론칭',      jumpBase:0.15, color:'#79c0ff' },
-  { id:'ev3', monthIdx:2,  month:'2026.06', emoji:'🚀', title:'CS-25 개선 + TH-1',  desc:'통증크림 신제품 출시',     jumpBase:0.25, color:'#3fb950' },
-  { id:'ev4', monthIdx:3,  month:'2026.07', emoji:'🏛️', title:'법인전환 + 광고 1억', desc:'대출로 광고비 대폭 확대',  jumpBase:0.40, color:'#d29922' },
-  { id:'ev5', monthIdx:5,  month:'2026.09', emoji:'💪', title:'어깨/허리 라인 확장', desc:'신규 제품군 출시',          jumpBase:0.20, color:'#f0883e' },
-  { id:'ev6', monthIdx:7,  month:'2026.11', emoji:'🛍️', title:'연말 시즌 + 블프',    desc:'블랙프라이데이 시즌 효과', jumpBase:0.30, color:'#ff7b72' },
+  { id:'ev1', monthIdx:3,  month:'2026.04', emoji:'📢', title:'광고 스케일업',       desc:'월 광고비 3000만→5000만', jumpBase:0.30, color:'#58a6ff' },
+  { id:'ev2', monthIdx:4,  month:'2026.05', emoji:'🤝', title:'인플루언서 추천코드', desc:'추천코드 시스템 론칭',      jumpBase:0.15, color:'#79c0ff' },
+  { id:'ev3', monthIdx:5,  month:'2026.06', emoji:'🚀', title:'CS-25 개선 + TH-1',  desc:'통증크림 신제품 출시',     jumpBase:0.25, color:'#3fb950' },
+  { id:'ev4', monthIdx:6,  month:'2026.07', emoji:'🏛️', title:'법인전환 + 광고 1억', desc:'대출로 광고비 대폭 확대',  jumpBase:0.40, color:'#d29922' },
+  { id:'ev5', monthIdx:8,  month:'2026.09', emoji:'💪', title:'어깨/허리 라인 확장', desc:'신규 제품군 출시',          jumpBase:0.20, color:'#f0883e' },
+  { id:'ev6', monthIdx:10, month:'2026.11', emoji:'🛍️', title:'연말 시즌 + 블프',    desc:'블랙프라이데이 시즌 효과', jumpBase:0.30, color:'#ff7b72' },
 ];
 
 // Which events are currently ON
@@ -356,17 +364,19 @@ EVENTS.forEach(e => { eventEnabled[e.id] = true; });
 
 // Scenario parameters
 const SCENARIOS = {
-  conservative: { name:'보수적', color:'#79c0ff', naturalGrowth:0.08, eventSuccess:0.50, cm:0.48, adRatio:0.20 },
-  base:         { name:'기본',   color:'#3fb950', naturalGrowth:0.10, eventSuccess:0.80, cm:0.52, adRatio:0.18 },
-  aggressive:   { name:'공격적', color:'#f85149', naturalGrowth:0.15, eventSuccess:1.00, cm:0.58, adRatio:0.15, extraBonus:0.05 }
+  conservative: { name:'보수적', color:'#79c0ff', naturalGrowth:0.08, eventSuccess:0.50, cm:0.70, adRatio:0.22 },
+  base:         { name:'기본',   color:'#3fb950', naturalGrowth:0.10, eventSuccess:0.80, cm:0.75, adRatio:0.18 },
+  aggressive:   { name:'공격적', color:'#f85149', naturalGrowth:0.15, eventSuccess:1.00, cm:0.80, adRatio:0.14, extraBonus:0.05 }
 };
 
 function buildRevData(sc) {
   const p = SCENARIOS[sc];
   let rev = BASE_REV;
   return MONTHS.map((m, i) => {
-    // Natural monthly growth
-    if(i > 0) rev = rev * (1 + p.naturalGrowth);
+    // 1~3월은 실적 데이터 그대로
+    if(i < ACTUAL_COUNT) return ACTUAL_DATA[i].rev;
+    // 4월부터 예측 (BASE_REV=1.30 에서 성장)
+    rev = rev * (1 + p.naturalGrowth);
     // Check for event jump
     const ev = EVENTS.find(e => e.monthIdx === i);
     if(ev && eventEnabled[ev.id]) {
@@ -383,7 +393,8 @@ function buildNaturalRevData(sc) {
   const p = SCENARIOS[sc];
   let rev = BASE_REV;
   return MONTHS.map((m, i) => {
-    if(i > 0) rev = rev * (1 + p.naturalGrowth);
+    if(i < ACTUAL_COUNT) return ACTUAL_DATA[i].rev;
+    rev = rev * (1 + p.naturalGrowth);
     return parseFloat(rev.toFixed(4));
   });
 }
@@ -478,7 +489,7 @@ function renderProfit() {
     <div class="sum-card green">
       <div class="sum-val">${(p.cm*100).toFixed(0)}%</div>
       <div class="sum-label">목표 공헌이익률</div>
-      <div class="sum-sub">현재 51.7% → 개선</div>
+      <div class="sum-sub">현재 75.3% 실측 반영</div>
     </div>
   `;
 
@@ -520,6 +531,7 @@ function renderProfit() {
           pointStyle: eventPointStyles,
           pointBackgroundColor: eventPointColors,
           pointBorderColor: eventPointColors,
+          segment:{borderDash:ctx=>ctx.p0DataIndex>=ACTUAL_COUNT?[6,3]:undefined},
         },
         {
           label:'현재 속도 유지',
@@ -527,8 +539,8 @@ function renderProfit() {
           borderColor:'#484f58',
           backgroundColor:'transparent',
           tension:0.4, fill:false, borderWidth:1.5,
-          borderDash:[6,4],
           pointRadius:0,
+          segment:{borderDash:ctx=>ctx.p0DataIndex>=ACTUAL_COUNT?[6,4]:undefined},
         },
         {
           label:'200억 목표선 (월 16.7억)',
@@ -563,8 +575,10 @@ function renderProfit() {
     data:{
       labels: MONTHS,
       datasets:[
-        {label:'매출(억)',data:revData,borderColor:'#58a6ff',backgroundColor:'rgba(88,166,255,0.08)',tension:0.4,fill:true,pointRadius:0,borderWidth:2},
-        {label:'영업이익(억)',data:profitData,borderColor:p.color,backgroundColor:'rgba(63,185,80,0.06)',tension:0.4,fill:true,pointRadius:0,borderWidth:2}
+        {label:'매출(억)',data:revData,borderColor:'#58a6ff',backgroundColor:'rgba(88,166,255,0.08)',tension:0.4,fill:true,pointRadius:0,borderWidth:2,
+          segment:{borderDash:ctx=>ctx.p0DataIndex>=ACTUAL_COUNT?[6,3]:undefined}},
+        {label:'영업이익(억)',data:profitData,borderColor:p.color,backgroundColor:'rgba(63,185,80,0.06)',tension:0.4,fill:true,pointRadius:0,borderWidth:2,
+          segment:{borderDash:ctx=>ctx.p0DataIndex>=ACTUAL_COUNT?[6,3]:undefined}}
       ]
     },
     options:chartOpts('억원')
@@ -705,7 +719,7 @@ function renderSensitivity() {
   const revenues = [1.5, 3, 5, 10, 16.7];
   const organics = [0.30, 0.40, 0.50, 0.60, 0.70];
   const adBaseRatio = 0.242;
-  const CM = 0.52;
+  const CM = 0.75;
   
   let html = '<div class="sens-grid">';
   html += '<div class="sens-cell" style="background:#0d1117;color:#8b949e;"></div>';
@@ -761,7 +775,7 @@ function buildCashData(fundKey, revData) {
   const initialCash = fp.totalGrant + fp.totalDebt;
   let cash = initialCash + 0.5;
   return revData.map((rev) => {
-    const cmProfit = rev * 0.52;
+    const cmProfit = rev * 0.75;
     const adCost = rev * (0.18 - fp.adBoost);
     const fixedCost = FIXED_COST + interest.total / 10000;
     const monthlyProfit = cmProfit - adCost - fixedCost;
@@ -784,7 +798,7 @@ function renderFunding() {
   const revData = buildFundRevData(currentFunding);
   const cashData = buildCashData(currentFunding, revData);
   const annualRev2028 = revData.slice(-12).reduce((a,b)=>a+b,0);
-  const profitData28 = revData.slice(-12).map(r => r*0.52 - r*(0.18-fp.adBoost) - FIXED_COST - interest.total/10000);
+  const profitData28 = revData.slice(-12).map(r => r*0.75 - r*(0.18-fp.adBoost) - FIXED_COST - interest.total/10000);
   const annualProfit2028 = profitData28.reduce((a,b)=>a+b,0);
 
   document.getElementById('fund-summary').innerHTML = `
@@ -901,7 +915,7 @@ function renderFundingTable() {
       let rev=0;
       MONTHS.forEach((m,i)=>{if(m.startsWith(String(yr)))rev+=rd[i];});
       const profit = rd.filter((_,i)=>MONTHS[i].startsWith(String(yr)))
-        .reduce((sum,r)=> sum + r*0.52 - r*(0.18-fp.adBoost) - FIXED_COST - interest.total/10000, 0);
+        .reduce((sum,r)=> sum + r*0.75 - r*(0.18-fp.adBoost) - FIXED_COST - interest.total/10000, 0);
       html += `<td>${rev.toFixed(1)}억</td><td class="${profit>0?'pos':'neg'}">${profit.toFixed(1)}억</td><td>${(rev*5).toFixed(0)}억</td>`;
     });
     html += '</tr>';
@@ -928,9 +942,9 @@ function renderInterestCards(interest) {
       <div class="sum-sub">매출 대비 ${(interest.total/(BASE_REV*10000)*100).toFixed(2)}% 수준</div>
     </div>
     <div class="sum-card green">
-      <div class="sum-val">${(interest.total/3954*100).toFixed(1)}%</div>
+      <div class="sum-val">${(interest.total/7800*100).toFixed(1)}%</div>
       <div class="sum-label">현재 영업이익 대비 이자</div>
-      <div class="sum-sub">3,954만 영업이익 기준 · 충분히 감당 가능</div>
+      <div class="sum-sub">7,800만 영업이익 기준 · 충분히 감당 가능</div>
     </div>
   `;
 }
