@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head><script src="auth.js"></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>크론 대시보드 — Tenex</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,sans-serif;background:#0f172a;color:#e2e8f0}
+.header{background:#1a1a2e;color:#fff;padding:24px 32px;display:flex;align-items:center;gap:16px}
+.header h1{font-size:24px;font-weight:700}
+.header a{color:#8b8ba7;font-size:13px;text-decoration:none}
+.header a:hover{color:#fff}
+.content{max-width:1100px;margin:24px auto;padding:0 16px}
+
+.filter-tabs{display:flex;gap:8px;margin-bottom:24px;flex-wrap:wrap}
+.filter-tab{padding:8px 20px;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;border:1px solid #334155;background:#1e293b;color:#94a3b8;transition:all .2s}
+.filter-tab:hover{border-color:#002855;color:#e2e8f0}
+.filter-tab.active{background:#002855;border-color:#002855;color:#fff}
+.filter-count{font-size:11px;margin-left:4px;opacity:.7}
+
+.summary{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:12px;margin-bottom:32px}
+.sum-card{background:#1e293b;border:1px solid #334155;border-radius:10px;padding:16px;text-align:center}
+.sum-card .num{font-size:28px;font-weight:800}
+.sum-card .num.navy{color:#002855}
+.sum-card .num.green{color:#16A34A}
+.sum-card .num.red{color:#DC2626}
+.sum-card .num.yellow{color:#D69E2E}
+.sum-card .num.blue{color:#2563EB}
+.sum-card .label{font-size:12px;color:#94a3b8;margin-top:4px}
+
+.timeline{position:relative;padding-left:60px;margin:32px 0}
+.timeline::before{content:'';position:absolute;left:28px;top:0;bottom:0;width:3px;background:#334155;border-radius:2px}
+.tl-item{position:relative;margin-bottom:24px}
+.tl-item.hidden{display:none}
+.tl-time{position:absolute;left:-60px;top:8px;width:50px;text-align:right;font-size:13px;font-weight:700;font-family:monospace;color:#22d3ee}
+.tl-dot{position:absolute;left:-38px;top:10px;width:14px;height:14px;border-radius:50%;border:3px solid;background:#0f172a}
+.tl-dot.blue{border-color:#2563EB}
+.tl-dot.navy{border-color:#002855}
+.tl-dot.green{border-color:#16A34A}
+.tl-dot.cyan{border-color:#06b6d4}
+.tl-dot.orange{border-color:#EA580C}
+.tl-card{background:#1e293b;border:1px solid #334155;border-radius:10px;padding:16px 20px;margin-left:4px}
+.tl-card h3{font-size:15px;font-weight:700;color:#f1f5f9;margin-bottom:4px;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.tl-card .desc{font-size:13px;color:#94a3b8;margin-bottom:8px}
+.tl-card .meta{font-size:11px;color:#64748b;margin-bottom:8px}
+.tl-card .tags{display:flex;flex-wrap:wrap;gap:6px}
+.tag{padding:3px 10px;border-radius:6px;font-size:11px;font-weight:600}
+.tag.blue{background:#1e3a5f;color:#60a5fa}
+.tag.navy{background:#001a3a;color:#5b9bd5}
+.tag.green{background:#052e16;color:#4ade80}
+.tag.cyan{background:#083344;color:#22d3ee}
+.tag.orange{background:#431407;color:#fb923c}
+.tag.gray{background:#1e293b;color:#94a3b8;border:1px solid #334155}
+
+.status{display:inline-block;padding:2px 8px;border-radius:4px;font-size:10px;font-weight:700}
+.status.active{background:#064e3b;color:#34d399}
+.status.error{background:#7f1d1d;color:#fca5a5}
+
+table{width:100%;border-collapse:collapse;margin:20px 0;font-size:13px}
+th{background:#1e293b;color:#94a3b8;padding:10px 12px;text-align:left;font-size:11px;text-transform:uppercase;letter-spacing:1px;border-bottom:1px solid #334155}
+td{padding:10px 12px;border-bottom:1px solid #1e293b;color:#e2e8f0}
+tr:hover td{background:#1e293b}
+
+h2{color:#002855;font-size:18px;margin:32px 0 16px;font-weight:700}
+h2.light{color:#5b9bd5}
+
+.security-note{background:#1e293b;border:1px solid #334155;border-radius:10px;padding:16px 20px;margin:24px 0;font-size:13px;color:#94a3b8}
+.security-note strong{color:#f1f5f9}
+
+@media(max-width:640px){
+  .header{padding:16px;flex-wrap:wrap}
+  .content{padding:0 8px}
+  .summary{grid-template-columns:repeat(auto-fit,minmax(100px,1fr))}
+  .timeline{padding-left:40px}
+  .tl-time{left:-40px;width:32px;font-size:11px}
+  .tl-dot{left:-22px}
+  .filter-tabs{gap:4px}
+  .filter-tab{padding:6px 12px;font-size:12px}
+  table{font-size:11px}
+  th,td{padding:8px 6px}
+}
+</style>
+</head>
+<body>
+<div class="header"><h1>🕐 크론 대시보드</h1><a href="index.html">← 보고서 목록</a></div>
+
+<div class="content">
+
+<!-- 요약 -->
+<div class="summary">
+  <div class="sum-card"><div class="num navy">14</div><div class="label">전체 크론</div></div>
+  <div class="sum-card"><div class="num green">14</div><div class="label">정상</div></div>
+  <div class="sum-card"><div class="num red">0</div><div class="label">오류</div></div>
+  <div class="sum-card"><div class="num blue">5</div><div class="label">30분 간격</div></div>
+  <div class="sum-card"><div class="num yellow">2</div><div class="label">상시</div></div>
+</div>
+
+<!-- 필터 탭 -->
+<div class="filter-tabs">
+  <div class="filter-tab active" onclick="filterCrons('all')">전체<span class="filter-count">14</span></div>
+  <div class="filter-tab" onclick="filterCrons('ok')">정상<span class="filter-count">14</span></div>
+  <div class="filter-tab" onclick="filterCrons('error')">오류<span class="filter-count">0</span></div>
+</div>
+
+<!-- 타임라인 -->
+<h2 class="light">⏰ 하루 타임라인</h2>
+<div class="timeline">
+
+  <div class="tl-item" data-status="ok">
+    <div class="tl-time">*/90m</div>
+    <div class="tl-dot navy"></div>
+    <div class="tl-card">
+      <h3>cafe24-token-refresh <span class="status active">정상</span></h3>
+      <div class="desc">카페24 API 토큰 자동 갱신</div>
+      <div class="meta">90분 간격 | 마지막 실행: 정상</div>
+      <div class="tags"><span class="tag navy">API</span><span class="tag green">카페24</span></div>
+    </div>
+  </div>
+
+  <div class="tl-item" data-status="ok">
+    <div class="tl-time">07:00</div>
+    <div class="tl-dot blue"></div>
+    <div class="tl-card">
+      <h3>daily-report <span class="status active">정상</span></h3>
+      <div class="desc">텔레그램 일일 매출 리포트</div>
+      <div class="meta">매일 07:00 | 마지막 실행: 정상</div>
+      <div class="tags"><span class="tag cyan">텔레그램</span><span class="tag green">매출</span></div>
+    </div>
+  </div>
+
+  <div class="tl-item" data-status="ok">
+    <div class="tl-time">*/30</div>
+    <div class="tl-dot navy"></div>
+    <div class="tl-card">
+      <h3>plaud-pipeline <span class="status active">정상</span></h3>
+      <div class="desc">Plaud 녹음 전사+요약</div>
+      <div class="meta">30분 간격 | 마지막 실행: 정상</div>
+      <div class="tags"><span class="tag navy">Plaud</span><span class="tag cyan">전사</span></div>
+    </div>
+  </div>
+
+  <div class="tl-item" data-status="ok">
+    <div class="tl-time">22:00</div>
+    <div class="tl-dot blue"></div>
+    <div class="tl-card">
+      <h3>plaud-daily-report <span class="status active">정상</span></h3>
+      <div class="desc">Plaud 일일 요약 보고</div>
+      <div class="meta">매일 22:00 | 마지막 실행: 정상</div>
+      <div class="tags"><span class="tag navy">Plaud</span><span class="tag green">보고</span></div>
+    </div>
+  </div>
+
+  <div class="tl-item" data-status="ok">
+    <div class="tl-time">*/10</div>
+    <div class="tl-dot green"></div>
+    <div class="tl-card">
+      <h3>tenex-reports-deploy <span class="status active">정상</span></h3>
+      <div class="desc">리포트 변경감지→Vercel 배포</div>
+      <div class="meta">10분 간격 | 마지막 실행: 정상</div>
+      <div class="tags"><span class="tag green">Vercel</span><span class="tag gray">배포</span></div>
+    </div>
+  </div>
+
+  <div class="tl-item" data-status="ok">
+    <div class="tl-time">*/30</div>
+    <div class="tl-dot navy"></div>
+    <div class="tl-card">
+      <h3>brain-conv-sync <span class="status active">정상</span></h3>
+      <div class="desc">대화→brain.db 동기화</div>
+      <div class="meta">30분 간격 | 마지막 실행: 정상</div>
+      <div class="tags"><span class="tag navy">brain.db</span><span class="tag cyan">동기화</span></div>
+    </div>
+  </div>
+
+  <div class="tl-item" data-status="ok">
+    <div class="tl-time">*/1h</div>
+    <div class="tl-dot blue"></div>
+    <div class="tl-card">
+      <h3>heartbeat-sync <span class="status active">정상</span></h3>
+      <div class="desc">HEARTBEAT.md 동기화</div>
+      <div class="meta">1시간 간격 | 마지막 실행: 정상</div>
+      <div class="tags"><span class="tag blue">하트비트</span><span class="tag gray">동기화</span></div>
+    </div>
+  </div>
+
+  <div class="tl-item" data-status="ok">
+    <div class="tl-time">*/30</div>
+    <div class="tl-dot navy"></div>
+    <div class="tl-card">
+      <h3>calendar-reminder <span class="status active">정상</span></h3>
+      <div class="desc">구글 캘린더 리마인더</div>
+      <div class="meta">30분 간격 | 마지막 실행: 정상</div>
+      <div class="tags"><span class="tag navy">Google</span><span class="tag cyan">캘린더</span></div>
+    </div>
+  </div>
+
+  <div class="tl-item" data-status="ok">
+    <div class="tl-time">*/30</div>
+    <div class="tl-dot navy"></div>
+    <div class="tl-card">
+      <h3>slack-notion-sync <span class="status active">정상</span></h3>
+      <div class="desc">슬랙→노션 업무 추적</div>
+      <div class="meta">30분 간격 | 마지막 실행: 정상</div>
+      <div class="tags"><span class="tag cyan">Slack</span><span class="tag green">Notion</span></div>
+    </div>
+  </div>
+
+  <div class="tl-item" data-status="ok">
+    <div class="tl-time">상시</div>
+    <div class="tl-dot green"></div>
+    <div class="tl-card">
+      <h3>cafe24-webhook <span class="status active">정상</span></h3>
+      <div class="desc">카페24 주문/취소 실시간 알림</div>
+      <div class="meta">상시 | 마지막 실행: 정상</div>
+      <div class="tags"><span class="tag green">카페24</span><span class="tag orange">웹훅</span></div>
+    </div>
+  </div>
+
+  <div class="tl-item" data-status="ok">
+    <div class="tl-time">월08</div>
+    <div class="tl-dot cyan"></div>
+    <div class="tl-card">
+      <h3>mixpanel-weekly <span class="status active">정상</span></h3>
+      <div class="desc">Mixpanel 주간 리포트</div>
+      <div class="meta">매주 월요일 08:00 | 마지막 실행: 정상</div>
+      <div class="tags"><span class="tag cyan">Mixpanel</span><span class="tag gray">주간</span></div>
+    </div>
+  </div>
+
+  <div class="tl-item" data-status="ok">
+    <div class="tl-time">*/5</div>
+    <div class="tl-dot green"></div>
+    <div class="tl-card">
+      <h3>openclaw-watchdog <span class="status active">정상</span></h3>
+      <div class="desc">OpenClaw 게이트웨이 감시</div>
+      <div class="meta">5분 간격 | 마지막 실행: 정상</div>
+      <div class="tags"><span class="tag green">OpenClaw</span><span class="tag gray">감시</span></div>
+    </div>
+  </div>
+
+  <div class="tl-item" data-status="ok">
+    <div class="tl-time">상시</div>
+    <div class="tl-dot green"></div>
+    <div class="tl-card">
+      <h3>memory-watcher <span class="status active">정상</span></h3>
+      <div class="desc">메모리 파일 변경 감지</div>
+      <div class="meta">상시 | 마지막 실행: 정상</div>
+      <div class="tags"><span class="tag green">메모리</span><span class="tag gray">감시</span></div>
+    </div>
+  </div>
+
+  <div class="tl-item" data-status="ok">
+    <div class="tl-time">*/10</div>
+    <div class="tl-dot navy"></div>
+    <div class="tl-card">
+      <h3>session-sync <span class="status active">정상</span></h3>
+      <div class="desc">세션→brain.db 동기화</div>
+      <div class="meta">10분 간격 | 마지막 실행: 정상</div>
+      <div class="tags"><span class="tag navy">brain.db</span><span class="tag cyan">세션</span></div>
+    </div>
+  </div>
+
+</div>
+
+<!-- 전체 목록 테이블 -->
+<h2 class="light">📋 크론 전체 목록</h2>
+<div style="overflow-x:auto">
+<table>
+  <tr><th>이름</th><th>주기</th><th>설명</th><th>상태</th></tr>
+  <tr><td>cafe24-token-refresh</td><td>90분</td><td>카페24 API 토큰 자동 갱신</td><td><span class="status active">정상</span></td></tr>
+  <tr><td>daily-report</td><td>매일 07:00</td><td>텔레그램 일일 매출 리포트</td><td><span class="status active">정상</span></td></tr>
+  <tr><td>plaud-pipeline</td><td>30분</td><td>Plaud 녹음 전사+요약</td><td><span class="status active">정상</span></td></tr>
+  <tr><td>plaud-daily-report</td><td>매일 22:00</td><td>Plaud 일일 요약 보고</td><td><span class="status active">정상</span></td></tr>
+  <tr><td>tenex-reports-deploy</td><td>10분</td><td>리포트 변경감지→Vercel 배포</td><td><span class="status active">정상</span></td></tr>
+  <tr><td>brain-conv-sync</td><td>30분</td><td>대화→brain.db 동기화</td><td><span class="status active">정상</span></td></tr>
+  <tr><td>heartbeat-sync</td><td>1시간</td><td>HEARTBEAT.md 동기화</td><td><span class="status active">정상</span></td></tr>
+  <tr><td>calendar-reminder</td><td>30분</td><td>구글 캘린더 리마인더</td><td><span class="status active">정상</span></td></tr>
+  <tr><td>slack-notion-sync</td><td>30분</td><td>슬랙→노션 업무 추적</td><td><span class="status active">정상</span></td></tr>
+  <tr><td>cafe24-webhook</td><td>상시</td><td>카페24 주문/취소 실시간 알림</td><td><span class="status active">정상</span></td></tr>
+  <tr><td>mixpanel-weekly</td><td>매주 월 08:00</td><td>Mixpanel 주간 리포트</td><td><span class="status active">정상</span></td></tr>
+  <tr><td>openclaw-watchdog</td><td>5분</td><td>OpenClaw 게이트웨이 감시</td><td><span class="status active">정상</span></td></tr>
+  <tr><td>memory-watcher</td><td>상시</td><td>메모리 파일 변경 감지</td><td><span class="status active">정상</span></td></tr>
+  <tr><td>session-sync</td><td>10분</td><td>세션→brain.db 동기화</td><td><span class="status active">정상</span></td></tr>
+</table>
+</div>
+
+<p style="text-align:center;color:#64748b;font-size:12px;margin:40px 0 20px">최종 업데이트: 2026-03-27 | 데이터 소스: openclaw cron list</p>
+</div>
+
+<script>
+function filterCrons(filter) {
+  document.querySelectorAll('.filter-tab').forEach(t => t.classList.remove('active'));
+  event.target.closest('.filter-tab').classList.add('active');
+  document.querySelectorAll('.tl-item').forEach(item => {
+    const status = item.dataset.status;
+    if (filter === 'all') { item.classList.remove('hidden'); }
+    else if (filter === 'ok') { item.classList.toggle('hidden', status !== 'ok'); }
+    else if (filter === 'error') { item.classList.toggle('hidden', status !== 'error'); }
+  });
+}
+</script>
+</body>
+</html>

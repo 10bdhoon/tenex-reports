@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head><script src="auth.js"></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>스킬 목록 — Tenex</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,sans-serif;background:#0f172a;color:#e2e8f0}
+.header{background:#1a1a2e;color:#fff;padding:24px 32px;display:flex;align-items:center;gap:16px}
+.header h1{font-size:24px;font-weight:700}
+.header a{color:#8b8ba7;font-size:13px;text-decoration:none}
+.header a:hover{color:#fff}
+.content{max-width:1100px;margin:24px auto;padding:0 16px}
+
+.summary{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:12px;margin-bottom:32px}
+.sum-card{background:#1e293b;border:1px solid #334155;border-radius:10px;padding:16px;text-align:center}
+.sum-card .num{font-size:28px;font-weight:800}
+.sum-card .num.navy{color:#002855}
+.sum-card .label{font-size:12px;color:#94a3b8;margin-top:4px}
+
+h2{color:#5b9bd5;font-size:18px;margin:32px 0 16px;font-weight:700}
+
+.skill-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:16px;margin-bottom:32px}
+.skill-card{background:#1e293b;border:1px solid #334155;border-radius:12px;padding:20px;transition:border-color .2s}
+.skill-card:hover{border-color:#002855}
+.skill-card .card-top{display:flex;align-items:center;gap:12px;margin-bottom:10px}
+.skill-card .skill-icon{width:40px;height:40px;border-radius:10px;background:#002855;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.skill-card .skill-name{font-size:15px;font-weight:700;color:#f1f5f9;font-family:monospace}
+.skill-card .skill-desc{font-size:13px;color:#94a3b8;line-height:1.5}
+
+@media(max-width:640px){
+  .header{padding:16px;flex-wrap:wrap}
+  .content{padding:0 8px}
+  .skill-grid{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+<div class="header"><h1>🧩 OpenClaw 스킬</h1><a href="index.html">← 보고서 목록</a></div>
+
+<div class="content">
+
+<div class="summary">
+  <div class="sum-card"><div class="num navy">9</div><div class="label">등록 스킬</div></div>
+</div>
+
+<h2>📦 스킬 목록</h2>
+<div class="skill-grid">
+
+  <div class="skill-card">
+    <div class="card-top">
+      <div class="skill-icon">💻</div>
+      <div class="skill-name">coding-agent</div>
+    </div>
+    <div class="skill-desc">Codex/Claude Code 코딩 에이전트 위임</div>
+  </div>
+
+  <div class="skill-card">
+    <div class="card-top">
+      <div class="skill-icon">✨</div>
+      <div class="skill-name">gemini</div>
+    </div>
+    <div class="skill-desc">Gemini CLI 활용</div>
+  </div>
+
+  <div class="skill-card">
+    <div class="card-top">
+      <div class="skill-icon">🛡️</div>
+      <div class="skill-name">healthcheck</div>
+    </div>
+    <div class="skill-desc">보안 점검</div>
+  </div>
+
+  <div class="skill-card">
+    <div class="card-top">
+      <div class="skill-icon">🎙️</div>
+      <div class="skill-name">openai-whisper</div>
+    </div>
+    <div class="skill-desc">로컬 음성→텍스트</div>
+  </div>
+
+  <div class="skill-card">
+    <div class="card-top">
+      <div class="skill-icon">🔧</div>
+      <div class="skill-name">skill-creator</div>
+    </div>
+    <div class="skill-desc">스킬 생성/관리</div>
+  </div>
+
+  <div class="skill-card">
+    <div class="card-top">
+      <div class="skill-icon">💬</div>
+      <div class="skill-name">slack</div>
+    </div>
+    <div class="skill-desc">슬랙 제어</div>
+  </div>
+
+  <div class="skill-card">
+    <div class="card-top">
+      <div class="skill-icon">🖥️</div>
+      <div class="skill-name">tmux</div>
+    </div>
+    <div class="skill-desc">tmux 세션 원격 제어</div>
+  </div>
+
+  <div class="skill-card">
+    <div class="card-top">
+      <div class="skill-icon">🎞️</div>
+      <div class="skill-name">video-frames</div>
+    </div>
+    <div class="skill-desc">영상 프레임 추출</div>
+  </div>
+
+  <div class="skill-card">
+    <div class="card-top">
+      <div class="skill-icon">🌤️</div>
+      <div class="skill-name">weather</div>
+    </div>
+    <div class="skill-desc">날씨 조회</div>
+  </div>
+
+</div>
+
+<p style="text-align:center;color:#64748b;font-size:12px;margin:40px 0 20px">최종 업데이트: 2026-03-27 | 데이터 소스: openclaw skill list</p>
+</div>
+</body>
+</html>

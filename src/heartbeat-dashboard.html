@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head><script src="auth.js"></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>하트비트 모니터링 — Tenex</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,sans-serif;background:#0f172a;color:#e2e8f0}
+.header{background:#1a1a2e;color:#fff;padding:24px 32px;display:flex;align-items:center;gap:16px}
+.header h1{font-size:24px;font-weight:700}
+.header a{color:#8b8ba7;font-size:13px;text-decoration:none}
+.header a:hover{color:#fff}
+.content{max-width:1100px;margin:24px auto;padding:0 16px}
+
+.summary{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:12px;margin-bottom:32px}
+.sum-card{background:#1e293b;border:1px solid #334155;border-radius:10px;padding:16px;text-align:center}
+.sum-card .num{font-size:28px;font-weight:800}
+.sum-card .num.navy{color:#002855}
+.sum-card .num.green{color:#16A34A}
+.sum-card .label{font-size:12px;color:#94a3b8;margin-top:4px}
+
+h2{color:#5b9bd5;font-size:18px;margin:32px 0 16px;font-weight:700}
+
+.hb-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:20px;margin-bottom:32px}
+.hb-card{background:#1e293b;border:1px solid #334155;border-radius:14px;padding:24px;transition:border-color .2s}
+.hb-card:hover{border-color:#002855}
+.hb-card .card-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px}
+.hb-card .agent-name{font-size:18px;font-weight:700;color:#f1f5f9;display:flex;align-items:center;gap:8px}
+.hb-card .agent-icon{font-size:32px}
+
+.status-badge{display:inline-block;padding:4px 12px;border-radius:6px;font-size:11px;font-weight:700}
+.status-badge.online{background:#064e3b;color:#34d399}
+.status-badge.offline{background:#7f1d1d;color:#fca5a5}
+
+.hb-card .info-row{display:flex;align-items:center;gap:8px;margin-bottom:8px;font-size:13px;color:#94a3b8}
+.hb-card .info-row .label{min-width:60px;color:#64748b;font-weight:600}
+
+.tag{display:inline-block;padding:3px 10px;border-radius:6px;font-size:11px;font-weight:600}
+.tag.navy{background:#001a3a;color:#5b9bd5}
+.tag.green{background:#052e16;color:#4ade80}
+.tag.cyan{background:#083344;color:#22d3ee}
+.tag.orange{background:#431407;color:#fb923c}
+.tag.blue{background:#1e3a5f;color:#60a5fa}
+
+.pulse{display:inline-block;width:8px;height:8px;border-radius:50%;background:#34d399;animation:pulse-anim 2s infinite}
+@keyframes pulse-anim{0%,100%{opacity:1}50%{opacity:.3}}
+
+@media(max-width:640px){
+  .header{padding:16px;flex-wrap:wrap}
+  .content{padding:0 8px}
+  .hb-grid{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+<div class="header"><h1>💓 하트비트 모니터링</h1><a href="index.html">← 보고서 목록</a></div>
+
+<div class="content">
+
+<div class="summary">
+  <div class="sum-card"><div class="num navy">5</div><div class="label">전체 에이전트</div></div>
+  <div class="sum-card"><div class="num green">5</div><div class="label">온라인</div></div>
+</div>
+
+<h2>🤖 에이전트 현황</h2>
+<div class="hb-grid">
+
+  <div class="hb-card">
+    <div class="card-top">
+      <div class="agent-name"><span class="pulse"></span> 카리나</div>
+      <div class="agent-icon">👑</div>
+    </div>
+    <div class="info-row"><span class="label">모델</span><span class="tag navy">Claude Opus</span></div>
+    <div class="info-row"><span class="label">채널</span><span class="tag cyan">텔레그램</span></div>
+    <div class="info-row"><span class="label">역할</span>총괄</div>
+    <div class="info-row"><span class="label">상태</span><span class="status-badge online">온라인</span></div>
+  </div>
+
+  <div class="hb-card">
+    <div class="card-top">
+      <div class="agent-name"><span class="pulse"></span> 마실장</div>
+      <div class="agent-icon">📈</div>
+    </div>
+    <div class="info-row"><span class="label">모델</span><span class="tag navy">Claude Opus</span></div>
+    <div class="info-row"><span class="label">채널</span><span class="tag orange">슬랙 #d1_광고-퍼포먼스</span></div>
+    <div class="info-row"><span class="label">역할</span>마케팅 실장</div>
+    <div class="info-row"><span class="label">상태</span><span class="status-badge online">온라인</span></div>
+  </div>
+
+  <div class="hb-card">
+    <div class="card-top">
+      <div class="agent-name"><span class="pulse"></span> 개실장</div>
+      <div class="agent-icon">⚙️</div>
+    </div>
+    <div class="info-row"><span class="label">모델</span><span class="tag navy">Claude Opus</span></div>
+    <div class="info-row"><span class="label">채널</span><span class="tag blue">슬랙 #d2_개발-시스템</span></div>
+    <div class="info-row"><span class="label">역할</span>개발 실장</div>
+    <div class="info-row"><span class="label">상태</span><span class="status-badge online">온라인</span></div>
+  </div>
+
+  <div class="hb-card">
+    <div class="card-top">
+      <div class="agent-name"><span class="pulse"></span> 고실장</div>
+      <div class="agent-icon">🎧</div>
+    </div>
+    <div class="info-row"><span class="label">모델</span><span class="tag navy">Claude Opus</span></div>
+    <div class="info-row"><span class="label">채널</span><span class="tag green">슬랙 #d3_고객-경험</span></div>
+    <div class="info-row"><span class="label">역할</span>고객성공 실장</div>
+    <div class="info-row"><span class="label">상태</span><span class="status-badge online">온라인</span></div>
+  </div>
+
+  <div class="hb-card">
+    <div class="card-top">
+      <div class="agent-name"><span class="pulse"></span> 콘실장</div>
+      <div class="agent-icon">🎬</div>
+    </div>
+    <div class="info-row"><span class="label">모델</span><span class="tag navy">Claude Opus</span></div>
+    <div class="info-row"><span class="label">채널</span><span class="tag orange">슬랙 #d4_콘텐츠-채널</span></div>
+    <div class="info-row"><span class="label">역할</span>콘텐츠 실장</div>
+    <div class="info-row"><span class="label">상태</span><span class="status-badge online">온라인</span></div>
+  </div>
+
+</div>
+
+<p style="text-align:center;color:#64748b;font-size:12px;margin:40px 0 20px">최종 업데이트: 2026-03-27 | 데이터 소스: HEARTBEAT.md</p>
+</div>
+</body>
+</html>
