@@ -52,7 +52,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 .lecture-content{animation:fadeIn .2s}
 @keyframes fadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
 .lecture-header{display:flex;align-items:center;gap:12px;margin-bottom:20px;padding-bottom:14px;border-bottom:2px solid var(--navy)}
-.lecture-header h2{font-size:22px;font-weight:700;color:var(--navy)}
+.lecture-header h2{font-size:22px;font-weight:700;color:var(--navy);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:calc(100% - 80px)}
 .badge{font-size:11px;padding:3px 10px;border-radius:12px;background:rgba(0,40,85,0.08);color:var(--navy);font-weight:600;flex-shrink:0}
 
 /* Tab bar */
@@ -72,7 +72,15 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 .lecture-body li.star::marker, .tab-panel li.star::marker{content:"\2B50 "}
 .lecture-body br, .tab-panel br{display:block;height:6px}
 .badge-bonus{background:rgba(255,168,0,0.1);color:#c77d00;border:1px solid rgba(255,168,0,0.25);border-radius:4px;font-size:11px;padding:2px 7px;margin-left:8px;vertical-align:middle}
-.container{/* from original files */}
+.container{font-size:14px;line-height:1.7;color:var(--text)}
+.container h2{font-size:16px;font-weight:700;color:var(--navy);margin:28px 0 12px;padding-bottom:8px;border-bottom:1px solid var(--border)}
+.container h3{font-size:14px;font-weight:600;color:var(--text);margin:16px 0 8px}
+.container p{margin:4px 0}
+.container ul{padding-left:20px;margin:4px 0 8px}
+.container li{margin:3px 0;color:#444}
+.container br{display:block;height:6px}
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin:12px 0}
+@media(max-width:768px){.grid-2{grid-template-columns:1fr}}
 
 /* Welcome */
 .welcome{text-align:center;padding:80px 20px;color:var(--text-sec)}
