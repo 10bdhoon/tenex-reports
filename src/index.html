@@ -47,7 +47,7 @@ body.sidebar-collapsed .header-toggle{display:flex}
 .nav-item .expand-arrow.open{transform:rotate(90deg)}
 .nav-item.drop-target{background:rgba(0,100,200,0.3)!important;color:#fff!important;outline:2px dashed rgba(100,180,255,0.6)}
 .nav-sub-list{overflow:hidden;transition:max-height .25s ease;max-height:0}
-.nav-sub-list.open{max-height:500px}
+.nav-sub-list.open{max-height:3000px}
 .nav-sub-item{display:flex;align-items:center;gap:8px;padding:5px 12px 5px 40px;border-radius:6px;cursor:pointer;color:var(--text-sidebar-muted);font-size:12px;transition:all .15s;user-select:none}
 .nav-sub-item:hover{background:rgba(255,255,255,0.05);color:var(--text-sidebar)}
 .nav-sub-item.active{color:#93b5d3;font-weight:600}
@@ -214,11 +214,11 @@ body.sidebar-collapsed .header-toggle{display:flex}
     </div>
     <div class="sidebar-system">
       <div class="nav-section-title" style="padding:6px 8px 5px">시스템</div>
-      <a href="/system-status.html" class="nav-item"><span class="icon">🔄</span><span class="label">크론</span></a>
-      <a href="/system-status.html" class="nav-item"><span class="icon">🚀</span><span class="label">배포</span></a>
-      <a href="/system-status.html" class="nav-item"><span class="icon">🔌</span><span class="label">API</span></a>
-      <a href="/system-status.html" class="nav-item"><span class="icon">🤖</span><span class="label">에이전트</span></a>
-      <a href="/system-status.html" class="nav-item"><span class="icon">🖥️</span><span class="label">서버</span></a>
+      <a href="/cron-dashboard.html" class="nav-item"><span class="icon">🔄</span><span class="label">크론</span></a>
+      <a href="/deploy-dashboard.html" class="nav-item"><span class="icon">🚀</span><span class="label">배포</span></a>
+      <a href="/system-status.html" class="nav-item"><span class="icon">🖥️</span><span class="label">시스템 현황</span></a>
+      <a href="/heartbeat-dashboard.html" class="nav-item"><span class="icon">💓</span><span class="label">하트비트</span></a>
+      <a href="/security-dashboard.html" class="nav-item"><span class="icon">🔒</span><span class="label">보안</span></a>
     </div>
   </nav>
   <div class="sidebar-footer">
@@ -372,6 +372,85 @@ const DEFAULT_REPORTS=[
   {href:'/edu-20-2.html',icon:'📝',title:'모사모 20강-2',desc:'',date:'3/25',cat:'Z',sub:'모사모 강의 정리본'},
   // Z 교육 — 모사모 전사 원본
   {href:'/haeil-lectures.html',icon:'🎓',title:'모사모 강의 전사 정리',desc:'전사 원본 인덱스 (74개 강의)',date:'3/26',cat:'Z',sub:'모사모 전사 원본'},
+  {href:'/cron-dashboard.html',icon:'🔄',title:'크론 대시보드 — Tenex',desc:'',date:'3/27',cat:'H'}
+  {href:'/deploy-dashboard.html',icon:'🚀',title:'배포 현황 — Tenex',desc:'',date:'3/27',cat:'H'}
+  {href:'/heartbeat-dashboard.html',icon:'💓',title:'하트비트 모니터링 — Tenex',desc:'',date:'3/27',cat:'H'}
+  {href:'/security-dashboard.html',icon:'🔒',title:'보안 현황 — Tenex',desc:'',date:'3/27',cat:'I'}
+  {href:'/skills-dashboard.html',icon:'🧩',title:'스킬 목록 — Tenex',desc:'',date:'3/27',cat:'I'}
+  {href:'/haeil-lesson-1005347.html',icon:'🎧',title:'\'사업의 비밀 _ 사업으로 부자 되는 유일한 방법_1\'.mp4 — 모사모 강의',desc:'',date:'3/27',cat:'Z',sub:'모사모 전사 원본'}
+  {href:'/haeil-lesson-1006588.html',icon:'🎧',title:'&#039;사업의 비밀 _ 사업으로 부자 되는 유일한 방법_2&#039;.mp4 — 모사모 강의',desc:'',date:'3/27',cat:'Z',sub:'모사모 전사 원본'}
+  {href:'/haeil-lesson-1006612.html',icon:'🎧',title:'&#039;사업의 비밀 _ 사업으로 부자 되는 유일한 방법&#039;.mp4 — 모사모 강의',desc:'',date:'3/27',cat:'Z',sub:'모사모 전사 원본'}
+  {href:'/haeil-lesson-1011017.html',icon:'🎧',title:'사업으로 부자되는 유일한 방법 (2편) - 1 — 모사모 강의',desc:'',date:'3/27',cat:'Z',sub:'모사모 전사 원본'}
+  {href:'/haeil-lesson-1011018.html',icon:'🎧',title:'사업으로 부자되는 유일한 방법 (2편) - 2 — 모사모 강의',desc:'',date:'3/27',cat:'Z',sub:'모사모 전사 원본'}
+  {href:'/haeil-lesson-1011019.html',icon:'🎧',title:'사업으로 부자되는 유일한 방법 (2편) - 3 — 모사모 강의',desc:'',date:'3/27',cat:'Z',sub:'모사모 전사 원본'}
+  {href:'/haeil-lesson-1011026.html',icon:'🎧',title:'사업으로 부자되는 유일한 방법 (2편) - 4 — 모사모 강의',desc:'',date:'3/27',cat:'Z',sub:'모사모 전사 원본'}
+  {href:'/haeil-lesson-1011028.html',icon:'🎧',title:'사업으로 부자되는 유일한 방법 (2편) - 5 — 모사모 강의',desc:'',date:'3/27',cat:'Z',sub:'모사모 전사 원본'}
+  {href:'/haeil-lesson-1011033.html',icon:'🎧',title:'2/22 수제자 보너스 라이브 - 1 — 모사모 강의',desc:'',date:'3/27',cat:'Z',sub:'모사모 전사 원본'}
+  {href:'/haeil-lesson-1011034.html',icon:'🎧',title:'2/22 수제자 보너스 라이브 - 2 — 모사모 강의',desc:'',date:'3/27',cat:'Z',sub:'모사모 전사 원본'}
+  {href:'/haeil-lesson-1011035.html',icon:'🎧',title:'2/22 수제자 보너스 라이브 - 3 — 모사모 강의',desc:'',date:'3/27',cat:'Z',sub:'모사모 전사 원본'}
+  {href:'/haeil-lesson-1011036.html',icon:'🎧',title:'1/4 수제자 보너스 라이브 다시보기 — 모사모 강의',desc:'',date:'3/27',cat:'Z',sub:'모사모 전사 원본'}
+  {href:'/haeil-lesson-1011038.html',icon:'🎧',title:'5) 실전의 비밀 — 모사모 강의',desc:'',date:'3/27',cat:'Z',sub:'모사모 전사 원본'}
+  {href:'/haeil-lesson-1011039.html',icon:'🎧',title:'6) 실전의 비밀, 두 번째 이야기 — 모사모 강의',desc:'',date:'3/27',cat:'Z',sub:'모사모 전사 원본'}
+  {href:'/haeil-lesson-1014489.html',icon:'🎧',title:'성공을 완성하는 가장 중요한 순간 - 1 — 모사모 강의',desc:'',date:'3/27',cat:'Z',sub:'모사모 전사 원본'}
+  {href:'/haeil-lesson-1014490.html',icon:'🎧',title:'성공을 완성하는 가장 중요한 순간 - 2 — 모사모 강의',desc:'',date:'3/27',cat:'Z',sub:'모사모 전사 원본'}
+  {href:'/haeil-lesson-1014491.html',icon:'🎧',title:'성공을 완성하는 가장 중요한 순간 - 3 — 모사모 강의',desc:'',date:'3/27',cat:'Z',sub:'모사모 전사 원본'}
+  {href:'/haeil-lesson-1014497.html',icon:'🎧',title:'성공을 완성하는 가장 중요한 순간 - 4 — 모사모 강의',desc:'',date:'3/27',cat:'Z',sub:'모사모 전사 원본'}
+  {href:'/haeil-lesson-1014498.html',icon:'🎧',title:'7) 제품 기획과 제작 경험의 기적 — 모사모 강의',desc:'',date:'3/27',cat:'Z',sub:'모사모 전사 원본'}
+  {href:'/haeil-lesson-1014501.html',icon:'🎧',title:'성공을 완성하는 가장 중요한 순간 - 5 — 모사모 강의',desc:'',date:'3/27',cat:'Z',sub:'모사모 전사 원본'}
+  {href:'/haeil-lesson-1014502.html',icon:'🎧',title:'2/5 수제자 보너스 라이브 — 모사모 강의',desc:'',date:'3/27',cat:'Z',sub:'모사모 전사 원본'}
+  {href:'/haeil-lesson-1014503.html',icon:'🎧',title:'2/11 수제자 보너스 라이브 — 모사모 강의',desc:'',date:'3/27',cat:'Z',sub:'모사모 전사 원본'}
+  {href:'/haeil-lesson-1029047.html',icon:'🎧',title:'3/7 유튜브 기습 라이브 다시보기 — 모사모 강의',desc:'',date:'3/27',cat:'Z',sub:'모사모 전사 원본'}
+  {href:'/haeil-lesson-1033839.html',icon:'🎧',title:'마케팅은 어떻게 불가능을 이루는 힘이 되는가 - 1 — 모사모 강의',desc:'',date:'3/27',cat:'Z',sub:'모사모 전사 원본'}
+  {href:'/haeil-lesson-1033841.html',icon:'🎧',title:'마케팅은 어떻게 불가능을 이루는 힘이 되는가 - 2 — 모사모 강의',desc:'',date:'3/27',cat:'Z',sub:'모사모 전사 원본'}
+  {href:'/haeil-lesson-1035418.html',icon:'🎧',title:'3/18 수제자 보너스 라이브 — 모사모 강의',desc:'',date:'3/27',cat:'Z',sub:'모사모 전사 원본'}
+  {href:'/haeil-lesson-1043765.html',icon:'🎧',title:'마케팅, 유기적 성장의 모든 것 1 — 모사모 강의',desc:'',date:'3/27',cat:'Z',sub:'모사모 전사 원본'}
+  {href:'/haeil-lesson-1043768.html',icon:'🎧',title:'마케팅, 유기적 성장의 모든 것 2 — 모사모 강의',desc:'',date:'3/27',cat:'Z',sub:'모사모 전사 원본'}
+  {href:'/haeil-lesson-1054213.html',icon:'🎧',title:'지극히 거대한, 그러나 작은 끝으로 - 01 — 모사모 강의',desc:'',date:'3/27',cat:'Z',sub:'모사모 전사 원본'}
+  {href:'/haeil-lesson-1054222.html',icon:'🎧',title:'지극히 거대한, 그러나 작은 끝으로 - 02 — 모사모 강의',desc:'',date:'3/27',cat:'Z',sub:'모사모 전사 원본'}
+  {href:'/haeil-lesson-1064595.html',icon:'🎧',title:'수제자 마지막 라이브 1 — 모사모 강의',desc:'',date:'3/27',cat:'Z',sub:'모사모 전사 원본'}
+  {href:'/haeil-lesson-1064609.html',icon:'🎧',title:'수제자 마지막 라이브 2 — 모사모 강의',desc:'',date:'3/27',cat:'Z',sub:'모사모 전사 원본'}
+  {href:'/haeil-lesson-1064615.html',icon:'🎧',title:'수제자 마지막 라이브 3 — 모사모 강의',desc:'',date:'3/27',cat:'Z',sub:'모사모 전사 원본'}
+  {href:'/haeil-lesson-1090893.html',icon:'🎧',title:'사업을 성공시키는 비밀 무기, 스크립트 — 모사모 강의',desc:'',date:'3/27',cat:'Z',sub:'모사모 전사 원본'}
+  {href:'/haeil-lesson-1090894.html',icon:'🎧',title:'사업을 성공시키는 비밀 도구, \'플랫폼\' — 모사모 강의',desc:'',date:'3/27',cat:'Z',sub:'모사모 전사 원본'}
+  {href:'/haeil-lesson-1164660.html',icon:'🎧',title:'수제자 2기 보너스 라이브 01 — 모사모 강의',desc:'',date:'3/27',cat:'Z',sub:'모사모 전사 원본'}
+  {href:'/haeil-lesson-1164662.html',icon:'🎧',title:'수제자 2기 보너스 라이브 02 — 모사모 강의',desc:'',date:'3/27',cat:'Z',sub:'모사모 전사 원본'}
+  {href:'/haeil-lesson-1184164.html',icon:'🎧',title:'수제자 2기 보너스 라이브 — 모사모 강의',desc:'',date:'3/27',cat:'Z',sub:'모사모 전사 원본'}
+  {href:'/haeil-lesson-1195879.html',icon:'🎧',title:'3) 수제자 2기 보너스 라이브 — 모사모 강의',desc:'',date:'3/27',cat:'Z',sub:'모사모 전사 원본'}
+  {href:'/haeil-lesson-1202173.html',icon:'🎧',title:'4) 수제자 2기 라이브 -1 — 모사모 강의',desc:'',date:'3/27',cat:'Z',sub:'모사모 전사 원본'}
+  {href:'/haeil-lesson-1202174.html',icon:'🎧',title:'4) 수제자 2기 라이브 -2 — 모사모 강의',desc:'',date:'3/27',cat:'Z',sub:'모사모 전사 원본'}
+  {href:'/haeil-lesson-1202175.html',icon:'🎧',title:'4) 수제자 2기 라이브 -3 — 모사모 강의',desc:'',date:'3/27',cat:'Z',sub:'모사모 전사 원본'}
+  {href:'/haeil-lesson-1211380.html',icon:'🎧',title:'4) 수제자 2기 보너스 라이브 — 모사모 강의',desc:'',date:'3/27',cat:'Z',sub:'모사모 전사 원본'}
+  {href:'/haeil-lesson-1211382.html',icon:'🎧',title:'5) 수제자 2기 보너스 라이브 — 모사모 강의',desc:'',date:'3/27',cat:'Z',sub:'모사모 전사 원본'}
+  {href:'/haeil-lesson-1211383.html',icon:'🎧',title:'6) 수제자 2기 보너스 라이브 — 모사모 강의',desc:'',date:'3/27',cat:'Z',sub:'모사모 전사 원본'}
+  {href:'/haeil-lesson-1214612.html',icon:'🎧',title:'3) 수제자 2기 라이브 — 모사모 강의',desc:'',date:'3/27',cat:'Z',sub:'모사모 전사 원본'}
+  {href:'/haeil-lesson-1225819.html',icon:'🎧',title:'6) 수제자 2기 라이브 - 1 — 모사모 강의',desc:'',date:'3/27',cat:'Z',sub:'모사모 전사 원본'}
+  {href:'/haeil-lesson-1225939.html',icon:'🎧',title:'6) 수제자 2기 라이브 - 2 — 모사모 강의',desc:'',date:'3/27',cat:'Z',sub:'모사모 전사 원본'}
+  {href:'/haeil-lesson-1232174.html',icon:'🎧',title:'5) 수제자 2기 라이브 - 1 — 모사모 강의',desc:'',date:'3/27',cat:'Z',sub:'모사모 전사 원본'}
+  {href:'/haeil-lesson-1243792.html',icon:'🎧',title:'7) 수제자 2기 라이브 — 모사모 강의',desc:'',date:'3/27',cat:'Z',sub:'모사모 전사 원본'}
+  {href:'/haeil-lesson-1245988.html',icon:'🎧',title:'7) 수제자 2기 보너스 라이브 -1 — 모사모 강의',desc:'',date:'3/27',cat:'Z',sub:'모사모 전사 원본'}
+  {href:'/haeil-lesson-1245990.html',icon:'🎧',title:'7) 수제자 2기 보너스 라이브 -2 — 모사모 강의',desc:'',date:'3/27',cat:'Z',sub:'모사모 전사 원본'}
+  {href:'/haeil-lesson-1252169.html',icon:'🎧',title:'5) 수제자 2기 라이브 - 2 — 모사모 강의',desc:'',date:'3/27',cat:'Z',sub:'모사모 전사 원본'}
+  {href:'/haeil-lesson-1259758.html',icon:'🎧',title:'7) 수제자 2기 보너스 라이브 - 1 — 모사모 강의',desc:'',date:'3/27',cat:'Z',sub:'모사모 전사 원본'}
+  {href:'/haeil-lesson-1259761.html',icon:'🎧',title:'7) 수제자 2기 보너스 라이브 - 2 — 모사모 강의',desc:'',date:'3/27',cat:'Z',sub:'모사모 전사 원본'}
+  {href:'/haeil-lesson-1259763.html',icon:'🎧',title:'8) 수제자 2기 라이브 - 1 — 모사모 강의',desc:'',date:'3/27',cat:'Z',sub:'모사모 전사 원본'}
+  {href:'/haeil-lesson-1259764.html',icon:'🎧',title:'8) 수제자 2기 라이브 - 2 — 모사모 강의',desc:'',date:'3/27',cat:'Z',sub:'모사모 전사 원본'}
+  {href:'/haeil-lesson-1269143.html',icon:'🎧',title:'9) 수제자 2기 라이브 - 1 — 모사모 강의',desc:'',date:'3/27',cat:'Z',sub:'모사모 전사 원본'}
+  {href:'/haeil-lesson-1269144.html',icon:'🎧',title:'9) 수제자 2기 라이브 - 2 — 모사모 강의',desc:'',date:'3/27',cat:'Z',sub:'모사모 전사 원본'}
+  {href:'/haeil-lesson-1269147.html',icon:'🎧',title:'9) 수제자 2기 라이브 - 3 — 모사모 강의',desc:'',date:'3/27',cat:'Z',sub:'모사모 전사 원본'}
+  {href:'/haeil-lesson-1297981.html',icon:'🎧',title:'10) 수제자 2기 라이브 — 모사모 강의',desc:'',date:'3/27',cat:'Z',sub:'모사모 전사 원본'}
+  {href:'/haeil-lesson-1305452.html',icon:'🎧',title:'11) 수제자 2기 라이브 — 모사모 강의',desc:'',date:'3/27',cat:'Z',sub:'모사모 전사 원본'}
+  {href:'/haeil-lesson-1305453.html',icon:'🎧',title:'12) 수제자 2기 라이브 - 1 — 모사모 강의',desc:'',date:'3/27',cat:'Z',sub:'모사모 전사 원본'}
+  {href:'/haeil-lesson-1305454.html',icon:'🎧',title:'12) 수제자 2기 라이브 - 2 — 모사모 강의',desc:'',date:'3/27',cat:'Z',sub:'모사모 전사 원본'}
+  {href:'/haeil-lesson-998165.html',icon:'🎧',title:'2-3) 사업구조화.mp4 — 모사모 강의',desc:'',date:'3/27',cat:'Z',sub:'모사모 전사 원본'}
+  {href:'/haeil-lesson-998240.html',icon:'🎧',title:'2-1) 사업구조화.mp4 — 모사모 강의',desc:'',date:'3/27',cat:'Z',sub:'모사모 전사 원본'}
+  {href:'/haeil-lesson-998244.html',icon:'🎧',title:'2-2) 사업구조화.mp4 — 모사모 강의',desc:'',date:'3/27',cat:'Z',sub:'모사모 전사 원본'}
+  {href:'/haeil-lesson-998262.html',icon:'🎧',title:'1) \'문화 혁신론\' — 모사모 강의',desc:'',date:'3/27',cat:'Z',sub:'모사모 전사 원본'}
+  {href:'/haeil-lesson-998263.html',icon:'🎧',title:'3) 원칙 구조화, 제품과 마케팅의 시작 — 모사모 강의',desc:'',date:'3/27',cat:'Z',sub:'모사모 전사 원본'}
+  {href:'/haeil-lesson-998492.html',icon:'🎧',title:'4) 성공하는 회사를 만드는 법 — 모사모 강의',desc:'',date:'3/27',cat:'Z',sub:'모사모 전사 원본'}
+  {href:'/haeil-lesson-998495.html',icon:'🎧',title:'[ 수제자 보너스 ] 사업 &amp; 아이디어 피드백 — 모사모 강의',desc:'',date:'3/27',cat:'Z',sub:'모사모 전사 원본'}
+  {href:'/haeil-lesson-998497.html',icon:'🎧',title:'[ 수제자 보너스 2 - 1 ] — 모사모 강의',desc:'',date:'3/27',cat:'Z',sub:'모사모 전사 원본'}
+  {href:'/haeil-lesson-998498.html',icon:'🎧',title:'[ 수제자 보너스 2 - 2 ] — 모사모 강의',desc:'',date:'3/27',cat:'Z',sub:'모사모 전사 원본'}
+  {href:'/haeil-lesson-998499.html',icon:'🎧',title:'[ 수제자 보너스 2 - 3 ] — 모사모 강의',desc:'',date:'3/27',cat:'Z',sub:'모사모 전사 원본'},
 ];
 let currentCat='all',currentSub=null,searchQuery='';
 const expandedCats={};
@@ -390,16 +469,32 @@ function renderSidebarCats(){
     div.className='nav-item'+(currentCat===cat.key&&!currentSub?' active':'');
     div.dataset.cat=cat.key;
     div.innerHTML='<span class="icon">'+cat.icon+'</span><span class="label">'+cat.label+'</span>'
-      +(hasSubs?'<span class="expand-arrow'+(isExpanded?' open':'')+'">▶</span>':'')
+      +'<span class="expand-arrow'+(isExpanded?' open':'')+'">▶</span>'
       +'<span class="count">'+cnt+'</span>';
     div.onclick=(e)=>{
-      if(hasSubs){expandedCats[cat.key]=!expandedCats[cat.key]}
+      expandedCats[cat.key]=!expandedCats[cat.key];
       currentSub=null;setCategory(cat.key);
     };
     div.addEventListener('dragover',e=>{e.preventDefault();div.classList.add('drop-target')});
     div.addEventListener('dragleave',()=>div.classList.remove('drop-target'));
     div.addEventListener('drop',e=>{e.preventDefault();div.classList.remove('drop-target');const h=e.dataTransfer.getData('text/plain');if(h){saveCatOverride(h,cat.key);renderAll()}});
     sec.appendChild(div);
+    if(!hasSubs){
+      // Make non-sub categories also expandable
+      const catDocs=reports.filter(r=>r.cat===cat.key);
+      if(catDocs.length>0){
+        const docList=document.createElement('div');
+        docList.className='nav-sub-list'+(isExpanded?' open':'');
+        catDocs.forEach(r=>{
+          const docA=document.createElement('a');
+          docA.href=r.href;
+          docA.className='nav-sub-item'+(window.location.pathname===r.href?' active':'');
+          docA.innerHTML='<span style="opacity:.6">'+r.icon+'</span><span style="flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">'+r.title+'</span>';
+          docList.appendChild(docA);
+        });
+        sec.appendChild(docList);
+      }
+    }
     if(hasSubs){
       const subList=document.createElement('div');
       subList.className='nav-sub-list'+(isExpanded?' open':'');
