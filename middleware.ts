@@ -21,7 +21,11 @@ export default async function middleware(req: Request) {
   const url = new URL(req.url);
 
   // Allow login page and auth API routes
-  if (url.pathname === "/login" || url.pathname === "/login.html" || url.pathname.startsWith("/api/auth")) {
+  if (
+    url.pathname === "/login" ||
+    url.pathname === "/login.html" ||
+    url.pathname.startsWith("/api/auth")
+  ) {
     return next();
   }
 
@@ -31,7 +35,21 @@ export default async function middleware(req: Request) {
 
   if (token) {
     try {
-      await jwtVerify(token, getJwtSecret());
+      const { payload } = await jwtVerify(token, getJwtSecret());
+
+      // Role-based path restriction
+      const allowedPaths = payload.allowedPaths as string[] | undefined;
+      if (allowedPaths && allowedPaths.length > 0) {
+        const path = url.pathname;
+        const allowed = allowedPaths.some(
+          (p) => path === p || path.startsWith(p + "?") || path === p + ".html"
+        );
+        if (!allowed) {
+          // Redirect to first allowed path
+          return Response.redirect(new URL(allowedPaths[0], url.origin), 302);
+        }
+      }
+
       return next();
     } catch {
       // Invalid token — fall through to redirect

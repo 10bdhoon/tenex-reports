@@ -8,14 +8,20 @@ interface User {
   username: string;
   passwordHash: string;
   role: string;
+  allowedPaths?: string[]; // undefined = 전체 접근 가능
 }
 
 function getUsers(): User[] {
   const usersEnv = process.env.USERS;
   if (usersEnv) {
     return usersEnv.split(",").map((entry) => {
-      const [username, passwordHash, role] = entry.split(":");
-      return { username, passwordHash, role: role || "viewer" };
+      const [username, passwordHash, role, paths] = entry.split(":");
+      return {
+        username,
+        passwordHash,
+        role: role || "viewer",
+        allowedPaths: paths ? paths.split("|") : undefined,
+      };
     });
   }
   return [
@@ -23,6 +29,12 @@ function getUsers(): User[] {
       username: "admin",
       passwordHash: "$2b$10$2NcaKPFkCGhoxKbdFpNuru0/gH8IzuViZMhN3nG/PesAYDDZNRisa",
       role: "admin",
+    },
+    {
+      username: "almani",
+      passwordHash: "$2b$10$/G9qxG02Zi4C/KKT5RrX.ubMS7CJNv5jdiZvPcb/qqF5RN6r4vw4m",
+      role: "viewer",
+      allowedPaths: ["/crm", "/crm.html"],
     },
   ];
 }
@@ -37,20 +49,24 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   const users = getUsers();
   const user = users.find((u) => u.username === username);
   if (!user)
-    return res
-      .status(401)
-      .json({ error: "아이디 또는 비밀번호가 틀렸습니다." });
+    return res.status(401).json({ error: "아이디 또는 비밀번호가 틀렸습니다." });
 
   const valid = await compare(password, user.passwordHash);
   if (!valid)
-    return res
-      .status(401)
-      .json({ error: "아이디 또는 비밀번호가 틀렸습니다." });
+    return res.status(401).json({ error: "아이디 또는 비밀번호가 틀렸습니다." });
 
   const secret = new TextEncoder().encode(
     process.env.JWT_SECRET || "fallback-secret-change-me"
   );
-  const jwt = await new SignJWT({ username: user.username, role: user.role })
+  const payload: Record<string, unknown> = {
+    username: user.username,
+    role: user.role,
+  };
+  if (user.allowedPaths) {
+    payload.allowedPaths = user.allowedPaths;
+  }
+
+  const jwt = await new SignJWT(payload)
     .setProtectedHeader({ alg: "HS256" })
     .setIssuedAt()
     .setExpirationTime("7d")
