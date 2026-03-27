@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>계정 관리 — 테넥스</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#0f172a;color:#e2e8f0;min-height:100vh}
+.header{background:#1a1a2e;padding:20px 32px;display:flex;align-items:center;gap:16px;border-bottom:1px solid #334155}
+.header h1{font-size:20px;font-weight:700}
+.header a{color:#8b8ba7;font-size:13px;text-decoration:none;margin-left:auto}
+.header a:hover{color:#fff}
+.content{max-width:900px;margin:0 auto;padding:32px 24px}
+.notice{background:#1e3a5f;border:1px solid #2563eb;border-radius:10px;padding:14px 18px;font-size:13px;color:#93c5fd;margin-bottom:28px}
+.section{margin-bottom:32px}
+.section-title{font-size:14px;font-weight:700;color:#94a3b8;text-transform:uppercase;letter-spacing:1px;margin-bottom:14px;padding-bottom:8px;border-bottom:1px solid #334155}
+table{width:100%;border-collapse:collapse;font-size:13px}
+th{background:#1e293b;color:#64748b;padding:10px 14px;text-align:left;font-size:11px;text-transform:uppercase;letter-spacing:1px;border-bottom:1px solid #334155}
+td{padding:12px 14px;border-bottom:1px solid #1e293b;color:#e2e8f0;vertical-align:middle}
+tr:hover td{background:#1e293b}
+.role-badge{padding:2px 8px;border-radius:6px;font-size:11px;font-weight:700}
+.role-admin{background:rgba(0,40,85,0.4);color:#93c5fd}
+.role-viewer{background:rgba(100,116,139,0.2);color:#94a3b8}
+.path-tag{display:inline-block;padding:2px 8px;border-radius:4px;font-size:11px;background:#1e293b;color:#94a3b8;border:1px solid #334155;margin:2px}
+.btn{padding:6px 14px;border-radius:6px;font-size:12px;font-weight:600;cursor:pointer;border:none;transition:all .2s}
+.btn-del{background:rgba(239,68,68,0.15);color:#ef4444;border:1px solid rgba(239,68,68,0.3)}
+.btn-del:hover{background:rgba(239,68,68,0.3)}
+.btn-pw{background:rgba(245,158,11,0.15);color:#f59e0b;border:1px solid rgba(245,158,11,0.3)}
+.btn-pw:hover{background:rgba(245,158,11,0.3)}
+.btn-primary{background:#002855;color:#fff;border:1px solid #1a4a8a;padding:10px 20px;font-size:13px}
+.btn-primary:hover{background:#1a4a8a}
+.form-card{background:#1e293b;border:1px solid #334155;border-radius:12px;padding:20px;margin-top:8px}
+.form-row{display:flex;gap:12px;margin-bottom:12px;flex-wrap:wrap}
+.form-group{display:flex;flex-direction:column;gap:6px;flex:1;min-width:150px}
+label{font-size:12px;color:#94a3b8;font-weight:600}
+input,select{background:#0f172a;border:1px solid #334155;border-radius:6px;padding:8px 12px;color:#e2e8f0;font-size:13px;outline:none;width:100%}
+input:focus,select:focus{border-color:#002855}
+.paths-check{display:flex;flex-wrap:wrap;gap:8px;margin-top:4px}
+.paths-check label{display:flex;align-items:center;gap:6px;font-size:12px;color:#cbd5e1;font-weight:400;cursor:pointer;background:#0f172a;border:1px solid #334155;padding:5px 10px;border-radius:6px;transition:all .15s}
+.paths-check label:hover{border-color:#002855}
+.paths-check input[type=checkbox]{width:14px;height:14px;accent-color:#002855;cursor:pointer}
+.modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:200;align-items:center;justify-content:center}
+.modal.open{display:flex}
+.modal-box{background:#1e293b;border:1px solid #334155;border-radius:12px;padding:24px;width:360px}
+.modal-title{font-size:16px;font-weight:700;margin-bottom:16px}
+.modal-actions{display:flex;gap:10px;justify-content:flex-end;margin-top:16px}
+.empty{color:#475569;font-size:13px;padding:16px 0}
+.hint{background:#1a1a1a;border:1px solid #475569;border-radius:8px;padding:12px 16px;font-size:12px;color:#64748b;margin-top:8px}
+.hint code{color:#94a3b8}
+</style>
+</head>
+<body>
+<div class="header">
+  <h1>&#128273; 계정 관리</h1>
+  <a href="/index.html">&#8592; 보고서 목록</a>
+</div>
+<div class="content">
+  <div class="notice">&#9888;&#65039; admin 계정만 이 페이지에 접근할 수 있습니다. 계정 변경은 localStorage에 임시 저장됩니다. 영구 저장하려면 Vercel 환경변수 <code>USERS</code>에 반영하세요.</div>
+
+  <div class="section">
+    <div class="section-title">현재 계정 목록</div>
+    <table>
+      <thead><tr><th>아이디</th><th>권한</th><th>접근 가능 경로</th><th>작업</th></tr></thead>
+      <tbody id="userTable"></tbody>
+    </table>
+  </div>
+
+  <div class="section">
+    <div class="section-title">계정 추가</div>
+    <div class="form-card">
+      <div class="form-row">
+        <div class="form-group">
+          <label>아이디</label>
+          <input type="text" id="newUsername" placeholder="예: partner1">
+        </div>
+        <div class="form-group">
+          <label>비밀번호</label>
+          <input type="password" id="newPassword" placeholder="비밀번호">
+        </div>
+        <div class="form-group">
+          <label>권한</label>
+          <select id="newRole">
+            <option value="viewer">viewer (제한)</option>
+            <option value="admin">admin (전체)</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group" id="pathsGroup">
+        <label>접근 가능 경로 (viewer만. 미선택 시 전체)</label>
+        <div class="paths-check" id="pathsCheck"></div>
+      </div>
+      <div style="margin-top:16px">
+        <button class="btn btn-primary" onclick="addUser()">계정 추가</button>
+      </div>
+    </div>
+    <div class="hint">&#128161; 영구 저장: Vercel 환경변수 <code>USERS</code>에 <code>username:hash:role:path1|path2</code> 형식으로 추가</div>
+  </div>
+</div>
+
+<div class="modal" id="pwModal">
+  <div class="modal-box">
+    <div class="modal-title">&#128272; 비밀번호 변경</div>
+    <input type="hidden" id="pwUsername">
+    <div class="form-group" style="margin-bottom:12px">
+      <label>새 비밀번호</label>
+      <input type="password" id="newPw" placeholder="새 비밀번호">
+    </div>
+    <div class="form-group">
+      <label>확인</label>
+      <input type="password" id="newPwConfirm" placeholder="비밀번호 확인">
+    </div>
+    <div class="modal-actions">
+      <button class="btn btn-del" onclick="closePwModal()">취소</button>
+      <button class="btn btn-primary" onclick="changePw()">변경</button>
+    </div>
+  </div>
+</div>
+
+<script>
+var STORAGE_KEY='tenex-admin-users-v1';
+var PATHS=[
+  {label:'CRM',value:'/crm.html'},
+  {label:'Mixpanel',value:'/mixpanel-analysis.html'},
+  {label:'주간 리포트',value:'/weekly-mixpanel-2026-03-26.html'},
+  {label:'AI 시스템',value:'/ai-system.html'},
+  {label:'모사모 강의',value:'/mosamo-lectures.html'},
+  {label:'글로벌 전략',value:'/global-strategy.html'},
+  {label:'전체 전략',value:'/tenex-strategy.html'},
+];
+
+function loadUsers(){try{return JSON.parse(localStorage.getItem(STORAGE_KEY))||defaults();}catch{return defaults();}}
+function defaults(){return [{username:'admin',role:'admin',allowedPaths:null},{username:'almani',role:'viewer',allowedPaths:['/crm.html']}];}
+function saveUsers(u){localStorage.setItem(STORAGE_KEY,JSON.stringify(u));}
+
+function renderPathsCheck(){
+  document.getElementById('pathsCheck').innerHTML=PATHS.map(p=>'<label><input type="checkbox" value="'+p.value+'"> '+p.label+'</label>').join('');
+}
+
+function renderTable(){
+  var users=loadUsers();
+  var tb=document.getElementById('userTable');
+  if(!users.length){tb.innerHTML='<tr><td colspan="4" class="empty">계정 없음</td></tr>';return;}
+  tb.innerHTML=users.map(function(u){
+    return '<tr><td><strong>'+u.username+'</strong></td><td><span class="role-badge role-'+u.role+'">'+u.role+'</span></td><td>'
+      +(u.allowedPaths&&u.allowedPaths.length?u.allowedPaths.map(function(p){return '<span class="path-tag">'+p+'</span>';}).join(''):'<span style="color:#22c55e;font-size:12px">전체 접근</span>')
+      +'</td><td style="display:flex;gap:8px">'
+      +(u.username!=='admin'?'<button class="btn btn-del" onclick="deleteUser(\''+u.username+'\')">삭제</button>':'')
+      +'<button class="btn btn-pw" onclick="openPwModal(\''+u.username+'\')">비번변경</button>'
+      +'</td></tr>';
+  }).join('');
+}
+
+function addUser(){
+  var username=document.getElementById('newUsername').value.trim();
+  var password=document.getElementById('newPassword').value;
+  var role=document.getElementById('newRole').value;
+  var paths=[].slice.call(document.querySelectorAll('#pathsCheck input:checked')).map(function(el){return el.value;});
+  if(!username||!password){alert('아이디와 비밀번호를 입력하세요.');return;}
+  var users=loadUsers();
+  if(users.find(function(u){return u.username===username;})){alert('이미 존재하는 아이디입니다.');return;}
+  users.push({username:username,role:role,allowedPaths:role==='viewer'&&paths.length>0?paths:null});
+  saveUsers(users);
+  renderTable();
+  document.getElementById('newUsername').value='';
+  document.getElementById('newPassword').value='';
+  document.getElementById('newRole').value='viewer';
+  document.querySelectorAll('#pathsCheck input').forEach(function(el){el.checked=false;});
+  alert('계정 추가됨 (localStorage). 영구 저장: Vercel USERS 환경변수에 추가 필요');
+}
+
+function deleteUser(username){
+  if(!confirm('"'+username+'" 계정을 삭제할까요?'))return;
+  saveUsers(loadUsers().filter(function(u){return u.username!==username;}));
+  renderTable();
+}
+
+function openPwModal(username){
+  document.getElementById('pwUsername').value=username;
+  document.getElementById('newPw').value='';
+  document.getElementById('newPwConfirm').value='';
+  document.getElementById('pwModal').classList.add('open');
+}
+function closePwModal(){document.getElementById('pwModal').classList.remove('open');}
+function changePw(){
+  var pw=document.getElementById('newPw').value;
+  var pw2=document.getElementById('newPwConfirm').value;
+  if(!pw){alert('비밀번호를 입력하세요.');return;}
+  if(pw!==pw2){alert('비밀번호가 일치하지 않습니다.');return;}
+  alert('비밀번호 변경됨 (표시 전용).\n영구 저장: Vercel USERS 환경변수 해시 교체 필요');
+  closePwModal();
+}
+
+document.getElementById('newRole').addEventListener('change',function(){
+  document.getElementById('pathsGroup').style.display=this.value==='viewer'?'':'none';
+});
+
+renderPathsCheck();
+renderTable();
+</script>
+</body>
+</html>
