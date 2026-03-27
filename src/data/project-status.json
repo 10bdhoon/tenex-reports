@@ -1,0 +1,35 @@
+{
+  "updated": "2026-03-27",
+  "taehoon_actions": [
+    {"id": 1, "title": "리포트 UI (크롱 스타일)", "status": "done"},
+    {"id": 2, "title": "지메일 연동", "status": "pending", "note": "법인 메일 만든 후"},
+    {"id": 3, "title": "알림톡 CRM 최적화", "status": "pending", "note": "알마니 대표님 소개 후"},
+    {"id": 4, "title": "정품등록 + 메타픽셀", "status": "in_progress"},
+    {"id": 5, "title": "FAQ 사이트 + CS 최적화", "status": "in_progress"},
+    {"id": 6, "title": "SNS 일별 조회수 트래킹", "status": "pending"},
+    {"id": 7, "title": "AI 바이럴 자동화", "status": "pending"},
+    {"id": 8, "title": "소비자 리뷰 추출 → 광고 카피", "status": "pending"},
+    {"id": 9, "title": "커뮤니티 구축 (톰 레퍼런스)", "status": "pending"}
+  ],
+  "agents": {
+    "개실장": [
+      {"title": "정품등록 + 메타픽셀", "status": "in_progress"},
+      {"title": "mosamo-lectures 통합", "status": "done"},
+      {"title": "앱 문서 탭 UI 통합", "status": "in_progress"},
+      {"title": "SPA 시스템 페이지", "status": "in_progress"},
+      {"title": "프로젝트 현황 페이지", "status": "in_progress"}
+    ],
+    "마실장": [
+      {"title": "Mixpanel 시각화 리포트", "status": "in_progress"},
+      {"title": "카페24 재구매율 분석", "status": "done"},
+      {"title": "소비자 리뷰 추출", "status": "pending"}
+    ],
+    "고실장": [
+      {"title": "CS 최적화 기획안", "status": "delayed"}
+    ],
+    "콘실장": [
+      {"title": "댓글 수집 + 톤 분석", "status": "done"},
+      {"title": "YouTube 댓글 자동 게시", "status": "blocked", "note": "OAuth 필요"}
+    ]
+  }
+}
