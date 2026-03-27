@@ -2,436 +2,259 @@
 <html lang="ko">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>테넥스 리포트</title>
 <style>
-*{margin:0;padding:0;box-sizing:border-box}
-:root{--bg:#f5f5f7;--bg-sidebar:#1a1a2e;--bg-card:#fff;--text:#1d1d1f;--text-secondary:#6e6e73;--text-sidebar:#e2e2e8;--text-sidebar-muted:#8b8ba7;--accent:#002855;--border:#e5e5ea;--header-bg:#002855;--shadow:0 1px 3px rgba(0,0,0,0.08);--shadow-lg:0 4px 16px rgba(0,0,0,0.1)}
-[data-theme="dark"]{--bg:#0f0f17;--bg-card:#1c1c2e;--text:#e2e2e8;--text-secondary:#8b8ba7;--border:#2a2a3e}
-body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--bg);color:var(--text);display:flex;min-height:100vh;transition:background .3s,color .3s}
-.sidebar{width:300px;min-width:300px;background:var(--bg-sidebar);display:flex;flex-direction:column;position:fixed;top:0;left:0;bottom:0;z-index:200;transition:transform .3s,width .3s,min-width .3s;overflow:hidden}
-body.sidebar-collapsed .sidebar{width:0;min-width:0;transform:translateX(-300px)}
-body.sidebar-collapsed .main{margin-left:0}
-.sidebar-toggle{background:none;border:1px solid rgba(255,255,255,0.12);color:var(--text-sidebar-muted);width:28px;height:28px;border-radius:6px;cursor:pointer;font-size:14px;display:flex;align-items:center;justify-content:center;transition:all .2s;flex-shrink:0}
-.sidebar-toggle:hover{border-color:rgba(255,255,255,0.3);color:#fff}
-.header-toggle{background:none;border:1px solid rgba(255,255,255,0.12);color:rgba(255,255,255,0.6);width:32px;height:32px;border-radius:6px;cursor:pointer;font-size:16px;display:none;align-items:center;justify-content:center;transition:all .2s}
-body.sidebar-collapsed .header-toggle{display:flex}
-.sidebar-header{padding:24px 20px 16px;border-bottom:1px solid rgba(255,255,255,0.06);flex-shrink:0}
-.sidebar-header h1{font-size:18px;font-weight:700;color:#fff;display:flex;align-items:center;gap:8px}
-.sidebar-header p{font-size:11px;color:var(--text-sidebar-muted);margin-top:4px}
-.sidebar-search{margin:12px 20px 8px;position:relative;flex-shrink:0}
-.sidebar-search input{width:100%;padding:8px 12px 8px 34px;border-radius:8px;border:1px solid rgba(255,255,255,0.08);background:rgba(255,255,255,0.05);color:var(--text-sidebar);font-size:13px;outline:none}
-.sidebar-search input::placeholder{color:var(--text-sidebar-muted)}
-.sidebar-search input:focus{border-color:var(--accent)}
-.sidebar-search svg{position:absolute;left:10px;top:50%;transform:translateY(-50%);opacity:.5}
-.sidebar-nav{flex:1;overflow-y:auto;padding:8px 0}
-.nav-section{padding:0 12px;margin-bottom:2px}
-.nav-section-title{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--text-sidebar-muted);padding:12px 8px 5px}
-.nav-item{display:flex;align-items:center;gap:10px;padding:7px 12px;border-radius:8px;cursor:pointer;color:var(--text-sidebar-muted);font-size:13px;font-weight:500;transition:all .15s;user-select:none;position:relative;text-decoration:none}
-.nav-item:hover{background:rgba(255,255,255,0.06);color:var(--text-sidebar)}
-.nav-item.active{background:rgba(0,40,85,0.2);color:#fff}
-.nav-item.active::before{content:'';position:absolute;left:0;top:50%;transform:translateY(-50%);width:3px;height:18px;background:var(--accent);border-radius:0 3px 3px 0}
-.nav-item .icon{font-size:15px;min-width:20px;text-align:center}
-.nav-item .label{flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.nav-item .count{font-size:11px;background:rgba(255,255,255,0.08);padding:2px 7px;border-radius:10px;color:var(--text-sidebar-muted);font-weight:600;flex-shrink:0}
-.nav-item.active .count{background:rgba(0,40,85,0.3);color:#93b5d3}
-.nav-item.drop-target{background:rgba(0,100,200,0.3)!important;color:#fff!important;outline:2px dashed rgba(100,180,255,0.6)}
-.sidebar-system{border-top:1px solid rgba(255,255,255,0.06);padding:6px 12px;flex-shrink:0}
-.sidebar-footer{padding:14px 20px;border-top:1px solid rgba(255,255,255,0.06);display:flex;align-items:center;justify-content:space-between;flex-shrink:0}
-.sidebar-footer .version{font-size:11px;color:var(--text-sidebar-muted)}
-.logout-btn{background:none;border:1px solid rgba(255,255,255,0.12);color:var(--text-sidebar-muted);padding:4px 10px;border-radius:6px;cursor:pointer;font-size:11px;transition:all .2s}
-.logout-btn:hover{border-color:rgba(255,255,255,0.3);color:var(--text-sidebar)}
-.main{flex:1;margin-left:300px;display:flex;flex-direction:column;min-height:100vh;transition:margin-left .3s}
-.header{background:var(--header-bg);color:#fff;padding:14px 32px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100}
-.header-left{display:flex;align-items:center;gap:12px}
-.mobile-menu-btn{display:none;background:none;border:none;color:#fff;font-size:22px;cursor:pointer;padding:4px}
-.header-title{font-size:15px;font-weight:600}
-.theme-toggle{width:40px;height:22px;border-radius:12px;background:rgba(255,255,255,0.12);border:none;cursor:pointer;position:relative;transition:background .3s}
-.theme-toggle::after{content:'☀️';font-size:12px;position:absolute;left:3px;top:50%;transform:translateY(-50%);transition:left .3s}
-[data-theme="dark"] .theme-toggle::after{content:'🌙';left:20px}
-.content-area{flex:1;padding:24px 32px 40px}
-.content-header{margin-bottom:20px}
-.content-header h2{font-size:21px;font-weight:700;color:var(--text)}
-.breadcrumb{font-size:12px;color:var(--text-secondary);margin-top:3px;display:flex;align-items:center;gap:6px}
-.global-search-wrap{margin-bottom:18px;position:relative}
-.global-search-wrap input{width:100%;padding:13px 20px 13px 46px;border-radius:12px;border:1px solid var(--border);background:var(--bg-card);color:var(--text);font-size:14px;outline:none;transition:all .2s;box-shadow:var(--shadow)}
-.global-search-wrap input:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(0,40,85,0.1)}
-.global-search-wrap input::placeholder{color:var(--text-secondary)}
-.global-search-wrap .search-icon{position:absolute;left:15px;top:50%;transform:translateY(-50%);font-size:17px;opacity:.45;pointer-events:none}
-.global-search-wrap .search-shortcut{position:absolute;right:13px;top:50%;transform:translateY(-50%);font-size:11px;color:var(--text-secondary);background:var(--bg);padding:2px 7px;border-radius:4px;border:1px solid var(--border);font-family:monospace;pointer-events:none}
-.global-search-wrap .search-count{position:absolute;right:42px;top:50%;transform:translateY(-50%);font-size:12px;color:var(--text-secondary);font-weight:600;display:none}
-.overview-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:10px;margin-bottom:24px}
-.overview-card{background:var(--bg-card);border:1px solid var(--border);border-radius:10px;padding:14px 16px;cursor:pointer;transition:all .2s}
-.overview-card:hover{transform:translateY(-2px);box-shadow:var(--shadow-lg);border-color:var(--accent)}
-.overview-card.active{border-color:var(--accent);box-shadow:0 0 0 2px rgba(0,40,85,0.15)}
-.overview-card .ov-icon{font-size:22px;margin-bottom:6px}
-.overview-card .ov-label{font-size:11px;color:var(--text-secondary);font-weight:500}
-.overview-card .ov-count{font-size:22px;font-weight:700;color:var(--text);margin-top:2px}
-.report-card{background:var(--bg-card);border:1px solid var(--border);border-radius:10px;padding:12px 18px;margin-bottom:7px;display:flex;align-items:center;transition:all .2s;gap:10px;box-shadow:var(--shadow);text-decoration:none;color:inherit;cursor:grab}
-.report-card:hover{transform:translateY(-1px);box-shadow:var(--shadow-lg);border-color:var(--accent)}
-.report-card.dragging{opacity:.4;transform:scale(.96)}
-.card-num{font-size:12px;font-weight:700;color:var(--text-secondary);min-width:28px;text-align:center}
-.card-icon{font-size:17px;min-width:22px;text-align:center}
-.card-info{flex:1;min-width:0}
-.card-info h3{font-size:13px;font-weight:600;margin-bottom:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:var(--text)}
-.card-info .meta{font-size:11px;color:var(--text-secondary);display:flex;flex-wrap:wrap;gap:3px 8px}
-.card-info .desc{font-size:12px;color:var(--text-secondary);margin-bottom:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.badge{padding:2px 8px;border-radius:10px;font-size:11px;font-weight:600;white-space:nowrap}
-.empty{text-align:center;color:var(--text-secondary);padding:40px}
-.footer{padding:18px 32px;text-align:center;font-size:11px;color:var(--text-secondary);border-top:1px solid var(--border);margin-top:auto}
-.sidebar-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:150}
-.sidebar-overlay.show{display:block}
-/* 용어사전 */
-.glossary-btn{position:fixed;bottom:24px;right:24px;width:50px;height:50px;border-radius:50%;background:var(--accent);color:#fff;border:none;font-size:22px;cursor:pointer;box-shadow:var(--shadow-lg);z-index:300;display:flex;align-items:center;justify-content:center;transition:transform .2s}
-.glossary-btn:hover{transform:scale(1.1)}
-.glossary-panel{position:fixed;top:0;right:-400px;width:380px;height:100%;background:var(--bg-card);border-left:1px solid var(--border);z-index:400;transition:right .3s;display:flex;flex-direction:column;box-shadow:-4px 0 20px rgba(0,0,0,0.1)}
-.glossary-panel.open{right:0}
-.glossary-panel-header{padding:18px 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
-.glossary-panel-header h3{font-size:17px;font-weight:700}
-.glossary-close{background:none;border:none;font-size:20px;cursor:pointer;color:var(--text-secondary);padding:4px}
-.glossary-search{padding:10px 20px;border-bottom:1px solid var(--border)}
-.glossary-search input{width:100%;padding:7px 12px;border-radius:7px;border:1px solid var(--border);background:var(--bg);color:var(--text);font-size:13px;outline:none}
-.glossary-list{flex:1;overflow-y:auto;padding:12px 20px}
-.glossary-item{margin-bottom:14px}
-.glossary-item .term{font-size:14px;font-weight:700;color:var(--accent);margin-bottom:2px}
-[data-theme="dark"] .glossary-item .term{color:#5b9bd5}
-.glossary-item .def{font-size:13px;color:var(--text-secondary);line-height:1.5}
-.glossary-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.3);z-index:350}
-.glossary-overlay.show{display:block}
-@media(max-width:768px){.sidebar{transform:translateX(-100%)}.sidebar.open{transform:translateX(0)}.main{margin-left:0}.mobile-menu-btn{display:block}.header{padding:12px 16px}.content-area{padding:14px}.overview-grid{grid-template-columns:repeat(2,1fr)}.glossary-panel{width:100%}}
-@media(max-width:480px){.overview-grid{grid-template-columns:1fr}}
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { background:#0d1117; color:#e0e0e0; font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif; min-height:100vh; }
+  .hero { background:linear-gradient(135deg,#0d1117 0%,#161b22 100%); border-bottom:1px solid #21262d; padding:40px 40px 32px; }
+  .hero-inner { max-width:1100px; margin:0 auto; display:flex; align-items:flex-end; justify-content:space-between; gap:20px; flex-wrap:wrap; }
+  .hero-badge { font-size:11px; font-weight:600; color:#58a6ff; text-transform:uppercase; letter-spacing:1.5px; margin-bottom:10px; }
+  .hero h1 { font-size:28px; font-weight:700; color:#fff; letter-spacing:-0.5px; margin-bottom:4px; }
+  .hero-sub { color:#8b949e; font-size:14px; }
+  .hero-stats { display:flex; gap:16px; flex-shrink:0; }
+  .stat { text-align:center; background:#161b22; border:1px solid #30363d; border-radius:8px; padding:10px 18px; }
+  .stat-num { font-size:22px; font-weight:700; color:#e6edf3; }
+  .stat-label { font-size:11px; color:#8b949e; margin-top:2px; }
+  .container { max-width:1100px; margin:0 auto; padding:32px 40px 48px; }
+  .section { margin-bottom:36px; }
+  .section-header { display:flex; align-items:center; gap:10px; border-left:3px solid; padding-left:12px; margin-bottom:16px; }
+  .section-label { font-size:15px; font-weight:700; }
+  .section-count { font-size:11px; font-weight:600; padding:2px 8px; border-radius:10px; border:1px solid; }
+  .grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(200px,1fr)); gap:12px; }
+  .card { background:#161b22; border:1px solid #21262d; border-radius:10px; padding:16px 18px; text-decoration:none; color:inherit; display:block; transition:all 0.15s; }
+  .card:hover { border-color:#58a6ff; background:#1c2128; transform:translateY(-1px); }
+  .card-icon { font-size:22px; margin-bottom:8px; }
+  .card-title { font-size:13px; font-weight:600; color:#e6edf3; margin-bottom:4px; line-height:1.4; }
+  .card-desc { font-size:11px; color:#8b949e; line-height:1.4; }
+  .footer { text-align:center; padding:24px; color:#484f58; font-size:11px; border-top:1px solid #21262d; }
 </style>
 </head>
 <body>
-<div class="sidebar-overlay" id="sidebarOverlay"></div>
-<aside class="sidebar" id="sidebar">
-  <div class="sidebar-header">
-    <div style="display:flex;align-items:center;justify-content:space-between">
-      <h1><span>🎯</span> 테넥스 리포트</h1>
-      <button class="sidebar-toggle" id="sidebarCollapse">◀</button>
+<div class="hero">
+  <div class="hero-inner">
+    <div>
+      <div class="hero-badge">🎯 테넥스 | 카리나</div>
+      <h1>테넥스 리포트</h1>
+      <div class="hero-sub">전략 · 시스템 · 제품 · CRM — 전체 문서 모음</div>
     </div>
-    <p>태훈의 A~Z 업무 구조</p>
+    <div class="hero-stats">
+      <div class="stat"><div class="stat-num">110</div><div class="stat-label">총 문서</div></div>
+      <div class="stat"><div class="stat-num">11</div><div class="stat-label">카테고리</div></div>
+    </div>
   </div>
-  <div class="sidebar-search">
-    <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
-    <input type="text" id="sidebarSearchInput" placeholder="메뉴 검색...">
-  </div>
-  <nav class="sidebar-nav" id="sidebarNav">
-    <div class="nav-section">
-      <div class="nav-item active" data-cat="all">
-        <span class="icon">📊</span><span class="label">전체</span><span class="count" id="cnt-all">0</span>
+</div>
+<div class="container">
+
+    <div class="section">
+      <div class="section-header" style="border-left-color:#f0883e">
+        <span class="section-label" style="color:#f0883e">A 📦 제품</span>
+        <span class="section-count" style="background:rgba(240,136,62,0.08);color:#f0883e;border-color:rgba(240,136,62,0.2)">3개</span>
+      </div>
+      <div class="grid">
+        <a href="/brand-design-system.html" class="card"><div class="card-icon">🎨</div><div class="card-title">키네메디칼 디자인 시스템 <span style="font-size:10px;color:#484f58;">· 3/16</span></div><div class="card-desc">브랜드 컬러, 로고, 패키지 가이드</div></a>
+        <a href="/es808.html" class="card"><div class="card-icon">⚡</div><div class="card-title">ES-808 <span style="font-size:10px;color:#484f58;">· 3/19</span></div><div class="card-desc">커리큘럼 · 문자 안내</div></a>
+        <a href="/product-roadmap.html" class="card"><div class="card-icon">🗓️</div><div class="card-title">제품 로드맵 <span style="font-size:10px;color:#484f58;">· 3/16</span></div><div class="card-desc">제품 개발 및 출시 타임라인</div></a>
       </div>
     </div>
-    <div class="nav-section" id="catSection">
-      <div class="nav-section-title">업무 카테고리 (A~Z)</div>
+
+    <div class="section">
+      <div class="section-header" style="border-left-color:#f85149">
+        <span class="section-label" style="color:#f85149">B 🎬 콘텐츠/채널</span>
+        <span class="section-count" style="background:rgba(248,81,73,0.08);color:#f85149;border-color:rgba(248,81,73,0.2)">1개</span>
+      </div>
+      <div class="grid">
+        <a href="/youtube.html" class="card"><div class="card-icon">▶️</div><div class="card-title">YouTube <span style="font-size:10px;color:#484f58;">· 3/18</span></div><div class="card-desc">채널 허브 · 트래커 · 리서치 · 영상 목록</div></a>
+      </div>
     </div>
-    <div class="sidebar-system">
-      <div class="nav-section-title" style="padding:6px 8px 5px">시스템</div>
-      <a href="/system-status.html" class="nav-item"><span class="icon">🔄</span><span class="label">크론</span></a>
-      <a href="/system-status.html" class="nav-item"><span class="icon">🚀</span><span class="label">배포</span></a>
-      <a href="/system-status.html" class="nav-item"><span class="icon">🔌</span><span class="label">API</span></a>
-      <a href="/system-status.html" class="nav-item"><span class="icon">🤖</span><span class="label">에이전트</span></a>
-      <a href="/system-status.html" class="nav-item"><span class="icon">🖥️</span><span class="label">서버</span></a>
+
+    <div class="section">
+      <div class="section-header" style="border-left-color:#d29922">
+        <span class="section-label" style="color:#d29922">D 📣 마케팅/광고</span>
+        <span class="section-count" style="background:rgba(210,153,34,0.08);color:#d29922;border-color:rgba(210,153,34,0.2)">1개</span>
+      </div>
+      <div class="grid">
+        <a href="/tenex-strategy.html" class="card"><div class="card-icon">🚀</div><div class="card-title">TENEX 핵심전략 2026 <span style="font-size:10px;color:#484f58;">· 3/25</span></div><div class="card-desc">테넥스 전체 사업 전략</div></a>
+      </div>
     </div>
-  </nav>
-  <div class="sidebar-footer">
-    <span class="version">v3.0</span>
-    <button class="logout-btn" id="logoutBtn">로그아웃</button>
-  </div>
-</aside>
-<div class="main">
-  <header class="header">
-    <div class="header-left">
-      <button class="mobile-menu-btn" id="mobileMenuBtn">☰</button>
-      <button class="header-toggle" id="headerToggle">☰</button>
-      <span class="header-title">테넥스 리포트</span>
+
+    <div class="section">
+      <div class="section-header" style="border-left-color:#e91e8c">
+        <span class="section-label" style="color:#e91e8c">E 📬 앱/CRM</span>
+        <span class="section-count" style="background:rgba(233,30,140,0.08);color:#e91e8c;border-color:rgba(233,30,140,0.2)">3개</span>
+      </div>
+      <div class="grid">
+        <a href="/1min-dosu-app.html" class="card"><div class="card-icon">💪</div><div class="card-title">1분도수 앱 <span style="font-size:10px;color:#484f58;">· 3/19</span></div><div class="card-desc">앱 기획 · ver4 화면 · 기능 스펙</div></a>
+        <a href="/crm.html" class="card"><div class="card-icon">📊</div><div class="card-title">CRM <span style="font-size:10px;color:#484f58;">· 3/19</span></div><div class="card-desc">CRM 전략 v2 · 고객 페르소나</div></a>
+        <a href="/kinemedical-app.html" class="card"><div class="card-icon">📱</div><div class="card-title">키네메디칼 앱 <span style="font-size:10px;color:#484f58;">· 3/19</span></div><div class="card-desc">앱 스펙 · 마일스톤 · 데모</div></a>
+      </div>
     </div>
-    <div style="display:flex;align-items:center;gap:12px">
-      <button class="theme-toggle" id="themeToggle"></button>
+
+    <div class="section">
+      <div class="section-header" style="border-left-color:#3fb950">
+        <span class="section-label" style="color:#3fb950">F 💰 자금조달</span>
+        <span class="section-count" style="background:rgba(63,185,80,0.08);color:#3fb950;border-color:rgba(63,185,80,0.2)">1개</span>
+      </div>
+      <div class="grid">
+        <a href="/funding.html" class="card"><div class="card-icon">💰</div><div class="card-title">자금조달 <span style="font-size:10px;color:#484f58;">· 3/19</span></div><div class="card-desc">지분 구조 · 스톡옵션 · 초창패 인터뷰</div></a>
+      </div>
     </div>
-  </header>
-  <div class="content-area">
-    <div class="content-header">
-      <div class="breadcrumb"><span>홈</span> / <span id="breadcrumbCat">전체 문서</span></div>
-      <h2 id="contentTitle">전체 리포트</h2>
+
+    <div class="section">
+      <div class="section-header" style="border-left-color:#79c0ff">
+        <span class="section-label" style="color:#79c0ff">G 🧑 채용</span>
+        <span class="section-count" style="background:rgba(121,192,255,0.08);color:#79c0ff;border-color:rgba(121,192,255,0.2)">1개</span>
+      </div>
+      <div class="grid">
+        <a href="/2026-team-structure.html" class="card"><div class="card-icon">👥</div><div class="card-title">팀 구조 & 채용 로드맵 <span style="font-size:10px;color:#484f58;">· 3/16</span></div><div class="card-desc">2026 팀 구성 및 채용 계획</div></a>
+      </div>
     </div>
-    <div class="global-search-wrap">
-      <span class="search-icon">🔍</span>
-      <input type="text" id="globalSearch" placeholder="리포트 검색... (제목, 설명)">
-      <span class="search-shortcut">/</span>
-      <span class="search-count" id="searchCount"></span>
+
+    <div class="section">
+      <div class="section-header" style="border-left-color:#ffa657">
+        <span class="section-label" style="color:#ffa657">H ⚙️ 운영</span>
+        <span class="section-count" style="background:rgba(255,166,87,0.08);color:#ffa657;border-color:rgba(255,166,87,0.2)">1개</span>
+      </div>
+      <div class="grid">
+        <a href="/system-status.html" class="card"><div class="card-icon">🖥️</div><div class="card-title">자동화 시스템 현황 <span style="font-size:10px;color:#484f58;">· 3/16</span></div><div class="card-desc">테넥스 자동화 시스템 현황</div></a>
+      </div>
     </div>
-    <div class="overview-grid" id="overviewGrid"></div>
-    <div id="reportList"></div>
-    <div class="empty" id="emptyState" style="display:none">검색 결과가 없습니다.</div>
-  </div>
-  <div class="footer">마지막 업데이트: 2026. 3. 27. | tenex-reports.vercel.app</div>
+
+    <div class="section">
+      <div class="section-header" style="border-left-color:#58a6ff">
+        <span class="section-label" style="color:#58a6ff">I 🧠 AI 시스템</span>
+        <span class="section-count" style="background:rgba(88,166,255,0.08);color:#58a6ff;border-color:rgba(88,166,255,0.2)">1개</span>
+      </div>
+      <div class="grid">
+        <a href="/ai-system.html" class="card"><div class="card-icon">🧠</div><div class="card-title">AI 시스템 <span style="font-size:10px;color:#484f58;">· 3/19</span></div><div class="card-desc">카리나 · OpenClaw · 시스템 구조 · Brain.db · 에이전트팀</div></a>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-header" style="border-left-color:#1abc9c">
+        <span class="section-label" style="color:#1abc9c">J 🌏 해외진출</span>
+        <span class="section-count" style="background:rgba(26,188,156,0.08);color:#1abc9c;border-color:rgba(26,188,156,0.2)">1개</span>
+      </div>
+      <div class="grid">
+        <a href="/global-strategy.html" class="card"><div class="card-icon">🌏</div><div class="card-title">글로벌 진출 전략 <span style="font-size:10px;color:#484f58;">· 3/19</span></div><div class="card-desc">미국 전략 · APR 벤치마크 · 국가별 우선순위 · 전략 요약</div></a>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-header" style="border-left-color:#bc8cff">
+        <span class="section-label" style="color:#bc8cff">Z 🎓 교육</span>
+        <span class="section-count" style="background:rgba(188,140,255,0.08);color:#bc8cff;border-color:rgba(188,140,255,0.2)">1개</span>
+      </div>
+      <div class="grid">
+        <a href="/education.html" class="card"><div class="card-icon">🎓</div><div class="card-title">교육 <span style="font-size:10px;color:#484f58;">· 3/23</span></div><div class="card-desc">교육 허브 · 수제자 2기 요약 · 자사교 5기 메타</div></a>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-header" style="border-left-color:#8b949e">
+        <span class="section-label" style="color:#8b949e">📄 기타</span>
+        <span class="section-count" style="background:rgba(139,148,158,0.08);color:#8b949e;border-color:rgba(139,148,158,0.2)">96개</span>
+      </div>
+      <div class="grid">
+        <a href="/agent-team-plan.html" class="card"><div class="card-icon">📄</div><div class="card-title">테넥스 AI 에이전트팀 기획서 v3 <span style="font-size:10px;color:#484f58;">· 3/25</span></div><div class="card-desc"></div></a>
+        <a href="/app-demo.html" class="card"><div class="card-icon">📄</div><div class="card-title">1분도수 앱 데모 <span style="font-size:10px;color:#484f58;">· 3/25</span></div><div class="card-desc"></div></a>
+        <a href="/app-journey-plan.html" class="card"><div class="card-icon">📄</div><div class="card-title">1분도수 앱 고객 여정 기획안 (최종본) <span style="font-size:10px;color:#484f58;">· 3/25</span></div><div class="card-desc"></div></a>
+        <a href="/app-tech-spec.html" class="card"><div class="card-icon">📄</div><div class="card-title">🏗️ 1분도수 앱 — 기술 스펙 & AI 해자 전략 <span style="font-size:10px;color:#484f58;">· 3/25</span></div><div class="card-desc"></div></a>
+        <a href="/apr-hiring-analysis.html" class="card"><div class="card-icon">📄</div><div class="card-title">APR 채용 공고 분석 — 테넥스 채용 전략 참고 <span style="font-size:10px;color:#484f58;">· 3/19</span></div><div class="card-desc"></div></a>
+        <a href="/apr-organization-analysis.html" class="card"><div class="card-icon">📄</div><div class="card-title">APR 조직 완전 분석 — 테넥스 참고용 <span style="font-size:10px;color:#484f58;">· 3/19</span></div><div class="card-desc"></div></a>
+        <a href="/ceo-roles.html" class="card"><div class="card-icon">📄</div><div class="card-title">CEO 업무 맵 & 채용 전략 | 테넥스 <span style="font-size:10px;color:#484f58;">· 3/23</span></div><div class="card-desc"></div></a>
+        <a href="/customer-journey-v5.html" class="card"><div class="card-icon">📄</div><div class="card-title">고객 여정 분석 — 승무원 수분크림 <span style="font-size:10px;color:#484f58;">· 3/23</span></div><div class="card-desc"></div></a>
+        <a href="/haeil-lectures.html" class="card"><div class="card-icon">📄</div><div class="card-title">해일이형 강의 전사 정리 — 테넥스 <span style="font-size:10px;color:#484f58;">· 3/26</span></div><div class="card-desc"></div></a>
+        <a href="/haeil-lesson-1005347.html" class="card"><div class="card-icon">📄</div><div class="card-title">'사업의 비밀 _ 사업으로 부자 되는 유일한 방법_1'.mp4 — 해일이형 강의 <span style="font-size:10px;color:#484f58;">· 3/25</span></div><div class="card-desc"></div></a>
+        <a href="/haeil-lesson-1006588.html" class="card"><div class="card-icon">📄</div><div class="card-title">&#039;사업의 비밀 _ 사업으로 부자 되는 유일한 방법_2&#039;.mp4 — 해일이형 강의 <span style="font-size:10px;color:#484f58;">· 3/26</span></div><div class="card-desc"></div></a>
+        <a href="/haeil-lesson-1006612.html" class="card"><div class="card-icon">📄</div><div class="card-title">&#039;사업의 비밀 _ 사업으로 부자 되는 유일한 방법&#039;.mp4 — 해일이형 강의 <span style="font-size:10px;color:#484f58;">· 3/26</span></div><div class="card-desc"></div></a>
+        <a href="/haeil-lesson-1011017.html" class="card"><div class="card-icon">📄</div><div class="card-title">사업으로 부자되는 유일한 방법 (2편) - 1 — 해일이형 강의 <span style="font-size:10px;color:#484f58;">· 3/25</span></div><div class="card-desc"></div></a>
+        <a href="/haeil-lesson-1011018.html" class="card"><div class="card-icon">📄</div><div class="card-title">사업으로 부자되는 유일한 방법 (2편) - 2 — 해일이형 강의 <span style="font-size:10px;color:#484f58;">· 3/26</span></div><div class="card-desc"></div></a>
+        <a href="/haeil-lesson-1011019.html" class="card"><div class="card-icon">📄</div><div class="card-title">사업으로 부자되는 유일한 방법 (2편) - 3 — 해일이형 강의 <span style="font-size:10px;color:#484f58;">· 3/26</span></div><div class="card-desc"></div></a>
+        <a href="/haeil-lesson-1011026.html" class="card"><div class="card-icon">📄</div><div class="card-title">사업으로 부자되는 유일한 방법 (2편) - 4 — 해일이형 강의 <span style="font-size:10px;color:#484f58;">· 3/26</span></div><div class="card-desc"></div></a>
+        <a href="/haeil-lesson-1011028.html" class="card"><div class="card-icon">📄</div><div class="card-title">사업으로 부자되는 유일한 방법 (2편) - 5 — 해일이형 강의 <span style="font-size:10px;color:#484f58;">· 3/26</span></div><div class="card-desc"></div></a>
+        <a href="/haeil-lesson-1011033.html" class="card"><div class="card-icon">📄</div><div class="card-title">2/22 수제자 보너스 라이브 - 1 — 해일이형 강의 <span style="font-size:10px;color:#484f58;">· 3/25</span></div><div class="card-desc"></div></a>
+        <a href="/haeil-lesson-1011034.html" class="card"><div class="card-icon">📄</div><div class="card-title">2/22 수제자 보너스 라이브 - 2 — 해일이형 강의 <span style="font-size:10px;color:#484f58;">· 3/25</span></div><div class="card-desc"></div></a>
+        <a href="/haeil-lesson-1011035.html" class="card"><div class="card-icon">📄</div><div class="card-title">2/22 수제자 보너스 라이브 - 3 — 해일이형 강의 <span style="font-size:10px;color:#484f58;">· 3/25</span></div><div class="card-desc"></div></a>
+        <a href="/haeil-lesson-1011036.html" class="card"><div class="card-icon">📄</div><div class="card-title">1/4 수제자 보너스 라이브 다시보기 — 해일이형 강의 <span style="font-size:10px;color:#484f58;">· 3/25</span></div><div class="card-desc"></div></a>
+        <a href="/haeil-lesson-1011038.html" class="card"><div class="card-icon">📄</div><div class="card-title">5) 실전의 비밀 — 해일이형 강의 <span style="font-size:10px;color:#484f58;">· 3/25</span></div><div class="card-desc"></div></a>
+        <a href="/haeil-lesson-1011039.html" class="card"><div class="card-icon">📄</div><div class="card-title">6) 실전의 비밀, 두 번째 이야기 — 해일이형 강의 <span style="font-size:10px;color:#484f58;">· 3/25</span></div><div class="card-desc"></div></a>
+        <a href="/haeil-lesson-1014489.html" class="card"><div class="card-icon">📄</div><div class="card-title">성공을 완성하는 가장 중요한 순간 - 1 — 해일이형 강의 <span style="font-size:10px;color:#484f58;">· 3/25</span></div><div class="card-desc"></div></a>
+        <a href="/haeil-lesson-1014490.html" class="card"><div class="card-icon">📄</div><div class="card-title">성공을 완성하는 가장 중요한 순간 - 2 — 해일이형 강의 <span style="font-size:10px;color:#484f58;">· 3/25</span></div><div class="card-desc"></div></a>
+        <a href="/haeil-lesson-1014491.html" class="card"><div class="card-icon">📄</div><div class="card-title">성공을 완성하는 가장 중요한 순간 - 3 — 해일이형 강의 <span style="font-size:10px;color:#484f58;">· 3/25</span></div><div class="card-desc"></div></a>
+        <a href="/haeil-lesson-1014497.html" class="card"><div class="card-icon">📄</div><div class="card-title">성공을 완성하는 가장 중요한 순간 - 4 — 해일이형 강의 <span style="font-size:10px;color:#484f58;">· 3/25</span></div><div class="card-desc"></div></a>
+        <a href="/haeil-lesson-1014498.html" class="card"><div class="card-icon">📄</div><div class="card-title">7) 제품 기획과 제작 경험의 기적 — 해일이형 강의 <span style="font-size:10px;color:#484f58;">· 3/25</span></div><div class="card-desc"></div></a>
+        <a href="/haeil-lesson-1014501.html" class="card"><div class="card-icon">📄</div><div class="card-title">성공을 완성하는 가장 중요한 순간 - 5 — 해일이형 강의 <span style="font-size:10px;color:#484f58;">· 3/25</span></div><div class="card-desc"></div></a>
+        <a href="/haeil-lesson-1014502.html" class="card"><div class="card-icon">📄</div><div class="card-title">2/5 수제자 보너스 라이브 — 해일이형 강의 <span style="font-size:10px;color:#484f58;">· 3/25</span></div><div class="card-desc"></div></a>
+        <a href="/haeil-lesson-1014503.html" class="card"><div class="card-icon">📄</div><div class="card-title">2/11 수제자 보너스 라이브 — 해일이형 강의 <span style="font-size:10px;color:#484f58;">· 3/25</span></div><div class="card-desc"></div></a>
+        <a href="/haeil-lesson-1029047.html" class="card"><div class="card-icon">📄</div><div class="card-title">3/7 유튜브 기습 라이브 다시보기 — 해일이형 강의 <span style="font-size:10px;color:#484f58;">· 3/25</span></div><div class="card-desc"></div></a>
+        <a href="/haeil-lesson-1033839.html" class="card"><div class="card-icon">📄</div><div class="card-title">마케팅은 어떻게 불가능을 이루는 힘이 되는가 - 1 — 해일이형 강의 <span style="font-size:10px;color:#484f58;">· 3/25</span></div><div class="card-desc"></div></a>
+        <a href="/haeil-lesson-1033841.html" class="card"><div class="card-icon">📄</div><div class="card-title">마케팅은 어떻게 불가능을 이루는 힘이 되는가 - 2 — 해일이형 강의 <span style="font-size:10px;color:#484f58;">· 3/25</span></div><div class="card-desc"></div></a>
+        <a href="/haeil-lesson-1035418.html" class="card"><div class="card-icon">📄</div><div class="card-title">3/18 수제자 보너스 라이브 — 해일이형 강의 <span style="font-size:10px;color:#484f58;">· 3/25</span></div><div class="card-desc"></div></a>
+        <a href="/haeil-lesson-1043765.html" class="card"><div class="card-icon">📄</div><div class="card-title">마케팅, 유기적 성장의 모든 것 1 — 해일이형 강의 <span style="font-size:10px;color:#484f58;">· 3/25</span></div><div class="card-desc"></div></a>
+        <a href="/haeil-lesson-1043768.html" class="card"><div class="card-icon">📄</div><div class="card-title">마케팅, 유기적 성장의 모든 것 2 — 해일이형 강의 <span style="font-size:10px;color:#484f58;">· 3/25</span></div><div class="card-desc"></div></a>
+        <a href="/haeil-lesson-1054213.html" class="card"><div class="card-icon">📄</div><div class="card-title">지극히 거대한, 그러나 작은 끝으로 - 01 — 해일이형 강의 <span style="font-size:10px;color:#484f58;">· 3/25</span></div><div class="card-desc"></div></a>
+        <a href="/haeil-lesson-1054222.html" class="card"><div class="card-icon">📄</div><div class="card-title">지극히 거대한, 그러나 작은 끝으로 - 02 — 해일이형 강의 <span style="font-size:10px;color:#484f58;">· 3/25</span></div><div class="card-desc"></div></a>
+        <a href="/haeil-lesson-1064595.html" class="card"><div class="card-icon">📄</div><div class="card-title">수제자 마지막 라이브 1 — 해일이형 강의 <span style="font-size:10px;color:#484f58;">· 3/25</span></div><div class="card-desc"></div></a>
+        <a href="/haeil-lesson-1064609.html" class="card"><div class="card-icon">📄</div><div class="card-title">수제자 마지막 라이브 2 — 해일이형 강의 <span style="font-size:10px;color:#484f58;">· 3/25</span></div><div class="card-desc"></div></a>
+        <a href="/haeil-lesson-1064615.html" class="card"><div class="card-icon">📄</div><div class="card-title">수제자 마지막 라이브 3 — 해일이형 강의 <span style="font-size:10px;color:#484f58;">· 3/25</span></div><div class="card-desc"></div></a>
+        <a href="/haeil-lesson-1090893.html" class="card"><div class="card-icon">📄</div><div class="card-title">사업을 성공시키는 비밀 무기, 스크립트 — 해일이형 강의 <span style="font-size:10px;color:#484f58;">· 3/25</span></div><div class="card-desc"></div></a>
+        <a href="/haeil-lesson-1090894.html" class="card"><div class="card-icon">📄</div><div class="card-title">사업을 성공시키는 비밀 도구, '플랫폼' — 해일이형 강의 <span style="font-size:10px;color:#484f58;">· 3/25</span></div><div class="card-desc"></div></a>
+        <a href="/haeil-lesson-1164660.html" class="card"><div class="card-icon">📄</div><div class="card-title">수제자 2기 보너스 라이브 01 — 해일이형 강의 <span style="font-size:10px;color:#484f58;">· 3/25</span></div><div class="card-desc"></div></a>
+        <a href="/haeil-lesson-1164662.html" class="card"><div class="card-icon">📄</div><div class="card-title">수제자 2기 보너스 라이브 02 — 해일이형 강의 <span style="font-size:10px;color:#484f58;">· 3/26</span></div><div class="card-desc"></div></a>
+        <a href="/haeil-lesson-1184164.html" class="card"><div class="card-icon">📄</div><div class="card-title">수제자 2기 보너스 라이브 — 해일이형 강의 <span style="font-size:10px;color:#484f58;">· 3/25</span></div><div class="card-desc"></div></a>
+        <a href="/haeil-lesson-1195879.html" class="card"><div class="card-icon">📄</div><div class="card-title">3) 수제자 2기 보너스 라이브 — 해일이형 강의 <span style="font-size:10px;color:#484f58;">· 3/25</span></div><div class="card-desc"></div></a>
+        <a href="/haeil-lesson-1202173.html" class="card"><div class="card-icon">📄</div><div class="card-title">4) 수제자 2기 라이브 -1 — 해일이형 강의 <span style="font-size:10px;color:#484f58;">· 3/25</span></div><div class="card-desc"></div></a>
+        <a href="/haeil-lesson-1202174.html" class="card"><div class="card-icon">📄</div><div class="card-title">4) 수제자 2기 라이브 -2 — 해일이형 강의 <span style="font-size:10px;color:#484f58;">· 3/25</span></div><div class="card-desc"></div></a>
+        <a href="/haeil-lesson-1202175.html" class="card"><div class="card-icon">📄</div><div class="card-title">4) 수제자 2기 라이브 -3 — 해일이형 강의 <span style="font-size:10px;color:#484f58;">· 3/25</span></div><div class="card-desc"></div></a>
+        <a href="/haeil-lesson-1211380.html" class="card"><div class="card-icon">📄</div><div class="card-title">4) 수제자 2기 보너스 라이브 — 해일이형 강의 <span style="font-size:10px;color:#484f58;">· 3/25</span></div><div class="card-desc"></div></a>
+        <a href="/haeil-lesson-1211382.html" class="card"><div class="card-icon">📄</div><div class="card-title">5) 수제자 2기 보너스 라이브 — 해일이형 강의 <span style="font-size:10px;color:#484f58;">· 3/25</span></div><div class="card-desc"></div></a>
+        <a href="/haeil-lesson-1211383.html" class="card"><div class="card-icon">📄</div><div class="card-title">6) 수제자 2기 보너스 라이브 — 해일이형 강의 <span style="font-size:10px;color:#484f58;">· 3/25</span></div><div class="card-desc"></div></a>
+        <a href="/haeil-lesson-1214612.html" class="card"><div class="card-icon">📄</div><div class="card-title">3) 수제자 2기 라이브 — 해일이형 강의 <span style="font-size:10px;color:#484f58;">· 3/25</span></div><div class="card-desc"></div></a>
+        <a href="/haeil-lesson-1225819.html" class="card"><div class="card-icon">📄</div><div class="card-title">6) 수제자 2기 라이브 - 1 — 해일이형 강의 <span style="font-size:10px;color:#484f58;">· 3/25</span></div><div class="card-desc"></div></a>
+        <a href="/haeil-lesson-1225939.html" class="card"><div class="card-icon">📄</div><div class="card-title">6) 수제자 2기 라이브 - 2 — 해일이형 강의 <span style="font-size:10px;color:#484f58;">· 3/25</span></div><div class="card-desc"></div></a>
+        <a href="/haeil-lesson-1232174.html" class="card"><div class="card-icon">📄</div><div class="card-title">5) 수제자 2기 라이브 - 1 — 해일이형 강의 <span style="font-size:10px;color:#484f58;">· 3/25</span></div><div class="card-desc"></div></a>
+        <a href="/haeil-lesson-1243792.html" class="card"><div class="card-icon">📄</div><div class="card-title">7) 수제자 2기 라이브 — 해일이형 강의 <span style="font-size:10px;color:#484f58;">· 3/25</span></div><div class="card-desc"></div></a>
+        <a href="/haeil-lesson-1245988.html" class="card"><div class="card-icon">📄</div><div class="card-title">7) 수제자 2기 보너스 라이브 -1 — 해일이형 강의 <span style="font-size:10px;color:#484f58;">· 3/25</span></div><div class="card-desc"></div></a>
+        <a href="/haeil-lesson-1245990.html" class="card"><div class="card-icon">📄</div><div class="card-title">7) 수제자 2기 보너스 라이브 -2 — 해일이형 강의 <span style="font-size:10px;color:#484f58;">· 3/25</span></div><div class="card-desc"></div></a>
+        <a href="/haeil-lesson-1252169.html" class="card"><div class="card-icon">📄</div><div class="card-title">5) 수제자 2기 라이브 - 2 — 해일이형 강의 <span style="font-size:10px;color:#484f58;">· 3/25</span></div><div class="card-desc"></div></a>
+        <a href="/haeil-lesson-1259758.html" class="card"><div class="card-icon">📄</div><div class="card-title">7) 수제자 2기 보너스 라이브 - 1 — 해일이형 강의 <span style="font-size:10px;color:#484f58;">· 3/25</span></div><div class="card-desc"></div></a>
+        <a href="/haeil-lesson-1259761.html" class="card"><div class="card-icon">📄</div><div class="card-title">7) 수제자 2기 보너스 라이브 - 2 — 해일이형 강의 <span style="font-size:10px;color:#484f58;">· 3/25</span></div><div class="card-desc"></div></a>
+        <a href="/haeil-lesson-1259763.html" class="card"><div class="card-icon">📄</div><div class="card-title">8) 수제자 2기 라이브 - 1 — 해일이형 강의 <span style="font-size:10px;color:#484f58;">· 3/25</span></div><div class="card-desc"></div></a>
+        <a href="/haeil-lesson-1259764.html" class="card"><div class="card-icon">📄</div><div class="card-title">8) 수제자 2기 라이브 - 2 — 해일이형 강의 <span style="font-size:10px;color:#484f58;">· 3/26</span></div><div class="card-desc"></div></a>
+        <a href="/haeil-lesson-1269143.html" class="card"><div class="card-icon">📄</div><div class="card-title">9) 수제자 2기 라이브 - 1 — 해일이형 강의 <span style="font-size:10px;color:#484f58;">· 3/25</span></div><div class="card-desc"></div></a>
+        <a href="/haeil-lesson-1269144.html" class="card"><div class="card-icon">📄</div><div class="card-title">9) 수제자 2기 라이브 - 2 — 해일이형 강의 <span style="font-size:10px;color:#484f58;">· 3/25</span></div><div class="card-desc"></div></a>
+        <a href="/haeil-lesson-1269147.html" class="card"><div class="card-icon">📄</div><div class="card-title">9) 수제자 2기 라이브 - 3 — 해일이형 강의 <span style="font-size:10px;color:#484f58;">· 3/25</span></div><div class="card-desc"></div></a>
+        <a href="/haeil-lesson-1297981.html" class="card"><div class="card-icon">📄</div><div class="card-title">10) 수제자 2기 라이브 — 해일이형 강의 <span style="font-size:10px;color:#484f58;">· 3/25</span></div><div class="card-desc"></div></a>
+        <a href="/haeil-lesson-1305452.html" class="card"><div class="card-icon">📄</div><div class="card-title">11) 수제자 2기 라이브 — 해일이형 강의 <span style="font-size:10px;color:#484f58;">· 3/25</span></div><div class="card-desc"></div></a>
+        <a href="/haeil-lesson-1305453.html" class="card"><div class="card-icon">📄</div><div class="card-title">12) 수제자 2기 라이브 - 1 — 해일이형 강의 <span style="font-size:10px;color:#484f58;">· 3/25</span></div><div class="card-desc"></div></a>
+        <a href="/haeil-lesson-1305454.html" class="card"><div class="card-icon">📄</div><div class="card-title">12) 수제자 2기 라이브 - 2 — 해일이형 강의 <span style="font-size:10px;color:#484f58;">· 3/25</span></div><div class="card-desc"></div></a>
+        <a href="/haeil-lesson-998165.html" class="card"><div class="card-icon">📄</div><div class="card-title">2-3) 사업구조화.mp4 — 해일이형 강의 <span style="font-size:10px;color:#484f58;">· 3/25</span></div><div class="card-desc"></div></a>
+        <a href="/haeil-lesson-998240.html" class="card"><div class="card-icon">📄</div><div class="card-title">2-1) 사업구조화.mp4 — 해일이형 강의 <span style="font-size:10px;color:#484f58;">· 3/25</span></div><div class="card-desc"></div></a>
+        <a href="/haeil-lesson-998244.html" class="card"><div class="card-icon">📄</div><div class="card-title">2-2) 사업구조화.mp4 — 해일이형 강의 <span style="font-size:10px;color:#484f58;">· 3/25</span></div><div class="card-desc"></div></a>
+        <a href="/haeil-lesson-998262.html" class="card"><div class="card-icon">📄</div><div class="card-title">1) '문화 혁신론' — 해일이형 강의 <span style="font-size:10px;color:#484f58;">· 3/25</span></div><div class="card-desc"></div></a>
+        <a href="/haeil-lesson-998263.html" class="card"><div class="card-icon">📄</div><div class="card-title">3) 원칙 구조화, 제품과 마케팅의 시작 — 해일이형 강의 <span style="font-size:10px;color:#484f58;">· 3/25</span></div><div class="card-desc"></div></a>
+        <a href="/haeil-lesson-998492.html" class="card"><div class="card-icon">📄</div><div class="card-title">4) 성공하는 회사를 만드는 법 — 해일이형 강의 <span style="font-size:10px;color:#484f58;">· 3/25</span></div><div class="card-desc"></div></a>
+        <a href="/haeil-lesson-998495.html" class="card"><div class="card-icon">📄</div><div class="card-title">[ 수제자 보너스 ] 사업 &amp; 아이디어 피드백 — 해일이형 강의 <span style="font-size:10px;color:#484f58;">· 3/25</span></div><div class="card-desc"></div></a>
+        <a href="/haeil-lesson-998497.html" class="card"><div class="card-icon">📄</div><div class="card-title">[ 수제자 보너스 2 - 1 ] — 해일이형 강의 <span style="font-size:10px;color:#484f58;">· 3/25</span></div><div class="card-desc"></div></a>
+        <a href="/haeil-lesson-998498.html" class="card"><div class="card-icon">📄</div><div class="card-title">[ 수제자 보너스 2 - 2 ] — 해일이형 강의 <span style="font-size:10px;color:#484f58;">· 3/26</span></div><div class="card-desc"></div></a>
+        <a href="/haeil-lesson-998499.html" class="card"><div class="card-icon">📄</div><div class="card-title">[ 수제자 보너스 2 - 3 ] — 해일이형 강의 <span style="font-size:10px;color:#484f58;">· 3/26</span></div><div class="card-desc"></div></a>
+        <a href="/jasagyo-5gi.html" class="card"><div class="card-icon">📄</div><div class="card-title">자사몰 사관학교 5기 — 강의 정리 <span style="font-size:10px;color:#484f58;">· 3/25</span></div><div class="card-desc"></div></a>
+        <a href="/jasagyo-6ki-week2.html" class="card"><div class="card-icon">📄</div><div class="card-title">자사교 6기 2주차 강의노트 | 자사물산학교 <span style="font-size:10px;color:#484f58;">· 3/23</span></div><div class="card-desc"></div></a>
+        <a href="/kinemedical-redesign.html" class="card"><div class="card-icon">📄</div><div class="card-title">KINEMEDICAL — 키네메디칼 리디자인 시안 <span style="font-size:10px;color:#484f58;">· 3/17</span></div><div class="card-desc"></div></a>
+        <a href="/leaders-meeting-2026-03-24.html" class="card"><div class="card-icon">📄</div><div class="card-title">리더 회의 리포트 — 2026.03.24 <span style="font-size:10px;color:#484f58;">· 3/25</span></div><div class="card-desc"></div></a>
+        <a href="/login.html" class="card"><div class="card-icon">📄</div><div class="card-title">로그인 - Tenex Reports <span style="font-size:10px;color:#484f58;">· 3/27</span></div><div class="card-desc"></div></a>
+        <a href="/membership.html" class="card"><div class="card-icon">📄</div><div class="card-title">키네메디칼 멤버십 혜택 <span style="font-size:10px;color:#484f58;">· 3/17</span></div><div class="card-desc"></div></a>
+        <a href="/mixpanel-analysis.html" class="card"><div class="card-icon">📄</div><div class="card-title">키네메디칼 Mixpanel + 카페24 분석 리포트 (3/19~3/25) <span style="font-size:10px;color:#484f58;">· 3/26</span></div><div class="card-desc"></div></a>
+        <a href="/myprotein-growth.html" class="card"><div class="card-icon">📄</div><div class="card-title">마이프로틴 성장 전략 분석 — 벤치마크 리포트 <span style="font-size:10px;color:#484f58;">· 3/23</span></div><div class="card-desc"></div></a>
+        <a href="/openclaw-overview.html" class="card"><div class="card-icon">📄</div><div class="card-title">테넥스 × 오픈클로 — 전체 시스템 맵 <span style="font-size:10px;color:#484f58;">· 3/24</span></div><div class="card-desc"></div></a>
+        <a href="/platform-api-research.html" class="card"><div class="card-icon">📄</div><div class="card-title">플랫폼 공식 API 분석 — 인플루언서 아웃리치 자동화 <span style="font-size:10px;color:#484f58;">· 3/23</span></div><div class="card-desc"></div></a>
+        <a href="/profit-simulation.html" class="card"><div class="card-icon">📄</div><div class="card-title">테넥스 수익/자금조달 시뮬레이션 <span style="font-size:10px;color:#484f58;">· 3/26</span></div><div class="card-desc"></div></a>
+        <a href="/weekly-mixpanel-2026-03-25.html" class="card"><div class="card-icon">📄</div><div class="card-title">주간 Mixpanel 리포트 <span style="font-size:10px;color:#484f58;">· 3/26</span></div><div class="card-desc"></div></a>
+        <a href="/weekly-mixpanel-2026-03-26.html" class="card"><div class="card-icon">📄</div><div class="card-title">주간 Mixpanel 리포트 <span style="font-size:10px;color:#484f58;">· 3/26</span></div><div class="card-desc"></div></a>
+      </div>
+    </div>
 </div>
-<button class="glossary-btn" id="glossaryBtn">📖</button>
-<div class="glossary-overlay" id="glossaryOverlay"></div>
-<div class="glossary-panel" id="glossaryPanel">
-  <div class="glossary-panel-header"><h3>📖 용어 백과사전</h3><button class="glossary-close" id="glossaryClose">✕</button></div>
-  <div class="glossary-search"><input type="text" id="glossarySearch" placeholder="용어 검색..."></div>
-  <div class="glossary-list" id="glossaryList"></div>
-</div>
-<script>
-const CATEGORIES=[
-  {key:'A',icon:'📦',label:'A 제품'},
-  {key:'B',icon:'🎬',label:'B 콘텐츠/채널'},
-  {key:'C',icon:'🏥',label:'C 의료계 파트너십'},
-  {key:'D',icon:'📣',label:'D 마케팅/광고'},
-  {key:'E',icon:'📱',label:'E 앱/개발'},
-  {key:'F',icon:'💰',label:'F 재무'},
-  {key:'G',icon:'👥',label:'G 조직'},
-  {key:'H',icon:'⚙️',label:'H 운영'},
-  {key:'I',icon:'🤖',label:'I AI 시스템'},
-  {key:'J',icon:'🌏',label:'J 해외진출'},
-  {key:'K',icon:'❤️',label:'K 고객성공'},
-  {key:'Z',icon:'🎓',label:'Z 교육'},
-];
-const GLOSSARY=[
-  {term:'ROAS',def:'광고비 대비 매출 비율 (Return On Ad Spend)'},
-  {term:'공헌이익',def:'매출에서 변동비를 뺀 이익. 고정비 충당 + 순이익의 원천'},
-  {term:'CRM',def:'고객 관계 관리 (Customer Relationship Management). 알림톡/문자 자동화 포함'},
-  {term:'퍼널',def:'방문 → 조회 → 장바구니 → 결제 → 구매 단계'},
-  {term:'코호트',def:'같은 시기 첫구매 고객 그룹. 재구매율 분석에 사용'},
-  {term:'CVR',def:'전환율 (Conversion Rate). 조회 대비 구매 비율'},
-  {term:'CTR',def:'클릭률 (Click-Through Rate). 노출 대비 클릭 비율'},
-  {term:'UTM',def:'유입 경로 추적 파라미터. 마케팅 채널별 성과 측정'},
-  {term:'Mixpanel',def:'사용자 행동 분석 도구. 퍼널/리텐션/코호트 분석'},
-  {term:'크론잡',def:'정해진 시간에 자동 실행되는 작업 (launchd/cron)'},
-  {term:'서브에이전트',def:'실장이 만드는 일회용 AI 작업자 (spawn)'},
-  {term:'brain.db',def:'태훈의 모든 대화/녹음 저장 장기기억 DB'},
-  {term:'Plaud',def:'녹음 자동 전사 + 요약 파이프라인'},
-  {term:'정품등록',def:'구매자 → 자사몰 유입 → 메타 픽셀 시그널 확보'},
-];
-const DEFAULT_REPORTS=[
-  {href:'/brand-design-system.html',icon:'🎨',title:'키네메디칼 디자인 시스템',desc:'브랜드 컬러, 로고, 패키지 가이드',date:'3/16',cat:'A'},
-  {href:'/es808.html',icon:'⚡',title:'ES-808',desc:'커리큘럼 · 문자 안내',date:'3/19',cat:'A'},
-  {href:'/product-roadmap.html',icon:'🗓️',title:'제품 로드맵',desc:'제품 개발 및 출시 타임라인',date:'3/16',cat:'A'},
-  {href:'/youtube.html',icon:'▶️',title:'YouTube',desc:'채널 허브 · 트래커 · 리서치 · 영상 목록',date:'3/18',cat:'B'},
-  {href:'/tenex-strategy.html',icon:'🚀',title:'TENEX 핵심전략 2026',desc:'테넥스 전체 사업 전략',date:'3/25',cat:'D'},
-  {href:'/mixpanel-analysis.html',icon:'📈',title:'키네메디칼 Mixpanel + 카페24 분석 (3/19~3/25)',desc:'',date:'3/26',cat:'D'},
-  {href:'/weekly-mixpanel-2026-03-25.html',icon:'📈',title:'주간 Mixpanel 리포트 (3/25)',desc:'',date:'3/26',cat:'D'},
-  {href:'/weekly-mixpanel-2026-03-26.html',icon:'📈',title:'주간 Mixpanel 리포트 (3/26)',desc:'',date:'3/26',cat:'D'},
-  {href:'/profit-simulation.html',icon:'💹',title:'테넥스 수익/자금조달 시뮬레이션',desc:'',date:'3/26',cat:'D'},
-  {href:'/myprotein-growth.html',icon:'📊',title:'마이프로틴 성장 전략 분석 — 벤치마크 리포트',desc:'',date:'3/23',cat:'D'},
-  {href:'/customer-journey-v5.html',icon:'🗺️',title:'고객 여정 분석 — 승무원 수분크림',desc:'',date:'3/23',cat:'D'},
-  {href:'/membership.html',icon:'💎',title:'키네메디칼 멤버십 혜택',desc:'',date:'3/17',cat:'D'},
-  {href:'/platform-api-research.html',icon:'🔌',title:'플랫폼 공식 API 분석 — 인플루언서 아웃리치 자동화',desc:'',date:'3/23',cat:'D'},
-  {href:'/1min-dosu-app.html',icon:'💪',title:'1분도수 앱',desc:'앱 기획 · ver4 화면 · 기능 스펙',date:'3/19',cat:'E'},
-  {href:'/crm.html',icon:'📊',title:'CRM',desc:'CRM 전략 v2 · 고객 페르소나',date:'3/19',cat:'E'},
-  {href:'/kinemedical-app.html',icon:'📱',title:'키네메디칼 앱',desc:'앱 스펙 · 마일스톤 · 데모',date:'3/19',cat:'E'},
-  {href:'/kinemedical-redesign.html',icon:'🎨',title:'KINEMEDICAL — 키네메디칼 리디자인 시안',desc:'',date:'3/17',cat:'E'},
-  {href:'/app-demo.html',icon:'📱',title:'1분도수 앱 데모',desc:'',date:'3/25',cat:'E'},
-  {href:'/app-journey-plan.html',icon:'🗺️',title:'1분도수 앱 고객 여정 기획안',desc:'',date:'3/25',cat:'E'},
-  {href:'/app-tech-spec.html',icon:'🏗️',title:'1분도수 앱 — 기술 스펙 & AI 해자 전략',desc:'',date:'3/25',cat:'E'},
-  {href:'/funding.html',icon:'💰',title:'자금조달',desc:'지분 구조 · 스톡옵션 · 초창패 인터뷰',date:'3/19',cat:'F'},
-  {href:'/2026-team-structure.html',icon:'👥',title:'팀 구조 & 채용 로드맵',desc:'2026 팀 구성 및 채용 계획',date:'3/16',cat:'G'},
-  {href:'/apr-hiring-analysis.html',icon:'📋',title:'APR 채용 공고 분석 — 테넥스 채용 전략 참고',desc:'',date:'3/19',cat:'G'},
-  {href:'/apr-organization-analysis.html',icon:'🏢',title:'APR 조직 완전 분석 — 테넥스 참고용',desc:'',date:'3/19',cat:'G'},
-  {href:'/ceo-roles.html',icon:'👔',title:'CEO 업무 맵 & 채용 전략',desc:'',date:'3/23',cat:'G'},
-  {href:'/system-status.html',icon:'🖥️',title:'자동화 시스템 현황',desc:'테넥스 자동화 시스템 현황',date:'3/16',cat:'H'},
-  {href:'/leaders-meeting-2026-03-24.html',icon:'📋',title:'리더 회의 리포트 — 2026.03.24',desc:'',date:'3/25',cat:'H'},
-  {href:'/agent-team-plan.html',icon:'🤖',title:'테넥스 AI 에이전트팀 기획서 v3',desc:'',date:'3/25',cat:'I'},
-  {href:'/ai-system.html',icon:'🧠',title:'AI 시스템',desc:'카리나 · OpenClaw · 시스템 구조 · Brain.db · 에이전트팀',date:'3/19',cat:'I'},
-  {href:'/openclaw-overview.html',icon:'🔧',title:'테넥스 × 오픈클로 — 전체 시스템 맵',desc:'',date:'3/24',cat:'I'},
-  {href:'/global-strategy.html',icon:'🌏',title:'글로벌 진출 전략',desc:'미국 전략 · APR 벤치마크 · 국가별 우선순위',date:'3/19',cat:'J'},
-  {href:'/education.html',icon:'🎓',title:'교육',desc:'교육 허브 · 수제자 2기 요약 · 자사교 5기',date:'3/23',cat:'Z'},
-  {href:'/haeil-lectures.html',icon:'🎓',title:'해일이형 강의 전사 정리 — 테넥스',desc:'',date:'3/26',cat:'Z'},
-  {href:'/jasagyo-5gi.html',icon:'🎓',title:'자사몰 사관학교 5기 — 강의 정리',desc:'',date:'3/25',cat:'Z'},
-  {href:'/jasagyo-6ki-week2.html',icon:'🎓',title:'자사교 6기 2주차 강의노트',desc:'',date:'3/23',cat:'Z'},
-  {href:'/haeil-lesson-998262.html',icon:'🎧',title:"1) 문화 혁신론 — 해일이형 강의",desc:'',date:'3/25',cat:'Z'},
-  {href:'/haeil-lesson-998240.html',icon:'🎧',title:'2-1) 사업구조화 — 해일이형 강의',desc:'',date:'3/25',cat:'Z'},
-  {href:'/haeil-lesson-998244.html',icon:'🎧',title:'2-2) 사업구조화 — 해일이형 강의',desc:'',date:'3/25',cat:'Z'},
-  {href:'/haeil-lesson-998165.html',icon:'🎧',title:'2-3) 사업구조화 — 해일이형 강의',desc:'',date:'3/25',cat:'Z'},
-  {href:'/haeil-lesson-998263.html',icon:'🎧',title:'3) 원칙 구조화, 제품과 마케팅의 시작 — 해일이형 강의',desc:'',date:'3/25',cat:'Z'},
-  {href:'/haeil-lesson-998492.html',icon:'🎧',title:'4) 성공하는 회사를 만드는 법 — 해일이형 강의',desc:'',date:'3/25',cat:'Z'},
-  {href:'/haeil-lesson-1011038.html',icon:'🎧',title:'5) 실전의 비밀 — 해일이형 강의',desc:'',date:'3/25',cat:'Z'},
-  {href:'/haeil-lesson-1011039.html',icon:'🎧',title:'6) 실전의 비밀, 두 번째 이야기 — 해일이형 강의',desc:'',date:'3/25',cat:'Z'},
-  {href:'/haeil-lesson-1014498.html',icon:'🎧',title:'7) 제품 기획과 제작 경험의 기적 — 해일이형 강의',desc:'',date:'3/25',cat:'Z'},
-  {href:'/haeil-lesson-1005347.html',icon:'🎧',title:'사업의 비밀 - 부자 되는 유일한 방법 1 — 해일이형 강의',desc:'',date:'3/25',cat:'Z'},
-  {href:'/haeil-lesson-1006588.html',icon:'🎧',title:'사업의 비밀 - 부자 되는 유일한 방법 2 — 해일이형 강의',desc:'',date:'3/26',cat:'Z'},
-  {href:'/haeil-lesson-1006612.html',icon:'🎧',title:'사업의 비밀 - 부자 되는 유일한 방법 — 해일이형 강의',desc:'',date:'3/26',cat:'Z'},
-  {href:'/haeil-lesson-1011017.html',icon:'🎧',title:'부자되는 유일한 방법 2편-1 — 해일이형 강의',desc:'',date:'3/25',cat:'Z'},
-  {href:'/haeil-lesson-1011018.html',icon:'🎧',title:'부자되는 유일한 방법 2편-2 — 해일이형 강의',desc:'',date:'3/26',cat:'Z'},
-  {href:'/haeil-lesson-1011019.html',icon:'🎧',title:'부자되는 유일한 방법 2편-3 — 해일이형 강의',desc:'',date:'3/26',cat:'Z'},
-  {href:'/haeil-lesson-1011026.html',icon:'🎧',title:'부자되는 유일한 방법 2편-4 — 해일이형 강의',desc:'',date:'3/26',cat:'Z'},
-  {href:'/haeil-lesson-1011028.html',icon:'🎧',title:'부자되는 유일한 방법 2편-5 — 해일이형 강의',desc:'',date:'3/26',cat:'Z'},
-  {href:'/haeil-lesson-1011033.html',icon:'🎧',title:'2/22 수제자 보너스 라이브-1 — 해일이형 강의',desc:'',date:'3/25',cat:'Z'},
-  {href:'/haeil-lesson-1011034.html',icon:'🎧',title:'2/22 수제자 보너스 라이브-2 — 해일이형 강의',desc:'',date:'3/25',cat:'Z'},
-  {href:'/haeil-lesson-1011035.html',icon:'🎧',title:'2/22 수제자 보너스 라이브-3 — 해일이형 강의',desc:'',date:'3/25',cat:'Z'},
-  {href:'/haeil-lesson-1011036.html',icon:'🎧',title:'1/4 수제자 보너스 라이브 — 해일이형 강의',desc:'',date:'3/25',cat:'Z'},
-  {href:'/haeil-lesson-1014489.html',icon:'🎧',title:'성공을 완성하는 가장 중요한 순간-1 — 해일이형 강의',desc:'',date:'3/25',cat:'Z'},
-  {href:'/haeil-lesson-1014490.html',icon:'🎧',title:'성공을 완성하는 가장 중요한 순간-2 — 해일이형 강의',desc:'',date:'3/25',cat:'Z'},
-  {href:'/haeil-lesson-1014491.html',icon:'🎧',title:'성공을 완성하는 가장 중요한 순간-3 — 해일이형 강의',desc:'',date:'3/25',cat:'Z'},
-  {href:'/haeil-lesson-1014497.html',icon:'🎧',title:'성공을 완성하는 가장 중요한 순간-4 — 해일이형 강의',desc:'',date:'3/25',cat:'Z'},
-  {href:'/haeil-lesson-1014501.html',icon:'🎧',title:'성공을 완성하는 가장 중요한 순간-5 — 해일이형 강의',desc:'',date:'3/25',cat:'Z'},
-  {href:'/haeil-lesson-1014502.html',icon:'🎧',title:'2/5 수제자 보너스 라이브 — 해일이형 강의',desc:'',date:'3/25',cat:'Z'},
-  {href:'/haeil-lesson-1014503.html',icon:'🎧',title:'2/11 수제자 보너스 라이브 — 해일이형 강의',desc:'',date:'3/25',cat:'Z'},
-  {href:'/haeil-lesson-1029047.html',icon:'🎧',title:'3/7 유튜브 기습 라이브 — 해일이형 강의',desc:'',date:'3/25',cat:'Z'},
-  {href:'/haeil-lesson-1033839.html',icon:'🎧',title:'마케팅은 불가능을 이루는 힘-1 — 해일이형 강의',desc:'',date:'3/25',cat:'Z'},
-  {href:'/haeil-lesson-1033841.html',icon:'🎧',title:'마케팅은 불가능을 이루는 힘-2 — 해일이형 강의',desc:'',date:'3/25',cat:'Z'},
-  {href:'/haeil-lesson-1035418.html',icon:'🎧',title:'3/18 수제자 보너스 라이브 — 해일이형 강의',desc:'',date:'3/25',cat:'Z'},
-  {href:'/haeil-lesson-1043765.html',icon:'🎧',title:'마케팅, 유기적 성장의 모든 것 1 — 해일이형 강의',desc:'',date:'3/25',cat:'Z'},
-  {href:'/haeil-lesson-1043768.html',icon:'🎧',title:'마케팅, 유기적 성장의 모든 것 2 — 해일이형 강의',desc:'',date:'3/25',cat:'Z'},
-  {href:'/haeil-lesson-1054213.html',icon:'🎧',title:'지극히 거대한, 작은 끝으로-01 — 해일이형 강의',desc:'',date:'3/25',cat:'Z'},
-  {href:'/haeil-lesson-1054222.html',icon:'🎧',title:'지극히 거대한, 작은 끝으로-02 — 해일이형 강의',desc:'',date:'3/25',cat:'Z'},
-  {href:'/haeil-lesson-1064595.html',icon:'🎧',title:'수제자 마지막 라이브 1 — 해일이형 강의',desc:'',date:'3/25',cat:'Z'},
-  {href:'/haeil-lesson-1064609.html',icon:'🎧',title:'수제자 마지막 라이브 2 — 해일이형 강의',desc:'',date:'3/25',cat:'Z'},
-  {href:'/haeil-lesson-1064615.html',icon:'🎧',title:'수제자 마지막 라이브 3 — 해일이형 강의',desc:'',date:'3/25',cat:'Z'},
-  {href:'/haeil-lesson-1090893.html',icon:'🎧',title:'비밀 무기, 스크립트 — 해일이형 강의',desc:'',date:'3/25',cat:'Z'},
-  {href:'/haeil-lesson-1090894.html',icon:'🎧',title:"비밀 도구, 플랫폼 — 해일이형 강의",desc:'',date:'3/25',cat:'Z'},
-  {href:'/haeil-lesson-1164660.html',icon:'🎧',title:'수제자 2기 보너스 라이브 01 — 해일이형 강의',desc:'',date:'3/25',cat:'Z'},
-  {href:'/haeil-lesson-1164662.html',icon:'🎧',title:'수제자 2기 보너스 라이브 02 — 해일이형 강의',desc:'',date:'3/26',cat:'Z'},
-  {href:'/haeil-lesson-1184164.html',icon:'🎧',title:'수제자 2기 보너스 라이브 — 해일이형 강의',desc:'',date:'3/25',cat:'Z'},
-  {href:'/haeil-lesson-1195879.html',icon:'🎧',title:'3) 수제자 2기 보너스 라이브 — 해일이형 강의',desc:'',date:'3/25',cat:'Z'},
-  {href:'/haeil-lesson-1202173.html',icon:'🎧',title:'4) 수제자 2기 라이브-1 — 해일이형 강의',desc:'',date:'3/25',cat:'Z'},
-  {href:'/haeil-lesson-1202174.html',icon:'🎧',title:'4) 수제자 2기 라이브-2 — 해일이형 강의',desc:'',date:'3/25',cat:'Z'},
-  {href:'/haeil-lesson-1202175.html',icon:'🎧',title:'4) 수제자 2기 라이브-3 — 해일이형 강의',desc:'',date:'3/25',cat:'Z'},
-  {href:'/haeil-lesson-1211380.html',icon:'🎧',title:'4) 수제자 2기 보너스 라이브 — 해일이형 강의',desc:'',date:'3/25',cat:'Z'},
-  {href:'/haeil-lesson-1211382.html',icon:'🎧',title:'5) 수제자 2기 보너스 라이브 — 해일이형 강의',desc:'',date:'3/25',cat:'Z'},
-  {href:'/haeil-lesson-1211383.html',icon:'🎧',title:'6) 수제자 2기 보너스 라이브 — 해일이형 강의',desc:'',date:'3/25',cat:'Z'},
-  {href:'/haeil-lesson-1214612.html',icon:'🎧',title:'3) 수제자 2기 라이브 — 해일이형 강의',desc:'',date:'3/25',cat:'Z'},
-  {href:'/haeil-lesson-1225819.html',icon:'🎧',title:'6) 수제자 2기 라이브-1 — 해일이형 강의',desc:'',date:'3/25',cat:'Z'},
-  {href:'/haeil-lesson-1225939.html',icon:'🎧',title:'6) 수제자 2기 라이브-2 — 해일이형 강의',desc:'',date:'3/25',cat:'Z'},
-  {href:'/haeil-lesson-1232174.html',icon:'🎧',title:'5) 수제자 2기 라이브-1 — 해일이형 강의',desc:'',date:'3/25',cat:'Z'},
-  {href:'/haeil-lesson-1243792.html',icon:'🎧',title:'7) 수제자 2기 라이브 — 해일이형 강의',desc:'',date:'3/25',cat:'Z'},
-  {href:'/haeil-lesson-1245988.html',icon:'🎧',title:'7) 수제자 2기 보너스 라이브-1 — 해일이형 강의',desc:'',date:'3/25',cat:'Z'},
-  {href:'/haeil-lesson-1245990.html',icon:'🎧',title:'7) 수제자 2기 보너스 라이브-2 — 해일이형 강의',desc:'',date:'3/25',cat:'Z'},
-  {href:'/haeil-lesson-1252169.html',icon:'🎧',title:'5) 수제자 2기 라이브-2 — 해일이형 강의',desc:'',date:'3/25',cat:'Z'},
-  {href:'/haeil-lesson-1259758.html',icon:'🎧',title:'7) 수제자 2기 보너스 라이브-1 — 해일이형 강의',desc:'',date:'3/25',cat:'Z'},
-  {href:'/haeil-lesson-1259761.html',icon:'🎧',title:'7) 수제자 2기 보너스 라이브-2 — 해일이형 강의',desc:'',date:'3/25',cat:'Z'},
-  {href:'/haeil-lesson-1259763.html',icon:'🎧',title:'8) 수제자 2기 라이브-1 — 해일이형 강의',desc:'',date:'3/25',cat:'Z'},
-  {href:'/haeil-lesson-1259764.html',icon:'🎧',title:'8) 수제자 2기 라이브-2 — 해일이형 강의',desc:'',date:'3/26',cat:'Z'},
-  {href:'/haeil-lesson-1269143.html',icon:'🎧',title:'9) 수제자 2기 라이브-1 — 해일이형 강의',desc:'',date:'3/25',cat:'Z'},
-  {href:'/haeil-lesson-1269144.html',icon:'🎧',title:'9) 수제자 2기 라이브-2 — 해일이형 강의',desc:'',date:'3/25',cat:'Z'},
-  {href:'/haeil-lesson-1269147.html',icon:'🎧',title:'9) 수제자 2기 라이브-3 — 해일이형 강의',desc:'',date:'3/25',cat:'Z'},
-  {href:'/haeil-lesson-1297981.html',icon:'🎧',title:'10) 수제자 2기 라이브 — 해일이형 강의',desc:'',date:'3/25',cat:'Z'},
-  {href:'/haeil-lesson-1305452.html',icon:'🎧',title:'11) 수제자 2기 라이브 — 해일이형 강의',desc:'',date:'3/25',cat:'Z'},
-  {href:'/haeil-lesson-1305453.html',icon:'🎧',title:'12) 수제자 2기 라이브-1 — 해일이형 강의',desc:'',date:'3/25',cat:'Z'},
-  {href:'/haeil-lesson-1305454.html',icon:'🎧',title:'12) 수제자 2기 라이브-2 — 해일이형 강의',desc:'',date:'3/25',cat:'Z'},
-  {href:'/haeil-lesson-998495.html',icon:'🎧',title:'수제자 보너스: 사업 & 아이디어 피드백 — 해일이형 강의',desc:'',date:'3/25',cat:'Z'},
-  {href:'/haeil-lesson-998497.html',icon:'🎧',title:'수제자 보너스 2-1 — 해일이형 강의',desc:'',date:'3/25',cat:'Z'},
-  {href:'/haeil-lesson-998498.html',icon:'🎧',title:'수제자 보너스 2-2 — 해일이형 강의',desc:'',date:'3/26',cat:'Z'},
-  {href:'/haeil-lesson-998499.html',icon:'🎧',title:'수제자 보너스 2-3 — 해일이형 강의',desc:'',date:'3/26',cat:'Z'},
-  {href:'/edu-01.html',icon:'📝',title:'교육 01',desc:'',date:'3/25',cat:'Z'},
-  {href:'/edu-02-1.html',icon:'📝',title:'교육 02-1',desc:'',date:'3/25',cat:'Z'},
-  {href:'/edu-02-2.html',icon:'📝',title:'교육 02-2',desc:'',date:'3/25',cat:'Z'},
-  {href:'/edu-03-1.html',icon:'📝',title:'교육 03-1',desc:'',date:'3/25',cat:'Z'},
-  {href:'/edu-03-2.html',icon:'📝',title:'교육 03-2',desc:'',date:'3/25',cat:'Z'},
-  {href:'/edu-04.html',icon:'📝',title:'교육 04',desc:'',date:'3/25',cat:'Z'},
-  {href:'/edu-05.html',icon:'📝',title:'교육 05',desc:'',date:'3/25',cat:'Z'},
-  {href:'/edu-06.html',icon:'📝',title:'교육 06',desc:'',date:'3/25',cat:'Z'},
-  {href:'/edu-07.html',icon:'📝',title:'교육 07',desc:'',date:'3/25',cat:'Z'},
-  {href:'/edu-08-1.html',icon:'📝',title:'교육 08-1',desc:'',date:'3/25',cat:'Z'},
-  {href:'/edu-08-2.html',icon:'📝',title:'교육 08-2',desc:'',date:'3/25',cat:'Z'},
-  {href:'/edu-08-3.html',icon:'📝',title:'교육 08-3',desc:'',date:'3/25',cat:'Z'},
-  {href:'/edu-09.html',icon:'📝',title:'교육 09',desc:'',date:'3/25',cat:'Z'},
-  {href:'/edu-10.html',icon:'📝',title:'교육 10',desc:'',date:'3/25',cat:'Z'},
-  {href:'/edu-11-1.html',icon:'📝',title:'교육 11-1',desc:'',date:'3/25',cat:'Z'},
-  {href:'/edu-11-2.html',icon:'📝',title:'교육 11-2',desc:'',date:'3/25',cat:'Z'},
-  {href:'/edu-12-1.html',icon:'📝',title:'교육 12-1',desc:'',date:'3/25',cat:'Z'},
-  {href:'/edu-12-2.html',icon:'📝',title:'교육 12-2',desc:'',date:'3/25',cat:'Z'},
-  {href:'/edu-13-1.html',icon:'📝',title:'교육 13-1',desc:'',date:'3/25',cat:'Z'},
-  {href:'/edu-13-2.html',icon:'📝',title:'교육 13-2',desc:'',date:'3/25',cat:'Z'},
-  {href:'/edu-14.html',icon:'📝',title:'교육 14',desc:'',date:'3/25',cat:'Z'},
-  {href:'/edu-15-1.html',icon:'📝',title:'교육 15-1',desc:'',date:'3/25',cat:'Z'},
-  {href:'/edu-15-2.html',icon:'📝',title:'교육 15-2',desc:'',date:'3/25',cat:'Z'},
-  {href:'/edu-16.html',icon:'📝',title:'교육 16',desc:'',date:'3/25',cat:'Z'},
-  {href:'/edu-17-1.html',icon:'📝',title:'교육 17-1',desc:'',date:'3/25',cat:'Z'},
-  {href:'/edu-17-2.html',icon:'📝',title:'교육 17-2',desc:'',date:'3/25',cat:'Z'},
-  {href:'/edu-17-3.html',icon:'📝',title:'교육 17-3',desc:'',date:'3/25',cat:'Z'},
-  {href:'/edu-18.html',icon:'📝',title:'교육 18',desc:'',date:'3/25',cat:'Z'},
-  {href:'/edu-19.html',icon:'📝',title:'교육 19',desc:'',date:'3/25',cat:'Z'},
-  {href:'/edu-20-1.html',icon:'📝',title:'교육 20-1',desc:'',date:'3/25',cat:'Z'},
-  {href:'/edu-20-2.html',icon:'📝',title:'교육 20-2',desc:'',date:'3/25',cat:'Z'},
-];
-let currentCat='all',searchQuery='';
-function getReports(){const o=JSON.parse(localStorage.getItem('tenex-cat-v3')||'{}');return DEFAULT_REPORTS.map(r=>({...r,cat:o[r.href]||r.cat}))}
-function saveCatOverride(href,cat){const o=JSON.parse(localStorage.getItem('tenex-cat-v3')||'{}');o[href]=cat;localStorage.setItem('tenex-cat-v3',JSON.stringify(o))}
-function renderSidebarCats(){
-  const sec=document.getElementById('catSection');
-  const reports=getReports();
-  const title=sec.querySelector('.nav-section-title');
-  sec.innerHTML='';sec.appendChild(title);
-  CATEGORIES.forEach(cat=>{
-    const cnt=reports.filter(r=>r.cat===cat.key).length;
-    const div=document.createElement('div');
-    div.className='nav-item'+(currentCat===cat.key?' active':'');
-    div.dataset.cat=cat.key;
-    div.innerHTML='<span class="icon">'+cat.icon+'</span><span class="label">'+cat.label+'</span><span class="count">'+cnt+'</span>';
-    div.onclick=()=>setCategory(cat.key);
-    div.addEventListener('dragover',e=>{e.preventDefault();div.classList.add('drop-target')});
-    div.addEventListener('dragleave',()=>div.classList.remove('drop-target'));
-    div.addEventListener('drop',e=>{e.preventDefault();div.classList.remove('drop-target');const h=e.dataTransfer.getData('text/plain');if(h){saveCatOverride(h,cat.key);renderAll()}});
-    sec.appendChild(div);
-  });
-  document.getElementById('cnt-all').textContent=reports.length;
-}
-function renderOverview(){
-  const reports=getReports();
-  const grid=document.getElementById('overviewGrid');
-  grid.innerHTML=CATEGORIES.map(cat=>{
-    const cnt=reports.filter(r=>r.cat===cat.key).length;
-    return '<div class="overview-card'+(currentCat===cat.key?' active':'')+'" data-cat="'+cat.key+'"><div class="ov-icon">'+cat.icon+'</div><div class="ov-label">'+cat.label+'</div><div class="ov-count">'+cnt+'</div></div>';
-  }).join('');
-  grid.querySelectorAll('.overview-card').forEach(c=>c.onclick=()=>setCategory(c.dataset.cat===currentCat?'all':c.dataset.cat));
-}
-function renderReports(){
-  const reports=getReports();
-  const q=searchQuery.toLowerCase();
-  const filtered=reports.filter(r=>(currentCat==='all'||r.cat===currentCat)&&(!q||r.title.toLowerCase().includes(q)||r.desc.toLowerCase().includes(q)));
-  const sc=document.getElementById('searchCount');
-  if(q){sc.style.display='block';sc.textContent=filtered.length+'건';document.querySelector('.search-shortcut').style.display='none'}
-  else{sc.style.display='none';document.querySelector('.search-shortcut').style.display=''}
-  const list=document.getElementById('reportList');const empty=document.getElementById('emptyState');
-  if(!filtered.length){list.innerHTML='';empty.style.display='block';return}empty.style.display='none';
-  const catMap={};CATEGORIES.forEach(c=>catMap[c.key]=c);
-  list.innerHTML=filtered.map((r,i)=>{
-    const c=catMap[r.cat];const badge=c?c.icon+' '+c.label:r.cat;
-    return '<a href="'+r.href+'" class="report-card" draggable="true" data-href="'+r.href+'"><span class="card-num">'+(i+1)+'</span><span class="card-icon">'+r.icon+'</span><div class="card-info"><h3>'+r.title+'</h3>'+(r.desc?'<div class="desc">'+r.desc+'</div>':'')+'<div class="meta"><span class="badge" style="background:rgba(0,40,85,0.08);color:#002855">'+badge+'</span><span>'+r.date+'</span></div></div></a>';
-  }).join('');
-  list.querySelectorAll('.report-card').forEach(card=>{
-    card.addEventListener('dragstart',e=>{e.dataTransfer.setData('text/plain',card.dataset.href);card.classList.add('dragging')});
-    card.addEventListener('dragend',()=>card.classList.remove('dragging'));
-  });
-}
-function renderGlossary(q){
-  q=q||'';const list=document.getElementById('glossaryList');
-  const f=q?GLOSSARY.filter(g=>g.term.toLowerCase().includes(q)||g.def.toLowerCase().includes(q)):GLOSSARY;
-  list.innerHTML=f.map(g=>'<div class="glossary-item"><div class="term">'+g.term+'</div><div class="def">'+g.def+'</div></div>').join('');
-}
-function renderAll(){renderSidebarCats();renderOverview();renderReports()}
-function setCategory(cat){
-  currentCat=cat;
-  document.querySelectorAll('.nav-item').forEach(el=>el.classList.toggle('active',el.dataset.cat===cat));
-  const c=CATEGORIES.find(x=>x.key===cat);
-  const label=cat==='all'?'전체 문서':(c?c.label:cat);
-  document.getElementById('breadcrumbCat').textContent=label;
-  document.getElementById('contentTitle').textContent=cat==='all'?'전체 리포트':label+' 리포트';
-  renderAll();closeMobile();
-}
-function initTheme(){if(localStorage.getItem('tenex-theme')==='dark')document.documentElement.setAttribute('data-theme','dark')}
-function toggleTheme(){const d=document.documentElement.getAttribute('data-theme')==='dark';d?(document.documentElement.removeAttribute('data-theme'),localStorage.setItem('tenex-theme','light')):(document.documentElement.setAttribute('data-theme','dark'),localStorage.setItem('tenex-theme','dark'))}
-function closeMobile(){document.getElementById('sidebar').classList.remove('open');document.getElementById('sidebarOverlay').classList.remove('show')}
-document.addEventListener('DOMContentLoaded',()=>{
-  initTheme();renderAll();renderGlossary();
-  document.getElementById('themeToggle').onclick=toggleTheme;
-  document.getElementById('sidebarCollapse').onclick=()=>document.body.classList.toggle('sidebar-collapsed');
-  document.getElementById('headerToggle').onclick=()=>document.body.classList.toggle('sidebar-collapsed');
-  document.getElementById('mobileMenuBtn').onclick=()=>{document.getElementById('sidebar').classList.add('open');document.getElementById('sidebarOverlay').classList.add('show')};
-  document.getElementById('sidebarOverlay').onclick=closeMobile;
-  document.querySelector('.nav-item[data-cat="all"]').onclick=()=>setCategory('all');
-  document.getElementById('sidebarSearchInput').oninput=e=>{const q=e.target.value.toLowerCase();document.querySelectorAll('#catSection .nav-item').forEach(el=>{const l=el.querySelector('.label')?.textContent.toLowerCase()||'';el.style.display=(!q||l.includes(q))?'':'none'})};
-  document.getElementById('globalSearch').oninput=e=>{searchQuery=e.target.value;renderReports()};
-  document.addEventListener('keydown',e=>{if(e.key==='/'&&document.activeElement.tagName!=='INPUT'){e.preventDefault();document.getElementById('globalSearch').focus()}});
-  document.getElementById('logoutBtn').onclick=async()=>{try{await fetch('/api/auth/logout',{method:'POST'})}catch(e){}window.location.href='/login.html'};
-  document.getElementById('glossaryBtn').onclick=()=>{document.getElementById('glossaryPanel').classList.add('open');document.getElementById('glossaryOverlay').classList.add('show')};
-  document.getElementById('glossaryClose').onclick=()=>{document.getElementById('glossaryPanel').classList.remove('open');document.getElementById('glossaryOverlay').classList.remove('show')};
-  document.getElementById('glossaryOverlay').onclick=()=>{document.getElementById('glossaryPanel').classList.remove('open');document.getElementById('glossaryOverlay').classList.remove('show')};
-  document.getElementById('glossarySearch').oninput=e=>renderGlossary(e.target.value.toLowerCase());
-});
-</script>
+<div class="footer">마지막 업데이트: 2026. 3. 27. | tenex-reports.vercel.app</div>
 </body>
 </html>
