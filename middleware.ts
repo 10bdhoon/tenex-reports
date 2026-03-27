@@ -1,11 +1,10 @@
 import { next } from "@vercel/edge";
 import { jwtVerify } from "jose";
 
-const COOKIE_NAME = "tenex_auth";
+const COOKIE_NAME = "tenex_session";
 
 function getJwtSecret(): Uint8Array {
-  const secret = process.env.JWT_SECRET;
-  if (!secret) throw new Error("JWT_SECRET is not set");
+  const secret = process.env.JWT_SECRET || "fallback-secret-change-me";
   return new TextEncoder().encode(secret);
 }
 
@@ -21,8 +20,8 @@ function parseCookies(cookieHeader: string): Record<string, string> {
 export default async function middleware(req: Request) {
   const url = new URL(req.url);
 
-  // Skip auth routes
-  if (url.pathname.startsWith("/api/auth")) {
+  // Allow login page and auth API routes
+  if (url.pathname === "/login" || url.pathname === "/login.html" || url.pathname.startsWith("/api/auth")) {
     return next();
   }
 
@@ -39,27 +38,11 @@ export default async function middleware(req: Request) {
     }
   }
 
-  // Store the original URL to redirect back after login
   const returnTo = url.pathname + url.search;
-
-  const clientId = process.env.GOOGLE_CLIENT_ID;
-  if (!clientId) {
-    return new Response("GOOGLE_CLIENT_ID is not configured", { status: 500 });
+  const loginUrl = new URL("/login.html", url.origin);
+  if (returnTo && returnTo !== "/") {
+    loginUrl.searchParams.set("returnTo", returnTo);
   }
 
-  const redirectUri = `${url.origin}/api/auth/callback`;
-
-  const params = new URLSearchParams({
-    client_id: clientId,
-    redirect_uri: redirectUri,
-    response_type: "code",
-    scope: "openid email profile",
-    access_type: "offline",
-    state: returnTo,
-    prompt: "select_account",
-  });
-
-  const googleAuthUrl = `https://accounts.google.com/o/oauth2/v2/auth?${params.toString()}`;
-
-  return Response.redirect(googleAuthUrl, 302);
+  return Response.redirect(loginUrl.toString(), 302);
 }
