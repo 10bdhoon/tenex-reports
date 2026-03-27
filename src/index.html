@@ -264,18 +264,19 @@ body.sidebar-collapsed .header-toggle{display:flex}
 </div>
 <script>
 const CATEGORIES=[
-  {key:'A',icon:'📦',label:'A 제품'},
-  {key:'B',icon:'🎬',label:'B 콘텐츠/채널'},
-  {key:'C',icon:'🏥',label:'C 의료계 파트너십'},
-  {key:'D',icon:'📣',label:'D 마케팅/광고',subs:['Mixpanel','CRM','스터디','기타']},
-  {key:'E',icon:'📱',label:'E 앱/개발',subs:['기획','기술']},
-  {key:'F',icon:'💰',label:'F 재무'},
-  {key:'G',icon:'🧑',label:'G 조직'},
-  {key:'H',icon:'⚙️',label:'H 운영'},
-  {key:'I',icon:'🧠',label:'I AI 시스템'},
-  {key:'J',icon:'🌏',label:'J 해외진출'},
-  {key:'K',icon:'🎯',label:'K 고객성공'},
-  {key:'Z',icon:'🎓',label:'Z 교육',subs:['모사모 강의 정리본','모사모 전사 원본','자사교 스터디']},
+  {key:'★',icon:'🎯',label:'🎯 전체 전략',pinned:true},
+  {key:'A',icon:'📦',label:'A 제품',subs:['ES-808','CS-25','WS-200','부스터젤','통증크림 (TH-1)','📌 핵심전략']},
+  {key:'B',icon:'🎬',label:'B 콘텐츠/채널',subs:['콘텐츠 기획','채널 분석','커뮤니티','썸네일/크리에이티브','📌 핵심전략']},
+  {key:'C',icon:'🏥',label:'C 의료계 파트너십',subs:['📌 핵심전략']},
+  {key:'D',icon:'📣',label:'D 마케팅/광고',subs:['퍼포먼스','크리에이티브','CRM','SNS','바이럴','브랜드','그로스','데이터','리뷰','제휴/파트너십','📌 핵심전략']},
+  {key:'E',icon:'📱',label:'E 앱/개발',subs:['PM','프론트엔드','백엔드/API','UI/UX','코드리뷰/QA','1분도수 앱','📌 핵심전략']},
+  {key:'F',icon:'💰',label:'F 재무',subs:['재무관리','자금조달','지분/밸류에이션','📌 핵심전략']},
+  {key:'G',icon:'🧑',label:'G 조직',subs:['채용','보상','팀 구조','📌 핵심전략']},
+  {key:'H',icon:'⚙️',label:'H 운영',subs:['📌 핵심전략']},
+  {key:'I',icon:'🧠',label:'I AI 시스템',subs:['📌 핵심전략']},
+  {key:'J',icon:'🌏',label:'J 해외진출',subs:['해외진출 전략','미국','일본','레퍼런스','📌 핵심전략']},
+  {key:'K',icon:'🎯',label:'K 고객성공',subs:['CS','CX','VOC 분석','📌 핵심전략']},
+  {key:'Z',icon:'🎓',label:'Z 교육',subs:['모사모 강의 정리본','모사모 전사 원본','자사교 스터디','📌 핵심전략']},
 ];
 const GLOSSARY=[
   {term:'ROAS',def:'광고비 대비 매출 비율 (Return On Ad Spend)'},
@@ -294,51 +295,40 @@ const GLOSSARY=[
   {term:'정품등록',def:'구매자 → 자사몰 유입 → 메타 픽셀 시그널 확보'},
 ];
 const DEFAULT_REPORTS=[
-  // A 제품
-  {href:'/es808.html',icon:'⚡',title:'ES-808',desc:'커리큘럼 · 문자 안내',date:'3/19',cat:'A'},
-  {href:'/product-roadmap.html',icon:'🗓️',title:'제품 로드맵',desc:'제품 개발 및 출시 타임라인',date:'3/16',cat:'A'},
-  {href:'/brand-design-system.html',icon:'🎨',title:'키네메디칼 디자인 시스템',desc:'브랜드 컬러, 로고, 패키지 가이드',date:'3/16',cat:'A'},
-  {href:'/kinemedical-redesign.html',icon:'🎨',title:'키네메디칼 리디자인',desc:'키네메디칼 리디자인 시안',date:'3/17',cat:'A'},
-  {href:'/profit-simulation.html',icon:'💹',title:'수익 시뮬레이션',desc:'테넥스 수익/자금조달 시뮬레이션',date:'3/26',cat:'A'},
-  // B 콘텐츠/채널
-  {href:'/youtube.html',icon:'▶️',title:'YouTube 채널 허브',desc:'채널 허브 · 트래커 · 리서치 · 영상 목록',date:'3/18',cat:'B'},
-  {href:'/platform-api-research.html',icon:'🔌',title:'플랫폼 API 리서치',desc:'플랫폼 공식 API 분석 — 인플루언서 아웃리치 자동화',date:'3/23',cat:'B'},
-  // C 의료계 파트너십
-  {href:'/myprotein-growth.html',icon:'📊',title:'마이프로틴 성장 전략 (인플루언서)',desc:'마이프로틴 성장 전략 분석 — 벤치마크 리포트',date:'3/23',cat:'C'},
-  // D 마케팅/광고 — Mixpanel
-  {href:'/mixpanel-analysis.html',icon:'📈',title:'키네메디칼 Mixpanel + 카페24 분석 (3/19~3/25)',desc:'',date:'3/26',cat:'D',sub:'Mixpanel'},
-  {href:'/weekly-mixpanel-2026-03-26.html',icon:'📈',title:'주간 Mixpanel 리포트 (3/26)',desc:'',date:'3/26',cat:'D',sub:'Mixpanel'},
-  // D 마케팅/광고 — CRM
-  {href:'/crm.html',icon:'📊',title:'CRM',desc:'CRM 전략 v2 · 고객 페르소나',date:'3/19',cat:'D',sub:'CRM'},
-  {href:'/customer-journey-v5.html',icon:'🗺️',title:'고객 여정 분석 — 승무원 수분크림',desc:'',date:'3/23',cat:'D',sub:'CRM'},
-  // D 마케팅/광고 — 스터디
-  {href:'/jasagyo-5gi.html',icon:'🎓',title:'자사몰 사관학교 5기 — 강의 정리',desc:'',date:'3/25',cat:'Z',sub:'자사교 스터디'},
-  {href:'/jasagyo-6ki-week2.html',icon:'🎓',title:'자사교 6기 2주차 강의노트',desc:'',date:'3/23',cat:'Z',sub:'자사교 스터디'},
-  // D 마케팅/광고 — 기타
-  {href:'/tenex-strategy.html',icon:'🚀',title:'TENEX 핵심전략 2026',desc:'테넥스 전체 사업 전략',date:'3/25',cat:'D',sub:'기타'},
-  {href:'/leaders-meeting-2026-03-24.html',icon:'📋',title:'리더 회의 리포트 — 2026.03.24',desc:'',date:'3/25',cat:'D',sub:'기타'},
-  // E 앱/개발 — 기획
-  {href:'/1min-dosu-app.html',icon:'💪',title:'1분도수 앱',desc:'앱 기획 · ver4 화면 · 기능 스펙',date:'3/19',cat:'E',sub:'기획'},
-  {href:'/kinemedical-app.html',icon:'📱',title:'키네메디칼 앱',desc:'앱 스펙 · 마일스톤 · 데모',date:'3/19',cat:'E',sub:'기획'},
-  {href:'/app-journey-plan.html',icon:'🗺️',title:'1분도수 앱 고객 여정 기획안',desc:'',date:'3/25',cat:'E',sub:'기획'},
-  // E 앱/개발 — 기술
-  {href:'/app-tech-spec.html',icon:'🏗️',title:'1분도수 앱 — 기술 스펙 & AI 해자 전략',desc:'',date:'3/25',cat:'E',sub:'기술'},
-  // F 재무
-  {href:'/funding.html',icon:'💰',title:'자금조달',desc:'지분 구조 · 스톡옵션 · 초창패 인터뷰',date:'3/19',cat:'F'},
-  // G 조직
-  {href:'/2026-team-structure.html',icon:'👥',title:'팀 구조 & 채용 로드맵',desc:'2026 팀 구성 및 채용 계획',date:'3/16',cat:'G'},
-  {href:'/apr-hiring-analysis.html',icon:'📋',title:'APR 채용 공고 분석',desc:'테넥스 채용 전략 참고',date:'3/19',cat:'G'},
-  {href:'/apr-organization-analysis.html',icon:'🏢',title:'APR 조직 분석',desc:'테넥스 참고용',date:'3/19',cat:'G'},
-  {href:'/ceo-roles.html',icon:'👔',title:'CEO 업무 맵',desc:'CEO 업무 맵 & 채용 전략',date:'3/23',cat:'G'},
-  {href:'/membership.html',icon:'💎',title:'멤버십',desc:'키네메디칼 멤버십 혜택',date:'3/17',cat:'G'},
-  // I AI 시스템
-  {href:'/agent-team-plan.html',icon:'🤖',title:'AI 에이전트팀 기획서',desc:'테넥스 AI 에이전트팀 기획서 v3',date:'3/25',cat:'I'},
-  {href:'/ai-system.html',icon:'🧠',title:'AI 시스템',desc:'카리나 · OpenClaw · 시스템 구조 · Brain.db · 에이전트팀',date:'3/19',cat:'I'},
-  {href:'/openclaw-overview.html',icon:'🔧',title:'OpenClaw 개요',desc:'테넥스 × 오픈클로 — 전체 시스템 맵',date:'3/24',cat:'I'},
-  {href:'/system-status.html',icon:'🖥️',title:'자동화 시스템 현황',desc:'테넥스 자동화 시스템 현황',date:'3/16',cat:'I'},
-  // J 해외진출
-  {href:'/global-strategy.html',icon:'🌏',title:'글로벌 진출 전략',desc:'미국 전략 · APR 벤치마크 · 국가별 우선순위',date:'3/19',cat:'J'},
-  // Z 교육 — 자사교 강의
+  {href:'/tenex-strategy.html',icon:'🚀',title:'TENEX 핵심전략 2026',desc:'테넥스 전체 사업 전략',date:'3/25',cat:'★'},
+  {href:'/es808.html',icon:'⚡',title:'ES-808 도수펜',desc:'커리큘럼 · 문자 안내',date:'3/19',cat:'A',sub:'ES-808'},
+  {href:'/product-roadmap.html',icon:'🗓️',title:'제품 로드맵',desc:'제품 개발 및 출시 타임라인',date:'3/16',cat:'A',sub:'ES-808'},
+  {href:'/brand-design-system.html',icon:'🎨',title:'키네메디칼 디자인 시스템',desc:'브랜드 컬러, 로고, 패키지 가이드',date:'3/16',cat:'A',sub:'ES-808'},
+  {href:'/kinemedical-redesign.html',icon:'🎨',title:'키네메디칼 리디자인',desc:'리디자인 시안',date:'3/17',cat:'A',sub:'ES-808'},
+  {href:'/profit-simulation.html',icon:'💹',title:'수익 시뮬레이션',desc:'수익/자금조달 시뮬레이션',date:'3/26',cat:'A',sub:'ES-808'},
+  {href:'/youtube.html',icon:'▶️',title:'YouTube 채널 허브',desc:'트래커 · 리서치 · 영상 목록',date:'3/18',cat:'B',sub:'채널 분석'},
+  {href:'/platform-api-research.html',icon:'🔌',title:'플랫폼 API 리서치',desc:'인플루언서 아웃리치 자동화',date:'3/23',cat:'B',sub:'채널 분석'},
+  {href:'/myprotein-growth.html',icon:'📊',title:'마이프로틴 성장 전략',desc:'인플루언서 벤치마크',date:'3/23',cat:'D',sub:'제휴/파트너십'},
+  {href:'/mixpanel-analysis.html',icon:'📈',title:'Mixpanel + 카페24 분석',desc:'3/19~3/25',date:'3/26',cat:'D',sub:'데이터'},
+  {href:'/weekly-mixpanel-2026-03-26.html',icon:'📈',title:'주간 Mixpanel (3/26)',desc:'',date:'3/26',cat:'D',sub:'데이터'},
+  {href:'/crm.html',icon:'📊',title:'CRM 전략 v2',desc:'고객 페르소나',date:'3/19',cat:'D',sub:'CRM'},
+  {href:'/customer-journey-v5.html',icon:'🗺️',title:'고객 여정 분석',desc:'승무원 수분크림',date:'3/23',cat:'D',sub:'그로스'},
+  {href:'/leaders-meeting-2026-03-24.html',icon:'📋',title:'리더 회의 (3/24)',desc:'',date:'3/25',cat:'D',sub:'퍼포먼스'},
+  {href:'/1min-dosu-app.html',icon:'💪',title:'1분도수 앱',desc:'기획 · 기술스펙 · 고객여정',date:'3/27',cat:'E',sub:'1분도수 앱'},
+  {href:'/kinemedical-app.html',icon:'📱',title:'키네메디칼 앱',desc:'스펙 · 마일스톤',date:'3/19',cat:'E',sub:'1분도수 앱'},
+  {href:'/app-journey-plan.html',icon:'🗺️',title:'앱 고객 여정 기획안',desc:'',date:'3/25',cat:'E',sub:'1분도수 앱'},
+  {href:'/app-tech-spec.html',icon:'🏗️',title:'기술 스펙 & AI 해자',desc:'',date:'3/25',cat:'E',sub:'1분도수 앱'},
+  {href:'/funding.html',icon:'💰',title:'자금조달',desc:'지분 · 스톡옵션 · 초창패',date:'3/19',cat:'F',sub:'자금조달'},
+  {href:'/2026-team-structure.html',icon:'👥',title:'팀 구조 & 채용 로드맵',desc:'2026 계획',date:'3/16',cat:'G',sub:'팀 구조'},
+  {href:'/apr-hiring-analysis.html',icon:'📋',title:'APR 채용 공고 분석',desc:'',date:'3/19',cat:'G',sub:'채용'},
+  {href:'/apr-organization-analysis.html',icon:'🏢',title:'APR 조직 분석',desc:'',date:'3/19',cat:'G',sub:'팀 구조'},
+  {href:'/ceo-roles.html',icon:'👔',title:'CEO 업무 맵',desc:'채용 전략',date:'3/23',cat:'G',sub:'채용'},
+  {href:'/membership.html',icon:'💎',title:'멤버십',desc:'혜택 설계',date:'3/17',cat:'G',sub:'보상'},
+  {href:'/cron-dashboard.html',icon:'🔄',title:'크론 대시보드',desc:'14개 크론잡',date:'3/27',cat:'H'},
+  {href:'/deploy-dashboard.html',icon:'🚀',title:'배포 현황',desc:'Vercel 상태',date:'3/27',cat:'H'},
+  {href:'/heartbeat-dashboard.html',icon:'💓',title:'하트비트',desc:'에이전트 5명',date:'3/27',cat:'H'},
+  {href:'/agent-team-plan.html',icon:'🤖',title:'AI 에이전트팀 기획서 v3',desc:'',date:'3/25',cat:'I'},
+  {href:'/ai-system.html',icon:'🧠',title:'AI 시스템',desc:'카리나 · OpenClaw · Brain.db',date:'3/19',cat:'I'},
+  {href:'/openclaw-overview.html',icon:'🔧',title:'OpenClaw 개요',desc:'시스템 맵',date:'3/24',cat:'I'},
+  {href:'/system-status.html',icon:'🖥️',title:'자동화 시스템 현황',desc:'',date:'3/16',cat:'I'},
+  {href:'/security-dashboard.html',icon:'🔒',title:'보안 현황',desc:'API · 서버 · 권한',date:'3/27',cat:'I'},
+  {href:'/skills-dashboard.html',icon:'🧩',title:'스킬 목록',desc:'9개 스킬',date:'3/27',cat:'I'},
+  {href:'/global-strategy.html',icon:'🌏',title:'글로벌 진출 전략',desc:'미국 · APR · 국가별',date:'3/19',cat:'J',sub:'해외진출 전략'},
   {href:'/edu-01.html',icon:'📝',title:'모사모 1강',desc:'',date:'3/25',cat:'Z',sub:'모사모 강의 정리본'},
   {href:'/edu-02-1.html',icon:'📝',title:'모사모 2강-1',desc:'',date:'3/25',cat:'Z',sub:'모사모 강의 정리본'},
   {href:'/edu-02-2.html',icon:'📝',title:'모사모 2강-2',desc:'',date:'3/25',cat:'Z',sub:'모사모 강의 정리본'},
@@ -370,87 +360,9 @@ const DEFAULT_REPORTS=[
   {href:'/edu-19.html',icon:'📝',title:'모사모 19강',desc:'',date:'3/25',cat:'Z',sub:'모사모 강의 정리본'},
   {href:'/edu-20-1.html',icon:'📝',title:'모사모 20강-1',desc:'',date:'3/25',cat:'Z',sub:'모사모 강의 정리본'},
   {href:'/edu-20-2.html',icon:'📝',title:'모사모 20강-2',desc:'',date:'3/25',cat:'Z',sub:'모사모 강의 정리본'},
-  // Z 교육 — 모사모 전사 원본
-  {href:'/haeil-lectures.html',icon:'🎓',title:'모사모 강의 전사 정리',desc:'전사 원본 인덱스 (74개 강의)',date:'3/26',cat:'Z',sub:'모사모 전사 원본'},
-  {href:'/cron-dashboard.html',icon:'🔄',title:'크론 대시보드 — Tenex',desc:'',date:'3/27',cat:'H'}
-  {href:'/deploy-dashboard.html',icon:'🚀',title:'배포 현황 — Tenex',desc:'',date:'3/27',cat:'H'}
-  {href:'/heartbeat-dashboard.html',icon:'💓',title:'하트비트 모니터링 — Tenex',desc:'',date:'3/27',cat:'H'}
-  {href:'/security-dashboard.html',icon:'🔒',title:'보안 현황 — Tenex',desc:'',date:'3/27',cat:'I'}
-  {href:'/skills-dashboard.html',icon:'🧩',title:'스킬 목록 — Tenex',desc:'',date:'3/27',cat:'I'}
-  {href:'/haeil-lesson-1005347.html',icon:'🎧',title:'\'사업의 비밀 _ 사업으로 부자 되는 유일한 방법_1\'.mp4 — 모사모 강의',desc:'',date:'3/27',cat:'Z',sub:'모사모 전사 원본'}
-  {href:'/haeil-lesson-1006588.html',icon:'🎧',title:'&#039;사업의 비밀 _ 사업으로 부자 되는 유일한 방법_2&#039;.mp4 — 모사모 강의',desc:'',date:'3/27',cat:'Z',sub:'모사모 전사 원본'}
-  {href:'/haeil-lesson-1006612.html',icon:'🎧',title:'&#039;사업의 비밀 _ 사업으로 부자 되는 유일한 방법&#039;.mp4 — 모사모 강의',desc:'',date:'3/27',cat:'Z',sub:'모사모 전사 원본'}
-  {href:'/haeil-lesson-1011017.html',icon:'🎧',title:'사업으로 부자되는 유일한 방법 (2편) - 1 — 모사모 강의',desc:'',date:'3/27',cat:'Z',sub:'모사모 전사 원본'}
-  {href:'/haeil-lesson-1011018.html',icon:'🎧',title:'사업으로 부자되는 유일한 방법 (2편) - 2 — 모사모 강의',desc:'',date:'3/27',cat:'Z',sub:'모사모 전사 원본'}
-  {href:'/haeil-lesson-1011019.html',icon:'🎧',title:'사업으로 부자되는 유일한 방법 (2편) - 3 — 모사모 강의',desc:'',date:'3/27',cat:'Z',sub:'모사모 전사 원본'}
-  {href:'/haeil-lesson-1011026.html',icon:'🎧',title:'사업으로 부자되는 유일한 방법 (2편) - 4 — 모사모 강의',desc:'',date:'3/27',cat:'Z',sub:'모사모 전사 원본'}
-  {href:'/haeil-lesson-1011028.html',icon:'🎧',title:'사업으로 부자되는 유일한 방법 (2편) - 5 — 모사모 강의',desc:'',date:'3/27',cat:'Z',sub:'모사모 전사 원본'}
-  {href:'/haeil-lesson-1011033.html',icon:'🎧',title:'2/22 수제자 보너스 라이브 - 1 — 모사모 강의',desc:'',date:'3/27',cat:'Z',sub:'모사모 전사 원본'}
-  {href:'/haeil-lesson-1011034.html',icon:'🎧',title:'2/22 수제자 보너스 라이브 - 2 — 모사모 강의',desc:'',date:'3/27',cat:'Z',sub:'모사모 전사 원본'}
-  {href:'/haeil-lesson-1011035.html',icon:'🎧',title:'2/22 수제자 보너스 라이브 - 3 — 모사모 강의',desc:'',date:'3/27',cat:'Z',sub:'모사모 전사 원본'}
-  {href:'/haeil-lesson-1011036.html',icon:'🎧',title:'1/4 수제자 보너스 라이브 다시보기 — 모사모 강의',desc:'',date:'3/27',cat:'Z',sub:'모사모 전사 원본'}
-  {href:'/haeil-lesson-1011038.html',icon:'🎧',title:'5) 실전의 비밀 — 모사모 강의',desc:'',date:'3/27',cat:'Z',sub:'모사모 전사 원본'}
-  {href:'/haeil-lesson-1011039.html',icon:'🎧',title:'6) 실전의 비밀, 두 번째 이야기 — 모사모 강의',desc:'',date:'3/27',cat:'Z',sub:'모사모 전사 원본'}
-  {href:'/haeil-lesson-1014489.html',icon:'🎧',title:'성공을 완성하는 가장 중요한 순간 - 1 — 모사모 강의',desc:'',date:'3/27',cat:'Z',sub:'모사모 전사 원본'}
-  {href:'/haeil-lesson-1014490.html',icon:'🎧',title:'성공을 완성하는 가장 중요한 순간 - 2 — 모사모 강의',desc:'',date:'3/27',cat:'Z',sub:'모사모 전사 원본'}
-  {href:'/haeil-lesson-1014491.html',icon:'🎧',title:'성공을 완성하는 가장 중요한 순간 - 3 — 모사모 강의',desc:'',date:'3/27',cat:'Z',sub:'모사모 전사 원본'}
-  {href:'/haeil-lesson-1014497.html',icon:'🎧',title:'성공을 완성하는 가장 중요한 순간 - 4 — 모사모 강의',desc:'',date:'3/27',cat:'Z',sub:'모사모 전사 원본'}
-  {href:'/haeil-lesson-1014498.html',icon:'🎧',title:'7) 제품 기획과 제작 경험의 기적 — 모사모 강의',desc:'',date:'3/27',cat:'Z',sub:'모사모 전사 원본'}
-  {href:'/haeil-lesson-1014501.html',icon:'🎧',title:'성공을 완성하는 가장 중요한 순간 - 5 — 모사모 강의',desc:'',date:'3/27',cat:'Z',sub:'모사모 전사 원본'}
-  {href:'/haeil-lesson-1014502.html',icon:'🎧',title:'2/5 수제자 보너스 라이브 — 모사모 강의',desc:'',date:'3/27',cat:'Z',sub:'모사모 전사 원본'}
-  {href:'/haeil-lesson-1014503.html',icon:'🎧',title:'2/11 수제자 보너스 라이브 — 모사모 강의',desc:'',date:'3/27',cat:'Z',sub:'모사모 전사 원본'}
-  {href:'/haeil-lesson-1029047.html',icon:'🎧',title:'3/7 유튜브 기습 라이브 다시보기 — 모사모 강의',desc:'',date:'3/27',cat:'Z',sub:'모사모 전사 원본'}
-  {href:'/haeil-lesson-1033839.html',icon:'🎧',title:'마케팅은 어떻게 불가능을 이루는 힘이 되는가 - 1 — 모사모 강의',desc:'',date:'3/27',cat:'Z',sub:'모사모 전사 원본'}
-  {href:'/haeil-lesson-1033841.html',icon:'🎧',title:'마케팅은 어떻게 불가능을 이루는 힘이 되는가 - 2 — 모사모 강의',desc:'',date:'3/27',cat:'Z',sub:'모사모 전사 원본'}
-  {href:'/haeil-lesson-1035418.html',icon:'🎧',title:'3/18 수제자 보너스 라이브 — 모사모 강의',desc:'',date:'3/27',cat:'Z',sub:'모사모 전사 원본'}
-  {href:'/haeil-lesson-1043765.html',icon:'🎧',title:'마케팅, 유기적 성장의 모든 것 1 — 모사모 강의',desc:'',date:'3/27',cat:'Z',sub:'모사모 전사 원본'}
-  {href:'/haeil-lesson-1043768.html',icon:'🎧',title:'마케팅, 유기적 성장의 모든 것 2 — 모사모 강의',desc:'',date:'3/27',cat:'Z',sub:'모사모 전사 원본'}
-  {href:'/haeil-lesson-1054213.html',icon:'🎧',title:'지극히 거대한, 그러나 작은 끝으로 - 01 — 모사모 강의',desc:'',date:'3/27',cat:'Z',sub:'모사모 전사 원본'}
-  {href:'/haeil-lesson-1054222.html',icon:'🎧',title:'지극히 거대한, 그러나 작은 끝으로 - 02 — 모사모 강의',desc:'',date:'3/27',cat:'Z',sub:'모사모 전사 원본'}
-  {href:'/haeil-lesson-1064595.html',icon:'🎧',title:'수제자 마지막 라이브 1 — 모사모 강의',desc:'',date:'3/27',cat:'Z',sub:'모사모 전사 원본'}
-  {href:'/haeil-lesson-1064609.html',icon:'🎧',title:'수제자 마지막 라이브 2 — 모사모 강의',desc:'',date:'3/27',cat:'Z',sub:'모사모 전사 원본'}
-  {href:'/haeil-lesson-1064615.html',icon:'🎧',title:'수제자 마지막 라이브 3 — 모사모 강의',desc:'',date:'3/27',cat:'Z',sub:'모사모 전사 원본'}
-  {href:'/haeil-lesson-1090893.html',icon:'🎧',title:'사업을 성공시키는 비밀 무기, 스크립트 — 모사모 강의',desc:'',date:'3/27',cat:'Z',sub:'모사모 전사 원본'}
-  {href:'/haeil-lesson-1090894.html',icon:'🎧',title:'사업을 성공시키는 비밀 도구, \'플랫폼\' — 모사모 강의',desc:'',date:'3/27',cat:'Z',sub:'모사모 전사 원본'}
-  {href:'/haeil-lesson-1164660.html',icon:'🎧',title:'수제자 2기 보너스 라이브 01 — 모사모 강의',desc:'',date:'3/27',cat:'Z',sub:'모사모 전사 원본'}
-  {href:'/haeil-lesson-1164662.html',icon:'🎧',title:'수제자 2기 보너스 라이브 02 — 모사모 강의',desc:'',date:'3/27',cat:'Z',sub:'모사모 전사 원본'}
-  {href:'/haeil-lesson-1184164.html',icon:'🎧',title:'수제자 2기 보너스 라이브 — 모사모 강의',desc:'',date:'3/27',cat:'Z',sub:'모사모 전사 원본'}
-  {href:'/haeil-lesson-1195879.html',icon:'🎧',title:'3) 수제자 2기 보너스 라이브 — 모사모 강의',desc:'',date:'3/27',cat:'Z',sub:'모사모 전사 원본'}
-  {href:'/haeil-lesson-1202173.html',icon:'🎧',title:'4) 수제자 2기 라이브 -1 — 모사모 강의',desc:'',date:'3/27',cat:'Z',sub:'모사모 전사 원본'}
-  {href:'/haeil-lesson-1202174.html',icon:'🎧',title:'4) 수제자 2기 라이브 -2 — 모사모 강의',desc:'',date:'3/27',cat:'Z',sub:'모사모 전사 원본'}
-  {href:'/haeil-lesson-1202175.html',icon:'🎧',title:'4) 수제자 2기 라이브 -3 — 모사모 강의',desc:'',date:'3/27',cat:'Z',sub:'모사모 전사 원본'}
-  {href:'/haeil-lesson-1211380.html',icon:'🎧',title:'4) 수제자 2기 보너스 라이브 — 모사모 강의',desc:'',date:'3/27',cat:'Z',sub:'모사모 전사 원본'}
-  {href:'/haeil-lesson-1211382.html',icon:'🎧',title:'5) 수제자 2기 보너스 라이브 — 모사모 강의',desc:'',date:'3/27',cat:'Z',sub:'모사모 전사 원본'}
-  {href:'/haeil-lesson-1211383.html',icon:'🎧',title:'6) 수제자 2기 보너스 라이브 — 모사모 강의',desc:'',date:'3/27',cat:'Z',sub:'모사모 전사 원본'}
-  {href:'/haeil-lesson-1214612.html',icon:'🎧',title:'3) 수제자 2기 라이브 — 모사모 강의',desc:'',date:'3/27',cat:'Z',sub:'모사모 전사 원본'}
-  {href:'/haeil-lesson-1225819.html',icon:'🎧',title:'6) 수제자 2기 라이브 - 1 — 모사모 강의',desc:'',date:'3/27',cat:'Z',sub:'모사모 전사 원본'}
-  {href:'/haeil-lesson-1225939.html',icon:'🎧',title:'6) 수제자 2기 라이브 - 2 — 모사모 강의',desc:'',date:'3/27',cat:'Z',sub:'모사모 전사 원본'}
-  {href:'/haeil-lesson-1232174.html',icon:'🎧',title:'5) 수제자 2기 라이브 - 1 — 모사모 강의',desc:'',date:'3/27',cat:'Z',sub:'모사모 전사 원본'}
-  {href:'/haeil-lesson-1243792.html',icon:'🎧',title:'7) 수제자 2기 라이브 — 모사모 강의',desc:'',date:'3/27',cat:'Z',sub:'모사모 전사 원본'}
-  {href:'/haeil-lesson-1245988.html',icon:'🎧',title:'7) 수제자 2기 보너스 라이브 -1 — 모사모 강의',desc:'',date:'3/27',cat:'Z',sub:'모사모 전사 원본'}
-  {href:'/haeil-lesson-1245990.html',icon:'🎧',title:'7) 수제자 2기 보너스 라이브 -2 — 모사모 강의',desc:'',date:'3/27',cat:'Z',sub:'모사모 전사 원본'}
-  {href:'/haeil-lesson-1252169.html',icon:'🎧',title:'5) 수제자 2기 라이브 - 2 — 모사모 강의',desc:'',date:'3/27',cat:'Z',sub:'모사모 전사 원본'}
-  {href:'/haeil-lesson-1259758.html',icon:'🎧',title:'7) 수제자 2기 보너스 라이브 - 1 — 모사모 강의',desc:'',date:'3/27',cat:'Z',sub:'모사모 전사 원본'}
-  {href:'/haeil-lesson-1259761.html',icon:'🎧',title:'7) 수제자 2기 보너스 라이브 - 2 — 모사모 강의',desc:'',date:'3/27',cat:'Z',sub:'모사모 전사 원본'}
-  {href:'/haeil-lesson-1259763.html',icon:'🎧',title:'8) 수제자 2기 라이브 - 1 — 모사모 강의',desc:'',date:'3/27',cat:'Z',sub:'모사모 전사 원본'}
-  {href:'/haeil-lesson-1259764.html',icon:'🎧',title:'8) 수제자 2기 라이브 - 2 — 모사모 강의',desc:'',date:'3/27',cat:'Z',sub:'모사모 전사 원본'}
-  {href:'/haeil-lesson-1269143.html',icon:'🎧',title:'9) 수제자 2기 라이브 - 1 — 모사모 강의',desc:'',date:'3/27',cat:'Z',sub:'모사모 전사 원본'}
-  {href:'/haeil-lesson-1269144.html',icon:'🎧',title:'9) 수제자 2기 라이브 - 2 — 모사모 강의',desc:'',date:'3/27',cat:'Z',sub:'모사모 전사 원본'}
-  {href:'/haeil-lesson-1269147.html',icon:'🎧',title:'9) 수제자 2기 라이브 - 3 — 모사모 강의',desc:'',date:'3/27',cat:'Z',sub:'모사모 전사 원본'}
-  {href:'/haeil-lesson-1297981.html',icon:'🎧',title:'10) 수제자 2기 라이브 — 모사모 강의',desc:'',date:'3/27',cat:'Z',sub:'모사모 전사 원본'}
-  {href:'/haeil-lesson-1305452.html',icon:'🎧',title:'11) 수제자 2기 라이브 — 모사모 강의',desc:'',date:'3/27',cat:'Z',sub:'모사모 전사 원본'}
-  {href:'/haeil-lesson-1305453.html',icon:'🎧',title:'12) 수제자 2기 라이브 - 1 — 모사모 강의',desc:'',date:'3/27',cat:'Z',sub:'모사모 전사 원본'}
-  {href:'/haeil-lesson-1305454.html',icon:'🎧',title:'12) 수제자 2기 라이브 - 2 — 모사모 강의',desc:'',date:'3/27',cat:'Z',sub:'모사모 전사 원본'}
-  {href:'/haeil-lesson-998165.html',icon:'🎧',title:'2-3) 사업구조화.mp4 — 모사모 강의',desc:'',date:'3/27',cat:'Z',sub:'모사모 전사 원본'}
-  {href:'/haeil-lesson-998240.html',icon:'🎧',title:'2-1) 사업구조화.mp4 — 모사모 강의',desc:'',date:'3/27',cat:'Z',sub:'모사모 전사 원본'}
-  {href:'/haeil-lesson-998244.html',icon:'🎧',title:'2-2) 사업구조화.mp4 — 모사모 강의',desc:'',date:'3/27',cat:'Z',sub:'모사모 전사 원본'}
-  {href:'/haeil-lesson-998262.html',icon:'🎧',title:'1) \'문화 혁신론\' — 모사모 강의',desc:'',date:'3/27',cat:'Z',sub:'모사모 전사 원본'}
-  {href:'/haeil-lesson-998263.html',icon:'🎧',title:'3) 원칙 구조화, 제품과 마케팅의 시작 — 모사모 강의',desc:'',date:'3/27',cat:'Z',sub:'모사모 전사 원본'}
-  {href:'/haeil-lesson-998492.html',icon:'🎧',title:'4) 성공하는 회사를 만드는 법 — 모사모 강의',desc:'',date:'3/27',cat:'Z',sub:'모사모 전사 원본'}
-  {href:'/haeil-lesson-998495.html',icon:'🎧',title:'[ 수제자 보너스 ] 사업 &amp; 아이디어 피드백 — 모사모 강의',desc:'',date:'3/27',cat:'Z',sub:'모사모 전사 원본'}
-  {href:'/haeil-lesson-998497.html',icon:'🎧',title:'[ 수제자 보너스 2 - 1 ] — 모사모 강의',desc:'',date:'3/27',cat:'Z',sub:'모사모 전사 원본'}
-  {href:'/haeil-lesson-998498.html',icon:'🎧',title:'[ 수제자 보너스 2 - 2 ] — 모사모 강의',desc:'',date:'3/27',cat:'Z',sub:'모사모 전사 원본'}
-  {href:'/haeil-lesson-998499.html',icon:'🎧',title:'[ 수제자 보너스 2 - 3 ] — 모사모 강의',desc:'',date:'3/27',cat:'Z',sub:'모사모 전사 원본'},
+  {href:'/haeil-lectures.html',icon:'🎧',title:'모사모 전사 정리',desc:'74개 강의 인덱스',date:'3/26',cat:'Z',sub:'모사모 전사 원본'},
+  {href:'/jasagyo-5gi.html',icon:'🎓',title:'자사몰 사관학교 5기',desc:'',date:'3/25',cat:'Z',sub:'자사교 스터디'},
+  {href:'/jasagyo-6ki-week2.html',icon:'🎓',title:'자사교 6기 2주차',desc:'',date:'3/23',cat:'Z',sub:'자사교 스터디'},
 ];
 let currentCat='all',currentSub=null,searchQuery='';
 const expandedCats={};
