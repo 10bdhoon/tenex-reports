@@ -37,6 +37,16 @@ export default async function middleware(req: Request) {
     try {
       const { payload } = await jwtVerify(token, getJwtSecret());
 
+      // Admin-only paths
+      const isAdminPath =
+        url.pathname === "/admin" ||
+        url.pathname === "/admin.html" ||
+        url.pathname.startsWith("/api/admin");
+      if (isAdminPath && payload.role !== "admin") {
+        // Non-admin trying to access admin page → redirect to home
+        return Response.redirect(new URL("/index.html", url.origin), 302);
+      }
+
       // Role-based path restriction
       const allowedPaths = payload.allowedPaths as string[] | undefined;
       if (allowedPaths && allowedPaths.length > 0) {

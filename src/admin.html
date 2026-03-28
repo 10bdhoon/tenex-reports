@@ -6,66 +6,153 @@
 <title>계정 관리 — 테넥스</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#0f172a;color:#e2e8f0;min-height:100vh}
-.header{background:#1a1a2e;padding:20px 32px;display:flex;align-items:center;gap:16px;border-bottom:1px solid #334155}
-.header h1{font-size:20px;font-weight:700}
-.header a{color:#8b8ba7;font-size:13px;text-decoration:none;margin-left:auto}
+:root{
+  --bg:#f5f5f7;--bg-card:#fff;--bg-sidebar:#1a1a2e;
+  --text:#1d1d1f;--text-secondary:#6e6e73;
+  --accent:#002855;--accent-light:#e0e8f0;
+  --border:#e5e5ea;--header-bg:#1a1a2e;
+  --shadow:0 1px 3px rgba(0,0,0,0.08);--shadow-lg:0 4px 16px rgba(0,0,0,0.1);
+  --input-bg:#fff;--input-border:#d1d5db;
+  --table-head:#f9fafb;--table-row-hover:#f3f4f6;
+  --modal-bg:#fff;
+}
+[data-theme="dark"]{
+  --bg:#0f0f17;--bg-card:#1c1c2e;
+  --text:#e2e2e8;--text-secondary:#8b8ba7;
+  --border:#2a2a3e;--accent-light:#1a2a3e;
+  --input-bg:#0f0f17;--input-border:#334155;
+  --table-head:#1e293b;--table-row-hover:#1e293b;
+  --modal-bg:#1e293b;
+}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;transition:background .3s,color .3s}
+
+/* Header */
+.header{background:var(--header-bg);padding:16px 32px;display:flex;align-items:center;gap:16px;position:sticky;top:0;z-index:100}
+.header h1{font-size:18px;font-weight:700;color:#fff;display:flex;align-items:center;gap:8px}
+.header-right{margin-left:auto;display:flex;align-items:center;gap:12px}
+.header a{color:rgba(255,255,255,0.6);font-size:13px;text-decoration:none;transition:color .2s}
 .header a:hover{color:#fff}
-.content{max-width:900px;margin:0 auto;padding:32px 24px}
-.notice{background:#1e3a5f;border:1px solid #2563eb;border-radius:10px;padding:14px 18px;font-size:13px;color:#93c5fd;margin-bottom:28px}
-.section{margin-bottom:32px}
-.section-title{font-size:14px;font-weight:700;color:#94a3b8;text-transform:uppercase;letter-spacing:1px;margin-bottom:14px;padding-bottom:8px;border-bottom:1px solid #334155}
+.theme-toggle{width:40px;height:22px;border-radius:12px;background:rgba(255,255,255,0.15);border:none;cursor:pointer;position:relative;transition:background .3s}
+.theme-toggle::after{content:'☀️';font-size:12px;position:absolute;left:3px;top:50%;transform:translateY(-50%);transition:left .3s}
+[data-theme="dark"] .theme-toggle::after{content:'🌙';left:20px}
+
+/* Content */
+.content{max-width:960px;margin:0 auto;padding:32px 24px}
+.notice{background:rgba(0,40,85,0.06);border:1px solid rgba(0,40,85,0.2);border-radius:10px;padding:14px 18px;font-size:13px;color:var(--accent);margin-bottom:28px;display:flex;gap:10px;align-items:flex-start}
+[data-theme="dark"] .notice{background:rgba(37,99,235,0.1);border-color:rgba(37,99,235,0.3);color:#93c5fd}
+.notice-icon{font-size:16px;flex-shrink:0;margin-top:1px}
+
+/* Section */
+.section{margin-bottom:36px}
+.section-title{font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--text-secondary);padding-bottom:10px;border-bottom:1px solid var(--border);margin-bottom:18px}
+
+/* Table */
+.table-wrap{background:var(--bg-card);border:1px solid var(--border);border-radius:12px;overflow:hidden;box-shadow:var(--shadow)}
 table{width:100%;border-collapse:collapse;font-size:13px}
-th{background:#1e293b;color:#64748b;padding:10px 14px;text-align:left;font-size:11px;text-transform:uppercase;letter-spacing:1px;border-bottom:1px solid #334155}
-td{padding:12px 14px;border-bottom:1px solid #1e293b;color:#e2e8f0;vertical-align:middle}
-tr:hover td{background:#1e293b}
-.role-badge{padding:2px 8px;border-radius:6px;font-size:11px;font-weight:700}
-.role-admin{background:rgba(0,40,85,0.4);color:#93c5fd}
-.role-viewer{background:rgba(100,116,139,0.2);color:#94a3b8}
-.path-tag{display:inline-block;padding:2px 8px;border-radius:4px;font-size:11px;background:#1e293b;color:#94a3b8;border:1px solid #334155;margin:2px}
-.btn{padding:6px 14px;border-radius:6px;font-size:12px;font-weight:600;cursor:pointer;border:none;transition:all .2s}
-.btn-del{background:rgba(239,68,68,0.15);color:#ef4444;border:1px solid rgba(239,68,68,0.3)}
-.btn-del:hover{background:rgba(239,68,68,0.3)}
-.btn-pw{background:rgba(245,158,11,0.15);color:#f59e0b;border:1px solid rgba(245,158,11,0.3)}
-.btn-pw:hover{background:rgba(245,158,11,0.3)}
-.btn-primary{background:#002855;color:#fff;border:1px solid #1a4a8a;padding:10px 20px;font-size:13px}
+th{background:var(--table-head);color:var(--text-secondary);padding:10px 16px;text-align:left;font-size:11px;text-transform:uppercase;letter-spacing:1px;border-bottom:1px solid var(--border);font-weight:600}
+td{padding:13px 16px;border-bottom:1px solid var(--border);color:var(--text);vertical-align:middle}
+tr:last-child td{border-bottom:none}
+tr:hover td{background:var(--table-row-hover)}
+.role-badge{padding:3px 9px;border-radius:6px;font-size:11px;font-weight:700}
+.role-admin{background:rgba(0,40,85,0.1);color:#002855}
+[data-theme="dark"] .role-admin{background:rgba(37,99,235,0.15);color:#93c5fd}
+.role-viewer{background:rgba(100,116,139,0.1);color:#64748b}
+[data-theme="dark"] .role-viewer{background:rgba(100,116,139,0.15);color:#94a3b8}
+.path-tag{display:inline-block;padding:2px 8px;border-radius:4px;font-size:11px;background:var(--accent-light);color:var(--accent);margin:2px;border:1px solid rgba(0,40,85,0.15)}
+[data-theme="dark"] .path-tag{color:#93c5fd;border-color:#334155}
+.all-access{color:#22c55e;font-size:12px;font-weight:600}
+
+/* Buttons */
+.btn{padding:6px 14px;border-radius:7px;font-size:12px;font-weight:600;cursor:pointer;border:none;transition:all .2s;display:inline-flex;align-items:center;gap:5px}
+.btn-del{background:rgba(239,68,68,0.1);color:#ef4444;border:1px solid rgba(239,68,68,0.25)}
+.btn-del:hover{background:rgba(239,68,68,0.2)}
+.btn-pw{background:rgba(245,158,11,0.1);color:#d97706;border:1px solid rgba(245,158,11,0.25)}
+.btn-pw:hover{background:rgba(245,158,11,0.2)}
+.btn-path{background:rgba(0,40,85,0.07);color:var(--accent);border:1px solid rgba(0,40,85,0.2)}
+.btn-path:hover{background:rgba(0,40,85,0.15)}
+[data-theme="dark"] .btn-path{color:#93c5fd;border-color:#334155}
+.btn-primary{background:var(--accent);color:#fff;border:1px solid rgba(0,60,120,0.4);padding:10px 22px;font-size:13px;border-radius:8px}
 .btn-primary:hover{background:#1a4a8a}
-.form-card{background:#1e293b;border:1px solid #334155;border-radius:12px;padding:20px;margin-top:8px}
-.form-row{display:flex;gap:12px;margin-bottom:12px;flex-wrap:wrap}
+.btn-secondary{background:var(--bg-card);color:var(--text-secondary);border:1px solid var(--border);padding:10px 18px;font-size:13px;border-radius:8px}
+.btn-secondary:hover{color:var(--text);border-color:var(--accent)}
+.btn-copy{background:rgba(34,197,94,0.1);color:#16a34a;border:1px solid rgba(34,197,94,0.25);padding:8px 16px;font-size:13px;border-radius:8px}
+.btn-copy:hover{background:rgba(34,197,94,0.2)}
+.btn-actions{display:flex;gap:8px;flex-wrap:wrap}
+
+/* Form */
+.form-card{background:var(--bg-card);border:1px solid var(--border);border-radius:12px;padding:22px;box-shadow:var(--shadow)}
+.form-row{display:flex;gap:14px;margin-bottom:14px;flex-wrap:wrap}
 .form-group{display:flex;flex-direction:column;gap:6px;flex:1;min-width:150px}
-label{font-size:12px;color:#94a3b8;font-weight:600}
-input,select{background:#0f172a;border:1px solid #334155;border-radius:6px;padding:8px 12px;color:#e2e8f0;font-size:13px;outline:none;width:100%}
-input:focus,select:focus{border-color:#002855}
-.paths-check{display:flex;flex-wrap:wrap;gap:8px;margin-top:4px}
-.paths-check label{display:flex;align-items:center;gap:6px;font-size:12px;color:#cbd5e1;font-weight:400;cursor:pointer;background:#0f172a;border:1px solid #334155;padding:5px 10px;border-radius:6px;transition:all .15s}
-.paths-check label:hover{border-color:#002855}
-.paths-check input[type=checkbox]{width:14px;height:14px;accent-color:#002855;cursor:pointer}
-.modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:200;align-items:center;justify-content:center}
+label{font-size:12px;color:var(--text-secondary);font-weight:600;text-transform:uppercase;letter-spacing:.5px}
+input,select,textarea{background:var(--input-bg);border:1px solid var(--input-border);border-radius:7px;padding:9px 12px;color:var(--text);font-size:13px;outline:none;width:100%;transition:border-color .2s;font-family:inherit}
+input:focus,select:focus,textarea:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(0,40,85,0.08)}
+textarea{resize:vertical;min-height:80px;font-size:12px;font-family:'SF Mono',Consolas,monospace}
+.hint{font-size:11px;color:var(--text-secondary);margin-top:4px}
+.form-actions{display:flex;gap:10px;margin-top:18px}
+
+/* Env string output */
+.env-output{background:var(--input-bg);border:1px solid var(--input-border);border-radius:8px;padding:14px;font-size:12px;font-family:'SF Mono',Consolas,monospace;word-break:break-all;color:var(--text);min-height:60px;line-height:1.6;white-space:pre-wrap;margin-top:12px}
+.env-output-wrap{display:none;margin-top:16px}
+.env-output-wrap.show{display:block}
+.env-output-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}
+.env-output-title{font-size:12px;font-weight:700;color:var(--text-secondary)}
+
+/* Modal */
+.modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:500;align-items:center;justify-content:center;padding:16px}
 .modal.open{display:flex}
-.modal-box{background:#1e293b;border:1px solid #334155;border-radius:12px;padding:24px;width:360px}
-.modal-title{font-size:16px;font-weight:700;margin-bottom:16px}
-.modal-actions{display:flex;gap:10px;justify-content:flex-end;margin-top:16px}
-.empty{color:#475569;font-size:13px;padding:16px 0}
-.hint{background:#1a1a1a;border:1px solid #475569;border-radius:8px;padding:12px 16px;font-size:12px;color:#64748b;margin-top:8px}
-.hint code{color:#94a3b8}
+.modal-box{background:var(--modal-bg);border:1px solid var(--border);border-radius:14px;padding:28px;width:100%;max-width:400px;box-shadow:var(--shadow-lg)}
+.modal-title{font-size:17px;font-weight:700;margin-bottom:20px;display:flex;align-items:center;gap:8px}
+.modal-actions{display:flex;gap:10px;justify-content:flex-end;margin-top:20px}
+.loading{color:var(--text-secondary);font-style:italic;font-size:13px;padding:20px 0;text-align:center}
+.empty{color:var(--text-secondary);font-size:13px;padding:20px 0;text-align:center}
+
+/* Toast */
+.toast{position:fixed;bottom:28px;right:24px;background:#1d1d1f;color:#fff;padding:12px 20px;border-radius:10px;font-size:13px;font-weight:500;z-index:9999;opacity:0;transform:translateY(8px);transition:all .3s;pointer-events:none;max-width:360px}
+.toast.show{opacity:1;transform:translateY(0)}
+.toast.success{background:#16a34a}
+.toast.error{background:#dc2626}
 </style>
 </head>
 <body>
 <div class="header">
-  <h1>&#128273; 계정 관리</h1>
-  <a href="/index.html">&#8592; 보고서 목록</a>
+  <h1>🔐 계정 관리</h1>
+  <div class="header-right">
+    <a href="/index.html">← 보고서 목록</a>
+    <button class="theme-toggle" id="themeToggle"></button>
+  </div>
 </div>
-<div class="content">
-  <div class="notice">&#9888;&#65039; admin 계정만 이 페이지에 접근할 수 있습니다. 계정 변경은 localStorage에 임시 저장됩니다. 영구 저장하려면 Vercel 환경변수 <code>USERS</code>에 반영하세요.</div>
 
-  <div class="section">
-    <div class="section-title">현재 계정 목록</div>
-    <table>
-      <thead><tr><th>아이디</th><th>권한</th><th>접근 가능 경로</th><th>작업</th></tr></thead>
-      <tbody id="userTable"></tbody>
-    </table>
+<div class="content">
+  <div class="notice">
+    <span class="notice-icon">⚠️</span>
+    <div>
+      <strong>읽기 전용 대시보드</strong> — Vercel 환경변수는 런타임에 수정 불가합니다. 
+      계정 추가/변경 후 생성된 <code>USERS</code> 환경변수 문자열을 복사해서 Vercel 대시보드에 붙여넣으세요.
+      <br><a href="https://vercel.com/dashboard" target="_blank" style="color:inherit;text-decoration:underline;font-size:12px;margin-top:4px;display:inline-block">→ Vercel 환경변수 설정</a>
+    </div>
   </div>
 
+  <!-- 현재 계정 목록 -->
+  <div class="section">
+    <div class="section-title">현재 계정 목록</div>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>아이디</th>
+            <th>권한</th>
+            <th>접근 가능 경로</th>
+            <th>작업</th>
+          </tr>
+        </thead>
+        <tbody id="userTable">
+          <tr><td colspan="4" class="loading">로딩 중...</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- 계정 추가 -->
   <div class="section">
     <div class="section-title">계정 추가</div>
     <div class="form-card">
@@ -76,127 +163,347 @@ input:focus,select:focus{border-color:#002855}
         </div>
         <div class="form-group">
           <label>비밀번호</label>
-          <input type="password" id="newPassword" placeholder="비밀번호">
+          <input type="password" id="newPassword" placeholder="비밀번호 입력">
+          <span class="hint">bcrypt 해시로 자동 변환됩니다</span>
         </div>
         <div class="form-group">
           <label>권한</label>
-          <select id="newRole">
-            <option value="viewer">viewer (제한)</option>
-            <option value="admin">admin (전체)</option>
+          <select id="newRole" onchange="togglePathsGroup()">
+            <option value="viewer">viewer (제한 접근)</option>
+            <option value="admin">admin (전체 접근)</option>
           </select>
         </div>
       </div>
       <div class="form-group" id="pathsGroup">
-        <label>접근 가능 경로 (viewer만. 미선택 시 전체)</label>
-        <div class="paths-check" id="pathsCheck"></div>
+        <label>접근 가능 경로 <span style="font-weight:400;text-transform:none">(콤마 구분, 비워두면 전체)</span></label>
+        <input type="text" id="newPaths" placeholder="예: /crm.html,/mixpanel-analysis.html">
+        <span class="hint">예: /crm.html,/global-strategy.html,/ai-system.html</span>
       </div>
-      <div style="margin-top:16px">
-        <button class="btn btn-primary" onclick="addUser()">계정 추가</button>
+      <div class="form-actions">
+        <button class="btn btn-primary" onclick="addUser()">➕ 계정 추가</button>
       </div>
     </div>
-    <div class="hint">&#128161; 영구 저장: Vercel 환경변수 <code>USERS</code>에 <code>username:hash:role:path1|path2</code> 형식으로 추가</div>
+  </div>
+
+  <!-- 환경변수 문자열 생성 -->
+  <div class="section">
+    <div class="section-title">환경변수 문자열 생성</div>
+    <div class="form-card">
+      <p style="font-size:13px;color:var(--text-secondary);margin-bottom:14px">
+        현재 계정 목록 기준으로 <code>USERS</code> 환경변수 문자열을 생성합니다. 
+        해시가 없는 계정은 제외됩니다. Vercel 대시보드의 환경변수에 붙여넣으세요.
+      </p>
+      <div class="form-actions">
+        <button class="btn btn-primary" onclick="generateEnvString()">🔧 환경변수 문자열 생성</button>
+      </div>
+      <div class="env-output-wrap" id="envOutputWrap">
+        <div class="env-output-header">
+          <span class="env-output-title">USERS 환경변수 값</span>
+          <button class="btn btn-copy" onclick="copyEnvString()">📋 복사</button>
+        </div>
+        <div class="env-output" id="envOutput"></div>
+      </div>
+    </div>
   </div>
 </div>
 
+<!-- 비밀번호 변경 모달 -->
 <div class="modal" id="pwModal">
   <div class="modal-box">
-    <div class="modal-title">&#128272; 비밀번호 변경</div>
+    <div class="modal-title">🔑 비밀번호 변경 — <span id="pwModalUsername"></span></div>
     <input type="hidden" id="pwUsername">
-    <div class="form-group" style="margin-bottom:12px">
+    <div class="form-group" style="margin-bottom:14px">
       <label>새 비밀번호</label>
       <input type="password" id="newPw" placeholder="새 비밀번호">
     </div>
     <div class="form-group">
-      <label>확인</label>
-      <input type="password" id="newPwConfirm" placeholder="비밀번호 확인">
+      <label>비밀번호 확인</label>
+      <input type="password" id="newPwConfirm" placeholder="한 번 더 입력">
     </div>
     <div class="modal-actions">
-      <button class="btn btn-del" onclick="closePwModal()">취소</button>
-      <button class="btn btn-primary" onclick="changePw()">변경</button>
+      <button class="btn btn-secondary" onclick="closePwModal()">취소</button>
+      <button class="btn btn-primary" onclick="changePw()">변경 및 환경변수 반영</button>
     </div>
   </div>
 </div>
 
+<!-- 접근 경로 수정 모달 -->
+<div class="modal" id="pathModal">
+  <div class="modal-box">
+    <div class="modal-title">🗂️ 접근 경로 수정 — <span id="pathModalUsername"></span></div>
+    <input type="hidden" id="pathUsername">
+    <div class="form-group">
+      <label>접근 가능 경로 (콤마 구분, 비워두면 전체)</label>
+      <input type="text" id="pathValue" placeholder="예: /crm.html,/ai-system.html">
+      <span class="hint">현재: <span id="pathCurrent" style="font-family:monospace"></span></span>
+    </div>
+    <div class="modal-actions">
+      <button class="btn btn-secondary" onclick="closePathModal()">취소</button>
+      <button class="btn btn-primary" onclick="updatePaths()">저장 및 환경변수 반영</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<!-- bcryptjs CDN -->
+<script src="https://cdn.jsdelivr.net/npm/bcryptjs@2.4.3/dist/bcrypt.min.js"></script>
 <script>
-var STORAGE_KEY='tenex-admin-users-v1';
-var PATHS=[
-  {label:'CRM',value:'/crm.html'},
-  {label:'Mixpanel',value:'/mixpanel-analysis.html'},
-  {label:'주간 리포트',value:'/weekly-mixpanel-2026-03-26.html'},
-  {label:'AI 시스템',value:'/ai-system.html'},
-  {label:'모사모 강의',value:'/mosamo-lectures.html'},
-  {label:'글로벌 전략',value:'/global-strategy.html'},
-  {label:'전체 전략',value:'/tenex-strategy.html'},
-];
+// ── State ──
+var localUsers = null; // [{username, role, allowedPaths, passwordHash?}]
+var apiAvailable = false;
 
-function loadUsers(){try{return JSON.parse(localStorage.getItem(STORAGE_KEY))||defaults();}catch{return defaults();}}
-function defaults(){return [{username:'admin',role:'admin',allowedPaths:null},{username:'almani',role:'viewer',allowedPaths:['/crm.html']}];}
-function saveUsers(u){localStorage.setItem(STORAGE_KEY,JSON.stringify(u));}
+// ── Theme ──
+function initTheme(){if(localStorage.getItem('tenex-theme')==='dark')document.documentElement.setAttribute('data-theme','dark')}
+function toggleTheme(){var d=document.documentElement.getAttribute('data-theme')==='dark';if(d){document.documentElement.removeAttribute('data-theme');localStorage.setItem('tenex-theme','light')}else{document.documentElement.setAttribute('data-theme','dark');localStorage.setItem('tenex-theme','dark')}}
+document.getElementById('themeToggle').onclick=toggleTheme;
+initTheme();
 
-function renderPathsCheck(){
-  document.getElementById('pathsCheck').innerHTML=PATHS.map(p=>'<label><input type="checkbox" value="'+p.value+'"> '+p.label+'</label>').join('');
+// ── Toast ──
+function toast(msg, type){
+  var t=document.getElementById('toast');
+  t.textContent=msg;t.className='toast '+(type||'');
+  t.classList.add('show');
+  setTimeout(function(){t.classList.remove('show')},3200);
+}
+
+// ── Load Users ──
+async function loadUsers(){
+  try{
+    var res=await fetch('/api/admin/users');
+    if(res.ok){
+      var data=await res.json();
+      apiAvailable=true;
+      // API returns users without hash; merge with any local hashes
+      var apiUsers=data.users;
+      var localHashes=JSON.parse(localStorage.getItem('tenex-admin-hashes')||'{}');
+      localUsers=apiUsers.map(function(u){
+        return Object.assign({},u,{passwordHash:localHashes[u.username]||null});
+      });
+      renderTable();
+      return;
+    }
+  }catch(e){}
+  // Fallback: load from localStorage
+  var stored=localStorage.getItem('tenex-admin-users');
+  if(stored){
+    try{localUsers=JSON.parse(stored);}catch{}
+  }
+  if(!localUsers){
+    localUsers=[
+      {username:'admin',role:'admin',allowedPaths:null,passwordHash:null},
+      {username:'almani',role:'viewer',allowedPaths:['/crm','/crm.html'],passwordHash:null}
+    ];
+  }
+  renderTable();
 }
 
 function renderTable(){
-  var users=loadUsers();
   var tb=document.getElementById('userTable');
-  if(!users.length){tb.innerHTML='<tr><td colspan="4" class="empty">계정 없음</td></tr>';return;}
-  tb.innerHTML=users.map(function(u){
-    return '<tr><td><strong>'+u.username+'</strong></td><td><span class="role-badge role-'+u.role+'">'+u.role+'</span></td><td>'
-      +(u.allowedPaths&&u.allowedPaths.length?u.allowedPaths.map(function(p){return '<span class="path-tag">'+p+'</span>';}).join(''):'<span style="color:#22c55e;font-size:12px">전체 접근</span>')
-      +'</td><td style="display:flex;gap:8px">'
-      +(u.username!=='admin'?'<button class="btn btn-del" onclick="deleteUser(\''+u.username+'\')">삭제</button>':'')
-      +'<button class="btn btn-pw" onclick="openPwModal(\''+u.username+'\')">비번변경</button>'
-      +'</td></tr>';
+  if(!localUsers||!localUsers.length){
+    tb.innerHTML='<tr><td colspan="4" class="empty">계정 없음</td></tr>';return;
+  }
+  tb.innerHTML=localUsers.map(function(u){
+    var pathHtml=u.allowedPaths&&u.allowedPaths.length
+      ?u.allowedPaths.map(function(p){return '<span class="path-tag">'+p+'</span>';}).join('')
+      :'<span class="all-access">✓ 전체 접근</span>';
+    return '<tr>'
+      +'<td><strong>'+u.username+'</strong></td>'
+      +'<td><span class="role-badge role-'+u.role+'">'+u.role+'</span></td>'
+      +'<td>'+pathHtml+'</td>'
+      +'<td><div class="btn-actions">'
+      +(u.username!=='admin'?'<button class="btn btn-del" onclick="deleteUser(\''+u.username+'\')">🗑 삭제</button>':'')
+      +'<button class="btn btn-pw" onclick="openPwModal(\''+u.username+'\')">🔑 비번</button>'
+      +'<button class="btn btn-path" onclick="openPathModal(\''+u.username+'\')">🗂 경로</button>'
+      +'</div></td>'
+      +'</tr>';
   }).join('');
 }
 
-function addUser(){
+// ── Toggle paths group ──
+function togglePathsGroup(){
+  var role=document.getElementById('newRole').value;
+  document.getElementById('pathsGroup').style.display=role==='viewer'?'':'none';
+}
+
+// ── Add User ──
+async function addUser(){
   var username=document.getElementById('newUsername').value.trim();
   var password=document.getElementById('newPassword').value;
   var role=document.getElementById('newRole').value;
-  var paths=[].slice.call(document.querySelectorAll('#pathsCheck input:checked')).map(function(el){return el.value;});
-  if(!username||!password){alert('아이디와 비밀번호를 입력하세요.');return;}
-  var users=loadUsers();
-  if(users.find(function(u){return u.username===username;})){alert('이미 존재하는 아이디입니다.');return;}
-  users.push({username:username,role:role,allowedPaths:role==='viewer'&&paths.length>0?paths:null});
-  saveUsers(users);
+  var pathsRaw=document.getElementById('newPaths').value.trim();
+  var allowedPaths=role==='viewer'&&pathsRaw?pathsRaw.split(',').map(function(p){return p.trim();}).filter(Boolean):null;
+
+  if(!username||!password){toast('아이디와 비밀번호를 입력하세요.','error');return;}
+  if(localUsers&&localUsers.find(function(u){return u.username===username;})){
+    toast('이미 존재하는 아이디입니다.','error');return;
+  }
+
+  toast('비밀번호 해시 생성 중...','');
+  var hash;
+  try{
+    hash=await bcrypt.hash(password,10);
+  }catch(e){toast('해시 생성 실패: '+e.message,'error');return;}
+
+  var newUser={username:username,role:role,allowedPaths:allowedPaths,passwordHash:hash};
+  localUsers=localUsers||[];
+  localUsers.push(newUser);
+  saveLocalState();
   renderTable();
+
+  // Try API
+  if(apiAvailable){
+    try{
+      var res=await fetch('/api/admin/users',{
+        method:'POST',
+        headers:{'Content-Type':'application/json'},
+        body:JSON.stringify({username:username,passwordHash:hash,role:role,allowedPaths:allowedPaths})
+      });
+      if(res.ok){
+        var data=await res.json();
+        showEnvString(data.usersEnvString);
+        toast('계정 추가됨! 환경변수 문자열이 생성되었습니다.','success');
+      }else{toast('API 오류. 로컬 상태는 업데이트됨.','');}
+    }catch(e){toast('API 연결 실패. 환경변수 생성 버튼을 사용하세요.','');}
+  } else {
+    toast('계정 추가됨 (로컬). "환경변수 문자열 생성" 버튼으로 반영하세요.','success');
+  }
+
   document.getElementById('newUsername').value='';
   document.getElementById('newPassword').value='';
   document.getElementById('newRole').value='viewer';
-  document.querySelectorAll('#pathsCheck input').forEach(function(el){el.checked=false;});
-  alert('계정 추가됨 (localStorage). 영구 저장: Vercel USERS 환경변수에 추가 필요');
+  document.getElementById('newPaths').value='';
 }
 
-function deleteUser(username){
+// ── Delete User ──
+async function deleteUser(username){
   if(!confirm('"'+username+'" 계정을 삭제할까요?'))return;
-  saveUsers(loadUsers().filter(function(u){return u.username!==username;}));
+  localUsers=localUsers.filter(function(u){return u.username!==username;});
+  saveLocalState();
   renderTable();
+
+  if(apiAvailable){
+    try{
+      var res=await fetch('/api/admin/users?username='+encodeURIComponent(username),{method:'DELETE'});
+      if(res.ok){var data=await res.json();showEnvString(data.usersEnvString);}
+    }catch(e){}
+  }
+  toast('"'+username+'" 삭제됨. 환경변수에 반영 필요.','success');
 }
 
+// ── Change Password Modal ──
 function openPwModal(username){
   document.getElementById('pwUsername').value=username;
+  document.getElementById('pwModalUsername').textContent=username;
   document.getElementById('newPw').value='';
   document.getElementById('newPwConfirm').value='';
   document.getElementById('pwModal').classList.add('open');
 }
 function closePwModal(){document.getElementById('pwModal').classList.remove('open');}
-function changePw(){
+async function changePw(){
+  var username=document.getElementById('pwUsername').value;
   var pw=document.getElementById('newPw').value;
   var pw2=document.getElementById('newPwConfirm').value;
-  if(!pw){alert('비밀번호를 입력하세요.');return;}
-  if(pw!==pw2){alert('비밀번호가 일치하지 않습니다.');return;}
-  alert('비밀번호 변경됨 (표시 전용).\n영구 저장: Vercel USERS 환경변수 해시 교체 필요');
+  if(!pw){toast('비밀번호를 입력하세요.','error');return;}
+  if(pw!==pw2){toast('비밀번호가 일치하지 않습니다.','error');return;}
+
+  toast('해시 생성 중...','');
+  var hash;
+  try{hash=await bcrypt.hash(pw,10);}catch(e){toast('해시 생성 실패','error');return;}
+
+  localUsers=localUsers.map(function(u){return u.username===username?Object.assign({},u,{passwordHash:hash}):u;});
+  saveLocalState();
+
+  if(apiAvailable){
+    try{
+      var res=await fetch('/api/admin/users',{
+        method:'PUT',
+        headers:{'Content-Type':'application/json'},
+        body:JSON.stringify({username:username,newPasswordHash:hash})
+      });
+      if(res.ok){var data=await res.json();showEnvString(data.usersEnvString);}
+    }catch(e){}
+  }
+  toast('"'+username+'" 비밀번호 변경됨. 환경변수에 반영 필요.','success');
   closePwModal();
 }
 
-document.getElementById('newRole').addEventListener('change',function(){
-  document.getElementById('pathsGroup').style.display=this.value==='viewer'?'':'none';
-});
+// ── Update Paths Modal ──
+function openPathModal(username){
+  var user=localUsers&&localUsers.find(function(u){return u.username===username;});
+  document.getElementById('pathUsername').value=username;
+  document.getElementById('pathModalUsername').textContent=username;
+  document.getElementById('pathValue').value=user&&user.allowedPaths?user.allowedPaths.join(','):'';
+  document.getElementById('pathCurrent').textContent=user&&user.allowedPaths?user.allowedPaths.join(', '):'전체 접근';
+  document.getElementById('pathModal').classList.add('open');
+}
+function closePathModal(){document.getElementById('pathModal').classList.remove('open');}
+async function updatePaths(){
+  var username=document.getElementById('pathUsername').value;
+  var raw=document.getElementById('pathValue').value.trim();
+  var allowedPaths=raw?raw.split(',').map(function(p){return p.trim();}).filter(Boolean):null;
 
-renderPathsCheck();
-renderTable();
+  localUsers=localUsers.map(function(u){return u.username===username?Object.assign({},u,{allowedPaths:allowedPaths}):u;});
+  saveLocalState();
+  renderTable();
+
+  if(apiAvailable){
+    try{
+      var res=await fetch('/api/admin/users',{
+        method:'PATCH',
+        headers:{'Content-Type':'application/json'},
+        body:JSON.stringify({username:username,allowedPaths:allowedPaths||[]})
+      });
+      if(res.ok){var data=await res.json();showEnvString(data.usersEnvString);}
+    }catch(e){}
+  }
+  toast('"'+username+'" 접근 경로 수정됨. 환경변수에 반영 필요.','success');
+  closePathModal();
+}
+
+// ── Generate Env String ──
+function generateEnvString(){
+  if(!localUsers||!localUsers.length){toast('계정 목록이 없습니다.','error');return;}
+  var str=buildEnvString(localUsers);
+  showEnvString(str);
+}
+
+function buildEnvString(users){
+  return users.map(function(u){
+    var h=u.passwordHash||'<HASH_MISSING>';
+    var parts=[u.username,h,u.role];
+    if(u.allowedPaths&&u.allowedPaths.length)parts.push(u.allowedPaths.join('|'));
+    return parts.join(':');
+  }).join(',');
+}
+
+function showEnvString(str){
+  document.getElementById('envOutput').textContent=str;
+  document.getElementById('envOutputWrap').classList.add('show');
+  document.getElementById('envOutputWrap').scrollIntoView({behavior:'smooth',block:'nearest'});
+}
+
+function copyEnvString(){
+  var text=document.getElementById('envOutput').textContent;
+  if(!text)return;
+  navigator.clipboard.writeText(text).then(function(){
+    toast('클립보드에 복사됨!','success');
+  }).catch(function(){
+    toast('복사 실패. 텍스트를 직접 선택해서 복사하세요.','error');
+  });
+}
+
+// ── Local State ──
+function saveLocalState(){
+  localStorage.setItem('tenex-admin-users',JSON.stringify(localUsers));
+  // Save hashes separately for API merge
+  var hashes={};
+  localUsers.forEach(function(u){if(u.passwordHash)hashes[u.username]=u.passwordHash;});
+  localStorage.setItem('tenex-admin-hashes',JSON.stringify(hashes));
+}
+
+// ── Init ──
+loadUsers();
 </script>
 </body>
 </html>

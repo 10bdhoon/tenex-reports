@@ -32,7 +32,7 @@ function getUsers(): User[] {
     },
     {
       username: "almani",
-      passwordHash: "$2b$10$/G9qxG02Zi4C/KKT5RrX.ubMS7CJNv5jdiZvPcb/qqF5RN6r4vw4m",
+      passwordHash: "$2b$10$3Dn4FzNzDwK9HSv1lDLyYuYg3kSyQIklV/E36X1Taj7EzoAGgFE8y",
       role: "viewer",
       allowedPaths: ["/crm", "/crm.html"],
     },

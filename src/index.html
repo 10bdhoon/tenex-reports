@@ -46,6 +46,16 @@ body.sidebar-collapsed .header-toggle{display:flex}
 .nav-item .expand-arrow{font-size:10px;transition:transform .2s;flex-shrink:0;margin-left:4px}
 .nav-item .expand-arrow.open{transform:rotate(90deg)}
 .nav-item.drop-target{background:rgba(0,100,200,0.3)!important;color:#fff!important;outline:2px dashed rgba(100,180,255,0.6)}
+/* ★ Pinned category special style */
+.nav-item-pinned{background:rgba(255,215,0,0.07)!important;border-left:3px solid #c9a400!important;padding-left:9px!important;color:#f0d060!important}
+.nav-item-pinned:hover{background:rgba(255,215,0,0.13)!important;color:#ffe066!important}
+.nav-item-pinned.active{background:rgba(255,215,0,0.15)!important;color:#ffe066!important}
+.nav-item-pinned.active::before{background:#c9a400!important}
+.nav-item-pinned .count{background:rgba(255,215,0,0.15)!important;color:#c9a400!important}
+/* 📌 핵심전략 sub item */
+.nav-sub-pinned{color:#f0d060!important;font-weight:700!important}
+.nav-sub-pinned:hover{background:rgba(255,215,0,0.08)!important;color:#ffe066!important}
+.nav-sub-pinned.active{color:#ffe066!important}
 .nav-sub-list{overflow:hidden;transition:max-height .25s ease;max-height:0}
 .nav-sub-list.open{max-height:3000px}
 .nav-sub-item{display:flex;align-items:center;gap:8px;padding:5px 12px 5px 40px;border-radius:6px;cursor:pointer;color:var(--text-sidebar-muted);font-size:12px;transition:all .15s;user-select:none}
@@ -144,6 +154,8 @@ body.sidebar-collapsed .header-toggle{display:flex}
 /* ── Subgroup Header ── */
 .subgroup-header{font-size:14px;font-weight:700;color:var(--text);margin:18px 0 8px;padding:8px 14px;border-left:3px solid var(--accent);background:rgba(0,40,85,0.04);border-radius:0 8px 8px 0}
 [data-theme="dark"] .subgroup-header{background:rgba(0,40,85,0.15)}
+.subgroup-header-pinned{border-left-color:#c9a400!important;background:rgba(255,215,0,0.07)!important;color:#9a7a00}
+[data-theme="dark"] .subgroup-header-pinned{background:rgba(255,215,0,0.05)!important;color:#e0b800}
 
 /* ── Empty ── */
 .empty{text-align:center;color:var(--text-secondary);padding:40px}
@@ -342,8 +354,48 @@ function renderSidebarCats(){
   const sec=document.getElementById('catSection');
   const reports=getReports();
   const title=sec.querySelector('.nav-section-title');
-  sec.innerHTML='';sec.appendChild(title);
-  CATEGORIES.forEach(cat=>{
+  sec.innerHTML='';
+
+  // ★ Pinned categories: inserted before the section title (between 전체 and A~Z label)
+  const pinnedCats=CATEGORIES.filter(c=>c.pinned);
+  pinnedCats.forEach(cat=>{
+    const cnt=reports.filter(r=>r.cat===cat.key).length;
+    const isExpanded=expandedCats[cat.key];
+    const div=document.createElement('div');
+    div.className='nav-item nav-item-pinned'+(currentCat===cat.key&&!currentSub?' active':'');
+    div.dataset.cat=cat.key;
+    div.innerHTML='<span class="icon">'+cat.icon+'</span><span class="label">'+cat.label+'</span>'
+      +'<span class="expand-arrow'+(isExpanded?' open':'')+'">▶</span>'
+      +'<span class="count">'+cnt+'</span>';
+    div.onclick=()=>{expandedCats[cat.key]=!expandedCats[cat.key];currentSub=null;setCategory(cat.key)};
+    div.addEventListener('dragover',e=>{e.preventDefault();div.classList.add('drop-target')});
+    div.addEventListener('dragleave',()=>div.classList.remove('drop-target'));
+    div.addEventListener('drop',e=>{e.preventDefault();div.classList.remove('drop-target');const h=e.dataTransfer.getData('text/plain');if(h){saveCatOverride(h,cat.key);renderAll()}});
+    sec.appendChild(div);
+    // sub-list for pinned (no subs usually, but handle if present)
+    if(cat.subs&&cat.subs.length>0){
+      const subList=document.createElement('div');
+      subList.className='nav-sub-list'+(isExpanded?' open':'');
+      // 📌 핵심전략 first
+      const sortedSubs=[...cat.subs].sort((a,b)=>a==='📌 핵심전략'?-1:b==='📌 핵심전략'?1:0);
+      sortedSubs.forEach(s=>{
+        const sCnt=reports.filter(r=>r.cat===cat.key&&r.sub===s).length;
+        const subDiv=document.createElement('div');
+        const isPinSub=s==='📌 핵심전략';
+        subDiv.className='nav-sub-item'+(isPinSub?' nav-sub-pinned':'')+(currentCat===cat.key&&currentSub===s?' active':'');
+        subDiv.innerHTML='<span>'+(isPinSub?'<strong>'+s+'</strong>':s)+'</span><span class="sub-count">'+sCnt+'</span>';
+        subDiv.onclick=(e)=>{e.stopPropagation();currentSub=s;setCategory(cat.key)};
+        subList.appendChild(subDiv);
+      });
+      sec.appendChild(subList);
+    }
+  });
+
+  // A~Z section title
+  sec.appendChild(title);
+
+  // Regular (non-pinned) categories
+  CATEGORIES.filter(c=>!c.pinned).forEach(cat=>{
     const cnt=reports.filter(r=>r.cat===cat.key).length;
     const hasSubs=cat.subs&&cat.subs.length>0;
     const isExpanded=expandedCats[cat.key];
@@ -362,7 +414,6 @@ function renderSidebarCats(){
     div.addEventListener('drop',e=>{e.preventDefault();div.classList.remove('drop-target');const h=e.dataTransfer.getData('text/plain');if(h){saveCatOverride(h,cat.key);renderAll()}});
     sec.appendChild(div);
     if(!hasSubs){
-      // Make non-sub categories also expandable
       const catDocs=reports.filter(r=>r.cat===cat.key);
       if(catDocs.length>0){
         const docList=document.createElement('div');
@@ -380,11 +431,14 @@ function renderSidebarCats(){
     if(hasSubs){
       const subList=document.createElement('div');
       subList.className='nav-sub-list'+(isExpanded?' open':'');
-      cat.subs.forEach(s=>{
+      // Sort: 📌 핵심전략 first
+      const sortedSubs=[...cat.subs].sort((a,b)=>a==='📌 핵심전략'?-1:b==='📌 핵심전략'?1:0);
+      sortedSubs.forEach(s=>{
         const sCnt=reports.filter(r=>r.cat===cat.key&&r.sub===s).length;
         const subDiv=document.createElement('div');
-        subDiv.className='nav-sub-item'+(currentCat===cat.key&&currentSub===s?' active':'');
-        subDiv.innerHTML='<span>'+s+'</span><span class="sub-count">'+sCnt+'</span>';
+        const isPinSub=s==='📌 핵심전략';
+        subDiv.className='nav-sub-item'+(isPinSub?' nav-sub-pinned':'')+(currentCat===cat.key&&currentSub===s?' active':'');
+        subDiv.innerHTML='<span>'+(isPinSub?'<strong>'+s+'</strong>':s)+'</span><span class="sub-count">'+sCnt+'</span>';
         subDiv.onclick=(e)=>{e.stopPropagation();currentSub=s;setCategory(cat.key)};
         subList.appendChild(subDiv);
       });
@@ -402,7 +456,8 @@ function renderOverview(){
       const sc=reports.filter(r=>r.cat===cat.key&&r.sub===s).length;
       return '<span>'+s+' '+sc+'</span>';
     }).join('')+'</div>':'';
-    return '<div class="overview-card'+(currentCat===cat.key?' active':'')+'" data-cat="'+cat.key+'"><div class="ov-icon">'+cat.icon+'</div><div class="ov-label">'+cat.label+'</div><div class="ov-count">'+cnt+'</div>'+subHtml+'</div>';
+    const pinnedStyle=cat.pinned?' style="border-color:#c9a400;background:rgba(255,215,0,0.05)"':'';
+    return '<div class="overview-card'+(currentCat===cat.key?' active':'')+'"'+pinnedStyle+' data-cat="'+cat.key+'"><div class="ov-icon">'+cat.icon+'</div><div class="ov-label">'+cat.label+'</div><div class="ov-count">'+cnt+'</div>'+subHtml+'</div>';
   }).join('');
   grid.querySelectorAll('.overview-card').forEach(c=>c.onclick=()=>{currentSub=null;setCategory(c.dataset.cat===currentCat?'all':c.dataset.cat)});
 }
@@ -422,10 +477,18 @@ function renderReports(){
   const hasSubs=activeCat&&activeCat.subs&&activeCat.subs.length>0&&!currentSub&&currentCat!=='all';
   let html='';let num=0;
   if(hasSubs&&!q){
-    activeCat.subs.forEach(s=>{
+    // 📌 핵심전략 first, then rest
+    const sortedSubs=[...activeCat.subs].sort((a,b)=>a==='📌 핵심전략'?-1:b==='📌 핵심전략'?1:0);
+    sortedSubs.forEach(s=>{
       const subItems=filtered.filter(r=>r.sub===s);
-      if(!subItems.length)return;
-      html+='<div class="subgroup-header">'+s+' ('+subItems.length+')</div>';
+      const isPinSub=s==='📌 핵심전략';
+      // Show pinned subgroup header even if empty (placeholder)
+      if(!subItems.length&&!isPinSub)return;
+      html+='<div class="subgroup-header'+(isPinSub?' subgroup-header-pinned':'')+'">'
+        +(isPinSub?'📌 ':'')+'<strong>'+(isPinSub?'핵심전략':s)+'</strong>'
+        +(subItems.length?' ('+subItems.length+')':'')
+        +(isPinSub&&!subItems.length?' — <span style="font-size:12px;font-weight:400;opacity:.6">문서 준비 중</span>':'')
+        +'</div>';
       subItems.forEach(r=>{
         num++;
         const c=catMap[r.cat];const badge=c?c.icon+' '+c.label:r.cat;
