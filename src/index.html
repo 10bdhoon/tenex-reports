@@ -363,6 +363,20 @@ body.sidebar-collapsed .header-toggle{display:flex}
 .tb-cat-card.drag-over{border-color:var(--accent);box-shadow:0 0 0 2px rgba(0,40,85,0.2)}
 [data-theme="dark"] .tb-cat-card.drag-over{box-shadow:0 0 0 2px rgba(100,160,255,0.25)}
 .tb-drop-indicator{height:2px;background:var(--accent);border-radius:2px;margin:2px 10px;pointer-events:none;transition:opacity .15s}
+/* ── Priority List ── */
+.tb-priority-section{margin-top:24px}
+.tb-priority-title{font-size:16px;font-weight:700;margin-bottom:12px;display:flex;align-items:center;gap:8px;padding-left:12px;border-left:3px solid var(--accent);color:var(--text)}
+.tb-priority-list{display:flex;flex-direction:column;gap:6px}
+.tb-priority-item{display:flex;align-items:center;gap:10px;background:var(--bg-card);border:1px solid var(--border);border-radius:10px;padding:10px 14px;box-shadow:var(--shadow);transition:all .2s}
+.tb-priority-item:hover{box-shadow:var(--shadow-lg);border-color:var(--accent)}
+.tb-priority-num{font-size:13px;font-weight:700;color:var(--text-secondary);min-width:24px;text-align:center}
+.tb-priority-urgency{font-size:14px;flex-shrink:0}
+.tb-priority-title-text{flex:1;font-size:13px;font-weight:600;color:var(--text);min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tb-priority-cat{font-size:10px;padding:2px 8px;border-radius:10px;background:var(--accent-light);color:var(--text-secondary);font-weight:600;flex-shrink:0}
+.tb-priority-imp{font-size:10px;padding:2px 6px;border-radius:6px;background:#ede9fe;color:#7c3aed;font-weight:600;flex-shrink:0}
+[data-theme="dark"] .tb-priority-imp{background:rgba(139,92,246,0.15);color:#c4b5fd}
+.tb-priority-status{font-size:15px;cursor:pointer;user-select:none;flex-shrink:0;padding:2px;border-radius:4px;transition:background .15s}
+.tb-priority-status:hover{background:rgba(0,40,85,0.1)}
 @media(max-width:1024px){.tb-cat-grid{grid-template-columns:repeat(2,1fr)}}
 @media(max-width:768px){
   .tb-cat-grid{grid-template-columns:1fr}
@@ -907,9 +921,10 @@ function renderTbFilters(){
   let html='<div class="tb-filter-chip'+(tbFilter==='all'&&tbCatFilter==='all'?' active':'')+'" data-tf="all">전체</div>';
   html+='<div class="tb-filter-chip'+(tbFilter==='red'?' active':'')+'" data-tf="red">🔴 긴급만</div>';
   html+='<div class="tb-filter-chip'+(tbFilter==='week'?' active':'')+'" data-tf="week">이번주</div>';
-  // category chips — only those that have tasks
+  // category chips — only those that have tasks, skip ★
   const usedCats=[...new Set(tbTasks.map(t=>t.cat))];
   CATEGORIES.forEach(c=>{
+    if(c.key==='★')return;
     if(!usedCats.includes(c.key))return;
     html+='<div class="tb-filter-chip'+(tbCatFilter===c.key?' active':'')+'" data-tcf="'+c.key+'">'+c.icon+' '+c.key+'</div>';
   });
@@ -936,9 +951,10 @@ function renderTbTasks(){
   const empty=document.getElementById('tbEmpty');
   const catMap={};CATEGORIES.forEach(c=>catMap[c.key]=c);
 
-  // Build per-category filtered tasks
+  // Build per-category filtered tasks (skip ★)
   const catCards=[];
   CATEGORIES.forEach(cat=>{
+    if(cat.key==='★')return;
     // If category filter active, only show that category
     if(tbCatFilter!=='all'&&tbCatFilter!==cat.key)return;
     let tasks=tbTasks.filter(t=>t.cat===cat.key);
@@ -1015,9 +1031,56 @@ function renderTbTasks(){
     html+='</div>';
   });
   html+='</div>';
+
+  // ── Priority List ──
+  const catMapPL={};CATEGORIES.forEach(c=>catMapPL[c.key]=c);
+  let plTasks=tbTasks.filter(t=>t.status!=='done');
+  // Apply same filters
+  if(tbCatFilter!=='all')plTasks=plTasks.filter(t=>t.cat===tbCatFilter);
+  if(tbStatusFilter!=='all'&&tbStatusFilter!=='done')plTasks=plTasks.filter(t=>t.status===tbStatusFilter);
+  if(tbFilter==='red')plTasks=plTasks.filter(t=>t.urgency==='red');
+  if(tbFilter==='week'){const now=new Date();const weekAgo=new Date(now);weekAgo.setDate(now.getDate()-7);plTasks=plTasks.filter(t=>new Date(t.created)>=weekAgo);}
+  if(tbSearchQuery){const q=tbSearchQuery.toLowerCase();plTasks=plTasks.filter(t=>t.title.toLowerCase().includes(q));}
+  // Sort by urgency → importance (original sort without manual order)
+  plTasks=plTasks.slice().sort((a,b)=>{
+    const u=URGENCY_ORDER[a.urgency]-URGENCY_ORDER[b.urgency];
+    if(u!==0)return u;
+    const i=IMP_ORDER[a.importance]-IMP_ORDER[b.importance];
+    if(i!==0)return i;
+    return a.created<b.created?1:-1;
+  });
+  if(plTasks.length>0){
+    html+='<div class="tb-priority-section">';
+    html+='<div class="tb-priority-title">🎯 우선순위 리스트</div>';
+    html+='<div class="tb-priority-list">';
+    plTasks.forEach((t,idx)=>{
+      const urgDot=t.urgency==='red'?'🔴':t.urgency==='yellow'?'🟡':'🟢';
+      const c=catMapPL[t.cat];
+      const catLabel=c?c.icon+' '+c.key:'';
+      html+='<div class="tb-priority-item">';
+      html+='<span class="tb-priority-num">'+(idx+1)+'</span>';
+      html+='<span class="tb-priority-urgency">'+urgDot+'</span>';
+      html+='<span class="tb-priority-title-text" title="'+escapeHtml(t.title)+'">'+escapeHtml(t.title)+'</span>';
+      html+='<span class="tb-priority-cat">'+catLabel+'</span>';
+      html+='<span class="tb-priority-imp">'+t.importance+'</span>';
+      html+='<span class="tb-priority-status" data-tid="'+t.id+'" title="클릭하여 상태 변경">'+TB_STATUS_EMOJI[t.status]+'</span>';
+      html+='</div>';
+    });
+    html+='</div></div>';
+  }
+
   list.innerHTML=html;
 
   // ── Events ──
+  // Priority list status toggle
+  list.querySelectorAll('.tb-priority-status').forEach(el=>el.onclick=e=>{
+    e.stopPropagation();
+    const task=tbTasks.find(t=>t.id===el.dataset.tid);
+    if(!task)return;
+    const idx=TB_STATUS_CYCLE.indexOf(task.status);
+    task.status=TB_STATUS_CYCLE[(idx+1)%TB_STATUS_CYCLE.length];
+    saveTasks();renderTbAll();
+  });
   // Status toggle
   list.querySelectorAll('.tb-cat-task-status').forEach(el=>el.onclick=e=>{
     e.stopPropagation();
@@ -1027,9 +1090,10 @@ function renderTbTasks(){
     task.status=TB_STATUS_CYCLE[(idx+1)%TB_STATUS_CYCLE.length];
     saveTasks();renderTbAll();
   });
-  // Delete
+  // Delete (with confirm)
   list.querySelectorAll('.tb-cat-task-delete').forEach(el=>el.onclick=e=>{
     e.stopPropagation();
+    if(!confirm('정말 삭제하시겠습니까?'))return;
     tbTasks=tbTasks.filter(t=>t.id!==el.dataset.tid);
     if(tbOpenAccordion===el.dataset.tid)tbOpenAccordion=null;
     saveTasks();renderTbAll();
@@ -1388,6 +1452,7 @@ function renderAgentBoard(){
     el.parentElement.onmouseleave=()=>el.style.opacity='0';
     el.onclick=e=>{
       e.stopPropagation();
+      if(!confirm('정말 삭제하시겠습니까?'))return;
       const agent=agentData.find(a=>a.id===el.dataset.agent);
       if(!agent)return;
       agent.tasks=agent.tasks.filter(t=>t.id!==el.dataset.task);
