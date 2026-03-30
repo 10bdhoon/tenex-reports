@@ -1,38 +1,114 @@
 {
-  "updated": "2026-03-30",
-  "taehoon_actions": [
-    {"id": 1, "title": "리포트 UI (크롱 스타일)", "status": "in_progress", "note": "SPA/업무보드/앱통합 남음"},
-    {"id": 2, "title": "지메일 연동", "status": "pending", "note": "법인 메일 만든 후"},
-    {"id": 3, "title": "알림톡 CRM 최적화", "status": "pending", "note": "알마니 대표님 소개 후"},
-    {"id": 4, "title": "정품등록 + 메타픽셀", "status": "done", "note": "kinemedical-register.vercel.app"},
-    {"id": 5, "title": "FAQ + CS 최적화", "status": "in_progress", "note": "고실장 기획안 + 외주 가이드 완료"},
-    {"id": 6, "title": "SNS 일별 조회수 트래킹", "status": "in_progress", "note": "콘실장 작업중"},
-    {"id": 7, "title": "AI 바이럴 자동화", "status": "pending"},
-    {"id": 8, "title": "소비자 리뷰 추출 → 카피", "status": "in_progress", "note": "마실장 카피 15개 완료, 카페24 리뷰 재분석 예정"},
-    {"id": 9, "title": "커뮤니티 구축 (톰 레퍼런스)", "status": "pending"},
-    {"id": 10, "title": "카페24 스코프 추가", "status": "done", "note": "community+product 15개 스코프 완료"}
-  ],
-  "agents": {
-    "개실장": [
-      {"title": "SPA 시스템 페이지", "status": "in_progress"},
-      {"title": "업무보드 (체크박스/드래그/상세패널)", "status": "in_progress"},
-      {"title": "앱 문서 탭 통합", "status": "in_progress"},
-      {"title": "정품등록 페이지", "status": "done"}
-    ],
-    "마실장": [
-      {"title": "소비자 리뷰 → 카피 15개", "status": "done"},
-      {"title": "카페24 자사몰 리뷰 재분석", "status": "pending", "note": "스코프 추가 완료됨"},
-      {"title": "카페24 재구매율 분석", "status": "done", "note": "실제 4.8%"}
-    ],
-    "고실장": [
-      {"title": "CS 기획안 v2.0", "status": "done"},
-      {"title": "외주 CS 가이드", "status": "done"},
-      {"title": "FAQ 사이트 설계", "status": "in_progress"}
-    ],
-    "콘실장": [
-      {"title": "SNS 일별 조회수 트래킹", "status": "in_progress"},
-      {"title": "댓글 수집 + 톤분석", "status": "done"},
-      {"title": "YouTube 댓글 자동 게시", "status": "blocked", "note": "OAuth 필요"}
-    ]
-  }
+  "updated": "2026-03-30T13:36",
+  "tasks": [
+    {
+      "id": "t01", "title": "캘린더 연동", "status": "done", "cat": "I",
+      "assignee": "카리나", "dueDate": "2026-03-27",
+      "note": "구글 캘린더 API 연동 완료"
+    },
+    {
+      "id": "t02", "title": "지메일 연동", "status": "pending", "cat": "I",
+      "assignee": "카리나", "dueDate": null,
+      "note": "법인 메일 만든 후 진행"
+    },
+    {
+      "id": "t03", "title": "리포트 UI (크롱 스타일)", "status": "in_progress", "cat": "E",
+      "assignee": "개실장", "dueDate": "2026-04-04",
+      "note": "SPA/업무보드/앱통합",
+      "checklist": [
+        {"text": "SPA 시스템 페이지 전환", "done": true},
+        {"text": "앱 문서 탭 통합 (5→1)", "done": true},
+        {"text": "업무보드 드래그 버그 수정", "done": false},
+        {"text": "업무보드 상세 패널", "done": false},
+        {"text": "체크박스 양방향 연동", "done": false},
+        {"text": "간트차트 탭", "done": false},
+        {"text": "문서 카드 새 탭 열기 아이콘", "done": false},
+        {"text": "mosamo 74개 통합", "done": false}
+      ]
+    },
+    {
+      "id": "t04", "title": "CRM 셋팅 (알마니 이관)", "status": "in_progress", "cat": "D",
+      "assignee": "알마니", "dueDate": null,
+      "note": "데이터라이즈 안 함. 알마니가 직접 셋팅"
+    },
+    {
+      "id": "t05", "title": "정품등록 + 메타픽셀", "status": "done", "cat": "D",
+      "assignee": "개실장", "dueDate": "2026-03-27",
+      "note": "kinemedical-register.vercel.app 배포 완료"
+    },
+    {
+      "id": "t06", "title": "FAQ + CS 최적화", "status": "in_progress", "cat": "K",
+      "assignee": "고실장", "dueDate": "2026-04-04",
+      "checklist": [
+        {"text": "CS 기획안 v2.0", "done": true},
+        {"text": "외주 CS 가이드", "done": true},
+        {"text": "FAQ 사이트 설계", "done": false},
+        {"text": "CS Q&A 미답변 4건 처리", "done": false}
+      ]
+    },
+    {
+      "id": "t07", "title": "SNS 일별 조회수 트래킹", "status": "in_progress", "cat": "B",
+      "assignee": "콘실장", "dueDate": "2026-04-04",
+      "note": "콘실장 시스템 구축 중"
+    },
+    {
+      "id": "t08", "title": "AI 바이럴 자동화", "status": "pending", "cat": "I",
+      "assignee": "카리나", "dueDate": null,
+      "note": "유범님 순환 루프 참고"
+    },
+    {
+      "id": "t09", "title": "소비자 리뷰 → 광고 카피", "status": "done", "cat": "D",
+      "assignee": "마실장", "dueDate": "2026-03-30",
+      "checklist": [
+        {"text": "카피 15개 작성", "done": true},
+        {"text": "의료기기 인증 표현 확인", "done": false}
+      ]
+    },
+    {
+      "id": "t10", "title": "커뮤니티 구축 (톰 레퍼런스)", "status": "pending", "cat": "B",
+      "assignee": null, "dueDate": null,
+      "note": "https://cafe.naver.com/clickg/22621"
+    },
+    {
+      "id": "t11", "title": "카페24 스코프 추가 + 토큰 재발급", "status": "done", "cat": "H",
+      "assignee": "카리나", "dueDate": "2026-03-30",
+      "note": "15개 스코프, mall.read_product+community 포함"
+    },
+    {
+      "id": "t12", "title": "굿플 연락 (제품 개선)", "status": "pending", "cat": "A",
+      "assignee": "태훈", "dueDate": "2026-04-01",
+      "note": "내일 스미스 팁스 확인 후 연락"
+    },
+    {
+      "id": "t13", "title": "제형 온보딩", "status": "in_progress", "cat": "G",
+      "assignee": "태훈", "dueDate": null,
+      "note": "G-채용 채널에서 진행중"
+    },
+    {
+      "id": "t14", "title": "통증크림 디자인", "status": "pending", "cat": "A",
+      "assignee": "태훈", "dueDate": "2026-04-15",
+      "note": "4월 중순 목표"
+    },
+    {
+      "id": "t15", "title": "댓글 자동화 (YouTube)", "status": "blocked", "cat": "B",
+      "assignee": "콘실장", "dueDate": null,
+      "note": "YouTube OAuth 필요 — 태훈 로그인 필요"
+    },
+    {
+      "id": "t16", "title": "에이전트 팀 Phase 3 마무리", "status": "in_progress", "cat": "I",
+      "assignee": "카리나",
+      "checklist": [
+        {"text": "4실장 하트비트 루프", "done": true},
+        {"text": "슬랙 스레드 규칙", "done": true},
+        {"text": "project-status.json 자동 업데이트", "done": true},
+        {"text": "댓글 자동화", "done": false},
+        {"text": "실장 간 업무 조율 테스트", "done": false}
+      ]
+    },
+    {
+      "id": "t17", "title": "운동 앱", "status": "in_progress", "cat": "E",
+      "assignee": "인규", "dueDate": null,
+      "note": "인규 진행중"
+    }
+  ]
 }
