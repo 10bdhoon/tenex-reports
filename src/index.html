@@ -492,7 +492,8 @@ body.sidebar-collapsed .header-toggle{display:flex}
 .tb-priority-item:hover{box-shadow:var(--shadow-lg);border-color:var(--accent)}
 .tb-priority-num{font-size:13px;font-weight:700;color:var(--text-secondary);min-width:24px;text-align:center}
 .tb-priority-urgency{font-size:14px;flex-shrink:0}
-.tb-priority-title-text{flex:1;font-size:13px;font-weight:600;color:var(--text);min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tb-priority-title-text{flex:1;font-size:13px;font-weight:600;color:var(--text);min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;cursor:pointer}
+.tb-priority-title-text:hover{color:var(--accent)}
 .tb-priority-cat{font-size:10px;padding:2px 8px;border-radius:10px;background:var(--accent-light);color:var(--text-secondary);font-weight:600;flex-shrink:0}
 .tb-priority-imp{font-size:10px;padding:2px 6px;border-radius:6px;background:#ede9fe;color:#7c3aed;font-weight:600;flex-shrink:0}
 [data-theme="dark"] .tb-priority-imp{background:rgba(139,92,246,0.15);color:#c4b5fd}
@@ -1262,6 +1263,12 @@ function renderTbTasks(){
     const idx=TB_STATUS_CYCLE.indexOf(task.status);
     task.status=TB_STATUS_CYCLE[(idx+1)%TB_STATUS_CYCLE.length];
     saveTasks();renderTbAll();
+  });
+  // Priority list title click → open detail panel
+  list.querySelectorAll('.tb-priority-title-text').forEach(el=>el.onclick=e=>{
+    e.stopPropagation();
+    const item=el.closest('.tb-priority-item');
+    if(item)openDetailPanel(item.dataset.tid);
   });
   // Checkbox status cycle (대기→진행중→완료)
   list.querySelectorAll('.tb-task-checkbox').forEach(cb=>{
