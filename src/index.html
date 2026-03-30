@@ -551,12 +551,48 @@ body.sidebar-collapsed .header-toggle{display:flex}
 .tb-detail-checklist-add input:focus{border-color:var(--accent)}
 .tb-detail-checklist-add button{padding:5px 10px;border:none;border-radius:6px;background:var(--accent);color:#fff;font-size:12px;cursor:pointer;transition:opacity .15s}
 .tb-detail-checklist-add button:hover{opacity:.85}
+/* ── Gantt Chart ── */
+.gantt-filter-bar{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:14px}
+.gantt-container{overflow-x:auto;background:var(--bg-card);border:1px solid var(--border);border-radius:12px;box-shadow:var(--shadow);position:relative}
+.gantt-wrapper{display:flex;min-width:max-content}
+.gantt-labels{min-width:200px;max-width:200px;flex-shrink:0;border-right:1px solid var(--border);position:sticky;left:0;z-index:2;background:var(--bg-card)}
+.gantt-labels-header{height:40px;display:flex;align-items:center;padding:0 12px;font-size:12px;font-weight:700;color:var(--text-secondary);border-bottom:1px solid var(--border);background:var(--bg-card)}
+.gantt-label-row{height:36px;display:flex;align-items:center;padding:0 12px;font-size:12px;font-weight:600;color:var(--text);border-bottom:1px solid var(--border);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;cursor:pointer}
+.gantt-label-row:hover{background:var(--accent-light)}
+.gantt-label-row.done-row{opacity:.4;text-decoration:line-through}
+.gantt-timeline{flex:1;position:relative}
+.gantt-date-header{display:flex;height:40px;border-bottom:1px solid var(--border);position:sticky;top:0;z-index:1;background:var(--bg-card)}
+.gantt-date-cell{min-width:40px;max-width:40px;height:40px;display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:9px;color:var(--text-secondary);border-right:1px solid var(--border);flex-shrink:0}
+.gantt-date-cell.weekend{background:rgba(0,0,0,0.03)}
+[data-theme="dark"] .gantt-date-cell.weekend{background:rgba(255,255,255,0.02)}
+.gantt-date-cell.today{background:rgba(239,68,68,0.08);color:#ef4444;font-weight:700}
+.gantt-date-day{font-size:11px;font-weight:600;line-height:1}
+.gantt-date-dow{font-size:8px;opacity:.7}
+.gantt-rows{position:relative}
+.gantt-row{height:36px;display:flex;border-bottom:1px solid var(--border);position:relative}
+.gantt-row-bg{display:flex;width:100%;height:100%}
+.gantt-row-cell{min-width:40px;max-width:40px;height:100%;border-right:1px solid var(--border);flex-shrink:0}
+.gantt-row-cell.weekend{background:rgba(0,0,0,0.02)}
+[data-theme="dark"] .gantt-row-cell.weekend{background:rgba(255,255,255,0.015)}
+.gantt-bar{position:absolute;height:24px;top:6px;border-radius:4px;z-index:1;cursor:pointer;transition:opacity .15s;font-size:10px;color:#fff;font-weight:600;overflow:hidden;white-space:nowrap;padding:0 6px;display:flex;align-items:center}
+.gantt-bar:hover{opacity:.85!important;box-shadow:0 2px 8px rgba(0,0,0,0.2)}
+.gantt-bar.status-done{opacity:.4}
+.gantt-bar.status-done .gantt-bar-text{text-decoration:line-through}
+.gantt-bar.status-waiting{border:2px dashed rgba(255,255,255,0.5);box-sizing:border-box}
+.gantt-today-line{position:absolute;top:0;bottom:0;width:2px;background:#ef4444;z-index:3;pointer-events:none}
+.gantt-tooltip{position:fixed;z-index:500;background:var(--bg-card);border:1px solid var(--border);border-radius:8px;padding:10px 14px;box-shadow:var(--shadow-lg);font-size:12px;color:var(--text);pointer-events:none;display:none;max-width:260px}
+.gantt-tooltip .gt-title{font-weight:700;font-size:13px;margin-bottom:4px}
+.gantt-tooltip .gt-row{display:flex;gap:6px;margin-top:2px;color:var(--text-secondary)}
+.gantt-tooltip .gt-label{font-weight:600;min-width:40px}
 @media(max-width:1024px){.tb-cat-grid{grid-template-columns:repeat(2,1fr)}}
 @media(max-width:768px){
   .tb-cat-grid{grid-template-columns:1fr}
   .tb-add-form .form-row{flex-direction:column}
   .tb-add-form .form-title{min-width:0}
   .tb-detail-panel{width:100%;right:-100%}
+  .gantt-labels{min-width:120px;max-width:120px}
+  .gantt-date-cell{min-width:32px;max-width:32px}
+  .gantt-row-cell{min-width:32px;max-width:32px}
 }
 </style>
 </head>
@@ -640,6 +676,7 @@ body.sidebar-collapsed .header-toggle{display:flex}
       <div class="tb-tab-bar">
         <button class="tb-tab active" data-tab="my">내 업무</button>
         <button class="tb-tab" data-tab="agents">실장 현황</button>
+        <button class="tb-tab" data-tab="gantt">간트차트</button>
       </div>
       <!-- Tab 1: 내 업무 -->
       <div class="tb-tab-panel active" id="tabMy">
@@ -678,6 +715,11 @@ body.sidebar-collapsed .header-toggle{display:flex}
       <!-- Tab 2: 실장 현황 -->
       <div class="tb-tab-panel" id="tabAgents">
         <div id="agentGrid" class="agent-grid"></div>
+      </div>
+      <!-- Tab 3: 간트차트 -->
+      <div class="tb-tab-panel" id="tabGantt">
+        <div class="gantt-filter-bar" id="ganttFilterBar"></div>
+        <div class="gantt-container" id="ganttContainer"></div>
       </div>
     </div>
     <!-- Task Detail Panel -->
@@ -1948,10 +1990,150 @@ function initTabs(){
 function switchTab(tabId){
   document.querySelectorAll('.tb-tab').forEach(t=>t.classList.toggle('active',t.dataset.tab===tabId));
   document.querySelectorAll('.tb-tab-panel').forEach(p=>p.classList.remove('active'));
-  const panel=document.getElementById(tabId==='my'?'tabMy':'tabAgents');
+  const panelMap={my:'tabMy',agents:'tabAgents',gantt:'tabGantt'};
+  const panel=document.getElementById(panelMap[tabId]||'tabMy');
   if(panel)panel.classList.add('active');
   localStorage.setItem(TB_TAB_STORAGE,tabId);
   if(tabId==='agents')renderAgentBoard();
+  if(tabId==='gantt')renderGanttChart();
+}
+
+/* ═══════ Gantt Chart ═══════ */
+const GANTT_CAT_COLORS={'A':'#3b82f6','B':'#ec4899','C':'#6b7280','D':'#f59e0b','E':'#10b981','F':'#eab308','G':'#8b5cf6','H':'#6366f1','I':'#6366f1','J':'#14b8a6','K':'#ef4444','Z':'#a855f7','★':'#002855'};
+let ganttCatFilter='all';
+function renderGanttChart(){
+  const filterBar=document.getElementById('ganttFilterBar');
+  const container=document.getElementById('ganttContainer');
+  if(!filterBar||!container)return;
+  // Filter chips
+  const catMap=Object.fromEntries(CATEGORIES.map(c=>[c.key,c]));
+  const usedCats=[...new Set(tbTasks.map(t=>t.cat))];
+  let fhtml='<button class="tb-filter-chip'+(ganttCatFilter==='all'?' active':'')+'" data-cat="all">전체</button>';
+  usedCats.forEach(k=>{const c=catMap[k];if(c)fhtml+='<button class="tb-filter-chip'+(ganttCatFilter===k?' active':'')+'" data-cat="'+k+'">'+c.icon+' '+c.key+'</button>'});
+  filterBar.innerHTML=fhtml;
+  filterBar.querySelectorAll('.tb-filter-chip').forEach(btn=>btn.onclick=()=>{ganttCatFilter=btn.dataset.cat;renderGanttChart()});
+
+  // Filter tasks
+  let tasks=tbTasks.slice();
+  if(ganttCatFilter!=='all')tasks=tasks.filter(t=>t.cat===ganttCatFilter);
+  if(tasks.length===0){container.innerHTML='<div style="padding:40px;text-align:center;color:var(--text-secondary)">표시할 업무가 없습니다.</div>';return}
+
+  // Parse dates
+  const DAY_PX=40;
+  const DOW_KR=['일','월','화','수','목','금','토'];
+  const today=new Date();today.setHours(0,0,0,0);
+  const parseDate=s=>{if(!s)return null;const d=new Date(s);d.setHours(0,0,0,0);return isNaN(d)?null:d};
+  const addDays=(d,n)=>{const r=new Date(d);r.setDate(r.getDate()+n);return r};
+  const diffDays=(a,b)=>Math.round((a-b)/(86400000));
+
+  // Compute start/end for each task
+  const taskData=tasks.map(t=>{
+    let start=parseDate(t.created)||today;
+    let end=parseDate(t.due);
+    if(!end)end=addDays(start,7);
+    if(end<start)end=addDays(start,1);
+    return{task:t,start,end};
+  });
+
+  // Timeline range: min start - 3 days to max end + 3 days, at least ±14 days from today
+  let minDate=new Date(Math.min(...taskData.map(d=>d.start.getTime()),today.getTime()));
+  let maxDate=new Date(Math.max(...taskData.map(d=>d.end.getTime()),today.getTime()));
+  minDate=addDays(minDate,-3);maxDate=addDays(maxDate,3);
+  const twoWeeksBefore=addDays(today,-14);
+  const twoWeeksAfter=addDays(today,14);
+  if(minDate>twoWeeksBefore)minDate=twoWeeksBefore;
+  if(maxDate<twoWeeksAfter)maxDate=twoWeeksAfter;
+
+  const totalDays=diffDays(maxDate,minDate)+1;
+  const timelineWidth=totalDays*DAY_PX;
+  const todayOffset=diffDays(today,minDate);
+
+  // Build HTML
+  let h='<div class="gantt-wrapper">';
+  // Left labels
+  h+='<div class="gantt-labels"><div class="gantt-labels-header">업무</div>';
+  taskData.forEach(d=>{
+    const isDone=d.task.status==='done';
+    h+='<div class="gantt-label-row'+(isDone?' done-row':'')+'" data-tid="'+d.task.id+'" title="'+escapeHtml(d.task.title)+'">'+escapeHtml(d.task.title)+'</div>';
+  });
+  h+='</div>';
+
+  // Timeline
+  h+='<div class="gantt-timeline" style="width:'+timelineWidth+'px">';
+  // Date header
+  h+='<div class="gantt-date-header">';
+  for(let i=0;i<totalDays;i++){
+    const d=addDays(minDate,i);
+    const dow=d.getDay();
+    const isWeekend=dow===0||dow===6;
+    const isToday=diffDays(d,today)===0;
+    h+='<div class="gantt-date-cell'+(isWeekend?' weekend':'')+(isToday?' today':'')+'">';
+    h+='<span class="gantt-date-day">'+(d.getMonth()+1)+'/'+d.getDate()+'</span>';
+    h+='<span class="gantt-date-dow">'+DOW_KR[dow]+'</span>';
+    h+='</div>';
+  }
+  h+='</div>';
+
+  // Rows
+  h+='<div class="gantt-rows">';
+  taskData.forEach((d,ri)=>{
+    h+='<div class="gantt-row">';
+    // Background cells
+    h+='<div class="gantt-row-bg">';
+    for(let i=0;i<totalDays;i++){
+      const dt=addDays(minDate,i);const dow=dt.getDay();
+      h+='<div class="gantt-row-cell'+(dow===0||dow===6?' weekend':'')+'"></div>';
+    }
+    h+='</div>';
+    // Bar
+    const left=diffDays(d.start,minDate)*DAY_PX;
+    const width=Math.max((diffDays(d.end,d.start)+1)*DAY_PX,DAY_PX);
+    const color=GANTT_CAT_COLORS[d.task.cat]||'#6b7280';
+    const statusCls=d.task.status==='done'?' status-done':d.task.status==='waiting'?' status-waiting':'';
+    h+='<div class="gantt-bar'+statusCls+'" data-tid="'+d.task.id+'" style="left:'+left+'px;width:'+width+'px;background:'+color+'">';
+    h+='<span class="gantt-bar-text">'+escapeHtml(d.task.title)+'</span>';
+    h+='</div>';
+    h+='</div>';
+  });
+
+  // Today line
+  if(todayOffset>=0&&todayOffset<totalDays){
+    h+='<div class="gantt-today-line" style="left:'+(todayOffset*DAY_PX+DAY_PX/2)+'px"></div>';
+  }
+  h+='</div></div></div>';
+
+  // Tooltip element
+  h+='<div class="gantt-tooltip" id="ganttTooltip"></div>';
+  container.innerHTML=h;
+
+  // Scroll to today
+  const timeline=container.querySelector('.gantt-timeline');
+  if(timeline&&todayOffset>5)container.scrollLeft=(todayOffset-5)*DAY_PX;
+
+  // Events: label click → detail panel
+  container.querySelectorAll('.gantt-label-row').forEach(el=>el.onclick=()=>openDetailPanel(el.dataset.tid));
+
+  // Events: bar hover → tooltip
+  const tooltip=document.getElementById('ganttTooltip');
+  container.querySelectorAll('.gantt-bar').forEach(bar=>{
+    bar.onmouseenter=e=>{
+      const t=tbTasks.find(x=>x.id===bar.dataset.tid);if(!t)return;
+      const c=catMap[t.cat];
+      tooltip.innerHTML='<div class="gt-title">'+escapeHtml(t.title)+'</div>'
+        +'<div class="gt-row"><span class="gt-label">카테고리</span>'+(c?c.icon+' '+c.label:'')+'</div>'
+        +'<div class="gt-row"><span class="gt-label">기간</span>'+(t.created||'?')+' ~ '+(t.due||'미정')+'</div>'
+        +'<div class="gt-row"><span class="gt-label">상태</span>'+TB_STATUS_EMOJI[t.status]+' '+TB_STATUS_LABEL[t.status]+'</div>';
+      tooltip.style.display='block';
+    };
+    bar.onmousemove=e=>{
+      tooltip.style.left=(e.clientX+12)+'px';
+      tooltip.style.top=(e.clientY+12)+'px';
+    };
+    bar.onmouseleave=()=>{tooltip.style.display='none'};
+  });
+
+  // Events: bar click → detail panel
+  container.querySelectorAll('.gantt-bar').forEach(bar=>bar.onclick=()=>openDetailPanel(bar.dataset.tid));
 }
 
 /* ═══════ Agent Board Logic ═══════ */
