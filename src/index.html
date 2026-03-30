@@ -790,6 +790,33 @@ body.sidebar-collapsed .header-toggle{display:flex}
 .sync-toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
 .sync-toast.success{background:#16a34a}
 .sync-toast.error{background:#dc2626}
+
+/* ── Pipeline Dashboard ── */
+.sc-pipe-wrap{display:flex;flex-direction:column;gap:24px}
+.sc-pipe-card{background:var(--bg-card);border:1px solid var(--border);border-radius:12px;padding:20px;box-shadow:var(--shadow)}
+.sc-pipe-name{font-size:16px;font-weight:700;color:var(--text);margin-bottom:14px;display:flex;align-items:center;gap:8px}
+.sc-pipe-name::before{content:'';width:4px;height:18px;border-radius:2px;background:var(--accent);flex-shrink:0}
+.sc-pipe-flow{display:flex;flex-wrap:wrap;align-items:center;gap:0}
+.sc-pipe-step{display:inline-flex;align-items:center;padding:8px 14px;border-radius:8px;font-size:13px;font-weight:500;border:1px solid transparent;white-space:nowrap;transition:transform .15s,box-shadow .15s}
+.sc-pipe-step:hover{transform:translateY(-1px);box-shadow:var(--shadow-lg)}
+.sc-pipe-step.ok{background:#dcfce7;color:#166534;border-color:#bbf7d0}
+.sc-pipe-step.error{background:#fef2f2;color:#991b1b;border-color:#fecaca}
+.sc-pipe-step.unknown{background:#f3f4f6;color:#6b7280;border-color:#e5e7eb}
+[data-theme="dark"] .sc-pipe-step.ok{background:rgba(34,197,94,0.15);color:#4ade80;border-color:rgba(34,197,94,0.25)}
+[data-theme="dark"] .sc-pipe-step.error{background:rgba(239,68,68,0.15);color:#f87171;border-color:rgba(239,68,68,0.25)}
+[data-theme="dark"] .sc-pipe-step.unknown{background:rgba(156,163,175,0.15);color:#9ca3af;border-color:rgba(156,163,175,0.25)}
+.sc-pipe-arrow{color:var(--text-secondary);font-size:18px;font-weight:700;padding:0 6px;user-select:none;flex-shrink:0}
+.sc-pipe-stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:12px;margin-bottom:20px}
+.sc-pipe-stat{background:var(--bg-card);border:1px solid var(--border);border-radius:10px;padding:16px;text-align:center;box-shadow:var(--shadow)}
+.sc-pipe-stat .stat-num{font-size:28px;font-weight:800}
+.sc-pipe-stat .stat-label{font-size:12px;color:var(--text-secondary);margin-top:2px}
+.sc-pipe-updated{text-align:center;font-size:12px;color:var(--text-secondary);margin-top:16px;padding-top:12px;border-top:1px solid var(--border)}
+@media(max-width:768px){
+  .sc-pipe-flow{gap:4px 0}
+  .sc-pipe-step{padding:6px 10px;font-size:12px}
+  .sc-pipe-arrow{font-size:14px;padding:0 3px}
+  .sc-pipe-stats{grid-template-columns:repeat(2,1fr)}
+}
 </style>
 </head>
 <body>
@@ -829,6 +856,7 @@ body.sidebar-collapsed .header-toggle{display:flex}
       <div class="nav-item" data-system-page="heartbeat"><span class="icon">💓</span><span class="label">하트비트</span></div>
       <div class="nav-item" data-system-page="skills"><span class="icon">🧩</span><span class="label">스킬</span></div>
       <div class="nav-item" data-system-page="security"><span class="icon">🔒</span><span class="label">보안</span></div>
+      <div class="nav-item" data-system-page="pipeline"><span class="icon">🔗</span><span class="label">파이프라인</span></div>
     </div>
   </nav>
   <div class="sidebar-footer">
@@ -1878,9 +1906,9 @@ function openSystemPage(href,title){
   closeMobile();
 }
 
-const SYSTEM_PAGE_TITLES={cron:'🔄 크론 대시보드',deploy:'🚀 배포 현황',system:'🖥️ 자동화 시스템 현황',heartbeat:'💓 하트비트 모니터링',skills:'🧩 스킬 대시보드',security:'🔒 보안 현황'};
+const SYSTEM_PAGE_TITLES={cron:'🔄 크론 대시보드',deploy:'🚀 배포 현황',system:'🖥️ 자동화 시스템 현황',heartbeat:'💓 하트비트 모니터링',skills:'🧩 스킬 대시보드',security:'🔒 보안 현황',pipeline:'🔗 파이프라인'};
 const SYSTEM_RENDERERS={system:renderSystemStatus};
-const SYSTEM_ASYNC_RENDERERS={cron:renderCronDashboard,deploy:renderDeployDashboard,heartbeat:renderHeartbeatDashboard,skills:renderSkillsDashboard,security:renderSecurityDashboard};
+const SYSTEM_ASYNC_RENDERERS={cron:renderCronDashboard,deploy:renderDeployDashboard,heartbeat:renderHeartbeatDashboard,skills:renderSkillsDashboard,security:renderSecurityDashboard,pipeline:renderDependencyGraph};
 
 function openSystemDashboard(page,label){
   switchView('system');
@@ -2315,6 +2343,44 @@ async function renderSecurityDashboard(){
     return h;
   }catch(e){
     return '<div style="text-align:center;padding:40px;color:var(--text-secondary)">보안 상태를 불러올 수 없습니다</div>';
+  }
+}
+
+async function renderDependencyGraph(){
+  try{
+    const res=await fetch('/data/pipeline-status.json?t='+Date.now());
+    const data=await res.json();
+    const pipelines=data.pipelines||[];
+    const totalSteps=pipelines.reduce((s,p)=>s+p.steps.length,0);
+    const okCount=pipelines.reduce((s,p)=>s+p.steps.filter(st=>st.status==='ok').length,0);
+    const errCount=pipelines.reduce((s,p)=>s+p.steps.filter(st=>st.status==='error').length,0);
+    const statusLabels={ok:'정상',error:'오류',unknown:'미확인'};
+    let h='';
+    // Stats
+    h+='<div class="sc-pipe-stats">';
+    h+='<div class="sc-pipe-stat"><div class="stat-num navy">'+pipelines.length+'</div><div class="stat-label">파이프라인</div></div>';
+    h+='<div class="sc-pipe-stat"><div class="stat-num blue">'+totalSteps+'</div><div class="stat-label">전체 단계</div></div>';
+    h+='<div class="sc-pipe-stat"><div class="stat-num green">'+okCount+'</div><div class="stat-label">정상</div></div>';
+    h+='<div class="sc-pipe-stat"><div class="stat-num red">'+errCount+'</div><div class="stat-label">오류</div></div>';
+    h+='</div>';
+    // Pipelines
+    h+='<div class="sc-pipe-wrap">';
+    pipelines.forEach(p=>{
+      h+='<div class="sc-pipe-card">';
+      h+='<div class="sc-pipe-name">'+p.name+'</div>';
+      h+='<div class="sc-pipe-flow">';
+      p.steps.forEach((st,i)=>{
+        if(i>0) h+='<span class="sc-pipe-arrow">→</span>';
+        h+='<span class="sc-pipe-step '+st.status+'" title="'+(statusLabels[st.status]||st.status)+'">'+st.label+'</span>';
+      });
+      h+='</div>';
+      h+='</div>';
+    });
+    h+='</div>';
+    h+='<div class="sc-pipe-updated">업데이트: '+data.updatedAt+' | 데이터 소스: pipeline-status.json</div>';
+    return h;
+  }catch(e){
+    return '<div style="text-align:center;padding:40px;color:var(--text-secondary)">파이프라인 상태를 불러올 수 없습니다</div>';
   }
 }
 

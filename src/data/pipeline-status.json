@@ -1,0 +1,44 @@
+{
+  "updatedAt": "2026-03-30",
+  "pipelines": [
+    {
+      "name": "SNS 데이터 수집",
+      "steps": [
+        {"id":"s1","label":"sns-views-collect (크론 06:00)","status":"ok"},
+        {"id":"s2","label":"YouTube API fetch","status":"ok"},
+        {"id":"s3","label":"Instagram 스크래핑","status":"ok"},
+        {"id":"s4","label":"TikTok 스크래핑","status":"ok"},
+        {"id":"s5","label":"sns-views-YYYY-MM-DD.json 저장","status":"ok"},
+        {"id":"s6","label":"sns-tracker.html 시각화","status":"ok"}
+      ]
+    },
+    {
+      "name": "녹음 전사 파이프라인",
+      "steps": [
+        {"id":"p1","label":"Plaud 녹음 감지","status":"ok"},
+        {"id":"p2","label":"Whisper 전사","status":"ok"},
+        {"id":"p3","label":"GPT 요약","status":"ok"},
+        {"id":"p4","label":"brain.db 저장","status":"ok"},
+        {"id":"p5","label":"일일 리포트 생성","status":"ok"}
+      ]
+    },
+    {
+      "name": "리포트 자동 배포",
+      "steps": [
+        {"id":"d1","label":"파일 변경 감지 (10분)","status":"ok"},
+        {"id":"d2","label":"git add + commit + push","status":"ok"},
+        {"id":"d3","label":"Vercel 빌드","status":"ok"},
+        {"id":"d4","label":"프로덕션 배포","status":"ok"}
+      ]
+    },
+    {
+      "name": "카페24 토큰 관리",
+      "steps": [
+        {"id":"c1","label":"토큰 만료 감지 (90분)","status":"ok"},
+        {"id":"c2","label":"refresh_token 교환","status":"ok"},
+        {"id":"c3","label":"환경변수 업데이트","status":"ok"},
+        {"id":"c4","label":"카페24 API 정상화","status":"ok"}
+      ]
+    }
+  ]
+}
