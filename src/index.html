@@ -1094,6 +1094,8 @@ function ensureTaskFields(t){
   if(!t.assignee)t.assignee='';
   if(!t.memo)t.memo='';
   if(!t.desc)t.desc='';
+  if(!t.importance)t.importance='중';
+  if(!t.urgency)t.urgency='green';
   if(t.sortOrder==null)t.sortOrder=0;
   if(t.priorityOrder==null)t.priorityOrder=0;
   return t;
@@ -1115,37 +1117,22 @@ async function loadTasksFromJson(){
     if(!res.ok)throw new Error('fetch failed');
     const json=await res.json();
     const jsonTasks=json.tasks.map(mapJsonTask);
-    const jsonById=new Map(jsonTasks.map(t=>[t.id,t]));
-    // Merge with localStorage
+    // JSON is the single source of truth — overwrite localStorage completely
+    // Only preserve priorityOrder/sortOrder from localStorage
     let localTasks=[];
     try{
       const saved=localStorage.getItem(TB_STORAGE);
-      if(saved)localTasks=JSON.parse(saved).map(ensureTaskFields);
+      if(saved)localTasks=JSON.parse(saved);
     }catch(e){}
-    if(localTasks.length===0){
-      tbTasks=jsonTasks;saveTasks();return;
-    }
-    // Build merged list: start with JSON tasks, preserve local-only tasks
-    const merged=[];
     const localById=new Map(localTasks.map(t=>[t.id,t]));
-    // JSON tasks take priority for data, but preserve local priorityOrder/sortOrder
     jsonTasks.forEach(jt=>{
       const lt=localById.get(jt.id);
       if(lt){
-        jt.priorityOrder=lt.priorityOrder;
-        jt.sortOrder=lt.sortOrder;
-        jt.memo=lt.memo||jt.memo;
-      }
-      merged.push(jt);
-    });
-    // Add local-only tasks (user-added, not in JSON)
-    localTasks.forEach(lt=>{
-      if(!jsonById.has(lt.id)){
-        lt._source='local';
-        merged.push(lt);
+        jt.priorityOrder=lt.priorityOrder||0;
+        jt.sortOrder=lt.sortOrder||0;
       }
     });
-    tbTasks=merged;saveTasks();
+    tbTasks=jsonTasks;saveTasks();
   }catch(e){
     // Fallback: localStorage or DEFAULT_TASKS
     try{
