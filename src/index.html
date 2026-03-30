@@ -459,6 +459,11 @@ body.sidebar-collapsed .header-toggle{display:flex}
 .tb-cat-task.urgency-red{border-left-color:#ef4444}
 .tb-cat-task.urgency-yellow{border-left-color:#eab308}
 .tb-cat-task.urgency-green{border-left-color:#22c55e}
+.tb-cat-drag-handle{cursor:grab;font-size:14px;color:var(--text-secondary);user-select:none;padding:0 2px;flex-shrink:0;transition:color .15s;opacity:.4}
+.tb-cat-drag-handle:hover{opacity:1;color:var(--text)}
+.tb-cat-drag-handle:active{cursor:grabbing}
+.tb-cat-task.dragging{opacity:.4;transform:scale(.97)}
+.tb-cat-card .tb-cat-drop-indicator{height:2px;background:var(--accent);border-radius:2px;margin:1px 8px;pointer-events:none}
 .tb-cat-task-row{display:flex;align-items:center;gap:8px}
 .tb-cat-task-status{font-size:16px;cursor:pointer;user-select:none;flex-shrink:0;padding:2px;border-radius:4px;transition:background .15s}
 .tb-cat-task-status:hover{background:rgba(0,40,85,0.1)}
@@ -480,9 +485,7 @@ body.sidebar-collapsed .header-toggle{display:flex}
 .tb-progress-fill{height:100%;background:var(--accent);border-radius:2px;transition:width .3s}
 .tb-progress-text{font-size:11px;color:var(--text-secondary);font-weight:600;white-space:nowrap}
 /* ── Drag & Drop ── */
-.tb-cat-task[draggable="true"]{cursor:grab}
-.tb-cat-task[draggable="true"]:active{cursor:grabbing}
-.tb-cat-task.dragging{opacity:.4;transform:scale(.96)}
+/* drag handled by .tb-cat-drag-handle + .tb-cat-task.dragging above */
 .tb-cat-card.drag-over{border-color:var(--accent);box-shadow:0 0 0 2px rgba(0,40,85,0.2)}
 [data-theme="dark"] .tb-cat-card.drag-over{box-shadow:0 0 0 2px rgba(100,160,255,0.25)}
 .tb-drop-indicator{height:2px;background:var(--accent);border-radius:2px;margin:2px 10px;pointer-events:none;transition:opacity .15s}
@@ -1272,8 +1275,9 @@ function renderTbTasks(){
         const urgDot=t.urgency==='red'?'🔴':t.urgency==='yellow'?'🟡':'🟢';
         const cbClass='tb-task-checkbox state-'+t.status;
         const cbChecked=t.status==='done'?' checked':'';
-        html+='<div class="tb-cat-task urgency-'+t.urgency+(isDone?' done-task':'')+'" data-tid="'+t.id+'" draggable="true">';
+        html+='<div class="tb-cat-task urgency-'+t.urgency+(isDone?' done-task':'')+'" data-tid="'+t.id+'">';
         html+='<div class="tb-cat-task-row">';
+        html+='<span class="tb-cat-drag-handle" title="드래그하여 순서 변경">≡</span>';
         html+='<input type="checkbox" class="'+cbClass+'" data-tid="'+t.id+'"'+cbChecked+' title="'+TB_STATUS_LABEL[t.status]+'">';
         html+='<span class="tb-cat-task-status" data-tid="'+t.id+'" title="클릭하여 상태 변경">'+TB_STATUS_EMOJI[t.status]+'</span>';
         html+='<span class="tb-cat-task-title" data-tid="'+t.id+'" title="'+escapeHtml(t.title)+'">'+escapeHtml(t.title)+'</span>';
@@ -1450,9 +1454,16 @@ function renderTbTasks(){
 
   // ── Drag & Drop ──
   let dragTid=null;
-  function removeDropIndicators(){list.querySelectorAll('.tb-drop-indicator').forEach(el=>el.remove());list.querySelectorAll('.tb-cat-card.drag-over').forEach(el=>el.classList.remove('drag-over'))}
+  function removeDropIndicators(){list.querySelectorAll('.tb-drop-indicator,.tb-cat-drop-indicator').forEach(el=>el.remove());list.querySelectorAll('.tb-cat-card.drag-over').forEach(el=>el.classList.remove('drag-over'))}
 
   list.querySelectorAll('.tb-cat-task').forEach(taskEl=>{
+    // Handle-based drag: only allow drag from ≡ handle
+    taskEl.setAttribute('draggable','false');
+    const handle=taskEl.querySelector('.tb-cat-drag-handle');
+    if(handle){
+      handle.addEventListener('mousedown',()=>taskEl.setAttribute('draggable','true'));
+      handle.addEventListener('touchstart',()=>taskEl.setAttribute('draggable','true'),{passive:true});
+    }
     taskEl.addEventListener('dragstart',e=>{
       dragTid=taskEl.dataset.tid;
       e.dataTransfer.effectAllowed='move';
@@ -1461,6 +1472,7 @@ function renderTbTasks(){
     });
     taskEl.addEventListener('dragend',()=>{
       taskEl.classList.remove('dragging');
+      taskEl.setAttribute('draggable','false');
       dragTid=null;
       removeDropIndicators();
     });
@@ -1473,7 +1485,7 @@ function renderTbTasks(){
       const rect=taskEl.getBoundingClientRect();
       const midY=rect.top+rect.height/2;
       const indicator=document.createElement('div');
-      indicator.className='tb-drop-indicator';
+      indicator.className='tb-cat-drop-indicator';
       if(e.clientY<midY){
         taskEl.parentNode.insertBefore(indicator,taskEl);
       } else {
