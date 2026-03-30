@@ -53,6 +53,27 @@ export default async function middleware(req: Request) {
         return Response.redirect(new URL("/index.html", url.origin), 302);
       }
 
+      const ADMIN_ONLY_PATHS = [
+        '/funding', '/funding.html',
+        '/profit-simulation', '/profit-simulation.html',
+        '/2026-team-structure', '/2026-team-structure.html',
+        '/cron-dashboard', '/cron-dashboard.html',
+        '/deploy-dashboard', '/deploy-dashboard.html',
+        '/heartbeat-dashboard', '/heartbeat-dashboard.html',
+        '/project-status', '/project-status.html',
+        '/agent-team-plan', '/agent-team-plan.html',
+        '/ai-system', '/ai-system.html',
+        '/openclaw-overview', '/openclaw-overview.html',
+        '/system-status', '/system-status.html',
+        '/security-dashboard', '/security-dashboard.html',
+        '/skills-dashboard', '/skills-dashboard.html',
+      ];
+
+      const isRestrictedPath = ADMIN_ONLY_PATHS.some(p => url.pathname === p);
+      if (isRestrictedPath && payload.role !== 'admin') {
+        return Response.redirect(new URL('/index.html', url.origin), 302);
+      }
+
       // Role-based path restriction
       const allowedPaths = payload.allowedPaths as string[] | undefined;
       if (allowedPaths && allowedPaths.length > 0) {

@@ -36,6 +36,16 @@ function getUsers(): User[] {
       role: "viewer",
       allowedPaths: ["/crm", "/crm.html"],
     },
+    {
+      username: "dlsrb",
+      passwordHash: "$2b$10$c0F0NehSkD.mWLBAU0tXCe.VosZnKd56j1amqfXheYpJouIMxzJHm",
+      role: "viewer",
+    },
+    {
+      username: "wpgud",
+      passwordHash: "$2b$10$3Gmm4CozTb.exZqr2n4SW.egqhQZiUnyaI3RbwTSTtf55HXwYt6HO",
+      role: "viewer",
+    },
   ];
 }
 
@@ -76,5 +86,5 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     "Set-Cookie",
     `${COOKIE_NAME}=${jwt}; Path=/; HttpOnly; Secure; SameSite=Lax; Max-Age=${7 * 86400}`
   );
-  res.json({ ok: true });
+  res.json({ ok: true, role: user.role });
 }

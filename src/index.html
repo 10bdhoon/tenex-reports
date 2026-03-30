@@ -794,7 +794,7 @@ const DEFAULT_REPORTS=[
   {href:'/product-roadmap.html',icon:'🗓️',title:'제품 로드맵',desc:'제품 개발 및 출시 타임라인',date:'3/16',cat:'A',sub:'ES-808'},
   {href:'/brand-design-system.html',icon:'🎨',title:'키네메디칼 디자인 시스템',desc:'브랜드 컬러, 로고, 패키지 가이드',date:'3/16',cat:'A',sub:'ES-808'},
   {href:'/kinemedical-redesign.html',icon:'🎨',title:'키네메디칼 리디자인',desc:'리디자인 시안',date:'3/17',cat:'A',sub:'ES-808'},
-  {href:'/profit-simulation.html',icon:'💹',title:'수익 시뮬레이션',desc:'수익/자금조달 시뮬레이션',date:'3/26',cat:'A',sub:'ES-808'},
+  {href:'/profit-simulation.html',icon:'💹',title:'수익 시뮬레이션',desc:'수익/자금조달 시뮬레이션',date:'3/26',cat:'A',sub:'ES-808',adminOnly:true},
   {href:'/youtube.html',icon:'▶️',title:'YouTube 채널 허브',desc:'트래커 · 리서치 · 영상 목록',date:'3/18',cat:'B',sub:'채널 분석'},
   {href:'/platform-api-research.html',icon:'🔌',title:'플랫폼 API 리서치',desc:'인플루언서 아웃리치 자동화',date:'3/23',cat:'B',sub:'채널 분석'},
   {href:'/myprotein-growth.html',icon:'📊',title:'마이프로틴 성장 전략',desc:'인플루언서 벤치마크',date:'3/23',cat:'D',sub:'제휴/파트너십'},
@@ -804,22 +804,22 @@ const DEFAULT_REPORTS=[
   {href:'/customer-journey-v5.html',icon:'🗺️',title:'고객 여정 분석',desc:'승무원 수분크림',date:'3/23',cat:'D',sub:'그로스'},
   {href:'/leaders-meeting-2026-03-24.html',icon:'📋',title:'리더 회의 (3/24)',desc:'',date:'3/25',cat:'D',sub:'퍼포먼스'},
   {href:'/1min-dosu-app.html',icon:'💪',title:'1분도수 앱 (통합)',desc:'기획 · 기술스펙 · 고객여정 · 앱소개',date:'3/30',cat:'E',sub:'1분도수 앱'},
-  {href:'/funding.html',icon:'💰',title:'자금조달',desc:'지분 · 스톡옵션 · 초창패',date:'3/19',cat:'F',sub:'자금조달'},
-  {href:'/2026-team-structure.html',icon:'👥',title:'팀 구조 & 채용 로드맵',desc:'2026 계획',date:'3/16',cat:'G',sub:'팀 구조'},
+  {href:'/funding.html',icon:'💰',title:'자금조달',desc:'지분 · 스톡옵션 · 초창패',date:'3/19',cat:'F',sub:'자금조달',adminOnly:true},
+  {href:'/2026-team-structure.html',icon:'👥',title:'팀 구조 & 채용 로드맵',desc:'2026 계획',date:'3/16',cat:'G',sub:'팀 구조',adminOnly:true},
   {href:'/apr-hiring-analysis.html',icon:'📋',title:'APR 채용 공고 분석',desc:'',date:'3/19',cat:'G',sub:'채용'},
   {href:'/apr-organization-analysis.html',icon:'🏢',title:'APR 조직 분석',desc:'',date:'3/19',cat:'G',sub:'팀 구조'},
   {href:'/ceo-roles.html',icon:'👔',title:'CEO 업무 맵',desc:'채용 전략',date:'3/23',cat:'G',sub:'채용'},
   {href:'/membership.html',icon:'💎',title:'멤버십',desc:'혜택 설계',date:'3/17',cat:'K',sub:'CX'},
-  {href:'/cron-dashboard.html',icon:'🔄',title:'크론 대시보드',desc:'14개 크론잡',date:'3/27',cat:'H'},
-  {href:'/deploy-dashboard.html',icon:'🚀',title:'배포 현황',desc:'Vercel 상태',date:'3/27',cat:'H'},
-  {href:'/heartbeat-dashboard.html',icon:'💓',title:'하트비트',desc:'에이전트 5명',date:'3/27',cat:'H'},
-  {href:'/project-status.html',icon:'📋',title:'프로젝트 현황',desc:'실장별 업무 · 태훈 액션 아이템',date:'3/27',cat:'I'},
-  {href:'/agent-team-plan.html',icon:'🤖',title:'AI 에이전트팀 기획서 v3',desc:'',date:'3/25',cat:'I'},
-  {href:'/ai-system.html',icon:'🧠',title:'AI 시스템',desc:'카리나 · OpenClaw · Brain.db',date:'3/19',cat:'I'},
-  {href:'/openclaw-overview.html',icon:'🔧',title:'OpenClaw 개요',desc:'시스템 맵',date:'3/24',cat:'I'},
-  {href:'/system-status.html',icon:'🖥️',title:'자동화 시스템 현황',desc:'',date:'3/16',cat:'I'},
-  {href:'/security-dashboard.html',icon:'🔒',title:'보안 현황',desc:'API · 서버 · 권한',date:'3/27',cat:'I'},
-  {href:'/skills-dashboard.html',icon:'🧩',title:'스킬 목록',desc:'9개 스킬',date:'3/27',cat:'I'},
+  {href:'/cron-dashboard.html',icon:'🔄',title:'크론 대시보드',desc:'14개 크론잡',date:'3/27',cat:'H',adminOnly:true},
+  {href:'/deploy-dashboard.html',icon:'🚀',title:'배포 현황',desc:'Vercel 상태',date:'3/27',cat:'H',adminOnly:true},
+  {href:'/heartbeat-dashboard.html',icon:'💓',title:'하트비트',desc:'에이전트 5명',date:'3/27',cat:'H',adminOnly:true},
+  {href:'/project-status.html',icon:'📋',title:'프로젝트 현황',desc:'실장별 업무 · 태훈 액션 아이템',date:'3/27',cat:'I',adminOnly:true},
+  {href:'/agent-team-plan.html',icon:'🤖',title:'AI 에이전트팀 기획서 v3',desc:'',date:'3/25',cat:'I',adminOnly:true},
+  {href:'/ai-system.html',icon:'🧠',title:'AI 시스템',desc:'카리나 · OpenClaw · Brain.db',date:'3/19',cat:'I',adminOnly:true},
+  {href:'/openclaw-overview.html',icon:'🔧',title:'OpenClaw 개요',desc:'시스템 맵',date:'3/24',cat:'I',adminOnly:true},
+  {href:'/system-status.html',icon:'🖥️',title:'자동화 시스템 현황',desc:'',date:'3/16',cat:'I',adminOnly:true},
+  {href:'/security-dashboard.html',icon:'🔒',title:'보안 현황',desc:'API · 서버 · 권한',date:'3/27',cat:'I',adminOnly:true},
+  {href:'/skills-dashboard.html',icon:'🧩',title:'스킬 목록',desc:'9개 스킬',date:'3/27',cat:'I',adminOnly:true},
   {href:'/global-strategy.html',icon:'🌏',title:'글로벌 진출 전략',desc:'미국 · APR · 국가별',date:'3/19',cat:'J',sub:'해외진출 전략'},
   {href:'/mosamo-lectures.html',icon:'📝',title:'모사모 강의',desc:'수제자 2기 전체 74강',date:'3/27',cat:'Z',sub:'모사모 강의'},
   {href:'/jasagyo-5gi.html',icon:'🎓',title:'자사몰 사관학교 5기',desc:'',date:'3/25',cat:'Z',sub:'자사교 스터디'},
@@ -829,7 +829,7 @@ const DEFAULT_REPORTS=[
 ];
 let currentCat='all',currentSub=null,searchQuery='',currentView='reports';
 const expandedCats={};
-function getReports(){const o=JSON.parse(localStorage.getItem('tenex-cat-v3')||'{}');return DEFAULT_REPORTS.map(r=>({...r,cat:o[r.href]||r.cat}))}
+function getReports(){const o=JSON.parse(localStorage.getItem('tenex-cat-v3')||'{}');const isAdmin=localStorage.getItem('tenex_role')==='admin';return DEFAULT_REPORTS.filter(r=>!r.adminOnly||isAdmin).map(r=>({...r,cat:o[r.href]||r.cat}))}
 function saveCatOverride(href,cat){const o=JSON.parse(localStorage.getItem('tenex-cat-v3')||'{}');o[href]=cat;localStorage.setItem('tenex-cat-v3',JSON.stringify(o))}
 function renderSidebarCats(){
   const sec=document.getElementById('catSection');
@@ -1041,7 +1041,7 @@ document.addEventListener('DOMContentLoaded',()=>{
   globalSearchEl.oninput=e=>{searchQuery=e.target.value;renderReports()};
   document.getElementById('searchClear').onclick=()=>{globalSearchEl.value='';searchQuery='';renderReports();globalSearchEl.focus()};
   document.addEventListener('keydown',e=>{if(e.key==='/'&&document.activeElement.tagName!=='INPUT'){e.preventDefault();globalSearchEl.focus()}});
-  document.getElementById('logoutBtn').onclick=async()=>{try{await fetch('/api/auth/logout',{method:'POST'})}catch(e){}window.location.href='/login.html'};
+  document.getElementById('logoutBtn').onclick=async()=>{localStorage.removeItem('tenex_role');try{await fetch('/api/auth/logout',{method:'POST'})}catch(e){}window.location.href='/login.html'};
   document.getElementById('glossaryBtn').onclick=()=>{document.getElementById('glossaryPanel').classList.add('open');document.getElementById('glossaryOverlay').classList.add('show')};
   document.getElementById('glossaryClose').onclick=()=>{document.getElementById('glossaryPanel').classList.remove('open');document.getElementById('glossaryOverlay').classList.remove('show')};
   document.getElementById('glossaryOverlay').onclick=()=>{document.getElementById('glossaryPanel').classList.remove('open');document.getElementById('glossaryOverlay').classList.remove('show')};
