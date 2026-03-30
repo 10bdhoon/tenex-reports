@@ -1484,12 +1484,14 @@ async function loadTasksFromJson(){
     });
     tbTasks=jsonTasks;saveTasks();
   }catch(e){
+    console.error('DB 로드 실패:',e);
     // Fallback: localStorage or DEFAULT_TASKS
     try{
       const saved=localStorage.getItem(TB_STORAGE);
-      if(saved){tbTasks=JSON.parse(saved).map(ensureTaskFields);return}
+      if(saved){tbTasks=JSON.parse(saved).map(ensureTaskFields);showSyncToast('⚠️ DB 연결 실패 — 로컬 데이터 사용 중','error');return}
     }catch(e2){}
     tbTasks=DEFAULT_TASKS.map(t=>ensureTaskFields({...t}));
+    showSyncToast('⚠️ DB 연결 실패 — 기본 데이터 사용 중','error');
     saveTasks();
   }
 }
@@ -2995,6 +2997,7 @@ async function loadAgentDataFromJson(){
     });
     agentData=merged;saveAgentData();
   }catch(e){
+    console.error('DB agents 로드 실패:',e);
     try{
       const saved=localStorage.getItem(AB_STORAGE);
       if(saved){agentData=JSON.parse(saved);return}
