@@ -1,6 +1,6 @@
 import type { VercelRequest, VercelResponse } from "@vercel/node";
 import { jwtVerify } from "jose";
-import { getSupabaseAdmin } from "../../lib/supabase";
+import { getSupabaseAdmin } from "../lib/supabase";
 
 const COOKIE_NAME = "tenex_session";
 
