@@ -1,5 +1,5 @@
 {
-  "updated": "2026-03-30T08:00:30.968Z",
+  "updated": "2026-03-30T08:00:38.525Z",
   "tasks": [
     {
       "id": "t01",
@@ -298,7 +298,7 @@
       "cat": "B",
       "urgency": "red",
       "importance": "중",
-      "status": "delay",
+      "status": "waiting",
       "assignee": "콘실장",
       "due": null,
       "desc": "YouTube OAuth 필요 — 태훈 로그인 필요",
