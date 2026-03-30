@@ -89,7 +89,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     }));
 
     await supaPost("tasks", dbTasks);
-    const taskIds = dbTasks.map((t: { id: string }) => t.id);
+    const taskIds = dbTasks.map((t: Record<string, unknown>) => String(t.id));
     await supaDelete("tasks", taskIds);
 
     if (agents && Array.isArray(agents)) {
@@ -102,7 +102,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         updated_at: new Date().toISOString(),
       }));
       await supaPost("agents", dbAgents);
-      const agentIds = dbAgents.map((a: { id: string }) => a.id);
+      const agentIds = dbAgents.map((a: Record<string, unknown>) => String(a.id));
       await supaDelete("agents", agentIds);
     }
 
