@@ -8,10 +8,10 @@
 CREATE TABLE IF NOT EXISTS tasks (
   id text PRIMARY KEY,
   title text NOT NULL,
-  cat text NOT NULL,
-  urgency text DEFAULT 'green',
-  importance text DEFAULT '중',
-  status text DEFAULT 'waiting',
+  cat text NOT NULL CHECK (cat IN ('A','B','C','D','E','F','G','H','I','K')),
+  urgency text DEFAULT 'green' CHECK (urgency IN ('green','yellow','red')),
+  importance text DEFAULT '중' CHECK (importance IN ('상','중')),
+  status text DEFAULT 'waiting' CHECK (status IN ('done','doing','waiting','delay','pending')),
   assignee text DEFAULT '',
   created timestamptz DEFAULT now(),
   due_date date,
@@ -103,5 +103,6 @@ CREATE POLICY "task_history_select" ON task_history FOR SELECT USING (true);
 CREATE INDEX idx_tasks_status ON tasks(status);
 CREATE INDEX idx_tasks_cat ON tasks(cat);
 CREATE INDEX idx_tasks_assignee ON tasks(assignee);
+CREATE INDEX idx_checklists_task_id ON checklists(task_id);
 CREATE INDEX idx_task_history_task_id ON task_history(task_id);
 CREATE INDEX idx_task_history_changed_at ON task_history(changed_at);
