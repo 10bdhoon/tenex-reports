@@ -344,6 +344,13 @@ body.sidebar-collapsed .header-toggle{display:flex}
 .tb-progress-bar{flex:1;height:4px;background:var(--border);border-radius:2px;overflow:hidden}
 .tb-progress-fill{height:100%;background:var(--accent);border-radius:2px;transition:width .3s}
 .tb-progress-text{font-size:11px;color:var(--text-secondary);font-weight:600;white-space:nowrap}
+/* ── Drag & Drop ── */
+.tb-cat-task[draggable="true"]{cursor:grab}
+.tb-cat-task[draggable="true"]:active{cursor:grabbing}
+.tb-cat-task.dragging{opacity:.4;transform:scale(.96)}
+.tb-cat-card.drag-over{border-color:var(--accent);box-shadow:0 0 0 2px rgba(0,40,85,0.2)}
+[data-theme="dark"] .tb-cat-card.drag-over{box-shadow:0 0 0 2px rgba(100,160,255,0.25)}
+.tb-drop-indicator{height:2px;background:var(--accent);border-radius:2px;margin:2px 10px;pointer-events:none;transition:opacity .15s}
 @media(max-width:1024px){.tb-cat-grid{grid-template-columns:repeat(2,1fr)}}
 @media(max-width:768px){
   .tb-cat-grid{grid-template-columns:1fr}
@@ -800,6 +807,7 @@ function ensureTaskFields(t){
   if(!t.checklist)t.checklist=[];
   if(!t.assignee)t.assignee='';
   if(!t.memo)t.memo='';
+  if(t.sortOrder==null)t.sortOrder=0;
   return t;
 }
 function loadTasks(){
@@ -813,6 +821,11 @@ function loadTasks(){
 function saveTasks(){localStorage.setItem(TB_STORAGE,JSON.stringify(tbTasks))}
 
 function sortTasks(arr){
+  // If any task has manual sortOrder, use sortOrder
+  const hasManual=arr.some(t=>t.sortOrder!==0);
+  if(hasManual){
+    return arr.slice().sort((a,b)=>a.sortOrder-b.sortOrder);
+  }
   return arr.slice().sort((a,b)=>{
     const u=URGENCY_ORDER[a.urgency]-URGENCY_ORDER[b.urgency];
     if(u!==0)return u;
@@ -916,9 +929,9 @@ function renderTbTasks(){
     const doneCount=allCatTasks.filter(t=>t.status==='done').length;
     const totalCount=allCatTasks.length;
     const pct=totalCount?Math.round(doneCount/totalCount*100):0;
-    html+='<div class="tb-cat-card">';
+    html+='<div class="tb-cat-card" data-cat="'+cat.key+'">';
     html+='<div class="tb-cat-card-header"><span class="cat-icon">'+cat.icon+'</span>'+cat.label+'<span class="cat-task-count">'+tasks.length+'건</span></div>';
-    html+='<div class="tb-cat-card-body">';
+    html+='<div class="tb-cat-card-body" data-cat="'+cat.key+'">';
     if(tasks.length===0){
       html+='<div class="no-tasks">업무 없음</div>';
     } else {
@@ -926,7 +939,7 @@ function renderTbTasks(){
         const isDone=t.status==='done';
         const isOpen=tbOpenAccordion===t.id;
         const urgDot=t.urgency==='red'?'🔴':t.urgency==='yellow'?'🟡':'🟢';
-        html+='<div class="tb-cat-task urgency-'+t.urgency+(isDone?' done-task':'')+'" data-tid="'+t.id+'">';
+        html+='<div class="tb-cat-task urgency-'+t.urgency+(isDone?' done-task':'')+'" data-tid="'+t.id+'" draggable="true">';
         html+='<div class="tb-cat-task-row">';
         html+='<span class="tb-cat-task-status" data-tid="'+t.id+'" title="클릭하여 상태 변경">'+TB_STATUS_EMOJI[t.status]+'</span>';
         html+='<span class="tb-cat-task-title" title="'+escapeHtml(t.title)+'">'+escapeHtml(t.title)+'</span>';
@@ -1042,6 +1055,97 @@ function renderTbTasks(){
   });
   // Prevent accordion close when clicking inside accordion
   list.querySelectorAll('.tb-accordion-inner').forEach(el=>el.onclick=e=>e.stopPropagation());
+
+  // ── Drag & Drop ──
+  let dragTid=null;
+  function removeDropIndicators(){list.querySelectorAll('.tb-drop-indicator').forEach(el=>el.remove());list.querySelectorAll('.tb-cat-card.drag-over').forEach(el=>el.classList.remove('drag-over'))}
+
+  list.querySelectorAll('.tb-cat-task').forEach(taskEl=>{
+    taskEl.addEventListener('dragstart',e=>{
+      dragTid=taskEl.dataset.tid;
+      e.dataTransfer.effectAllowed='move';
+      e.dataTransfer.setData('text/plain',dragTid);
+      requestAnimationFrame(()=>taskEl.classList.add('dragging'));
+    });
+    taskEl.addEventListener('dragend',()=>{
+      taskEl.classList.remove('dragging');
+      dragTid=null;
+      removeDropIndicators();
+    });
+    taskEl.addEventListener('dragover',e=>{
+      e.preventDefault();
+      e.dataTransfer.dropEffect='move';
+      removeDropIndicators();
+      const card=taskEl.closest('.tb-cat-card');
+      if(card)card.classList.add('drag-over');
+      const rect=taskEl.getBoundingClientRect();
+      const midY=rect.top+rect.height/2;
+      const indicator=document.createElement('div');
+      indicator.className='tb-drop-indicator';
+      if(e.clientY<midY){
+        taskEl.parentNode.insertBefore(indicator,taskEl);
+      } else {
+        taskEl.parentNode.insertBefore(indicator,taskEl.nextSibling);
+      }
+    });
+    taskEl.addEventListener('drop',e=>{
+      e.preventDefault();
+      e.stopPropagation();
+      if(!dragTid||dragTid===taskEl.dataset.tid){removeDropIndicators();return}
+      const targetCat=taskEl.closest('.tb-cat-card-body')?.dataset.cat;
+      if(!targetCat){removeDropIndicators();return}
+      const dragTask=tbTasks.find(t=>t.id===dragTid);
+      if(!dragTask){removeDropIndicators();return}
+      // Change category if needed
+      dragTask.cat=targetCat;
+      // Determine insertion position
+      const rect=taskEl.getBoundingClientRect();
+      const midY=rect.top+rect.height/2;
+      const insertBefore=e.clientY<midY;
+      // Get current category tasks in DOM order, rebuild sortOrder
+      const catTasks=tbTasks.filter(t=>t.cat===targetCat&&t.id!==dragTid);
+      const targetIdx=catTasks.findIndex(t=>t.id===taskEl.dataset.tid);
+      const insertIdx=insertBefore?targetIdx:targetIdx+1;
+      catTasks.splice(insertIdx,0,dragTask);
+      catTasks.forEach((t,i)=>t.sortOrder=i+1);
+      removeDropIndicators();
+      saveTasks();renderTbAll();
+    });
+  });
+
+  // Allow drop on empty card bodies
+  list.querySelectorAll('.tb-cat-card-body').forEach(body=>{
+    body.addEventListener('dragover',e=>{
+      e.preventDefault();
+      e.dataTransfer.dropEffect='move';
+      const card=body.closest('.tb-cat-card');
+      if(card){removeDropIndicators();card.classList.add('drag-over')}
+    });
+    body.addEventListener('dragleave',e=>{
+      if(!body.contains(e.relatedTarget)){
+        const card=body.closest('.tb-cat-card');
+        if(card)card.classList.remove('drag-over');
+      }
+    });
+    body.addEventListener('drop',e=>{
+      e.preventDefault();
+      if(!dragTid)return;
+      const targetCat=body.dataset.cat;
+      const dragTask=tbTasks.find(t=>t.id===dragTid);
+      if(!dragTask||!targetCat){removeDropIndicators();return}
+      dragTask.cat=targetCat;
+      // Append to end of category
+      const catTasks=tbTasks.filter(t=>t.cat===targetCat);
+      const maxOrder=catTasks.reduce((m,t)=>Math.max(m,t.sortOrder||0),0);
+      dragTask.sortOrder=maxOrder+1;
+      // Reassign all sortOrders for this category
+      const sorted=tbTasks.filter(t=>t.cat===targetCat);
+      sorted.sort((a,b)=>(a.sortOrder||0)-(b.sortOrder||0));
+      sorted.forEach((t,i)=>t.sortOrder=i+1);
+      removeDropIndicators();
+      saveTasks();renderTbAll();
+    });
+  });
 }
 
 function escapeHtml(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;')}
