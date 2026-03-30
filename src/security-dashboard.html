@@ -1,230 +1,3113 @@
 <!DOCTYPE html>
-<html lang="ko">
-<head><script src="auth.js"></script>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>보안 현황 — Tenex</title>
-<style>
-*{margin:0;padding:0;box-sizing:border-box}
-body{font-family:-apple-system,BlinkMacSystemFont,sans-serif;background:#0f172a;color:#e2e8f0}
-.header{background:#1a1a2e;color:#fff;padding:24px 32px;display:flex;align-items:center;gap:16px}
-.header h1{font-size:24px;font-weight:700}
-.header a{color:#8b8ba7;font-size:13px;text-decoration:none}
-.header a:hover{color:#fff}
-.content{max-width:1100px;margin:24px auto;padding:0 16px}
+<html lang="ko" data-theme="dark">
+<head>
+  <script src="auth.js"></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>보안 대시보드 — Tenex</title>
+  <style>
+    /* ======================================================
+       CSS Variables & Reset
+    ====================================================== */
+    :root {
+      --accent:        #7C3AED;
+      --accent-light:  #A78BFA;
+      --accent-glow:   rgba(124, 58, 237, 0.25);
 
-.summary{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:12px;margin-bottom:32px}
-.sum-card{background:#1e293b;border:1px solid #334155;border-radius:10px;padding:16px;text-align:center}
-.sum-card .num{font-size:28px;font-weight:800}
-.sum-card .num.navy{color:#60a5fa}
-.sum-card .num.green{color:#16A34A}
-.sum-card .num.yellow{color:#eab308}
-.sum-card .label{font-size:12px;color:#94a3b8;margin-top:4px}
+      --critical:      #EF4444;
+      --critical-bg:   rgba(239, 68, 68, 0.12);
+      --critical-border: rgba(239, 68, 68, 0.35);
 
-h2{color:#5b9bd5;font-size:18px;margin:32px 0 16px;font-weight:700}
+      --warn:          #F59E0B;
+      --warn-bg:       rgba(245, 158, 11, 0.12);
+      --warn-border:   rgba(245, 158, 11, 0.35);
 
-.sec-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:16px;margin-bottom:32px}
-.sec-card{background:#1e293b;border:1px solid #334155;border-radius:12px;padding:20px;transition:border-color .2s}
-.sec-card:hover{border-color:#002855}
-.sec-card .card-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
-.sec-card .svc-name{font-size:15px;font-weight:700;color:#f1f5f9;display:flex;align-items:center;gap:8px}
-.sec-card .info-row{display:flex;align-items:center;gap:8px;margin-bottom:6px;font-size:13px;color:#94a3b8}
-.sec-card .info-row .label{min-width:80px;color:#64748b;font-weight:600}
+      --ok:            #10B981;
+      --ok-bg:         rgba(16, 185, 129, 0.12);
+      --ok-border:     rgba(16, 185, 129, 0.35);
 
-.status-badge{display:inline-block;padding:4px 12px;border-radius:6px;font-size:11px;font-weight:700}
-.status-badge.ok{background:#064e3b;color:#34d399}
-.status-badge.auto{background:#1e3a5f;color:#60a5fa}
-.status-badge.warn{background:#422006;color:#fbbf24}
-.status-badge.err{background:#450a0a;color:#f87171}
+      --info:          #3B82F6;
+      --info-bg:       rgba(59, 130, 246, 0.12);
+      --info-border:   rgba(59, 130, 246, 0.35);
 
-.tag{display:inline-block;padding:3px 10px;border-radius:6px;font-size:11px;font-weight:600}
-.tag.navy{background:#001a3a;color:#5b9bd5}
+      /* Dark theme defaults */
+      --bg:            #080C14;
+      --bg-card:       #0F1623;
+      --bg-card2:      #141D2E;
+      --bg-hover:      #1A2540;
+      --border:        rgba(255,255,255,0.07);
+      --border-strong: rgba(255,255,255,0.14);
+      --text:          #E2E8F0;
+      --text-muted:    #64748B;
+      --text-sub:      #94A3B8;
+      --header-bg:     #0A1020;
+      --shadow:        0 4px 24px rgba(0,0,0,0.5);
+      --shadow-card:   0 2px 12px rgba(0,0,0,0.4);
+    }
 
-.info-box{background:#1e293b;border:1px solid #334155;border-radius:12px;padding:20px;margin-bottom:20px}
-.info-box h3{font-size:14px;font-weight:700;color:#f1f5f9;margin-bottom:12px}
-.info-box .row{display:flex;align-items:center;gap:8px;margin-bottom:8px;font-size:13px;color:#94a3b8}
-.info-box .row .label{min-width:100px;color:#64748b;font-weight:600}
-.info-box .row .val{color:#e2e8f0}
+    [data-theme="light"] {
+      --bg:            #F1F5F9;
+      --bg-card:       #FFFFFF;
+      --bg-card2:      #F8FAFC;
+      --bg-hover:      #EFF6FF;
+      --border:        rgba(0,0,0,0.07);
+      --border-strong: rgba(0,0,0,0.14);
+      --text:          #1E293B;
+      --text-muted:    #94A3B8;
+      --text-sub:      #64748B;
+      --header-bg:     #FFFFFF;
+      --shadow:        0 4px 24px rgba(0,0,0,0.1);
+      --shadow-card:   0 2px 12px rgba(0,0,0,0.08);
+    }
 
-.cron-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:12px;margin-bottom:32px}
-.cron-card{background:#1e293b;border:1px solid #334155;border-radius:10px;padding:16px}
-.cron-card .cron-name{font-size:14px;font-weight:700;color:#f1f5f9;margin-bottom:6px}
-.cron-card .cron-detail{font-size:12px;color:#94a3b8;margin-bottom:4px}
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
 
-.perm-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px;margin-bottom:32px}
-.perm-card{background:#1e293b;border:1px solid #334155;border-radius:10px;padding:16px}
-.perm-card .agent{font-size:14px;font-weight:700;color:#f1f5f9;margin-bottom:6px}
-.perm-card .scope{font-size:12px;color:#94a3b8}
+    html { scroll-behavior: smooth; }
 
-.issue-box{background:#1e1a2e;border:1px solid #7c3aed;border-radius:12px;padding:20px;margin-bottom:20px}
-.issue-box h3{font-size:14px;font-weight:700;color:#a78bfa;margin-bottom:12px}
-.issue-box .issue-item{display:flex;gap:10px;margin-bottom:10px;font-size:13px;color:#e2e8f0}
-.issue-box .issue-item .sev{min-width:20px}
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      min-height: 100vh;
+      transition: background 0.3s, color 0.3s;
+    }
 
-@media(max-width:640px){
-  .header{padding:16px;flex-wrap:wrap}
-  .content{padding:0 8px}
-  .sec-grid,.cron-grid,.perm-grid{grid-template-columns:1fr}
-}
-</style>
+    /* ======================================================
+       Header / Nav
+    ====================================================== */
+    .header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: var(--header-bg);
+      border-bottom: 1px solid var(--border);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+    }
+
+    .header-inner {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0 24px;
+      height: 64px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .header-logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+    }
+
+    .header-logo .icon-wrap {
+      width: 36px;
+      height: 36px;
+      background: var(--accent-glow);
+      border: 1px solid var(--accent);
+      border-radius: 9px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+    }
+
+    .header-logo .title {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--text);
+    }
+
+    .header-logo .subtitle {
+      font-size: 11px;
+      color: var(--text-muted);
+      margin-top: -2px;
+    }
+
+    .header-spacer { flex: 1; }
+
+    .header-meta {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+
+    .live-dot {
+      width: 7px;
+      height: 7px;
+      background: var(--ok);
+      border-radius: 50%;
+      animation: pulse-dot 2s infinite;
+    }
+
+    @keyframes pulse-dot {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.5; transform: scale(0.85); }
+    }
+
+    .theme-btn {
+      width: 36px;
+      height: 36px;
+      border-radius: 8px;
+      border: 1px solid var(--border-strong);
+      background: var(--bg-card);
+      color: var(--text);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+      transition: all 0.2s;
+    }
+
+    .theme-btn:hover {
+      background: var(--accent-glow);
+      border-color: var(--accent);
+    }
+
+    .back-link {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 13px;
+      color: var(--text-muted);
+      text-decoration: none;
+      padding: 6px 12px;
+      border-radius: 7px;
+      border: 1px solid var(--border);
+      background: var(--bg-card);
+      transition: all 0.2s;
+    }
+
+    .back-link:hover {
+      color: var(--text);
+      border-color: var(--border-strong);
+    }
+
+    /* ======================================================
+       Layout
+    ====================================================== */
+    .page {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 32px 24px 80px;
+    }
+
+    .section-title {
+      font-size: 17px;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .section-title .badge {
+      font-size: 11px;
+      font-weight: 600;
+      padding: 2px 8px;
+      border-radius: 20px;
+      background: var(--accent-glow);
+      color: var(--accent-light);
+      border: 1px solid rgba(124,58,237,0.3);
+    }
+
+    .divider {
+      height: 1px;
+      background: var(--border);
+      margin: 40px 0;
+    }
+
+    /* ======================================================
+       Hero Section — Security Score
+    ====================================================== */
+    .hero {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 32px;
+      align-items: center;
+      background: var(--bg-card);
+      border: 1px solid var(--border-strong);
+      border-radius: 20px;
+      padding: 36px;
+      margin-bottom: 32px;
+      box-shadow: var(--shadow);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: -60px;
+      right: -60px;
+      width: 240px;
+      height: 240px;
+      background: radial-gradient(circle, var(--accent-glow) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    /* Ring chart */
+    .score-ring-wrap {
+      position: relative;
+      width: 160px;
+      height: 160px;
+      flex-shrink: 0;
+    }
+
+    .score-ring {
+      transform: rotate(-90deg);
+      width: 160px;
+      height: 160px;
+    }
+
+    .score-ring-bg {
+      fill: none;
+      stroke: var(--border-strong);
+      stroke-width: 12;
+    }
+
+    .score-ring-fill {
+      fill: none;
+      stroke-width: 12;
+      stroke-linecap: round;
+      stroke-dasharray: 408;
+      stroke-dashoffset: 143; /* 408 * (1 - 0.65) = 142.8 */
+      stroke: url(#scoreGrad);
+      transition: stroke-dashoffset 1.4s cubic-bezier(.4,0,.2,1);
+    }
+
+    .score-ring-fill.animate {
+      stroke-dashoffset: 143;
+    }
+
+    .score-center {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      text-align: center;
+    }
+
+    .score-num {
+      font-size: 38px;
+      font-weight: 800;
+      color: var(--text);
+      line-height: 1;
+      letter-spacing: -2px;
+    }
+
+    .score-label {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-top: 2px;
+    }
+
+    .score-grade {
+      display: inline-block;
+      margin-top: 4px;
+      font-size: 11px;
+      font-weight: 700;
+      padding: 2px 8px;
+      border-radius: 20px;
+      background: var(--warn-bg);
+      color: var(--warn);
+      border: 1px solid var(--warn-border);
+    }
+
+    .hero-info {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .hero-title {
+      font-size: 26px;
+      font-weight: 800;
+      color: var(--text);
+      letter-spacing: -0.5px;
+    }
+
+    .hero-title span {
+      color: var(--accent-light);
+    }
+
+    .hero-desc {
+      font-size: 14px;
+      color: var(--text-sub);
+      max-width: 540px;
+      line-height: 1.7;
+    }
+
+    .hero-stats {
+      display: flex;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+
+    .hero-stat {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .hero-stat-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+    }
+
+    .hero-stat-dot.critical { background: var(--critical); }
+    .hero-stat-dot.warn     { background: var(--warn); }
+    .hero-stat-dot.ok       { background: var(--ok); }
+    .hero-stat-dot.info     { background: var(--info); }
+
+    .hero-stat-text {
+      font-size: 13px;
+      color: var(--text-sub);
+    }
+
+    .hero-stat-text strong {
+      color: var(--text);
+      font-weight: 700;
+    }
+
+    .hero-updated {
+      font-size: 12px;
+      color: var(--text-muted);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    /* ======================================================
+       Issue Summary Cards
+    ====================================================== */
+    .issue-cards {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      margin-bottom: 32px;
+    }
+
+    .issue-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 24px;
+      cursor: pointer;
+      transition: all 0.2s;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .issue-card::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+    }
+
+    .issue-card.critical::after { background: var(--critical); }
+    .issue-card.warn::after     { background: var(--warn); }
+    .issue-card.info::after     { background: var(--info); }
+
+    .issue-card:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-card);
+    }
+
+    .issue-card.critical:hover { border-color: var(--critical-border); }
+    .issue-card.warn:hover     { border-color: var(--warn-border); }
+    .issue-card.info:hover     { border-color: var(--info-border); }
+
+    .issue-card .ic-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 12px;
+    }
+
+    .issue-card .ic-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+    }
+
+    .issue-card.critical .ic-icon { background: var(--critical-bg); }
+    .issue-card.warn .ic-icon     { background: var(--warn-bg); }
+    .issue-card.info .ic-icon     { background: var(--info-bg); }
+
+    .issue-card .ic-count {
+      font-size: 42px;
+      font-weight: 800;
+      line-height: 1;
+      letter-spacing: -2px;
+    }
+
+    .issue-card.critical .ic-count { color: var(--critical); }
+    .issue-card.warn .ic-count     { color: var(--warn); }
+    .issue-card.info .ic-count     { color: var(--info); }
+
+    .issue-card .ic-label {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 4px;
+    }
+
+    .issue-card .ic-sub {
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+
+    /* ======================================================
+       Accordion — Audit Issues
+    ====================================================== */
+    .audit-section {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      overflow: hidden;
+      margin-bottom: 32px;
+    }
+
+    .audit-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 20px 24px;
+      border-bottom: 1px solid var(--border);
+      background: var(--bg-card2);
+    }
+
+    .audit-header-left {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .audit-header-left h2 {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--text);
+    }
+
+    .audit-stats {
+      display: flex;
+      gap: 12px;
+    }
+
+    .audit-stat-chip {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      padding: 3px 10px;
+      border-radius: 20px;
+      font-size: 11px;
+      font-weight: 700;
+    }
+
+    .audit-stat-chip.critical {
+      background: var(--critical-bg);
+      color: var(--critical);
+      border: 1px solid var(--critical-border);
+    }
+
+    .audit-stat-chip.warn {
+      background: var(--warn-bg);
+      color: var(--warn);
+      border: 1px solid var(--warn-border);
+    }
+
+    .audit-stat-chip.info {
+      background: var(--info-bg);
+      color: var(--info);
+      border: 1px solid var(--info-border);
+    }
+
+    .audit-list {
+      list-style: none;
+    }
+
+    .audit-item {
+      border-bottom: 1px solid var(--border);
+    }
+
+    .audit-item:last-child {
+      border-bottom: none;
+    }
+
+    .audit-item-header {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 16px 24px;
+      cursor: pointer;
+      transition: background 0.15s;
+    }
+
+    .audit-item-header:hover {
+      background: var(--bg-hover);
+    }
+
+    .sev-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 3px 10px;
+      border-radius: 6px;
+      font-size: 10px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      min-width: 80px;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .sev-badge.critical {
+      background: var(--critical-bg);
+      color: var(--critical);
+      border: 1px solid var(--critical-border);
+    }
+
+    .sev-badge.warn {
+      background: var(--warn-bg);
+      color: var(--warn);
+      border: 1px solid var(--warn-border);
+    }
+
+    .sev-badge.info {
+      background: var(--info-bg);
+      color: var(--info);
+      border: 1px solid var(--info-border);
+    }
+
+    .sev-badge.ok {
+      background: var(--ok-bg);
+      color: var(--ok);
+      border: 1px solid var(--ok-border);
+    }
+
+    .audit-item-title {
+      flex: 1;
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    .audit-item-scope {
+      font-size: 11px;
+      color: var(--text-muted);
+      font-weight: 400;
+      margin-left: 6px;
+    }
+
+    .audit-chevron {
+      width: 20px;
+      height: 20px;
+      color: var(--text-muted);
+      transition: transform 0.25s;
+      flex-shrink: 0;
+    }
+
+    .audit-item.open .audit-chevron {
+      transform: rotate(180deg);
+    }
+
+    .audit-detail {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.35s ease;
+      background: var(--bg-card2);
+      border-top: 1px solid var(--border);
+    }
+
+    .audit-item.open .audit-detail {
+      max-height: 300px;
+    }
+
+    .audit-detail-inner {
+      padding: 16px 24px 16px 58px;
+    }
+
+    .audit-detail-desc {
+      font-size: 13px;
+      color: var(--text-sub);
+      margin-bottom: 10px;
+      line-height: 1.7;
+    }
+
+    .audit-remediation {
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+      font-size: 12px;
+      color: var(--ok);
+      background: var(--ok-bg);
+      border: 1px solid var(--ok-border);
+      border-radius: 8px;
+      padding: 10px 14px;
+    }
+
+    /* ======================================================
+       API Token Cards
+    ====================================================== */
+    .token-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 16px;
+      margin-bottom: 32px;
+    }
+
+    .token-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 22px;
+      transition: all 0.2s;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .token-card:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-card);
+      border-color: var(--border-strong);
+    }
+
+    .token-card.status-warn {
+      border-color: var(--warn-border);
+    }
+
+    .token-card.status-warn::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: var(--warn);
+    }
+
+    .token-card-top {
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      margin-bottom: 16px;
+    }
+
+    .token-icon {
+      width: 44px;
+      height: 44px;
+      border-radius: 11px;
+      background: var(--bg-card2);
+      border: 1px solid var(--border-strong);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 22px;
+      flex-shrink: 0;
+    }
+
+    .token-info { flex: 1; }
+
+    .token-name {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 3px;
+    }
+
+    .token-purpose {
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+
+    .token-status-wrap {
+      display: flex;
+      align-items: flex-start;
+      gap: 6px;
+    }
+
+    .status-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 4px 10px;
+      border-radius: 20px;
+      font-size: 11px;
+      font-weight: 700;
+    }
+
+    .status-pill.ok {
+      background: var(--ok-bg);
+      color: var(--ok);
+      border: 1px solid var(--ok-border);
+    }
+
+    .status-pill.warn {
+      background: var(--warn-bg);
+      color: var(--warn);
+      border: 1px solid var(--warn-border);
+    }
+
+    .status-pill.auto {
+      background: var(--info-bg);
+      color: var(--info);
+      border: 1px solid var(--info-border);
+    }
+
+    .status-pill .dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: currentColor;
+    }
+
+    .status-pill.ok .dot { animation: pulse-dot 2.5s infinite; }
+
+    .token-meta {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .token-meta-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 12px;
+    }
+
+    .token-meta-row .key {
+      color: var(--text-muted);
+      min-width: 70px;
+      font-weight: 500;
+    }
+
+    .token-meta-row .val {
+      color: var(--text-sub);
+    }
+
+    .token-meta-row .val.mono {
+      font-family: 'SF Mono', 'Consolas', monospace;
+      font-size: 11px;
+      background: var(--bg-card2);
+      padding: 2px 6px;
+      border-radius: 4px;
+      border: 1px solid var(--border);
+    }
+
+    .token-refresh-bar {
+      margin-top: 16px;
+      height: 4px;
+      background: var(--border);
+      border-radius: 2px;
+      overflow: hidden;
+    }
+
+    .token-refresh-fill {
+      height: 100%;
+      border-radius: 2px;
+      background: linear-gradient(90deg, var(--accent), var(--accent-light));
+      transition: width 1s ease;
+    }
+
+    .token-refresh-label {
+      margin-top: 6px;
+      font-size: 11px;
+      color: var(--text-muted);
+      display: flex;
+      justify-content: space-between;
+    }
+
+    /* ======================================================
+       Agent Permission Matrix
+    ====================================================== */
+    .matrix-wrap {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      overflow: auto;
+      margin-bottom: 32px;
+    }
+
+    .matrix-table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 680px;
+    }
+
+    .matrix-table th,
+    .matrix-table td {
+      padding: 0;
+      text-align: center;
+    }
+
+    .matrix-table thead tr {
+      background: var(--bg-card2);
+      border-bottom: 2px solid var(--border-strong);
+    }
+
+    .matrix-table thead th {
+      padding: 14px 16px;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      white-space: nowrap;
+    }
+
+    .matrix-table thead th:first-child {
+      text-align: left;
+      padding-left: 24px;
+      width: 180px;
+    }
+
+    .matrix-table tbody tr {
+      border-bottom: 1px solid var(--border);
+      transition: background 0.15s;
+    }
+
+    .matrix-table tbody tr:last-child {
+      border-bottom: none;
+    }
+
+    .matrix-table tbody tr:hover {
+      background: var(--bg-hover);
+    }
+
+    .matrix-table tbody td {
+      padding: 14px 16px;
+      font-size: 20px;
+    }
+
+    .matrix-table tbody td:first-child {
+      text-align: left;
+      padding-left: 24px;
+    }
+
+    .agent-cell {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .agent-avatar {
+      width: 34px;
+      height: 34px;
+      border-radius: 9px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+      flex-shrink: 0;
+    }
+
+    .agent-avatar.karina   { background: linear-gradient(135deg, #7C3AED22, #A78BFA33); border: 1px solid rgba(124,58,237,0.3); }
+    .agent-avatar.dev      { background: linear-gradient(135deg, #3B82F622, #60A5FA33); border: 1px solid rgba(59,130,246,0.3); }
+    .agent-avatar.mkt      { background: linear-gradient(135deg, #F59E0B22, #FCD34D33); border: 1px solid rgba(245,158,11,0.3); }
+    .agent-avatar.cs       { background: linear-gradient(135deg, #10B98122, #34D39933); border: 1px solid rgba(16,185,129,0.3); }
+    .agent-avatar.content  { background: linear-gradient(135deg, #EC489922, #F9A8D433); border: 1px solid rgba(236,72,153,0.3); }
+
+    .agent-name-cell strong {
+      display: block;
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--text);
+    }
+
+    .agent-name-cell small {
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+
+    .perm-yes { color: var(--ok); }
+    .perm-no  { color: var(--border-strong); font-size: 16px; }
+
+    /* ======================================================
+       Checklist
+    ====================================================== */
+    .checklist-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+      gap: 16px;
+      margin-bottom: 32px;
+    }
+
+    .checklist-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      overflow: hidden;
+    }
+
+    .checklist-card-header {
+      padding: 16px 20px;
+      border-bottom: 1px solid var(--border);
+      background: var(--bg-card2);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .checklist-card-header .ch-icon {
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      background: var(--accent-glow);
+      border: 1px solid rgba(124,58,237,0.3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 15px;
+    }
+
+    .checklist-card-header h3 {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--text);
+    }
+
+    .checklist-card-header .progress-text {
+      margin-left: auto;
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+
+    .checklist-items {
+      padding: 8px 0;
+    }
+
+    .checklist-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 10px 20px;
+      transition: background 0.15s;
+    }
+
+    .checklist-item:hover {
+      background: var(--bg-hover);
+    }
+
+    .check-icon {
+      width: 22px;
+      height: 22px;
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      flex-shrink: 0;
+    }
+
+    .check-icon.done {
+      background: var(--ok-bg);
+      border: 1px solid var(--ok-border);
+      color: var(--ok);
+    }
+
+    .check-icon.pending {
+      background: var(--critical-bg);
+      border: 1px solid var(--critical-border);
+      color: var(--critical);
+    }
+
+    .check-icon.partial {
+      background: var(--warn-bg);
+      border: 1px solid var(--warn-border);
+      color: var(--warn);
+    }
+
+    .checklist-text {
+      flex: 1;
+      font-size: 13px;
+      color: var(--text);
+    }
+
+    .checklist-text.done-text {
+      text-decoration: none;
+    }
+
+    .checklist-text small {
+      display: block;
+      font-size: 11px;
+      color: var(--text-muted);
+      margin-top: 1px;
+    }
+
+    .checklist-sev {
+      font-size: 10px;
+      font-weight: 700;
+      padding: 2px 7px;
+      border-radius: 4px;
+    }
+
+    /* ======================================================
+       Token Timeline
+    ====================================================== */
+    .timeline-wrap {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 24px;
+      margin-bottom: 32px;
+    }
+
+    .timeline-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 24px;
+    }
+
+    .timeline-legend {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .tl-legend-item {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+
+    .tl-legend-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+    }
+
+    .timeline-rows {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .tl-row {
+      display: grid;
+      grid-template-columns: 160px 1fr 100px;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .tl-name {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text);
+      white-space: nowrap;
+    }
+
+    .tl-name .tl-icon {
+      font-size: 15px;
+    }
+
+    .tl-bar-wrap {
+      position: relative;
+      height: 28px;
+      background: var(--bg-card2);
+      border-radius: 8px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+    }
+
+    .tl-bar-fill {
+      height: 100%;
+      border-radius: 7px;
+      display: flex;
+      align-items: center;
+      padding-left: 10px;
+      font-size: 11px;
+      font-weight: 600;
+      color: rgba(255,255,255,0.9);
+      transition: width 1s ease;
+    }
+
+    .tl-bar-fill.ok     { background: linear-gradient(90deg, var(--ok), #34D399); }
+    .tl-bar-fill.auto   { background: linear-gradient(90deg, var(--info), #60A5FA); }
+    .tl-bar-fill.warn   { background: linear-gradient(90deg, var(--warn), #FCD34D); }
+    .tl-bar-fill.long   { background: linear-gradient(90deg, var(--accent), var(--accent-light)); }
+
+    .tl-bar-fill.ok .inner-text,
+    .tl-bar-fill.auto .inner-text,
+    .tl-bar-fill.warn .inner-text,
+    .tl-bar-fill.long .inner-text {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .tl-expiry {
+      font-size: 11px;
+      color: var(--text-muted);
+      text-align: right;
+    }
+
+    .tl-expiry strong {
+      display: block;
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--text-sub);
+    }
+
+    /* ======================================================
+       Server Info Strip
+    ====================================================== */
+    .server-strip {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 12px;
+      margin-bottom: 32px;
+    }
+
+    .server-chip {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 16px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .server-chip .sc-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: 9px;
+      background: var(--bg-card2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+      flex-shrink: 0;
+    }
+
+    .server-chip .sc-key {
+      font-size: 11px;
+      color: var(--text-muted);
+      margin-bottom: 2px;
+    }
+
+    .server-chip .sc-val {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    /* ======================================================
+       Cron Jobs
+    ====================================================== */
+    .cron-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 12px;
+      margin-bottom: 32px;
+    }
+
+    .cron-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 16px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      transition: all 0.2s;
+    }
+
+    .cron-card:hover {
+      border-color: var(--border-strong);
+      transform: translateY(-1px);
+    }
+
+    .cron-icon-wrap {
+      width: 38px;
+      height: 38px;
+      border-radius: 10px;
+      background: var(--ok-bg);
+      border: 1px solid var(--ok-border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 17px;
+      flex-shrink: 0;
+    }
+
+    .cron-info { flex: 1 }
+
+    .cron-name {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 3px;
+    }
+
+    .cron-detail {
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+
+    .cron-status {
+      font-size: 10px;
+      font-weight: 700;
+      padding: 3px 8px;
+      border-radius: 20px;
+    }
+
+    .cron-status.running {
+      background: var(--ok-bg);
+      color: var(--ok);
+      border: 1px solid var(--ok-border);
+    }
+
+    .cron-status.idle {
+      background: var(--info-bg);
+      color: var(--info);
+      border: 1px solid var(--info-border);
+    }
+
+    /* ======================================================
+       Risk Summary Bar
+    ====================================================== */
+    .risk-bar-wrap {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 24px;
+      margin-bottom: 32px;
+    }
+
+    .risk-bar-title {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .risk-segments {
+      display: flex;
+      gap: 2px;
+      height: 20px;
+      border-radius: 10px;
+      overflow: hidden;
+      margin-bottom: 12px;
+    }
+
+    .risk-seg {
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 10px;
+      font-weight: 700;
+      color: white;
+      transition: flex 0.8s ease;
+    }
+
+    .risk-seg.critical { background: var(--critical); }
+    .risk-seg.warn     { background: var(--warn); }
+    .risk-seg.info     { background: var(--info); }
+
+    .risk-legend {
+      display: flex;
+      gap: 20px;
+    }
+
+    .risk-legend-item {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 12px;
+      color: var(--text-sub);
+    }
+
+    .risk-legend-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 3px;
+    }
+
+    /* ======================================================
+       Footer
+    ====================================================== */
+    .footer {
+      text-align: center;
+      padding: 32px 24px;
+      border-top: 1px solid var(--border);
+      font-size: 12px;
+      color: var(--text-muted);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    /* ======================================================
+       Utility
+    ====================================================== */
+    .gap-8 { gap: 8px; }
+
+    .flex-center {
+      display: flex;
+      align-items: center;
+    }
+
+    /* ======================================================
+       Responsive
+    ====================================================== */
+    @media (max-width: 900px) {
+      .hero {
+        grid-template-columns: 1fr;
+      }
+
+      .score-ring-wrap {
+        margin: 0 auto;
+      }
+
+      .hero-stats {
+        gap: 12px;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .page {
+        padding: 20px 16px 60px;
+      }
+
+      .header-inner {
+        padding: 0 16px;
+        gap: 10px;
+      }
+
+      .hero {
+        padding: 24px 20px;
+      }
+
+      .issue-cards {
+        grid-template-columns: 1fr;
+      }
+
+      .token-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .checklist-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .tl-row {
+        grid-template-columns: 110px 1fr 80px;
+        gap: 10px;
+      }
+
+      .tl-name {
+        font-size: 12px;
+      }
+
+      .header-meta .meta-text {
+        display: none;
+      }
+
+      .hero-title {
+        font-size: 20px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .back-link span { display: none; }
+      .audit-stats { flex-wrap: wrap; gap: 6px; }
+    }
+
+    /* ======================================================
+       Animations
+    ====================================================== */
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .hero,
+    .issue-cards,
+    .audit-section,
+    .token-grid,
+    .matrix-wrap,
+    .checklist-grid,
+    .timeline-wrap {
+      animation: fadeIn 0.4s ease both;
+    }
+
+    .issue-cards { animation-delay: 0.05s; }
+    .audit-section { animation-delay: 0.10s; }
+    .token-grid { animation-delay: 0.15s; }
+    .matrix-wrap { animation-delay: 0.20s; }
+    .checklist-grid { animation-delay: 0.25s; }
+    .timeline-wrap { animation-delay: 0.30s; }
+
+    /* ======================================================
+       Scrollbar
+    ====================================================== */
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: var(--border-strong); border-radius: 3px; }
+    ::-webkit-scrollbar-thumb:hover { background: var(--accent); }
+  </style>
 </head>
 <body>
-<div class="header"><h1>🔒 보안 현황</h1><a href="index.html">← 보고서 목록</a></div>
 
-<div class="content">
+<!-- ============================================================
+     SVG Defs (gradients)
+============================================================ -->
+<svg width="0" height="0" style="position:absolute">
+  <defs>
+    <linearGradient id="scoreGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%"   stop-color="#F59E0B"/>
+      <stop offset="50%"  stop-color="#7C3AED"/>
+      <stop offset="100%" stop-color="#A78BFA"/>
+    </linearGradient>
+  </defs>
+</svg>
 
-<div class="summary">
-  <div class="sum-card"><div class="num navy">7</div><div class="label">API 서비스</div></div>
-  <div class="sum-card"><div class="num green">6</div><div class="label">정상</div></div>
-  <div class="sum-card"><div class="num yellow">1</div><div class="label">점검 필요</div></div>
-</div>
+<!-- ============================================================
+     Header
+============================================================ -->
+<header class="header">
+  <div class="header-inner">
+    <a href="index.html" class="header-logo">
+      <div class="icon-wrap">🔒</div>
+      <div>
+        <div class="title">보안 대시보드</div>
+        <div class="subtitle">Tenex Security Center</div>
+      </div>
+    </a>
 
-<!-- 이슈 -->
-<div class="issue-box">
-  <h3>⚠️ 발견된 이슈</h3>
-  <div class="issue-item"><span class="sev">🟡</span><span><strong>Notion API</strong> — DB 공유 안됨. Integration "Claude Assistant"에 해당 DB 페이지 공유 필요</span></div>
-</div>
+    <div class="header-spacer"></div>
 
-<!-- API 토큰 -->
-<h2>🔑 API 토큰 현황</h2>
-<div class="sec-grid">
+    <div class="header-meta">
+      <div class="live-dot"></div>
+      <span class="meta-text">최종 감사: 2026-03-30 17:00</span>
+    </div>
 
-  <div class="sec-card">
-    <div class="card-top"><div class="svc-name">🛒 Cafe24 API</div></div>
-    <div class="info-row"><span class="label">용도</span>주문/상품 관리</div>
-    <div class="info-row"><span class="label">상태</span><span class="status-badge auto">토큰 자동 갱신</span></div>
-    <div class="info-row"><span class="label">갱신 주기</span>90분 (launchd)</div>
-    <div class="info-row"><span class="label">최종 갱신</span>2026-03-30 14:03</div>
+    <button class="theme-btn" onclick="toggleTheme()" title="테마 전환">
+      <span id="theme-icon">☀️</span>
+    </button>
+
+    <a href="index.html" class="back-link">
+      ← <span>보고서 목록</span>
+    </a>
+  </div>
+</header>
+
+<!-- ============================================================
+     Main
+============================================================ -->
+<main class="page">
+
+  <!-- =======================
+       HERO — Security Score
+  ======================== -->
+  <section class="hero" id="hero">
+    <div class="score-ring-wrap">
+      <svg class="score-ring" viewBox="0 0 160 160">
+        <circle class="score-ring-bg" cx="80" cy="80" r="65"/>
+        <circle class="score-ring-fill" cx="80" cy="80" r="65"/>
+      </svg>
+      <div class="score-center">
+        <div class="score-num" id="score-display">65</div>
+        <div class="score-label">/ 100</div>
+        <div class="score-grade">위험</div>
+      </div>
+    </div>
+
+    <div class="hero-info">
+      <div>
+        <div class="hero-title">전체 보안 점수 <span>65점</span></div>
+        <div class="hero-desc">
+          OpenClaw 보안 감사 결과 9개의 CRITICAL 이슈가 발견되었습니다.
+          exec security=full 설정 및 개방형 에이전트 정책이 주요 위험 요인입니다.
+          즉각적인 조치가 필요합니다.
+        </div>
+      </div>
+
+      <div class="hero-stats">
+        <div class="hero-stat">
+          <div class="hero-stat-dot critical"></div>
+          <div class="hero-stat-text"><strong>9</strong> CRITICAL</div>
+        </div>
+        <div class="hero-stat">
+          <div class="hero-stat-dot warn"></div>
+          <div class="hero-stat-text"><strong>2</strong> WARN</div>
+        </div>
+        <div class="hero-stat">
+          <div class="hero-stat-dot info"></div>
+          <div class="hero-stat-text"><strong>1</strong> INFO</div>
+        </div>
+        <div class="hero-stat">
+          <div class="hero-stat-dot ok"></div>
+          <div class="hero-stat-text"><strong>6</strong> API 정상</div>
+        </div>
+        <div class="hero-stat">
+          <div class="hero-stat-dot warn"></div>
+          <div class="hero-stat-text"><strong>1</strong> API 점검 필요</div>
+        </div>
+      </div>
+
+      <div class="hero-updated">
+        <span>🖥️</span>
+        <span>Mac mini M4 · macOS 26.3.1 (arm64) · Node.js v25.6.0 · OpenClaw Gateway 127.0.0.1:18789</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- =======================
+       Issue Summary Cards
+  ======================== -->
+  <div class="issue-cards">
+    <div class="issue-card critical" onclick="scrollToAudit('critical')">
+      <div class="ic-top">
+        <div class="ic-icon">🚨</div>
+        <div class="ic-count">9</div>
+      </div>
+      <div class="ic-label">CRITICAL</div>
+      <div class="ic-sub">즉각 조치 필요 · 고위험</div>
+    </div>
+
+    <div class="issue-card warn" onclick="scrollToAudit('warn')">
+      <div class="ic-top">
+        <div class="ic-icon">⚠️</div>
+        <div class="ic-count">2</div>
+      </div>
+      <div class="ic-label">WARNING</div>
+      <div class="ic-sub">검토 권장 · 중위험</div>
+    </div>
+
+    <div class="issue-card info" onclick="scrollToAudit('info')">
+      <div class="ic-top">
+        <div class="ic-icon">ℹ️</div>
+        <div class="ic-count">1</div>
+      </div>
+      <div class="ic-label">INFO</div>
+      <div class="ic-sub">참고 사항 · 저위험</div>
+    </div>
   </div>
 
-  <div class="sec-card">
-    <div class="card-top"><div class="svc-name">📊 Meta Marketing API</div></div>
-    <div class="info-row"><span class="label">용도</span>광고 성과 / Conversions API</div>
-    <div class="info-row"><span class="label">상태</span><span class="status-badge ok">정상</span></div>
-    <div class="info-row"><span class="label">계정</span>System User (장기 토큰)</div>
+  <!-- =======================
+       Risk Distribution Bar
+  ======================== -->
+  <div class="risk-bar-wrap">
+    <div class="risk-bar-title">📊 이슈 심각도 분포</div>
+    <div class="risk-segments">
+      <div class="risk-seg critical" style="flex: 9">CRITICAL 9</div>
+      <div class="risk-seg warn"     style="flex: 2">WARN 2</div>
+      <div class="risk-seg info"     style="flex: 1">INFO</div>
+    </div>
+    <div class="risk-legend">
+      <div class="risk-legend-item">
+        <div class="risk-legend-dot" style="background:var(--critical)"></div>
+        <span>CRITICAL — exec security=full, open policy (9건)</span>
+      </div>
+      <div class="risk-legend-item">
+        <div class="risk-legend-dot" style="background:var(--warn)"></div>
+        <span>WARN — Slack allowlist 미설정 외 (2건)</span>
+      </div>
+      <div class="risk-legend-item">
+        <div class="risk-legend-dot" style="background:var(--info)"></div>
+        <span>INFO — 참고 사항 (1건)</span>
+      </div>
+    </div>
   </div>
 
-  <div class="sec-card">
-    <div class="card-top"><div class="svc-name">▶️ YouTube Data API</div></div>
-    <div class="info-row"><span class="label">용도</span>채널/영상 데이터</div>
-    <div class="info-row"><span class="label">상태</span><span class="status-badge ok">정상</span></div>
-    <div class="info-row"><span class="label">인증</span>API Key (할당량 무제한)</div>
+  <!-- =======================
+       Security Audit Accordion
+  ======================== -->
+  <section id="audit-section">
+    <div class="section-title">
+      🛡️ 보안 감사 결과
+      <span class="badge">openclaw security audit</span>
+    </div>
+
+    <div class="audit-section">
+      <div class="audit-header">
+        <div class="audit-header-left">
+          <h2>감사 상세 결과</h2>
+          <div class="audit-stats">
+            <div class="audit-stat-chip critical">🚨 CRITICAL 9</div>
+            <div class="audit-stat-chip warn">⚠️ WARN 2</div>
+            <div class="audit-stat-chip info">ℹ️ INFO 1</div>
+          </div>
+        </div>
+      </div>
+
+      <ul class="audit-list" id="audit-list">
+
+        <!-- CRITICAL 1 -->
+        <li class="audit-item" onclick="toggleAudit(this)">
+          <div class="audit-item-header">
+            <span class="sev-badge critical">🚨 CRITICAL</span>
+            <span class="audit-item-title">
+              exec security=full 활성화
+              <span class="audit-item-scope">— 카리나 에이전트</span>
+            </span>
+            <svg class="audit-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="6 9 12 15 18 9"/>
+            </svg>
+          </div>
+          <div class="audit-detail">
+            <div class="audit-detail-inner">
+              <p class="audit-detail-desc">
+                카리나 에이전트에 <code>exec security="full"</code>이 설정되어 있어 모든 쉘 명령을 승인 없이 실행할 수 있습니다.
+                이는 악의적 프롬프트나 환경 오염 시 시스템 전체를 위협할 수 있는 최고 위험 설정입니다.
+              </p>
+              <div class="audit-remediation">
+                ✅ 권장 조치: security="full" → security="allowlist"로 변경 후 허용 명령어 명시적 등록
+              </div>
+            </div>
+          </div>
+        </li>
+
+        <!-- CRITICAL 2 -->
+        <li class="audit-item" onclick="toggleAudit(this)">
+          <div class="audit-item-header">
+            <span class="sev-badge critical">🚨 CRITICAL</span>
+            <span class="audit-item-title">
+              exec security=full 활성화
+              <span class="audit-item-scope">— 개실장 에이전트</span>
+            </span>
+            <svg class="audit-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="6 9 12 15 18 9"/>
+            </svg>
+          </div>
+          <div class="audit-detail">
+            <div class="audit-detail-inner">
+              <p class="audit-detail-desc">
+                개실장(개발 총괄) 에이전트에 <code>exec security="full"</code>이 설정되어 있습니다.
+                개발/시스템/인프라 권한과 결합 시 피해 범위가 매우 클 수 있습니다.
+              </p>
+              <div class="audit-remediation">
+                ✅ 권장 조치: 개발 관련 명령어만 allowlist에 등록, elevated 권한 최소화
+              </div>
+            </div>
+          </div>
+        </li>
+
+        <!-- CRITICAL 3 -->
+        <li class="audit-item" onclick="toggleAudit(this)">
+          <div class="audit-item-header">
+            <span class="sev-badge critical">🚨 CRITICAL</span>
+            <span class="audit-item-title">
+              exec security=full 활성화
+              <span class="audit-item-scope">— 마실장 에이전트</span>
+            </span>
+            <svg class="audit-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="6 9 12 15 18 9"/>
+            </svg>
+          </div>
+          <div class="audit-detail">
+            <div class="audit-detail-inner">
+              <p class="audit-detail-desc">
+                마케팅/광고 담당 마실장 에이전트에 <code>exec security="full"</code>이 설정되어 있습니다.
+                마케팅 도구 실행 범위를 넘는 권한이 부여된 상태입니다.
+              </p>
+              <div class="audit-remediation">
+                ✅ 권장 조치: 마케팅 관련 API 호출만 허용하는 allowlist로 교체
+              </div>
+            </div>
+          </div>
+        </li>
+
+        <!-- CRITICAL 4 -->
+        <li class="audit-item" onclick="toggleAudit(this)">
+          <div class="audit-item-header">
+            <span class="sev-badge critical">🚨 CRITICAL</span>
+            <span class="audit-item-title">
+              exec security=full 활성화
+              <span class="audit-item-scope">— 고실장 에이전트</span>
+            </span>
+            <svg class="audit-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="6 9 12 15 18 9"/>
+            </svg>
+          </div>
+          <div class="audit-detail">
+            <div class="audit-detail-inner">
+              <p class="audit-detail-desc">
+                고객/CS 담당 고실장 에이전트에 <code>exec security="full"</code>이 설정되어 있습니다.
+                CS 업무에는 시스템 명령 실행이 불필요하므로 과도한 권한입니다.
+              </p>
+              <div class="audit-remediation">
+                ✅ 권장 조치: CS 에이전트는 exec 권한 제거 또는 deny 설정 권장
+              </div>
+            </div>
+          </div>
+        </li>
+
+        <!-- CRITICAL 5 -->
+        <li class="audit-item" onclick="toggleAudit(this)">
+          <div class="audit-item-header">
+            <span class="sev-badge critical">🚨 CRITICAL</span>
+            <span class="audit-item-title">
+              exec security=full 활성화
+              <span class="audit-item-scope">— 콘실장 에이전트</span>
+            </span>
+            <svg class="audit-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="6 9 12 15 18 9"/>
+            </svg>
+          </div>
+          <div class="audit-detail">
+            <div class="audit-detail-inner">
+              <p class="audit-detail-desc">
+                콘텐츠/채널 담당 콘실장 에이전트에 <code>exec security="full"</code>이 설정되어 있습니다.
+                콘텐츠 작성 에이전트에 대한 무제한 실행 권한은 과도한 설정입니다.
+              </p>
+              <div class="audit-remediation">
+                ✅ 권장 조치: 콘텐츠 게시/조회 관련 명령만 포함하는 allowlist 적용
+              </div>
+            </div>
+          </div>
+        </li>
+
+        <!-- CRITICAL 6 -->
+        <li class="audit-item" onclick="toggleAudit(this)">
+          <div class="audit-item-header">
+            <span class="sev-badge critical">🚨 CRITICAL</span>
+            <span class="audit-item-title">
+              Open groupPolicy with elevated tools
+              <span class="audit-item-scope">— 전역 설정</span>
+            </span>
+            <svg class="audit-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="6 9 12 15 18 9"/>
+            </svg>
+          </div>
+          <div class="audit-detail">
+            <div class="audit-detail-inner">
+              <p class="audit-detail-desc">
+                <code>groupPolicy="open"</code>이 설정된 상태에서 elevated 권한 도구가 활성화되어 있습니다.
+                인증되지 않은 사용자도 elevated 도구에 접근 가능한 상태입니다.
+              </p>
+              <div class="audit-remediation">
+                ✅ 권장 조치: groupPolicy를 "allowlist"로 변경하고 허용 사용자 명시적 등록
+              </div>
+            </div>
+          </div>
+        </li>
+
+        <!-- CRITICAL 7 -->
+        <li class="audit-item" onclick="toggleAudit(this)">
+          <div class="audit-item-header">
+            <span class="sev-badge critical">🚨 CRITICAL</span>
+            <span class="audit-item-title">
+              elevated 권한 미승인 실행 위험
+              <span class="audit-item-scope">— 복합 위험</span>
+            </span>
+            <svg class="audit-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="6 9 12 15 18 9"/>
+            </svg>
+          </div>
+          <div class="audit-detail">
+            <div class="audit-detail-inner">
+              <p class="audit-detail-desc">
+                open groupPolicy + exec security=full 조합으로 인해 외부 채널(Slack DM 등)로 들어오는
+                임의 명령이 시스템에서 무제한 실행될 수 있습니다.
+              </p>
+              <div class="audit-remediation">
+                ✅ 권장 조치: 채널 allowlist 설정 + 명령 승인 플로우 도입
+              </div>
+            </div>
+          </div>
+        </li>
+
+        <!-- CRITICAL 8 -->
+        <li class="audit-item" onclick="toggleAudit(this)">
+          <div class="audit-item-header">
+            <span class="sev-badge critical">🚨 CRITICAL</span>
+            <span class="audit-item-title">
+              API 키 환경 변수 노출 위험
+              <span class="audit-item-scope">— 환경 설정</span>
+            </span>
+            <svg class="audit-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="6 9 12 15 18 9"/>
+            </svg>
+          </div>
+          <div class="audit-detail">
+            <div class="audit-detail-inner">
+              <p class="audit-detail-desc">
+                exec security=full 환경에서 환경변수($CAFE24_TOKEN, $META_TOKEN 등)를 임의 명령으로
+                읽어낼 수 있는 위험이 있습니다. 토큰 탈취 경로가 열려 있는 상태입니다.
+              </p>
+              <div class="audit-remediation">
+                ✅ 권장 조치: 환경변수 접근 제한 + 토큰 Vault 또는 macOS Keychain 이관
+              </div>
+            </div>
+          </div>
+        </li>
+
+        <!-- CRITICAL 9 -->
+        <li class="audit-item" onclick="toggleAudit(this)">
+          <div class="audit-item-header">
+            <span class="sev-badge critical">🚨 CRITICAL</span>
+            <span class="audit-item-title">
+              OpenClaw Gateway 외부 노출 점검 필요
+              <span class="audit-item-scope">— 127.0.0.1:18789</span>
+            </span>
+            <svg class="audit-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="6 9 12 15 18 9"/>
+            </svg>
+          </div>
+          <div class="audit-detail">
+            <div class="audit-detail-inner">
+              <p class="audit-detail-desc">
+                OpenClaw Gateway가 127.0.0.1:18789에서 실행 중입니다. 현재 로컬바인딩이나
+                Tailscale 경유 원격 접근 시 인증 우회 가능성을 점검해야 합니다.
+              </p>
+              <div class="audit-remediation">
+                ✅ 권장 조치: Gateway 인증 토큰 주기적 갱신 + Tailscale ACL 정책 검토
+              </div>
+            </div>
+          </div>
+        </li>
+
+        <!-- WARN 1 -->
+        <li class="audit-item" onclick="toggleAudit(this)">
+          <div class="audit-item-header">
+            <span class="sev-badge warn">⚠️ WARN</span>
+            <span class="audit-item-title">
+              Slack groupPolicy="open" with no channel allowlist
+              <span class="audit-item-scope">— Slack 플러그인</span>
+            </span>
+            <svg class="audit-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="6 9 12 15 18 9"/>
+            </svg>
+          </div>
+          <div class="audit-detail">
+            <div class="audit-detail-inner">
+              <p class="audit-detail-desc">
+                Slack 플러그인의 groupPolicy가 "open"으로 설정되어 채널 allowlist가 없습니다.
+                워크스페이스의 모든 채널에서 봇에게 명령을 내릴 수 있는 상태입니다.
+              </p>
+              <div class="audit-remediation">
+                ✅ 권장 조치: allowedChannels 목록에 운영 채널만 명시, 나머지 무시 처리
+              </div>
+            </div>
+          </div>
+        </li>
+
+        <!-- WARN 2 -->
+        <li class="audit-item" onclick="toggleAudit(this)">
+          <div class="audit-item-header">
+            <span class="sev-badge warn">⚠️ WARN</span>
+            <span class="audit-item-title">
+              Notion API DB 공유 미완료
+              <span class="audit-item-scope">— Notion Integration</span>
+            </span>
+            <svg class="audit-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="6 9 12 15 18 9"/>
+            </svg>
+          </div>
+          <div class="audit-detail">
+            <div class="audit-detail-inner">
+              <p class="audit-detail-desc">
+                Notion Integration("Claude Assistant")에 태스크 관리 DB가 공유되지 않아
+                해당 DB 읽기/쓰기 작업이 실패할 수 있습니다.
+              </p>
+              <div class="audit-remediation">
+                ✅ 권장 조치: Notion DB 페이지 → 공유 → Integration "Claude Assistant" 추가
+              </div>
+            </div>
+          </div>
+        </li>
+
+        <!-- INFO 1 -->
+        <li class="audit-item" onclick="toggleAudit(this)">
+          <div class="audit-item-header">
+            <span class="sev-badge info">ℹ️ INFO</span>
+            <span class="audit-item-title">
+              Cafe24 토큰 갱신 주기 60분 → 90분 불일치
+              <span class="audit-item-scope">— launchd 설정</span>
+            </span>
+            <svg class="audit-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="6 9 12 15 18 9"/>
+            </svg>
+          </div>
+          <div class="audit-detail">
+            <div class="audit-detail-inner">
+              <p class="audit-detail-desc">
+                Cafe24 API 토큰의 공식 만료 시간은 60분이나, launchd 갱신 주기가 90분으로 설정되어
+                짧은 시간 토큰이 만료 상태일 수 있습니다. 현재 운영 영향은 미미합니다.
+              </p>
+              <div class="audit-remediation">
+                ✅ 권장 조치: launchd 갱신 주기를 50분으로 조정하여 여유 있게 갱신
+              </div>
+            </div>
+          </div>
+        </li>
+
+      </ul>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- =======================
+       API Token Cards
+  ======================== -->
+  <section>
+    <div class="section-title">
+      🔑 API 토큰 현황
+      <span class="badge">7개 서비스</span>
+    </div>
+
+    <div class="token-grid">
+
+      <!-- Cafe24 -->
+      <div class="token-card">
+        <div class="token-card-top">
+          <div class="token-icon">🛒</div>
+          <div class="token-info">
+            <div class="token-name">Cafe24 API</div>
+            <div class="token-purpose">주문 / 상품 관리</div>
+          </div>
+          <div class="token-status-wrap">
+            <div class="status-pill auto">
+              <span class="dot"></span>
+              자동 갱신
+            </div>
+          </div>
+        </div>
+        <div class="token-meta">
+          <div class="token-meta-row">
+            <span class="key">토큰 유형</span>
+            <span class="val">OAuth 2.0 Access Token</span>
+          </div>
+          <div class="token-meta-row">
+            <span class="key">갱신 방식</span>
+            <span class="val">launchd (cafe24-token-refresh)</span>
+          </div>
+          <div class="token-meta-row">
+            <span class="key">갱신 주기</span>
+            <span class="val">90분 <span style="color:var(--warn);font-size:10px;">⚠️ 60분 만료</span></span>
+          </div>
+          <div class="token-meta-row">
+            <span class="key">마지막 갱신</span>
+            <span class="val mono">2026-03-30 14:03</span>
+          </div>
+        </div>
+        <div class="token-refresh-bar">
+          <div class="token-refresh-fill" style="width: 72%"></div>
+        </div>
+        <div class="token-refresh-label">
+          <span>갱신 진행</span>
+          <span>72% · 약 25분 후 갱신</span>
+        </div>
+      </div>
+
+      <!-- Meta -->
+      <div class="token-card">
+        <div class="token-card-top">
+          <div class="token-icon">📊</div>
+          <div class="token-info">
+            <div class="token-name">Meta Marketing API</div>
+            <div class="token-purpose">광고 성과 / Conversions API</div>
+          </div>
+          <div class="token-status-wrap">
+            <div class="status-pill ok">
+              <span class="dot"></span>
+              정상
+            </div>
+          </div>
+        </div>
+        <div class="token-meta">
+          <div class="token-meta-row">
+            <span class="key">토큰 유형</span>
+            <span class="val">System User 장기 토큰</span>
+          </div>
+          <div class="token-meta-row">
+            <span class="key">만료 기간</span>
+            <span class="val">60일 (자동 연장)</span>
+          </div>
+          <div class="token-meta-row">
+            <span class="key">권한 범위</span>
+            <span class="val">ads_read, ads_management</span>
+          </div>
+          <div class="token-meta-row">
+            <span class="key">마지막 확인</span>
+            <span class="val mono">2026-03-30 09:00</span>
+          </div>
+        </div>
+        <div class="token-refresh-bar">
+          <div class="token-refresh-fill" style="width: 88%"></div>
+        </div>
+        <div class="token-refresh-label">
+          <span>유효 기간</span>
+          <span>88% · 약 7일 남음</span>
+        </div>
+      </div>
+
+      <!-- YouTube -->
+      <div class="token-card">
+        <div class="token-card-top">
+          <div class="token-icon">▶️</div>
+          <div class="token-info">
+            <div class="token-name">YouTube Data API</div>
+            <div class="token-purpose">채널 / 영상 데이터</div>
+          </div>
+          <div class="token-status-wrap">
+            <div class="status-pill ok">
+              <span class="dot"></span>
+              정상
+            </div>
+          </div>
+        </div>
+        <div class="token-meta">
+          <div class="token-meta-row">
+            <span class="key">토큰 유형</span>
+            <span class="val">API Key (제한 없음)</span>
+          </div>
+          <div class="token-meta-row">
+            <span class="key">만료 기간</span>
+            <span class="val">무기한</span>
+          </div>
+          <div class="token-meta-row">
+            <span class="key">일일 할당량</span>
+            <span class="val">10,000 units</span>
+          </div>
+          <div class="token-meta-row">
+            <span class="key">마지막 사용</span>
+            <span class="val mono">2026-03-30 06:00</span>
+          </div>
+        </div>
+        <div class="token-refresh-bar">
+          <div class="token-refresh-fill" style="width: 100%"></div>
+        </div>
+        <div class="token-refresh-label">
+          <span>상태</span>
+          <span>만료 없음 · API Key</span>
+        </div>
+      </div>
+
+      <!-- Notion -->
+      <div class="token-card status-warn">
+        <div class="token-card-top">
+          <div class="token-icon">📝</div>
+          <div class="token-info">
+            <div class="token-name">Notion API</div>
+            <div class="token-purpose">태스크 관리</div>
+          </div>
+          <div class="token-status-wrap">
+            <div class="status-pill warn">
+              <span class="dot"></span>
+              점검 필요
+            </div>
+          </div>
+        </div>
+        <div class="token-meta">
+          <div class="token-meta-row">
+            <span class="key">토큰 유형</span>
+            <span class="val">Integration 토큰</span>
+          </div>
+          <div class="token-meta-row">
+            <span class="key">만료 기간</span>
+            <span class="val">무기한 (수동 취소 시 만료)</span>
+          </div>
+          <div class="token-meta-row">
+            <span class="key">⚠️ 이슈</span>
+            <span class="val" style="color:var(--warn)">DB 공유 미완료</span>
+          </div>
+          <div class="token-meta-row">
+            <span class="key">조치</span>
+            <span class="val">Integration에 DB 페이지 공유 필요</span>
+          </div>
+        </div>
+        <div class="token-refresh-bar">
+          <div class="token-refresh-fill" style="width: 40%; background: linear-gradient(90deg, var(--warn), #FCD34D)"></div>
+        </div>
+        <div class="token-refresh-label">
+          <span>접근 가능 DB</span>
+          <span style="color:var(--warn)">미설정 · 조치 필요</span>
+        </div>
+      </div>
+
+      <!-- Mixpanel -->
+      <div class="token-card">
+        <div class="token-card-top">
+          <div class="token-icon">📈</div>
+          <div class="token-info">
+            <div class="token-name">Mixpanel API</div>
+            <div class="token-purpose">이벤트 분석 / Export</div>
+          </div>
+          <div class="token-status-wrap">
+            <div class="status-pill ok">
+              <span class="dot"></span>
+              정상
+            </div>
+          </div>
+        </div>
+        <div class="token-meta">
+          <div class="token-meta-row">
+            <span class="key">토큰 유형</span>
+            <span class="val">API Secret</span>
+          </div>
+          <div class="token-meta-row">
+            <span class="key">만료 기간</span>
+            <span class="val">무기한 (프로젝트 단위)</span>
+          </div>
+          <div class="token-meta-row">
+            <span class="key">권한 범위</span>
+            <span class="val">Export, Events Read</span>
+          </div>
+          <div class="token-meta-row">
+            <span class="key">마지막 사용</span>
+            <span class="val mono">2026-03-30 07:00</span>
+          </div>
+        </div>
+        <div class="token-refresh-bar">
+          <div class="token-refresh-fill" style="width: 100%"></div>
+        </div>
+        <div class="token-refresh-label">
+          <span>상태</span>
+          <span>만료 없음 · API Secret</span>
+        </div>
+      </div>
+
+      <!-- Slack Bot -->
+      <div class="token-card">
+        <div class="token-card-top">
+          <div class="token-icon">💬</div>
+          <div class="token-info">
+            <div class="token-name">Slack Bot</div>
+            <div class="token-purpose">채널 메시징 / 알림</div>
+          </div>
+          <div class="token-status-wrap">
+            <div class="status-pill ok">
+              <span class="dot"></span>
+              정상
+            </div>
+          </div>
+        </div>
+        <div class="token-meta">
+          <div class="token-meta-row">
+            <span class="key">토큰 유형</span>
+            <span class="val mono">xoxb-****</span>
+          </div>
+          <div class="token-meta-row">
+            <span class="key">만료 기간</span>
+            <span class="val">무기한 (취소 전까지)</span>
+          </div>
+          <div class="token-meta-row">
+            <span class="key">권한 범위</span>
+            <span class="val">chat:write, channels:read</span>
+          </div>
+          <div class="token-meta-row">
+            <span class="key">마지막 활동</span>
+            <span class="val mono">2026-03-30 17:00</span>
+          </div>
+        </div>
+        <div class="token-refresh-bar">
+          <div class="token-refresh-fill" style="width: 100%"></div>
+        </div>
+        <div class="token-refresh-label">
+          <span>상태</span>
+          <span>활성 · 실시간 동작 중</span>
+        </div>
+      </div>
+
+      <!-- Google Gemini -->
+      <div class="token-card">
+        <div class="token-card-top">
+          <div class="token-icon">✨</div>
+          <div class="token-info">
+            <div class="token-name">Google Gemini</div>
+            <div class="token-purpose">AI 생성 / 요약</div>
+          </div>
+          <div class="token-status-wrap">
+            <div class="status-pill ok">
+              <span class="dot"></span>
+              정상
+            </div>
+          </div>
+        </div>
+        <div class="token-meta">
+          <div class="token-meta-row">
+            <span class="key">토큰 유형</span>
+            <span class="val">API Key (Google AI Studio)</span>
+          </div>
+          <div class="token-meta-row">
+            <span class="key">만료 기간</span>
+            <span class="val">무기한</span>
+          </div>
+          <div class="token-meta-row">
+            <span class="key">모델</span>
+            <span class="val">gemini-2.0-flash</span>
+          </div>
+          <div class="token-meta-row">
+            <span class="key">마지막 사용</span>
+            <span class="val mono">2026-03-30 16:45</span>
+          </div>
+        </div>
+        <div class="token-refresh-bar">
+          <div class="token-refresh-fill" style="width: 100%"></div>
+        </div>
+        <div class="token-refresh-label">
+          <span>상태</span>
+          <span>만료 없음 · API Key</span>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- =======================
+       Token Timeline
+  ======================== -->
+  <div class="timeline-wrap" id="timeline">
+    <div class="timeline-header">
+      <div class="section-title" style="margin:0">⏱️ 토큰 갱신 / 만료 타임라인</div>
+      <div class="timeline-legend">
+        <div class="tl-legend-item">
+          <div class="tl-legend-dot" style="background:var(--ok)"></div>
+          <span>정상</span>
+        </div>
+        <div class="tl-legend-item">
+          <div class="tl-legend-dot" style="background:var(--info)"></div>
+          <span>자동 갱신</span>
+        </div>
+        <div class="tl-legend-item">
+          <div class="tl-legend-dot" style="background:var(--warn)"></div>
+          <span>조치 필요</span>
+        </div>
+        <div class="tl-legend-item">
+          <div class="tl-legend-dot" style="background:var(--accent)"></div>
+          <span>장기 토큰</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="timeline-rows">
+      <div class="tl-row">
+        <div class="tl-name"><span class="tl-icon">🛒</span> Cafe24</div>
+        <div class="tl-bar-wrap">
+          <div class="tl-bar-fill auto" style="width: 72%">
+            <span class="inner-text">자동 갱신 · 90분 주기</span>
+          </div>
+        </div>
+        <div class="tl-expiry">
+          <strong>~25분 후 갱신</strong>
+          <span>OAuth 60분 만료</span>
+        </div>
+      </div>
+
+      <div class="tl-row">
+        <div class="tl-name"><span class="tl-icon">📊</span> Meta</div>
+        <div class="tl-bar-wrap">
+          <div class="tl-bar-fill ok" style="width: 88%">
+            <span class="inner-text">장기 토큰 유효 · ~7일 남음</span>
+          </div>
+        </div>
+        <div class="tl-expiry">
+          <strong>2026-04-06</strong>
+          <span>60일 만료</span>
+        </div>
+      </div>
+
+      <div class="tl-row">
+        <div class="tl-name"><span class="tl-icon">▶️</span> YouTube</div>
+        <div class="tl-bar-wrap">
+          <div class="tl-bar-fill long" style="width: 100%">
+            <span class="inner-text">무기한 · API Key</span>
+          </div>
+        </div>
+        <div class="tl-expiry">
+          <strong>무기한</strong>
+          <span>API Key</span>
+        </div>
+      </div>
+
+      <div class="tl-row">
+        <div class="tl-name"><span class="tl-icon">📝</span> Notion</div>
+        <div class="tl-bar-wrap">
+          <div class="tl-bar-fill warn" style="width: 40%">
+            <span class="inner-text">⚠️ DB 공유 미완료</span>
+          </div>
+        </div>
+        <div class="tl-expiry">
+          <strong style="color:var(--warn)">조치 필요</strong>
+          <span>Integration 토큰</span>
+        </div>
+      </div>
+
+      <div class="tl-row">
+        <div class="tl-name"><span class="tl-icon">📈</span> Mixpanel</div>
+        <div class="tl-bar-wrap">
+          <div class="tl-bar-fill long" style="width: 100%">
+            <span class="inner-text">무기한 · API Secret</span>
+          </div>
+        </div>
+        <div class="tl-expiry">
+          <strong>무기한</strong>
+          <span>API Secret</span>
+        </div>
+      </div>
+
+      <div class="tl-row">
+        <div class="tl-name"><span class="tl-icon">💬</span> Slack</div>
+        <div class="tl-bar-wrap">
+          <div class="tl-bar-fill ok" style="width: 100%">
+            <span class="inner-text">활성 · 실시간 동작 중</span>
+          </div>
+        </div>
+        <div class="tl-expiry">
+          <strong>무기한</strong>
+          <span>Bot Token (xoxb)</span>
+        </div>
+      </div>
+
+      <div class="tl-row">
+        <div class="tl-name"><span class="tl-icon">✨</span> Gemini</div>
+        <div class="tl-bar-wrap">
+          <div class="tl-bar-fill long" style="width: 100%">
+            <span class="inner-text">무기한 · API Key</span>
+          </div>
+        </div>
+        <div class="tl-expiry">
+          <strong>무기한</strong>
+          <span>API Key</span>
+        </div>
+      </div>
+    </div>
   </div>
 
-  <div class="sec-card">
-    <div class="card-top"><div class="svc-name">📝 Notion API</div></div>
-    <div class="info-row"><span class="label">용도</span>태스크 관리</div>
-    <div class="info-row"><span class="label">상태</span><span class="status-badge warn">DB 공유 필요</span></div>
-    <div class="info-row"><span class="label">조치</span>Integration에 DB 페이지 공유</div>
-  </div>
+  <div class="divider"></div>
 
-  <div class="sec-card">
-    <div class="card-top"><div class="svc-name">📈 Mixpanel API</div></div>
-    <div class="info-row"><span class="label">용도</span>이벤트 분석 / Export</div>
-    <div class="info-row"><span class="label">상태</span><span class="status-badge ok">정상</span></div>
-    <div class="info-row"><span class="label">인증</span>API Secret</div>
-  </div>
+  <!-- =======================
+       Agent Permission Matrix
+  ======================== -->
+  <section>
+    <div class="section-title">
+      👤 에이전트 권한 매트릭스
+      <span class="badge">5 에이전트</span>
+    </div>
 
-  <div class="sec-card">
-    <div class="card-top"><div class="svc-name">💬 Slack Bot</div></div>
-    <div class="info-row"><span class="label">용도</span>채널 메시징 / 알림</div>
-    <div class="info-row"><span class="label">상태</span><span class="status-badge ok">정상</span></div>
-    <div class="info-row"><span class="label">인증</span>Bot Token (xoxb)</div>
-  </div>
+    <div class="matrix-wrap">
+      <table class="matrix-table">
+        <thead>
+          <tr>
+            <th>에이전트</th>
+            <th>시스템 실행</th>
+            <th>파일 읽기</th>
+            <th>파일 쓰기</th>
+            <th>DB 접근</th>
+            <th>API 호출</th>
+            <th>브라우저</th>
+            <th>Slack 발송</th>
+            <th>elevated 권한</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>
+              <div class="agent-cell">
+                <div class="agent-avatar karina">👑</div>
+                <div class="agent-name-cell">
+                  <strong>카리나</strong>
+                  <small>총괄</small>
+                </div>
+              </div>
+            </td>
+            <td><span class="perm-yes">✅</span></td>
+            <td><span class="perm-yes">✅</span></td>
+            <td><span class="perm-yes">✅</span></td>
+            <td><span class="perm-yes">✅</span></td>
+            <td><span class="perm-yes">✅</span></td>
+            <td><span class="perm-yes">✅</span></td>
+            <td><span class="perm-yes">✅</span></td>
+            <td><span class="perm-yes" style="color:var(--critical)">⚠️</span></td>
+          </tr>
+          <tr>
+            <td>
+              <div class="agent-cell">
+                <div class="agent-avatar dev">🔧</div>
+                <div class="agent-name-cell">
+                  <strong>개실장</strong>
+                  <small>개발/시스템/인프라</small>
+                </div>
+              </div>
+            </td>
+            <td><span class="perm-yes">✅</span></td>
+            <td><span class="perm-yes">✅</span></td>
+            <td><span class="perm-yes">✅</span></td>
+            <td><span class="perm-yes">✅</span></td>
+            <td><span class="perm-yes">✅</span></td>
+            <td><span class="perm-yes">✅</span></td>
+            <td><span class="perm-yes">✅</span></td>
+            <td><span class="perm-yes" style="color:var(--critical)">⚠️</span></td>
+          </tr>
+          <tr>
+            <td>
+              <div class="agent-cell">
+                <div class="agent-avatar mkt">📣</div>
+                <div class="agent-name-cell">
+                  <strong>마실장</strong>
+                  <small>마케팅/광고</small>
+                </div>
+              </div>
+            </td>
+            <td><span class="perm-yes" style="color:var(--warn)">⚠️</span></td>
+            <td><span class="perm-yes">✅</span></td>
+            <td><span class="perm-yes">✅</span></td>
+            <td><span class="perm-yes">✅</span></td>
+            <td><span class="perm-yes">✅</span></td>
+            <td><span class="perm-yes">✅</span></td>
+            <td><span class="perm-yes">✅</span></td>
+            <td><span class="perm-no">—</span></td>
+          </tr>
+          <tr>
+            <td>
+              <div class="agent-cell">
+                <div class="agent-avatar cs">🎯</div>
+                <div class="agent-name-cell">
+                  <strong>고실장</strong>
+                  <small>고객/CS</small>
+                </div>
+              </div>
+            </td>
+            <td><span class="perm-yes" style="color:var(--warn)">⚠️</span></td>
+            <td><span class="perm-yes">✅</span></td>
+            <td><span class="perm-yes">✅</span></td>
+            <td><span class="perm-yes">✅</span></td>
+            <td><span class="perm-yes">✅</span></td>
+            <td><span class="perm-no">—</span></td>
+            <td><span class="perm-yes">✅</span></td>
+            <td><span class="perm-no">—</span></td>
+          </tr>
+          <tr>
+            <td>
+              <div class="agent-cell">
+                <div class="agent-avatar content">🎬</div>
+                <div class="agent-name-cell">
+                  <strong>콘실장</strong>
+                  <small>콘텐츠/채널</small>
+                </div>
+              </div>
+            </td>
+            <td><span class="perm-yes" style="color:var(--warn)">⚠️</span></td>
+            <td><span class="perm-yes">✅</span></td>
+            <td><span class="perm-yes">✅</span></td>
+            <td><span class="perm-no">—</span></td>
+            <td><span class="perm-yes">✅</span></td>
+            <td><span class="perm-yes">✅</span></td>
+            <td><span class="perm-yes">✅</span></td>
+            <td><span class="perm-no">—</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
 
-  <div class="sec-card">
-    <div class="card-top"><div class="svc-name">✨ Google Gemini</div></div>
-    <div class="info-row"><span class="label">용도</span>AI 생성 / 요약</div>
-    <div class="info-row"><span class="label">상태</span><span class="status-badge ok">정상</span></div>
-  </div>
+    <div style="display:flex;gap:16px;flex-wrap:wrap;margin-top:12px;margin-bottom:32px;">
+      <div style="display:flex;align-items:center;gap:6px;font-size:12px;color:var(--text-muted)">
+        <span>✅</span> 허용
+      </div>
+      <div style="display:flex;align-items:center;gap:6px;font-size:12px;color:var(--text-muted)">
+        <span style="color:var(--critical)">⚠️</span> 허용 (CRITICAL: exec security=full)
+      </div>
+      <div style="display:flex;align-items:center;gap:6px;font-size:12px;color:var(--text-muted)">
+        <span style="color:var(--warn)">⚠️</span> 허용 (WARN: 과도한 권한)
+      </div>
+      <div style="display:flex;align-items:center;gap:6px;font-size:12px;color:var(--text-muted)">
+        <span style="color:var(--border-strong)">—</span> 미허용
+      </div>
+    </div>
+  </section>
 
-</div>
+  <!-- =======================
+       Security Checklist
+  ======================== -->
+  <section>
+    <div class="section-title">
+      ✅ 보안 점검 체크리스트
+      <span class="badge">4개 카테고리</span>
+    </div>
 
-<!-- 크론잡/launchd -->
-<h2>⏰ 크론잡 상태 (launchd)</h2>
-<div class="cron-grid">
-  <div class="cron-card">
-    <div class="cron-name">🔄 cafe24-token-refresh</div>
-    <div class="cron-detail">주기: 90분 | PID: - | 상태: <span class="status-badge ok">정상</span></div>
-  </div>
-  <div class="cron-card">
-    <div class="cron-name">📋 daily-report</div>
-    <div class="cron-detail">주기: 매일 07:00 | PID: - | 상태: <span class="status-badge ok">대기</span></div>
-  </div>
-  <div class="cron-card">
-    <div class="cron-name">🧠 second-brain</div>
-    <div class="cron-detail">주기: 상시 | PID: 1441 | 상태: <span class="status-badge ok">실행 중</span></div>
-  </div>
-  <div class="cron-card">
-    <div class="cron-name">👁️ memory-watcher</div>
-    <div class="cron-detail">주기: 상시 | PID: 1455 | 상태: <span class="status-badge ok">실행 중</span></div>
-  </div>
-  <div class="cron-card">
-    <div class="cron-name">🎙️ plaud-pipeline</div>
-    <div class="cron-detail">주기: 30분 | PID: - | 상태: <span class="status-badge ok">정상</span></div>
-  </div>
-  <div class="cron-card">
-    <div class="cron-name">📊 sns-views-collect</div>
-    <div class="cron-detail">주기: 매일 06:00 | PID: - | 상태: <span class="status-badge ok">정상</span></div>
-  </div>
-  <div class="cron-card">
-    <div class="cron-name">🚀 tenex-reports-deploy</div>
-    <div class="cron-detail">주기: 10분 (변경 감지) | PID: - | 상태: <span class="status-badge ok">정상</span></div>
-  </div>
-  <div class="cron-card">
-    <div class="cron-name">📹 yt-tracker</div>
-    <div class="cron-detail">주기: 주기적 | PID: - | 상태: <span class="status-badge ok">정상</span></div>
-  </div>
-  <div class="cron-card">
-    <div class="cron-name">🔗 session-sync</div>
-    <div class="cron-detail">주기: 주기적 | PID: - | 상태: <span class="status-badge ok">정상</span></div>
-  </div>
-</div>
+    <div class="checklist-grid">
 
-<!-- 서비스 헬스체크 -->
-<h2>🖥️ 서비스 & 서버</h2>
-<div class="sec-grid">
-  <div class="info-box" style="margin:0">
-    <h3>내부 서비스</h3>
-    <div class="row"><span class="label">brain.db</span><span class="val">localhost:8082 <span class="status-badge ok">응답 정상</span></span></div>
-    <div class="row"><span class="label">tenex-reports</span><span class="val">tenex-reports.vercel.app <span class="status-badge ok">정상</span></span></div>
-    <div class="row"><span class="label">tenex-dashboard</span><span class="val">tenex-dashboard.vercel.app <span class="status-badge ok">정상</span></span></div>
-  </div>
-  <div class="info-box" style="margin:0">
-    <h3>서버 정보</h3>
-    <div class="row"><span class="label">하드웨어</span><span class="val">Mac Mini M4</span></div>
-    <div class="row"><span class="label">운영체제</span><span class="val">macOS Sequoia (Darwin 25.3.0 arm64)</span></div>
-    <div class="row"><span class="label">네트워크</span><span class="val">Tailscale 100.95.220.26</span></div>
-    <div class="row"><span class="label">Node.js</span><span class="val">v25.6.0</span></div>
-  </div>
-</div>
+      <!-- SSH & 네트워크 -->
+      <div class="checklist-card">
+        <div class="checklist-card-header">
+          <div class="ch-icon">🔐</div>
+          <h3>SSH & 네트워크</h3>
+          <span class="progress-text">3 / 5 완료</span>
+        </div>
+        <div class="checklist-items">
+          <div class="checklist-item">
+            <div class="check-icon done">✓</div>
+            <div class="checklist-text">
+              SSH 비밀번호 인증 비활성화
+              <small>PasswordAuthentication no · 확인됨</small>
+            </div>
+            <span class="checklist-sev" style="background:var(--ok-bg);color:var(--ok)">완료</span>
+          </div>
+          <div class="checklist-item">
+            <div class="check-icon done">✓</div>
+            <div class="checklist-text">
+              SSH 키 인증 사용
+              <small>RSA/ED25519 키 · 활성</small>
+            </div>
+            <span class="checklist-sev" style="background:var(--ok-bg);color:var(--ok)">완료</span>
+          </div>
+          <div class="checklist-item">
+            <div class="check-icon done">✓</div>
+            <div class="checklist-text">
+              Tailscale VPN 사용
+              <small>100.95.220.26 · 활성</small>
+            </div>
+            <span class="checklist-sev" style="background:var(--ok-bg);color:var(--ok)">완료</span>
+          </div>
+          <div class="checklist-item">
+            <div class="check-icon pending">✗</div>
+            <div class="checklist-text">
+              방화벽(pf) 규칙 설정
+              <small>macOS 기본 방화벽 상태 미확인</small>
+            </div>
+            <span class="checklist-sev" style="background:var(--warn-bg);color:var(--warn)">미확인</span>
+          </div>
+          <div class="checklist-item">
+            <div class="check-icon pending">✗</div>
+            <div class="checklist-text">
+              SSH root 로그인 비활성화
+              <small>PermitRootLogin no 설정 필요</small>
+            </div>
+            <span class="checklist-sev" style="background:var(--warn-bg);color:var(--warn)">미확인</span>
+          </div>
+        </div>
+      </div>
 
-<!-- 에이전트 권한 -->
-<h2>👤 에이전트 권한</h2>
-<div class="perm-grid">
-  <div class="perm-card">
-    <div class="agent">👑 카리나</div>
-    <div class="scope">전체 권한 (총괄)</div>
-  </div>
-  <div class="perm-card">
-    <div class="agent">🔧 개실장</div>
-    <div class="scope">개발/시스템/인프라 영역</div>
-  </div>
-  <div class="perm-card">
-    <div class="agent">📣 마실장</div>
-    <div class="scope">마케팅/광고 영역</div>
-  </div>
-  <div class="perm-card">
-    <div class="agent">🎯 고실장</div>
-    <div class="scope">고객/CS 영역</div>
-  </div>
-  <div class="perm-card">
-    <div class="agent">🎬 콘실장</div>
-    <div class="scope">콘텐츠/채널 영역</div>
-  </div>
-</div>
+      <!-- API & 토큰 보안 -->
+      <div class="checklist-card">
+        <div class="checklist-card-header">
+          <div class="ch-icon">🔑</div>
+          <h3>API & 토큰 보안</h3>
+          <span class="progress-text">4 / 7 완료</span>
+        </div>
+        <div class="checklist-items">
+          <div class="checklist-item">
+            <div class="check-icon done">✓</div>
+            <div class="checklist-text">
+              Cafe24 토큰 자동 갱신
+              <small>launchd cafe24-token-refresh · 활성</small>
+            </div>
+            <span class="checklist-sev" style="background:var(--ok-bg);color:var(--ok)">완료</span>
+          </div>
+          <div class="checklist-item">
+            <div class="check-icon done">✓</div>
+            <div class="checklist-text">
+              Meta System User 장기 토큰 사용
+              <small>단기 토큰 대비 보안 향상</small>
+            </div>
+            <span class="checklist-sev" style="background:var(--ok-bg);color:var(--ok)">완료</span>
+          </div>
+          <div class="checklist-item">
+            <div class="check-icon done">✓</div>
+            <div class="checklist-text">
+              Slack Bot Token 별도 관리
+              <small>xoxb 토큰 · 환경변수 분리</small>
+            </div>
+            <span class="checklist-sev" style="background:var(--ok-bg);color:var(--ok)">완료</span>
+          </div>
+          <div class="checklist-item">
+            <div class="check-icon done">✓</div>
+            <div class="checklist-text">
+              API 키 환경변수 분리
+              <small>.env 파일 분리 · git 제외</small>
+            </div>
+            <span class="checklist-sev" style="background:var(--ok-bg);color:var(--ok)">완료</span>
+          </div>
+          <div class="checklist-item">
+            <div class="check-icon partial">!</div>
+            <div class="checklist-text">
+              Notion DB 공유 설정
+              <small>Integration에 DB 페이지 추가 필요</small>
+            </div>
+            <span class="checklist-sev" style="background:var(--warn-bg);color:var(--warn)">진행 중</span>
+          </div>
+          <div class="checklist-item">
+            <div class="check-icon pending">✗</div>
+            <div class="checklist-text">
+              토큰 Vault 또는 Keychain 이관
+              <small>env 파일 → macOS Keychain 권장</small>
+            </div>
+            <span class="checklist-sev" style="background:var(--critical-bg);color:var(--critical)">미완료</span>
+          </div>
+          <div class="checklist-item">
+            <div class="check-icon pending">✗</div>
+            <div class="checklist-text">
+              API 키 주기적 로테이션
+              <small>90일 로테이션 정책 미수립</small>
+            </div>
+            <span class="checklist-sev" style="background:var(--critical-bg);color:var(--critical)">미완료</span>
+          </div>
+        </div>
+      </div>
 
-<p style="text-align:center;color:#64748b;font-size:12px;margin:40px 0 20px">최종 점검: 2026-03-30 14:05 | 다음 점검: 2026-04-02</p>
-</div>
+      <!-- OpenClaw 에이전트 보안 -->
+      <div class="checklist-card">
+        <div class="checklist-card-header">
+          <div class="ch-icon">🤖</div>
+          <h3>에이전트 보안 설정</h3>
+          <span class="progress-text">2 / 8 완료</span>
+        </div>
+        <div class="checklist-items">
+          <div class="checklist-item">
+            <div class="check-icon done">✓</div>
+            <div class="checklist-text">
+              에이전트 역할 분리
+              <small>카리나/개실장/마실장/고실장/콘실장</small>
+            </div>
+            <span class="checklist-sev" style="background:var(--ok-bg);color:var(--ok)">완료</span>
+          </div>
+          <div class="checklist-item">
+            <div class="check-icon done">✓</div>
+            <div class="checklist-text">
+              에이전트 지시 권한 계층 정의
+              <small>태훈 > 카리나 > 실장 순</small>
+            </div>
+            <span class="checklist-sev" style="background:var(--ok-bg);color:var(--ok)">완료</span>
+          </div>
+          <div class="checklist-item">
+            <div class="check-icon pending">✗</div>
+            <div class="checklist-text">
+              exec security=full → allowlist 변경
+              <small>5개 에이전트 모두 조치 필요 (CRITICAL)</small>
+            </div>
+            <span class="checklist-sev" style="background:var(--critical-bg);color:var(--critical)">긴급</span>
+          </div>
+          <div class="checklist-item">
+            <div class="check-icon pending">✗</div>
+            <div class="checklist-text">
+              groupPolicy="open" → "allowlist" 변경
+              <small>open 정책 즉시 제한 필요 (CRITICAL)</small>
+            </div>
+            <span class="checklist-sev" style="background:var(--critical-bg);color:var(--critical)">긴급</span>
+          </div>
+          <div class="checklist-item">
+            <div class="check-icon pending">✗</div>
+            <div class="checklist-text">
+              Slack 채널 allowlist 설정
+              <small>운영 채널만 허용 (WARN)</small>
+            </div>
+            <span class="checklist-sev" style="background:var(--warn-bg);color:var(--warn)">필요</span>
+          </div>
+          <div class="checklist-item">
+            <div class="check-icon pending">✗</div>
+            <div class="checklist-text">
+              고실장/콘실장 exec 권한 제거
+              <small>CS/콘텐츠 업무에 시스템 실행 불필요</small>
+            </div>
+            <span class="checklist-sev" style="background:var(--warn-bg);color:var(--warn)">필요</span>
+          </div>
+          <div class="checklist-item">
+            <div class="check-icon pending">✗</div>
+            <div class="checklist-text">
+              명령 승인 플로우 도입
+              <small>elevated 명령 실행 전 태훈 승인 요구</small>
+            </div>
+            <span class="checklist-sev" style="background:var(--warn-bg);color:var(--warn)">권장</span>
+          </div>
+          <div class="checklist-item">
+            <div class="check-icon pending">✗</div>
+            <div class="checklist-text">
+              에이전트 감사 로그 주기적 검토
+              <small>월 1회 audit 실행 스케줄 필요</small>
+            </div>
+            <span class="checklist-sev" style="background:var(--info-bg);color:var(--info)">권장</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 시스템 업데이트 -->
+      <div class="checklist-card">
+        <div class="checklist-card-header">
+          <div class="ch-icon">🔄</div>
+          <h3>시스템 업데이트 & 백업</h3>
+          <span class="progress-text">3 / 5 완료</span>
+        </div>
+        <div class="checklist-items">
+          <div class="checklist-item">
+            <div class="check-icon done">✓</div>
+            <div class="checklist-text">
+              macOS 자동 업데이트 활성화
+              <small>macOS 26.3.1 · 최신 상태</small>
+            </div>
+            <span class="checklist-sev" style="background:var(--ok-bg);color:var(--ok)">완료</span>
+          </div>
+          <div class="checklist-item">
+            <div class="check-icon done">✓</div>
+            <div class="checklist-text">
+              Node.js 최신 버전 유지
+              <small>v25.6.0 · 최신 LTS</small>
+            </div>
+            <span class="checklist-sev" style="background:var(--ok-bg);color:var(--ok)">완료</span>
+          </div>
+          <div class="checklist-item">
+            <div class="check-icon done">✓</div>
+            <div class="checklist-text">
+              OpenClaw 최신 버전 유지
+              <small>최신 npm 패키지 · 확인됨</small>
+            </div>
+            <span class="checklist-sev" style="background:var(--ok-bg);color:var(--ok)">완료</span>
+          </div>
+          <div class="checklist-item">
+            <div class="check-icon pending">✗</div>
+            <div class="checklist-text">
+              자동 백업 스케줄 설정
+              <small>brain.db, 설정 파일 정기 백업 필요</small>
+            </div>
+            <span class="checklist-sev" style="background:var(--warn-bg);color:var(--warn)">미완료</span>
+          </div>
+          <div class="checklist-item">
+            <div class="check-icon pending">✗</div>
+            <div class="checklist-text">
+              npm 패키지 취약점 점검
+              <small>npm audit 주기 실행 미설정</small>
+            </div>
+            <span class="checklist-sev" style="background:var(--info-bg);color:var(--info)">권장</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- =======================
+       Server Info
+  ======================== -->
+  <section>
+    <div class="section-title">🖥️ 서버 & 서비스 현황</div>
+
+    <div class="server-strip">
+      <div class="server-chip">
+        <div class="sc-icon">💻</div>
+        <div>
+          <div class="sc-key">하드웨어</div>
+          <div class="sc-val">Mac mini M4</div>
+        </div>
+      </div>
+      <div class="server-chip">
+        <div class="sc-icon">🍎</div>
+        <div>
+          <div class="sc-key">운영체제</div>
+          <div class="sc-val">macOS 26.3.1 (arm64)</div>
+        </div>
+      </div>
+      <div class="server-chip">
+        <div class="sc-icon">🟩</div>
+        <div>
+          <div class="sc-key">Node.js</div>
+          <div class="sc-val">v25.6.0</div>
+        </div>
+      </div>
+      <div class="server-chip">
+        <div class="sc-icon">🌐</div>
+        <div>
+          <div class="sc-key">OpenClaw Gateway</div>
+          <div class="sc-val">127.0.0.1:18789</div>
+        </div>
+      </div>
+      <div class="server-chip">
+        <div class="sc-icon">🔗</div>
+        <div>
+          <div class="sc-key">Tailscale</div>
+          <div class="sc-val">100.95.220.26</div>
+        </div>
+      </div>
+      <div class="server-chip">
+        <div class="sc-icon">🧠</div>
+        <div>
+          <div class="sc-key">brain.db</div>
+          <div class="sc-val">localhost:8082 ✅</div>
+        </div>
+      </div>
+      <div class="server-chip">
+        <div class="sc-icon">🚀</div>
+        <div>
+          <div class="sc-key">tenex-reports</div>
+          <div class="sc-val">Vercel ✅</div>
+        </div>
+      </div>
+      <div class="server-chip">
+        <div class="sc-icon">📊</div>
+        <div>
+          <div class="sc-key">tenex-dashboard</div>
+          <div class="sc-val">Vercel ✅</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =======================
+       Cron Jobs
+  ======================== -->
+  <section>
+    <div class="section-title">
+      ⏰ launchd 크론잡 현황
+      <span class="badge">9개</span>
+    </div>
+
+    <div class="cron-grid">
+      <div class="cron-card">
+        <div class="cron-icon-wrap">🔄</div>
+        <div class="cron-info">
+          <div class="cron-name">cafe24-token-refresh</div>
+          <div class="cron-detail">90분 주기 · 마지막: 14:03</div>
+        </div>
+        <div class="cron-status running">실행 중</div>
+      </div>
+      <div class="cron-card">
+        <div class="cron-icon-wrap">📋</div>
+        <div class="cron-info">
+          <div class="cron-name">daily-report</div>
+          <div class="cron-detail">매일 07:00 · 대기 중</div>
+        </div>
+        <div class="cron-status idle">대기</div>
+      </div>
+      <div class="cron-card">
+        <div class="cron-icon-wrap">🧠</div>
+        <div class="cron-info">
+          <div class="cron-name">second-brain</div>
+          <div class="cron-detail">상시 · PID: 1441</div>
+        </div>
+        <div class="cron-status running">실행 중</div>
+      </div>
+      <div class="cron-card">
+        <div class="cron-icon-wrap">👁️</div>
+        <div class="cron-info">
+          <div class="cron-name">memory-watcher</div>
+          <div class="cron-detail">상시 · PID: 1455</div>
+        </div>
+        <div class="cron-status running">실행 중</div>
+      </div>
+      <div class="cron-card">
+        <div class="cron-icon-wrap">🎙️</div>
+        <div class="cron-info">
+          <div class="cron-name">plaud-pipeline</div>
+          <div class="cron-detail">30분 주기</div>
+        </div>
+        <div class="cron-status idle">대기</div>
+      </div>
+      <div class="cron-card">
+        <div class="cron-icon-wrap">📊</div>
+        <div class="cron-info">
+          <div class="cron-name">sns-views-collect</div>
+          <div class="cron-detail">매일 06:00</div>
+        </div>
+        <div class="cron-status idle">대기</div>
+      </div>
+      <div class="cron-card">
+        <div class="cron-icon-wrap">🚀</div>
+        <div class="cron-info">
+          <div class="cron-name">tenex-reports-deploy</div>
+          <div class="cron-detail">10분 · 변경 감지</div>
+        </div>
+        <div class="cron-status idle">대기</div>
+      </div>
+      <div class="cron-card">
+        <div class="cron-icon-wrap">📹</div>
+        <div class="cron-info">
+          <div class="cron-name">yt-tracker</div>
+          <div class="cron-detail">주기적 실행</div>
+        </div>
+        <div class="cron-status idle">대기</div>
+      </div>
+      <div class="cron-card">
+        <div class="cron-icon-wrap">🔗</div>
+        <div class="cron-info">
+          <div class="cron-name">session-sync</div>
+          <div class="cron-detail">주기적 실행</div>
+        </div>
+        <div class="cron-status idle">대기</div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- ============================================================
+     Footer
+============================================================ -->
+<footer class="footer">
+  <span>🔒 Tenex Security Dashboard</span>
+  <span>·</span>
+  <span>최종 감사: 2026-03-30 17:00</span>
+  <span>·</span>
+  <span>다음 점검: 2026-04-02</span>
+  <span>·</span>
+  <span style="color:var(--critical)">⚠️ 9 CRITICAL 이슈 즉각 조치 필요</span>
+</footer>
+
+<!-- ============================================================
+     JavaScript
+============================================================ -->
+<script>
+  // ============================================================
+  // Theme Toggle
+  // ============================================================
+  const html = document.documentElement;
+  const themeIcon = document.getElementById('theme-icon');
+
+  function toggleTheme() {
+    const current = html.getAttribute('data-theme');
+    const next = current === 'dark' ? 'light' : 'dark';
+    html.setAttribute('data-theme', next);
+    themeIcon.textContent = next === 'dark' ? '☀️' : '🌙';
+    localStorage.setItem('security-theme', next);
+  }
+
+  // Restore saved theme
+  (function () {
+    const saved = localStorage.getItem('security-theme');
+    if (saved) {
+      html.setAttribute('data-theme', saved);
+      themeIcon.textContent = saved === 'dark' ? '☀️' : '🌙';
+    }
+  })();
+
+  // ============================================================
+  // Score Ring Animation
+  // ============================================================
+  window.addEventListener('load', function () {
+    const fill = document.querySelector('.score-ring-fill');
+    if (fill) {
+      // r=65, circumference = 2 * π * 65 ≈ 408.4
+      const circumference = 2 * Math.PI * 65;
+      const score = 65;
+      const offset = circumference * (1 - score / 100);
+      fill.style.strokeDasharray = circumference;
+      fill.style.strokeDashoffset = circumference; // start at 0
+      setTimeout(() => {
+        fill.style.transition = 'stroke-dashoffset 1.4s cubic-bezier(.4,0,.2,1)';
+        fill.style.strokeDashoffset = offset;
+      }, 200);
+    }
+  });
+
+  // ============================================================
+  // Audit Accordion
+  // ============================================================
+  function toggleAudit(item) {
+    const isOpen = item.classList.contains('open');
+    // Close all
+    document.querySelectorAll('.audit-item.open').forEach(el => el.classList.remove('open'));
+    // Open clicked if it was closed
+    if (!isOpen) {
+      item.classList.add('open');
+    }
+  }
+
+  // ============================================================
+  // Scroll to audit section
+  // ============================================================
+  function scrollToAudit(severity) {
+    const section = document.getElementById('audit-section');
+    if (section) {
+      section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      // Auto-open first matching severity item
+      setTimeout(() => {
+        const items = document.querySelectorAll('.audit-item');
+        for (const item of items) {
+          const badge = item.querySelector('.sev-badge');
+          if (badge && badge.classList.contains(severity)) {
+            document.querySelectorAll('.audit-item.open').forEach(el => el.classList.remove('open'));
+            item.classList.add('open');
+            break;
+          }
+        }
+      }, 600);
+    }
+  }
+
+  // ============================================================
+  // Animate timeline bars on scroll
+  // ============================================================
+  const timelineBars = document.querySelectorAll('.tl-bar-fill');
+  const targetWidths = Array.from(timelineBars).map(b => b.style.width);
+
+  // Reset to 0 initially and animate on scroll
+  timelineBars.forEach(bar => {
+    bar.dataset.targetWidth = bar.style.width;
+    bar.style.width = '0%';
+  });
+
+  const timelineObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        timelineBars.forEach(bar => {
+          bar.style.transition = 'width 1s ease';
+          bar.style.width = bar.dataset.targetWidth;
+        });
+        timelineObserver.disconnect();
+      }
+    });
+  }, { threshold: 0.2 });
+
+  const timelineSection = document.getElementById('timeline');
+  if (timelineSection) timelineObserver.observe(timelineSection);
+
+  // ============================================================
+  // Checklist progress bars
+  // ============================================================
+  document.querySelectorAll('.checklist-card').forEach(card => {
+    const done = card.querySelectorAll('.check-icon.done').length;
+    const total = card.querySelectorAll('.check-icon').length;
+    const text = card.querySelector('.progress-text');
+    if (text) {
+      const pct = Math.round((done / total) * 100);
+      const color = pct >= 80 ? 'var(--ok)' : pct >= 50 ? 'var(--warn)' : 'var(--critical)';
+      text.style.color = color;
+      text.textContent = `${done} / ${total} 완료 (${pct}%)`;
+    }
+  });
+
+  // ============================================================
+  // Live clock
+  // ============================================================
+  function updateClock() {
+    const now = new Date();
+    const pad = n => String(n).padStart(2, '0');
+    const str = `${now.getFullYear()}-${pad(now.getMonth()+1)}-${pad(now.getDate())} ${pad(now.getHours())}:${pad(now.getMinutes())}:${pad(now.getSeconds())}`;
+    const el = document.querySelector('.header-meta .meta-text');
+    if (el) el.textContent = `현재 시각: ${str}`;
+  }
+  updateClock();
+  setInterval(updateClock, 1000);
+
+
+</script>
 </body>
 </html>
