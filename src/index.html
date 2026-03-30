@@ -1742,7 +1742,11 @@ function renderTbTasks(){
   function removePriorityIndicators(){list.querySelectorAll('.tb-priority-drop-indicator').forEach(el=>el.remove());list.querySelectorAll('.tb-priority-item.dragging').forEach(el=>el.classList.remove('dragging'))}
   list.querySelectorAll('.tb-priority-item').forEach(item=>{
     item.setAttribute('draggable','false');
-    item.querySelector('.tb-priority-drag-handle')?.addEventListener('mousedown',()=>{item.setAttribute('draggable','true')});
+    const handle=item.querySelector('.tb-priority-drag-handle');
+    if(handle){
+      handle.addEventListener('mousedown',()=>{item.setAttribute('draggable','true')});
+      handle.addEventListener('mouseup',()=>{if(!item.classList.contains('dragging'))item.setAttribute('draggable','false')});
+    }
     item.addEventListener('dragstart',e=>{
       plDragTid=item.dataset.tid;
       e.dataTransfer.effectAllowed='move';
