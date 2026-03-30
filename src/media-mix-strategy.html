@@ -3,1183 +3,1009 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>미디어믹스 전략 — 키네메디칼</title>
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<title>테넥스 미디어믹스 전략 리포트</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
 <style>
-*{box-sizing:border-box;margin:0;padding:0}
-:root{--bg:#0f172a;--card:#1e293b;--card2:#253349;--border:#334155;--text:#e2e8f0;--muted:#94a3b8;--accent:#3b82f6;--accent2:#06b6d4;--green:#10b981;--yellow:#f59e0b;--red:#ef4444;--purple:#a855f7;--pink:#ec4899;--orange:#f97316}
-html{scroll-behavior:smooth}
-body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Noto Sans KR',sans-serif;background:var(--bg);color:var(--text);line-height:1.7;font-size:15px}
-a{color:var(--accent);text-decoration:none}
-a:hover{color:var(--accent2)}
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, sans-serif; background: #0f1117; color: #e1e4e8; padding: 24px; }
+  .header { text-align: center; margin-bottom: 40px; }
+  .header h1 { font-size: 28px; color: #fff; margin-bottom: 8px; }
+  .header .sub { font-size: 14px; color: #8b949e; }
+  .header .period { display: inline-block; background: #1c6ef2; color: #fff; padding: 4px 12px; border-radius: 16px; font-size: 13px; margin-top: 8px; }
+  .header .source-tag { display: inline-block; background: #238636; color: #fff; padding: 4px 10px; border-radius: 16px; font-size: 12px; margin-top: 6px; margin-left: 6px; }
+  .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; max-width: 1400px; margin: 0 auto; }
+  .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 24px; max-width: 1400px; margin: 0 auto; }
+  .card { background: #161b22; border: 1px solid #30363d; border-radius: 12px; padding: 24px; }
+  .card.full { grid-column: 1 / -1; }
+  .card h2 { font-size: 18px; color: #fff; margin-bottom: 16px; display: flex; align-items: center; gap: 8px; }
+  .card h2 .emoji { font-size: 22px; }
+  .chart-wrap { position: relative; height: 350px; }
+  .chart-wrap.tall { height: 420px; }
+  .kpi-row { display: grid; grid-template-columns: repeat(6, 1fr); gap: 16px; max-width: 1400px; margin: 0 auto 32px; }
+  .kpi { background: #161b22; border: 1px solid #30363d; border-radius: 12px; padding: 20px; text-align: center; }
+  .kpi .label { font-size: 12px; color: #8b949e; text-transform: uppercase; letter-spacing: 0.5px; }
+  .kpi .value { font-size: 28px; font-weight: 700; color: #fff; margin: 8px 0 4px; }
+  .kpi .delta { font-size: 12px; }
+  .kpi .delta.good { color: #3fb950; }
+  .kpi .delta.warn { color: #d29922; }
+  .kpi .delta.bad { color: #f85149; }
+  .note { background: #1c1f26; border-left: 3px solid #d29922; padding: 12px 16px; margin-top: 16px; font-size: 13px; color: #8b949e; border-radius: 0 8px 8px 0; }
+  .note.alert { border-left-color: #f85149; }
+  .note.info { border-left-color: #1c6ef2; }
+  .note.success { border-left-color: #3fb950; }
+  .note strong { color: #e1e4e8; }
 
-/* Navigation */
-.topnav{position:sticky;top:0;z-index:100;background:rgba(15,23,42,.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);padding:0 24px}
-.topnav-inner{max-width:1200px;margin:0 auto;display:flex;align-items:center;gap:24px;height:56px;overflow-x:auto}
-.topnav .brand{font-weight:800;font-size:15px;color:#fff;white-space:nowrap;display:flex;align-items:center;gap:8px}
-.topnav .brand span{background:var(--accent);color:#fff;font-size:10px;font-weight:700;padding:2px 8px;border-radius:4px}
-.topnav a.navlink{font-size:13px;color:var(--muted);white-space:nowrap;padding:4px 0;border-bottom:2px solid transparent;transition:.2s}
-.topnav a.navlink:hover{color:#fff;border-color:var(--accent)}
-.back-link{display:inline-block;padding:8px 24px;font-size:12px;color:var(--muted)}
+  /* 섹션 구분 */
+  .section-title { max-width: 1400px; margin: 40px auto 20px; }
+  .section-title h2 { font-size: 22px; color: #fff; border-left: 4px solid #1c6ef2; padding-left: 16px; }
+  .section-title p { font-size: 13px; color: #8b949e; margin-top: 6px; padding-left: 20px; }
 
-/* Hero */
-.hero{background:linear-gradient(135deg,#1e3a5f 0%,#0f172a 60%,#0c1222 100%);padding:60px 24px 48px;border-bottom:1px solid var(--border);position:relative;overflow:hidden}
-.hero::before{content:'';position:absolute;top:-50%;right:-20%;width:600px;height:600px;background:radial-gradient(circle,rgba(59,130,246,.08) 0%,transparent 70%);pointer-events:none}
-.hero-inner{max-width:1200px;margin:0 auto;position:relative}
-.hero h1{font-size:36px;font-weight:800;color:#fff;margin-bottom:8px;letter-spacing:-.5px}
-.hero .sub{font-size:16px;color:var(--muted);margin-bottom:24px}
-.hero-stats{display:flex;gap:16px;flex-wrap:wrap}
-.hero-stat{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:12px;padding:16px 20px;min-width:140px}
-.hero-stat .val{font-size:24px;font-weight:800;color:#fff}
-.hero-stat .label{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-top:2px}
+  /* 채널 카드 */
+  .channel-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; max-width: 1400px; margin: 0 auto 24px; }
+  .channel-card { background: #161b22; border: 1px solid #30363d; border-radius: 12px; padding: 20px; }
+  .channel-card .ch-header { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; }
+  .channel-card .ch-icon { font-size: 28px; }
+  .channel-card .ch-name { font-size: 16px; font-weight: 700; color: #fff; }
+  .channel-card .ch-sub { font-size: 12px; color: #8b949e; }
+  .channel-card .ch-stat { font-size: 13px; color: #d29922; margin-bottom: 10px; font-weight: 600; }
+  .channel-card .pros-cons { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 10px; }
+  .channel-card .pros { font-size: 12px; color: #3fb950; }
+  .channel-card .cons { font-size: 12px; color: #f85149; }
+  .channel-card .pros-label, .channel-card .cons-label { font-size: 11px; font-weight: 700; margin-bottom: 4px; }
+  .channel-card li { margin-left: 14px; margin-bottom: 3px; }
 
-/* Layout */
-.container{max-width:1200px;margin:0 auto;padding:40px 24px}
-.section{margin-bottom:56px}
-.section-header{margin-bottom:28px}
-.section-header h2{font-size:24px;font-weight:800;color:#fff;display:flex;align-items:center;gap:10px}
-.section-header h2 .num{background:var(--accent);color:#fff;font-size:12px;font-weight:700;width:28px;height:28px;border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
-.section-header p{font-size:14px;color:var(--muted);margin-top:6px;max-width:700px}
+  /* Attribution 카드 */
+  .attr-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; max-width: 1400px; margin: 0 auto 32px; }
+  .attr-card { background: #161b22; border: 1px solid #30363d; border-radius: 12px; padding: 20px; }
+  .attr-card h3 { font-size: 15px; color: #fff; margin-bottom: 10px; }
+  .attr-card p { font-size: 13px; color: #8b949e; line-height: 1.7; }
+  .attr-card .tag { display: inline-block; background: #21262d; border: 1px solid #30363d; padding: 3px 10px; border-radius: 12px; font-size: 11px; color: #8b949e; margin-top: 8px; }
 
-/* Cards */
-.card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:24px;margin-bottom:16px;transition:.2s}
-.card:hover{border-color:rgba(59,130,246,.3)}
-.card h3{font-size:16px;font-weight:700;color:#fff;margin-bottom:10px}
-.card h4{font-size:14px;font-weight:700;color:var(--accent2);margin-bottom:8px}
-.card p,.card li{font-size:14px;color:var(--muted);line-height:1.8}
-.card ul{padding-left:18px}
-.card-accent{border-left:3px solid var(--accent)}
-.card-green{border-left:3px solid var(--green)}
-.card-yellow{border-left:3px solid var(--yellow)}
-.card-red{border-left:3px solid var(--red)}
+  /* 로드맵 */
+  .roadmap { display: flex; gap: 0; max-width: 1400px; margin: 0 auto 32px; }
+  .phase { flex: 1; padding: 20px; background: #161b22; border: 1px solid #30363d; position: relative; }
+  .phase:first-child { border-radius: 12px 0 0 12px; }
+  .phase:last-child { border-radius: 0 12px 12px 0; }
+  .phase:not(:last-child)::after {
+    content: '▶';
+    position: absolute;
+    right: -14px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #1c6ef2;
+    font-size: 20px;
+    z-index: 1;
+  }
+  .phase .phase-num { font-size: 11px; color: #1c6ef2; font-weight: 700; letter-spacing: 1px; }
+  .phase .phase-budget { font-size: 22px; font-weight: 700; color: #fff; margin: 6px 0; }
+  .phase .phase-channels { font-size: 13px; color: #8b949e; line-height: 1.8; }
+  .phase .phase-tag { display: inline-block; background: #1c6ef2; color: #fff; padding: 2px 8px; border-radius: 10px; font-size: 11px; margin-top: 8px; }
+  .phase.p2 { background: #1a2030; }
+  .phase.p3 { background: #1a2820; }
+  .phase.p3 .phase-num { color: #3fb950; }
+  .phase.p3 .phase-tag { background: #238636; }
 
-/* Grid */
-.grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
-.grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px}
-@media(max-width:900px){.grid3{grid-template-columns:1fr 1fr}}
-@media(max-width:600px){.grid2,.grid3{grid-template-columns:1fr}}
+  /* 경쟁사 테이블 */
+  .comp-table { width: 100%; border-collapse: collapse; font-size: 14px; }
+  .comp-table th { background: #21262d; color: #8b949e; padding: 10px 14px; text-align: left; font-size: 12px; letter-spacing: 0.5px; border-bottom: 1px solid #30363d; }
+  .comp-table td { padding: 12px 14px; border-bottom: 1px solid #21262d; color: #e1e4e8; }
+  .comp-table tr:hover td { background: #1c2030; }
+  .comp-table .warn-text { color: #8b949e; font-size: 11px; }
 
-/* Channel Cards */
-.ch-card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:24px;position:relative;overflow:hidden}
-.ch-card .ch-icon{font-size:32px;margin-bottom:12px}
-.ch-card .ch-name{font-size:18px;font-weight:800;color:#fff;margin-bottom:4px}
-.ch-card .ch-role{font-size:12px;font-weight:600;padding:3px 10px;border-radius:20px;display:inline-block;margin-bottom:12px}
-.ch-card .ch-desc{font-size:13px;color:var(--muted);line-height:1.7;margin-bottom:12px}
-.ch-card .ch-metrics{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px}
-.ch-card .metric{background:rgba(255,255,255,.05);padding:6px 12px;border-radius:8px;font-size:12px;color:var(--text)}
-.ch-card .metric strong{color:var(--accent2)}
-.ch-card .pros-cons{display:grid;grid-template-columns:1fr 1fr;gap:8px;font-size:12px}
-.ch-card .pros-cons div{padding:8px 12px;border-radius:8px}
-.ch-card .pros{background:rgba(16,185,129,.08);color:var(--green)}
-.ch-card .cons{background:rgba(239,68,68,.08);color:var(--red)}
+  /* 시나리오 카드 */
+  .scenario-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; max-width: 1400px; margin: 0 auto 24px; }
+  .scenario-card { background: #161b22; border: 1px solid #30363d; border-radius: 12px; padding: 22px; }
+  .scenario-card.rec { border-color: #3fb950; }
+  .scenario-card .sc-tag { display: inline-block; padding: 3px 10px; border-radius: 10px; font-size: 12px; font-weight: 700; margin-bottom: 12px; }
+  .scenario-card.a .sc-tag { background: #f851491a; color: #f85149; }
+  .scenario-card.b .sc-tag { background: #3fb9501a; color: #3fb950; }
+  .scenario-card.c .sc-tag { background: #1c6ef21a; color: #58a6ff; }
+  .scenario-card h3 { font-size: 15px; color: #fff; margin-bottom: 14px; }
+  .scenario-card .sc-stat { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #21262d; font-size: 13px; }
+  .scenario-card .sc-stat .sk { color: #8b949e; }
+  .scenario-card .sc-stat .sv { color: #fff; font-weight: 600; }
+  .scenario-card .sc-risk { margin-top: 14px; font-size: 12px; color: #f85149; background: #f851490d; border-radius: 6px; padding: 8px 12px; }
+  .scenario-card .sc-risk strong { display: block; margin-bottom: 4px; }
 
-/* Tags */
-.tag{display:inline-block;font-size:11px;font-weight:600;padding:3px 10px;border-radius:20px;margin:2px 4px 2px 0}
-.tag-blue{background:rgba(59,130,246,.15);color:var(--accent)}
-.tag-green{background:rgba(16,185,129,.15);color:var(--green)}
-.tag-yellow{background:rgba(245,158,11,.15);color:var(--yellow)}
-.tag-red{background:rgba(239,68,68,.15);color:var(--red)}
-.tag-purple{background:rgba(168,85,247,.15);color:var(--purple)}
-.tag-pink{background:rgba(236,72,153,.15);color:var(--pink)}
-.tag-cyan{background:rgba(6,182,212,.15);color:var(--accent2)}
+  /* 실행 플랜 */
+  .plan-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; max-width: 1400px; margin: 0 auto 24px; }
+  .plan-card { background: #161b22; border: 1px solid #30363d; border-radius: 12px; padding: 18px; }
+  .plan-card h3 { font-size: 14px; color: #58a6ff; margin-bottom: 10px; }
+  .plan-card ul { list-style: none; }
+  .plan-card ul li { font-size: 13px; color: #8b949e; padding: 5px 0; border-bottom: 1px solid #21262d; }
+  .plan-card ul li:last-child { border-bottom: none; }
+  .plan-card ul li::before { content: '→ '; color: #1c6ef2; font-weight: 700; }
 
-/* Tables */
-table{width:100%;border-collapse:collapse;font-size:13px;margin:12px 0}
-thead th{background:var(--card2);color:var(--accent2);padding:10px 14px;text-align:left;font-size:11px;letter-spacing:.5px;text-transform:uppercase;border-bottom:2px solid var(--border);white-space:nowrap}
-td{padding:10px 14px;border-bottom:1px solid rgba(51,65,85,.5);color:var(--muted)}
-td:first-child{color:var(--text);font-weight:600}
-tr:hover td{background:rgba(255,255,255,.02)}
-.num-col{text-align:right;font-variant-numeric:tabular-nums}
+  /* 출처 */
+  .sources { max-width: 1400px; margin: 40px auto 0; background: #161b22; border: 1px solid #30363d; border-radius: 12px; padding: 24px; }
+  .sources h3 { font-size: 15px; color: #8b949e; margin-bottom: 14px; }
+  .sources ol { padding-left: 20px; }
+  .sources ol li { font-size: 12px; color: #6e7681; line-height: 2; }
+  .sources .realdata { color: #3fb950; }
 
-/* Tabs */
-.tabs{display:flex;gap:4px;margin-bottom:20px;border-bottom:2px solid var(--border);padding-bottom:0}
-.tab{padding:10px 20px;font-size:14px;font-weight:600;color:var(--muted);background:none;border:none;cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-2px;transition:.2s}
-.tab:hover{color:#fff}
-.tab.active{color:var(--accent);border-color:var(--accent)}
-.tab-content{display:none}
-.tab-content.active{display:block}
+  .spacer { height: 40px; max-width: 1400px; margin: 0 auto; }
 
-/* Timeline */
-.timeline{position:relative;padding-left:32px}
-.timeline::before{content:'';position:absolute;left:11px;top:8px;bottom:8px;width:2px;background:var(--border)}
-.tl-item{position:relative;margin-bottom:24px}
-.tl-item::before{content:'';position:absolute;left:-32px;top:6px;width:22px;height:22px;border-radius:50%;background:var(--accent);border:3px solid var(--bg)}
-.tl-item.done::before{background:var(--green)}
-.tl-item.future::before{background:var(--card2);border-color:var(--border)}
-.tl-item h4{font-size:15px;font-weight:700;color:#fff;margin-bottom:4px}
-.tl-item p{font-size:13px;color:var(--muted)}
-
-/* Phase cards */
-.phase{border-radius:14px;padding:28px;position:relative;overflow:hidden}
-.phase-1{background:linear-gradient(135deg,rgba(59,130,246,.1),rgba(6,182,212,.05));border:1px solid rgba(59,130,246,.3)}
-.phase-2{background:linear-gradient(135deg,rgba(168,85,247,.1),rgba(236,72,153,.05));border:1px solid rgba(168,85,247,.3)}
-.phase-3{background:linear-gradient(135deg,rgba(245,158,11,.1),rgba(239,68,68,.05));border:1px solid rgba(245,158,11,.3)}
-.phase .phase-label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px}
-.phase h3{font-size:20px;font-weight:800;color:#fff;margin-bottom:12px}
-.phase .alloc{display:flex;flex-wrap:wrap;gap:8px;margin:16px 0}
-.alloc-bar{height:8px;border-radius:4px;margin:12px 0}
-.alloc-bar-inner{display:flex;height:100%;border-radius:4px;overflow:hidden}
-.alloc-bar-inner div{height:100%}
-
-/* Gantt */
-.gantt{overflow-x:auto}
-.gantt-row{display:flex;align-items:center;margin-bottom:8px}
-.gantt-label{width:200px;flex-shrink:0;font-size:13px;font-weight:600;color:var(--text);padding-right:12px}
-.gantt-bars{flex:1;display:flex;gap:2px;position:relative;min-width:400px}
-.gantt-week{flex:1;height:32px;border-radius:4px;background:rgba(255,255,255,.03);position:relative}
-.gantt-fill{position:absolute;inset:4px 2px;border-radius:3px}
-
-/* KPI Cards */
-.kpi-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px}
-.kpi{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:16px;text-align:center}
-.kpi .kpi-val{font-size:22px;font-weight:800;color:#fff;margin:8px 0 4px}
-.kpi .kpi-label{font-size:12px;color:var(--muted)}
-.kpi .kpi-sub{font-size:11px;color:var(--accent2)}
-
-/* Callout */
-.callout{background:rgba(59,130,246,.08);border:1px solid rgba(59,130,246,.2);border-radius:12px;padding:20px 24px;margin:16px 0;font-size:14px;color:var(--text)}
-.callout.warn{background:rgba(245,158,11,.08);border-color:rgba(245,158,11,.2)}
-.callout.success{background:rgba(16,185,129,.08);border-color:rgba(16,185,129,.2)}
-.callout strong{color:#fff}
-
-/* Chart */
-.chart-wrap{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:24px;margin:16px 0}
-.chart-wrap h4{font-size:14px;font-weight:700;color:#fff;margin-bottom:16px}
-canvas{max-height:400px}
-
-/* Footnote */
-.footnote{font-size:11px;color:var(--muted);padding:24px 0;border-top:1px solid var(--border);margin-top:40px;line-height:1.8}
-
-/* Decision matrix */
-.decision{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:16px 0}
-.decision .go{background:rgba(16,185,129,.08);border:1px solid rgba(16,185,129,.2);border-radius:12px;padding:20px}
-.decision .nogo{background:rgba(239,68,68,.08);border:1px solid rgba(239,68,68,.2);border-radius:12px;padding:20px}
-.decision h4{font-size:14px;font-weight:700;margin-bottom:8px}
-.decision .go h4{color:var(--green)}
-.decision .nogo h4{color:var(--red)}
-.decision li{font-size:13px;color:var(--muted);line-height:1.8}
-
-/* Analogy box */
-.analogy{background:linear-gradient(135deg,rgba(168,85,247,.08),rgba(59,130,246,.05));border:1px solid rgba(168,85,247,.2);border-radius:14px;padding:24px;margin:16px 0}
-.analogy .emoji{font-size:36px;margin-bottom:12px}
-.analogy h4{color:var(--purple);font-size:15px;margin-bottom:8px}
-.analogy p{font-size:14px;color:var(--muted);line-height:1.8}
-
-/* Responsive */
-@media(max-width:768px){
-  .hero h1{font-size:24px}
-  .hero-stats{gap:8px}
-  .hero-stat{min-width:100px;padding:12px 14px}
-  .hero-stat .val{font-size:18px}
-  .topnav-inner{gap:16px}
-  .container{padding:24px 16px}
-  .decision{grid-template-columns:1fr}
-  .gantt-label{width:140px;font-size:12px}
-  .ch-card .pros-cons{grid-template-columns:1fr}
-  .phase{padding:20px}
-}
-@media(max-width:480px){
-  .topnav .brand span{display:none}
-  .navlink{font-size:12px !important}
-}
+  @media (max-width: 900px) {
+    .grid { grid-template-columns: 1fr; }
+    .kpi-row { grid-template-columns: repeat(3, 1fr); }
+    .channel-grid { grid-template-columns: 1fr; }
+    .scenario-grid { grid-template-columns: 1fr; }
+    .plan-grid { grid-template-columns: 1fr 1fr; }
+    .roadmap { flex-direction: column; }
+    .phase:first-child { border-radius: 12px 12px 0 0; }
+    .phase:last-child { border-radius: 0 0 12px 12px; }
+    .phase:not(:last-child)::after { display: none; }
+    .attr-grid { grid-template-columns: 1fr; }
+  }
 </style>
 </head>
 <body>
 
-<!-- Top Nav -->
-<nav class="topnav">
-  <div class="topnav-inner">
-    <div class="brand">KINEMEDICAL <span>MEDIA MIX</span></div>
-    <a class="navlink" href="#part1">Part 1. 강의</a>
-    <a class="navlink" href="#part2">Part 2. 전략</a>
-    <a class="navlink" href="#part3">Part 3. 시뮬레이션</a>
-    <a class="navlink" href="#part4">Part 4. 실행</a>
-  </div>
-</nav>
-<a class="back-link" href="index.html">&larr; 허브로 돌아가기</a>
+<!-- ===== HEADER ===== -->
+<div class="header">
+  <h1>📡 테넥스 미디어믹스 전략 리포트</h1>
+  <div class="sub">채널 다각화 분석 · 시나리오 시뮬레이션 · 스케일업 로드맵</div>
+  <div class="period">기준: 2026.03.24 ~ 03.30</div>
+  <div class="source-tag">Meta Marketing API 실측</div>
+  <div class="source-tag">업계 벤치마크 반영</div>
+</div>
 
-<!-- Hero -->
-<div class="hero">
-  <div class="hero-inner">
-    <h1>미디어믹스 전략 리포트</h1>
-    <div class="sub">키네메디칼 (테넥스글로벌) &middot; 2026년 3월 기준 &middot; 비마케터를 위한 강의급 전략 문서</div>
-    <div class="hero-stats">
-      <div class="hero-stat"><div class="val">316%</div><div class="label">현재 ROAS</div></div>
-      <div class="hero-stat"><div class="val">229건</div><div class="label">주간 구매</div></div>
-      <div class="hero-stat"><div class="val">45,771원</div><div class="label">평균 CPA</div></div>
-      <div class="hero-stat"><div class="val">~4,500만</div><div class="label">월 광고비</div></div>
-      <div class="hero-stat"><div class="val">메타 100%</div><div class="label">현재 채널</div></div>
+<!-- ===== KPI 요약 ===== -->
+<div class="kpi-row">
+  <div class="kpi">
+    <div class="label">현재 월 광고비</div>
+    <div class="value" style="font-size:22px;">₩42M</div>
+    <div class="delta warn">Meta 단일 채널</div>
+  </div>
+  <div class="kpi">
+    <div class="label">현재 ROAS</div>
+    <div class="value">3.16</div>
+    <div class="delta warn">목표 3.5+ 미달</div>
+  </div>
+  <div class="kpi">
+    <div class="label">ES-808 구매</div>
+    <div class="value">220</div>
+    <div class="delta good">건/주 · 광고비 88%</div>
+  </div>
+  <div class="kpi">
+    <div class="label">CS-25 구매</div>
+    <div class="value">9</div>
+    <div class="delta bad">건/주 · ROAS 1.97</div>
+  </div>
+  <div class="kpi">
+    <div class="label">주간 매출</div>
+    <div class="value" style="font-size:22px;">₩33.1M</div>
+    <div class="delta good">Meta API 실측</div>
+  </div>
+  <div class="kpi">
+    <div class="label">목표 ROAS</div>
+    <div class="value" style="color:#3fb950;">3.5+</div>
+    <div class="delta info">멀티채널 전환 시</div>
+  </div>
+</div>
+
+<!-- ===== PART 1. 미디어믹스 강의 ===== -->
+<div class="section-title">
+  <h2>Part 1. 미디어믹스 채널 분석</h2>
+  <p>각 채널의 특성, 벤치마크 데이터, 테넥스 적용 가능성 분석</p>
+</div>
+
+<!-- 채널 카드 6개 -->
+<div class="channel-grid">
+
+  <div class="channel-card" style="border-color: #3a5ced;">
+    <div class="ch-header">
+      <div class="ch-icon">📘</div>
+      <div>
+        <div class="ch-name">메타 (FB/IG)</div>
+        <div class="ch-sub">현재 주력 채널</div>
+      </div>
+    </div>
+    <div class="ch-stat">H&amp;W CPM +38% YoY · CPA $38.55</div>
+    <p style="font-size:13px;color:#8b949e;line-height:1.7;">
+      Health &amp; Wellness 카테고리 CPM이 전년 대비 38% 상승(Triple Whale 2025, 35K 브랜드 기준). 현재 테넥스 광고비의 100% 집중. 정밀 타겟팅 및 UGC 소재 최적화 가능하나 오디언스 포화 리스크.
+    </p>
+    <div class="pros-cons">
+      <div class="pros">
+        <div class="pros-label">✅ 장점</div>
+        <ul><li>정밀 타겟팅</li><li>UGC 소재</li><li>리타겟팅</li></ul>
+      </div>
+      <div class="cons">
+        <div class="cons-label">❌ 단점</div>
+        <ul><li>CPM 연 +38%</li><li>오디언스 포화</li><li>단일 의존 위험</li></ul>
+      </div>
+    </div>
+    <div class="note info" style="margin-top:12px;font-size:12px;">출처: Triple Whale Facebook Ad Benchmarks 2025</div>
+  </div>
+
+  <div class="channel-card" style="border-color: #cc0000;">
+    <div class="ch-header">
+      <div class="ch-icon">📺</div>
+      <div>
+        <div class="ch-name">유튜브</div>
+        <div class="ch-sub">브랜드 인지 + 리타겟팅</div>
+      </div>
+    </div>
+    <div class="ch-stat">CPV $0.02~0.05 · ⚠️ 업계 평균 추정</div>
+    <p style="font-size:13px;color:#8b949e;line-height:1.7;">
+      장편 영상으로 EMS/TENS 원리 교육 콘텐츠 제작 가능. 1분도수 유튜브 채널 보유로 시너지 기대. 쇼핑 태그 연동으로 직접 전환 가능. 초기 학습 비용 및 제작 리소스 투입 필요.
+    </p>
+    <div class="pros-cons">
+      <div class="pros">
+        <div class="pros-label">✅ 장점</div>
+        <ul><li>교육 콘텐츠</li><li>브랜드 신뢰</li><li>채널 시너지</li></ul>
+      </div>
+      <div class="cons">
+        <div class="cons-label">❌ 단점</div>
+        <ul><li>초기 학습비용</li><li>제작 리소스</li><li>전환 측정 복잡</li></ul>
+      </div>
+    </div>
+    <div class="note" style="margin-top:12px;font-size:12px;">⚠️ CPV는 업계 일반 벤치마크 기준 추정값</div>
+  </div>
+
+  <div class="channel-card" style="border-color: #69c9d0;">
+    <div class="ch-header">
+      <div class="ch-icon">🎵</div>
+      <div>
+        <div class="ch-name">틱톡</div>
+        <div class="ch-sub">숏폼 · 젊은층</div>
+      </div>
+    </div>
+    <div class="ch-stat">CPC $1.95 · CPM $9.00 · Spark Ads CPC ~$0.40</div>
+    <p style="font-size:13px;color:#8b949e;line-height:1.7;">
+      AdBacklog 2025 기준 Retail CPC $1.95, CPM $9.00. Spark Ads는 CPC ~$0.40로 비용 효율 우수. 저CPM으로 바이럴 도달 가능하나 주요 타겟 연령(40~60대)과의 미스매치 주의.
+    </p>
+    <div class="pros-cons">
+      <div class="pros">
+        <div class="pros-label">✅ 장점</div>
+        <ul><li>저CPM($9)</li><li>바이럴 가능</li><li>Spark Ads 효율</li></ul>
+      </div>
+      <div class="cons">
+        <div class="cons-label">❌ 단점</div>
+        <ul><li>타겟 연령 제한</li><li>CVR ~0.6% 낮음</li><li>브랜드 적합성</li></ul>
+      </div>
+    </div>
+    <div class="note" style="margin-top:12px;font-size:12px;">출처: AdBacklog TikTok Ads Benchmarks 2025</div>
+  </div>
+
+  <div class="channel-card" style="border-color: #03c75a;">
+    <div class="ch-header">
+      <div class="ch-icon">🟢</div>
+      <div>
+        <div class="ch-name">네이버 SA/DA</div>
+        <div class="ch-sub">검색의도 기반 · 한국 특화</div>
+      </div>
+    </div>
+    <div class="ch-stat">쇼핑검색 점유율 72% · CVR 3~5%</div>
+    <p style="font-size:13px;color:#8b949e;line-height:1.7;">
+      국내 쇼핑검색 점유율 72% 보유. 구매 의도가 높은 사용자에게 노출 가능. CVR 3~5%로 메타 대비 전환율 우수. 경추/마사지 카테고리 검색 볼륨 활용. 클릭 비용은 키워드 경쟁에 따라 변동.
+    </p>
+    <div class="pros-cons">
+      <div class="pros">
+        <div class="pros-label">✅ 장점</div>
+        <ul><li>한국 특화</li><li>고전환 CVR</li><li>구매의도 타겟</li></ul>
+      </div>
+      <div class="cons">
+        <div class="cons-label">❌ 단점</div>
+        <ul><li>클릭비용 변동</li><li>키워드 경쟁</li><li>볼륨 한계</li></ul>
+      </div>
+    </div>
+    <div class="note" style="margin-top:12px;font-size:12px;">⚠️ 쇼핑검색 점유율은 업계 추정치 기준</div>
+  </div>
+
+  <div class="channel-card" style="border-color: #fee500;">
+    <div class="ch-header">
+      <div class="ch-icon">💛</div>
+      <div>
+        <div class="ch-name">카카오 모먼트</div>
+        <div class="ch-sub">카톡 DAU 4,700만+</div>
+      </div>
+    </div>
+    <div class="ch-stat">DAU 4,700만+ · 알림톡 시너지</div>
+    <p style="font-size:13px;color:#8b949e;line-height:1.7;">
+      국내 최대 메신저 기반 광고 플랫폼. 카카오톡 알림톡 연계로 CRM 리타겟팅 시너지. 기존 고객 재구매 유도에 효과적. 메시지 광고로 개인화 커뮤니케이션 가능. 타겟팅 정밀도는 메타 대비 낮음.
+    </p>
+    <div class="pros-cons">
+      <div class="pros">
+        <div class="pros-label">✅ 장점</div>
+        <ul><li>리타겟팅</li><li>CRM 연계</li><li>알림톡 시너지</li></ul>
+      </div>
+      <div class="cons">
+        <div class="cons-label">❌ 단점</div>
+        <ul><li>타겟 정밀도↓</li><li>신규 고객 한계</li><li>소재 제약</li></ul>
+      </div>
+    </div>
+    <div class="note" style="margin-top:12px;font-size:12px;">⚠️ ROAS 3.0~5.0 추정값 (실측 데이터 없음)</div>
+  </div>
+
+  <div class="channel-card" style="border-color: #4285f4;">
+    <div class="ch-header">
+      <div class="ch-icon">🔵</div>
+      <div>
+        <div class="ch-name">구글 디스플레이/쇼핑</div>
+        <div class="ch-sub">글로벌 · 리타겟팅</div>
+      </div>
+    </div>
+    <div class="ch-stat">Electronics ROAS ~6.0x (AdBacklog 2025)</div>
+    <p style="font-size:13px;color:#8b949e;line-height:1.7;">
+      AdBacklog 2025 기준 Electronics 카테고리 Google Shopping ROAS ~6.0x. 해외 확장(일본, 동남아) 시 필수 채널. 리타겟팅 효율 우수. 국내 쇼핑 검색에서는 네이버 대비 점유율 낮음.
+    </p>
+    <div class="pros-cons">
+      <div class="pros">
+        <div class="pros-label">✅ 장점</div>
+        <ul><li>해외 확장</li><li>리타겟팅</li><li>Shopping 고ROAS</li></ul>
+      </div>
+      <div class="cons">
+        <div class="cons-label">❌ 단점</div>
+        <ul><li>국내 점유율↓</li><li>초기 학습 필요</li><li>국내 결제 미흡</li></ul>
+      </div>
+    </div>
+    <div class="note" style="margin-top:12px;font-size:12px;">출처: AdBacklog Google Shopping Benchmarks 2025</div>
+  </div>
+
+</div>
+
+<!-- 어트리뷰션 모델 -->
+<div class="section-title">
+  <h2 style="font-size:16px;border-left-color:#d29922;">어트리뷰션 모델</h2>
+</div>
+<div class="attr-grid">
+  <div class="attr-card">
+    <h3>🎯 라스트클릭 어트리뷰션</h3>
+    <p>마지막으로 클릭한 채널에 전환 100% 기여. 단순하고 설정이 쉬우나 브랜딩/인지 채널(유튜브, 틱톡)의 기여가 과소평가됨. 메타 단일 채널 운영 시 현재 방식으로 충분하나, 멀티채널 확장 시 판단 왜곡 발생.</p>
+    <div class="tag">현재 방식</div>
+    <div class="tag">단순 분석</div>
+  </div>
+  <div class="attr-card">
+    <h3>🔀 멀티터치 어트리뷰션</h3>
+    <p>구매 경로의 모든 터치포인트에 기여도 배분 (Linear, Time Decay, Data-Driven 방식). 유튜브로 인지 → 네이버로 검색 → 메타 리타겟팅 → 구매 경로의 실제 기여 측정 가능. UTM + Mixpanel + 카페24 교차검증으로 구현. 멀티채널 전환 시 필수.</p>
+    <div class="tag">⚠️ 멀티채널 전환 시 필요</div>
+    <div class="tag">UTM 정비 선행</div>
+  </div>
+</div>
+
+<!-- 차트 1: 채널별 CPM 비교 -->
+<div style="max-width:1400px;margin:0 auto 32px;">
+  <div class="card full">
+    <h2><span class="emoji">📊</span> 채널별 CPM 비교 (추정)</h2>
+    <div class="chart-wrap">
+      <canvas id="cpmChart"></canvas>
+    </div>
+    <div class="note">⚠️ 메타 CPM: Triple Whale 2025 H&amp;W 카테고리 기준. 유튜브/네이버/카카오/구글: 업계 일반 추정치. 틱톡: AdBacklog 2025 Retail 기준. 실제 집행 시 차이 발생 가능.</div>
+  </div>
+</div>
+
+<!-- 차트 4: 채널 특성 레이더 -->
+<div style="max-width:1400px;margin:0 auto 32px;">
+  <div class="card full">
+    <h2><span class="emoji">🕸️</span> 채널별 특성 레이더 (도달·전환·비용효율·브랜딩·리타겟팅)</h2>
+    <div class="chart-wrap tall">
+      <canvas id="radarChart"></canvas>
+    </div>
+    <div class="note info">⚠️ 레이더 차트 수치는 업계 특성 분석 기반 추정값. 실측값 아님.</div>
+  </div>
+</div>
+
+
+<!-- ===== PART 2. 테넥스 맞춤 전략 ===== -->
+<div class="section-title">
+  <h2>Part 2. 테넥스 맞춤 전략</h2>
+  <p>현재 상태 진단 · 스케일업 로드맵 · 경쟁사 벤치마크</p>
+</div>
+
+<!-- 현재 상태 분석 -->
+<div style="max-width:1400px;margin:0 auto 24px;">
+  <div class="grid">
+    <div class="card">
+      <h2><span class="emoji">📦</span> ES-808 현황</h2>
+      <p style="font-size:13px;color:#8b949e;">타겟형 저주파 마사지기 (EMS+TENS)</p>
+      <div style="margin-top:16px;">
+        <div class="sc-stat" style="display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid #21262d;font-size:14px;">
+          <span style="color:#8b949e;">ROAS</span><span style="color:#3fb950;font-weight:700;">3.32</span>
+        </div>
+        <div class="sc-stat" style="display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid #21262d;font-size:14px;">
+          <span style="color:#8b949e;">광고비 비중</span><span style="color:#fff;font-weight:700;">88%</span>
+        </div>
+        <div class="sc-stat" style="display:flex;justify-content:space-between;padding:10px 0;font-size:14px;">
+          <span style="color:#8b949e;">주간 구매</span><span style="color:#fff;font-weight:700;">220건</span>
+        </div>
+      </div>
+      <div class="note success">주력 상품. 메타 최적화 완료. 스케일업 시 CPM 상승 리스크 관리 필요.</div>
+      <div class="note info" style="margin-top:8px;">출처: Meta Marketing API 실측, 2026-03-24~30</div>
+    </div>
+    <div class="card">
+      <h2><span class="emoji">🦾</span> CS-25 현황</h2>
+      <p style="font-size:13px;color:#8b949e;">자동 경추 마사지기 (견인+지압)</p>
+      <div style="margin-top:16px;">
+        <div class="sc-stat" style="display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid #21262d;font-size:14px;">
+          <span style="color:#8b949e;">ROAS</span><span style="color:#f85149;font-weight:700;">1.97</span>
+        </div>
+        <div class="sc-stat" style="display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid #21262d;font-size:14px;">
+          <span style="color:#8b949e;">광고비 비중</span><span style="color:#fff;font-weight:700;">12%</span>
+        </div>
+        <div class="sc-stat" style="display:flex;justify-content:space-between;padding:10px 0;font-size:14px;">
+          <span style="color:#8b949e;">주간 구매</span><span style="color:#fff;font-weight:700;">9건</span>
+        </div>
+      </div>
+      <div class="note alert">ROAS 2.0 미달. 메타 단독으론 한계. 유튜브 교육 콘텐츠 + 네이버 SA 병행 필요.</div>
+      <div class="note info" style="margin-top:8px;">출처: Meta Marketing API 실측, 2026-03-24~30</div>
     </div>
   </div>
 </div>
 
-<div class="container">
-
-<!-- ============================================================ -->
-<!-- PART 1: 미디어믹스 강의 -->
-<!-- ============================================================ -->
-<section id="part1" class="section">
-  <div class="section-header">
-    <h2><span class="num">1</span> 미디어믹스 강의</h2>
-    <p>미디어믹스가 무엇인지, 왜 필요한지, 각 채널의 특성은 어떤지 처음부터 이해할 수 있도록 정리했습니다.</p>
-  </div>
-
-  <!-- 미디어믹스란? -->
-  <div class="analogy">
-    <div class="emoji">🍽️</div>
-    <h4>미디어믹스란?</h4>
-    <p><strong>비유: 음식점</strong> — 한 가지 메뉴만 파는 가게 vs 코스 요리 레스토랑을 생각해보세요.<br>
-    떡볶이만 파는 가게는 떡볶이를 좋아하는 손님만 옵니다. 그런데 떡볶이 + 튀김 + 순대 + 음료를 함께 구성하면, '떡볶이는 안 먹지만 튀김은 먹는' 손님도 오고, 세트로 주문하는 손님은 객단가가 올라갑니다.<br><br>
-    <strong>미디어믹스</strong>는 광고도 같은 원리입니다. 메타(페이스북/인스타) 한 곳에만 광고하면, 메타를 안 쓰는 잠재 고객은 영원히 만나지 못합니다. 유튜브, 네이버, 틱톡, 카카오 등 여러 채널에 예산을 나눠 배치하면 더 많은 잠재 고객을 만나고, 한 채널이 부진할 때 다른 채널이 보완해줍니다.</p>
-  </div>
-
-  <!-- 왜 필요한가? -->
-  <div class="card card-yellow">
-    <h3>왜 지금 미디어믹스가 필요한가?</h3>
-    <p>테넥스는 현재 <strong>메타 100% 의존</strong> 상태입니다. 잘 되고 있지만, 이 구조에는 명확한 한계가 있습니다:</p>
-    <div class="grid3" style="margin-top:16px">
-      <div style="background:rgba(245,158,11,.06);border-radius:10px;padding:16px">
-        <strong style="color:var(--yellow);font-size:13px">CPM 상승 리스크</strong>
-        <p style="font-size:12px;margin-top:6px">예산을 늘릴수록 같은 타겟에게 반복 노출 → 광고 단가(CPM) 상승. 현재 CPM ₩26,757은 이미 업계 평균 대비 높은 편입니다.</p>
-      </div>
-      <div style="background:rgba(239,68,68,.06);border-radius:10px;padding:16px">
-        <strong style="color:var(--red);font-size:13px">빈도 포화</strong>
-        <p style="font-size:12px;margin-top:6px">같은 사람에게 같은 광고가 7~8회 이상 노출되면 피로감 → CTR 하락, CPA 상승. 한 채널에서는 이를 피할 수 없습니다.</p>
-      </div>
-      <div style="background:rgba(168,85,247,.06);border-radius:10px;padding:16px">
-        <strong style="color:var(--purple);font-size:13px">타겟 소진</strong>
-        <p style="font-size:12px;margin-top:6px">메타의 '도수치료/척추/건강' 관심 타겟은 유한합니다. 월 1억 이상 쓰면 이미 본 사람에게 재노출하는 비율이 급증합니다.</p>
-      </div>
+<!-- 스케일업 로드맵 -->
+<div class="section-title">
+  <h2 style="font-size:16px;border-left-color:#d29922;">📈 스케일업 로드맵 (3단계)</h2>
+</div>
+<div class="roadmap">
+  <div class="phase">
+    <div class="phase-num">PHASE 1</div>
+    <div class="phase-budget">₩50M/월</div>
+    <div class="phase-channels">
+      ✅ 메타 최적화 (ES-808)<br>
+      ✅ 네이버 SA 신규 개설<br>
+      ✅ UTM 정비 + Mixpanel<br>
+      ✅ CS-25 랜딩 개선
     </div>
+    <div class="phase-tag">현재 → 안정화</div>
   </div>
-
-  <!-- 각 채널별 특성 -->
-  <h3 style="font-size:18px;font-weight:800;color:#fff;margin:32px 0 20px">광고 채널별 특성 카드</h3>
-
-  <div class="grid2">
-    <!-- 메타 -->
-    <div class="ch-card" style="border-top:3px solid #1877F2">
-      <div class="ch-icon">📘</div>
-      <div class="ch-name">메타 (Facebook / Instagram)</div>
-      <div class="ch-role tag-blue tag">현재 메인 채널</div>
-      <div class="ch-desc">관심사 기반 타겟팅이 가장 강력한 플랫폼. 이미지/영상 소재를 통한 발견형 광고에 최적. 한국 사용자 2,000만+.</div>
-      <div class="ch-metrics">
-        <div class="metric">CPM <strong>₩26,757</strong></div>
-        <div class="metric">CPC <strong>₩930</strong></div>
-        <div class="metric">CTR <strong>2.88%</strong></div>
-        <div class="metric">CVR <strong>2.03%</strong></div>
-      </div>
-      <div class="pros-cons">
-        <div class="pros">✓ 관심 기반 타겟팅 최강<br>✓ 소재 테스트 용이<br>✓ 리타겟팅 강력</div>
-        <div class="cons">✗ CPM 지속 상승 추세<br>✗ iOS 추적 제한<br>✗ 빈도 포화 리스크</div>
-      </div>
+  <div class="phase p2">
+    <div class="phase-num" style="color:#d29922;">PHASE 2</div>
+    <div class="phase-budget">₩1억/월</div>
+    <div class="phase-channels">
+      ✅ Phase 1 전체<br>
+      ➕ 유튜브 쇼핑 태그<br>
+      ➕ 틱톡 Spark Ads<br>
+      ➕ 카카오 알림톡 CRM
     </div>
-
-    <!-- 유튜브 -->
-    <div class="ch-card" style="border-top:3px solid #FF0000">
-      <div class="ch-icon">📺</div>
-      <div class="ch-name">유튜브 광고</div>
-      <div class="ch-role tag-red tag">브랜드 교육 / 신뢰 구축</div>
-      <div class="ch-desc">긴 영상으로 제품 교육과 리뷰가 가능. '1분도수' 채널(10만 구독)과의 시너지 극대화 가능. 유튜브 쇼핑 연동 활용.</div>
-      <div class="ch-metrics">
-        <div class="metric">CPC <strong>₩4,000~6,000</strong></div>
-        <div class="metric">CPM <strong>₩8,000~15,000</strong></div>
-        <div class="metric">CTR <strong>0.51%</strong></div>
-        <div class="metric">CVR <strong>0.05~0.5%</strong></div>
-      </div>
-      <div class="pros-cons">
-        <div class="pros">✓ 영상 교육/리뷰 최적<br>✓ 1분도수 채널 시너지<br>✓ 브랜드 검색 유도</div>
-        <div class="cons">✗ CPC 높음<br>✗ 즉각 전환 약함<br>✗ 소재 제작 비용 높음</div>
-      </div>
-    </div>
-
-    <!-- 틱톡 -->
-    <div class="ch-card" style="border-top:3px solid #000">
-      <div class="ch-icon">🎵</div>
-      <div class="ch-name">틱톡</div>
-      <div class="ch-role tag-pink tag">인지도 확장 / 숏폼</div>
-      <div class="ch-desc">낮은 CPM으로 대규모 도달 가능. 숏폼 콘텐츠에 최적. Spark Ads로 오가닉 콘텐츠 부스트 시 CTR 3%+.</div>
-      <div class="ch-metrics">
-        <div class="metric">CPC <strong>₩2,500~3,500</strong></div>
-        <div class="metric">CPM <strong>₩8,000~12,000</strong></div>
-        <div class="metric">CVR <strong>~0.6%</strong></div>
-        <div class="metric">Spark CTR <strong>3%+</strong></div>
-      </div>
-      <div class="pros-cons">
-        <div class="pros">✓ CPM 가장 저렴<br>✓ 높은 도달률<br>✓ 숏폼/바이럴 적합</div>
-        <div class="cons">✗ 고연령층 약함<br>✗ CPA 높을 수 있음<br>✗ 브랜드 신뢰 구축 한계</div>
-      </div>
-    </div>
-
-    <!-- 네이버 SA/DA -->
-    <div class="ch-card" style="border-top:3px solid #03C75A">
-      <div class="ch-icon">🟢</div>
-      <div class="ch-name">네이버 (검색광고 SA / GFA)</div>
-      <div class="ch-role tag-green tag">검색 의도 포획</div>
-      <div class="ch-desc">한국 소비자 80%+가 네이버 검색. '도수치료기', '저주파치료기' 등 구매 의도가 높은 트래픽 확보. GFA로 네이버 메인/뉴스 지면 리타겟팅.</div>
-      <div class="ch-metrics">
-        <div class="metric">SA CPC <strong>₩1,500~5,000</strong></div>
-        <div class="metric">SA CVR <strong>3~7%</strong></div>
-        <div class="metric">GFA CPM <strong>₩3,000~8,000</strong></div>
-        <div class="metric">GFA CPC <strong>₩200~800</strong></div>
-      </div>
-      <div class="pros-cons">
-        <div class="pros">✓ 구매 의도 높은 트래픽<br>✓ 한국 특화<br>✓ 브랜드 검색 노출</div>
-        <div class="cons">✗ 검색 볼륨 한정<br>✗ 경쟁 키워드 비쌈<br>✗ 소재 제한적</div>
-      </div>
-    </div>
-
-    <!-- 카카오 -->
-    <div class="ch-card" style="border-top:3px solid #FEE500">
-      <div class="ch-icon">💬</div>
-      <div class="ch-name">카카오 모먼트</div>
-      <div class="ch-role tag-yellow tag">CRM 시너지 / 리텐션</div>
-      <div class="ch-desc">카카오톡 기반 광고. 비즈보드(카톡 채팅탭 상단), 알림톡과의 CRM 시너지. 4,700만 MAU 도달.</div>
-      <div class="ch-metrics">
-        <div class="metric">CPM <strong>₩5,000~15,000</strong></div>
-        <div class="metric">CPC <strong>₩300~1,500</strong></div>
-      </div>
-      <div class="pros-cons">
-        <div class="pros">✓ 카카오톡 기반 도달<br>✓ 알림톡 CRM 시너지<br>✓ 비즈보드 높은 노출</div>
-        <div class="cons">✗ 타겟팅 정밀도 낮음<br>✗ 전환 추적 약함<br>✗ 성과 편차 큼</div>
-      </div>
-    </div>
-
-    <!-- 구글 -->
-    <div class="ch-card" style="border-top:3px solid #4285F4">
-      <div class="ch-icon">🔍</div>
-      <div class="ch-name">구글 (GDN / 쇼핑)</div>
-      <div class="ch-role tag-blue tag">리타겟팅 / 해외 확장</div>
-      <div class="ch-desc">GDN(디스플레이 네트워크) 리타겟팅이 가장 강력. 구글 쇼핑 광고로 제품 노출. 향후 해외 시장 확장의 베이스.</div>
-      <div class="ch-metrics">
-        <div class="metric">Display CPC <strong>₩700~1,200</strong></div>
-        <div class="metric">Shopping CPC <strong>₩500~2,000</strong></div>
-      </div>
-      <div class="pros-cons">
-        <div class="pros">✓ 리타겟팅 최강(GDN)<br>✓ 쇼핑 광고 노출<br>✓ 해외 확장 대비</div>
-        <div class="cons">✗ 한국 단독 퍼포먼스 약<br>✗ 검색량 네이버 대비 적음</div>
-      </div>
-    </div>
+    <div class="phase-tag" style="background:#d29922;">멀티채널 확장</div>
   </div>
-
-  <!-- 어트리뷰션 -->
-  <div class="analogy" style="margin-top:32px">
-    <div class="emoji">🏀</div>
-    <h4>어트리뷰션 모델 — 누가 골을 넣었나?</h4>
-    <p><strong>비유: 농구 경기</strong> — A가 리바운드, B가 패스, C가 슛을 넣었다면 누가 득점에 기여한 것일까요?<br><br>
-    <strong>라스트클릭 (Last Click)</strong>: "슛을 넣은 C만 인정" — 현재 대부분의 광고 플랫폼이 이 방식입니다. 메타 광고를 보고 관심을 가진 후 → 유튜브 리뷰를 본 후 → 네이버에서 검색해서 구매하면, <strong>네이버만 성과로 인정</strong>됩니다.<br><br>
-    <strong>멀티터치 (Multi-Touch)</strong>: "리바운드한 A, 패스한 B, 슛한 C 모두 기여" — 고객이 구매까지 거친 모든 접점에 기여도를 배분합니다. 이것이 미디어믹스에서 중요한 이유는, <strong>유튜브나 틱톡의 '직접 전환'이 낮아 보여도 실제로는 다른 채널의 전환을 돕고 있기 때문</strong>입니다.<br><br>
-    <strong>테넥스에 적용하면:</strong> 유튜브에서 '1분도수' 영상을 본 사람이 → 네이버에서 'ES-808'을 검색해서 구매하면, 라스트클릭에서는 유튜브 ROAS가 0%로 찍히지만 실제로는 유튜브가 구매를 유도한 것입니다. 그래서 멀티터치 분석이 필요합니다.</p>
-  </div>
-</section>
-
-<!-- ============================================================ -->
-<!-- PART 2: 테넥스 맞춤 전략 -->
-<!-- ============================================================ -->
-<section id="part2" class="section">
-  <div class="section-header">
-    <h2><span class="num">2</span> 테넥스 맞춤 미디어믹스 전략</h2>
-    <p>현재 상태에서 단계적으로 채널을 확장하는 구체적 로드맵입니다.</p>
-  </div>
-
-  <!-- 현재 상태 -->
-  <div class="callout">
-    <strong>현재 상태:</strong> 메타 100% 의존 &middot; 주간 ~1,000만원, 월 ~4,500만원 &middot; ROAS 316% &middot; CPA 45,771원<br>
-    ES-808(도수펜)이 전체 매출의 92%를 차지. CS-25(도수넥)는 ROAS 197%로 개선 필요.
-  </div>
-
-  <!-- Phase 1 -->
-  <div class="phase phase-1" style="margin-bottom:20px">
-    <div class="phase-label" style="color:var(--accent)">Phase 1 &middot; 현재~3개월</div>
-    <h3>월 5,000만원 &mdash; 안전한 첫 확장</h3>
-    <div class="alloc">
-      <span class="tag tag-blue">메타 80% (4,000만)</span>
-      <span class="tag tag-green">네이버 SA 15% (750만)</span>
-      <span class="tag tag-cyan">구글 GDN 5% (250만)</span>
+  <div class="phase p3">
+    <div class="phase-num">PHASE 3</div>
+    <div class="phase-budget">₩3억/월</div>
+    <div class="phase-channels">
+      ✅ Phase 2 전체<br>
+      ➕ 구글 쇼핑 광고<br>
+      ➕ 해외 진출 (JP/SE)<br>
+      ➕ Data-Driven Attribution
     </div>
-    <div class="alloc-bar"><div class="alloc-bar-inner"><div style="width:80%;background:#1877F2"></div><div style="width:15%;background:#03C75A"></div><div style="width:5%;background:#4285F4"></div></div></div>
-    <div class="grid2" style="margin-top:16px">
-      <div>
-        <h4 style="color:var(--accent);font-size:13px;margin-bottom:6px">왜 이 조합인가?</h4>
-        <ul style="font-size:13px;color:var(--muted)">
-          <li><strong>메타 유지:</strong> 검증된 ROAS 316%를 기반으로 안정적 매출 확보</li>
-          <li><strong>네이버 SA 추가:</strong> 검색 의도 기반 → CVR 3~7%로 높은 전환 기대. '도수치료기', '저주파치료기' 키워드 선점</li>
-          <li><strong>구글 GDN:</strong> 메타에서 유입된 방문자를 GDN으로 리타겟팅 → 이탈 고객 재전환</li>
-        </ul>
-      </div>
-      <div>
-        <h4 style="color:var(--green);font-size:13px;margin-bottom:6px">의료기기 특성 반영</h4>
-        <ul style="font-size:13px;color:var(--muted)">
-          <li>의료기기는 <strong>신뢰</strong>가 구매 결정의 핵심</li>
-          <li>네이버 SA: 고객이 직접 검색 → 구매 의도가 이미 형성된 상태</li>
-          <li>구글 GDN: 한번 관심 보인 고객에게 반복 노출 → 신뢰 축적</li>
-          <li>바디프랜드, 세라젬 등 건강기기 대기업도 네이버 SA + 리타겟팅을 핵심 채널로 운영</li>
-        </ul>
-      </div>
-    </div>
+    <div class="phase-tag">글로벌 확장</div>
   </div>
+</div>
+<div class="note" style="max-width:1400px;margin:0 auto 32px;">⚠️ 스케일업 로드맵은 전략적 추정값. 각 단계 전환 기준: 이전 단계 ROAS 3.5+ 2주 이상 유지 시.</div>
 
-  <!-- Phase 2 -->
-  <div class="phase phase-2" style="margin-bottom:20px">
-    <div class="phase-label" style="color:var(--purple)">Phase 2 &middot; 3~6개월</div>
-    <h3>월 1억원 &mdash; 브랜드 교육 채널 추가</h3>
-    <div class="alloc">
-      <span class="tag tag-blue">메타 60% (6,000만)</span>
-      <span class="tag tag-red">유튜브 20% (2,000만)</span>
-      <span class="tag tag-green">네이버 10% (1,000만)</span>
-      <span class="tag tag-cyan">구글 5% (500만)</span>
-      <span class="tag tag-yellow">카카오 5% (500만)</span>
-    </div>
-    <div class="alloc-bar"><div class="alloc-bar-inner"><div style="width:60%;background:#1877F2"></div><div style="width:20%;background:#FF0000"></div><div style="width:10%;background:#03C75A"></div><div style="width:5%;background:#4285F4"></div><div style="width:5%;background:#FEE500"></div></div></div>
-    <div class="grid2" style="margin-top:16px">
-      <div>
-        <h4 style="color:var(--purple);font-size:13px;margin-bottom:6px">왜 유튜브를 추가하는가?</h4>
-        <ul style="font-size:13px;color:var(--muted)">
-          <li>'1분도수' 채널(구독자 10만)과 유튜브 광고 시너지</li>
-          <li>도수치료기 교육 영상 → 제품 신뢰도 구축</li>
-          <li>유튜브 쇼핑 연동으로 영상 → 바로 구매 가능</li>
-          <li>직접 전환은 낮지만, 네이버 검색 유도 효과 큼</li>
-        </ul>
-      </div>
-      <div>
-        <h4 style="color:var(--yellow);font-size:13px;margin-bottom:6px">카카오 추가 이유</h4>
-        <ul style="font-size:13px;color:var(--muted)">
-          <li>카카오 비즈보드: 카톡 채팅탭 최상단 광고 노출</li>
-          <li>알림톡 CRM과 시너지: 구매자 재구매 유도</li>
-          <li>WS-200(도수워머, 객단가 398,000원) 같은 고가 제품 리텐션에 적합</li>
-        </ul>
-      </div>
-    </div>
-  </div>
-
-  <!-- Phase 3 -->
-  <div class="phase phase-3">
-    <div class="phase-label" style="color:var(--orange)">Phase 3 &middot; 6~12개월</div>
-    <h3>월 3억원 &mdash; 풀 미디어믹스</h3>
-    <div class="alloc">
-      <span class="tag tag-blue">메타 45% (1.35억)</span>
-      <span class="tag tag-red">유튜브 20% (6,000만)</span>
-      <span class="tag tag-pink">틱톡 15% (4,500만)</span>
-      <span class="tag tag-green">네이버 10% (3,000만)</span>
-      <span class="tag tag-yellow">카카오 5% (1,500만)</span>
-      <span class="tag tag-cyan">구글 5% (1,500만)</span>
-    </div>
-    <div class="alloc-bar"><div class="alloc-bar-inner"><div style="width:45%;background:#1877F2"></div><div style="width:20%;background:#FF0000"></div><div style="width:15%;background:#000;border:1px solid #444"></div><div style="width:10%;background:#03C75A"></div><div style="width:5%;background:#FEE500"></div><div style="width:5%;background:#4285F4"></div></div></div>
-    <div class="grid2" style="margin-top:16px">
-      <div>
-        <h4 style="color:var(--orange);font-size:13px;margin-bottom:6px">왜 틱톡을 이 시점에?</h4>
-        <ul style="font-size:13px;color:var(--muted)">
-          <li>기존 채널이 안정화된 후 인지도 확장 채널로 투입</li>
-          <li>CPM이 가장 저렴 → 대규모 도달로 브랜드 인지도 확보</li>
-          <li>숏폼 '도수 셀프 케어' 콘텐츠로 바이럴 가능</li>
-          <li>단, CPA가 높으므로 직접 전환보다 인지도 목적</li>
-        </ul>
-      </div>
-      <div>
-        <h4 style="color:var(--red);font-size:13px;margin-bottom:6px">경쟁사 벤치마크</h4>
-        <ul style="font-size:13px;color:var(--muted)">
-          <li><strong>바디프랜드:</strong> TV + 유튜브 + 네이버 SA 중심. 연 수백억 집행</li>
-          <li><strong>세라젬:</strong> 네이버 SA + 카카오 비즈보드 + 오프라인 체험 매장</li>
-          <li><strong>안마기 D2C 브랜드:</strong> 메타 50~60% + 네이버 20% + 유튜브 15%가 일반적</li>
-          <li>건강기기 업계는 <strong>네이버 SA + 유튜브 교육</strong>이 공통 핵심 채널</li>
-        </ul>
-      </div>
-    </div>
-  </div>
-
-  <!-- 스케일업 타임라인 차트 -->
-  <div class="chart-wrap" style="margin-top:24px">
-    <h4>스케일업 로드맵 — 월 예산 추이</h4>
-    <canvas id="scaleChart"></canvas>
-  </div>
-</section>
-
-<!-- ============================================================ -->
-<!-- PART 3: 시뮬레이션 -->
-<!-- ============================================================ -->
-<section id="part3" class="section">
-  <div class="section-header">
-    <h2><span class="num">3</span> 시뮬레이션 (월 1억 기준)</h2>
-    <p>같은 월 1억원을 어떻게 배분하느냐에 따라 결과가 어떻게 달라지는지 세 시나리오로 비교합니다.</p>
-  </div>
-
-  <!-- Tabs -->
-  <div class="tabs">
-    <button class="tab active" onclick="showTab('a')">A. 메타 올인</button>
-    <button class="tab" onclick="showTab('b')">B. 3채널 믹스</button>
-    <button class="tab" onclick="showTab('c')">C. 5채널 믹스</button>
-  </div>
-
-  <!-- Scenario A -->
-  <div id="tab-a" class="tab-content active">
-    <div class="card card-yellow">
-      <h3>시나리오 A: 메타 올인 (현행 확대)</h3>
-      <span class="tag tag-yellow">리스크 중간</span>
-      <table style="margin-top:16px">
-        <thead><tr><th>항목</th><th>채널</th><th class="num-col">예산</th><th class="num-col">예상 결과</th></tr></thead>
-        <tbody>
-          <tr><td>메타</td><td>Facebook/IG</td><td class="num-col">100,000,000원</td><td class="num-col">100%</td></tr>
-        </tbody>
-      </table>
-      <div class="grid2" style="margin-top:16px">
-        <div>
-          <h4 style="color:var(--accent2);font-size:13px">수치 시뮬레이션</h4>
-          <ul style="font-size:13px;color:var(--muted)">
-            <li>예상 CPM: ₩30,000~35,000 (볼륨 증가 시 상승)</li>
-            <li>예상 도달: 285~333만 회</li>
-            <li>예상 클릭: 8.2~9.6만 (CTR 2.88% 유지)</li>
-            <li>이론적 구매: 1,665~1,944건 (CVR 2.03%)</li>
-            <li><strong>현실적 CPA: 50,000~60,000원</strong></li>
-            <li><strong>현실적 구매: 1,667~2,000건</strong></li>
-            <li><strong>예상 매출: 2.4~2.9억원</strong></li>
-            <li><strong>ROAS: 240~290%</strong></li>
-          </ul>
-        </div>
-        <div>
-          <h4 style="color:var(--red);font-size:13px">리스크</h4>
-          <ul style="font-size:13px;color:var(--muted)">
-            <li>빈도 포화: 같은 타겟 반복 노출 → CPA 상승 불가피</li>
-            <li>타겟 소진: 메타 내 관련 타겟 풀이 유한</li>
-            <li>플랫폼 의존: 메타 알고리즘 변경 시 전사 매출 타격</li>
-            <li>현재 ROAS 316%에서 240~290%로 하락 예상</li>
-            <li>스케일업 한계: 월 2억 이상은 사실상 불가능</li>
-          </ul>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Scenario B -->
-  <div id="tab-b" class="tab-content">
-    <div class="card card-green">
-      <h3>시나리오 B: 메타 70% + 유튜브 20% + 네이버 10%</h3>
-      <span class="tag tag-green">추천</span>
-      <table style="margin-top:16px">
-        <thead><tr><th>채널</th><th class="num-col">예산</th><th class="num-col">예상 CPA</th><th class="num-col">예상 구매</th><th class="num-col">예상 매출</th></tr></thead>
-        <tbody>
-          <tr><td>메타</td><td class="num-col">70,000,000원</td><td class="num-col">55,000원</td><td class="num-col">~1,200건</td><td class="num-col">~1.73억</td></tr>
-          <tr><td>유튜브</td><td class="num-col">20,000,000원</td><td class="num-col">400,000원</td><td class="num-col">~50건</td><td class="num-col">브랜드 리프트</td></tr>
-          <tr><td>네이버 SA</td><td class="num-col">10,000,000원</td><td class="num-col">70,000원</td><td class="num-col">~140건</td><td class="num-col">~2,016만</td></tr>
-          <tr style="background:rgba(16,185,129,.05)"><td><strong>합계</strong></td><td class="num-col"><strong>100,000,000원</strong></td><td class="num-col">—</td><td class="num-col"><strong>~1,390건</strong></td><td class="num-col"><strong>~2.0억</strong></td></tr>
-        </tbody>
-      </table>
-      <div class="grid2" style="margin-top:16px">
-        <div>
-          <h4 style="color:var(--green);font-size:13px">시나리오 B의 진짜 가치</h4>
-          <ul style="font-size:13px;color:var(--muted)">
-            <li>라스트클릭 기준 ROAS: ~200%</li>
-            <li><strong>멀티터치 고려 시 실제 ROAS: 250~280%</strong></li>
-            <li>유튜브 → 네이버 검색 → 전환 경로 추가</li>
-            <li>브랜드 검색량 증가 → 오가닉 전환 상승</li>
-            <li>메타 빈도 부담 경감 → CPA 안정</li>
-            <li>장기적으로 ROAS가 시나리오 A를 역전</li>
-          </ul>
-        </div>
-        <div>
-          <h4 style="color:var(--yellow);font-size:13px">주의사항</h4>
-          <ul style="font-size:13px;color:var(--muted)">
-            <li>유튜브 초기 1~2개월 학습 비용 발생</li>
-            <li>유튜브 직접 전환만 보면 ROAS가 낮아 보임</li>
-            <li>멀티터치 어트리뷰션 세팅이 필수</li>
-            <li>유튜브 소재 제작 비용 별도 (월 200~500만원)</li>
-          </ul>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Scenario C -->
-  <div id="tab-c" class="tab-content">
-    <div class="card card-accent">
-      <h3>시나리오 C: 5채널 분산 믹스</h3>
-      <span class="tag tag-purple">장기 목표형</span>
-      <table style="margin-top:16px">
-        <thead><tr><th>채널</th><th class="num-col">예산</th><th class="num-col">예상 CPA</th><th class="num-col">예상 구매</th><th class="num-col">예상 매출</th></tr></thead>
-        <tbody>
-          <tr><td>메타</td><td class="num-col">50,000,000원</td><td class="num-col">55,000원</td><td class="num-col">~900건</td><td class="num-col">~1.3억</td></tr>
-          <tr><td>유튜브</td><td class="num-col">20,000,000원</td><td class="num-col">400,000원</td><td class="num-col">~50건</td><td class="num-col">브랜드 리프트</td></tr>
-          <tr><td>틱톡</td><td class="num-col">15,000,000원</td><td class="num-col">500,000원</td><td class="num-col">~30건</td><td class="num-col">인지도 확장</td></tr>
-          <tr><td>네이버 SA</td><td class="num-col">10,000,000원</td><td class="num-col">70,000원</td><td class="num-col">~140건</td><td class="num-col">~2,016만</td></tr>
-          <tr><td>카카오</td><td class="num-col">5,000,000원</td><td class="num-col">~165,000원</td><td class="num-col">~30건</td><td class="num-col">알림톡 시너지</td></tr>
-          <tr style="background:rgba(59,130,246,.05)"><td><strong>합계</strong></td><td class="num-col"><strong>100,000,000원</strong></td><td class="num-col">—</td><td class="num-col"><strong>~1,150건</strong></td><td class="num-col"><strong>~1.66억</strong></td></tr>
-        </tbody>
-      </table>
-      <div class="grid2" style="margin-top:16px">
-        <div>
-          <h4 style="color:var(--accent);font-size:13px">장기적 이점</h4>
-          <ul style="font-size:13px;color:var(--muted)">
-            <li>라스트클릭 ROAS: ~166%</li>
-            <li>멀티터치 고려 시 ROAS: 200~230%</li>
-            <li>5개 채널 → 다양한 고객 접점 확보</li>
-            <li>틱톡 숏폼 바이럴 → 브랜드 인지도 급상승</li>
-            <li>채널 포트폴리오 → 한 채널 부진 시 리스크 분산</li>
-            <li>월 3억 스케일업의 기반 마련</li>
-          </ul>
-        </div>
-        <div>
-          <h4 style="color:var(--red);font-size:13px">리스크</h4>
-          <ul style="font-size:13px;color:var(--muted)">
-            <li>채널 분산 → 최적화 난이도 높음</li>
-            <li>단기 ROAS가 가장 낮음</li>
-            <li>틱톡 CPA가 높아 단기 ROI 부담</li>
-            <li>관리 인력 필요 (채널별 전담 or 에이전시)</li>
-            <li>Phase 1~2 안정화 후 진입 권장</li>
-          </ul>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- 시나리오 비교 차트 -->
-  <div class="grid2" style="margin-top:24px">
+<!-- 스케일업 예산 배분 차트 -->
+<div style="max-width:1400px;margin:0 auto 32px;">
+  <div class="card full">
+    <h2><span class="emoji">📊</span> 스케일업 단계별 예산 배분</h2>
     <div class="chart-wrap">
-      <h4>시나리오별 예상 매출 & ROAS</h4>
-      <canvas id="scenarioRevenueChart"></canvas>
+      <canvas id="stackedChart"></canvas>
     </div>
-    <div class="chart-wrap">
-      <h4>시나리오별 예상 구매건수 & CPA</h4>
-      <canvas id="scenarioPurchaseChart"></canvas>
-    </div>
+    <div class="note info">⚠️ Phase 2, 3 예산 배분은 전략적 추정값.</div>
   </div>
+</div>
 
-  <!-- 채널별 예산 배분 도넛 차트 -->
-  <div class="grid3" style="margin-top:16px">
-    <div class="chart-wrap" style="text-align:center">
-      <h4>A. 메타 올인</h4>
-      <canvas id="donutA"></canvas>
-    </div>
-    <div class="chart-wrap" style="text-align:center">
-      <h4>B. 3채널 믹스 (추천)</h4>
-      <canvas id="donutB"></canvas>
-    </div>
-    <div class="chart-wrap" style="text-align:center">
-      <h4>C. 5채널 믹스</h4>
-      <canvas id="donutC"></canvas>
-    </div>
-  </div>
-
-  <!-- 벤치마크 출처 -->
-  <div class="callout" style="margin-top:24px">
-    <strong>벤치마크 출처:</strong><br>
-    &bull; Meta: 테넥스 실데이터 (2026-03-24~30)<br>
-    &bull; YouTube: AdBacklog 2025 Industry Benchmarks<br>
-    &bull; TikTok: AdBacklog 2025, Admetrics Feb 2025<br>
-    &bull; Naver: 업계 평균 (검색광고 건강/의료 카테고리)<br>
-    &bull; Kakao: 카카오 공식 가이드 + 업계 평균<br>
-    &bull; Google: MarketingHubDaily 2025 Benchmarks
-  </div>
-</section>
-
-<!-- ============================================================ -->
-<!-- PART 4: 실행 플랜 -->
-<!-- ============================================================ -->
-<section id="part4" class="section">
-  <div class="section-header">
-    <h2><span class="num">4</span> 실행 플랜</h2>
-    <p>Phase 1 첫 달의 주차별 실행 로드맵, 채널별 KPI, 측정 방법, 의사결정 기준을 정리했습니다.</p>
-  </div>
-
-  <!-- 첫 달 로드맵 -->
-  <h3 style="font-size:18px;font-weight:800;color:#fff;margin-bottom:20px">첫 달 로드맵 (Week 1~4)</h3>
-
-  <div class="timeline">
-    <div class="tl-item">
-      <h4>Week 1 — 계정 세팅 & 키워드 리서치</h4>
-      <p>네이버 검색광고 계정 개설 &middot; 핵심 키워드 리서치 ('도수치료기', '경추견인기', '저주파치료기', 'ES-808' 등) &middot; 구글 Ads 계정 세팅 &middot; GDN 리타겟팅 오디언스 생성 (메타 방문자 기반) &middot; UTM 태깅 체계 수립</p>
-    </div>
-    <div class="tl-item">
-      <h4>Week 2 — 네이버 SA 입찰 시작</h4>
-      <p>네이버 핵심 키워드 입찰 시작 ('도수치료기', '경추견인기', '저주파치료기') &middot; 광고 그룹별 소재 세팅 &middot; 네이버 전환 추적 스크립트 카페24 설치 &middot; 브랜드 검색 광고 세팅 ('키네메디칼', 'ES-808') &middot; 일 예산 25만원으로 시작</p>
-    </div>
-    <div class="tl-item">
-      <h4>Week 3 — 구글 GDN 리타겟팅 활성화</h4>
-      <p>구글 GDN 리타겟팅 캠페인 활성화 (메타 유입 방문자 대상) &middot; GA4 전환 추적 세팅 &middot; 구글 Ads ↔ GA4 연동 &middot; 리타겟팅 소재 제작 (제품 이미지 + 할인 코드) &middot; 일 예산 8만원으로 시작</p>
-    </div>
-    <div class="tl-item">
-      <h4>Week 4 — 성과 리뷰 & 예산 조정</h4>
-      <p>3주간 데이터 리뷰 &middot; 채널별 CPA/CVR/ROAS 비교 &middot; 키워드별 성과 분석 → 비효율 키워드 제거 &middot; 예산 재배분 결정 &middot; Phase 1 2개월차 계획 수립</p>
-    </div>
-  </div>
-
-  <!-- 간트차트 -->
-  <div class="card" style="margin-top:24px">
-    <h3>주차별 간트차트</h3>
-    <div class="gantt" style="margin-top:16px">
-      <div class="gantt-row" style="margin-bottom:12px">
-        <div class="gantt-label" style="color:var(--muted);font-size:11px;font-weight:400"></div>
-        <div class="gantt-bars">
-          <div class="gantt-week" style="background:none;text-align:center;font-size:11px;color:var(--muted);height:auto">W1</div>
-          <div class="gantt-week" style="background:none;text-align:center;font-size:11px;color:var(--muted);height:auto">W2</div>
-          <div class="gantt-week" style="background:none;text-align:center;font-size:11px;color:var(--muted);height:auto">W3</div>
-          <div class="gantt-week" style="background:none;text-align:center;font-size:11px;color:var(--muted);height:auto">W4</div>
-        </div>
-      </div>
-      <div class="gantt-row">
-        <div class="gantt-label">네이버 SA 계정 개설</div>
-        <div class="gantt-bars">
-          <div class="gantt-week"><div class="gantt-fill" style="background:var(--green)"></div></div>
-          <div class="gantt-week"></div><div class="gantt-week"></div><div class="gantt-week"></div>
-        </div>
-      </div>
-      <div class="gantt-row">
-        <div class="gantt-label">키워드 리서치</div>
-        <div class="gantt-bars">
-          <div class="gantt-week"><div class="gantt-fill" style="background:var(--green)"></div></div>
-          <div class="gantt-week"><div class="gantt-fill" style="background:var(--green);opacity:.4"></div></div>
-          <div class="gantt-week"></div><div class="gantt-week"></div>
-        </div>
-      </div>
-      <div class="gantt-row">
-        <div class="gantt-label">네이버 SA 입찰 운영</div>
-        <div class="gantt-bars">
-          <div class="gantt-week"></div>
-          <div class="gantt-week"><div class="gantt-fill" style="background:var(--accent)"></div></div>
-          <div class="gantt-week"><div class="gantt-fill" style="background:var(--accent)"></div></div>
-          <div class="gantt-week"><div class="gantt-fill" style="background:var(--accent)"></div></div>
-        </div>
-      </div>
-      <div class="gantt-row">
-        <div class="gantt-label">구글 GDN 세팅</div>
-        <div class="gantt-bars">
-          <div class="gantt-week"><div class="gantt-fill" style="background:var(--purple)"></div></div>
-          <div class="gantt-week"><div class="gantt-fill" style="background:var(--purple)"></div></div>
-          <div class="gantt-week"></div><div class="gantt-week"></div>
-        </div>
-      </div>
-      <div class="gantt-row">
-        <div class="gantt-label">GDN 리타겟팅 운영</div>
-        <div class="gantt-bars">
-          <div class="gantt-week"></div><div class="gantt-week"></div>
-          <div class="gantt-week"><div class="gantt-fill" style="background:var(--accent2)"></div></div>
-          <div class="gantt-week"><div class="gantt-fill" style="background:var(--accent2)"></div></div>
-        </div>
-      </div>
-      <div class="gantt-row">
-        <div class="gantt-label">UTM + 전환추적 세팅</div>
-        <div class="gantt-bars">
-          <div class="gantt-week"><div class="gantt-fill" style="background:var(--yellow)"></div></div>
-          <div class="gantt-week"><div class="gantt-fill" style="background:var(--yellow)"></div></div>
-          <div class="gantt-week"><div class="gantt-fill" style="background:var(--yellow)"></div></div>
-          <div class="gantt-week"></div>
-        </div>
-      </div>
-      <div class="gantt-row">
-        <div class="gantt-label">성과 리뷰 & 조정</div>
-        <div class="gantt-bars">
-          <div class="gantt-week"></div><div class="gantt-week"></div><div class="gantt-week"></div>
-          <div class="gantt-week"><div class="gantt-fill" style="background:var(--orange)"></div></div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- KPI -->
-  <h3 style="font-size:18px;font-weight:800;color:#fff;margin:32px 0 20px">채널별 KPI 목표</h3>
-  <div class="kpi-grid">
-    <div class="kpi" style="border-top:3px solid #1877F2">
-      <div class="kpi-label">메타 (Facebook/IG)</div>
-      <div class="kpi-val">CPA ≤ 50,000원</div>
-      <div class="kpi-sub">ROAS ≥ 300%</div>
-    </div>
-    <div class="kpi" style="border-top:3px solid #03C75A">
-      <div class="kpi-label">네이버 SA</div>
-      <div class="kpi-val">CPA ≤ 80,000원</div>
-      <div class="kpi-sub">CVR ≥ 4%</div>
-    </div>
-    <div class="kpi" style="border-top:3px solid #4285F4">
-      <div class="kpi-label">구글 GDN (리타겟팅)</div>
-      <div class="kpi-val">CPA ≤ 100,000원</div>
-      <div class="kpi-sub">CVR 높을 것 (리타겟팅)</div>
-    </div>
-    <div class="kpi" style="border-top:3px solid #FF0000">
-      <div class="kpi-label">유튜브 (Phase 2)</div>
-      <div class="kpi-val">CPV ≤ ₩30</div>
-      <div class="kpi-sub">브랜드 검색량 +20%</div>
-    </div>
-    <div class="kpi" style="border-top:3px solid #000;border-right:3px solid #000">
-      <div class="kpi-label">틱톡 (Phase 3)</div>
-      <div class="kpi-val">CPM ≤ ₩12,000</div>
-      <div class="kpi-sub">인지도 테스트 목적</div>
-    </div>
-  </div>
-
-  <!-- 측정 방법 -->
-  <h3 style="font-size:18px;font-weight:800;color:#fff;margin:32px 0 20px">측정 방법</h3>
-  <div class="grid2">
-    <div class="card">
-      <h4>UTM 태깅 체계</h4>
-      <p>모든 광고 URL에 아래 파라미터를 필수 적용:</p>
-      <div style="background:var(--bg);border-radius:8px;padding:14px;margin-top:10px;font-family:monospace;font-size:12px;color:var(--accent2);line-height:1.8;overflow-x:auto">
-        utm_source = meta | naver | google | youtube | kakao<br>
-        utm_medium = cpc | cpm | display | video | sa<br>
-        utm_campaign = {캠페인명}<br>
-        utm_content = {소재ID_또는_설명}
-      </div>
-    </div>
-    <div class="card">
-      <h4>전환 추적 스크립트</h4>
-      <ul>
-        <li><strong>Mixpanel:</strong> purchase 이벤트 트래킹 (금액, 제품, 채널 포함)</li>
-        <li><strong>네이버 전환추적:</strong> 카페24에 스크립트 설치</li>
-        <li><strong>GA4:</strong> 구글 Ads 전환 추적 연동</li>
-        <li><strong>멀티터치:</strong> Mixpanel 퍼널 분석으로 채널간 기여도 측정</li>
-      </ul>
-    </div>
-  </div>
-
-  <!-- 의사결정 기준 -->
-  <h3 style="font-size:18px;font-weight:800;color:#fff;margin:32px 0 20px">의사결정 기준 (GO / NO-GO)</h3>
-  <div class="decision">
-    <div class="go">
-      <h4>GO — 예산 확대 / 채널 추가</h4>
-      <ul>
-        <li><strong>예산 확대:</strong> CPA가 목표의 80% 이하이면 → 예산 20% 증액<br><span style="font-size:11px;color:var(--muted)">예: 메타 CPA 목표 50,000원인데 40,000원 이하 → 예산 +20%</span></li>
-        <li><strong>채널 추가:</strong> 기존 채널 ROAS 300% 이상 유지 + 3개월 이상 안정화 → 새 채널 테스트 시작</li>
-      </ul>
-    </div>
-    <div class="nogo">
-      <h4>NO-GO — 예산 축소 / 채널 제거</h4>
-      <ul>
-        <li><strong>예산 축소:</strong> CPA가 목표의 150% 이상 2주 연속 → 예산 50% 삭감<br><span style="font-size:11px;color:var(--muted)">예: 네이버 CPA 목표 80,000원인데 120,000원 이상 2주 연속 → 예산 반으로</span></li>
-        <li><strong>채널 제거:</strong> 3개월간 CPA 개선 없으면 → 해당 채널 예산을 성과 좋은 채널로 재배분</li>
-      </ul>
-    </div>
-  </div>
-
-  <!-- 의사결정 플로우차트 -->
-  <div class="card" style="margin-top:16px">
-    <h3>의사결정 플로우</h3>
-    <div style="display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:12px;margin-top:16px;font-size:13px">
-      <div style="background:var(--card2);padding:12px 20px;border-radius:10px;text-align:center">
-        <strong style="color:#fff">매주 월요일</strong><br>
-        <span style="color:var(--muted)">채널별 CPA 리뷰</span>
-      </div>
-      <div style="color:var(--accent);font-size:20px">&rarr;</div>
-      <div style="background:var(--card2);padding:12px 20px;border-radius:10px;text-align:center">
-        <strong style="color:#fff">CPA &lt; 목표 80%?</strong><br>
-        <span style="color:var(--green)">YES → 예산 +20%</span>
-      </div>
-      <div style="color:var(--accent);font-size:20px">&rarr;</div>
-      <div style="background:var(--card2);padding:12px 20px;border-radius:10px;text-align:center">
-        <strong style="color:#fff">CPA &gt; 목표 150%?</strong><br>
-        <span style="color:var(--red)">YES (2주) → 예산 -50%</span>
-      </div>
-      <div style="color:var(--accent);font-size:20px">&rarr;</div>
-      <div style="background:var(--card2);padding:12px 20px;border-radius:10px;text-align:center">
-        <strong style="color:#fff">3개월 무개선?</strong><br>
-        <span style="color:var(--red)">YES → 채널 철수</span>
-      </div>
-    </div>
-  </div>
-
-</section>
-
-<!-- 벤치마크 총괄표 -->
-<section class="section">
-  <div class="section-header">
-    <h2>업계 벤치마크 총괄표</h2>
-  </div>
-  <div class="card" style="overflow-x:auto">
-    <table>
+<!-- 경쟁사 벤치마크 -->
+<div style="max-width:1400px;margin:0 auto 32px;">
+  <div class="card full">
+    <h2><span class="emoji">🔍</span> 경쟁사 미디어믹스 벤치마크</h2>
+    <table class="comp-table">
       <thead>
         <tr>
-          <th>채널</th>
-          <th class="num-col">CPC</th>
-          <th class="num-col">CPM</th>
-          <th class="num-col">CTR</th>
-          <th class="num-col">CVR</th>
-          <th>강점</th>
-          <th>출처</th>
+          <th>브랜드</th>
+          <th>주요 채널</th>
+          <th>포지셔닝</th>
+          <th>참고</th>
         </tr>
       </thead>
       <tbody>
         <tr>
-          <td>메타 (테넥스 실적)</td>
-          <td class="num-col">₩930</td>
-          <td class="num-col">₩26,757</td>
-          <td class="num-col">2.88%</td>
-          <td class="num-col">2.03%</td>
-          <td style="color:var(--muted)">관심 타겟팅, 소재 테스트</td>
-          <td style="color:var(--muted);font-size:11px">테넥스 실데이터</td>
+          <td><strong>바디프랜드</strong></td>
+          <td>TV + 유튜브 + 네이버</td>
+          <td>하이엔드 프리미엄</td>
+          <td class="warn-text">⚠️ 공개 광고 패턴 기반 추정</td>
         </tr>
         <tr>
-          <td>메타 (글로벌 벤치)</td>
-          <td class="num-col">₩1,200~2,500</td>
-          <td class="num-col">₩15,000~40,000</td>
-          <td class="num-col">—</td>
-          <td class="num-col">1~3%</td>
-          <td style="color:var(--muted)">—</td>
-          <td style="color:var(--muted);font-size:11px">MarketingHubDaily</td>
+          <td><strong>세라젬</strong></td>
+          <td>TV + 홈쇼핑 + 네이버 + 메타</td>
+          <td>체험 마케팅</td>
+          <td class="warn-text">⚠️ 공개 광고 패턴 기반 추정</td>
         </tr>
         <tr>
-          <td>유튜브</td>
-          <td class="num-col">₩4,000~6,000</td>
-          <td class="num-col">₩8,000~15,000</td>
-          <td class="num-col">0.51%</td>
-          <td class="num-col">0.05~0.5%</td>
-          <td style="color:var(--muted)">영상 교육, 리타겟팅</td>
-          <td style="color:var(--muted);font-size:11px">AdBacklog 2025</td>
+          <td><strong>오아</strong></td>
+          <td>메타 + 틱톡 + 네이버</td>
+          <td>숏폼 UGC 바이럴</td>
+          <td class="warn-text">⚠️ 공개 광고 패턴 기반 추정</td>
         </tr>
         <tr>
-          <td>틱톡</td>
-          <td class="num-col">₩2,500~3,500</td>
-          <td class="num-col">₩8,000~12,000</td>
-          <td class="num-col">—</td>
-          <td class="num-col">~0.6%</td>
-          <td style="color:var(--muted)">낮은 CPM, 숏폼</td>
-          <td style="color:var(--muted);font-size:11px">AdBacklog, Admetrics</td>
-        </tr>
-        <tr>
-          <td>네이버 SA</td>
-          <td class="num-col">₩1,500~5,000</td>
-          <td class="num-col">—</td>
-          <td class="num-col">—</td>
-          <td class="num-col">3~7%</td>
-          <td style="color:var(--muted)">검색 의도, 한국 특화</td>
-          <td style="color:var(--muted);font-size:11px">업계 평균</td>
-        </tr>
-        <tr>
-          <td>네이버 GFA</td>
-          <td class="num-col">₩200~800</td>
-          <td class="num-col">₩3,000~8,000</td>
-          <td class="num-col">—</td>
-          <td class="num-col">—</td>
-          <td style="color:var(--muted)">네이버 지면, 리타겟팅</td>
-          <td style="color:var(--muted);font-size:11px">업계 평균</td>
-        </tr>
-        <tr>
-          <td>카카오 모먼트</td>
-          <td class="num-col">₩300~1,500</td>
-          <td class="num-col">₩5,000~15,000</td>
-          <td class="num-col">—</td>
-          <td class="num-col">—</td>
-          <td style="color:var(--muted)">카카오톡 도달, CRM</td>
-          <td style="color:var(--muted);font-size:11px">카카오 공식</td>
-        </tr>
-        <tr>
-          <td>구글 GDN</td>
-          <td class="num-col">₩700~1,200</td>
-          <td class="num-col">—</td>
-          <td class="num-col">—</td>
-          <td class="num-col">—</td>
-          <td style="color:var(--muted)">리타겟팅, 해외 확장</td>
-          <td style="color:var(--muted);font-size:11px">MarketingHubDaily</td>
-        </tr>
-        <tr>
-          <td>구글 쇼핑</td>
-          <td class="num-col">₩500~2,000</td>
-          <td class="num-col">—</td>
-          <td class="num-col">—</td>
-          <td class="num-col">—</td>
-          <td style="color:var(--muted)">제품 검색, 비교 쇼핑</td>
-          <td style="color:var(--muted);font-size:11px">MarketingHubDaily</td>
+          <td><strong>브레오</strong></td>
+          <td>메타 + 유튜브 + 아마존</td>
+          <td>글로벌 DTC</td>
+          <td class="warn-text">⚠️ 공개 광고 패턴 기반 추정</td>
         </tr>
       </tbody>
     </table>
+    <div class="note alert">⚠️ 경쟁사 데이터는 모두 공개 정보 기반 추정. 실제 광고비/ROAS 데이터 없음. 전략 수립 참고용으로만 활용.</div>
   </div>
-</section>
-
-<!-- Footer -->
-<div class="footnote">
-  <strong>출처 및 면책:</strong><br>
-  &bull; 메타 실적 데이터: 테넥스글로벌 광고 관리자 실데이터 (2026-03-24~30)<br>
-  &bull; 글로벌 벤치마크: MarketingHubDaily 2025, AdBacklog 2025 Industry Benchmarks, Admetrics Feb 2025<br>
-  &bull; 네이버/카카오: 각 플랫폼 공식 가이드 및 건강/의료기기 카테고리 업계 평균<br>
-  &bull; 시뮬레이션 수치는 벤치마크 기반 추정이며, 실제 성과는 소재 퀄리티, 경쟁 강도, 시즌 등에 따라 달라질 수 있습니다.<br>
-  &bull; 본 문서는 키네메디칼(테넥스글로벌) 내부 전략 검토 목적으로 작성되었습니다.<br><br>
-  키네메디칼 &middot; 미디어믹스 전략 리포트 &middot; 2026년 3월 &middot; Prepared by tenex-reports
 </div>
 
-</div><!-- /container -->
+<!-- 현재 vs 목표 도넛 차트 2개 -->
+<div style="max-width:1400px;margin:0 auto 32px;">
+  <div class="grid">
+    <div class="card">
+      <h2><span class="emoji">🍩</span> 현재: 메타 단일 채널</h2>
+      <div class="chart-wrap">
+        <canvas id="donutCurrent"></canvas>
+      </div>
+      <div class="note alert">메타 의존도 100%. 계정 정지 시 매출 0 리스크.</div>
+    </div>
+    <div class="card">
+      <h2><span class="emoji">🍩</span> 목표: 멀티채널 구성 (₩1억 기준)</h2>
+      <div class="chart-wrap">
+        <canvas id="donutTarget"></canvas>
+      </div>
+      <div class="note success">⚠️ 시나리오 B 기준 목표 배분. 실제 운영 시 최적화 필요.</div>
+    </div>
+  </div>
+</div>
 
+
+<!-- ===== PART 3. 시뮬레이션 ===== -->
+<div class="section-title">
+  <h2>Part 3. 시뮬레이션 (월 ₩1억 기준)</h2>
+  <p>3개 시나리오 비교 · Blended ROAS · 리스크 분석</p>
+</div>
+
+<div class="scenario-grid">
+  <!-- 시나리오 A -->
+  <div class="scenario-card a">
+    <div class="sc-tag">시나리오 A</div>
+    <h3>메타 올인 (₩100M)</h3>
+    <div class="sc-stat"><span class="sk">채널 구성</span><span class="sv">메타 100%</span></div>
+    <div class="sc-stat"><span class="sk">ROAS 예상</span><span class="sv" style="color:#d29922;">2.5~3.0 ⚠️</span></div>
+    <div class="sc-stat"><span class="sk">예상 월 매출</span><span class="sv">₩250M~300M ⚠️</span></div>
+    <div class="sc-stat"><span class="sk">CPA</span><span class="sv">₩45K~55K ⚠️</span></div>
+    <div class="sc-stat"><span class="sk">도달</span><span class="sv">~850만 ⚠️</span></div>
+    <div class="sc-stat"><span class="sk">신규 고객</span><span class="sv">~2,000명 ⚠️</span></div>
+    <div class="sc-risk">
+      <strong>⚠️ 리스크</strong>
+      CPM 상승 리스크 극대화 · 계정 정지 시 매출 0 · 오디언스 포화 · 스케일업 시 효율 하락 (H&amp;W CPM +38% YoY 반영)
+    </div>
+  </div>
+
+  <!-- 시나리오 B (추천) -->
+  <div class="scenario-card b rec">
+    <div class="sc-tag">⭐ 시나리오 B (권장)</div>
+    <h3>메타 70% + 유튜브 20% + 네이버 10%</h3>
+    <div class="sc-stat"><span class="sk">메타</span><span class="sv">₩70M · ROAS 3.0~3.5</span></div>
+    <div class="sc-stat"><span class="sk">유튜브</span><span class="sv">₩20M · ROAS 2.0~3.0 ⚠️</span></div>
+    <div class="sc-stat"><span class="sk">네이버</span><span class="sv">₩10M · ROAS 4.0~6.0 ⚠️</span></div>
+    <div class="sc-stat"><span class="sk">Blended ROAS</span><span class="sv" style="color:#3fb950;">3.2~4.0 ⚠️</span></div>
+    <div class="sc-stat"><span class="sk">예상 월 매출</span><span class="sv">₩320M~400M ⚠️</span></div>
+    <div class="sc-stat"><span class="sk">도달 / 신규고객</span><span class="sv">~1,200만 / ~2,500명 ⚠️</span></div>
+    <div class="sc-risk" style="background:#3fb9500d;color:#3fb950;">
+      <strong>✅ 기대효과</strong>
+      채널 다각화로 리스크 분산 · 유튜브 교육 콘텐츠로 CS-25 인지도 향상 · 네이버 검색 고전환 포착
+    </div>
+  </div>
+
+  <!-- 시나리오 C -->
+  <div class="scenario-card c">
+    <div class="sc-tag">시나리오 C</div>
+    <h3>메타 50% + 유튜브 20% + 틱톡 15% + 네이버 10% + 카카오 5%</h3>
+    <div class="sc-stat"><span class="sk">틱톡</span><span class="sv">₩15M · ROAS 1.5~2.5 ⚠️</span></div>
+    <div class="sc-stat"><span class="sk">카카오</span><span class="sv">₩5M · ROAS 3.0~5.0 ⚠️</span></div>
+    <div class="sc-stat"><span class="sk">Blended ROAS</span><span class="sv" style="color:#58a6ff;">3.0~3.8 ⚠️</span></div>
+    <div class="sc-stat"><span class="sk">예상 월 매출</span><span class="sv">₩300M~380M ⚠️</span></div>
+    <div class="sc-stat"><span class="sk">도달 / 신규고객</span><span class="sv">~1,800만 / ~3,000명 ⚠️</span></div>
+    <div class="sc-stat"><span class="sk">틱톡 CVR</span><span class="sv" style="color:#f85149;">~0.6% (낮음)</span></div>
+    <div class="sc-risk">
+      <strong>⚠️ 리스크</strong>
+      리소스 분산 · 각 채널 최적화 어려움 · 관리 복잡도 최고 · 틱톡 타겟 연령 미스매치
+    </div>
+  </div>
+</div>
+
+<!-- 시나리오 비교 차트 2개 -->
+<div style="max-width:1400px;margin:0 auto 32px;">
+  <div class="grid">
+    <div class="card">
+      <h2><span class="emoji">💰</span> 시나리오별 예상 매출 비교</h2>
+      <div class="chart-wrap">
+        <canvas id="revenueChart"></canvas>
+      </div>
+      <div class="note">⚠️ 모든 수치는 추정값. 실제 성과는 소재·타겟·시장 상황에 따라 상이.</div>
+    </div>
+    <div class="card">
+      <h2><span class="emoji">📈</span> 시나리오별 Blended ROAS</h2>
+      <div class="chart-wrap">
+        <canvas id="roasChart"></canvas>
+      </div>
+      <div class="note">⚠️ Blended ROAS 추정값. 라스트클릭 어트리뷰션 기준.</div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ===== PART 4. 실행 플랜 ===== -->
+<div class="section-title">
+  <h2>Part 4. 실행 플랜</h2>
+  <p>첫 달 액션 아이템 · KPI · 측정 체계 · 의사결정 기준</p>
+</div>
+
+<div class="plan-grid">
+  <div class="plan-card">
+    <h3>🚀 첫 달 액션</h3>
+    <ul>
+      <li>네이버 SA 계정 개설</li>
+      <li>유튜브 쇼핑 태그 연동</li>
+      <li>UTM 파라미터 정비</li>
+      <li>Mixpanel 소스 매핑</li>
+      <li>CS-25 랜딩페이지 개선</li>
+    </ul>
+  </div>
+  <div class="plan-card">
+    <h3>🎯 채널별 KPI 목표</h3>
+    <ul>
+      <li>메타: ROAS 3.2+, CPA ≤₩40K</li>
+      <li>네이버: ROAS 4.0+, CVR 3%+</li>
+      <li>유튜브: ROAS 2.0+ (학습 후)</li>
+      <li>틱톡: CPC ≤$0.50 (Spark)</li>
+      <li>카카오: 재구매율 15%+</li>
+    </ul>
+  </div>
+  <div class="plan-card">
+    <h3>📏 측정 체계</h3>
+    <ul>
+      <li>UTM 필수 파라미터 표준화</li>
+      <li>Mixpanel 채널별 퍼널 추적</li>
+      <li>카페24 매출 교차검증</li>
+      <li>Meta API 실측 데이터 활용</li>
+      <li>주간 대시보드 자동화</li>
+    </ul>
+  </div>
+  <div class="plan-card">
+    <h3>⚖️ 의사결정 기준</h3>
+    <ul>
+      <li>2주 테스트 후 평가</li>
+      <li>ROAS 2.0x 미달 → 축소</li>
+      <li>ROAS 4.0x 초과 → 증액</li>
+      <li>CPA ₩60K 초과 → 소재 교체</li>
+      <li>채널 전환율 월 1회 리뷰</li>
+    </ul>
+  </div>
+</div>
+
+<div class="note" style="max-width:1400px;margin:0 auto 40px;">
+  <strong>📌 추천 액션:</strong> 현재 ₩42M에서 Phase 1(₩50M)으로 전환 시, 메타 ₩40M + 네이버 SA ₩10M 구성 권장. 네이버 SA는 2주 학습 후 ROAS 측정, 3.5+ 달성 시 Phase 2 계획 수립.
+</div>
+
+
+<!-- ===== 출처 ===== -->
+<div class="sources">
+  <h3>📚 데이터 출처 및 신뢰도</h3>
+  <ol>
+    <li><strong>Triple Whale Facebook Ad Benchmarks 2025</strong> — 35,000개 브랜드 기반. Health &amp; Wellness CPM +38% YoY, CPA $38.55 출처.</li>
+    <li><strong>Thread Transfer ROAS Benchmarks 2025</strong> — 업계 ROAS 비교 기준.</li>
+    <li><strong>SignalLift Facebook Ads Benchmarks 2025</strong> — 메타 광고 성과 지표 참고.</li>
+    <li><strong>AdBacklog TikTok Ads Benchmarks 2025</strong> — 틱톡 CPC $1.95, CPM $9.00, Spark Ads CPC ~$0.40 출처.</li>
+    <li><strong>AdBacklog Google Shopping Benchmarks 2025</strong> — Electronics 카테고리 ROAS ~6.0x 출처.</li>
+    <li><span class="realdata"><strong>✅ Meta Marketing API 실측</strong> — act_1905156290255413, 2026-03-24~30. ES-808 ROAS 3.32 / CS-25 ROAS 1.97 / 주간 매출 ₩33.1M 등.</span></li>
+  </ol>
+  <div class="note" style="margin-top:16px;">
+    <strong>⚠️ 주의:</strong> 출처 1~5는 해외 벤치마크 기준으로 국내 시장과 상이할 수 있음. 시뮬레이션 수치는 추정값. 실제 집행 전 소규모 테스트 필수. 경쟁사 데이터는 공개 광고 패턴 기반 추정으로 실측 아님.
+  </div>
+</div>
+
+<div style="height:40px;"></div>
+
+<!-- ===== CHARTS ===== -->
 <script>
-// ===== Tab switching =====
-function showTab(id) {
-  document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
-  document.querySelectorAll('.tab').forEach(el => el.classList.remove('active'));
-  document.getElementById('tab-' + id).classList.add('active');
-  event.target.classList.add('active');
-}
-
-// ===== Chart defaults =====
-Chart.defaults.color = '#94a3b8';
-Chart.defaults.borderColor = 'rgba(51,65,85,0.5)';
-Chart.defaults.font.family = "-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif";
-
-// ===== Scale-up roadmap chart =====
-new Chart(document.getElementById('scaleChart'), {
-  type: 'bar',
-  data: {
-    labels: ['현재', 'Phase 1 (3개월)', 'Phase 2 (6개월)', 'Phase 3 (12개월)'],
-    datasets: [
-      { label: '메타', data: [4500, 4000, 6000, 13500], backgroundColor: '#1877F2' },
-      { label: '유튜브', data: [0, 0, 2000, 6000], backgroundColor: '#FF0000' },
-      { label: '틱톡', data: [0, 0, 0, 4500], backgroundColor: '#555' },
-      { label: '네이버', data: [0, 750, 1000, 3000], backgroundColor: '#03C75A' },
-      { label: '카카오', data: [0, 0, 500, 1500], backgroundColor: '#FEE500' },
-      { label: '구글', data: [0, 250, 500, 1500], backgroundColor: '#4285F4' }
-    ]
-  },
-  options: {
-    responsive: true,
-    plugins: {
-      legend: { position: 'bottom', labels: { boxWidth: 12, padding: 16 } },
-      tooltip: {
-        callbacks: {
-          label: ctx => ctx.dataset.label + ': ' + ctx.raw.toLocaleString() + '만원'
-        }
-      }
-    },
-    scales: {
-      x: { stacked: true, grid: { display: false } },
-      y: {
-        stacked: true,
-        ticks: { callback: v => v.toLocaleString() + '만' },
-        title: { display: true, text: '월 예산 (만원)' }
-      }
-    }
-  }
-});
-
-// ===== Scenario revenue/ROAS chart =====
-new Chart(document.getElementById('scenarioRevenueChart'), {
-  type: 'bar',
-  data: {
-    labels: ['A. 메타 올인', 'B. 3채널 믹스', 'C. 5채널 믹스'],
-    datasets: [
-      {
-        label: '예상 매출 (억원)',
-        data: [2.65, 2.0, 1.66],
-        backgroundColor: ['rgba(245,158,11,.6)', 'rgba(16,185,129,.6)', 'rgba(59,130,246,.6)'],
-        borderColor: ['#f59e0b', '#10b981', '#3b82f6'],
-        borderWidth: 2,
-        yAxisID: 'y'
-      },
-      {
-        label: 'ROAS (%)',
-        data: [265, 200, 166],
-        type: 'line',
-        borderColor: '#a855f7',
-        backgroundColor: 'rgba(168,85,247,.1)',
-        pointBackgroundColor: '#a855f7',
-        pointRadius: 6,
-        borderWidth: 3,
-        yAxisID: 'y1',
-        fill: true
-      }
-    ]
-  },
-  options: {
-    responsive: true,
-    plugins: {
-      legend: { position: 'bottom', labels: { boxWidth: 12, padding: 16 } },
-      tooltip: {
-        callbacks: {
-          label: ctx => {
-            if (ctx.dataset.yAxisID === 'y1') return 'ROAS: ' + ctx.raw + '%';
-            return '매출: ' + ctx.raw + '억원';
-          }
-        }
-      }
-    },
-    scales: {
-      y: { title: { display: true, text: '매출 (억원)' }, min: 0, max: 3.5 },
-      y1: { position: 'right', title: { display: true, text: 'ROAS (%)' }, min: 0, max: 400, grid: { display: false } }
-    }
-  }
-});
-
-// ===== Scenario purchase/CPA chart =====
-new Chart(document.getElementById('scenarioPurchaseChart'), {
-  type: 'bar',
-  data: {
-    labels: ['A. 메타 올인', 'B. 3채널 믹스', 'C. 5채널 믹스'],
-    datasets: [
-      {
-        label: '예상 구매건수',
-        data: [1834, 1390, 1150],
-        backgroundColor: ['rgba(245,158,11,.6)', 'rgba(16,185,129,.6)', 'rgba(59,130,246,.6)'],
-        borderColor: ['#f59e0b', '#10b981', '#3b82f6'],
-        borderWidth: 2,
-        yAxisID: 'y'
-      },
-      {
-        label: '평균 CPA (원)',
-        data: [54555, 71942, 86957],
-        type: 'line',
-        borderColor: '#ef4444',
-        backgroundColor: 'rgba(239,68,68,.1)',
-        pointBackgroundColor: '#ef4444',
-        pointRadius: 6,
-        borderWidth: 3,
-        yAxisID: 'y1',
-        fill: true
-      }
-    ]
-  },
-  options: {
-    responsive: true,
-    plugins: {
-      legend: { position: 'bottom', labels: { boxWidth: 12, padding: 16 } },
-      tooltip: {
-        callbacks: {
-          label: ctx => {
-            if (ctx.dataset.yAxisID === 'y1') return 'CPA: ₩' + ctx.raw.toLocaleString();
-            return '구매: ' + ctx.raw.toLocaleString() + '건';
-          }
-        }
-      }
-    },
-    scales: {
-      y: { title: { display: true, text: '구매건수' }, min: 0 },
-      y1: {
-        position: 'right',
-        title: { display: true, text: 'CPA (원)' },
-        min: 0,
-        ticks: { callback: v => '₩' + (v / 1000).toFixed(0) + 'K' },
-        grid: { display: false }
-      }
-    }
-  }
-});
-
-// ===== Donut charts =====
-const donutOpts = {
-  responsive: true,
-  plugins: {
-    legend: { position: 'bottom', labels: { boxWidth: 10, padding: 10, font: { size: 11 } } },
-    tooltip: {
-      callbacks: { label: ctx => ctx.label + ': ' + ctx.raw + '%' }
-    }
-  },
-  cutout: '55%'
+const COLORS = {
+  meta: '#3a5ced',
+  youtube: '#cc0000',
+  tiktok: '#69c9d0',
+  naver: '#03c75a',
+  kakao: '#fee500',
+  google: '#4285f4',
+  gray: '#8b949e',
+  green: '#3fb950',
+  yellow: '#d29922',
+  red: '#f85149',
 };
 
-new Chart(document.getElementById('donutA'), {
-  type: 'doughnut',
+// 1. 채널별 CPM 비교
+const ctx1 = document.getElementById('cpmChart').getContext('2d');
+new Chart(ctx1, {
+  type: 'bar',
   data: {
-    labels: ['메타'],
-    datasets: [{ data: [100], backgroundColor: ['#1877F2'] }]
+    labels: ['메타(H&W)', '유튜브', '틱톡', '네이버', '카카오', '구글'],
+    datasets: [{
+      label: 'CPM (₩, 추정)',
+      data: [18000, 5000, 9800, 12000, 8000, 7000],
+      backgroundColor: [COLORS.meta, COLORS.youtube, COLORS.tiktok, COLORS.naver, COLORS.kakao, COLORS.google],
+      borderRadius: 6,
+    }]
   },
-  options: donutOpts
+  options: {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: { display: false },
+      tooltip: {
+        callbacks: {
+          label: ctx => `₩${ctx.raw.toLocaleString()} ⚠️추정`
+        }
+      }
+    },
+    scales: {
+      x: { ticks: { color: '#8b949e' }, grid: { color: '#21262d' } },
+      y: {
+        ticks: {
+          color: '#8b949e',
+          callback: v => '₩' + v.toLocaleString()
+        },
+        grid: { color: '#21262d' },
+        title: { display: true, text: 'CPM (₩)', color: '#8b949e' }
+      }
+    }
+  }
 });
 
-new Chart(document.getElementById('donutB'), {
-  type: 'doughnut',
+// 2. 시나리오별 예상 매출
+const ctx2 = document.getElementById('revenueChart').getContext('2d');
+new Chart(ctx2, {
+  type: 'bar',
   data: {
-    labels: ['메타', '유튜브', '네이버'],
-    datasets: [{ data: [70, 20, 10], backgroundColor: ['#1877F2', '#FF0000', '#03C75A'] }]
+    labels: ['시나리오 A\n메타 올인', '시나리오 B\n메타+유튜브+네이버', '시나리오 C\n5채널 분산'],
+    datasets: [
+      {
+        label: '예상 최저 (₩M)',
+        data: [250, 320, 300],
+        backgroundColor: ['rgba(248,81,73,0.3)', 'rgba(63,185,80,0.3)', 'rgba(88,166,255,0.3)'],
+        borderColor: [COLORS.red, COLORS.green, '#58a6ff'],
+        borderWidth: 2,
+        borderRadius: 6,
+      },
+      {
+        label: '예상 최고 (₩M)',
+        data: [300, 400, 380],
+        backgroundColor: ['rgba(248,81,73,0.6)', 'rgba(63,185,80,0.6)', 'rgba(88,166,255,0.6)'],
+        borderColor: [COLORS.red, COLORS.green, '#58a6ff'],
+        borderWidth: 2,
+        borderRadius: 6,
+      }
+    ]
   },
-  options: donutOpts
+  options: {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: { labels: { color: '#8b949e' } },
+      tooltip: {
+        callbacks: { label: ctx => `₩${ctx.raw}M ⚠️추정` }
+      }
+    },
+    scales: {
+      x: { ticks: { color: '#8b949e' }, grid: { color: '#21262d' } },
+      y: {
+        ticks: { color: '#8b949e', callback: v => '₩' + v + 'M' },
+        grid: { color: '#21262d' }
+      }
+    }
+  }
 });
 
-new Chart(document.getElementById('donutC'), {
+// 3. 시나리오별 Blended ROAS
+const ctx3 = document.getElementById('roasChart').getContext('2d');
+new Chart(ctx3, {
+  type: 'bar',
+  data: {
+    labels: ['A: 메타 올인', 'B: 메타+유튜브+네이버', 'C: 5채널'],
+    datasets: [
+      {
+        label: 'ROAS 최저 (추정)',
+        data: [2.5, 3.2, 3.0],
+        backgroundColor: ['rgba(248,81,73,0.5)', 'rgba(63,185,80,0.5)', 'rgba(88,166,255,0.5)'],
+        borderRadius: 6,
+      },
+      {
+        label: 'ROAS 최고 (추정)',
+        data: [3.0, 4.0, 3.8],
+        backgroundColor: ['rgba(248,81,73,0.8)', 'rgba(63,185,80,0.8)', 'rgba(88,166,255,0.8)'],
+        borderRadius: 6,
+      }
+    ]
+  },
+  options: {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: { labels: { color: '#8b949e' } },
+      annotation: {
+        annotations: {
+          target: {
+            type: 'line',
+            yMin: 3.5, yMax: 3.5,
+            borderColor: '#d29922',
+            borderWidth: 2,
+            borderDash: [6,4],
+            label: { content: '목표 ROAS 3.5', enabled: true, color: '#d29922', backgroundColor: 'transparent' }
+          }
+        }
+      }
+    },
+    scales: {
+      x: { ticks: { color: '#8b949e' }, grid: { color: '#21262d' } },
+      y: {
+        min: 0, max: 5,
+        ticks: { color: '#8b949e' },
+        grid: { color: '#21262d' },
+        title: { display: true, text: 'Blended ROAS', color: '#8b949e' }
+      }
+    }
+  }
+});
+
+// 4. 채널 특성 레이더
+const ctx4 = document.getElementById('radarChart').getContext('2d');
+new Chart(ctx4, {
+  type: 'radar',
+  data: {
+    labels: ['도달', '전환', '비용효율', '브랜딩', '리타겟팅'],
+    datasets: [
+      {
+        label: '메타(FB/IG)',
+        data: [85, 80, 60, 70, 90],
+        backgroundColor: 'rgba(58,92,237,0.15)',
+        borderColor: COLORS.meta,
+        pointBackgroundColor: COLORS.meta,
+        borderWidth: 2,
+      },
+      {
+        label: '유튜브',
+        data: [75, 55, 65, 90, 70],
+        backgroundColor: 'rgba(204,0,0,0.15)',
+        borderColor: COLORS.youtube,
+        pointBackgroundColor: COLORS.youtube,
+        borderWidth: 2,
+      },
+      {
+        label: '틱톡',
+        data: [90, 35, 80, 75, 40],
+        backgroundColor: 'rgba(105,201,208,0.15)',
+        borderColor: COLORS.tiktok,
+        pointBackgroundColor: COLORS.tiktok,
+        borderWidth: 2,
+      },
+      {
+        label: '네이버 SA',
+        data: [55, 90, 70, 50, 65],
+        backgroundColor: 'rgba(3,199,90,0.15)',
+        borderColor: COLORS.naver,
+        pointBackgroundColor: COLORS.naver,
+        borderWidth: 2,
+      },
+      {
+        label: '카카오',
+        data: [70, 65, 75, 55, 80],
+        backgroundColor: 'rgba(254,229,0,0.15)',
+        borderColor: '#ccbb00',
+        pointBackgroundColor: '#ccbb00',
+        borderWidth: 2,
+      },
+      {
+        label: '구글',
+        data: [80, 70, 72, 65, 75],
+        backgroundColor: 'rgba(66,133,244,0.15)',
+        borderColor: COLORS.google,
+        pointBackgroundColor: COLORS.google,
+        borderWidth: 2,
+      }
+    ]
+  },
+  options: {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: { labels: { color: '#8b949e', font: { size: 12 } } },
+    },
+    scales: {
+      r: {
+        min: 0, max: 100,
+        ticks: { color: '#6e7681', stepSize: 20, backdropColor: 'transparent' },
+        grid: { color: '#30363d' },
+        angleLines: { color: '#30363d' },
+        pointLabels: { color: '#e1e4e8', font: { size: 13 } }
+      }
+    }
+  }
+});
+
+// 5. 스케일업 단계별 예산 배분 Stacked
+const ctx5 = document.getElementById('stackedChart').getContext('2d');
+new Chart(ctx5, {
+  type: 'bar',
+  data: {
+    labels: ['현재 (₩42M)', 'Phase 1 (₩50M)', 'Phase 2 (₩1억)', 'Phase 3 (₩3억)'],
+    datasets: [
+      { label: '메타', data: [42, 40, 60, 100], backgroundColor: COLORS.meta, borderRadius: 0 },
+      { label: '네이버', data: [0, 10, 12, 30], backgroundColor: COLORS.naver, borderRadius: 0 },
+      { label: '유튜브', data: [0, 0, 18, 60], backgroundColor: COLORS.youtube, borderRadius: 0 },
+      { label: '틱톡', data: [0, 0, 10, 40], backgroundColor: COLORS.tiktok, borderRadius: 0 },
+      { label: '카카오', data: [0, 0, 0, 30], backgroundColor: '#ccbb00', borderRadius: 0 },
+      { label: '구글', data: [0, 0, 0, 40], backgroundColor: COLORS.google, borderRadius: 0 },
+    ]
+  },
+  options: {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: { labels: { color: '#8b949e' } },
+      tooltip: { callbacks: { label: ctx => `${ctx.dataset.label}: ₩${ctx.raw}M ⚠️추정` } }
+    },
+    scales: {
+      x: { stacked: true, ticks: { color: '#8b949e' }, grid: { color: '#21262d' } },
+      y: {
+        stacked: true,
+        ticks: { color: '#8b949e', callback: v => '₩' + v + 'M' },
+        grid: { color: '#21262d' }
+      }
+    }
+  }
+});
+
+// 6. 현재 도넛
+const ctx6 = document.getElementById('donutCurrent').getContext('2d');
+new Chart(ctx6, {
   type: 'doughnut',
   data: {
-    labels: ['메타', '유튜브', '틱톡', '네이버', '카카오'],
-    datasets: [{ data: [50, 20, 15, 10, 5], backgroundColor: ['#1877F2', '#FF0000', '#555', '#03C75A', '#FEE500'] }]
+    labels: ['메타 (100%)'],
+    datasets: [{
+      data: [100],
+      backgroundColor: [COLORS.meta],
+      borderColor: ['#0f1117'],
+      borderWidth: 3,
+    }]
   },
-  options: donutOpts
+  options: {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: { labels: { color: '#8b949e' } },
+      tooltip: { callbacks: { label: ctx => `${ctx.label}: ₩42M` } }
+    }
+  }
+});
+
+// 7. 목표 도넛
+const ctx7 = document.getElementById('donutTarget').getContext('2d');
+new Chart(ctx7, {
+  type: 'doughnut',
+  data: {
+    labels: ['메타 (70%)', '유튜브 (20%)', '네이버 (10%)'],
+    datasets: [{
+      data: [70, 20, 10],
+      backgroundColor: [COLORS.meta, COLORS.youtube, COLORS.naver],
+      borderColor: ['#0f1117'],
+      borderWidth: 3,
+    }]
+  },
+  options: {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: { labels: { color: '#8b949e' } },
+      tooltip: {
+        callbacks: {
+          label: ctx => {
+            const amounts = ['₩70M', '₩20M', '₩10M'];
+            return `${ctx.label}: ${amounts[ctx.dataIndex]} ⚠️추정`;
+          }
+        }
+      }
+    }
+  }
 });
 </script>
 
