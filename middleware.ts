@@ -27,7 +27,12 @@ export default async function middleware(req: Request) {
     url.pathname.startsWith("/api/auth") ||
     url.pathname === "/faq" ||
     url.pathname === "/faq.html" ||
-    url.pathname.startsWith("/faq")
+    url.pathname.startsWith("/faq") ||
+    url.pathname === "/sns-views" ||
+    url.pathname === "/sns-views.html" ||
+    url.pathname === "/sns-tracker" ||
+    url.pathname === "/sns-tracker.html" ||
+    url.pathname.startsWith("/data/sns-views")
   ) {
     return next();
   }
