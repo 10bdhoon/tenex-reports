@@ -1,36 +1,48 @@
 {
-  "updated": "2026-03-30T16:28",
+  "updated": "2026-03-30T07:49:47.333Z",
   "tasks": [
     {
       "id": "t01",
       "title": "캘린더 연동",
-      "status": "done",
       "cat": "I",
-      "assignee": "카리나",
-      "dueDate": "2026-03-27",
-      "note": "구글 캘린더 API 연동 완료",
+      "urgency": "green",
       "importance": "중",
-      "urgency": "green"
+      "status": "done",
+      "assignee": "카리나",
+      "due": "2026-03-27",
+      "desc": "구글 캘린더 API 연동 완료",
+      "checklist": [],
+      "memo": "",
+      "_source": "json",
+      "sortOrder": 1,
+      "priorityOrder": 0
     },
     {
       "id": "t02",
       "title": "지메일 연동",
-      "status": "pending",
       "cat": "I",
-      "assignee": "카리나",
-      "dueDate": null,
-      "note": "법인 메일 만든 후 진행",
+      "urgency": "green",
       "importance": "중",
-      "urgency": "green"
+      "status": "waiting",
+      "assignee": "카리나",
+      "due": null,
+      "desc": "법인 메일 만든 후 진행",
+      "checklist": [],
+      "memo": "",
+      "_source": "json",
+      "sortOrder": 4,
+      "priorityOrder": 10
     },
     {
       "id": "t03",
       "title": "리포트 UI (크롱 스타일)",
-      "status": "in_progress",
       "cat": "E",
+      "urgency": "yellow",
+      "importance": "중",
+      "status": "doing",
       "assignee": "개실장",
-      "dueDate": "2026-04-04",
-      "note": "SPA/업무보드/앱통합",
+      "due": "2026-04-04",
+      "desc": "SPA/업무보드/앱통합",
       "checklist": [
         {
           "text": "SPA 시스템 페이지 전환",
@@ -73,38 +85,53 @@
           "done": false
         }
       ],
-      "importance": "중",
-      "urgency": "yellow"
+      "memo": "",
+      "_source": "json",
+      "sortOrder": 2,
+      "priorityOrder": 3
     },
     {
       "id": "t04",
       "title": "CRM 셋팅 (알마니 이관)",
-      "status": "in_progress",
       "cat": "D",
-      "assignee": "알마니",
-      "dueDate": null,
-      "note": "데이터라이즈 안 함. 알마니가 직접 셋팅",
+      "urgency": "yellow",
       "importance": "중",
-      "urgency": "yellow"
+      "status": "doing",
+      "assignee": "알마니",
+      "due": null,
+      "desc": "데이터라이즈 안 함. 알마니가 직접 셋팅",
+      "checklist": [],
+      "memo": "",
+      "_source": "json",
+      "sortOrder": 2,
+      "priorityOrder": 2
     },
     {
       "id": "t05",
       "title": "정품등록 + 메타픽셀",
-      "status": "done",
       "cat": "D",
-      "assignee": "개실장",
-      "dueDate": "2026-03-27",
-      "note": "kinemedical-register.vercel.app 배포 완료",
+      "urgency": "green",
       "importance": "중",
-      "urgency": "green"
+      "status": "done",
+      "assignee": "개실장",
+      "due": "2026-03-27",
+      "desc": "kinemedical-register.vercel.app 배포 완료",
+      "checklist": [],
+      "memo": "",
+      "_source": "json",
+      "sortOrder": 3,
+      "priorityOrder": 4
     },
     {
       "id": "t06",
       "title": "FAQ + CS 최적화",
-      "status": "in_progress",
       "cat": "K",
+      "urgency": "yellow",
+      "importance": "중",
+      "status": "doing",
       "assignee": "고실장",
-      "dueDate": "2026-04-04",
+      "due": "2026-04-04",
+      "desc": "",
       "checklist": [
         {
           "text": "CS 기획안 v2.0",
@@ -123,38 +150,53 @@
           "done": false
         }
       ],
-      "importance": "중",
-      "urgency": "yellow"
+      "memo": "",
+      "_source": "json",
+      "sortOrder": 1,
+      "priorityOrder": 5
     },
     {
       "id": "t07",
       "title": "SNS 일별 조회수 트래킹",
-      "status": "in_progress",
       "cat": "B",
-      "assignee": "콘실장",
-      "dueDate": "2026-04-04",
-      "note": "콘실장 시스템 구축 중",
+      "urgency": "yellow",
       "importance": "중",
-      "urgency": "yellow"
+      "status": "doing",
+      "assignee": "콘실장",
+      "due": "2026-04-04",
+      "desc": "콘실장 시스템 구축 중",
+      "checklist": [],
+      "memo": "",
+      "_source": "json",
+      "sortOrder": 3,
+      "priorityOrder": 11
     },
     {
       "id": "t08",
       "title": "AI 바이럴 자동화",
-      "status": "pending",
       "cat": "I",
-      "assignee": "카리나",
-      "dueDate": null,
-      "note": "유범님 순환 루프 참고",
+      "urgency": "green",
       "importance": "중",
-      "urgency": "green"
+      "status": "waiting",
+      "assignee": "카리나",
+      "due": null,
+      "desc": "유범님 순환 루프 참고",
+      "checklist": [],
+      "memo": "",
+      "_source": "json",
+      "sortOrder": 3,
+      "priorityOrder": 12
     },
     {
       "id": "t09",
       "title": "소비자 리뷰 → 광고 카피",
-      "status": "done",
       "cat": "D",
+      "urgency": "green",
+      "importance": "중",
+      "status": "done",
       "assignee": "마실장",
-      "dueDate": "2026-03-30",
+      "due": "2026-03-30",
+      "desc": "",
       "checklist": [
         {
           "text": "카피 15개 작성",
@@ -165,81 +207,117 @@
           "done": false
         }
       ],
-      "importance": "중",
-      "urgency": "green"
+      "memo": "",
+      "_source": "json",
+      "sortOrder": 1,
+      "priorityOrder": 17
     },
     {
       "id": "t10",
       "title": "커뮤니티 구축 (톰 레퍼런스)",
-      "status": "pending",
       "cat": "B",
-      "assignee": null,
-      "dueDate": null,
-      "note": "https://cafe.naver.com/clickg/22621",
+      "urgency": "green",
       "importance": "중",
-      "urgency": "green"
+      "status": "waiting",
+      "assignee": "",
+      "due": null,
+      "desc": "https://cafe.naver.com/clickg/22621",
+      "checklist": [],
+      "memo": "",
+      "_source": "json",
+      "sortOrder": 1,
+      "priorityOrder": 8
     },
     {
       "id": "t11",
       "title": "카페24 스코프 추가 + 토큰 재발급",
-      "status": "done",
       "cat": "H",
-      "assignee": "카리나",
-      "dueDate": "2026-03-30",
-      "note": "15개 스코프, mall.read_product+community 포함",
+      "urgency": "green",
       "importance": "중",
-      "urgency": "green"
+      "status": "done",
+      "assignee": "카리나",
+      "due": "2026-03-30",
+      "desc": "15개 스코프, mall.read_product+community 포함",
+      "checklist": [],
+      "memo": "",
+      "_source": "json",
+      "sortOrder": 1,
+      "priorityOrder": 9
     },
     {
       "id": "t12",
       "title": "굿플 연락 (제품 개선)",
-      "status": "pending",
       "cat": "A",
-      "assignee": "태훈",
-      "dueDate": "2026-04-01",
-      "note": "내일 스미스 팁스 확인 후 연락",
+      "urgency": "green",
       "importance": "중",
-      "urgency": "green"
+      "status": "waiting",
+      "assignee": "태훈",
+      "due": "2026-04-01",
+      "desc": "내일 스미스 팁스 확인 후 연락",
+      "checklist": [],
+      "memo": "",
+      "_source": "json",
+      "sortOrder": 0,
+      "priorityOrder": 9
     },
     {
       "id": "t13",
       "title": "제형 온보딩",
-      "status": "in_progress",
       "cat": "G",
-      "assignee": "태훈",
-      "dueDate": null,
-      "note": "G-채용 채널에서 진행중",
+      "urgency": "yellow",
       "importance": "중",
-      "urgency": "yellow"
+      "status": "doing",
+      "assignee": "태훈",
+      "due": null,
+      "desc": "G-채용 채널에서 진행중",
+      "checklist": [],
+      "memo": "",
+      "_source": "json",
+      "sortOrder": 0,
+      "priorityOrder": 1
     },
     {
       "id": "t14",
       "title": "통증크림 디자인",
-      "status": "pending",
       "cat": "A",
-      "assignee": "태훈",
-      "dueDate": "2026-04-15",
-      "note": "4월 중순 목표",
+      "urgency": "green",
       "importance": "중",
-      "urgency": "green"
+      "status": "waiting",
+      "assignee": "태훈",
+      "due": "2026-04-15",
+      "desc": "4월 중순 목표",
+      "checklist": [],
+      "memo": "",
+      "_source": "json",
+      "sortOrder": 0,
+      "priorityOrder": 7
     },
     {
       "id": "t15",
       "title": "댓글 자동화 (YouTube)",
-      "status": "blocked",
       "cat": "B",
-      "assignee": "콘실장",
-      "dueDate": null,
-      "note": "YouTube OAuth 필요 — 태훈 로그인 필요",
+      "urgency": "red",
       "importance": "중",
-      "urgency": "red"
+      "status": "delay",
+      "assignee": "콘실장",
+      "due": null,
+      "desc": "YouTube OAuth 필요 — 태훈 로그인 필요",
+      "checklist": [],
+      "memo": "",
+      "_source": "json",
+      "sortOrder": 2,
+      "priorityOrder": 6
     },
     {
       "id": "t16",
       "title": "에이전트 팀 Phase 3 마무리",
-      "status": "in_progress",
       "cat": "I",
+      "urgency": "yellow",
+      "importance": "중",
+      "status": "doing",
       "assignee": "카리나",
+      "due": null,
+      "desc": "",
       "checklist": [
         {
           "text": "4실장 하트비트 루프",
@@ -262,63 +340,199 @@
           "done": false
         }
       ],
-      "importance": "중",
-      "urgency": "yellow"
+      "memo": "",
+      "_source": "json",
+      "sortOrder": 5,
+      "priorityOrder": 14
     },
     {
       "id": "t17",
       "title": "운동 앱",
-      "status": "in_progress",
       "cat": "E",
-      "assignee": "인규",
-      "dueDate": null,
-      "note": "인규 진행중",
+      "urgency": "yellow",
       "importance": "중",
-      "urgency": "yellow"
+      "status": "doing",
+      "assignee": "인규",
+      "due": null,
+      "desc": "인규 진행중",
+      "checklist": [],
+      "memo": "",
+      "_source": "json",
+      "sortOrder": 2,
+      "priorityOrder": 13
     },
     {
       "id": "t18",
       "title": "의료계 인플루언서 리스트업 (녹스)",
-      "status": "in_progress",
       "cat": "C",
-      "assignee": "태훈",
-      "dueDate": null,
-      "note": "나현 인수인계. 녹스 인플루언서 서비스로 국내/해외 의료계 인플루언서 리스트업",
+      "urgency": "yellow",
       "importance": "상",
-      "urgency": "yellow"
+      "status": "doing",
+      "assignee": "태훈",
+      "due": null,
+      "desc": "나현 인수인계. 녹스 인플루언서 서비스로 국내/해외 의료계 인플루언서 리스트업",
+      "checklist": [],
+      "memo": "",
+      "_source": "json",
+      "sortOrder": 0,
+      "priorityOrder": 0
     },
     {
       "id": "t19",
       "title": "팁스 → 8억 받자!",
-      "status": "pending",
       "cat": "F",
-      "assignee": "태훈",
-      "dueDate": null,
-      "note": "내일 스미스한테 확인 후 진행",
+      "urgency": "red",
       "importance": "상",
-      "urgency": "red"
+      "status": "waiting",
+      "assignee": "태훈",
+      "due": null,
+      "desc": "내일 스미스한테 확인 후 진행",
+      "checklist": [],
+      "memo": "",
+      "_source": "json",
+      "sortOrder": 0,
+      "priorityOrder": 0
     },
     {
       "id": "t20",
       "title": "기보 컨택",
-      "status": "pending",
       "cat": "F",
-      "assignee": "태훈",
-      "dueDate": null,
-      "note": "기술보증기금",
+      "urgency": "yellow",
       "importance": "중",
-      "urgency": "yellow"
+      "status": "waiting",
+      "assignee": "태훈",
+      "due": null,
+      "desc": "기술보증기금",
+      "checklist": [],
+      "memo": "",
+      "_source": "json",
+      "sortOrder": 0,
+      "priorityOrder": 0
     },
     {
       "id": "t21",
       "title": "신보 컨택",
-      "status": "pending",
       "cat": "F",
-      "assignee": "태훈",
-      "dueDate": null,
-      "note": "신용보증기금",
+      "urgency": "yellow",
       "importance": "중",
-      "urgency": "yellow"
+      "status": "waiting",
+      "assignee": "태훈",
+      "due": null,
+      "desc": "신용보증기금",
+      "checklist": [],
+      "memo": "",
+      "_source": "json",
+      "sortOrder": 0,
+      "priorityOrder": 0
+    }
+  ],
+  "agents": [
+    {
+      "id": "개실장",
+      "icon": "🔧",
+      "name": "개실장",
+      "role": "개발실 총괄",
+      "tasks": [
+        {
+          "id": "g1",
+          "name": "업무보드 SPA 구현",
+          "status": "doing"
+        },
+        {
+          "id": "g2",
+          "name": "almani 계정 + 어드민 페이지",
+          "status": "done"
+        },
+        {
+          "id": "g3",
+          "name": "tenex-reports UI 리뉴얼",
+          "status": "done"
+        },
+        {
+          "id": "g4",
+          "name": "정품등록 시스템",
+          "status": "doing"
+        },
+        {
+          "id": "g5",
+          "name": "앱 MVP 기술 스펙",
+          "status": "doing"
+        }
+      ]
+    },
+    {
+      "id": "마실장",
+      "icon": "📣",
+      "name": "마실장",
+      "role": "마케팅실 총괄",
+      "tasks": [
+        {
+          "id": "m1",
+          "name": "Mixpanel 시각화 대시보드",
+          "status": "doing"
+        },
+        {
+          "id": "m2",
+          "name": "메타 광고 성과 리포트",
+          "status": "doing"
+        },
+        {
+          "id": "m3",
+          "name": "CRM 알림톡 자동화",
+          "status": "waiting"
+        },
+        {
+          "id": "m4",
+          "name": "인플루언서 아웃리치",
+          "status": "waiting"
+        }
+      ]
+    },
+    {
+      "id": "고실장",
+      "icon": "🎯",
+      "name": "고실장",
+      "role": "고객성공 총괄",
+      "tasks": [
+        {
+          "id": "k1",
+          "name": "CS 운영 기획안",
+          "status": "delay"
+        },
+        {
+          "id": "k2",
+          "name": "VOC 분석 리포트",
+          "status": "doing"
+        },
+        {
+          "id": "k3",
+          "name": "체험단 리뷰 관리",
+          "status": "waiting"
+        }
+      ]
+    },
+    {
+      "id": "콘실장",
+      "icon": "🎬",
+      "name": "콘실장",
+      "role": "콘텐츠 총괄",
+      "tasks": [
+        {
+          "id": "c1",
+          "name": "YouTube 댓글 자동화",
+          "status": "doing"
+        },
+        {
+          "id": "c2",
+          "name": "콘텐츠 캘린더 수립",
+          "status": "doing"
+        },
+        {
+          "id": "c3",
+          "name": "썸네일 A/B 테스트",
+          "status": "waiting"
+        }
+      ]
     }
   ]
 }
