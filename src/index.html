@@ -2127,6 +2127,20 @@ async function renderCronDashboard(){
         c.techStack.forEach(t=>{h+='<span class="sc-detail-tag">'+t+'</span>';});
         h+='</div></div>';
       }
+      // Related reports
+      if(c.relatedReports&&c.relatedReports.length){
+        h+='<div class="sc-detail-section"><div class="sc-detail-title">📄 관련 보고서</div>';
+        h+='<div class="sc-detail-links">';
+        c.relatedReports.forEach(r=>{h+='<a href="'+r.path+'" class="sc-detail-link" onclick="event.stopPropagation()">📑 '+r.title+'</a>';});
+        h+='</div></div>';
+      }
+      // Related deploys
+      if(c.relatedDeploys&&c.relatedDeploys.length){
+        h+='<div class="sc-detail-section"><div class="sc-detail-title">🚀 관련 배포 사이트</div>';
+        h+='<div class="sc-detail-links">';
+        c.relatedDeploys.forEach(d=>{h+='<a href="'+d.url+'" target="_blank" class="sc-detail-link" onclick="event.stopPropagation()">🌐 '+d.title+'</a>';});
+        h+='</div></div>';
+      }
       // Troubleshooting
       if(c.troubleshooting&&c.troubleshooting.length){
         h+='<div class="sc-detail-section"><div class="sc-detail-title">🛠 트러블슈팅</div>';
