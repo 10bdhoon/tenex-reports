@@ -1070,23 +1070,8 @@ document.addEventListener('DOMContentLoaded',()=>{
 
 /* ═══════ Task Board Logic ═══════ */
 const TB_STORAGE='tenex-task-board-v1';
-const DEFAULT_TASKS=[
-  {id:'t1',title:'리포트 UI 크롱 스타일 전환',cat:'I',urgency:'green',importance:'상',status:'done',created:'2026-03-27'},
-  {id:'t2',title:'정품등록 + 메타픽셀',cat:'D',urgency:'yellow',importance:'상',status:'doing',created:'2026-03-27'},
-  {id:'t3',title:'앱 탭 UI 통합',cat:'E',urgency:'yellow',importance:'상',status:'doing',created:'2026-03-27'},
-  {id:'t4',title:'SPA 카테고리 구조 개편',cat:'I',urgency:'green',importance:'중',status:'done',created:'2026-03-27'},
-  {id:'t5',title:'Mixpanel 시각화 대시보드',cat:'D',urgency:'yellow',importance:'상',status:'doing',created:'2026-03-28'},
-  {id:'t6',title:'알림톡 CRM 자동화',cat:'D',urgency:'green',importance:'상',status:'waiting',created:'2026-03-28'},
-  {id:'t7',title:'앱 MVP 개발 착수',cat:'E',urgency:'red',importance:'상',status:'waiting',created:'2026-03-28'},
-  {id:'t8',title:'CS-25 리뷰 체험단 세팅',cat:'K',urgency:'green',importance:'중',status:'waiting',created:'2026-03-28'},
-  {id:'t9',title:'유튜브 콘텐츠 캘린더',cat:'B',urgency:'green',importance:'중',status:'waiting',created:'2026-03-29'},
-  {id:'t10',title:'팀 채용 JD 작성',cat:'G',urgency:'yellow',importance:'상',status:'waiting',created:'2026-03-29'},
-  {id:'t11',title:'해외진출 1차 리서치',cat:'J',urgency:'green',importance:'중',status:'waiting',created:'2026-03-29'},
-  {id:'t12',title:'지메일 연동 자동화',cat:'H',urgency:'green',importance:'중',status:'waiting',created:'2026-03-29'},
-  {id:'t13',title:'모사모 강의 통합 완료',cat:'Z',urgency:'green',importance:'하',status:'done',created:'2026-03-27'},
-  {id:'t14',title:'수익 시뮬레이션 업데이트',cat:'F',urgency:'yellow',importance:'상',status:'doing',created:'2026-03-30'},
-  {id:'t15',title:'보안 대시보드 점검',cat:'I',urgency:'red',importance:'상',status:'doing',created:'2026-03-30'},
-];
+// DEFAULT_TASKS removed — JSON is the single source of truth
+const DEFAULT_TASKS=[];
 
 const TB_STATUS_EMOJI={waiting:'⏳',doing:'🔧',done:'✅'};
 const TB_STATUS_LABEL={waiting:'대기',doing:'진행중',done:'완료'};
@@ -1111,9 +1096,10 @@ function ensureTaskFields(t){
 const JSON_STATUS_MAP={done:'done',in_progress:'doing',pending:'waiting',blocked:'delay',doing:'doing',waiting:'waiting'};
 function mapJsonTask(jt){
   return ensureTaskFields({
-    id:jt.id,title:jt.title,cat:jt.cat,urgency:jt.urgency,importance:jt.importance,
-    status:JSON_STATUS_MAP[jt.status]||jt.status,
-    assignee:jt.assignee||'',created:jt.created,
+    id:jt.id||'',title:jt.title||'(제목 없음)',cat:jt.cat||'I',
+    urgency:jt.urgency||'green',importance:jt.importance||'중',
+    status:JSON_STATUS_MAP[jt.status]||jt.status||'waiting',
+    assignee:jt.assignee||'',created:jt.created||'',
     due:jt.dueDate||null,desc:jt.note||'',
     checklist:jt.checklist||[],memo:'',
     _source:'json'
