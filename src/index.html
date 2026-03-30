@@ -1705,11 +1705,14 @@ const SYSTEM_RENDERERS={cron:renderCronDashboard,deploy:renderDeployDashboard,sy
 
 function openSystemDashboard(page,label){
   switchView('system');
+  currentSystemHref=null;
   const iframeWrap=document.getElementById('systemIframeWrap');
   const contentEl=document.getElementById('systemContent');
   const iframe=document.getElementById('systemIframe');
+  const newTabBtn=document.getElementById('systemNewTabBtn');
   iframe.src='about:blank';
   iframeWrap.style.display='none';
+  newTabBtn.style.display='none';
   document.getElementById('systemViewTitle').textContent=SYSTEM_PAGE_TITLES[page]||label||'';
   const renderer=SYSTEM_RENDERERS[page];
   contentEl.innerHTML=renderer?renderer():'';
