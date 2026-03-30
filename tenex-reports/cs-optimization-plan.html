@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CS 최적화 기획안 — 테넥스/키네메디칼</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --bg: #0a0a0a; --bg2: #111; --bg3: #1a1a1a; --bg4: #222;
+    --border: #2a2a2a; --text: #f0f0f0; --text2: #aaa; --text3: #666;
+    --red: #ff4444; --orange: #f0883e; --yellow: #fbbf24;
+    --green: #22c55e; --blue: #58a6ff; --purple: #a78bfa;
+  }
+  body { background: var(--bg); color: var(--text); font-family: -apple-system, BlinkMacSystemFont, 'Apple SD Gothic Neo', 'Noto Sans KR', sans-serif; line-height: 1.6; }
+  .nav { position: sticky; top: 0; z-index: 100; background: #0d0d0d; border-bottom: 1px solid var(--border); display: flex; align-items: center; overflow-x: auto; padding: 0 20px; }
+  .nav-logo { font-size: 13px; font-weight: 700; color: var(--green); padding: 14px 20px 14px 0; border-right: 1px solid var(--border); margin-right: 8px; white-space: nowrap; flex-shrink: 0; }
+  .nav a { color: var(--text3); text-decoration: none; font-size: 12px; padding: 14px 14px; white-space: nowrap; border-bottom: 2px solid transparent; transition: all 0.15s; }
+  .nav a:hover { color: var(--text); border-bottom-color: var(--blue); }
+  .hero { background: linear-gradient(135deg, #0a0a0a 0%, #111 50%, #0a1120 100%); border-bottom: 1px solid var(--border); padding: 48px 32px 40px; }
+  .hero-inner { max-width: 900px; margin: 0 auto; }
+  .hero-badge { display: inline-flex; align-items: center; gap: 6px; background: rgba(34,197,94,0.1); border: 1px solid rgba(34,197,94,0.3); color: var(--green); font-size: 11px; font-weight: 700; padding: 4px 12px; border-radius: 20px; margin-bottom: 16px; letter-spacing: 0.05em; }
+  .hero h1 { font-size: 28px; font-weight: 800; color: #fff; margin-bottom: 10px; }
+  .hero p { color: var(--text2); font-size: 14px; max-width: 600px; line-height: 1.7; }
+  .hero-meta { display: flex; gap: 24px; margin-top: 24px; flex-wrap: wrap; }
+  .hero-meta-item { font-size: 12px; color: var(--text3); }
+  .hero-meta-item span { color: var(--text2); font-weight: 600; }
+  .container { max-width: 900px; margin: 0 auto; padding: 32px 24px 80px; }
+  .section { margin-bottom: 48px; }
+  .section-title { font-size: 13px; font-weight: 700; color: var(--text3); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 20px; display: flex; align-items: center; gap: 10px; }
+  .section-title::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+  .section-num { background: var(--bg3); border: 1px solid var(--border); border-radius: 6px; padding: 2px 8px; font-size: 11px; color: var(--blue); }
+  .card { background: var(--bg3); border: 1px solid var(--border); border-radius: 12px; padding: 24px; margin-bottom: 12px; }
+  .card-title { font-size: 15px; font-weight: 700; color: var(--text); margin-bottom: 8px; }
+  .card-sub { font-size: 13px; color: var(--text2); line-height: 1.7; }
+  .card-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .badge { display: inline-block; font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 10px; letter-spacing: 0.04em; }
+  .badge-red { background: rgba(255,68,68,0.15); color: var(--red); }
+  .badge-yellow { background: rgba(251,191,36,0.12); color: var(--yellow); }
+  .badge-green { background: rgba(34,197,94,0.12); color: var(--green); }
+  .badge-blue { background: rgba(88,166,255,0.12); color: var(--blue); }
+  .issue-list { list-style: none; }
+  .issue-item { display: flex; align-items: flex-start; gap: 12px; padding: 14px 0; border-bottom: 1px solid var(--border); }
+  .issue-item:last-child { border-bottom: none; }
+  .issue-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; margin-top: 6px; }
+  .issue-dot.red { background: var(--red); }
+  .issue-dot.yellow { background: var(--yellow); }
+  .issue-dot.green { background: var(--green); }
+  .issue-content { flex: 1; }
+  .issue-title { font-size: 13px; font-weight: 600; color: var(--text); margin-bottom: 3px; }
+  .issue-desc { font-size: 12px; color: var(--text2); }
+  .journey { display: flex; gap: 0; overflow-x: auto; padding-bottom: 8px; }
+  .j-step { flex: 1; min-width: 130px; background: var(--bg3); border: 1px solid var(--border); border-right: none; padding: 16px 14px; position: relative; }
+  .j-step:first-child { border-radius: 10px 0 0 10px; }
+  .j-step:last-child { border-right: 1px solid var(--border); border-radius: 0 10px 10px 0; }
+  .j-step::after { content: '▶'; position: absolute; right: -11px; top: 50%; transform: translateY(-50%); font-size: 10px; color: var(--border); z-index: 2; }
+  .j-step:last-child::after { display: none; }
+  .j-phase { font-size: 10px; font-weight: 700; color: var(--blue); margin-bottom: 6px; }
+  .j-name { font-size: 12px; font-weight: 700; color: var(--text); margin-bottom: 6px; }
+  .j-touchpoint { font-size: 11px; color: var(--text2); line-height: 1.6; }
+  .j-moment { font-size: 11px; color: var(--green); margin-top: 6px; font-weight: 600; }
+  .j-risk { font-size: 11px; color: var(--red); margin-top: 4px; }
+  .proc-table { width: 100%; border-collapse: collapse; font-size: 12px; }
+  .proc-table th { background: var(--bg4); color: var(--text2); font-weight: 600; padding: 10px 14px; text-align: left; border-bottom: 1px solid var(--border); }
+  .proc-table td { padding: 12px 14px; border-bottom: 1px solid var(--bg3); vertical-align: top; color: var(--text2); }
+  .proc-table tr:hover td { background: var(--bg3); }
+  .proc-table td:first-child { color: var(--text); font-weight: 600; }
+  .split-box { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .auto-card { background: rgba(34,197,94,0.05); border: 1px solid rgba(34,197,94,0.2); border-radius: 10px; padding: 18px; }
+  .human-card { background: rgba(88,166,255,0.05); border: 1px solid rgba(88,166,255,0.2); border-radius: 10px; padding: 18px; }
+  .split-title { font-size: 12px; font-weight: 700; margin-bottom: 12px; }
+  .split-title.auto { color: var(--green); }
+  .split-title.human { color: var(--blue); }
+  .split-item { font-size: 12px; color: var(--text2); padding: 6px 0; border-bottom: 1px solid rgba(255,255,255,0.04); display: flex; align-items: flex-start; gap: 6px; line-height: 1.5; }
+  .split-item:last-child { border-bottom: none; }
+  .split-item::before { content: '•'; flex-shrink: 0; color: var(--text3); }
+  .funnel { display: flex; flex-direction: column; gap: 4px; }
+  .funnel-step { display: flex; align-items: center; gap: 14px; padding: 14px 18px; border-radius: 8px; border: 1px solid var(--border); }
+  .funnel-icon { font-size: 18px; flex-shrink: 0; }
+  .funnel-content { flex: 1; }
+  .funnel-title { font-size: 13px; font-weight: 700; color: var(--text); }
+  .funnel-desc { font-size: 12px; color: var(--text2); margin-top: 2px; }
+  .funnel-timing { font-size: 11px; color: var(--yellow); margin-top: 2px; font-weight: 600; }
+  .funnel-arrow { text-align: center; color: var(--text3); font-size: 14px; padding: 2px 0; }
+  .kpi-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+  .kpi-card { background: var(--bg3); border: 1px solid var(--border); border-radius: 10px; padding: 18px 16px; }
+  .kpi-label { font-size: 11px; color: var(--text3); font-weight: 600; letter-spacing: 0.05em; margin-bottom: 6px; }
+  .kpi-current { font-size: 18px; font-weight: 800; color: var(--text); }
+  .kpi-target { font-size: 12px; color: var(--green); margin-top: 4px; font-weight: 600; }
+  .kpi-note { font-size: 11px; color: var(--text3); margin-top: 4px; }
+  .roadmap { display: flex; flex-direction: column; gap: 4px; }
+  .road-phase { display: flex; gap: 0; align-items: stretch; }
+  .road-label { width: 110px; flex-shrink: 0; background: var(--bg4); border: 1px solid var(--border); border-radius: 8px 0 0 8px; padding: 14px 12px; font-size: 11px; font-weight: 700; color: var(--blue); display: flex; align-items: center; }
+  .road-items { flex: 1; background: var(--bg3); border: 1px solid var(--border); border-left: none; border-radius: 0 8px 8px 0; padding: 12px 16px; display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-bottom: 4px; }
+  .road-item { font-size: 12px; color: var(--text2); background: var(--bg4); border: 1px solid var(--border); border-radius: 6px; padding: 4px 10px; }
+  .road-item.hot { background: rgba(255,68,68,0.08); border-color: rgba(255,68,68,0.3); color: #ff8888; }
+  .callout { border-radius: 8px; padding: 14px 16px; font-size: 12px; line-height: 1.7; margin: 12px 0; }
+  .callout.info { background: rgba(88,166,255,0.07); border: 1px solid rgba(88,166,255,0.2); color: var(--text2); }
+  .callout.warn { background: rgba(251,191,36,0.07); border: 1px solid rgba(251,191,36,0.2); color: #d4a92a; }
+  .callout.alert { background: rgba(255,68,68,0.07); border: 1px solid rgba(255,68,68,0.2); color: #ff8888; }
+  .footer { border-top: 1px solid var(--border); padding: 24px 32px; text-align: center; font-size: 12px; color: var(--text3); }
+  @media (max-width: 640px) {
+    .card-grid, .kpi-grid, .split-box { grid-template-columns: 1fr; }
+    .journey { flex-direction: column; }
+    .j-step { border-right: 1px solid var(--border); border-radius: 8px; margin-bottom: 4px; }
+    .j-step::after { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav-logo">💚 테넥스 CX</div>
+  <a href="#analysis">현황 분석</a>
+  <a href="#journey">고객 여정</a>
+  <a href="#touchpoint">터치포인트</a>
+  <a href="#automation">자동화 설계</a>
+  <a href="#recovery">팬 전환</a>
+  <a href="#kpi">KPI</a>
+  <a href="#roadmap">로드맵</a>
+</nav>
+
+<div class="hero">
+  <div class="hero-inner">
+    <div class="hero-badge">💚 고객경험 성공실 기획안</div>
+    <h1>CS 최적화 기획안</h1>
+    <p>구매자가 실제로 회복하고, 평생 팬이 되는 구조 설계.<br>
+    테넥스 / 키네메디칼 (ES-808 · CS-25 · WS-200) 기준.</p>
+    <div class="hero-meta">
+      <div class="hero-meta-item">작성일: <span>2026-03-27</span></div>
+      <div class="hero-meta-item">작성: <span>고실장 (고객경험 성공실)</span></div>
+      <div class="hero-meta-item">버전: <span>v1.0</span></div>
+      <div class="hero-meta-item">보고 대상: <span>카리나 · 태훈</span></div>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+
+  <div class="section" id="analysis">
+    <div class="section-title"><span class="section-num">01</span> 현재 CS 프로세스 분석</div>
+    <div class="callout alert">⚠️ 핵심 문제: 현재 CS는 <strong>반응형(Reactive)</strong>이다. 문의가 와야 대응한다. 선제적 설계가 없다.</div>
+    <div class="card" style="margin-top:16px;">
+      <div class="card-title">현황 진단 (brain.db + 카페24 데이터 기반)</div>
+      <ul class="issue-list">
+        <li class="issue-item">
+          <div class="issue-dot red"></div>
+          <div class="issue-content">
+            <div class="issue-title">1점 리뷰 6건 전부 미답변 <span class="badge badge-red">즉시 조치</span></div>
+            <div class="issue-desc">3/25 기준 — 관리자 댓글 0건. 잠재 고객이 그대로 이탈 중.</div>
+          </div>
+        </li>
+        <li class="issue-item">
+          <div class="issue-dot red"></div>
+          <div class="issue-content">
+            <div class="issue-title">WS-200 부정 리뷰 비율 13.3% <span class="badge badge-red">위험</span></div>
+            <div class="issue-desc">제품별 이슈가 CS 대응 전략에 반영되어 있지 않음.</div>
+          </div>
+        </li>
+        <li class="issue-item">
+          <div class="issue-dot yellow"></div>
+          <div class="issue-content">
+            <div class="issue-title">부정 리뷰 대부분 "불만족" "별로에요" — 이유 불명 <span class="badge badge-yellow">주의</span></div>
+            <div class="issue-desc">고객 소통 채널(Q&A) 부재. 불만 원인 파악 불가 → 개선 불가능한 구조.</div>
+          </div>
+        </li>
+        <li class="issue-item">
+          <div class="issue-dot yellow"></div>
+          <div class="issue-content">
+            <div class="issue-title">리뷰 #500·#499 — 주문번호만 적은 CS 문의 의도 <span class="badge badge-yellow">연락 필요</span></div>
+            <div class="issue-desc">리뷰를 CS 채널로 사용하는 고객 존재. 별도 응대 경로 없음.</div>
+          </div>
+        </li>
+        <li class="issue-item">
+          <div class="issue-dot green"></div>
+          <div class="issue-content">
+            <div class="issue-title">자동 배송 안내 문자 운영 중 (ES-808 D+14) <span class="badge badge-green">진행 중</span></div>
+            <div class="issue-desc">CRM 자동문자 시스템 구축됨. 이를 CS 여정에 통합 확장 가능.</div>
+          </div>
+        </li>
+      </ul>
+    </div>
+    <div class="card-grid">
+      <div class="card">
+        <div class="card-title">현재 CS 채널</div>
+        <div class="card-sub">📧 카페24 1:1 문의<br>⭐ 리뷰 댓글 (비공식 CS)<br>📱 카카오채널<br><br><span style="color:var(--red)">❌ 통합 CS 대시보드 없음</span><br><span style="color:var(--red)">❌ 응답 시간 기준 없음</span></div>
+      </div>
+      <div class="card">
+        <div class="card-title">현재 대응 방식</div>
+        <div class="card-sub">• 문의 접수 → 수동 확인<br>• 응대 스크립트 없음<br>• 리뷰 관리자 댓글 없음<br><br><span style="color:var(--yellow)">⚠️ 일관성·속도 모두 미확보</span><br><span style="color:var(--yellow)">⚠️ 담당자 의존적 구조</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section" id="journey">
+    <div class="section-title"><span class="section-num">02</span> 고객 여정 매핑</div>
+    <p style="font-size:12px;color:var(--text2);margin-bottom:16px;">주력 제품 ES-808 기준. 구매 → 배송 → 사용 → 재구매/크로스셀 전체 여정.</p>
+    <div class="journey">
+      <div class="j-step">
+        <div class="j-phase">STAGE 1</div>
+        <div class="j-name">🛒 구매 결정</div>
+        <div class="j-touchpoint">· 광고 클릭 (메타/유튜브)<br>· 상세페이지 열람<br>· 리뷰 확인 (150개+)</div>
+        <div class="j-moment">✨ 리뷰 신뢰도가 전환 결정</div>
+        <div class="j-risk">⚠️ 1점 미답변 → 이탈</div>
+      </div>
+      <div class="j-step">
+        <div class="j-phase">STAGE 2</div>
+        <div class="j-name">📦 배송 대기</div>
+        <div class="j-touchpoint">· 주문 확인 문자 (자동)<br>· 배송 조회 안내<br>· 대기 불안 발생</div>
+        <div class="j-moment">✨ 선제적 배송 안내</div>
+        <div class="j-risk">⚠️ 배송 지연 문의 폭증</div>
+      </div>
+      <div class="j-step">
+        <div class="j-phase">STAGE 3</div>
+        <div class="j-name">📬 수령 직후</div>
+        <div class="j-touchpoint">· 언박싱 경험<br>· 사용 가이드 확인<br>· D+1 환영 문자</div>
+        <div class="j-moment">✨ 첫 사용 성공 = 장기 팬</div>
+        <div class="j-risk">⚠️ "어떻게 써요?" 최다</div>
+      </div>
+      <div class="j-step">
+        <div class="j-phase">STAGE 4</div>
+        <div class="j-name">💪 사용 기간</div>
+        <div class="j-touchpoint">· 1~2주 효과 체감<br>· D+7 효과 확인 문자<br>· D+14 크로스셀 CRM</div>
+        <div class="j-moment">✨ 효과 체감 → 리뷰 유도</div>
+        <div class="j-risk">⚠️ 불만족 → 부정 리뷰</div>
+      </div>
+      <div class="j-step">
+        <div class="j-phase">STAGE 5</div>
+        <div class="j-name">⭐ 리뷰/추천</div>
+        <div class="j-touchpoint">· D+21 리뷰 요청 문자<br>· 포토 리뷰 인센티브<br>· 지인 추천 유도</div>
+        <div class="j-moment">✨ 리뷰 = 다음 고객 전환</div>
+        <div class="j-risk">⚠️ 유도 없으면 침묵</div>
+      </div>
+      <div class="j-step">
+        <div class="j-phase">STAGE 6</div>
+        <div class="j-name">🔄 재구매/크로스셀</div>
+        <div class="j-touchpoint">· ES-808 → CS-25<br>· +CS-25 → WS-200<br>· 정기 케어 프로그램</div>
+        <div class="j-moment">✨ 루틴 완성 = 브랜드 팬</div>
+        <div class="j-risk">⚠️ 타이밍 놓치면 이탈</div>
+      </div>
+    </div>
+    <div class="callout info">📌 크로스셀 원칙: ES-808만 → CS-25 우선 / ES-808+CS-25 → WS-200 / 3개 보유 → 케어 프로그램</div>
+  </div>
+
+  <div class="section" id="touchpoint">
+    <div class="section-title"><span class="section-num">03</span> 터치포인트별 감동 포인트</div>
+    <table class="proc-table">
+      <thead>
+        <tr><th>터치포인트</th><th>현재 상태</th><th>감동 포인트 (개선안)</th><th>담당</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>주문 직후 문자</td><td><span class="badge badge-yellow">보통</span></td><td>"OOO님, 선택 잘 하셨어요. 이제부터 회복이 시작됩니다." — 감정 연결</td><td><span class="badge badge-green">자동</span></td></tr>
+        <tr><td>배송 중 안내</td><td><span class="badge badge-red">없음</span></td><td>배송 출발 당일 문자 + 예상 도착일 ("내일 만나요!")</td><td><span class="badge badge-green">자동</span></td></tr>
+        <tr><td>수령 D+1</td><td><span class="badge badge-red">없음</span></td><td>"잘 도착했나요? 처음 사용법 영상 링크" — 첫 성공 경험 설계</td><td><span class="badge badge-green">자동</span></td></tr>
+        <tr><td>사용 D+7</td><td><span class="badge badge-yellow">일부</span></td><td>"1주일 써보셨나요? 효과 어떠세요?" — 효과 확인 + 불만 조기 포착</td><td><span class="badge badge-green">자동</span></td></tr>
+        <tr><td>D+14 크로스셀</td><td><span class="badge badge-yellow">진행 중</span></td><td>구매 이력 기반 개인화 메시지 (보유 제품에 따라 분기)</td><td><span class="badge badge-green">자동</span></td></tr>
+        <tr><td>부정 리뷰 작성</td><td><span class="badge badge-red">무대응</span></td><td>24시간 내 공개 댓글 + DM 직접 연락 → 문제 해결 시도</td><td><span class="badge badge-blue">사람</span></td></tr>
+        <tr><td>1:1 문의 접수</td><td><span class="badge badge-yellow">미기준</span></td><td>접수 즉시 자동 확인 문자 "3시간 내 답변드리겠습니다" + 실제 3시간 내 답변</td><td><span class="badge badge-blue">사람+자동</span></td></tr>
+        <tr><td>교환/반품 요청</td><td><span class="badge badge-yellow">수동</span></td><td>빠른 처리 + "불편드려서 죄송합니다" 디지털 손편지 or 쿠폰</td><td><span class="badge badge-blue">사람</span></td></tr>
+        <tr><td>재구매 고객</td><td><span class="badge badge-red">없음</span></td><td>"2번째 선택 감사합니다" — 재구매 고객 전용 메시지로 충성도 강화</td><td><span class="badge badge-green">자동</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="section" id="automation">
+    <div class="section-title"><span class="section-num">04</span> 자동화 vs 사람 구분 설계</div>
+    <div class="callout info">원칙: <strong>반복 가능한 것은 자동화</strong>로 속도·일관성 확보. <strong>감정·판단이 필요한 것은 사람</strong>이 직접.</div>
+    <div class="split-box" style="margin-top:16px;">
+      <div class="auto-card">
+        <div class="split-title auto">🤖 자동화 영역</div>
+        <div class="split-item">주문 완료 웰컴 문자 (즉시)</div>
+        <div class="split-item">배송 출발 알림 문자</div>
+        <div class="split-item">수령 D+1 사용 가이드 링크</div>
+        <div class="split-item">D+7 효과 체크 문자</div>
+        <div class="split-item">D+14 크로스셀 문자 (구매 이력 분기)</div>
+        <div class="split-item">D+21 리뷰 요청 문자</div>
+        <div class="split-item">문의 접수 자동 확인 응답</div>
+        <div class="split-item">재구매 감사 문자</div>
+        <div class="split-item">1점 리뷰 → CS 슬랙 즉시 알림</div>
+      </div>
+      <div class="human-card">
+        <div class="split-title human">👤 사람 영역</div>
+        <div class="split-item">부정 리뷰 공개 답변 (24시간 내)</div>
+        <div class="split-item">리뷰 CS 문의 의도 파악 → 직접 연락</div>
+        <div class="split-item">교환/반품 처리 + 감사 메시지</div>
+        <div class="split-item">사용법 문의 1:1 응대 (영상/이미지)</div>
+        <div class="split-item">불만 고객 감정 케어 (사과 + 해결책)</div>
+        <div class="split-item">VIP(3제품 보유) 고객 전담 관리</div>
+        <div class="split-item">이상 사례 에스컬레이션 판단</div>
+        <div class="split-item">월 VOC 패턴 분석 → 제품팀 피드백</div>
+      </div>
+    </div>
+    <div class="card" style="margin-top:12px;">
+      <div class="card-title">🔔 자동화 트리거 설계 (카페24 + CRM 연동)</div>
+      <table class="proc-table" style="margin-top:12px;">
+        <thead><tr><th>트리거</th><th>발송 타이밍</th><th>메시지 핵심</th><th>채널</th></tr></thead>
+        <tbody>
+          <tr><td>주문 완료</td><td>즉시</td><td>환영 + 배송 일정 안내</td><td>문자</td></tr>
+          <tr><td>배송 출발 (운송장 등록)</td><td>등록 후 30분 내</td><td>도착 예정일 안내</td><td>문자</td></tr>
+          <tr><td>배송 완료 D+1</td><td>오전 10시</td><td>사용 가이드 링크</td><td>문자</td></tr>
+          <tr><td>배송 완료 D+7</td><td>오후 7시</td><td>효과 확인 + 불만 조기 포착</td><td>문자</td></tr>
+          <tr><td>배송 완료 D+14</td><td>오후 6시</td><td>크로스셀 (구매 이력 분기)</td><td>문자</td></tr>
+          <tr><td>배송 완료 D+21</td><td>오후 7시</td><td>포토 리뷰 요청 + 인센티브</td><td>문자</td></tr>
+          <tr><td>1점 리뷰 작성</td><td>즉시</td><td>CS 담당 슬랙 알림</td><td>슬랙</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="section" id="recovery">
+    <div class="section-title"><span class="section-num">05</span> 부정 리뷰 → 팬 전환 프로세스</div>
+    <div class="callout warn">📌 원칙: 부정 리뷰 1건 = 말 안 한 10명의 목소리. 1건을 제대로 잡으면 11명을 잡는 것.</div>
+    <div class="funnel" style="margin-top:16px;">
+      <div class="funnel-step" style="background:rgba(255,68,68,0.05);border-color:rgba(255,68,68,0.2);">
+        <div class="funnel-icon">😡</div>
+        <div class="funnel-content">
+          <div class="funnel-title">1단계: 감지 (자동)</div>
+          <div class="funnel-desc">1~3점 리뷰 작성 즉시 → 슬랙 알림 (리뷰 내용 + 주문 정보 포함)</div>
+          <div class="funnel-timing">⏱ 목표: 10분 내 CS 담당 인지</div>
+        </div>
+      </div>
+      <div class="funnel-arrow">↓</div>
+      <div class="funnel-step" style="background:rgba(251,191,36,0.05);border-color:rgba(251,191,36,0.2);">
+        <div class="funnel-icon">💬</div>
+        <div class="funnel-content">
+          <div class="funnel-title">2단계: 공개 답변 (사람, 24시간 내)</div>
+          <div class="funnel-desc">① 사과 ② 원인 인정 ③ 해결책 제시 ④ DM 유도<br>스크립트: "불편드려서 죄송합니다. 직접 연락드려 해결하겠습니다. 주문번호 DM 부탁드립니다."</div>
+          <div class="funnel-timing">⏱ 목표: 24시간 내 공개 답변</div>
+        </div>
+      </div>
+      <div class="funnel-arrow">↓</div>
+      <div class="funnel-step" style="background:rgba(88,166,255,0.05);border-color:rgba(88,166,255,0.2);">
+        <div class="funnel-icon">📞</div>
+        <div class="funnel-content">
+          <div class="funnel-title">3단계: 직접 연락 (48시간 내)</div>
+          <div class="funnel-desc">고객 직접 연락 (문자/전화). 불만 원인 파악.<br>제품 불량 → 즉시 교체 / 사용법 문제 → 영상 안내</div>
+          <div class="funnel-timing">⏱ 목표: 48시간 내 해결책 제시</div>
+        </div>
+      </div>
+      <div class="funnel-arrow">↓</div>
+      <div class="funnel-step" style="background:rgba(167,139,250,0.05);border-color:rgba(167,139,250,0.2);">
+        <div class="funnel-icon">🎁</div>
+        <div class="funnel-content">
+          <div class="funnel-title">4단계: 해결 후 감사 표시</div>
+          <div class="funnel-desc">문제 해결 후 소모품 or 케어크림 발송.<br>비용 5,000~10,000원 vs LTV (ES-808→CS-25 크로스셀 시 수십만원)</div>
+          <div class="funnel-timing">✨ 기대 효과: 리뷰 수정 + 주변 추천</div>
+        </div>
+      </div>
+      <div class="funnel-arrow">↓</div>
+      <div class="funnel-step" style="background:rgba(34,197,94,0.05);border-color:rgba(34,197,94,0.2);">
+        <div class="funnel-icon">⭐</div>
+        <div class="funnel-content">
+          <div class="funnel-title">5단계: 팬 전환 확인</div>
+          <div class="funnel-desc">리뷰 수정 여부 자동 모니터링. 수정 시 CRM에 "회복 고객" 태그 → 30일 후 재구매 여정 진입.</div>
+          <div class="funnel-timing">📊 KPI: 부정→긍정 전환율 월별 추적</div>
+        </div>
+      </div>
+    </div>
+    <div class="card" style="margin-top:16px;">
+      <div class="card-title">⚡ 즉시 조치 리스트</div>
+      <div class="card-sub">
+        1. 1점 리뷰 6건 → <strong>오늘 내</strong> 공개 답변 작성<br>
+        2. 리뷰 #500·#499 (주문번호만 적은 고객) → <strong>직접 연락</strong><br>
+        3. WS-200 부정 리뷰 패턴 분석 → 제품팀 공유 (설명서 보강 또는 사용법 영상 추가)
+      </div>
+    </div>
+  </div>
+
+  <div class="section" id="kpi">
+    <div class="section-title"><span class="section-num">06</span> KPI 설계</div>
+    <div class="kpi-grid">
+      <div class="kpi-card" style="border-top:3px solid var(--red);">
+        <div class="kpi-label">📩 CS 응답 시간</div>
+        <div class="kpi-current">현재: 미측정</div>
+        <div class="kpi-target">목표: 3시간 이내</div>
+        <div class="kpi-note">1:1 문의 기준. 자동 확인 문자로 기대치 관리.</div>
+      </div>
+      <div class="kpi-card" style="border-top:3px solid var(--yellow);">
+        <div class="kpi-label">⭐ 부정리뷰 답변율</div>
+        <div class="kpi-current">현재: 0%</div>
+        <div class="kpi-target">목표: 1~3점 리뷰 100% 답변</div>
+        <div class="kpi-note">24시간 내 공개 댓글 기준. 매주 모니터링.</div>
+      </div>
+      <div class="kpi-card" style="border-top:3px solid var(--orange);">
+        <div class="kpi-label">😊 고객 만족도</div>
+        <div class="kpi-current">현재: 측정 안됨</div>
+        <div class="kpi-target">목표: D+7 응답률 5%+</div>
+        <div class="kpi-note">D+7 문자 클릭/응답으로 간이 측정.</div>
+      </div>
+      <div class="kpi-card" style="border-top:3px solid var(--blue);">
+        <div class="kpi-label">🔄 크로스셀 전환율</div>
+        <div class="kpi-current">현재: 집계 필요</div>
+        <div class="kpi-target">목표: D+14 전환율 3%+</div>
+        <div class="kpi-note">ES-808 → CS-25 전환 기준. 매월 집계.</div>
+      </div>
+      <div class="kpi-card" style="border-top:3px solid var(--green);">
+        <div class="kpi-label">🔁 재구매율</div>
+        <div class="kpi-current">현재: 집계 필요</div>
+        <div class="kpi-target">목표: 6개월 내 20%+</div>
+        <div class="kpi-note">브랜드 팬 전환의 핵심 지표.</div>
+      </div>
+      <div class="kpi-card" style="border-top:3px solid var(--purple);">
+        <div class="kpi-label">😡→⭐ 부정리뷰 전환율</div>
+        <div class="kpi-current">현재: 0% (미시도)</div>
+        <div class="kpi-target">목표: 전환율 30%+ (3개월)</div>
+        <div class="kpi-note">프로세스 도입 후 3개월 내 목표.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section" id="roadmap">
+    <div class="section-title"><span class="section-num">07</span> 실행 로드맵</div>
+    <div class="roadmap">
+      <div class="road-phase">
+        <div class="road-label">Week 1<br><span style="color:var(--red);font-size:10px;">즉시</span></div>
+        <div class="road-items">
+          <span class="road-item hot">1점 리뷰 6건 답변</span>
+          <span class="road-item hot">리뷰 #500·#499 직접 연락</span>
+          <span class="road-item hot">1점 리뷰 슬랙 자동 알림 구축</span>
+          <span class="road-item">CS 응답 시간 기준 설정 (3시간)</span>
+          <span class="road-item">기본 응대 스크립트 작성</span>
+        </div>
+      </div>
+      <div class="road-phase">
+        <div class="road-label">Week 2~3<br><span style="color:var(--yellow);font-size:10px;">단기</span></div>
+        <div class="road-items">
+          <span class="road-item">D+1 수령 환영 문자 셋업</span>
+          <span class="road-item">D+7 효과 체크 문자 셋업</span>
+          <span class="road-item">D+21 리뷰 요청 문자 셋업</span>
+          <span class="road-item">문의 접수 자동 확인 응답</span>
+          <span class="road-item">부정리뷰 전환 프로세스 적용</span>
+        </div>
+      </div>
+      <div class="road-phase">
+        <div class="road-label">Month 1~2<br><span style="color:var(--blue);font-size:10px;">중기</span></div>
+        <div class="road-items">
+          <span class="road-item">D+14 크로스셀 구매이력 분기 고도화</span>
+          <span class="road-item">WS-200 부정리뷰 원인 → 제품팀 피드백</span>
+          <span class="road-item">VOC 월간 리포트 체계 구축</span>
+          <span class="road-item">KPI 대시보드 구축</span>
+          <span class="road-item">교환/반품 감사 소모품 발송 정책</span>
+        </div>
+      </div>
+      <div class="road-phase">
+        <div class="road-label">Month 3+<br><span style="color:var(--purple);font-size:10px;">장기</span></div>
+        <div class="road-items">
+          <span class="road-item">VIP(3제품 보유) 전담 관리 프로그램</span>
+          <span class="road-item">카페24 리뷰 scope 확장</span>
+          <span class="road-item">팬 커뮤니티 설계</span>
+          <span class="road-item">NPS 공식 도입 + 반기 측정</span>
+        </div>
+      </div>
+    </div>
+    <div class="callout info" style="margin-top:16px;">💡 우선순위 기준: 지금 당장 돈이 새고 있는 곳(미답변 리뷰)부터. 그 다음 자동화로 속도 확보. 그 다음 고도화.</div>
+  </div>
+
+</div>
+
+<div class="footer">
+  💚 테넥스 고객경험 성공실 · 고실장 작성 · 2026-03-27 · v1.0<br>
+  <span style="color:#444;margin-top:4px;display:block;">보고 대상: 카리나 · 태훈 | 다음 검토: 1주 후</span>
+</div>
+
+</body>
+</html>
