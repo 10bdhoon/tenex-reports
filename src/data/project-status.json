@@ -1,47 +1,399 @@
 {
-  "lastUpdated": "2026-03-30T13:48:00+09:00",
+  "lastUpdated": "2026-03-30T14:02:00+09:00",
   "tasks": [
-    {"id":"t01","title":"리포트 UI 크롱 스타일 전환","cat":"I","urgency":"green","importance":"상","status":"done","assignee":"개실장","created":"2026-03-27","dueDate":null,"note":"","checklist":[]},
-    {"id":"t02","title":"정품등록 + 메타픽셀","cat":"D","urgency":"yellow","importance":"상","status":"doing","assignee":"개실장","created":"2026-03-27","dueDate":"2026-04-05","note":"Google Sheets API 활성화 필요","checklist":[{"text":"메타 픽셀 설치","done":true},{"text":"Sheets API 연동","done":false},{"text":"Vercel 환경변수 설정","done":false}]},
-    {"id":"t03","title":"앱 탭 UI 통합","cat":"E","urgency":"yellow","importance":"상","status":"doing","assignee":"개실장","created":"2026-03-27","dueDate":"2026-04-07","note":"1min-dosu-app 하나로","checklist":[]},
-    {"id":"t04","title":"SPA 카테고리 구조 개편","cat":"I","urgency":"green","importance":"중","status":"done","assignee":"개실장","created":"2026-03-27","dueDate":null,"note":"","checklist":[]},
-    {"id":"t05","title":"Mixpanel 시각화 대시보드","cat":"D","urgency":"yellow","importance":"상","status":"doing","assignee":"마실장","created":"2026-03-28","dueDate":"2026-04-04","note":"","checklist":[{"text":"퍼널 차트","done":true},{"text":"코호트 분석","done":false},{"text":"리텐션 그래프","done":false}]},
-    {"id":"t06","title":"알림톡 CRM 자동화","cat":"D","urgency":"green","importance":"상","status":"waiting","assignee":"마실장","created":"2026-03-28","dueDate":"2026-04-14","note":"알마니 대표 소개 후","checklist":[]},
-    {"id":"t07","title":"앱 MVP 개발 착수","cat":"E","urgency":"red","importance":"상","status":"waiting","assignee":"개실장","created":"2026-03-28","dueDate":"2026-04-21","note":"기술 스펙 확정 후","checklist":[{"text":"기술 스펙 문서","done":true},{"text":"UI/UX 와이어프레임","done":false},{"text":"백엔드 API 설계","done":false},{"text":"프론트 보일러플레이트","done":false}]},
-    {"id":"t08","title":"CS-25 리뷰 체험단 세팅","cat":"K","urgency":"green","importance":"중","status":"waiting","assignee":"고실장","created":"2026-03-28","dueDate":"2026-04-10","note":"","checklist":[]},
-    {"id":"t09","title":"유튜브 콘텐츠 캘린더","cat":"B","urgency":"green","importance":"중","status":"waiting","assignee":"콘실장","created":"2026-03-29","dueDate":"2026-04-07","note":"","checklist":[]},
-    {"id":"t10","title":"팀 채용 JD 작성","cat":"G","urgency":"yellow","importance":"상","status":"waiting","assignee":"태훈","created":"2026-03-29","dueDate":"2026-04-04","note":"","checklist":[]},
-    {"id":"t11","title":"해외진출 1차 리서치","cat":"J","urgency":"green","importance":"중","status":"waiting","assignee":"","created":"2026-03-29","dueDate":"2026-04-18","note":"","checklist":[]},
-    {"id":"t12","title":"지메일 연동 자동화","cat":"H","urgency":"green","importance":"중","status":"waiting","assignee":"개실장","created":"2026-03-29","dueDate":null,"note":"","checklist":[]},
-    {"id":"t13","title":"모사모 강의 통합 완료","cat":"Z","urgency":"green","importance":"하","status":"done","assignee":"개실장","created":"2026-03-27","dueDate":null,"note":"74강 완료","checklist":[]},
-    {"id":"t14","title":"수익 시뮬레이션 업데이트","cat":"F","urgency":"yellow","importance":"상","status":"doing","assignee":"","created":"2026-03-30","dueDate":"2026-04-05","note":"","checklist":[]},
-    {"id":"t15","title":"보안 대시보드 점검","cat":"I","urgency":"red","importance":"상","status":"doing","assignee":"개실장","created":"2026-03-30","dueDate":"2026-04-02","note":"","checklist":[]},
-    {"id":"t16","title":"업무보드 SPA 구현","cat":"E","urgency":"red","importance":"상","status":"doing","assignee":"개실장","created":"2026-03-30","dueDate":"2026-03-30","note":"간트차트+상세패널+드래그","checklist":[{"text":"카드 그리드","done":true},{"text":"간트차트","done":true},{"text":"상세 패널","done":true},{"text":"드래그앤드롭","done":true},{"text":"JSON 데이터 소스","done":true}]},
-    {"id":"t17","title":"메타 광고 성과 리포트","cat":"D","urgency":"yellow","importance":"상","status":"doing","assignee":"마실장","created":"2026-03-30","dueDate":"2026-04-07","note":"","checklist":[]}
+    {
+      "id": "t01",
+      "title": "리포트 UI 크롱 스타일 전환",
+      "cat": "I",
+      "urgency": "green",
+      "importance": "상",
+      "status": "done",
+      "assignee": "개실장",
+      "created": "2026-03-27",
+      "dueDate": null,
+      "note": "",
+      "checklist": []
+    },
+    {
+      "id": "t02",
+      "title": "정품등록 + 메타픽셀",
+      "cat": "D",
+      "urgency": "yellow",
+      "importance": "상",
+      "status": "doing",
+      "assignee": "개실장",
+      "created": "2026-03-27",
+      "dueDate": "2026-04-05",
+      "note": "Google Sheets API 활성화 필요",
+      "checklist": [
+        {
+          "text": "메타 픽셀 설치",
+          "done": true
+        },
+        {
+          "text": "Sheets API 연동",
+          "done": false
+        },
+        {
+          "text": "Vercel 환경변수 설정",
+          "done": false
+        }
+      ]
+    },
+    {
+      "id": "t03",
+      "title": "앱 탭 UI 통합",
+      "cat": "E",
+      "urgency": "yellow",
+      "importance": "상",
+      "status": "doing",
+      "assignee": "개실장",
+      "created": "2026-03-27",
+      "dueDate": "2026-04-07",
+      "note": "1min-dosu-app 하나로",
+      "checklist": []
+    },
+    {
+      "id": "t04",
+      "title": "SPA 카테고리 구조 개편",
+      "cat": "I",
+      "urgency": "green",
+      "importance": "중",
+      "status": "done",
+      "assignee": "개실장",
+      "created": "2026-03-27",
+      "dueDate": null,
+      "note": "",
+      "checklist": []
+    },
+    {
+      "id": "t05",
+      "title": "Mixpanel 시각화 대시보드",
+      "cat": "D",
+      "urgency": "yellow",
+      "importance": "상",
+      "status": "doing",
+      "assignee": "마실장",
+      "created": "2026-03-28",
+      "dueDate": "2026-04-04",
+      "note": "",
+      "checklist": [
+        {
+          "text": "퍼널 차트",
+          "done": true
+        },
+        {
+          "text": "코호트 분석",
+          "done": false
+        },
+        {
+          "text": "리텐션 그래프",
+          "done": false
+        }
+      ]
+    },
+    {
+      "id": "t06",
+      "title": "알림톡 CRM 자동화",
+      "cat": "D",
+      "urgency": "green",
+      "importance": "상",
+      "status": "waiting",
+      "assignee": "마실장",
+      "created": "2026-03-28",
+      "dueDate": "2026-04-14",
+      "note": "알마니 대표 소개 후",
+      "checklist": []
+    },
+    {
+      "id": "t07",
+      "title": "앱 MVP 개발 착수",
+      "cat": "E",
+      "urgency": "red",
+      "importance": "상",
+      "status": "waiting",
+      "assignee": "개실장",
+      "created": "2026-03-28",
+      "dueDate": "2026-04-21",
+      "note": "기술 스펙 확정 후",
+      "checklist": [
+        {
+          "text": "기술 스펙 문서",
+          "done": true
+        },
+        {
+          "text": "UI/UX 와이어프레임",
+          "done": false
+        },
+        {
+          "text": "백엔드 API 설계",
+          "done": false
+        },
+        {
+          "text": "프론트 보일러플레이트",
+          "done": false
+        }
+      ]
+    },
+    {
+      "id": "t08",
+      "title": "CS-25 리뷰 체험단 세팅",
+      "cat": "K",
+      "urgency": "green",
+      "importance": "중",
+      "status": "waiting",
+      "assignee": "고실장",
+      "created": "2026-03-28",
+      "dueDate": "2026-04-10",
+      "note": "",
+      "checklist": []
+    },
+    {
+      "id": "t09",
+      "title": "유튜브 콘텐츠 캘린더",
+      "cat": "B",
+      "urgency": "green",
+      "importance": "중",
+      "status": "waiting",
+      "assignee": "콘실장",
+      "created": "2026-03-29",
+      "dueDate": "2026-04-07",
+      "note": "",
+      "checklist": []
+    },
+    {
+      "id": "t10",
+      "title": "팀 채용 JD 작성",
+      "cat": "G",
+      "urgency": "yellow",
+      "importance": "상",
+      "status": "waiting",
+      "assignee": "태훈",
+      "created": "2026-03-29",
+      "dueDate": "2026-04-04",
+      "note": "",
+      "checklist": []
+    },
+    {
+      "id": "t11",
+      "title": "해외진출 1차 리서치",
+      "cat": "J",
+      "urgency": "green",
+      "importance": "중",
+      "status": "waiting",
+      "assignee": "",
+      "created": "2026-03-29",
+      "dueDate": "2026-04-18",
+      "note": "",
+      "checklist": []
+    },
+    {
+      "id": "t12",
+      "title": "지메일 연동 자동화",
+      "cat": "H",
+      "urgency": "green",
+      "importance": "중",
+      "status": "waiting",
+      "assignee": "개실장",
+      "created": "2026-03-29",
+      "dueDate": null,
+      "note": "",
+      "checklist": []
+    },
+    {
+      "id": "t13",
+      "title": "모사모 강의 통합 완료",
+      "cat": "Z",
+      "urgency": "green",
+      "importance": "하",
+      "status": "done",
+      "assignee": "개실장",
+      "created": "2026-03-27",
+      "dueDate": null,
+      "note": "74강 완료",
+      "checklist": []
+    },
+    {
+      "id": "t14",
+      "title": "수익 시뮬레이션 업데이트",
+      "cat": "F",
+      "urgency": "yellow",
+      "importance": "상",
+      "status": "doing",
+      "assignee": "",
+      "created": "2026-03-30",
+      "dueDate": "2026-04-05",
+      "note": "",
+      "checklist": []
+    },
+    {
+      "id": "t15",
+      "title": "보안 대시보드 점검",
+      "cat": "I",
+      "urgency": "red",
+      "importance": "상",
+      "status": "doing",
+      "assignee": "개실장",
+      "created": "2026-03-30",
+      "dueDate": "2026-04-02",
+      "note": "",
+      "checklist": []
+    },
+    {
+      "id": "t16",
+      "title": "업무보드 SPA 구현",
+      "cat": "E",
+      "urgency": "red",
+      "importance": "상",
+      "status": "done",
+      "assignee": "개실장",
+      "created": "2026-03-30",
+      "dueDate": "2026-03-30",
+      "note": "간트차트+상세패널+드래그",
+      "checklist": [
+        {
+          "text": "카드 그리드",
+          "done": true
+        },
+        {
+          "text": "간트차트",
+          "done": true
+        },
+        {
+          "text": "상세 패널",
+          "done": true
+        },
+        {
+          "text": "드래그앤드롭",
+          "done": true
+        },
+        {
+          "text": "JSON 데이터 소스",
+          "done": true
+        }
+      ]
+    },
+    {
+      "id": "t17",
+      "title": "메타 광고 성과 리포트",
+      "cat": "D",
+      "urgency": "yellow",
+      "importance": "상",
+      "status": "doing",
+      "assignee": "마실장",
+      "created": "2026-03-30",
+      "dueDate": "2026-04-07",
+      "note": "",
+      "checklist": []
+    }
   ],
   "agents": [
-    {"id":"개실장","icon":"🔧","name":"개실장","role":"개발실 총괄","tasks":[
-      {"id":"g1","name":"업무보드 SPA 구현","status":"doing"},
-      {"id":"g2","name":"almani 계정 + 어드민 페이지","status":"done"},
-      {"id":"g3","name":"tenex-reports UI 리뉴얼","status":"done"},
-      {"id":"g4","name":"정품등록 시스템","status":"doing"},
-      {"id":"g5","name":"앱 MVP 기술 스펙","status":"doing"}
-    ]},
-    {"id":"마실장","icon":"📣","name":"마실장","role":"마케팅실 총괄","tasks":[
-      {"id":"m1","name":"Mixpanel 시각화 대시보드","status":"doing"},
-      {"id":"m2","name":"메타 광고 성과 리포트","status":"doing"},
-      {"id":"m3","name":"CRM 알림톡 자동화","status":"waiting"},
-      {"id":"m4","name":"인플루언서 아웃리치","status":"waiting"}
-    ]},
-    {"id":"고실장","icon":"🎯","name":"고실장","role":"고객성공 총괄","tasks":[
-      {"id":"k1","name":"CS 운영 기획안","status":"delay"},
-      {"id":"k2","name":"VOC 분석 리포트","status":"doing"},
-      {"id":"k3","name":"체험단 리뷰 관리","status":"waiting"}
-    ]},
-    {"id":"콘실장","icon":"🎬","name":"콘실장","role":"콘텐츠 총괄","tasks":[
-      {"id":"c1","name":"YouTube 댓글 자동화","status":"doing"},
-      {"id":"c2","name":"콘텐츠 캘린더 수립","status":"doing"},
-      {"id":"c3","name":"썸네일 A/B 테스트","status":"waiting"}
-    ]}
+    {
+      "id": "개실장",
+      "icon": "🔧",
+      "name": "개실장",
+      "role": "개발실 총괄",
+      "tasks": [
+        {
+          "id": "g1",
+          "name": "업무보드 SPA 구현",
+          "status": "doing"
+        },
+        {
+          "id": "g2",
+          "name": "almani 계정 + 어드민 페이지",
+          "status": "done"
+        },
+        {
+          "id": "g3",
+          "name": "tenex-reports UI 리뉴얼",
+          "status": "done"
+        },
+        {
+          "id": "g4",
+          "name": "정품등록 시스템",
+          "status": "doing"
+        },
+        {
+          "id": "g5",
+          "name": "앱 MVP 기술 스펙",
+          "status": "doing"
+        }
+      ]
+    },
+    {
+      "id": "마실장",
+      "icon": "📣",
+      "name": "마실장",
+      "role": "마케팅실 총괄",
+      "tasks": [
+        {
+          "id": "m1",
+          "name": "Mixpanel 시각화 대시보드",
+          "status": "doing"
+        },
+        {
+          "id": "m2",
+          "name": "메타 광고 성과 리포트",
+          "status": "doing"
+        },
+        {
+          "id": "m3",
+          "name": "CRM 알림톡 자동화",
+          "status": "waiting"
+        },
+        {
+          "id": "m4",
+          "name": "인플루언서 아웃리치",
+          "status": "waiting"
+        }
+      ]
+    },
+    {
+      "id": "고실장",
+      "icon": "🎯",
+      "name": "고실장",
+      "role": "고객성공 총괄",
+      "tasks": [
+        {
+          "id": "k1",
+          "name": "CS 운영 기획안",
+          "status": "delay"
+        },
+        {
+          "id": "k2",
+          "name": "VOC 분석 리포트",
+          "status": "doing"
+        },
+        {
+          "id": "k3",
+          "name": "체험단 리뷰 관리",
+          "status": "waiting"
+        }
+      ]
+    },
+    {
+      "id": "콘실장",
+      "icon": "🎬",
+      "name": "콘실장",
+      "role": "콘텐츠 총괄",
+      "tasks": [
+        {
+          "id": "c1",
+          "name": "YouTube 댓글 자동화",
+          "status": "doing"
+        },
+        {
+          "id": "c2",
+          "name": "콘텐츠 캘린더 수립",
+          "status": "doing"
+        },
+        {
+          "id": "c3",
+          "name": "썸네일 A/B 테스트",
+          "status": "waiting"
+        }
+      ]
+    }
   ]
 }

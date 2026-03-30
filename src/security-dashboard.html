@@ -18,6 +18,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,sans-serif;background:#0f172a;
 .sum-card .num{font-size:28px;font-weight:800}
 .sum-card .num.navy{color:#60a5fa}
 .sum-card .num.green{color:#16A34A}
+.sum-card .num.yellow{color:#eab308}
 .sum-card .label{font-size:12px;color:#94a3b8;margin-top:4px}
 
 h2{color:#5b9bd5;font-size:18px;margin:32px 0 16px;font-weight:700}
@@ -27,13 +28,14 @@ h2{color:#5b9bd5;font-size:18px;margin:32px 0 16px;font-weight:700}
 .sec-card:hover{border-color:#002855}
 .sec-card .card-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
 .sec-card .svc-name{font-size:15px;font-weight:700;color:#f1f5f9;display:flex;align-items:center;gap:8px}
-.sec-card .svc-icon{font-size:22px}
 .sec-card .info-row{display:flex;align-items:center;gap:8px;margin-bottom:6px;font-size:13px;color:#94a3b8}
-.sec-card .info-row .label{min-width:50px;color:#64748b;font-weight:600}
+.sec-card .info-row .label{min-width:80px;color:#64748b;font-weight:600}
 
 .status-badge{display:inline-block;padding:4px 12px;border-radius:6px;font-size:11px;font-weight:700}
 .status-badge.ok{background:#064e3b;color:#34d399}
 .status-badge.auto{background:#1e3a5f;color:#60a5fa}
+.status-badge.warn{background:#422006;color:#fbbf24}
+.status-badge.err{background:#450a0a;color:#f87171}
 
 .tag{display:inline-block;padding:3px 10px;border-radius:6px;font-size:11px;font-weight:600}
 .tag.navy{background:#001a3a;color:#5b9bd5}
@@ -44,16 +46,25 @@ h2{color:#5b9bd5;font-size:18px;margin:32px 0 16px;font-weight:700}
 .info-box .row .label{min-width:100px;color:#64748b;font-weight:600}
 .info-box .row .val{color:#e2e8f0}
 
+.cron-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:12px;margin-bottom:32px}
+.cron-card{background:#1e293b;border:1px solid #334155;border-radius:10px;padding:16px}
+.cron-card .cron-name{font-size:14px;font-weight:700;color:#f1f5f9;margin-bottom:6px}
+.cron-card .cron-detail{font-size:12px;color:#94a3b8;margin-bottom:4px}
+
 .perm-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px;margin-bottom:32px}
 .perm-card{background:#1e293b;border:1px solid #334155;border-radius:10px;padding:16px}
 .perm-card .agent{font-size:14px;font-weight:700;color:#f1f5f9;margin-bottom:6px}
 .perm-card .scope{font-size:12px;color:#94a3b8}
 
+.issue-box{background:#1e1a2e;border:1px solid #7c3aed;border-radius:12px;padding:20px;margin-bottom:20px}
+.issue-box h3{font-size:14px;font-weight:700;color:#a78bfa;margin-bottom:12px}
+.issue-box .issue-item{display:flex;gap:10px;margin-bottom:10px;font-size:13px;color:#e2e8f0}
+.issue-box .issue-item .sev{min-width:20px}
+
 @media(max-width:640px){
   .header{padding:16px;flex-wrap:wrap}
   .content{padding:0 8px}
-  .sec-grid{grid-template-columns:1fr}
-  .perm-grid{grid-template-columns:1fr}
+  .sec-grid,.cron-grid,.perm-grid{grid-template-columns:1fr}
 }
 </style>
 </head>
@@ -64,7 +75,14 @@ h2{color:#5b9bd5;font-size:18px;margin:32px 0 16px;font-weight:700}
 
 <div class="summary">
   <div class="sum-card"><div class="num navy">7</div><div class="label">API 서비스</div></div>
-  <div class="sum-card"><div class="num green">7</div><div class="label">정상</div></div>
+  <div class="sum-card"><div class="num green">6</div><div class="label">정상</div></div>
+  <div class="sum-card"><div class="num yellow">1</div><div class="label">점검 필요</div></div>
+</div>
+
+<!-- 이슈 -->
+<div class="issue-box">
+  <h3>⚠️ 발견된 이슈</h3>
+  <div class="issue-item"><span class="sev">🟡</span><span><strong>Notion API</strong> — DB 공유 안됨. Integration "Claude Assistant"에 해당 DB 페이지 공유 필요</span></div>
 </div>
 
 <!-- API 토큰 -->
@@ -72,69 +90,113 @@ h2{color:#5b9bd5;font-size:18px;margin:32px 0 16px;font-weight:700}
 <div class="sec-grid">
 
   <div class="sec-card">
-    <div class="card-top">
-      <div class="svc-name">🛒 Cafe24 API</div>
-    </div>
+    <div class="card-top"><div class="svc-name">🛒 Cafe24 API</div></div>
     <div class="info-row"><span class="label">용도</span>주문/상품 관리</div>
     <div class="info-row"><span class="label">상태</span><span class="status-badge auto">토큰 자동 갱신</span></div>
+    <div class="info-row"><span class="label">갱신 주기</span>90분 (launchd)</div>
+    <div class="info-row"><span class="label">최종 갱신</span>2026-03-30 14:03</div>
   </div>
 
   <div class="sec-card">
-    <div class="card-top">
-      <div class="svc-name">📊 Meta Marketing API</div>
-    </div>
-    <div class="info-row"><span class="label">용도</span>광고 성과 조회</div>
+    <div class="card-top"><div class="svc-name">📊 Meta Marketing API</div></div>
+    <div class="info-row"><span class="label">용도</span>광고 성과 / Conversions API</div>
     <div class="info-row"><span class="label">상태</span><span class="status-badge ok">정상</span></div>
+    <div class="info-row"><span class="label">계정</span>System User (장기 토큰)</div>
   </div>
 
   <div class="sec-card">
-    <div class="card-top">
-      <div class="svc-name">▶️ YouTube Data API</div>
-    </div>
+    <div class="card-top"><div class="svc-name">▶️ YouTube Data API</div></div>
     <div class="info-row"><span class="label">용도</span>채널/영상 데이터</div>
     <div class="info-row"><span class="label">상태</span><span class="status-badge ok">정상</span></div>
+    <div class="info-row"><span class="label">인증</span>API Key (할당량 무제한)</div>
   </div>
 
   <div class="sec-card">
-    <div class="card-top">
-      <div class="svc-name">📝 Notion API</div>
-    </div>
+    <div class="card-top"><div class="svc-name">📝 Notion API</div></div>
     <div class="info-row"><span class="label">용도</span>태스크 관리</div>
-    <div class="info-row"><span class="label">상태</span><span class="status-badge ok">정상</span></div>
+    <div class="info-row"><span class="label">상태</span><span class="status-badge warn">DB 공유 필요</span></div>
+    <div class="info-row"><span class="label">조치</span>Integration에 DB 페이지 공유</div>
   </div>
 
   <div class="sec-card">
-    <div class="card-top">
-      <div class="svc-name">📈 Mixpanel API</div>
-    </div>
-    <div class="info-row"><span class="label">용도</span>이벤트 분석</div>
+    <div class="card-top"><div class="svc-name">📈 Mixpanel API</div></div>
+    <div class="info-row"><span class="label">용도</span>이벤트 분석 / Export</div>
     <div class="info-row"><span class="label">상태</span><span class="status-badge ok">정상</span></div>
+    <div class="info-row"><span class="label">인증</span>API Secret</div>
   </div>
 
   <div class="sec-card">
-    <div class="card-top">
-      <div class="svc-name">💬 Slack Bot</div>
-    </div>
-    <div class="info-row"><span class="label">용도</span>채널 메시징</div>
+    <div class="card-top"><div class="svc-name">💬 Slack Bot</div></div>
+    <div class="info-row"><span class="label">용도</span>채널 메시징 / 알림</div>
     <div class="info-row"><span class="label">상태</span><span class="status-badge ok">정상</span></div>
+    <div class="info-row"><span class="label">인증</span>Bot Token (xoxb)</div>
   </div>
 
   <div class="sec-card">
-    <div class="card-top">
-      <div class="svc-name">✨ Google Gemini</div>
-    </div>
-    <div class="info-row"><span class="label">용도</span>AI 생성</div>
+    <div class="card-top"><div class="svc-name">✨ Google Gemini</div></div>
+    <div class="info-row"><span class="label">용도</span>AI 생성 / 요약</div>
     <div class="info-row"><span class="label">상태</span><span class="status-badge ok">정상</span></div>
   </div>
 
 </div>
 
-<!-- 서버 정보 -->
-<h2>🖥️ 서버 정보</h2>
-<div class="info-box">
-  <div class="row"><span class="label">하드웨어</span><span class="val">Mac Mini M4</span></div>
-  <div class="row"><span class="label">운영체제</span><span class="val">macOS Sequoia</span></div>
-  <div class="row"><span class="label">네트워크</span><span class="val">Tailscale 100.95.220.26</span></div>
+<!-- 크론잡/launchd -->
+<h2>⏰ 크론잡 상태 (launchd)</h2>
+<div class="cron-grid">
+  <div class="cron-card">
+    <div class="cron-name">🔄 cafe24-token-refresh</div>
+    <div class="cron-detail">주기: 90분 | PID: - | 상태: <span class="status-badge ok">정상</span></div>
+  </div>
+  <div class="cron-card">
+    <div class="cron-name">📋 daily-report</div>
+    <div class="cron-detail">주기: 매일 07:00 | PID: - | 상태: <span class="status-badge ok">대기</span></div>
+  </div>
+  <div class="cron-card">
+    <div class="cron-name">🧠 second-brain</div>
+    <div class="cron-detail">주기: 상시 | PID: 1441 | 상태: <span class="status-badge ok">실행 중</span></div>
+  </div>
+  <div class="cron-card">
+    <div class="cron-name">👁️ memory-watcher</div>
+    <div class="cron-detail">주기: 상시 | PID: 1455 | 상태: <span class="status-badge ok">실행 중</span></div>
+  </div>
+  <div class="cron-card">
+    <div class="cron-name">🎙️ plaud-pipeline</div>
+    <div class="cron-detail">주기: 30분 | PID: - | 상태: <span class="status-badge ok">정상</span></div>
+  </div>
+  <div class="cron-card">
+    <div class="cron-name">📊 sns-views-collect</div>
+    <div class="cron-detail">주기: 매일 06:00 | PID: - | 상태: <span class="status-badge ok">정상</span></div>
+  </div>
+  <div class="cron-card">
+    <div class="cron-name">🚀 tenex-reports-deploy</div>
+    <div class="cron-detail">주기: 10분 (변경 감지) | PID: - | 상태: <span class="status-badge ok">정상</span></div>
+  </div>
+  <div class="cron-card">
+    <div class="cron-name">📹 yt-tracker</div>
+    <div class="cron-detail">주기: 주기적 | PID: - | 상태: <span class="status-badge ok">정상</span></div>
+  </div>
+  <div class="cron-card">
+    <div class="cron-name">🔗 session-sync</div>
+    <div class="cron-detail">주기: 주기적 | PID: - | 상태: <span class="status-badge ok">정상</span></div>
+  </div>
+</div>
+
+<!-- 서비스 헬스체크 -->
+<h2>🖥️ 서비스 & 서버</h2>
+<div class="sec-grid">
+  <div class="info-box" style="margin:0">
+    <h3>내부 서비스</h3>
+    <div class="row"><span class="label">brain.db</span><span class="val">localhost:8082 <span class="status-badge ok">응답 정상</span></span></div>
+    <div class="row"><span class="label">tenex-reports</span><span class="val">tenex-reports.vercel.app <span class="status-badge ok">정상</span></span></div>
+    <div class="row"><span class="label">tenex-dashboard</span><span class="val">tenex-dashboard.vercel.app <span class="status-badge ok">정상</span></span></div>
+  </div>
+  <div class="info-box" style="margin:0">
+    <h3>서버 정보</h3>
+    <div class="row"><span class="label">하드웨어</span><span class="val">Mac Mini M4</span></div>
+    <div class="row"><span class="label">운영체제</span><span class="val">macOS Sequoia (Darwin 25.3.0 arm64)</span></div>
+    <div class="row"><span class="label">네트워크</span><span class="val">Tailscale 100.95.220.26</span></div>
+    <div class="row"><span class="label">Node.js</span><span class="val">v25.6.0</span></div>
+  </div>
 </div>
 
 <!-- 에이전트 권한 -->
@@ -142,18 +204,18 @@ h2{color:#5b9bd5;font-size:18px;margin:32px 0 16px;font-weight:700}
 <div class="perm-grid">
   <div class="perm-card">
     <div class="agent">👑 카리나</div>
-    <div class="scope">전체 권한</div>
+    <div class="scope">전체 권한 (총괄)</div>
   </div>
   <div class="perm-card">
-    <div class="agent">📈 마실장</div>
+    <div class="agent">🔧 개실장</div>
+    <div class="scope">개발/시스템/인프라 영역</div>
+  </div>
+  <div class="perm-card">
+    <div class="agent">📣 마실장</div>
     <div class="scope">마케팅/광고 영역</div>
   </div>
   <div class="perm-card">
-    <div class="agent">⚙️ 개실장</div>
-    <div class="scope">개발/시스템 영역</div>
-  </div>
-  <div class="perm-card">
-    <div class="agent">🎧 고실장</div>
+    <div class="agent">🎯 고실장</div>
     <div class="scope">고객/CS 영역</div>
   </div>
   <div class="perm-card">
@@ -162,7 +224,7 @@ h2{color:#5b9bd5;font-size:18px;margin:32px 0 16px;font-weight:700}
   </div>
 </div>
 
-<p style="text-align:center;color:#64748b;font-size:12px;margin:40px 0 20px">최종 업데이트: 2026-03-27</p>
+<p style="text-align:center;color:#64748b;font-size:12px;margin:40px 0 20px">최종 점검: 2026-03-30 14:05 | 다음 점검: 2026-04-02</p>
 </div>
 </body>
 </html>
