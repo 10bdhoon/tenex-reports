@@ -199,6 +199,67 @@ body.sidebar-collapsed .header-toggle{display:flex}
 @media(max-width:480px){
   .overview-grid{grid-template-columns:1fr}
 }
+
+/* ── Task Board ── */
+.taskboard-view{display:none}
+.taskboard-view.active{display:block}
+.reports-view.hidden{display:none}
+.tb-filter-bar{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px}
+.tb-filter-chip{display:inline-flex;align-items:center;gap:4px;padding:5px 12px;border-radius:20px;border:1px solid var(--border);background:var(--bg-card);color:var(--text-secondary);font-size:12px;font-weight:500;cursor:pointer;transition:all .2s;white-space:nowrap}
+.tb-filter-chip:hover{border-color:var(--accent);color:var(--accent)}
+.tb-filter-chip.active{background:var(--accent);color:#fff;border-color:var(--accent)}
+.tb-search-wrap{margin-bottom:14px;position:relative}
+.tb-search-wrap input{width:100%;padding:10px 16px 10px 38px;border-radius:10px;border:1px solid var(--border);background:var(--bg-card);color:var(--text);font-size:13px;outline:none;transition:border-color .2s}
+.tb-search-wrap input:focus{border-color:var(--accent)}
+.tb-search-wrap input::placeholder{color:var(--text-secondary)}
+.tb-search-wrap .tb-search-icon{position:absolute;left:12px;top:50%;transform:translateY(-50%);font-size:15px;opacity:.45;pointer-events:none}
+.tb-status-bar{display:flex;gap:6px;margin-bottom:16px;flex-wrap:wrap}
+.tb-add-btn{display:inline-flex;align-items:center;gap:6px;padding:8px 16px;border-radius:8px;border:1px dashed var(--border);background:transparent;color:var(--accent);font-size:13px;font-weight:600;cursor:pointer;transition:all .2s;margin-bottom:16px}
+.tb-add-btn:hover{background:var(--accent-light);border-color:var(--accent)}
+.tb-add-form{background:var(--bg-card);border:1px solid var(--accent);border-radius:10px;padding:16px;margin-bottom:16px;display:none;box-shadow:var(--shadow-lg)}
+.tb-add-form.open{display:block}
+.tb-add-form .form-row{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:10px}
+.tb-add-form input,.tb-add-form select{padding:7px 10px;border-radius:7px;border:1px solid var(--border);background:var(--bg);color:var(--text);font-size:13px;outline:none}
+.tb-add-form input:focus,.tb-add-form select:focus{border-color:var(--accent)}
+.tb-add-form .form-title{flex:1;min-width:200px}
+.tb-add-form .form-actions{display:flex;gap:8px}
+.tb-add-form .btn-save{padding:7px 18px;border-radius:7px;border:none;background:var(--accent);color:#fff;font-size:13px;font-weight:600;cursor:pointer}
+.tb-add-form .btn-save:hover{opacity:.9}
+.tb-add-form .btn-cancel{padding:7px 14px;border-radius:7px;border:1px solid var(--border);background:transparent;color:var(--text-secondary);font-size:13px;cursor:pointer}
+.tb-add-form .btn-cancel:hover{background:var(--accent-light)}
+.task-card{background:var(--bg-card);border:1px solid var(--border);border-radius:10px;padding:12px 16px;margin-bottom:7px;display:flex;align-items:center;gap:12px;box-shadow:var(--shadow);transition:all .2s;position:relative}
+.task-card:hover{transform:translateY(-1px);box-shadow:var(--shadow-lg)}
+.task-card .urgency-bar{position:absolute;left:0;top:0;bottom:0;width:4px;border-radius:10px 0 0 10px}
+.task-card .urgency-bar.red{background:#ef4444}
+.task-card .urgency-bar.yellow{background:#eab308}
+.task-card .urgency-bar.green{background:#22c55e}
+.task-card .tc-status{font-size:18px;cursor:pointer;user-select:none;flex-shrink:0;padding:2px 4px;border-radius:6px;transition:background .15s}
+.task-card .tc-status:hover{background:var(--accent-light)}
+.task-card .tc-info{flex:1;min-width:0;padding-left:4px}
+.task-card .tc-title{font-size:13px;font-weight:600;color:var(--text)}
+.task-card .tc-desc{font-size:11px;color:var(--text-secondary);margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.task-card .tc-badges{display:flex;flex-wrap:wrap;gap:4px;margin-top:5px}
+.task-card .tc-badge{padding:2px 7px;border-radius:8px;font-size:10px;font-weight:600;white-space:nowrap}
+.task-card .tc-badge-cat{background:var(--accent-light);color:var(--accent)}
+[data-theme="dark"] .task-card .tc-badge-cat{background:rgba(0,40,85,0.3);color:#93b5d3}
+.task-card .tc-badge-imp{background:#ede9fe;color:#7c3aed}
+[data-theme="dark"] .task-card .tc-badge-imp{background:rgba(139,92,246,0.15);color:#c4b5fd}
+.task-card .tc-badge-due{background:#fef3c7;color:#92400e}
+[data-theme="dark"] .task-card .tc-badge-due{background:rgba(245,158,11,0.15);color:#fcd34d}
+.task-card .tc-delete{opacity:0;border:none;background:none;color:var(--text-secondary);cursor:pointer;font-size:14px;padding:4px;border-radius:4px;transition:all .15s;flex-shrink:0}
+.task-card:hover .tc-delete{opacity:.6}
+.task-card .tc-delete:hover{opacity:1;color:#ef4444;background:rgba(239,68,68,0.1)}
+.task-card.done-card{opacity:.6}
+.task-card.done-card .tc-title{text-decoration:line-through;color:var(--text-secondary)}
+.tb-empty{text-align:center;color:var(--text-secondary);padding:40px;font-size:14px}
+.tb-stats{display:flex;gap:16px;margin-bottom:16px;flex-wrap:wrap}
+.tb-stat{background:var(--bg-card);border:1px solid var(--border);border-radius:10px;padding:10px 16px;min-width:80px;text-align:center}
+.tb-stat .stat-num{font-size:20px;font-weight:700;color:var(--text)}
+.tb-stat .stat-label{font-size:11px;color:var(--text-secondary);margin-top:2px}
+@media(max-width:768px){
+  .tb-add-form .form-row{flex-direction:column}
+  .tb-add-form .form-title{min-width:0}
+}
 </style>
 </head>
 <body>
@@ -223,6 +284,11 @@ body.sidebar-collapsed .header-toggle{display:flex}
     </div>
     <div class="nav-section" id="catSection">
       <div class="nav-section-title">업무 카테고리 (A~Z)</div>
+    </div>
+    <div class="nav-section" style="padding:0 12px;margin-top:4px;margin-bottom:4px">
+      <div class="nav-item" id="navTaskboard" data-view="taskboard">
+        <span class="icon">📋</span><span class="label">업무보드</span>
+      </div>
     </div>
     <div class="sidebar-system">
       <div class="nav-section-title" style="padding:6px 8px 5px">시스템</div>
@@ -250,20 +316,61 @@ body.sidebar-collapsed .header-toggle{display:flex}
     </div>
   </header>
   <div class="content-area">
-    <div class="content-header">
-      <div class="breadcrumb"><span>홈</span> / <span id="breadcrumbCat">전체 문서</span></div>
-      <h2 id="contentTitle">전체 리포트</h2>
+    <!-- Reports View -->
+    <div class="reports-view" id="reportsView">
+      <div class="content-header">
+        <div class="breadcrumb"><span>홈</span> / <span id="breadcrumbCat">전체 문서</span></div>
+        <h2 id="contentTitle">전체 리포트</h2>
+      </div>
+      <div class="global-search-wrap">
+        <span class="search-icon">🔍</span>
+        <input type="text" id="globalSearch" placeholder="리포트 검색... (제목, 설명)">
+        <span class="search-shortcut">/</span>
+        <button class="search-clear" id="searchClear">✕</button>
+        <span class="search-count" id="searchCount"></span>
+      </div>
+      <div class="overview-grid" id="overviewGrid"></div>
+      <div id="reportList"></div>
+      <div class="empty" id="emptyState" style="display:none">검색 결과가 없습니다.</div>
     </div>
-    <div class="global-search-wrap">
-      <span class="search-icon">🔍</span>
-      <input type="text" id="globalSearch" placeholder="리포트 검색... (제목, 설명)">
-      <span class="search-shortcut">/</span>
-      <button class="search-clear" id="searchClear">✕</button>
-      <span class="search-count" id="searchCount"></span>
+    <!-- Task Board View -->
+    <div class="taskboard-view" id="taskboardView">
+      <div class="content-header">
+        <div class="breadcrumb"><span>홈</span> / <span>업무보드</span></div>
+        <h2>📋 태훈 업무보드</h2>
+      </div>
+      <div class="tb-stats" id="tbStats"></div>
+      <div class="tb-search-wrap">
+        <span class="tb-search-icon">🔍</span>
+        <input type="text" id="tbSearch" placeholder="업무 검색...">
+      </div>
+      <div class="tb-filter-bar" id="tbFilterBar"></div>
+      <div class="tb-status-bar" id="tbStatusBar"></div>
+      <button class="tb-add-btn" id="tbAddBtn">＋ 새 업무</button>
+      <div class="tb-add-form" id="tbAddForm">
+        <div class="form-row">
+          <input class="form-title" type="text" id="tbNewTitle" placeholder="업무 제목">
+          <select id="tbNewCat"></select>
+          <select id="tbNewUrgency">
+            <option value="green">🟢 일반</option>
+            <option value="yellow">🟡 주의</option>
+            <option value="red">🔴 긴급</option>
+          </select>
+          <select id="tbNewImp">
+            <option value="상">중요도: 상</option>
+            <option value="중">중요도: 중</option>
+            <option value="하">중요도: 하</option>
+          </select>
+          <input type="date" id="tbNewDue">
+        </div>
+        <div class="form-actions">
+          <button class="btn-save" id="tbSaveBtn">추가</button>
+          <button class="btn-cancel" id="tbCancelBtn">취소</button>
+        </div>
+      </div>
+      <div id="tbTaskList"></div>
+      <div class="tb-empty" id="tbEmpty" style="display:none">해당하는 업무가 없습니다.</div>
     </div>
-    <div class="overview-grid" id="overviewGrid"></div>
-    <div id="reportList"></div>
-    <div class="empty" id="emptyState" style="display:none">검색 결과가 없습니다.</div>
   </div>
   <div class="footer">마지막 업데이트: 2026. 3. 27. | tenex-reports.vercel.app</div>
 </div>
@@ -346,7 +453,7 @@ const DEFAULT_REPORTS=[
   {href:'/jasagyo-5gi.html',icon:'🎓',title:'자사몰 사관학교 5기',desc:'',date:'3/25',cat:'Z',sub:'자사교 스터디'},
   {href:'/jasagyo-6ki-week2.html',icon:'🎓',title:'자사교 6기 2주차',desc:'',date:'3/23',cat:'Z',sub:'자사교 스터디'},
 ];
-let currentCat='all',currentSub=null,searchQuery='';
+let currentCat='all',currentSub=null,searchQuery='',currentView='reports';
 const expandedCats={};
 function getReports(){const o=JSON.parse(localStorage.getItem('tenex-cat-v3')||'{}');return DEFAULT_REPORTS.map(r=>({...r,cat:o[r.href]||r.cat}))}
 function saveCatOverride(href,cat){const o=JSON.parse(localStorage.getItem('tenex-cat-v3')||'{}');o[href]=cat;localStorage.setItem('tenex-cat-v3',JSON.stringify(o))}
@@ -524,6 +631,7 @@ function renderGlossary(q){
 }
 function renderAll(){renderSidebarCats();renderOverview();renderReports()}
 function setCategory(cat){
+  if(currentView==='taskboard')switchView('reports');
   currentCat=cat;
   document.querySelectorAll('.nav-item').forEach(el=>el.classList.toggle('active',el.dataset.cat===cat&&!currentSub));
   const c=CATEGORIES.find(x=>x.key===cat);
@@ -554,7 +662,231 @@ document.addEventListener('DOMContentLoaded',()=>{
   document.getElementById('glossaryClose').onclick=()=>{document.getElementById('glossaryPanel').classList.remove('open');document.getElementById('glossaryOverlay').classList.remove('show')};
   document.getElementById('glossaryOverlay').onclick=()=>{document.getElementById('glossaryPanel').classList.remove('open');document.getElementById('glossaryOverlay').classList.remove('show')};
   document.getElementById('glossarySearch').oninput=e=>renderGlossary(e.target.value.toLowerCase());
+  // ── Task Board ──
+  initTaskBoard();
 });
+
+/* ═══════ Task Board Logic ═══════ */
+const TB_STORAGE='tenex-task-board-v1';
+const DEFAULT_TASKS=[
+  {id:'t1',title:'리포트 UI 크롱 스타일 전환',cat:'I',urgency:'green',importance:'상',status:'done',created:'2026-03-27'},
+  {id:'t2',title:'정품등록 + 메타픽셀',cat:'D',urgency:'yellow',importance:'상',status:'doing',created:'2026-03-27'},
+  {id:'t3',title:'앱 탭 UI 통합',cat:'E',urgency:'yellow',importance:'상',status:'doing',created:'2026-03-27'},
+  {id:'t4',title:'SPA 카테고리 구조 개편',cat:'I',urgency:'green',importance:'중',status:'done',created:'2026-03-27'},
+  {id:'t5',title:'Mixpanel 시각화 대시보드',cat:'D',urgency:'yellow',importance:'상',status:'doing',created:'2026-03-28'},
+  {id:'t6',title:'알림톡 CRM 자동화',cat:'D',urgency:'green',importance:'상',status:'waiting',created:'2026-03-28'},
+  {id:'t7',title:'앱 MVP 개발 착수',cat:'E',urgency:'red',importance:'상',status:'waiting',created:'2026-03-28'},
+  {id:'t8',title:'CS-25 리뷰 체험단 세팅',cat:'K',urgency:'green',importance:'중',status:'waiting',created:'2026-03-28'},
+  {id:'t9',title:'유튜브 콘텐츠 캘린더',cat:'B',urgency:'green',importance:'중',status:'waiting',created:'2026-03-29'},
+  {id:'t10',title:'팀 채용 JD 작성',cat:'G',urgency:'yellow',importance:'상',status:'waiting',created:'2026-03-29'},
+  {id:'t11',title:'해외진출 1차 리서치',cat:'J',urgency:'green',importance:'중',status:'waiting',created:'2026-03-29'},
+  {id:'t12',title:'지메일 연동 자동화',cat:'H',urgency:'green',importance:'중',status:'waiting',created:'2026-03-29'},
+  {id:'t13',title:'모사모 강의 통합 완료',cat:'Z',urgency:'green',importance:'하',status:'done',created:'2026-03-27'},
+  {id:'t14',title:'수익 시뮬레이션 업데이트',cat:'F',urgency:'yellow',importance:'상',status:'doing',created:'2026-03-30'},
+  {id:'t15',title:'보안 대시보드 점검',cat:'I',urgency:'red',importance:'상',status:'doing',created:'2026-03-30'},
+];
+
+const TB_STATUS_EMOJI={waiting:'⏳',doing:'🔧',done:'✅'};
+const TB_STATUS_LABEL={waiting:'대기',doing:'진행중',done:'완료'};
+const TB_STATUS_CYCLE=['waiting','doing','done'];
+const URGENCY_ORDER={red:0,yellow:1,green:2};
+const IMP_ORDER={'상':0,'중':1,'하':2};
+const URGENCY_LABEL={red:'🔴 긴급',yellow:'🟡 주의',green:'🟢 일반'};
+
+let tbTasks=[],tbFilter='all',tbStatusFilter='all',tbSearchQuery='',tbCatFilter='all';
+
+function loadTasks(){
+  try{
+    const saved=localStorage.getItem(TB_STORAGE);
+    if(saved){tbTasks=JSON.parse(saved);return}
+  }catch(e){}
+  tbTasks=DEFAULT_TASKS.map(t=>({...t}));
+  saveTasks();
+}
+function saveTasks(){localStorage.setItem(TB_STORAGE,JSON.stringify(tbTasks))}
+
+function sortTasks(arr){
+  return arr.slice().sort((a,b)=>{
+    const u=URGENCY_ORDER[a.urgency]-URGENCY_ORDER[b.urgency];
+    if(u!==0)return u;
+    const i=IMP_ORDER[a.importance]-IMP_ORDER[b.importance];
+    if(i!==0)return i;
+    return a.created<b.created?1:-1;
+  });
+}
+
+function getFilteredTasks(){
+  let arr=tbTasks;
+  if(tbStatusFilter!=='all')arr=arr.filter(t=>t.status===tbStatusFilter);
+  if(tbFilter==='red')arr=arr.filter(t=>t.urgency==='red');
+  if(tbFilter==='week'){
+    const now=new Date();const weekAgo=new Date(now);weekAgo.setDate(now.getDate()-7);
+    arr=arr.filter(t=>new Date(t.created)>=weekAgo);
+  }
+  if(tbCatFilter!=='all')arr=arr.filter(t=>t.cat===tbCatFilter);
+  if(tbSearchQuery){const q=tbSearchQuery.toLowerCase();arr=arr.filter(t=>t.title.toLowerCase().includes(q))}
+  return sortTasks(arr);
+}
+
+function renderTbStats(){
+  const el=document.getElementById('tbStats');
+  const total=tbTasks.length;
+  const doing=tbTasks.filter(t=>t.status==='doing').length;
+  const done=tbTasks.filter(t=>t.status==='done').length;
+  const waiting=tbTasks.filter(t=>t.status==='waiting').length;
+  const urgent=tbTasks.filter(t=>t.urgency==='red'&&t.status!=='done').length;
+  el.innerHTML=
+    '<div class="tb-stat"><div class="stat-num">'+total+'</div><div class="stat-label">전체</div></div>'+
+    '<div class="tb-stat"><div class="stat-num" style="color:#eab308">'+doing+'</div><div class="stat-label">진행중</div></div>'+
+    '<div class="tb-stat"><div class="stat-num" style="color:#22c55e">'+done+'</div><div class="stat-label">완료</div></div>'+
+    '<div class="tb-stat"><div class="stat-num">'+waiting+'</div><div class="stat-label">대기</div></div>'+
+    (urgent?'<div class="tb-stat"><div class="stat-num" style="color:#ef4444">'+urgent+'</div><div class="stat-label">긴급</div></div>':'');
+}
+
+function renderTbFilters(){
+  const bar=document.getElementById('tbFilterBar');
+  const catMap={};CATEGORIES.forEach(c=>catMap[c.key]=c);
+  let html='<div class="tb-filter-chip'+(tbFilter==='all'&&tbCatFilter==='all'?' active':'')+'" data-tf="all">전체</div>';
+  html+='<div class="tb-filter-chip'+(tbFilter==='red'?' active':'')+'" data-tf="red">🔴 긴급만</div>';
+  html+='<div class="tb-filter-chip'+(tbFilter==='week'?' active':'')+'" data-tf="week">이번주</div>';
+  // category chips — only those that have tasks
+  const usedCats=[...new Set(tbTasks.map(t=>t.cat))];
+  CATEGORIES.forEach(c=>{
+    if(!usedCats.includes(c.key))return;
+    html+='<div class="tb-filter-chip'+(tbCatFilter===c.key?' active':'')+'" data-tcf="'+c.key+'">'+c.icon+' '+c.key+'</div>';
+  });
+  bar.innerHTML=html;
+  bar.querySelectorAll('[data-tf]').forEach(el=>el.onclick=()=>{
+    tbFilter=el.dataset.tf;tbCatFilter='all';renderTbAll();
+  });
+  bar.querySelectorAll('[data-tcf]').forEach(el=>el.onclick=()=>{
+    tbCatFilter=tbCatFilter===el.dataset.tcf?'all':el.dataset.tcf;tbFilter='all';renderTbAll();
+  });
+}
+
+function renderTbStatusBar(){
+  const bar=document.getElementById('tbStatusBar');
+  const statuses=[{k:'all',l:'전체'},{k:'waiting',l:'⏳ 대기'},{k:'doing',l:'🔧 진행중'},{k:'done',l:'✅ 완료'}];
+  bar.innerHTML=statuses.map(s=>'<div class="tb-filter-chip'+(tbStatusFilter===s.k?' active':'')+'" data-tsf="'+s.k+'">'+s.l+'</div>').join('');
+  bar.querySelectorAll('[data-tsf]').forEach(el=>el.onclick=()=>{tbStatusFilter=el.dataset.tsf;renderTbAll()});
+}
+
+function renderTbTasks(){
+  const tasks=getFilteredTasks();
+  const list=document.getElementById('tbTaskList');
+  const empty=document.getElementById('tbEmpty');
+  if(!tasks.length){list.innerHTML='';empty.style.display='block';return}
+  empty.style.display='none';
+  const catMap={};CATEGORIES.forEach(c=>catMap[c.key]=c);
+  list.innerHTML=tasks.map(t=>{
+    const cat=catMap[t.cat];
+    const catLabel=cat?cat.icon+' '+cat.label:t.cat;
+    const isDone=t.status==='done';
+    return '<div class="task-card'+(isDone?' done-card':'')+'" data-tid="'+t.id+'">'+
+      '<div class="urgency-bar '+t.urgency+'"></div>'+
+      '<span class="tc-status" data-tid="'+t.id+'" title="클릭하여 상태 변경">'+TB_STATUS_EMOJI[t.status]+'</span>'+
+      '<div class="tc-info">'+
+        '<div class="tc-title">'+escapeHtml(t.title)+'</div>'+
+        (t.desc?'<div class="tc-desc">'+escapeHtml(t.desc)+'</div>':'')+
+        '<div class="tc-badges">'+
+          '<span class="tc-badge tc-badge-cat">'+catLabel+'</span>'+
+          '<span class="tc-badge tc-badge-imp">'+t.importance+'</span>'+
+          '<span class="tc-badge" style="background:transparent;color:var(--text-secondary)">'+URGENCY_LABEL[t.urgency]+'</span>'+
+          (t.due?'<span class="tc-badge tc-badge-due">⏰ '+t.due+'</span>':'')+
+          '<span class="tc-badge" style="background:transparent;color:var(--text-secondary);opacity:.6">'+t.created+'</span>'+
+        '</div>'+
+      '</div>'+
+      '<button class="tc-delete" data-tid="'+t.id+'" title="삭제">✕</button>'+
+    '</div>';
+  }).join('');
+  // Event: status toggle
+  list.querySelectorAll('.tc-status').forEach(el=>el.onclick=e=>{
+    e.stopPropagation();
+    const tid=el.dataset.tid;
+    const task=tbTasks.find(t=>t.id===tid);
+    if(!task)return;
+    const idx=TB_STATUS_CYCLE.indexOf(task.status);
+    task.status=TB_STATUS_CYCLE[(idx+1)%TB_STATUS_CYCLE.length];
+    saveTasks();renderTbAll();
+  });
+  // Event: delete
+  list.querySelectorAll('.tc-delete').forEach(el=>el.onclick=e=>{
+    e.stopPropagation();
+    const tid=el.dataset.tid;
+    tbTasks=tbTasks.filter(t=>t.id!==tid);
+    saveTasks();renderTbAll();
+  });
+}
+
+function escapeHtml(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;')}
+
+function renderTbAll(){renderTbStats();renderTbFilters();renderTbStatusBar();renderTbTasks()}
+
+function switchView(view){
+  currentView=view;
+  const rv=document.getElementById('reportsView');
+  const tv=document.getElementById('taskboardView');
+  const navTb=document.getElementById('navTaskboard');
+  if(view==='taskboard'){
+    rv.classList.add('hidden');
+    tv.classList.add('active');
+    navTb.classList.add('active');
+    document.querySelectorAll('#catSection .nav-item, .nav-item[data-cat="all"]').forEach(el=>el.classList.remove('active'));
+    renderTbAll();
+  } else {
+    rv.classList.remove('hidden');
+    tv.classList.remove('active');
+    navTb.classList.remove('active');
+    // Re-activate current category nav
+    document.querySelectorAll('.nav-item').forEach(el=>el.classList.toggle('active',el.dataset.cat===currentCat&&!currentSub));
+  }
+}
+
+function initTaskBoard(){
+  loadTasks();
+  // Sidebar nav click
+  document.getElementById('navTaskboard').onclick=()=>{
+    switchView('taskboard');closeMobile();
+  };
+  // Populate category select
+  const sel=document.getElementById('tbNewCat');
+  sel.innerHTML=CATEGORIES.map(c=>'<option value="'+c.key+'">'+c.icon+' '+c.key+' '+c.label+'</option>').join('');
+  // Search
+  document.getElementById('tbSearch').oninput=e=>{tbSearchQuery=e.target.value;renderTbTasks()};
+  // Add form toggle
+  document.getElementById('tbAddBtn').onclick=()=>{
+    const form=document.getElementById('tbAddForm');
+    form.classList.toggle('open');
+    if(form.classList.contains('open'))document.getElementById('tbNewTitle').focus();
+  };
+  document.getElementById('tbCancelBtn').onclick=()=>{
+    document.getElementById('tbAddForm').classList.remove('open');
+    document.getElementById('tbNewTitle').value='';
+  };
+  document.getElementById('tbSaveBtn').onclick=addTask;
+  document.getElementById('tbNewTitle').onkeydown=e=>{if(e.key==='Enter')addTask()};
+}
+
+function addTask(){
+  const title=document.getElementById('tbNewTitle').value.trim();
+  if(!title)return;
+  const task={
+    id:'t'+Date.now(),
+    title:title,
+    cat:document.getElementById('tbNewCat').value,
+    urgency:document.getElementById('tbNewUrgency').value,
+    importance:document.getElementById('tbNewImp').value,
+    status:'waiting',
+    created:new Date().toISOString().slice(0,10),
+    due:document.getElementById('tbNewDue').value||null
+  };
+  tbTasks.unshift(task);
+  saveTasks();
+  document.getElementById('tbNewTitle').value='';
+  document.getElementById('tbNewDue').value='';
+  document.getElementById('tbAddForm').classList.remove('open');
+  renderTbAll();
+}
 </script>
 </body>
 </html>
