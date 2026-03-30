@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-03-30T14:07:00+09:00",
+  "lastUpdated": "2026-03-30T14:20:00+09:00",
   "tasks": [
     {
       "id": "t01",
@@ -46,12 +46,21 @@
       "cat": "E",
       "urgency": "yellow",
       "importance": "상",
-      "status": "doing",
+      "status": "done",
       "assignee": "개실장",
       "created": "2026-03-27",
       "dueDate": "2026-04-07",
       "note": "1min-dosu-app 하나로",
-      "checklist": []
+      "checklist": [
+        {
+          "text": "탭 구조 통합 (iframe lazy-load)",
+          "done": true
+        },
+        {
+          "text": "index.html 링크 통일",
+          "done": true
+        }
+      ]
     },
     {
       "id": "t04",
@@ -237,7 +246,20 @@
       "created": "2026-03-30",
       "dueDate": "2026-04-02",
       "note": "6/7 정상, Notion DB 공유 필요 (태훈 수동)",
-      "checklist": []
+      "checklist": [
+        {
+          "text": "7개 API 라이브 체크",
+          "done": true
+        },
+        {
+          "text": "크론잡 상태 섹션 추가",
+          "done": true
+        },
+        {
+          "text": "Notion 이슈 보고",
+          "done": true
+        }
+      ]
     },
     {
       "id": "t16",
