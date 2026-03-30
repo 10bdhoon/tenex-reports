@@ -1,0 +1,816 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FAQ — 키네메디칼 고객 지원</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --bg: #0a0a0a; --bg2: #111; --bg3: #1a1a1a; --bg4: #222;
+    --border: #2a2a2a; --text: #f0f0f0; --text2: #aaa; --text3: #666;
+    --red: #ff4444; --orange: #f0883e; --yellow: #fbbf24;
+    --green: #22c55e; --blue: #58a6ff; --purple: #a78bfa;
+    --teal: #2dd4bf;
+  }
+  body { background: var(--bg); color: var(--text); font-family: -apple-system, BlinkMacSystemFont, 'Apple SD Gothic Neo', 'Noto Sans KR', sans-serif; line-height: 1.6; }
+
+  /* Nav */
+  .nav { position: sticky; top: 0; z-index: 100; background: #0d0d0d; border-bottom: 1px solid var(--border); display: flex; align-items: center; padding: 0 20px; }
+  .nav-logo { font-size: 13px; font-weight: 700; color: var(--green); padding: 14px 20px 14px 0; border-right: 1px solid var(--border); margin-right: 8px; white-space: nowrap; }
+  .nav a { color: var(--text3); text-decoration: none; font-size: 12px; padding: 14px 14px; white-space: nowrap; border-bottom: 2px solid transparent; transition: all 0.15s; }
+  .nav a:hover, .nav a.active { color: var(--text); border-bottom-color: var(--blue); }
+
+  /* Hero */
+  .hero { background: linear-gradient(135deg, #0a0a0a 0%, #0d1117 50%, #0a1628 100%); border-bottom: 1px solid var(--border); padding: 48px 32px 40px; text-align: center; }
+  .hero-badge { display: inline-flex; align-items: center; gap: 6px; background: rgba(34,197,94,0.1); border: 1px solid rgba(34,197,94,0.3); color: var(--green); font-size: 11px; font-weight: 700; padding: 4px 12px; border-radius: 20px; margin-bottom: 16px; letter-spacing: 0.05em; }
+  .hero h1 { font-size: 28px; font-weight: 800; color: #fff; margin-bottom: 10px; }
+  .hero p { color: var(--text2); font-size: 14px; max-width: 500px; margin: 0 auto; line-height: 1.7; }
+
+  /* Search */
+  .search-wrap { max-width: 600px; margin: 24px auto 0; position: relative; }
+  .search-input { width: 100%; background: var(--bg3); border: 1px solid var(--border); border-radius: 12px; padding: 14px 18px 14px 44px; font-size: 15px; color: var(--text); outline: none; transition: border-color 0.2s; }
+  .search-input::placeholder { color: var(--text3); }
+  .search-input:focus { border-color: var(--blue); }
+  .search-icon { position: absolute; left: 16px; top: 50%; transform: translateY(-50%); font-size: 16px; color: var(--text3); pointer-events: none; }
+  .search-count { text-align: center; font-size: 12px; color: var(--text3); margin-top: 8px; display: none; }
+  .search-count.visible { display: block; }
+
+  /* Container */
+  .container { max-width: 800px; margin: 0 auto; padding: 32px 24px 80px; }
+
+  /* Category filter */
+  .cat-filter { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 28px; justify-content: center; }
+  .cat-btn { background: var(--bg3); border: 1px solid var(--border); border-radius: 20px; padding: 6px 16px; font-size: 12px; font-weight: 600; color: var(--text2); cursor: pointer; transition: all 0.15s; }
+  .cat-btn:hover { border-color: var(--blue); color: var(--text); }
+  .cat-btn.active { background: rgba(88,166,255,0.12); border-color: rgba(88,166,255,0.4); color: var(--blue); }
+
+  /* Section */
+  .faq-section { margin-bottom: 36px; }
+  .faq-section.hidden { display: none; }
+  .section-header { display: flex; align-items: center; gap: 10px; margin-bottom: 16px; }
+  .section-icon { font-size: 18px; }
+  .section-title { font-size: 14px; font-weight: 700; color: var(--text); }
+  .section-count { font-size: 11px; color: var(--text3); background: var(--bg4); border-radius: 10px; padding: 2px 8px; }
+
+  /* FAQ item */
+  .faq-item { background: var(--bg3); border: 1px solid var(--border); border-radius: 10px; margin-bottom: 8px; overflow: hidden; transition: border-color 0.2s; }
+  .faq-item.hidden { display: none; }
+  .faq-item:hover { border-color: #333; }
+  .faq-q { display: flex; align-items: center; gap: 12px; padding: 16px 18px; cursor: pointer; user-select: none; }
+  .faq-q-icon { font-size: 14px; color: var(--blue); flex-shrink: 0; transition: transform 0.2s; }
+  .faq-q-text { flex: 1; font-size: 14px; font-weight: 600; color: var(--text); }
+  .faq-q-tag { font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 8px; flex-shrink: 0; }
+  .tag-product { background: rgba(34,197,94,0.12); color: var(--green); }
+  .tag-shipping { background: rgba(88,166,255,0.12); color: var(--blue); }
+  .tag-return { background: rgba(251,191,36,0.12); color: var(--yellow); }
+  .tag-usage { background: rgba(167,139,250,0.12); color: var(--purple); }
+  .tag-payment { background: rgba(240,136,62,0.12); color: var(--orange); }
+  .tag-routine { background: rgba(45,212,191,0.12); color: var(--teal); }
+
+  .faq-a { max-height: 0; overflow: hidden; transition: max-height 0.3s ease, padding 0.3s ease; }
+  .faq-a-inner { padding: 0 18px 16px 44px; font-size: 13px; color: var(--text2); line-height: 1.8; }
+  .faq-item.open .faq-a { max-height: 600px; }
+  .faq-item.open .faq-q-icon { transform: rotate(90deg); }
+  .faq-item.open { border-color: rgba(88,166,255,0.3); }
+
+  .faq-a-inner strong { color: var(--text); font-weight: 600; }
+  .faq-a-inner .highlight { color: var(--green); font-weight: 600; }
+  .faq-a-inner .warn { color: var(--yellow); }
+  .faq-a-inner ul { margin: 8px 0; padding-left: 16px; }
+  .faq-a-inner li { margin-bottom: 4px; }
+  .faq-a-inner .tip { background: rgba(34,197,94,0.06); border: 1px solid rgba(34,197,94,0.15); border-radius: 8px; padding: 10px 14px; margin-top: 10px; font-size: 12px; }
+  .faq-a-inner .tip::before { content: '💡 '; }
+
+  /* Product cards */
+  .product-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 32px; }
+  .product-card { background: var(--bg3); border: 1px solid var(--border); border-radius: 10px; padding: 18px 16px; text-align: center; cursor: pointer; transition: all 0.15s; }
+  .product-card:hover { border-color: var(--blue); transform: translateY(-2px); }
+  .product-emoji { font-size: 28px; margin-bottom: 8px; }
+  .product-name { font-size: 13px; font-weight: 700; color: var(--text); }
+  .product-sub { font-size: 11px; color: var(--text3); margin-top: 2px; }
+  .product-price { font-size: 14px; font-weight: 800; color: var(--green); margin-top: 6px; }
+  .product-rating { font-size: 11px; color: var(--yellow); margin-top: 4px; }
+
+  /* Contact */
+  .contact-bar { background: var(--bg3); border: 1px solid var(--border); border-radius: 12px; padding: 20px 24px; display: flex; align-items: center; gap: 16px; margin-top: 40px; }
+  .contact-icon { font-size: 28px; }
+  .contact-text { flex: 1; }
+  .contact-title { font-size: 14px; font-weight: 700; color: var(--text); }
+  .contact-desc { font-size: 12px; color: var(--text2); margin-top: 2px; }
+  .contact-btn { background: var(--blue); color: #fff; border: none; border-radius: 8px; padding: 10px 20px; font-size: 13px; font-weight: 700; cursor: pointer; text-decoration: none; }
+  .contact-btn:hover { opacity: 0.9; }
+
+  /* Footer */
+  .footer { border-top: 1px solid var(--border); padding: 24px 32px; text-align: center; font-size: 12px; color: var(--text3); }
+
+  /* No results */
+  .no-results { text-align: center; padding: 40px 20px; display: none; }
+  .no-results.visible { display: block; }
+  .no-results-icon { font-size: 40px; margin-bottom: 12px; }
+  .no-results-text { font-size: 14px; color: var(--text2); }
+  .no-results-sub { font-size: 12px; color: var(--text3); margin-top: 6px; }
+
+  @media (max-width: 640px) {
+    .product-grid { grid-template-columns: 1fr; }
+    .contact-bar { flex-direction: column; text-align: center; }
+  }
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav-logo">💚 테넥스 CX</div>
+  <a href="/cs-optimization-plan.html">CS 기획안</a>
+  <a href="/faq.html" class="active">FAQ</a>
+</nav>
+
+<div class="hero">
+  <div class="hero-badge">❓ 고객 지원 센터</div>
+  <h1>자주 묻는 질문</h1>
+  <p>키네메디칼 제품 사용법, 주문/배송, 교환/반품 등<br>궁금한 점을 검색해보세요.</p>
+  <div class="search-wrap">
+    <span class="search-icon">🔍</span>
+    <input type="text" class="search-input" id="searchInput" placeholder="질문을 검색하세요 (예: 사용법, 배송, 교환)" autocomplete="off">
+  </div>
+  <div class="search-count" id="searchCount"></div>
+</div>
+
+<div class="container">
+
+  <!-- Category filter -->
+  <div class="cat-filter">
+    <button class="cat-btn active" data-cat="all">전체</button>
+    <button class="cat-btn" data-cat="product">🏷 제품 정보</button>
+    <button class="cat-btn" data-cat="usage">💡 사용법</button>
+    <button class="cat-btn" data-cat="routine">🔄 통합 루틴</button>
+    <button class="cat-btn" data-cat="shipping">📦 주문/배송</button>
+    <button class="cat-btn" data-cat="return">🔁 교환/반품/AS</button>
+    <button class="cat-btn" data-cat="payment">💳 가격/결제</button>
+  </div>
+
+  <!-- Product Quick View -->
+  <div class="product-grid">
+    <div class="product-card" onclick="filterByProduct('ES-808')">
+      <div class="product-emoji">⚡</div>
+      <div class="product-name">ES-808 도수펜</div>
+      <div class="product-sub">타겟형 저주파 마사지기</div>
+      <div class="product-price">129,000원</div>
+      <div class="product-rating">⭐ 4.8 (176개)</div>
+    </div>
+    <div class="product-card" onclick="filterByProduct('CS-25')">
+      <div class="product-emoji">🦴</div>
+      <div class="product-name">CS-25 도수넥</div>
+      <div class="product-sub">경추 솔루션 (견인)</div>
+      <div class="product-price">398,000원</div>
+      <div class="product-rating">⭐ 4.9 (193개)</div>
+    </div>
+    <div class="product-card" onclick="filterByProduct('WS-200')">
+      <div class="product-emoji">🔥</div>
+      <div class="product-name">WS-200 도수워머</div>
+      <div class="product-sub">밀착형 근적외선 찜질기</div>
+      <div class="product-price">128,000원</div>
+      <div class="product-rating">⭐ 4.8 (12개)</div>
+    </div>
+  </div>
+
+  <!-- ===== 제품 정보 ===== -->
+  <div class="faq-section" data-section="product">
+    <div class="section-header">
+      <span class="section-icon">🏷</span>
+      <span class="section-title">제품 정보</span>
+      <span class="section-count">8개</span>
+    </div>
+
+    <div class="faq-item" data-cat="product" data-keywords="ES-808 도수펜 기능 EMS TENS 전기치료 저주파">
+      <div class="faq-q" onclick="toggleFaq(this)">
+        <span class="faq-q-icon">▶</span>
+        <span class="faq-q-text">ES-808 도수펜은 어떤 제품인가요?</span>
+        <span class="faq-q-tag tag-product">ES-808</span>
+      </div>
+      <div class="faq-a"><div class="faq-a-inner">
+        ES-808 도수펜은 <strong>타겟형 저주파 마사지기</strong>입니다.<br><br>
+        <ul>
+          <li><strong>EMS (근육 자극)</strong> + <strong>TENS (통증 완화)</strong> 기능 내장</li>
+          <li>아픈 부위를 <strong>콕 집어서</strong> 집중적으로 전기치료</li>
+          <li>물리치료실에서 받는 전기치료를 집에서 가능</li>
+          <li>호랑이 글루코사민 마사지 크림과 함께 사용하면 흡수 시너지 효과</li>
+        </ul>
+        <div class="tip">입문용으로 추천! 129,000원으로 물리치료 10회분 가격에 반영구적 사용 가능</div>
+      </div></div>
+    </div>
+
+    <div class="faq-item" data-cat="product" data-keywords="CS-25 도수넥 견인 경추 목디스크 거북목 일자목">
+      <div class="faq-q" onclick="toggleFaq(this)">
+        <span class="faq-q-icon">▶</span>
+        <span class="faq-q-text">CS-25 도수넥은 어떤 제품인가요?</span>
+        <span class="faq-q-tag tag-product">CS-25</span>
+      </div>
+      <div class="faq-a"><div class="faq-a-inner">
+        CS-25 도수넥은 <strong>경추 견인 솔루션</strong>입니다. 9년 경력 도수치료사가 직접 설계했습니다.<br><br>
+        <ul>
+          <li><strong>목뼈 C커브 복원</strong> + 경추 정렬</li>
+          <li>부드러운 견인으로 <strong>근육 긴장 완화</strong></li>
+          <li>하루 <strong>5~10분</strong> 누워서 사용</li>
+          <li>목디스크, 거북목, 일자목, 버섯목 대상</li>
+        </ul>
+        <strong>고객 후기:</strong> "병원에서 견인기 하던 거보다 훨씬 좋아요", "10분만 하면 목이 사르르 편해져요"
+        <div class="tip">메인 상품! 도수치료 2~3회 비용(약 40만원)으로 영구 사용 가능. 병원에서도 사용하는 제품입니다.</div>
+      </div></div>
+    </div>
+
+    <div class="faq-item" data-cat="product" data-keywords="WS-200 도수워머 찜질기 근적외선 LED 온열">
+      <div class="faq-q" onclick="toggleFaq(this)">
+        <span class="faq-q-icon">▶</span>
+        <span class="faq-q-text">WS-200 도수워머는 어떤 제품인가요?</span>
+        <span class="faq-q-tag tag-product">WS-200</span>
+      </div>
+      <div class="faq-a"><div class="faq-a-inner">
+        WS-200 도수워머는 <strong>밀착형 근적외선 찜질기</strong>입니다. 국내 최초!<br><br>
+        <ul>
+          <li><strong>108개 근적외선 LED</strong> 내장</li>
+          <li>일반 찜질기와 달리 <strong>깊은 열 침투</strong> (세포 재생 촉진)</li>
+          <li>목 곡선에 <strong>밀착</strong>되는 설계</li>
+          <li>가볍고 휴대 가능</li>
+        </ul>
+        <strong>일반 찜질기 vs WS-200:</strong> 일반 찜질기는 단순 표면 열 → WS-200은 근적외선으로 깊숙이 침투, 세포 재생 촉진
+        <div class="tip">CS-25 사용 전 WS-200으로 근육을 먼저 풀어주면 효과가 배가됩니다!</div>
+      </div></div>
+    </div>
+
+    <div class="faq-item" data-cat="product" data-keywords="크림 글루코사민 호랑이 마사지">
+      <div class="faq-q" onclick="toggleFaq(this)">
+        <span class="faq-q-icon">▶</span>
+        <span class="faq-q-text">호랑이 글루코사민 마사지 크림은 뭔가요?</span>
+        <span class="faq-q-tag tag-product">크림</span>
+      </div>
+      <div class="faq-a"><div class="faq-a-inner">
+        도수펜(ES-808)과 함께 사용하는 <strong>전용 마사지 크림</strong>입니다. (9,900원)<br><br>
+        <ul>
+          <li>크림을 바르고 도수펜으로 문지르면 <strong>흡수가 잘 됨</strong></li>
+          <li>글루코사민 성분으로 <strong>관절 케어 시너지</strong></li>
+          <li>평점 4.8/5.0 (12개 리뷰)</li>
+        </ul>
+      </div></div>
+    </div>
+
+    <div class="faq-item" data-cat="product" data-keywords="차이 차이점 비교 마사지기 안마기 다른점">
+      <div class="faq-q" onclick="toggleFaq(this)">
+        <span class="faq-q-icon">▶</span>
+        <span class="faq-q-text">일반 마사지기랑 뭐가 다른가요?</span>
+        <span class="faq-q-tag tag-product">비교</span>
+      </div>
+      <div class="faq-a"><div class="faq-a-inner">
+        키네메디칼 제품은 <strong>도수치료 원리를 재현</strong>한 제품입니다. 일반 마사지기와는 근본적으로 다릅니다.<br><br>
+        <strong>일반 안마기:</strong> 진동·두드림 → 그때만 시원, 근본 해결 X<br>
+        <strong>키네메디칼:</strong> 견인·전기치료·근적외선 → 병원 물리치료 프로세스 재현<br><br>
+        <strong>실제 고객 후기:</strong><br>
+        "시중에 나와있는 일반 목 마사지기랑은 확실히 <span class="highlight">차원이 다르고</span> 퀄리티가 상당합니다."<br>
+        "<span class="highlight">물리치료실에서 받는 거랑 완전 똑같더라고요</span>"
+      </div></div>
+    </div>
+
+    <div class="faq-item" data-cat="product" data-keywords="병원 의료기기 인증 안전 부작용">
+      <div class="faq-q" onclick="toggleFaq(this)">
+        <span class="faq-q-icon">▶</span>
+        <span class="faq-q-text">병원에서도 사용하나요? 안전한가요?</span>
+        <span class="faq-q-tag tag-product">신뢰</span>
+      </div>
+      <div class="faq-a"><div class="faq-a-inner">
+        <strong>9년 경력 도수치료사가 직접 설계</strong>한 제품이며, 실제 병원에서도 사용되고 있습니다.<br><br>
+        <strong>고객 후기:</strong> "병원에서도 쓰고 있는 제품이라던데 <span class="highlight">신뢰가 확 올라가요</span>"<br><br>
+        <span class="warn">⚠️ 주의:</span> 급성 염증, 임산부, 체내 금속 삽입물이 있는 경우 사용 전 전문의 상담을 권장합니다.
+      </div></div>
+    </div>
+
+    <div class="faq-item" data-cat="product" data-keywords="효과 시간 며칠 언제 얼마나">
+      <div class="faq-q" onclick="toggleFaq(this)">
+        <span class="faq-q-icon">▶</span>
+        <span class="faq-q-text">효과는 언제부터 느낄 수 있나요?</span>
+        <span class="faq-q-tag tag-product">효과</span>
+      </div>
+      <div class="faq-a"><div class="faq-a-inner">
+        개인차가 있지만 고객 후기 기준:<br><br>
+        <ul>
+          <li><strong>ES-808 도수펜:</strong> 첫 사용부터 "바로 가벼워짐을 느낌", "자극이 잘 오네요"</li>
+          <li><strong>CS-25 도수넥:</strong> "10분만 하면 목이 사르르 편해져요" / 꾸준히 1달 사용 시 "통증이 기적처럼 사라짐"</li>
+          <li><strong>WS-200 도수워머:</strong> "따뜻한 느낌이라 목이 가벼운 듯"</li>
+        </ul>
+        <div class="tip">중증 환자(목디스크 등)의 경우: 처음 3일은 적응 기간이 필요할 수 있어요. WS-200 + ES-808으로 먼저 근육을 풀고 CS-25를 사용하면 효과가 훨씬 좋습니다.</div>
+      </div></div>
+    </div>
+
+    <div class="faq-item" data-cat="product" data-keywords="어디서 구매 판매처 쇼핑몰 사이트">
+      <div class="faq-q" onclick="toggleFaq(this)">
+        <span class="faq-q-icon">▶</span>
+        <span class="faq-q-text">어디서 구매할 수 있나요?</span>
+        <span class="faq-q-tag tag-product">구매</span>
+      </div>
+      <div class="faq-a"><div class="faq-a-inner">
+        <strong>키네메디칼 공식 자사몰</strong>에서 구매 가능합니다.<br><br>
+        🔗 <strong>https://kinemedical.co.kr</strong><br><br>
+        현재 한정수량 이벤트 진행 중이며, 자사몰 구매 시 가장 저렴한 가격으로 만나보실 수 있습니다.
+      </div></div>
+    </div>
+  </div>
+
+  <!-- ===== 사용법 ===== -->
+  <div class="faq-section" data-section="usage">
+    <div class="section-header">
+      <span class="section-icon">💡</span>
+      <span class="section-title">사용법</span>
+      <span class="section-count">6개</span>
+    </div>
+
+    <div class="faq-item" data-cat="usage" data-keywords="ES-808 도수펜 사용법 어떻게 쓰는">
+      <div class="faq-q" onclick="toggleFaq(this)">
+        <span class="faq-q-icon">▶</span>
+        <span class="faq-q-text">ES-808 도수펜은 어떻게 사용하나요?</span>
+        <span class="faq-q-tag tag-usage">사용법</span>
+      </div>
+      <div class="faq-a"><div class="faq-a-inner">
+        <ol style="padding-left:16px;">
+          <li>통증이 있는 부위(트리거 포인트)를 찾아주세요</li>
+          <li>도수펜을 해당 부위에 밀착시켜주세요</li>
+          <li>강도를 낮은 단계부터 천천히 올려주세요</li>
+          <li>한 부위에 5~10분 사용 권장</li>
+        </ol><br>
+        <strong>추천 부위:</strong> 목 뒷부분, 어깨 결림 부위, 허리 통증 부위<br><br>
+        <div class="tip">호랑이 글루코사민 크림을 바르고 도수펜으로 문지르면 흡수 시너지 효과가 있어요!</div>
+      </div></div>
+    </div>
+
+    <div class="faq-item" data-cat="usage" data-keywords="CS-25 도수넥 사용법 어떻게 시간 분">
+      <div class="faq-q" onclick="toggleFaq(this)">
+        <span class="faq-q-icon">▶</span>
+        <span class="faq-q-text">CS-25 도수넥은 어떻게 사용하나요?</span>
+        <span class="faq-q-tag tag-usage">사용법</span>
+      </div>
+      <div class="faq-a"><div class="faq-a-inner">
+        <ol style="padding-left:16px;">
+          <li>평평한 바닥에 도수넥을 놓아주세요</li>
+          <li>그 위에 누워서 목을 올려놓아주세요</li>
+          <li>하루 <strong>5~10분</strong> 사용 권장</li>
+          <li>매일 꾸준히 사용하면 효과적</li>
+        </ol><br>
+        <span class="warn">⚠️ 처음 사용 시:</span> 중증 환자의 경우 처음 3일은 약간 불편할 수 있습니다. 이 경우 WS-200(도수워머)과 ES-808(도수펜)으로 먼저 근육을 풀어준 후 사용하세요.
+        <div class="tip">고객 후기: "처음엔 아파서 못 썼는데, 도수워머+도수펜 먼저 하고 도수넥 했더니 완전 신세계였어요!"</div>
+      </div></div>
+    </div>
+
+    <div class="faq-item" data-cat="usage" data-keywords="WS-200 도수워머 사용법 어떻게 찜질">
+      <div class="faq-q" onclick="toggleFaq(this)">
+        <span class="faq-q-icon">▶</span>
+        <span class="faq-q-text">WS-200 도수워머는 어떻게 사용하나요?</span>
+        <span class="faq-q-tag tag-usage">사용법</span>
+      </div>
+      <div class="faq-a"><div class="faq-a-inner">
+        <ol style="padding-left:16px;">
+          <li>목이나 어깨 등 통증 부위에 밀착시켜 감싸주세요</li>
+          <li>전원을 켜면 108개 근적외선 LED가 작동합니다</li>
+          <li>10~15분 사용 권장</li>
+          <li>사용 후 땀은 닦아서 보관해주세요</li>
+        </ol><br>
+        <strong>활용 부위:</strong> 목, 어깨, 허리 등 (연장선 사용 시 다양한 부위 가능)
+        <div class="tip">CS-25(도수넥) 사용 전에 WS-200으로 먼저 근육을 풀어주면 효과가 배가됩니다. 물리치료실의 온열치료 원리와 동일해요!</div>
+      </div></div>
+    </div>
+
+    <div class="faq-item" data-cat="usage" data-keywords="아프 아파 통증 처음 처음에 불편 적응">
+      <div class="faq-q" onclick="toggleFaq(this)">
+        <span class="faq-q-icon">▶</span>
+        <span class="faq-q-text">처음 사용할 때 아픈데 정상인가요?</span>
+        <span class="faq-q-tag tag-usage">사용법</span>
+      </div>
+      <div class="faq-a"><div class="faq-a-inner">
+        중증 환자(목디스크 등)의 경우 <strong>처음 2~3일은 약간 불편할 수 있습니다.</strong> 이는 정상적인 적응 과정입니다.<br><br>
+        <strong>해결법:</strong>
+        <ol style="padding-left:16px;">
+          <li>먼저 <strong>WS-200(도수워머)</strong>로 찜질하여 근육 이완</li>
+          <li><strong>ES-808(도수펜)</strong>으로 전기치료</li>
+          <li>충분히 풀린 상태에서 <strong>CS-25(도수넥)</strong> 사용</li>
+        </ol><br>
+        <strong>실제 고객 후기:</strong> "처음 3일은 아파서 못 썼는데, CS 문의해서 조언 받고 도수워머+도수펜 먼저 하고 도수넥 했더니 <span class="highlight">완전 신세계</span>였어요."
+      </div></div>
+    </div>
+
+    <div class="faq-item" data-cat="usage" data-keywords="얼마나 자주 매일 하루 몇 번 횟수 시간">
+      <div class="faq-q" onclick="toggleFaq(this)">
+        <span class="faq-q-icon">▶</span>
+        <span class="faq-q-text">하루에 얼마나 사용해야 하나요?</span>
+        <span class="faq-q-tag tag-usage">사용법</span>
+      </div>
+      <div class="faq-a"><div class="faq-a-inner">
+        <ul>
+          <li><strong>ES-808 도수펜:</strong> 부위당 5~10분, 하루 1~2회</li>
+          <li><strong>CS-25 도수넥:</strong> 하루 5~10분, 매일 사용 권장</li>
+          <li><strong>WS-200 도수워머:</strong> 10~15분, 하루 1~2회</li>
+        </ul><br>
+        <div class="tip">과하게 사용하기보다 매일 꾸준히 짧게 사용하는 것이 효과적입니다! 고객 후기: "1달 매일 하니까 통증이 기적처럼 사라졌네요."</div>
+      </div></div>
+    </div>
+
+    <div class="faq-item" data-cat="usage" data-keywords="가족 같이 여러명 공유 함께">
+      <div class="faq-q" onclick="toggleFaq(this)">
+        <span class="faq-q-icon">▶</span>
+        <span class="faq-q-text">가족이 같이 사용해도 되나요?</span>
+        <span class="faq-q-tag tag-usage">사용법</span>
+      </div>
+      <div class="faq-a"><div class="faq-a-inner">
+        네! <strong>온 가족이 돌아가면서 사용 가능</strong>합니다. 반영구적으로 사용 가능한 제품이에요.<br><br>
+        <strong>고객 후기:</strong> "온 가족이 돌아가면서 사용해도 좋을 만큼 만족. 와이프도 써보고 '일반 사람도 시원하다고' 하네요. 저보다 더 오래 합니다 ㅋㅋ"
+      </div></div>
+    </div>
+  </div>
+
+  <!-- ===== 통합 루틴 ===== -->
+  <div class="faq-section" data-section="routine">
+    <div class="section-header">
+      <span class="section-icon">🔄</span>
+      <span class="section-title">통합 사용 루틴</span>
+      <span class="section-count">3개</span>
+    </div>
+
+    <div class="faq-item" data-cat="routine" data-keywords="순서 루틴 통합 함께 같이 세트 조합 프로세스">
+      <div class="faq-q" onclick="toggleFaq(this)">
+        <span class="faq-q-icon">▶</span>
+        <span class="faq-q-text">3가지 제품을 함께 사용할 때 순서가 있나요?</span>
+        <span class="faq-q-tag tag-routine">루틴</span>
+      </div>
+      <div class="faq-a"><div class="faq-a-inner">
+        <strong>물리치료실 프로세스를 그대로 재현</strong>하는 최적 순서:<br><br>
+        <strong>Step 1. 🔥 도수워머 (WS-200)</strong> — 10~15분<br>
+        → 근적외선 찜질로 근육 이완 (온열치료)<br><br>
+        <strong>Step 2. ⚡ 도수펜 (ES-808)</strong> — 5~10분<br>
+        → 전기치료로 통증 부위 집중 케어<br><br>
+        <strong>Step 3. 🦴 도수넥 (CS-25)</strong> — 5~10분<br>
+        → 이완된 상태에서 경추 견인·교정<br><br>
+        <div class="tip">이 순서가 병원에서 물리치료받는 프로세스(온열 → 전기 → 견인)와 완전히 동일합니다! 고객 후기: "물리치료실에서 받는 거랑 완전 똑같더라고요"</div>
+      </div></div>
+    </div>
+
+    <div class="faq-item" data-cat="routine" data-keywords="하나만 단독 한개 부족 충분 ES-808만 CS-25만">
+      <div class="faq-q" onclick="toggleFaq(this)">
+        <span class="faq-q-icon">▶</span>
+        <span class="faq-q-text">하나만 사도 효과가 있나요?</span>
+        <span class="faq-q-tag tag-routine">루틴</span>
+      </div>
+      <div class="faq-a"><div class="faq-a-inner">
+        <strong>네, 각 제품 단독으로도 충분히 효과적</strong>입니다!<br><br>
+        <ul>
+          <li><strong>ES-808만:</strong> 국소 통증 부위 전기치료 (입문용 추천)</li>
+          <li><strong>CS-25만:</strong> 견인으로 경추 교정 (하루 5분이면 OK)</li>
+          <li><strong>WS-200만:</strong> 찜질·온열치료 (근육 이완)</li>
+        </ul><br>
+        다만, 통합 사용 시 효과가 <strong>시너지</strong>를 이루기 때문에 중증 환자일수록 세트 사용을 추천드립니다.
+        <div class="tip">추천 구매 순서: ES-808(입문) → CS-25(핵심) → WS-200(시너지 완성)</div>
+      </div></div>
+    </div>
+
+    <div class="faq-item" data-cat="routine" data-keywords="추천 어떤 제품 먼저 뭐부터 입문">
+      <div class="faq-q" onclick="toggleFaq(this)">
+        <span class="faq-q-icon">▶</span>
+        <span class="faq-q-text">처음 구매한다면 어떤 제품부터 시작하면 좋나요?</span>
+        <span class="faq-q-tag tag-routine">추천</span>
+      </div>
+      <div class="faq-a"><div class="faq-a-inner">
+        <strong>증상별 추천:</strong><br><br>
+        <ul>
+          <li><strong>국소 통증</strong> (어깨, 허리 특정 부위) → <strong>ES-808 도수펜</strong> (129,000원)</li>
+          <li><strong>목 통증 / 목디스크 / 거북목</strong> → <strong>CS-25 도수넥</strong> (398,000원)</li>
+          <li><strong>전반적 뻐근함 / 찜질 선호</strong> → <strong>WS-200 도수워머</strong> (128,000원)</li>
+        </ul><br>
+        <strong>가장 많이 선택하는 조합:</strong><br>
+        ES-808 + CS-25 (527,000원) — 전기치료 + 견인의 핵심 조합
+      </div></div>
+    </div>
+  </div>
+
+  <!-- ===== 주문/배송 ===== -->
+  <div class="faq-section" data-section="shipping">
+    <div class="section-header">
+      <span class="section-icon">📦</span>
+      <span class="section-title">주문 / 배송</span>
+      <span class="section-count">4개</span>
+    </div>
+
+    <div class="faq-item" data-cat="shipping" data-keywords="배송 며칠 기간 얼마나 걸리 도착">
+      <div class="faq-q" onclick="toggleFaq(this)">
+        <span class="faq-q-icon">▶</span>
+        <span class="faq-q-text">배송은 얼마나 걸리나요?</span>
+        <span class="faq-q-tag tag-shipping">배송</span>
+      </div>
+      <div class="faq-a"><div class="faq-a-inner">
+        <ul>
+          <li>결제 완료 후 <strong>1~3 영업일 이내</strong> 출고</li>
+          <li>출고 후 <strong>1~2일</strong> 내 수령 (택배사 상황에 따라 상이)</li>
+          <li>주말·공휴일은 출고 제외</li>
+        </ul><br>
+        배송 출발 시 운송장 번호가 안내되며, 카페24 마이페이지에서 배송 조회 가능합니다.
+      </div></div>
+    </div>
+
+    <div class="faq-item" data-cat="shipping" data-keywords="배송 조회 추적 어디 운송장 택배">
+      <div class="faq-q" onclick="toggleFaq(this)">
+        <span class="faq-q-icon">▶</span>
+        <span class="faq-q-text">배송 조회는 어떻게 하나요?</span>
+        <span class="faq-q-tag tag-shipping">배송</span>
+      </div>
+      <div class="faq-a"><div class="faq-a-inner">
+        <ol style="padding-left:16px;">
+          <li><a href="https://kinemedical.co.kr" style="color:var(--blue);">키네메디칼 자사몰</a> 로그인</li>
+          <li>마이페이지 → 주문내역 확인</li>
+          <li>운송장 번호 클릭 시 택배사 추적 페이지로 이동</li>
+        </ol><br>
+        운송장이 아직 등록되지 않았다면 출고 준비 중입니다. 결제 후 1~3 영업일 이내 출고됩니다.
+      </div></div>
+    </div>
+
+    <div class="faq-item" data-cat="shipping" data-keywords="주문 취소 변경 수정 주소">
+      <div class="faq-q" onclick="toggleFaq(this)">
+        <span class="faq-q-icon">▶</span>
+        <span class="faq-q-text">주문 취소/변경이 가능한가요?</span>
+        <span class="faq-q-tag tag-shipping">주문</span>
+      </div>
+      <div class="faq-a"><div class="faq-a-inner">
+        <strong>출고 전</strong>이라면 주문 취소 및 배송지 변경이 가능합니다.<br><br>
+        <ul>
+          <li>마이페이지에서 직접 취소 가능</li>
+          <li>또는 1:1 문의로 <strong>주문번호</strong>와 함께 요청</li>
+        </ul><br>
+        <span class="warn">⚠️ 출고 완료 후에는 취소가 불가</span>하며, 수령 후 반품 절차를 이용해주세요.
+      </div></div>
+    </div>
+
+    <div class="faq-item" data-cat="shipping" data-keywords="도서산간 제주 추가 배송비">
+      <div class="faq-q" onclick="toggleFaq(this)">
+        <span class="faq-q-icon">▶</span>
+        <span class="faq-q-text">배송비는 얼마인가요?</span>
+        <span class="faq-q-tag tag-shipping">배송</span>
+      </div>
+      <div class="faq-a"><div class="faq-a-inner">
+        자세한 배송비 정책은 키네메디칼 자사몰의 주문 페이지에서 확인 가능합니다.<br>
+        도서산간 지역은 추가 배송비가 발생할 수 있습니다.
+      </div></div>
+    </div>
+  </div>
+
+  <!-- ===== 교환/반품/AS ===== -->
+  <div class="faq-section" data-section="return">
+    <div class="section-header">
+      <span class="section-icon">🔁</span>
+      <span class="section-title">교환 / 반품 / AS</span>
+      <span class="section-count">4개</span>
+    </div>
+
+    <div class="faq-item" data-cat="return" data-keywords="교환 반품 환불 방법 절차 어떻게">
+      <div class="faq-q" onclick="toggleFaq(this)">
+        <span class="faq-q-icon">▶</span>
+        <span class="faq-q-text">교환/반품은 어떻게 하나요?</span>
+        <span class="faq-q-tag tag-return">교환/반품</span>
+      </div>
+      <div class="faq-a"><div class="faq-a-inner">
+        <strong>교환/반품 절차:</strong>
+        <ol style="padding-left:16px;">
+          <li>키네메디칼 자사몰 1:1 문의 또는 카카오채널로 접수</li>
+          <li><strong>주문번호 + 사유</strong>를 알려주세요</li>
+          <li>접수 확인 후 안내 드립니다</li>
+        </ol><br>
+        <ul>
+          <li>수령 후 <strong>7일 이내</strong> 신청 가능</li>
+          <li>제품 하자 시 → <strong>왕복 배송비 무료</strong></li>
+          <li>단순 변심 시 → <strong>왕복 배송비 고객 부담</strong></li>
+          <li>사용 흔적이 있는 경우 교환/반품 불가할 수 있습니다</li>
+        </ul>
+      </div></div>
+    </div>
+
+    <div class="faq-item" data-cat="return" data-keywords="불량 고장 안 되 작동 안함 결함">
+      <div class="faq-q" onclick="toggleFaq(this)">
+        <span class="faq-q-icon">▶</span>
+        <span class="faq-q-text">제품이 불량/고장인 것 같아요</span>
+        <span class="faq-q-tag tag-return">불량</span>
+      </div>
+      <div class="faq-a"><div class="faq-a-inner">
+        제품 불량이 의심되시면 <strong>즉시 1:1 문의</strong>로 연락주세요.<br><br>
+        <strong>접수 시 알려주실 내용:</strong>
+        <ul>
+          <li>주문번호</li>
+          <li>불량 증상 설명</li>
+          <li>가능하면 사진 또는 영상 첨부</li>
+        </ul><br>
+        제품 하자 확인 시 <strong>무상 교환</strong> 처리해드립니다. 왕복 배송비는 저희가 부담합니다.
+        <div class="tip">고객님의 불편을 최소화하기 위해 최대한 빠르게 처리해드립니다. 3시간 이내 답변 드리겠습니다.</div>
+      </div></div>
+    </div>
+
+    <div class="faq-item" data-cat="return" data-keywords="AS 수리 보증 워런티 보증기간">
+      <div class="faq-q" onclick="toggleFaq(this)">
+        <span class="faq-q-icon">▶</span>
+        <span class="faq-q-text">AS(수리)는 가능한가요?</span>
+        <span class="faq-q-tag tag-return">AS</span>
+      </div>
+      <div class="faq-a"><div class="faq-a-inner">
+        네, AS 접수 가능합니다.<br><br>
+        <ul>
+          <li>1:1 문의 또는 카카오채널로 <strong>주문번호 + 증상</strong> 접수</li>
+          <li>보증 기간 내 제조상 결함 → <strong>무상 수리/교환</strong></li>
+          <li>보증 기간 외 또는 사용자 과실 → 유상 수리 (비용 사전 안내)</li>
+        </ul><br>
+        자세한 보증 정책은 제품 동봉 보증서를 확인해주세요.
+      </div></div>
+    </div>
+
+    <div class="faq-item" data-cat="return" data-keywords="환불 기간 며칠 언제 입금">
+      <div class="faq-q" onclick="toggleFaq(this)">
+        <span class="faq-q-icon">▶</span>
+        <span class="faq-q-text">환불은 언제 되나요?</span>
+        <span class="faq-q-tag tag-return">환불</span>
+      </div>
+      <div class="faq-a"><div class="faq-a-inner">
+        반품 제품 입고 확인 후 <strong>영업일 기준 3~5일 이내</strong> 환불 처리됩니다.<br><br>
+        <ul>
+          <li><strong>카드 결제:</strong> 카드사에 따라 2~5 영업일 내 취소 반영</li>
+          <li><strong>무통장 입금:</strong> 환불 계좌로 직접 입금</li>
+        </ul><br>
+        환불 처리 완료 시 안내 문자를 보내드립니다.
+      </div></div>
+    </div>
+  </div>
+
+  <!-- ===== 가격/결제 ===== -->
+  <div class="faq-section" data-section="payment">
+    <div class="section-header">
+      <span class="section-icon">💳</span>
+      <span class="section-title">가격 / 결제</span>
+      <span class="section-count">3개</span>
+    </div>
+
+    <div class="faq-item" data-cat="payment" data-keywords="가격 얼마 비싼 비싸 할인 이벤트 쿠폰">
+      <div class="faq-q" onclick="toggleFaq(this)">
+        <span class="faq-q-icon">▶</span>
+        <span class="faq-q-text">제품 가격과 현재 할인 혜택은?</span>
+        <span class="faq-q-tag tag-payment">가격</span>
+      </div>
+      <div class="faq-a"><div class="faq-a-inner">
+        <table style="width:100%;border-collapse:collapse;font-size:13px;margin-bottom:12px;">
+          <tr style="border-bottom:1px solid var(--border);">
+            <td style="padding:8px 0;font-weight:700;">ES-808 도수펜</td>
+            <td style="text-decoration:line-through;color:var(--text3);">150,000원</td>
+            <td style="font-weight:800;color:var(--green);">129,000원</td>
+            <td style="color:var(--red);font-size:11px;">14%↓</td>
+          </tr>
+          <tr style="border-bottom:1px solid var(--border);">
+            <td style="padding:8px 0;font-weight:700;">CS-25 도수넥</td>
+            <td style="text-decoration:line-through;color:var(--text3);">690,000원</td>
+            <td style="font-weight:800;color:var(--green);">398,000원</td>
+            <td style="color:var(--red);font-size:11px;">42%↓</td>
+          </tr>
+          <tr style="border-bottom:1px solid var(--border);">
+            <td style="padding:8px 0;font-weight:700;">WS-200 도수워머</td>
+            <td style="text-decoration:line-through;color:var(--text3);">198,000원</td>
+            <td style="font-weight:800;color:var(--green);">128,000원</td>
+            <td style="color:var(--red);font-size:11px;">35%↓</td>
+          </tr>
+          <tr>
+            <td style="padding:8px 0;font-weight:700;">마사지 크림</td>
+            <td></td>
+            <td style="font-weight:800;color:var(--green);">9,900원</td>
+            <td></td>
+          </tr>
+        </table>
+        <div class="tip">CS-25는 도수치료 2~3회 비용으로 영구 사용 가능! 현재 한정수량 이벤트 진행 중입니다.</div>
+      </div></div>
+    </div>
+
+    <div class="faq-item" data-cat="payment" data-keywords="결제 방법 카드 무통장 계좌이체 페이">
+      <div class="faq-q" onclick="toggleFaq(this)">
+        <span class="faq-q-icon">▶</span>
+        <span class="faq-q-text">어떤 결제 방법을 지원하나요?</span>
+        <span class="faq-q-tag tag-payment">결제</span>
+      </div>
+      <div class="faq-a"><div class="faq-a-inner">
+        키네메디칼 자사몰(카페24)에서 다양한 결제 수단을 지원합니다:<br><br>
+        <ul>
+          <li>💳 신용카드 / 체크카드</li>
+          <li>🏦 무통장 입금 (가상계좌)</li>
+          <li>📱 네이버페이, 카카오페이 등 간편결제</li>
+        </ul>
+      </div></div>
+    </div>
+
+    <div class="faq-item" data-cat="payment" data-keywords="세금계산서 현금영수증 영수증 증빙">
+      <div class="faq-q" onclick="toggleFaq(this)">
+        <span class="faq-q-icon">▶</span>
+        <span class="faq-q-text">세금계산서/현금영수증 발급 가능한가요?</span>
+        <span class="faq-q-tag tag-payment">증빙</span>
+      </div>
+      <div class="faq-a"><div class="faq-a-inner">
+        네, 발급 가능합니다.<br><br>
+        <ul>
+          <li><strong>현금영수증:</strong> 무통장 입금 결제 시 주문 과정에서 신청 가능</li>
+          <li><strong>세금계산서:</strong> 1:1 문의로 사업자등록증과 함께 요청해주세요</li>
+        </ul>
+      </div></div>
+    </div>
+  </div>
+
+  <!-- No results -->
+  <div class="no-results" id="noResults">
+    <div class="no-results-icon">🔍</div>
+    <div class="no-results-text">검색 결과가 없습니다</div>
+    <div class="no-results-sub">다른 키워드로 검색하거나, 아래 문의하기를 이용해주세요.</div>
+  </div>
+
+  <!-- Contact -->
+  <div class="contact-bar" id="contactBar">
+    <div class="contact-icon">💬</div>
+    <div class="contact-text">
+      <div class="contact-title">원하는 답을 찾지 못하셨나요?</div>
+      <div class="contact-desc">1:1 문의를 남겨주시면 3시간 이내에 답변드리겠습니다.</div>
+    </div>
+    <a href="https://kinemedical.co.kr" class="contact-btn">1:1 문의하기</a>
+  </div>
+
+</div>
+
+<div class="footer">
+  💚 테넥스 고객경험 성공실 · 고실장 작성 · 2026-03-30<br>
+  <span style="color:#444;margin-top:4px;display:block;">키네메디칼 고객 지원 | 제품 문의 · 주문/배송 · 교환/반품</span>
+</div>
+
+<script>
+// Toggle FAQ
+function toggleFaq(el) {
+  const item = el.closest('.faq-item');
+  item.classList.toggle('open');
+}
+
+// Category filter
+const catBtns = document.querySelectorAll('.cat-btn');
+catBtns.forEach(btn => {
+  btn.addEventListener('click', () => {
+    catBtns.forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    const cat = btn.dataset.cat;
+    filterItems(document.getElementById('searchInput').value, cat);
+  });
+});
+
+// Search
+const searchInput = document.getElementById('searchInput');
+searchInput.addEventListener('input', () => {
+  const activeCat = document.querySelector('.cat-btn.active').dataset.cat;
+  filterItems(searchInput.value, activeCat);
+});
+
+function filterByProduct(product) {
+  searchInput.value = product;
+  catBtns.forEach(b => b.classList.remove('active'));
+  catBtns[0].classList.add('active');
+  filterItems(product, 'all');
+  searchInput.focus();
+}
+
+function filterItems(query, cat) {
+  const items = document.querySelectorAll('.faq-item');
+  const sections = document.querySelectorAll('.faq-section');
+  const q = query.toLowerCase().trim();
+  let visible = 0;
+
+  items.forEach(item => {
+    const text = (item.querySelector('.faq-q-text').textContent + ' ' +
+                  item.querySelector('.faq-a-inner').textContent + ' ' +
+                  (item.dataset.keywords || '')).toLowerCase();
+    const itemCat = item.dataset.cat;
+    const matchSearch = !q || text.includes(q);
+    const matchCat = cat === 'all' || itemCat === cat;
+    if (matchSearch && matchCat) {
+      item.classList.remove('hidden');
+      visible++;
+    } else {
+      item.classList.add('hidden');
+    }
+  });
+
+  // Show/hide sections
+  sections.forEach(sec => {
+    const visibleInSec = sec.querySelectorAll('.faq-item:not(.hidden)').length;
+    sec.classList.toggle('hidden', visibleInSec === 0);
+  });
+
+  // Search count
+  const countEl = document.getElementById('searchCount');
+  const noResults = document.getElementById('noResults');
+  if (q) {
+    countEl.textContent = `"${query}" 검색 결과: ${visible}건`;
+    countEl.classList.add('visible');
+  } else {
+    countEl.classList.remove('visible');
+  }
+  noResults.classList.toggle('visible', visible === 0);
+}
+</script>
+
+</body>
+</html>
