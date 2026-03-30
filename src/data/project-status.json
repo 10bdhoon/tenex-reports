@@ -1,5 +1,5 @@
 {
-  "updated": "2026-03-30T08:01:42.976Z",
+  "updated": "2026-03-30T17:00",
   "tasks": [
     {
       "id": "t01",
@@ -424,6 +424,47 @@
       "_source": "json",
       "sortOrder": 0,
       "priorityOrder": 0
+    },
+    {
+      "id": "t23",
+      "title": "인플루언서 추천코드 전략 (마이프로틴 모델)",
+      "status": "pending",
+      "cat": "D",
+      "assignee": "태훈",
+      "dueDate": null,
+      "importance": "상",
+      "urgency": "red",
+      "note": "광고비 0원 성과기반. 1차 도수치료사 유튜버 → 2차 운동/재활 → 3차 건강/라이프",
+      "checklist": [
+        {
+          "text": "추천코드 시스템 설계 (할인율/커미션 구조)",
+          "done": false
+        },
+        {
+          "text": "카페24 쿠폰 시스템 세팅",
+          "done": false
+        },
+        {
+          "text": "추적 대시보드 구축",
+          "done": false
+        },
+        {
+          "text": "1차 타겟 리스트업 (도수치료사 유튜버)",
+          "done": false
+        },
+        {
+          "text": "제안서/DM 템플릿 작성",
+          "done": false
+        },
+        {
+          "text": "첫 10명 아웃리치",
+          "done": false
+        },
+        {
+          "text": "월간 정산 자동화",
+          "done": false
+        }
+      ]
     }
   ],
   "agents": [
