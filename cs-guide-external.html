@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>키네메디칼 CS 응대 가이드 — 외주 담당자용</title>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#ffffff;--bg2:#f8fafc;--bg3:#f1f5f9;
+  --border:#e2e8f0;--border2:#cbd5e1;
+  --text:#1e293b;--text2:#475569;--text3:#94a3b8;
+  --accent:#2563eb;--accent-bg:#eff6ff;--accent-border:#bfdbfe;
+  --green:#16a34a;--green-bg:#f0fdf4;--green-border:#bbf7d0;
+  --red:#dc2626;--red-bg:#fef2f2;--red-border:#fecaca;
+  --orange:#ea580c;--orange-bg:#fff7ed;--orange-border:#fed7aa;
+  --purple:#7c3aed;--purple-bg:#f5f3ff;--purple-border:#ddd6fe;
+}
+body{font-family:-apple-system,BlinkMacSystemFont,'Apple SD Gothic Neo','Noto Sans KR',sans-serif;background:var(--bg);color:var(--text);line-height:1.65;max-width:900px;margin:0 auto;padding:32px 24px;-webkit-font-smoothing:antialiased}
+@media print{body{padding:16px;font-size:13px}h1{font-size:20px!important}.no-print{display:none!important}}
+
+/* Header */
+.header{text-align:center;padding-bottom:24px;border-bottom:3px solid var(--accent);margin-bottom:28px}
+.header-badge{display:inline-block;background:var(--accent);color:#fff;font-size:11px;font-weight:700;padding:4px 12px;border-radius:20px;letter-spacing:0.05em;margin-bottom:12px}
+.header h1{font-size:24px;font-weight:800;color:var(--text);margin-bottom:6px}
+.header p{font-size:14px;color:var(--text2)}
+.header .update{font-size:12px;color:var(--text3);margin-top:8px}
+
+/* Core Principle */
+.core{background:var(--accent-bg);border:2px solid var(--accent-border);border-radius:12px;padding:20px 24px;margin-bottom:24px;text-align:center}
+.core h2{font-size:16px;font-weight:700;color:var(--accent);margin-bottom:8px}
+.core .formula{font-size:20px;font-weight:800;color:var(--text);letter-spacing:-0.3px}
+.core .formula span{color:var(--accent)}
+.core .sub{font-size:13px;color:var(--text2);margin-top:6px}
+
+/* Section */
+.section{margin-bottom:24px}
+.section-title{display:flex;align-items:center;gap:8px;font-size:16px;font-weight:700;color:var(--text);margin-bottom:12px;padding-bottom:8px;border-bottom:2px solid var(--bg3)}
+.section-title .num{background:var(--accent);color:#fff;width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800;flex-shrink:0}
+
+/* Cards */
+.card-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media(max-width:600px){.card-grid{grid-template-columns:1fr}}
+.card{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:16px}
+.card h4{font-size:13px;font-weight:700;margin-bottom:8px;display:flex;align-items:center;gap:6px}
+.card p,.card li{font-size:13px;color:var(--text2);line-height:1.6}
+.card ul{padding-left:16px}
+.card li{margin-bottom:4px}
+
+/* Forbidden */
+.forbidden{background:var(--red-bg);border:2px solid var(--red-border);border-radius:10px;padding:16px 20px;margin-bottom:16px}
+.forbidden h3{font-size:14px;font-weight:700;color:var(--red);margin-bottom:10px}
+.forbidden-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+@media(max-width:600px){.forbidden-grid{grid-template-columns:1fr}}
+.forbidden-item{display:flex;align-items:flex-start;gap:8px;font-size:13px;color:var(--text)}
+.forbidden-item .x{color:var(--red);font-weight:700;flex-shrink:0}
+.forbidden-item .alt{color:var(--green);font-weight:600}
+
+/* Checklist */
+.checklist{background:var(--green-bg);border:2px solid var(--green-border);border-radius:10px;padding:16px 20px;margin-bottom:16px}
+.checklist h3{font-size:14px;font-weight:700;color:var(--green);margin-bottom:10px}
+.check-item{display:flex;align-items:flex-start;gap:8px;font-size:13px;color:var(--text);margin-bottom:6px}
+.check-item:last-child{margin-bottom:0}
+.check-item .box{width:16px;height:16px;border:2px solid var(--green);border-radius:3px;flex-shrink:0;margin-top:2px}
+
+/* Compare */
+.compare{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px}
+@media(max-width:600px){.compare{grid-template-columns:1fr}}
+.compare-bad{background:var(--red-bg);border:1px solid var(--red-border);border-radius:10px;padding:16px}
+.compare-good{background:var(--green-bg);border:1px solid var(--green-border);border-radius:10px;padding:16px}
+.compare-label{font-size:11px;font-weight:700;letter-spacing:0.05em;margin-bottom:8px}
+.compare-bad .compare-label{color:var(--red)}
+.compare-good .compare-label{color:var(--green)}
+.compare-text{font-size:13px;color:var(--text);line-height:1.6;white-space:pre-line}
+
+/* Timeline */
+.timeline{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:16px}
+.timeline-step{flex:1;min-width:120px;background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:12px;text-align:center}
+.timeline-step .time{font-size:11px;font-weight:700;color:var(--accent);margin-bottom:4px}
+.timeline-step .action{font-size:12px;color:var(--text);font-weight:600}
+.timeline-step .detail{font-size:11px;color:var(--text2);margin-top:4px}
+
+/* Escalation */
+.escalation{background:var(--orange-bg);border:2px solid var(--orange-border);border-radius:10px;padding:16px 20px;margin-bottom:16px}
+.escalation h3{font-size:14px;font-weight:700;color:var(--orange);margin-bottom:10px}
+.esc-item{display:flex;align-items:flex-start;gap:8px;font-size:13px;color:var(--text);margin-bottom:6px}
+.esc-item:last-child{margin-bottom:0}
+.esc-item .icon{flex-shrink:0}
+
+/* Product quick ref */
+.product-ref{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:16px}
+@media(max-width:600px){.product-ref{grid-template-columns:1fr}}
+.product-card{border-radius:10px;padding:14px;text-align:center}
+.product-card.cs25{background:#fef2f2;border:1px solid #fecaca}
+.product-card.es808{background:var(--accent-bg);border:1px solid var(--accent-border)}
+.product-card.ws200{background:#fffbeb;border:1px solid #fde68a}
+.product-card .name{font-size:14px;font-weight:700;margin-bottom:4px}
+.product-card .desc{font-size:12px;color:var(--text2)}
+.product-card .key{font-size:11px;color:var(--text3);margin-top:6px}
+
+/* FAQ link */
+.faq-banner{background:var(--purple-bg);border:2px solid var(--purple-border);border-radius:10px;padding:16px 20px;text-align:center;margin-bottom:16px}
+.faq-banner h3{font-size:14px;font-weight:700;color:var(--purple);margin-bottom:6px}
+.faq-banner p{font-size:13px;color:var(--text2)}
+.faq-banner a{color:var(--purple);font-weight:700;text-decoration:none}
+.faq-banner a:hover{text-decoration:underline}
+
+/* Footer */
+.footer{text-align:center;padding-top:20px;border-top:2px solid var(--border);margin-top:28px}
+.footer p{font-size:12px;color:var(--text3)}
+.footer .contact{font-size:13px;color:var(--text2);margin-top:6px}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-badge">외주 CS 담당자용</div>
+  <h1>키네메디칼 CS 응대 가이드</h1>
+  <p>고객 문의 응대 시 반드시 지켜야 할 핵심 기준</p>
+  <div class="update">최종 업데이트: 2026.03.30 | 버전 1.0</div>
+</div>
+
+<!-- 핵심 원칙 -->
+<div class="core">
+  <h2>💚 CS 응대 공식</h2>
+  <div class="formula"><span>공감</span> → 해결책 → <span>감사</span></div>
+  <div class="sub">어떤 문의든 이 순서를 지키면 됩니다. 공감 없는 해결책은 불만을 키웁니다.</div>
+</div>
+
+<!-- 섹션 1: 제품 빠른 참조 -->
+<div class="section">
+  <div class="section-title"><div class="num">1</div> 제품 빠른 참조</div>
+  <div class="product-ref">
+    <div class="product-card cs25">
+      <div class="name">🔴 CS-25 / 도수넥</div>
+      <div class="desc">경추 솔루션 (도수치료 원리)</div>
+      <div class="key">핵심: 초기 1~2주 통증 정상 → 적응기</div>
+    </div>
+    <div class="product-card es808">
+      <div class="name">🔵 ES-808 도수펜</div>
+      <div class="desc">저주파 마사지기</div>
+      <div class="key">핵심: 강도 조절 안내, 패드 부착 위치</div>
+    </div>
+    <div class="product-card ws200">
+      <div class="name">🟡 WS-200 도수워머</div>
+      <div class="desc">근적외선 찜질기</div>
+      <div class="key">핵심: 온도·시간 설정, 안전 주의사항</div>
+    </div>
+  </div>
+</div>
+
+<!-- 섹션 2: 절대 금지어 -->
+<div class="section">
+  <div class="section-title"><div class="num">2</div> 🚫 절대 금지어 (이것만 안 써도 클레임 50% 감소)</div>
+  <div class="forbidden">
+    <h3>❌ 금지 → ✅ 대체 표현</h3>
+    <div class="forbidden-grid">
+      <div class="forbidden-item">
+        <span class="x">❌</span>
+        <div>"원래 그렇습니다" → <span class="alt">✅ "해당 증상에 대해 안내드릴게요"</span></div>
+      </div>
+      <div class="forbidden-item">
+        <span class="x">❌</span>
+        <div>"정책상 불가합니다" → <span class="alt">✅ "다른 방법으로 도와드릴 수 있는지 확인해볼게요"</span></div>
+      </div>
+      <div class="forbidden-item">
+        <span class="x">❌</span>
+        <div>"사용법을 잘못 하신 것 같습니다" → <span class="alt">✅ "혹시 이 방법으로 사용해보셨을까요?"</span></div>
+      </div>
+      <div class="forbidden-item">
+        <span class="x">❌</span>
+        <div>"확인해보겠습니다" (후 무응답) → <span class="alt">✅ 확인 후 반드시 24시간 내 회신</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 섹션 3: 응답 전 체크리스트 -->
+<div class="section">
+  <div class="section-title"><div class="num">3</div> ✅ 응답 전 체크리스트</div>
+  <div class="checklist">
+    <h3>답변 보내기 전, 5개 모두 확인 ✓</h3>
+    <div class="check-item"><div class="box"></div> <strong>공감 표현</strong>이 첫 문장에 있는가? ("불편하셨겠습니다", "걱정되셨죠")</div>
+    <div class="check-item"><div class="box"></div> <strong>구체적 해결책</strong>을 제시했는가? (막연한 "확인 후 연락" 금지)</div>
+    <div class="check-item"><div class="box"></div> <strong>다음 단계</strong>가 명확한가? (고객이 뭘 해야 하는지, 우리가 뭘 할 건지)</div>
+    <div class="check-item"><div class="box"></div> 배송일/스펙 등 <strong>사실 정보가 정확</strong>한가? (모르면 확인 후 답변)</div>
+    <div class="check-item"><div class="box"></div> <strong>마무리 감사 인사</strong>가 있는가? ("소중한 문의 감사합니다")</div>
+  </div>
+</div>
+
+<!-- 섹션 4: 모범 vs 나쁜 답변 -->
+<div class="section">
+  <div class="section-title"><div class="num">4</div> 📝 모범 vs 나쁜 답변 비교</div>
+  
+  <p style="font-size:13px;color:var(--text2);margin-bottom:10px;font-weight:600">📌 케이스 1: WS-200 불량 문의</p>
+  <div class="compare">
+    <div class="compare-bad">
+      <div class="compare-label">❌ 나쁜 답변</div>
+      <div class="compare-text">안녕하세요.
+확인해보겠습니다.
+사진 보내주세요.</div>
+    </div>
+    <div class="compare-good">
+      <div class="compare-label">✅ 모범 답변</div>
+      <div class="compare-text">안녕하세요, 고객님. 😊
+사용 중 불편을 드려 정말 죄송합니다.
+
+증상을 정확히 확인하여 빠르게 도와드리겠습니다. 혹시 아래 사항을 알려주시겠어요?
+① 구매일자
+② 증상 사진 또는 영상
+
+확인 즉시 교환/수리 안내드리겠습니다.
+소중한 문의 감사합니다! 💚</div>
+    </div>
+  </div>
+
+  <p style="font-size:13px;color:var(--text2);margin-bottom:10px;font-weight:600">📌 케이스 2: ES-808 효과 불만</p>
+  <div class="compare">
+    <div class="compare-bad">
+      <div class="compare-label">❌ 나쁜 답변</div>
+      <div class="compare-text">개인차가 있을 수 있습니다.
+사용법대로 하셨나요?</div>
+    </div>
+    <div class="compare-good">
+      <div class="compare-label">✅ 모범 답변</div>
+      <div class="compare-text">안녕하세요, 고객님. 😊
+기대하신 만큼 효과를 못 느끼셔서 답답하셨겠습니다.
+
+ES-808은 부착 위치와 강도 설정에 따라 체감이 많이 달라져요. 혹시 현재 어떤 부위에, 어느 강도로 사용하고 계신지 알려주시면 맞춤 사용법을 안내드릴게요!
+
+참고로 FAQ에 부위별 추천 설정이 있습니다:
+👉 https://tenex-reports.vercel.app/faq.html
+
+감사합니다 💚</div>
+    </div>
+  </div>
+</div>
+
+<!-- 섹션 5: 응답 시간 기준 -->
+<div class="section">
+  <div class="section-title"><div class="num">5</div> ⏱ 응답 시간 기준</div>
+  <div class="timeline">
+    <div class="timeline-step">
+      <div class="time">⚡ 3시간 이내</div>
+      <div class="action">1차 응답</div>
+      <div class="detail">접수 확인 + 공감 표현<br>"확인 중이에요" 라도 보내기</div>
+    </div>
+    <div class="timeline-step">
+      <div class="time">📋 24시간 이내</div>
+      <div class="action">해결책 제시</div>
+      <div class="detail">구체적 해결 방안<br>교환/환불/사용법 등</div>
+    </div>
+    <div class="timeline-step">
+      <div class="time">🔄 48시간 이내</div>
+      <div class="action">처리 완료</div>
+      <div class="detail">고객에게 완료 안내<br>"잘 해결되셨나요?" 팔로업</div>
+    </div>
+    <div class="timeline-step">
+      <div class="time">💚 7일 후</div>
+      <div class="action">만족도 확인</div>
+      <div class="detail">교환/불만 고객 대상<br>"사용은 잘 되고 계신가요?"</div>
+    </div>
+  </div>
+</div>
+
+<!-- 섹션 6: 에스컬레이션 -->
+<div class="section">
+  <div class="section-title"><div class="num">6</div> 🚨 에스컬레이션 기준 (이건 직접 처리 ❌ → 즉시 보고)</div>
+  <div class="escalation">
+    <h3>⚠️ 아래 상황은 담당자(고실장)에게 즉시 보고</h3>
+    <div class="esc-item"><span class="icon">🔴</span> 환불 요청 (금액 무관) — 자체 판단으로 환불 처리 금지</div>
+    <div class="esc-item"><span class="icon">🔴</span> 제품 안전 이슈 (화상, 합선, 파손 등) — 최우선 보고</div>
+    <div class="esc-item"><span class="icon">🔴</span> 동일 고객 2회 이상 불만 — 반복 클레임</div>
+    <div class="esc-item"><span class="icon">🟡</span> SNS/커뮤니티 부정 리뷰 언급 — 확산 전 대응 필요</div>
+    <div class="esc-item"><span class="icon">🟡</span> 의료기기 관련 질문 (효능·치료 주장) — 법적 리스크</div>
+    <div class="esc-item"><span class="icon">🟡</span> 고객이 화가 많이 나 있는 경우 — 감정 에스컬레이션</div>
+  </div>
+</div>
+
+<!-- FAQ 안내 -->
+<div class="section">
+  <div class="section-title"><div class="num">7</div> 📚 FAQ 사이트 활용</div>
+  <div class="faq-banner">
+    <h3>🔗 고객에게 FAQ 링크 적극 안내</h3>
+    <p>반복 문의의 80%는 FAQ에 답이 있습니다.<br>
+    답변 시 관련 FAQ 링크를 함께 보내면 고객 만족도 UP + 재문의 DOWN</p>
+    <p style="margin-top:10px"><a href="https://tenex-reports.vercel.app/faq.html" target="_blank">👉 tenex-reports.vercel.app/faq.html</a></p>
+    <p style="font-size:12px;color:var(--text3);margin-top:6px">제품별 48개 Q&A (사용법, 배송, 교환/환불, A/S 전부 포함)</p>
+  </div>
+</div>
+
+<!-- Footer -->
+<div class="footer">
+  <p>키네메디칼 CS팀 내부 가이드 | 외부 유출 금지</p>
+  <div class="contact">문의/에스컬레이션: 고실장 (슬랙 #h_cs팀) | 긴급: 태훈 대표 직접 연락</div>
+  <p style="margin-top:8px">💡 이 가이드에 없는 상황이면, 일단 공감 → "확인 후 안내드리겠습니다" → 보고</p>
+</div>
+
+</body>
+</html>
