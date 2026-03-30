@@ -1,5 +1,5 @@
 {
-  "updated": "2026-03-30T14:16",
+  "updated": "2026-03-30T16:28",
   "tasks": [
     {
       "id": "t01",
@@ -273,6 +273,50 @@
       "assignee": "인규",
       "dueDate": null,
       "note": "인규 진행중",
+      "importance": "중",
+      "urgency": "yellow"
+    },
+    {
+      "id": "t18",
+      "title": "의료계 인플루언서 리스트업 (녹스)",
+      "status": "in_progress",
+      "cat": "C",
+      "assignee": "태훈",
+      "dueDate": null,
+      "note": "나현 인수인계. 녹스 인플루언서 서비스로 국내/해외 의료계 인플루언서 리스트업",
+      "importance": "상",
+      "urgency": "yellow"
+    },
+    {
+      "id": "t19",
+      "title": "팁스 → 8억 받자!",
+      "status": "pending",
+      "cat": "F",
+      "assignee": "태훈",
+      "dueDate": null,
+      "note": "내일 스미스한테 확인 후 진행",
+      "importance": "상",
+      "urgency": "red"
+    },
+    {
+      "id": "t20",
+      "title": "기보 컨택",
+      "status": "pending",
+      "cat": "F",
+      "assignee": "태훈",
+      "dueDate": null,
+      "note": "기술보증기금",
+      "importance": "중",
+      "urgency": "yellow"
+    },
+    {
+      "id": "t21",
+      "title": "신보 컨택",
+      "status": "pending",
+      "cat": "F",
+      "assignee": "태훈",
+      "dueDate": null,
+      "note": "신용보증기금",
       "importance": "중",
       "urgency": "yellow"
     }
