@@ -1,9 +1,8 @@
 import type { VercelRequest, VercelResponse } from "@vercel/node";
 import { jwtVerify } from "jose";
+import { getSupabaseAdmin } from "../../lib/supabase";
 
 const COOKIE_NAME = "tenex_session";
-const REPO = "10bdhoon/tenex-reports";
-const FILE_PATH = "src/data/project-status.json";
 
 function getJwtSecret(): Uint8Array {
   return new TextEncoder().encode(
@@ -42,75 +41,77 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     return res.status(401).json({ error: "Invalid token" });
   }
 
-  // GITHUB_TOKEN 체크
-  const ghToken = process.env.GITHUB_TOKEN;
-  if (!ghToken) {
-    return res.status(500).json({ error: "GITHUB_TOKEN not configured" });
-  }
-
-  const { tasks, agents, lastUpdated } = req.body || {};
+  const { tasks, agents } = req.body || {};
   if (!tasks || !Array.isArray(tasks)) {
     return res.status(400).json({ error: "tasks array required" });
   }
 
   try {
-    // 1. 현재 파일의 sha 취득
-    const getRes = await fetch(
-      `https://api.github.com/repos/${REPO}/contents/${FILE_PATH}`,
-      {
-        headers: {
-          Authorization: `Bearer ${ghToken}`,
-          Accept: "application/vnd.github.v3+json",
-        },
-      }
-    );
+    const supabase = getSupabaseAdmin();
 
-    if (!getRes.ok) {
-      const errText = await getRes.text();
-      return res.status(502).json({ error: "GitHub GET failed", detail: errText });
-    }
+    // 프론트엔드 필드명 → DB 컬럼명 매핑 후 upsert
+    const dbTasks = tasks.map((t: Record<string, unknown>) => ({
+      id: t.id,
+      title: t.title,
+      cat: t.cat,
+      urgency: t.urgency,
+      importance: t.importance,
+      status: t.status,
+      assignee: t.assignee || "",
+      created: t.created || null,
+      due_date: t.due || null,
+      note: t.desc || "",
+      checklist: t.checklist || [],
+      sort_order: t.sortOrder || 0,
+      priority_order: t.priorityOrder || 0,
+      updated_at: new Date().toISOString(),
+    }));
 
-    const fileData = await getRes.json();
-    const currentSha = fileData.sha;
+    const { error: tasksError } = await supabase
+      .from("tasks")
+      .upsert(dbTasks, { onConflict: "id" });
 
-    // 2. 새 JSON 생성
-    const newContent = {
-      updated: lastUpdated || new Date().toISOString(),
-      tasks,
-      ...(agents ? { agents } : {}),
-    };
+    if (tasksError) throw tasksError;
 
-    const contentBase64 = Buffer.from(
-      JSON.stringify(newContent, null, 2),
-      "utf-8"
-    ).toString("base64");
+    // DB에 없는 task 삭제 (프론트에서 삭제된 task 동기화)
+    const taskIds = dbTasks.map((t: { id: string }) => t.id);
+    const { error: deleteError } = await supabase
+      .from("tasks")
+      .delete()
+      .not("id", "in", `(${taskIds.join(",")})`);
 
-    // 3. GitHub에 PUT
-    const putRes = await fetch(
-      `https://api.github.com/repos/${REPO}/contents/${FILE_PATH}`,
-      {
-        method: "PUT",
-        headers: {
-          Authorization: `Bearer ${ghToken}`,
-          Accept: "application/vnd.github.v3+json",
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          message: "update: tasks board sync",
-          content: contentBase64,
-          sha: currentSha,
-        }),
-      }
-    );
+    if (deleteError) throw deleteError;
 
-    if (!putRes.ok) {
-      const errText = await putRes.text();
-      return res.status(502).json({ error: "GitHub PUT failed", detail: errText });
+    // agents upsert
+    if (agents && Array.isArray(agents)) {
+      const dbAgents = agents.map((a: Record<string, unknown>) => ({
+        id: a.id,
+        icon: a.icon || "",
+        name: a.name || "",
+        role: a.role || "",
+        tasks: a.tasks || [],
+        updated_at: new Date().toISOString(),
+      }));
+
+      const { error: agentsError } = await supabase
+        .from("agents")
+        .upsert(dbAgents, { onConflict: "id" });
+
+      if (agentsError) throw agentsError;
+
+      // DB에 없는 agent 삭제
+      const agentIds = dbAgents.map((a: { id: string }) => a.id);
+      const { error: agentDeleteError } = await supabase
+        .from("agents")
+        .delete()
+        .not("id", "in", `(${agentIds.join(",")})`);
+
+      if (agentDeleteError) throw agentDeleteError;
     }
 
     return res.json({ success: true });
   } catch (err: unknown) {
     const message = err instanceof Error ? err.message : String(err);
-    return res.status(500).json({ error: "Internal error", detail: message });
+    return res.status(500).json({ error: "Supabase update failed", detail: message });
   }
 }

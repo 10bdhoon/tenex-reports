@@ -1323,9 +1323,17 @@ function mapJsonTask(jt){
 }
 async function loadTasksFromJson(){
   try{
-    const res=await fetch('/data/project-status.json');
-    if(!res.ok)throw new Error('fetch failed');
-    const json=await res.json();
+    // Supabase API 우선, 실패 시 JSON 폴백
+    let json;
+    try{
+      const res=await fetch('/api/tasks/read');
+      if(!res.ok)throw new Error('api failed');
+      json=await res.json();
+    }catch(apiErr){
+      const res2=await fetch('/data/project-status.json');
+      if(!res2.ok)throw new Error('fetch failed');
+      json=await res2.json();
+    }
     const jsonTasks=json.tasks.map(mapJsonTask);
     // JSON is the single source of truth — overwrite localStorage completely
     // Only preserve priorityOrder/sortOrder from localStorage
@@ -2625,9 +2633,17 @@ const DEFAULT_AGENT_TASKS=[
 let agentData=[];
 async function loadAgentDataFromJson(){
   try{
-    const res=await fetch('/data/project-status.json');
-    if(!res.ok)throw new Error('fetch failed');
-    const json=await res.json();
+    // Supabase API 우선, 실패 시 JSON 폴백
+    let json;
+    try{
+      const res=await fetch('/api/tasks/read');
+      if(!res.ok)throw new Error('api failed');
+      json=await res.json();
+    }catch(apiErr){
+      const res2=await fetch('/data/project-status.json');
+      if(!res2.ok)throw new Error('fetch failed');
+      json=await res2.json();
+    }
     const jsonAgents=json.agents.map(a=>({...a,tasks:a.tasks.map(t=>({...t,status:JSON_STATUS_MAP[t.status]||t.status}))}));
     const jsonById=new Map(jsonAgents.map(a=>[a.id,a]));
     let localAgents=[];
