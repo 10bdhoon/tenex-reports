@@ -1,0 +1,35 @@
+{
+  "updatedAt": "2026-03-30 17:00",
+  "sites": [
+    {
+      "name": "tenex-reports",
+      "url": "https://tenex-reports.vercel.app",
+      "desc": "태훈 A~Z 업무 리포트 + 업무보드",
+      "framework": "Vanilla + Vercel Edge",
+      "lastDeploy": "2026-03-30 17:00",
+      "status": "ok",
+      "repo": "10bdhoon/tenex-reports",
+      "folder": "프로덕션"
+    },
+    {
+      "name": "tenex-dashboard",
+      "url": "https://tenex-dashboard.vercel.app",
+      "desc": "카페24 + Mixpanel 데이터 대시보드",
+      "framework": "Next.js + Tailwind",
+      "lastDeploy": "2026-03-27",
+      "status": "ok",
+      "repo": "10bdhoon/tenex-dashboard",
+      "folder": "프로덕션"
+    },
+    {
+      "name": "kinemedical-register",
+      "url": "https://kinemedical-register.vercel.app",
+      "desc": "정품등록 + 메타픽셀",
+      "framework": "Vanilla + Vercel Serverless",
+      "lastDeploy": "2026-03-27",
+      "status": "ok",
+      "repo": "10bdhoon/kinemedical-register",
+      "folder": "프로덕션"
+    }
+  ]
+}

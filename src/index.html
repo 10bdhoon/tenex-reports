@@ -279,18 +279,30 @@ body.sidebar-collapsed .header-toggle{display:flex}
 .system-content code{font-family:monospace;font-size:.8rem;color:#a3e635;background:var(--bg);padding:.1rem .4rem;border-radius:4px}
 
 /* Deploy grid */
-.system-content .sc-deploy-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(420px,1fr));gap:20px;margin-bottom:32px}
-.system-content .sc-deploy-card{background:var(--bg-card);border:1px solid var(--border);border-radius:14px;padding:24px;transition:border-color .2s}
-.system-content .sc-deploy-card:hover{border-color:var(--accent)}
-.system-content .sc-deploy-card .card-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px}
-.system-content .sc-deploy-card .site-name{font-size:18px;font-weight:700;color:var(--text)}
-.system-content .sc-deploy-card .site-icon{font-size:28px}
-.system-content .sc-deploy-card .info-row{display:flex;align-items:center;gap:8px;margin-bottom:10px;font-size:13px;color:var(--text-secondary)}
+.system-content .sc-deploy-folder{margin-bottom:28px}
+.system-content .sc-deploy-folder-title{font-size:15px;font-weight:700;color:var(--text);display:flex;align-items:center;gap:8px;margin-bottom:14px}
+.system-content .sc-deploy-folder-title .folder-icon{font-size:18px}
+.system-content .sc-deploy-folder-title .folder-count{font-size:12px;color:var(--text-secondary);font-weight:500}
+.system-content .sc-deploy-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(340px,1fr));gap:16px;margin-bottom:32px}
+.system-content .sc-deploy-card{background:var(--bg-card);border:1px solid var(--border);border-left:4px solid #22c55e;border-radius:14px;padding:20px 24px;transition:border-color .2s,box-shadow .2s}
+.system-content .sc-deploy-card:hover{box-shadow:var(--shadow-lg);border-color:var(--accent)}
+.system-content .sc-deploy-card.status-error{border-left-color:#ef4444}
+.system-content .sc-deploy-card .card-header{display:flex;align-items:center;gap:10px;margin-bottom:14px}
+.system-content .sc-deploy-card .sc-deploy-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0}
+.system-content .sc-deploy-card .sc-deploy-dot.ok{background:#22c55e}
+.system-content .sc-deploy-card .sc-deploy-dot.error{background:#ef4444}
+.system-content .sc-deploy-card .site-name{font-size:16px;font-weight:700;color:var(--text);flex:1}
+.system-content .sc-deploy-card .site-url a{font-size:12px;color:#60a5fa;text-decoration:none;font-weight:500}
+.system-content .sc-deploy-card .site-url a:hover{text-decoration:underline}
+.system-content .sc-deploy-card .site-desc{font-size:13px;color:var(--text-secondary);margin-bottom:12px}
+.system-content .sc-deploy-card .info-row{display:flex;align-items:center;gap:8px;margin-bottom:8px;font-size:13px;color:var(--text-secondary)}
 .system-content .sc-deploy-card .info-row .rlabel{min-width:80px;color:var(--text-secondary);font-weight:600}
 .system-content .sc-deploy-card .info-row a{color:#60a5fa;text-decoration:none}
 .system-content .sc-deploy-card .info-row a:hover{text-decoration:underline}
+.system-content .sc-deploy-card .sc-deploy-badges{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px}
 .system-content .sc-status-badge{display:inline-block;padding:4px 12px;border-radius:6px;font-size:11px;font-weight:700}
 .system-content .sc-status-badge.ok{background:rgba(52,211,153,0.15);color:#34d399}
+.system-content .sc-status-badge.error{background:rgba(239,68,68,0.15);color:#ef4444}
 .system-content .sc-status-badge.auto{background:rgba(96,165,250,0.15);color:#60a5fa}
 .system-content .sc-status-badge.online{background:rgba(52,211,153,0.15);color:#34d399}
 .system-content .sc-deploy-time{font-size:11px;color:var(--text-secondary);margin-top:12px;padding-top:12px;border-top:1px solid var(--border)}
@@ -1809,7 +1821,7 @@ function openSystemPage(href,title){
 }
 
 const SYSTEM_PAGE_TITLES={cron:'🔄 크론 대시보드',deploy:'🚀 배포 현황',system:'🖥️ 자동화 시스템 현황',heartbeat:'💓 하트비트 모니터링',security:'🔒 보안 현황'};
-const SYSTEM_RENDERERS={deploy:renderDeployDashboard,system:renderSystemStatus,heartbeat:renderHeartbeatDashboard,security:renderSecurityDashboard};
+const SYSTEM_RENDERERS={system:renderSystemStatus,heartbeat:renderHeartbeatDashboard,security:renderSecurityDashboard};
 
 function openSystemDashboard(page,label){
   switchView('system');
@@ -1822,9 +1834,10 @@ function openSystemDashboard(page,label){
   iframeWrap.style.display='none';
   newTabBtn.style.display='none';
   document.getElementById('systemViewTitle').textContent=SYSTEM_PAGE_TITLES[page]||label||'';
-  if(page==='cron'){
+  if(page==='cron'||page==='deploy'){
     contentEl.innerHTML='<div style="text-align:center;padding:40px;color:var(--text-secondary)">로딩 중...</div>';
-    renderCronDashboard().then(html=>{contentEl.innerHTML=html;});
+    const asyncRenderer=page==='cron'?renderCronDashboard:renderDeployDashboard;
+    asyncRenderer().then(html=>{contentEl.innerHTML=html;});
   } else {
     const renderer=SYSTEM_RENDERERS[page];
     contentEl.innerHTML=renderer?renderer():'';
@@ -1955,38 +1968,65 @@ async function renderCronDashboard(){
   }
 }
 
-function renderDeployDashboard(){
-  const now=new Date();
-  const fmt=d=>d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')+' '+String(d.getHours()).padStart(2,'0')+':'+String(d.getMinutes()).padStart(2,'0');
-  const ts=fmt(now);
-  let h='';
-  h+='<div class="sc-summary">';
-  h+='<div class="sc-sum-card"><div class="num navy">2</div><div class="sc-label">전체 사이트</div></div>';
-  h+='<div class="sc-sum-card"><div class="num green">2</div><div class="sc-label">정상</div></div>';
-  h+='</div>';
-  h+='<div class="sc-section-title">🌐 배포 사이트</div>';
-  h+='<div class="sc-deploy-grid">';
-  // tenex-reports
-  h+='<div class="sc-deploy-card">';
-  h+='<div class="card-header"><div class="site-name">tenex-reports</div><div class="site-icon">📄</div></div>';
-  h+='<div class="info-row"><span class="rlabel">URL</span><a href="https://tenex-reports.vercel.app" target="_blank">tenex-reports.vercel.app</a></div>';
-  h+='<div class="info-row"><span class="rlabel">상태</span><span class="sc-status-badge ok">정상</span></div>';
-  h+='<div class="info-row"><span class="rlabel">프레임워크</span><span class="sc-tag navy">정적 HTML</span></div>';
-  h+='<div class="info-row"><span class="rlabel">플랫폼</span><span class="sc-tag green">Vercel</span></div>';
-  h+='<div class="sc-deploy-time">마지막 배포: '+ts+'</div>';
-  h+='</div>';
-  // tenex-dashboard
-  h+='<div class="sc-deploy-card">';
-  h+='<div class="card-header"><div class="site-name">tenex-dashboard</div><div class="site-icon">📊</div></div>';
-  h+='<div class="info-row"><span class="rlabel">URL</span><a href="https://tenex-dashboard.vercel.app" target="_blank">tenex-dashboard.vercel.app</a></div>';
-  h+='<div class="info-row"><span class="rlabel">상태</span><span class="sc-status-badge ok">정상</span></div>';
-  h+='<div class="info-row"><span class="rlabel">프레임워크</span><span class="sc-tag blue">Next.js 16</span></div>';
-  h+='<div class="info-row"><span class="rlabel">플랫폼</span><span class="sc-tag green">Vercel</span></div>';
-  h+='<div class="sc-deploy-time">마지막 배포: '+ts+'</div>';
-  h+='</div>';
-  h+='</div>';
-  h+='<p class="sc-footer">최종 업데이트: 2026-03-27</p>';
-  return h;
+async function renderDeployDashboard(){
+  const statusLabels={ok:'정상',error:'오류'};
+  const statusColors={ok:'green',error:'red'};
+  try{
+    const res=await fetch('/data/deploy-status.json?t='+Date.now());
+    const data=await res.json();
+    const sites=data.sites||[];
+    const total=sites.length;
+    const okCount=sites.filter(s=>s.status==='ok').length;
+    const errorCount=total-okCount;
+
+    // 폴더별 그룹핑
+    const folders={};
+    sites.forEach(s=>{
+      const f=s.folder||'기타';
+      if(!folders[f])folders[f]=[];
+      folders[f].push(s);
+    });
+
+    let h='';
+    // 서머리 카드
+    h+='<div class="sc-cron-stats">';
+    h+='<div class="sc-cron-stat"><div class="stat-num navy">'+total+'</div><div class="stat-label">전체 사이트</div></div>';
+    h+='<div class="sc-cron-stat"><div class="stat-num green">'+okCount+'</div><div class="stat-label">정상</div></div>';
+    if(errorCount>0) h+='<div class="sc-cron-stat"><div class="stat-num red">'+errorCount+'</div><div class="stat-label">오류</div></div>';
+    h+='</div>';
+
+    // 폴더별 렌더
+    Object.keys(folders).sort().forEach(fname=>{
+      const items=folders[fname];
+      h+='<div class="sc-deploy-folder">';
+      h+='<div class="sc-deploy-folder-title"><span class="folder-icon">📁</span>'+fname+'<span class="folder-count">('+items.length+')</span></div>';
+      h+='<div class="sc-deploy-grid">';
+      items.forEach(s=>{
+        const st=s.status||'ok';
+        const stLabel=statusLabels[st]||st;
+        h+='<div class="sc-deploy-card'+(st==='error'?' status-error':'')+'">';
+        h+='<div class="card-header">';
+        h+='<span class="sc-deploy-dot '+st+'"></span>';
+        h+='<span class="site-name">'+s.name+'</span>';
+        h+='<span class="site-url"><a href="'+s.url+'" target="_blank">'+s.url.replace('https://','')+'</a></span>';
+        h+='</div>';
+        h+='<div class="site-desc">'+s.desc+'</div>';
+        h+='<div class="sc-deploy-badges">';
+        h+='<span class="sc-status-badge '+st+'">'+stLabel+'</span>';
+        h+='<span class="sc-tag blue">'+s.framework+'</span>';
+        h+='</div>';
+        h+='<div class="info-row"><span class="rlabel">레포</span><a href="https://github.com/'+s.repo+'" target="_blank">'+s.repo+'</a></div>';
+        h+='<div class="sc-deploy-time">마지막 배포: '+s.lastDeploy+'</div>';
+        h+='</div>';
+      });
+      h+='</div></div>';
+    });
+
+    h+='<div class="sc-cron-updated">최종 업데이트: '+data.updatedAt+'</div>';
+    return h;
+  }catch(e){
+    return '<div style="text-align:center;padding:40px;color:#ef4444">배포 현황 데이터를 불러올 수 없습니다.</div>';
+  }
 }
 
 function renderSystemStatus(){
