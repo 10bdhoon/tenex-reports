@@ -1,7 +1,6 @@
 {
   "private": true,
   "dependencies": {
-    "@supabase/supabase-js": "^2.100.1",
     "@vercel/edge": "^1.2.2",
     "bcryptjs": "^3.0.3",
     "jose": "^5.2.0"

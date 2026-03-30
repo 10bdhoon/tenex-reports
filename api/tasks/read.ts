@@ -1,5 +1,19 @@
 import type { VercelRequest, VercelResponse } from "@vercel/node";
-import { getSupabaseClient } from "../lib/supabase";
+
+const SUPABASE_URL = process.env.SUPABASE_URL || "";
+const SUPABASE_ANON_KEY = process.env.SUPABASE_ANON_KEY || "";
+
+async function supaFetch(table: string, query = "select=*") {
+  const res = await fetch(`${SUPABASE_URL}/rest/v1/${table}?${query}`, {
+    headers: {
+      apikey: SUPABASE_ANON_KEY,
+      Authorization: `Bearer ${SUPABASE_ANON_KEY}`,
+      "Content-Type": "application/json",
+    },
+  });
+  if (!res.ok) throw new Error(`Supabase ${table}: ${res.status} ${await res.text()}`);
+  return res.json();
+}
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   if (req.method !== "GET") {
@@ -7,30 +21,17 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   }
 
   try {
-    const supabase = getSupabaseClient();
+    const [tasksRaw, agentsRaw] = await Promise.all([
+      supaFetch("tasks", "select=*&order=sort_order.asc"),
+      supaFetch("agents", "select=*"),
+    ]);
 
-    // tasks 조회 (checklist는 jsonb 컬럼)
-    const { data: tasksRaw, error: tasksError } = await supabase
-      .from("tasks")
-      .select("*")
-      .order("sort_order", { ascending: true });
-
-    if (tasksError) throw tasksError;
-
-    // agents 조회
-    const { data: agentsRaw, error: agentsError } = await supabase
-      .from("agents")
-      .select("*");
-
-    if (agentsError) throw agentsError;
-
-    // DB 컬럼명 → 프론트엔드 필드명 매핑
     const tasks = (tasksRaw || []).map((t: Record<string, unknown>) => ({
       id: t.id,
       title: t.title,
       cat: t.cat,
-      urgency: t.urgency,
-      importance: t.importance,
+      urgency: t.urgency || "green",
+      importance: t.importance || "중",
       status: t.status,
       assignee: t.assignee,
       due: t.due_date,
@@ -50,13 +51,8 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       tasks: a.tasks,
     }));
 
-    return res.json({
-      updated: new Date().toISOString(),
-      tasks,
-      agents,
-    });
+    return res.json({ updated: new Date().toISOString(), tasks, agents });
   } catch (err) {
-    // Supabase 실패 시 JSON 폴백
     console.error("Supabase read failed, falling back to JSON:", err);
     try {
       const fs = await import("fs");
