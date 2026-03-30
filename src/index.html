@@ -336,8 +336,10 @@ body.sidebar-collapsed .header-toggle{display:flex}
 
 /* Skills grid */
 .system-content .sc-skill-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px;margin-bottom:32px}
-.system-content .sc-skill-card{background:var(--bg-card);border:1px solid var(--border);border-radius:12px;padding:20px;transition:border-color .2s,box-shadow .2s}
-.system-content .sc-skill-card:hover{border-color:var(--accent);box-shadow:var(--shadow-lg)}
+.system-content .sc-skill-card{background:var(--bg-card);border:1px solid var(--border);border-radius:12px;padding:20px;transition:all .2s}
+.system-content .sc-skill-card:hover{border-color:var(--accent);box-shadow:var(--shadow-lg);transform:translateY(-2px)}
+.system-content .sc-skill-card.disabled{opacity:.55}
+.system-content .sc-skill-card.disabled:hover{opacity:.7}
 .system-content .sc-skill-card .sc-skill-top{display:flex;align-items:center;gap:12px;margin-bottom:12px}
 .system-content .sc-skill-card .sc-skill-icon{font-size:28px}
 .system-content .sc-skill-card .sc-skill-name{font-size:15px;font-weight:700;color:var(--text)}
@@ -515,6 +517,69 @@ body.sidebar-collapsed .header-toggle{display:flex}
   text-align:center;color:var(--text-secondary);font-size:12px;margin-top:32px;padding-top:16px;
   border-top:1px solid var(--border);
 }
+
+/* ── Toggle Switch (krong style) ── */
+.system-content .sc-toggle-switch{position:relative;display:inline-block;width:40px;height:22px;flex-shrink:0;cursor:pointer}
+.system-content .sc-toggle-switch input{opacity:0;width:0;height:0}
+.system-content .sc-toggle-slider{position:absolute;top:0;left:0;right:0;bottom:0;background:#94a3b8;border-radius:22px;transition:.3s}
+.system-content .sc-toggle-slider:before{content:"";position:absolute;height:16px;width:16px;left:3px;bottom:3px;background:#fff;border-radius:50%;transition:.3s}
+.system-content .sc-toggle-switch input:checked+.sc-toggle-slider{background:#22c55e}
+.system-content .sc-toggle-switch input:checked+.sc-toggle-slider:before{transform:translateX(18px)}
+
+/* ── Dashboard Search Input ── */
+.system-content .sc-dash-search{position:relative;margin-bottom:20px}
+.system-content .sc-dash-search input{
+  width:100%;padding:12px 18px 12px 42px;border-radius:12px;border:1px solid var(--border);
+  background:var(--bg-card);color:var(--text);font-size:14px;outline:none;transition:all .2s;box-shadow:var(--shadow);
+}
+.system-content .sc-dash-search input:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(0,40,85,0.1)}
+.system-content .sc-dash-search input::placeholder{color:var(--text-secondary)}
+.system-content .sc-dash-search .search-icon{position:absolute;left:14px;top:50%;transform:translateY(-50%);font-size:16px;opacity:.45;pointer-events:none}
+
+/* ── Expand Arrow (krong style) ── */
+.system-content .sc-expand-arrow{
+  font-size:14px;color:var(--accent);transition:transform .3s ease;cursor:pointer;
+  width:24px;height:24px;display:flex;align-items:center;justify-content:center;
+  border-radius:6px;background:var(--accent-light);flex-shrink:0;
+}
+.system-content .sc-expand-arrow.open{transform:rotate(180deg)}
+[data-theme="dark"] .system-content .sc-expand-arrow{background:rgba(124,58,237,0.12);color:#a78bfa}
+
+/* ── Skill Slide Panel ── */
+.sc-skill-panel-overlay{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.4);z-index:999;opacity:0;pointer-events:none;transition:opacity .3s}
+.sc-skill-panel-overlay.open{opacity:1;pointer-events:auto}
+.sc-skill-panel{
+  position:fixed;top:0;right:0;bottom:0;width:min(520px,90vw);background:var(--bg-card);z-index:1000;
+  transform:translateX(100%);transition:transform .3s ease;overflow-y:auto;
+  box-shadow:-4px 0 24px rgba(0,0,0,0.15);
+}
+.sc-skill-panel.open{transform:translateX(0)}
+.sc-skill-panel-close{
+  position:absolute;top:16px;right:16px;background:none;border:1px solid var(--border);
+  width:32px;height:32px;border-radius:8px;cursor:pointer;font-size:18px;color:var(--text-secondary);
+  display:flex;align-items:center;justify-content:center;transition:all .2s;z-index:1;
+}
+.sc-skill-panel-close:hover{border-color:var(--accent);color:var(--text)}
+.sc-skill-panel-body{padding:28px 24px}
+.sc-skill-panel-body .sp-icon{font-size:48px;margin-bottom:12px}
+.sc-skill-panel-body .sp-name{font-size:22px;font-weight:800;color:var(--text);margin-bottom:4px}
+.sc-skill-panel-body .sp-badges{display:flex;gap:8px;align-items:center;margin-bottom:20px;flex-wrap:wrap}
+.sc-skill-panel-body .sp-badge{font-size:11px;padding:3px 10px;border-radius:10px;font-weight:600}
+.sc-skill-panel-body .sp-badge.on{background:rgba(34,197,94,0.12);color:#22c55e}
+.sc-skill-panel-body .sp-badge.off{background:rgba(148,163,184,0.12);color:#94a3b8}
+.sc-skill-panel-body .sp-badge.builtin{background:rgba(96,165,250,0.15);color:#60a5fa}
+.sc-skill-panel-body .sp-badge.custom{background:rgba(251,191,36,0.15);color:#fbbf24}
+.sc-skill-panel-body .sp-section{margin-bottom:20px}
+.sc-skill-panel-body .sp-section-title{font-size:14px;font-weight:700;color:var(--accent);margin-bottom:8px;display:flex;align-items:center;gap:6px}
+[data-theme="dark"] .sc-skill-panel-body .sp-section-title{color:#5b9bd5}
+.sc-skill-panel-body .sp-section-content{font-size:13px;color:var(--text);line-height:1.7}
+.sc-skill-panel-body .sp-caps{display:flex;flex-wrap:wrap;gap:6px}
+.sc-skill-panel-body .sp-cap{font-size:12px;background:var(--accent-light);color:var(--accent);padding:4px 12px;border-radius:8px;font-weight:500}
+[data-theme="dark"] .sc-skill-panel-body .sp-cap{background:rgba(124,58,237,0.15);color:#a78bfa}
+.sc-skill-panel-body .sp-dates{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.sc-skill-panel-body .sp-date-item{text-align:center;padding:10px;background:var(--bg);border-radius:10px;border:1px solid var(--border)}
+.sc-skill-panel-body .sp-date-label{font-size:11px;color:var(--text-secondary);margin-bottom:2px}
+.sc-skill-panel-body .sp-date-val{font-size:13px;font-weight:600;color:var(--text)}
 
 @media(max-width:640px){
   .system-content .sc-timeline{padding-left:40px}
@@ -1953,6 +2018,36 @@ function toggleCronDetail(idx){
   if(isOpen){det.classList.remove('open');if(arrow)arrow.classList.remove('open');}
   else{det.classList.add('open');if(arrow)arrow.classList.add('open');}
 }
+function scOpenSkillPanel(idx){
+  var skills=window._scSkillsData||[];
+  var s=skills[idx];if(!s)return;
+  var body=document.getElementById('scSkillPanelBody');
+  var onCls=s.active?'on':'off';
+  var typeCls=s.type==='builtin'?'builtin':'custom';
+  var h='<div class="sp-icon">'+s.icon+'</div>';
+  h+='<div class="sp-name">'+s.name+'</div>';
+  h+='<div class="sp-badges">';
+  h+='<span class="sp-badge '+onCls+'">'+(s.active?'ON':'OFF')+'</span>';
+  h+='<span class="sp-badge '+typeCls+'">'+(s.type==='builtin'?'내장':'커스텀')+'</span>';
+  h+='</div>';
+  h+='<div class="sp-section"><div class="sp-section-title">💡 설명</div><div class="sp-section-content">'+s.desc+'</div></div>';
+  if(s.capabilities&&s.capabilities.length){
+    h+='<div class="sp-section"><div class="sp-section-title">🔧 주요 기능</div><div class="sp-caps">';
+    s.capabilities.forEach(function(c){h+='<span class="sp-cap">'+c+'</span>';});
+    h+='</div></div>';
+  }
+  h+='<div class="sp-section"><div class="sp-section-title">📅 날짜 정보</div><div class="sp-dates">';
+  h+='<div class="sp-date-item"><div class="sp-date-label">마지막 사용</div><div class="sp-date-val">'+s.lastUsed+'</div></div>';
+  h+='<div class="sp-date-item"><div class="sp-date-label">상태</div><div class="sp-date-val">'+(s.active?'활성':'비활성')+'</div></div>';
+  h+='</div></div>';
+  body.innerHTML=h;
+  document.getElementById('scSkillOverlay').classList.add('open');
+  document.getElementById('scSkillPanel').classList.add('open');
+}
+function scCloseSkillPanel(){
+  document.getElementById('scSkillOverlay').classList.remove('open');
+  document.getElementById('scSkillPanel').classList.remove('open');
+}
 
 async function renderCronDashboard(){
   const statusLabels={ok:'정상',error:'오류',idle:'대기',running:'실행중'};
@@ -1972,6 +2067,8 @@ async function renderCronDashboard(){
     h+='<div class="sc-cron-stat"><div class="stat-num red">'+err+'</div><div class="stat-label">오류</div></div>';
     h+='<div class="sc-cron-stat"><div class="stat-num gray">'+idle+'</div><div class="stat-label">대기</div></div>';
     h+='</div>';
+    // Search
+    h+='<div class="sc-dash-search"><span class="search-icon">🔍</span><input type="text" id="cronSearchInput" placeholder="크론잡 검색..." /></div>';
     // Filter tabs
     h+='<div class="sc-filter-tabs" id="scCronFilters">';
     h+='<div class="sc-filter-tab active" data-filter="all">전체 <span class="sc-filter-count">'+total+'</span></div>';
@@ -1984,7 +2081,7 @@ async function renderCronDashboard(){
     crons.forEach((c,idx)=>{
       const st=c.status||'ok';
       const stLabel=statusLabels[st]||st;
-      h+='<div class="sc-cron-card status-'+st+'" data-status="'+st+'">';
+      h+='<div class="sc-cron-card status-'+st+'" data-status="'+st+'" data-name="'+c.label+'">';
       h+='<div class="sc-cron-card-header" onclick="toggleCronDetail('+idx+')">';
       // Top row
       h+='<div class="sc-cron-card-top">';
@@ -1992,7 +2089,8 @@ async function renderCronDashboard(){
       h+='<span class="sc-cron-name">'+c.label+'</span>';
       h+='<span class="sc-cron-status-badge '+st+'">'+stLabel+'</span>';
       h+='<span class="sc-cron-schedule-badge">'+c.scheduleLabel+'</span>';
-      h+='<span class="sc-cron-arrow" id="cronArrow'+idx+'">&#9660;</span>';
+      h+='<label class="sc-toggle-switch" onclick="event.stopPropagation()" title="크론 ON/OFF"><input type="checkbox" '+(st!=='idle'?'checked':'')+' disabled><span class="sc-toggle-slider"></span></label>';
+      h+='<span class="sc-expand-arrow" id="cronArrow'+idx+'">▼</span>';
       h+='</div>';
       // Desc
       if(c.desc) h+='<div class="sc-cron-desc">'+c.desc+'</div>';
@@ -2007,31 +2105,31 @@ async function renderCronDashboard(){
       h+='<div class="sc-cron-detail-inner">';
       // Flow
       if(c.flow&&c.flow.length){
-        h+='<div class="sc-detail-section"><div class="sc-detail-title">&#9889; 동작 흐름</div>';
+        h+='<div class="sc-detail-section"><div class="sc-detail-title">⚡ 동작 흐름</div>';
         h+='<div class="sc-flow-wrap">';
         c.flow.forEach((step,i)=>{
-          if(i>0) h+='<span class="sc-flow-arrow">&rarr;</span>';
+          if(i>0) h+='<span class="sc-flow-arrow">→</span>';
           h+='<span class="sc-flow-step">'+step+'</span>';
         });
         h+='</div></div>';
       }
       // Detail bullets
       if(c.detail&&c.detail.length){
-        h+='<div class="sc-detail-section"><div class="sc-detail-title">&#128203; 상세 설명</div>';
+        h+='<div class="sc-detail-section"><div class="sc-detail-title">📋 상세 설명</div>';
         h+='<div class="sc-detail-bullets">';
         c.detail.forEach(d=>{h+='<div>'+d+'</div>';});
         h+='</div></div>';
       }
       // Tech stack
       if(c.techStack&&c.techStack.length){
-        h+='<div class="sc-detail-section"><div class="sc-detail-title">&#128295; 기술 스택</div>';
-        h+='<div>';
+        h+='<div class="sc-detail-section"><div class="sc-detail-title">🔧 기술 스택</div>';
+        h+='<div style="display:flex;flex-wrap:wrap;gap:6px">';
         c.techStack.forEach(t=>{h+='<span class="sc-detail-tag">'+t+'</span>';});
         h+='</div></div>';
       }
       // Troubleshooting
       if(c.troubleshooting&&c.troubleshooting.length){
-        h+='<div class="sc-detail-section"><div class="sc-detail-title">&#128736; 트러블슈팅</div>';
+        h+='<div class="sc-detail-section"><div class="sc-detail-title">🛠 트러블슈팅</div>';
         h+='<div>';
         c.troubleshooting.forEach(t=>{h+='<div class="sc-trouble-item">'+t+'</div>';});
         h+='</div></div>';
@@ -2041,8 +2139,8 @@ async function renderCronDashboard(){
     });
     h+='</div>'; // end cronCardList
     h+='<div class="sc-cron-updated">업데이트: '+data.updatedAt+' | 데이터 소스: cron-status.json</div>';
-    // Bind filter events after returning HTML (use setTimeout to ensure DOM is ready)
     setTimeout(()=>{
+      // Filter tabs
       document.querySelectorAll('#scCronFilters .sc-filter-tab').forEach(tab=>{
         tab.onclick=()=>{
           document.querySelectorAll('#scCronFilters .sc-filter-tab').forEach(t=>t.classList.remove('active'));
@@ -2055,6 +2153,18 @@ async function renderCronDashboard(){
           });
         };
       });
+      // Search
+      const searchInput=document.getElementById('cronSearchInput');
+      if(searchInput){
+        searchInput.addEventListener('input',()=>{
+          const q=searchInput.value.toLowerCase();
+          document.querySelectorAll('#cronCardList .sc-cron-card').forEach(card=>{
+            const name=(card.dataset.name||'').toLowerCase();
+            const text=card.textContent.toLowerCase();
+            card.style.display=(name.includes(q)||text.includes(q))?'':'none';
+          });
+        });
+      }
     },0);
     return h;
   }catch(e){
@@ -2064,7 +2174,6 @@ async function renderCronDashboard(){
 
 async function renderDeployDashboard(){
   const statusLabels={ok:'정상',error:'오류'};
-  const statusColors={ok:'green',error:'red'};
   try{
     const res=await fetch('/data/deploy-status.json?t='+Date.now());
     const data=await res.json();
@@ -2088,8 +2197,11 @@ async function renderDeployDashboard(){
     h+='<div class="sc-cron-stat"><div class="stat-num green">'+okCount+'</div><div class="stat-label">정상</div></div>';
     if(errorCount>0) h+='<div class="sc-cron-stat"><div class="stat-num red">'+errorCount+'</div><div class="stat-label">오류</div></div>';
     h+='</div>';
+    // Search
+    h+='<div class="sc-dash-search"><span class="search-icon">🔍</span><input type="text" id="deploySearchInput" placeholder="배포 사이트 검색..." /></div>';
 
     // 폴더별 렌더
+    h+='<div id="deployFolderList">';
     Object.keys(folders).sort().forEach(fname=>{
       const items=folders[fname];
       h+='<div class="sc-deploy-folder">';
@@ -2098,25 +2210,40 @@ async function renderDeployDashboard(){
       items.forEach(s=>{
         const st=s.status||'ok';
         const stLabel=statusLabels[st]||st;
-        h+='<div class="sc-deploy-card'+(st==='error'?' status-error':'')+'">';
+        h+='<div class="sc-deploy-card'+(st==='error'?' status-error':'')+'" data-name="'+s.name+'">';
         h+='<div class="card-header">';
         h+='<span class="sc-deploy-dot '+st+'"></span>';
         h+='<span class="site-name">'+s.name+'</span>';
-        h+='<span class="site-url"><a href="'+s.url+'" target="_blank">'+s.url.replace('https://','')+'</a></span>';
+        h+='<span class="site-url"><a href="'+s.url+'" target="_blank" onclick="event.stopPropagation()">'+s.url.replace('https://','')+'</a></span>';
         h+='</div>';
         h+='<div class="site-desc">'+s.desc+'</div>';
         h+='<div class="sc-deploy-badges">';
         h+='<span class="sc-status-badge '+st+'">'+stLabel+'</span>';
         h+='<span class="sc-tag blue">'+s.framework+'</span>';
         h+='</div>';
-        h+='<div class="info-row"><span class="rlabel">레포</span><a href="https://github.com/'+s.repo+'" target="_blank">'+s.repo+'</a></div>';
+        h+='<div class="info-row"><span class="rlabel">레포</span><a href="https://github.com/'+s.repo+'" target="_blank" onclick="event.stopPropagation()">'+s.repo+'</a></div>';
         h+='<div class="sc-deploy-time">마지막 배포: '+s.lastDeploy+'</div>';
         h+='</div>';
       });
       h+='</div></div>';
     });
+    h+='</div>';
 
     h+='<div class="sc-cron-updated">최종 업데이트: '+data.updatedAt+'</div>';
+    // Search binding
+    setTimeout(()=>{
+      const searchInput=document.getElementById('deploySearchInput');
+      if(searchInput){
+        searchInput.addEventListener('input',()=>{
+          const q=searchInput.value.toLowerCase();
+          document.querySelectorAll('#deployFolderList .sc-deploy-card').forEach(card=>{
+            const name=(card.dataset.name||'').toLowerCase();
+            const text=card.textContent.toLowerCase();
+            card.style.display=(name.includes(q)||text.includes(q))?'':'none';
+          });
+        });
+      }
+    },0);
     return h;
   }catch(e){
     return '<div style="text-align:center;padding:40px;color:#ef4444">배포 현황 데이터를 불러올 수 없습니다.</div>';
@@ -2125,11 +2252,11 @@ async function renderDeployDashboard(){
 
 function renderSystemStatus(){
   let h='';
-  h+='<div class="sc-sys-grid">';
-  h+='<div class="sc-sys-card"><div class="sc-sys-label">크론잡 (OpenClaw)</div><div class="val">9개</div><div class="sub2">상시 운영 중</div></div>';
-  h+='<div class="sc-sys-card"><div class="sc-sys-label">launchd 잡 (Mac mini)</div><div class="val">5개</div><div class="sub2">시스템 레벨 자동화</div></div>';
-  h+='<div class="sc-sys-card"><div class="sc-sys-label">git 백업</div><div class="val">하루 3회</div><div class="sub2">09:00 / 15:00 / 23:00</div></div>';
-  h+='<div class="sc-sys-card"><div class="sc-sys-label">brain.db (SQLite)</div><div class="val">포트 8082</div><div class="sub2">장기기억 서버</div></div>';
+  h+='<div class="sc-cron-stats">';
+  h+='<div class="sc-cron-stat"><div class="stat-num navy">9</div><div class="stat-label">크론잡</div></div>';
+  h+='<div class="sc-cron-stat"><div class="stat-num blue">5</div><div class="stat-label">launchd 잡</div></div>';
+  h+='<div class="sc-cron-stat"><div class="stat-num green">3</div><div class="stat-label">git 백업/일</div></div>';
+  h+='<div class="sc-cron-stat"><div class="stat-num navy">8082</div><div class="stat-label">brain.db 포트</div></div>';
   h+='</div>';
   // OpenClaw 크론잡
   h+='<div class="sc-section"><h2>⏰ OpenClaw 크론잡</h2><table>';
@@ -2192,7 +2319,7 @@ function renderSystemStatus(){
   h+='<thead><tr><th>항목</th><th>내용</th></tr></thead><tbody>';
   [['종류','SQLite + HTTP API'],['포트','<code>8082</code>'],['검색','<code>curl "http://localhost:8082/search?q=키워드&amp;limit=5"</code>'],['저장','<code>curl -X POST http://localhost:8082/insert -d \'{"date":"...","source":"telegram","content":"..."}\'</code>'],['저장 대상','텔레그램 대화 / Plaud 녹음 전사 / 주요 결정사항']].forEach(c=>{h+='<tr><td>'+c[0]+'</td><td>'+c[1]+'</td></tr>'});
   h+='</tbody></table></div>';
-  h+='<p class="sc-footer">tenex-reports · 자동 배포 (변경 감지 시 10분 내 반영)</p>';
+  h+='<div class="sc-cron-updated">tenex-reports · 자동 배포 (변경 감지 시 10분 내 반영)</div>';
   return h;
 }
 
@@ -2269,39 +2396,79 @@ async function renderSkillsDashboard(){
     const res=await fetch('/data/skills-status.json?t='+Date.now());
     const data=await res.json();
     const skills=data.skills||[];
+    window._scSkillsData=skills;
     const total=skills.length;
     const activeCount=skills.filter(s=>s.active).length;
     const builtinCount=skills.filter(s=>s.type==='builtin').length;
     let h='';
+    // Stats
     h+='<div class="sc-cron-stats">';
     h+='<div class="sc-cron-stat"><div class="stat-num navy">'+total+'</div><div class="stat-label">전체 스킬</div></div>';
     h+='<div class="sc-cron-stat"><div class="stat-num green">'+activeCount+'</div><div class="stat-label">활성</div></div>';
     h+='<div class="sc-cron-stat"><div class="stat-num blue">'+builtinCount+'</div><div class="stat-label">내장</div></div>';
     h+='<div class="sc-cron-stat"><div class="stat-num yellow">'+(total-builtinCount)+'</div><div class="stat-label">커스텀</div></div>';
     h+='</div>';
-    h+='<div class="sc-section-title">🧩 스킬 목록</div>';
-    h+='<div class="sc-skill-grid">';
-    skills.forEach(s=>{
-      h+='<div class="sc-skill-card">';
-      h+='<div class="sc-skill-top">';
-      h+='<span class="sc-skill-icon">'+s.icon+'</span>';
-      h+='<div style="flex:1"><div class="sc-skill-name">'+s.name+'</div></div>';
-      h+='<div class="sc-skill-toggle'+(s.active?' on':'')+'"></div>';
-      h+='</div>';
-      h+='<div class="sc-skill-desc">'+s.desc+'</div>';
-      h+='<div class="sc-skill-badges">';
-      h+='<span class="sc-skill-badge '+(s.active?'active':'inactive')+'">'+(s.active?'활성':'비활성')+'</span>';
-      h+='<span class="sc-skill-badge '+(s.type==='builtin'?'builtin':'custom')+'">'+(s.type==='builtin'?'내장':'커스텀')+'</span>';
-      h+='</div>';
-      h+='<div class="sc-skill-last">마지막 사용: '+s.lastUsed+'</div>';
-      h+='</div>';
+    // Search
+    h+='<div class="sc-dash-search"><span class="search-icon">🔍</span><input type="text" id="skillSearchInput" placeholder="스킬 검색..." /></div>';
+    // Section: Active
+    var enabled=skills.filter(s=>s.active);
+    var disabled=skills.filter(s=>!s.active);
+    h+='<div class="sc-section-title">활성 스킬 ('+enabled.length+')</div>';
+    h+='<div class="sc-skill-grid" id="skillActiveGrid">';
+    enabled.forEach((s,i)=>{
+      var idx=skills.indexOf(s);
+      h+=makeScSkillCard(s,idx);
     });
     h+='</div>';
+    // Section: Inactive
+    if(disabled.length){
+      h+='<div class="sc-section-title" style="opacity:.7">비활성 스킬 ('+disabled.length+')</div>';
+      h+='<div class="sc-skill-grid" id="skillInactiveGrid">';
+      disabled.forEach((s,i)=>{
+        var idx=skills.indexOf(s);
+        h+=makeScSkillCard(s,idx);
+      });
+      h+='</div>';
+    }
+    // Slide panel
+    h+='<div class="sc-skill-panel-overlay" id="scSkillOverlay" onclick="scCloseSkillPanel()"></div>';
+    h+='<div class="sc-skill-panel" id="scSkillPanel"><button class="sc-skill-panel-close" onclick="scCloseSkillPanel()">✕</button><div class="sc-skill-panel-body" id="scSkillPanelBody"></div></div>';
     h+='<div class="sc-cron-updated">업데이트: '+data.updatedAt+' | 데이터 소스: skills-status.json</div>';
+    // Search binding
+    setTimeout(()=>{
+      const searchInput=document.getElementById('skillSearchInput');
+      if(searchInput){
+        searchInput.addEventListener('input',()=>{
+          const q=searchInput.value.toLowerCase();
+          document.querySelectorAll('.sc-skill-card').forEach(card=>{
+            const name=(card.dataset.name||'').toLowerCase();
+            const text=card.textContent.toLowerCase();
+            card.style.display=(name.includes(q)||text.includes(q))?'':'none';
+          });
+        });
+      }
+    },0);
     return h;
   }catch(e){
     return '<div style="text-align:center;padding:40px;color:var(--text-secondary)">스킬 상태를 불러올 수 없습니다</div>';
   }
+}
+function makeScSkillCard(s,idx){
+  var cls=s.active?'':'disabled';
+  var srcCls=s.type==='builtin'?'builtin':'custom';
+  return '<div class="sc-skill-card '+cls+'" data-name="'+s.name+'" onclick="scOpenSkillPanel('+idx+')" style="cursor:pointer">'
+    +'<div class="sc-skill-top">'
+    +'<span class="sc-skill-icon">'+s.icon+'</span>'
+    +'<div style="flex:1"><div class="sc-skill-name">'+s.name+'</div></div>'
+    +'<label class="sc-toggle-switch" onclick="event.stopPropagation()"><input type="checkbox" '+(s.active?'checked':'')+' disabled><span class="sc-toggle-slider"></span></label>'
+    +'</div>'
+    +'<div class="sc-skill-desc">'+s.desc+'</div>'
+    +'<div class="sc-skill-badges">'
+    +'<span class="sc-skill-badge '+(s.active?'active':'inactive')+'">'+(s.active?'활성':'비활성')+'</span>'
+    +'<span class="sc-skill-badge '+srcCls+'">'+(s.type==='builtin'?'내장':'커스텀')+'</span>'
+    +'</div>'
+    +'<div class="sc-skill-last">마지막 사용: '+s.lastUsed+'</div>'
+    +'</div>';
 }
 
 async function renderSecurityDashboard(){
