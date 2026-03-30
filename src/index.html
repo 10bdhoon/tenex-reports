@@ -410,6 +410,8 @@ body.sidebar-collapsed .header-toggle{display:flex}
 .system-content .sc-cron-stat .stat-num.red{color:#ef4444}
 .system-content .sc-cron-stat .stat-num.gray{color:#94a3b8}
 .system-content .sc-cron-stat .stat-num.yellow{color:#f59e0b}
+.system-content .sc-cron-stat .stat-num.blue{color:#2563EB}
+[data-theme="dark"] .system-content .sc-cron-stat .stat-num.blue{color:#60a5fa}
 .system-content .sc-cron-stat .stat-num.navy{color:#002855}
 [data-theme="dark"] .system-content .sc-cron-stat .stat-num.navy{color:#5b9bd5}
 .system-content .sc-cron-stat .stat-label{font-size:12px;color:var(--text-secondary);margin-top:4px}
@@ -825,6 +827,7 @@ body.sidebar-collapsed .header-toggle{display:flex}
       <div class="nav-item" data-system-page="deploy"><span class="icon">🚀</span><span class="label">배포</span></div>
       <div class="nav-item" data-system-page="system"><span class="icon">🖥️</span><span class="label">시스템 현황</span></div>
       <div class="nav-item" data-system-page="heartbeat"><span class="icon">💓</span><span class="label">하트비트</span></div>
+      <div class="nav-item" data-system-page="skills"><span class="icon">🧩</span><span class="label">스킬</span></div>
       <div class="nav-item" data-system-page="security"><span class="icon">🔒</span><span class="label">보안</span></div>
     </div>
   </nav>
@@ -1875,8 +1878,9 @@ function openSystemPage(href,title){
   closeMobile();
 }
 
-const SYSTEM_PAGE_TITLES={cron:'🔄 크론 대시보드',deploy:'🚀 배포 현황',system:'🖥️ 자동화 시스템 현황',heartbeat:'💓 하트비트 모니터링',security:'🔒 보안 현황'};
-const SYSTEM_RENDERERS={system:renderSystemStatus,heartbeat:renderHeartbeatDashboard,security:renderSecurityDashboard};
+const SYSTEM_PAGE_TITLES={cron:'🔄 크론 대시보드',deploy:'🚀 배포 현황',system:'🖥️ 자동화 시스템 현황',heartbeat:'💓 하트비트 모니터링',skills:'🧩 스킬 대시보드',security:'🔒 보안 현황'};
+const SYSTEM_RENDERERS={system:renderSystemStatus};
+const SYSTEM_ASYNC_RENDERERS={cron:renderCronDashboard,deploy:renderDeployDashboard,heartbeat:renderHeartbeatDashboard,skills:renderSkillsDashboard,security:renderSecurityDashboard};
 
 function openSystemDashboard(page,label){
   switchView('system');
@@ -1889,10 +1893,9 @@ function openSystemDashboard(page,label){
   iframeWrap.style.display='none';
   newTabBtn.style.display='none';
   document.getElementById('systemViewTitle').textContent=SYSTEM_PAGE_TITLES[page]||label||'';
-  if(page==='cron'||page==='deploy'){
+  if(SYSTEM_ASYNC_RENDERERS[page]){
     contentEl.innerHTML='<div style="text-align:center;padding:40px;color:var(--text-secondary)">로딩 중...</div>';
-    const asyncRenderer=page==='cron'?renderCronDashboard:renderDeployDashboard;
-    asyncRenderer().then(html=>{contentEl.innerHTML=html;});
+    SYSTEM_ASYNC_RENDERERS[page]().then(html=>{contentEl.innerHTML=html;});
   } else {
     const renderer=SYSTEM_RENDERERS[page];
     contentEl.innerHTML=renderer?renderer():'';
@@ -2157,80 +2160,162 @@ function renderSystemStatus(){
   return h;
 }
 
-function renderHeartbeatDashboard(){
-  const agents=[
-    {name:'카리나',icon:'👑',model:'Claude Opus',channel:'텔레그램',channelColor:'cyan',role:'총괄',status:'온라인'},
-    {name:'마실장',icon:'📈',model:'Claude Opus',channel:'슬랙 #d1_광고-퍼포먼스',channelColor:'orange',role:'마케팅 실장',status:'온라인'},
-    {name:'개실장',icon:'⚙️',model:'Claude Opus',channel:'슬랙 #d2_개발-시스템',channelColor:'blue',role:'개발 실장',status:'온라인'},
-    {name:'고실장',icon:'🎧',model:'Claude Opus',channel:'슬랙 #d3_고객-경험',channelColor:'green',role:'고객성공 실장',status:'온라인'},
-    {name:'콘실장',icon:'🎬',model:'Claude Opus',channel:'슬랙 #d4_콘텐츠-채널',channelColor:'orange',role:'콘텐츠 실장',status:'온라인'},
-  ];
-  let h='';
-  h+='<div class="sc-summary">';
-  h+='<div class="sc-sum-card"><div class="num navy">'+agents.length+'</div><div class="sc-label">전체 에이전트</div></div>';
-  h+='<div class="sc-sum-card"><div class="num green">'+agents.filter(a=>a.status==='온라인').length+'</div><div class="sc-label">온라인</div></div>';
-  h+='</div>';
-  h+='<div class="sc-section-title">🤖 에이전트 현황</div>';
-  h+='<div class="sc-hb-grid">';
-  agents.forEach(a=>{
-    h+='<div class="sc-hb-card">';
-    h+='<div class="card-top"><div class="agent-name"><span class="sc-pulse"></span> '+a.name+'</div><div class="agent-icon">'+a.icon+'</div></div>';
-    h+='<div class="info-row"><span class="rlabel">모델</span><span class="sc-tag navy">'+a.model+'</span></div>';
-    h+='<div class="info-row"><span class="rlabel">채널</span><span class="sc-tag '+a.channelColor+'">'+a.channel+'</span></div>';
-    h+='<div class="info-row"><span class="rlabel">역할</span>'+a.role+'</div>';
-    h+='<div class="info-row"><span class="rlabel">상태</span><span class="sc-status-badge online">'+a.status+'</span></div>';
-    h+='</div>';
-  });
-  h+='</div>';
-  h+='<p class="sc-footer">최종 업데이트: 2026-03-27 | 데이터 소스: HEARTBEAT.md</p>';
-  return h;
+function toggleHbDetail(idx){
+  const det=document.getElementById('hbDetail'+idx);
+  const arrow=document.getElementById('hbArrow'+idx);
+  if(!det)return;
+  const isOpen=det.classList.contains('open');
+  if(isOpen){det.classList.remove('open');if(arrow)arrow.classList.remove('open');}
+  else{det.classList.add('open');if(arrow)arrow.classList.add('open');}
 }
 
-function renderSecurityDashboard(){
-  const apis=[
-    {icon:'🛒',name:'Cafe24 API',usage:'주문/상품 관리',badge:'auto',badgeLabel:'토큰 자동 갱신'},
-    {icon:'📊',name:'Meta Marketing API',usage:'광고 성과 조회',badge:'ok',badgeLabel:'정상'},
-    {icon:'▶️',name:'YouTube Data API',usage:'채널/영상 데이터',badge:'ok',badgeLabel:'정상'},
-    {icon:'📝',name:'Notion API',usage:'태스크 관리',badge:'ok',badgeLabel:'정상'},
-    {icon:'📈',name:'Mixpanel API',usage:'이벤트 분석',badge:'ok',badgeLabel:'정상'},
-    {icon:'💬',name:'Slack Bot',usage:'채널 메시징',badge:'ok',badgeLabel:'정상'},
-    {icon:'✨',name:'Google Gemini',usage:'AI 생성',badge:'ok',badgeLabel:'정상'},
-  ];
-  const perms=[
-    {icon:'👑',name:'카리나',scope:'전체 권한'},
-    {icon:'📈',name:'마실장',scope:'마케팅/광고 영역'},
-    {icon:'⚙️',name:'개실장',scope:'개발/시스템 영역'},
-    {icon:'🎧',name:'고실장',scope:'고객/CS 영역'},
-    {icon:'🎬',name:'콘실장',scope:'콘텐츠/채널 영역'},
-  ];
-  let h='';
-  h+='<div class="sc-summary">';
-  h+='<div class="sc-sum-card"><div class="num navy">'+apis.length+'</div><div class="sc-label">API 서비스</div></div>';
-  h+='<div class="sc-sum-card"><div class="num green">'+apis.length+'</div><div class="sc-label">정상</div></div>';
-  h+='</div>';
-  h+='<div class="sc-section-title">🔑 API 토큰 현황</div>';
-  h+='<div class="sc-sec-grid">';
-  apis.forEach(a=>{
-    h+='<div class="sc-sec-card"><div class="card-top"><div class="svc-name">'+a.icon+' '+a.name+'</div></div>';
-    h+='<div class="info-row"><span class="rlabel">용도</span>'+a.usage+'</div>';
-    h+='<div class="info-row"><span class="rlabel">상태</span><span class="sc-status-badge '+a.badge+'">'+a.badgeLabel+'</span></div>';
+async function renderHeartbeatDashboard(){
+  try{
+    const res=await fetch('/data/heartbeat-status.json?t='+Date.now());
+    const data=await res.json();
+    const agents=data.agents||[];
+    const total=agents.length;
+    const activeCount=agents.filter(a=>a.status==='active').length;
+    let h='';
+    h+='<div class="sc-cron-stats">';
+    h+='<div class="sc-cron-stat"><div class="stat-num navy">'+total+'</div><div class="stat-label">전체 에이전트</div></div>';
+    h+='<div class="sc-cron-stat"><div class="stat-num green">'+activeCount+'</div><div class="stat-label">활성</div></div>';
+    h+='<div class="sc-cron-stat"><div class="stat-num gray">'+(total-activeCount)+'</div><div class="stat-label">비활성</div></div>';
     h+='</div>';
-  });
-  h+='</div>';
-  h+='<div class="sc-section-title">🖥️ 서버 정보</div>';
-  h+='<div class="sc-info-box">';
-  h+='<div class="row"><span class="rlabel">하드웨어</span><span class="val">Mac Mini M4</span></div>';
-  h+='<div class="row"><span class="rlabel">운영체제</span><span class="val">macOS Sequoia</span></div>';
-  h+='<div class="row"><span class="rlabel">네트워크</span><span class="val">Tailscale 100.95.220.26</span></div>';
-  h+='</div>';
-  h+='<div class="sc-section-title">👤 에이전트 권한</div>';
-  h+='<div class="sc-perm-grid">';
-  perms.forEach(p=>{
-    h+='<div class="sc-perm-card"><div class="agent">'+p.icon+' '+p.name+'</div><div class="scope">'+p.scope+'</div></div>';
-  });
-  h+='</div>';
-  h+='<p class="sc-footer">최종 업데이트: 2026-03-27</p>';
-  return h;
+    h+='<div class="sc-section-title">🤖 에이전트 현황</div>';
+    h+='<div class="sc-hb-grid">';
+    agents.forEach((a,idx)=>{
+      const isActive=a.status==='active';
+      h+='<div class="sc-hb-card'+(isActive?'':' status-inactive')+'">';
+      h+='<div class="sc-hb-header" onclick="toggleHbDetail('+idx+')">';
+      h+='<div class="sc-hb-left">';
+      h+='<span class="agent-icon">'+a.icon+'</span>';
+      h+='<div><div class="agent-name"><span class="sc-pulse'+(isActive?'':' inactive')+'"></span> '+a.name+'</div>';
+      h+='<div class="agent-role">'+a.role+'</div></div>';
+      h+='</div>';
+      h+='<div class="sc-hb-right">';
+      h+='<span class="sc-status-badge '+(isActive?'online':'')+'">'+( isActive?'활성':'비활성')+'</span>';
+      h+='<span class="sc-hb-arrow" id="hbArrow'+idx+'">&#9660;</span>';
+      h+='</div></div>';
+      h+='<div class="sc-hb-meta">';
+      h+='<span>⏱️ 마지막 체크: '+a.lastCheck+'</span>';
+      h+='<span>🔁 간격: '+a.interval+'</span>';
+      h+='</div>';
+      // Accordion detail
+      h+='<div class="sc-hb-detail" id="hbDetail'+idx+'">';
+      h+='<div class="sc-hb-detail-inner">';
+      if(a.checks&&a.checks.length){
+        h+='<div class="sc-detail-title">✅ 체크 항목</div>';
+        h+='<div class="sc-check-list">';
+        a.checks.forEach(c=>{h+='<span class="sc-check-item">'+c+'</span>';});
+        h+='</div>';
+      }
+      if(a.lessons&&a.lessons.length){
+        h+='<div class="sc-detail-title">⚠️ 과거 교훈</div>';
+        a.lessons.forEach(l=>{h+='<div class="sc-lesson-item">'+l+'</div>';});
+      }
+      if((!a.checks||!a.checks.length)&&(!a.lessons||!a.lessons.length)){
+        h+='<div style="font-size:12px;color:var(--text-secondary);padding:8px 0">등록된 상세 정보가 없습니다</div>';
+      }
+      h+='</div></div>'; // end detail-inner, detail
+      h+='</div>'; // end card
+    });
+    h+='</div>';
+    h+='<div class="sc-cron-updated">업데이트: '+data.updatedAt+' | 데이터 소스: heartbeat-status.json</div>';
+    return h;
+  }catch(e){
+    return '<div style="text-align:center;padding:40px;color:var(--text-secondary)">하트비트 상태를 불러올 수 없습니다</div>';
+  }
+}
+
+async function renderSkillsDashboard(){
+  try{
+    const res=await fetch('/data/skills-status.json?t='+Date.now());
+    const data=await res.json();
+    const skills=data.skills||[];
+    const total=skills.length;
+    const activeCount=skills.filter(s=>s.active).length;
+    const builtinCount=skills.filter(s=>s.type==='builtin').length;
+    let h='';
+    h+='<div class="sc-cron-stats">';
+    h+='<div class="sc-cron-stat"><div class="stat-num navy">'+total+'</div><div class="stat-label">전체 스킬</div></div>';
+    h+='<div class="sc-cron-stat"><div class="stat-num green">'+activeCount+'</div><div class="stat-label">활성</div></div>';
+    h+='<div class="sc-cron-stat"><div class="stat-num blue">'+builtinCount+'</div><div class="stat-label">내장</div></div>';
+    h+='<div class="sc-cron-stat"><div class="stat-num yellow">'+(total-builtinCount)+'</div><div class="stat-label">커스텀</div></div>';
+    h+='</div>';
+    h+='<div class="sc-section-title">🧩 스킬 목록</div>';
+    h+='<div class="sc-skill-grid">';
+    skills.forEach(s=>{
+      h+='<div class="sc-skill-card">';
+      h+='<div class="sc-skill-top">';
+      h+='<span class="sc-skill-icon">'+s.icon+'</span>';
+      h+='<div style="flex:1"><div class="sc-skill-name">'+s.name+'</div></div>';
+      h+='<div class="sc-skill-toggle'+(s.active?' on':'')+'"></div>';
+      h+='</div>';
+      h+='<div class="sc-skill-desc">'+s.desc+'</div>';
+      h+='<div class="sc-skill-badges">';
+      h+='<span class="sc-skill-badge '+(s.active?'active':'inactive')+'">'+(s.active?'활성':'비활성')+'</span>';
+      h+='<span class="sc-skill-badge '+(s.type==='builtin'?'builtin':'custom')+'">'+(s.type==='builtin'?'내장':'커스텀')+'</span>';
+      h+='</div>';
+      h+='<div class="sc-skill-last">마지막 사용: '+s.lastUsed+'</div>';
+      h+='</div>';
+    });
+    h+='</div>';
+    h+='<div class="sc-cron-updated">업데이트: '+data.updatedAt+' | 데이터 소스: skills-status.json</div>';
+    return h;
+  }catch(e){
+    return '<div style="text-align:center;padding:40px;color:var(--text-secondary)">스킬 상태를 불러올 수 없습니다</div>';
+  }
+}
+
+async function renderSecurityDashboard(){
+  try{
+    const res=await fetch('/data/security-status.json?t='+Date.now());
+    const data=await res.json();
+    const tokens=data.tokens||[];
+    const checklist=data.checklist||[];
+    const total=tokens.length;
+    const activeCount=tokens.filter(t=>t.status==='active').length;
+    const warnCount=tokens.filter(t=>t.status==='warning').length;
+    const doneCount=checklist.filter(c=>c.done).length;
+    const statusLabels={active:'정상',warning:'주의',expired:'만료'};
+    let h='';
+    h+='<div class="sc-cron-stats">';
+    h+='<div class="sc-cron-stat"><div class="stat-num navy">'+total+'</div><div class="stat-label">전체 토큰</div></div>';
+    h+='<div class="sc-cron-stat"><div class="stat-num green">'+activeCount+'</div><div class="stat-label">정상</div></div>';
+    h+='<div class="sc-cron-stat"><div class="stat-num yellow">'+warnCount+'</div><div class="stat-label">주의</div></div>';
+    h+='<div class="sc-cron-stat"><div class="stat-num blue">'+doneCount+'/'+checklist.length+'</div><div class="stat-label">보안 체크</div></div>';
+    h+='</div>';
+    // Token table
+    h+='<div class="sc-section-title">🔑 API 키 / 토큰 현황</div>';
+    h+='<table class="sc-sec-table">';
+    h+='<thead><tr><th>이름</th><th>타입</th><th>상태</th><th>마지막 갱신</th><th>만료</th></tr></thead>';
+    h+='<tbody>';
+    tokens.forEach(t=>{
+      h+='<tr>';
+      h+='<td style="font-weight:600">'+t.name+'</td>';
+      h+='<td><span class="sc-sec-type">'+t.type+'</span></td>';
+      h+='<td><span class="sc-sec-status '+t.status+'">'+(statusLabels[t.status]||t.status)+'</span></td>';
+      h+='<td>'+t.lastRefresh+'</td>';
+      h+='<td>'+t.expiresIn+'</td>';
+      h+='</tr>';
+    });
+    h+='</tbody></table>';
+    // Checklist
+    h+='<div class="sc-section-title">✅ 보안 체크리스트</div>';
+    h+='<div class="sc-checklist">';
+    checklist.forEach(c=>{
+      h+='<div class="sc-checklist-item">';
+      h+='<span class="sc-checklist-check '+(c.done?'done':'undone')+'">'+(c.done?'✓':'')+'</span>';
+      h+='<span'+(c.done?'':' style="color:var(--text-secondary)"')+'>'+c.item+'</span>';
+      h+='</div>';
+    });
+    h+='</div>';
+    h+='<div class="sc-cron-updated">업데이트: '+data.updatedAt+' | 데이터 소스: security-status.json</div>';
+    return h;
+  }catch(e){
+    return '<div style="text-align:center;padding:40px;color:var(--text-secondary)">보안 상태를 불러올 수 없습니다</div>';
+  }
 }
 
 async function initTaskBoard(){
