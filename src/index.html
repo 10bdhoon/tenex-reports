@@ -767,6 +767,9 @@ body.sidebar-collapsed .header-toggle{display:flex}
 .task-card .tc-delete:hover{opacity:1;color:#ef4444;background:rgba(239,68,68,0.1)}
 .task-card.done-card{opacity:.6}
 .task-card.done-card .tc-title{text-decoration:line-through;color:var(--text-secondary)}
+.tb-loading{display:flex;align-items:center;justify-content:center;gap:10px;padding:60px;color:var(--text-secondary);font-size:14px}
+.tb-spinner{width:20px;height:20px;border:2px solid var(--border);border-top-color:var(--accent);border-radius:50%;animation:spin .6s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
 .tb-empty{text-align:center;color:var(--text-secondary);padding:40px;font-size:14px}
 .tb-stats{display:flex;gap:16px;margin-bottom:16px;flex-wrap:wrap}
 .tb-stat{background:var(--bg-card);border:1px solid var(--border);border-radius:10px;padding:10px 16px;min-width:80px;text-align:center}
@@ -798,6 +801,10 @@ body.sidebar-collapsed .header-toggle{display:flex}
 .tb-cat-task.done-task .tb-cat-task-title{text-decoration:line-through;color:var(--text-secondary);opacity:.6}
 .tb-cat-task-badges{display:flex;gap:4px;align-items:center;flex-shrink:0}
 .tb-cat-task-badges .urgency-dot{font-size:10px}
+.cl-badge{font-size:10px;padding:1px 5px;border-radius:6px;background:rgba(59,130,246,0.1);color:#3b82f6;font-weight:600}
+[data-theme="dark"] .cl-badge{background:rgba(59,130,246,0.15);color:#93c5fd}
+.cl-badge.cl-done{background:rgba(16,185,129,0.1);color:#10b981}
+[data-theme="dark"] .cl-badge.cl-done{background:rgba(16,185,129,0.15);color:#6ee7b7}
 .tb-cat-task-badges .imp-badge{font-size:10px;padding:1px 5px;border-radius:6px;background:#ede9fe;color:#7c3aed;font-weight:600}
 [data-theme="dark"] .tb-cat-task-badges .imp-badge{background:rgba(139,92,246,0.15);color:#c4b5fd}
 .tb-cat-task-badges .due-badge{font-size:10px;color:var(--text-secondary)}
@@ -1075,6 +1082,7 @@ body.sidebar-collapsed .header-toggle{display:flex}
             <button class="btn-cancel" id="tbCancelBtn">취소</button>
           </div>
         </div>
+        <div id="tbLoading" class="tb-loading"><div class="tb-spinner"></div><span>데이터 로딩 중...</span></div>
         <div id="tbTaskList"></div>
         <div class="tb-empty" id="tbEmpty" style="display:none">해당하는 업무가 없습니다.</div>
       </div>
@@ -1605,9 +1613,25 @@ function renderTbTasks(){
   let html='<div class="tb-cat-grid">';
   catCards.forEach(({cat,tasks})=>{
     const allCatTasks=tbTasks.filter(t=>t.cat===cat.key);
+    // 진행률: task status + 체크리스트 완료율 가중 평균
+    let totalWeight=0,doneWeight=0;
+    allCatTasks.forEach(t=>{
+      const cl=t.checklist||[];
+      if(cl.length>0){
+        // 체크리스트 있는 task: status 50% + 체크리스트 완료율 50%
+        const clDone=cl.filter(c=>c.done).length;
+        const clPct=clDone/cl.length;
+        const statusPct=t.status==='done'?1:0;
+        totalWeight+=1;
+        doneWeight+=(statusPct*0.5+clPct*0.5);
+      } else {
+        totalWeight+=1;
+        doneWeight+=(t.status==='done'?1:0);
+      }
+    });
     const doneCount=allCatTasks.filter(t=>t.status==='done').length;
     const totalCount=allCatTasks.length;
-    const pct=totalCount?Math.round(doneCount/totalCount*100):0;
+    const pct=totalWeight?Math.round(doneWeight/totalWeight*100):0;
     html+='<div class="tb-cat-card" data-cat="'+cat.key+'">';
     html+='<div class="tb-cat-card-header"><span class="cat-icon">'+cat.icon+'</span>'+cat.label+'<span class="cat-task-count">'+tasks.length+'건</span></div>';
     html+='<div class="tb-cat-card-body" data-cat="'+cat.key+'">';
@@ -1625,7 +1649,9 @@ function renderTbTasks(){
         html+='<input type="checkbox" class="'+cbClass+'" data-tid="'+t.id+'"'+cbChecked+' title="'+TB_STATUS_LABEL[t.status]+'">';
         html+='<span class="tb-cat-task-status" data-tid="'+t.id+'" title="클릭하여 상태 변경">'+TB_STATUS_EMOJI[t.status]+'</span>';
         html+='<span class="tb-cat-task-title" data-tid="'+t.id+'" title="'+escapeHtml(t.title)+'">'+escapeHtml(t.title)+'</span>';
-        html+='<span class="tb-cat-task-badges"><span class="urgency-dot">'+urgDot+'</span><span class="imp-badge">'+t.importance+'</span>'+(t.due?'<span class="due-badge">'+t.due+'</span>':'')+'</span>';
+        const cl=t.checklist||[];
+        const clBadge=cl.length>0?'<span class="cl-badge'+(cl.every(c=>c.done)?' cl-done':'')+'">☑'+cl.filter(c=>c.done).length+'/'+cl.length+'</span>':'';
+        html+='<span class="tb-cat-task-badges">'+clBadge+'<span class="urgency-dot">'+urgDot+'</span><span class="imp-badge">'+t.importance+'</span>'+(t.due?'<span class="due-badge">'+t.due+'</span>':'')+'</span>';
         html+='<button class="tb-cat-task-delete" data-tid="'+t.id+'" title="삭제">✕</button>';
         html+='</div>';
         html+='</div>';
@@ -2002,7 +2028,11 @@ function renderDetailBody(task){
   clAddInput.onkeydown=e=>{if(e.key==='Enter')addClItem()};
 }
 
-function renderTbAll(){renderTbStats();renderTbFilters();renderTbStatusBar();renderTbTasks()}
+let _renderRaf=null;
+function renderTbAll(){
+  if(_renderRaf)return; // 이미 예약됨 — 중복 방지
+  _renderRaf=requestAnimationFrame(()=>{_renderRaf=null;renderTbStats();renderTbFilters();renderTbStatusBar();renderTbTasks()});
+}
 
 function switchView(view){
   currentView=view;
@@ -2731,6 +2761,7 @@ async function renderDependencyGraph(){
 
 async function initTaskBoard(){
   await Promise.all([loadTasksFromJson(),loadAgentDataFromJson()]);
+  const ldEl=document.getElementById('tbLoading');if(ldEl)ldEl.style.display='none';
   // Sidebar nav click
   document.getElementById('navTaskboard').onclick=()=>{
     switchView('taskboard');closeMobile();
