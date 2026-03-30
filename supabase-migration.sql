@@ -103,6 +103,7 @@ CREATE POLICY "task_history_select" ON task_history FOR SELECT USING (true);
 CREATE INDEX idx_tasks_status ON tasks(status);
 CREATE INDEX idx_tasks_cat ON tasks(cat);
 CREATE INDEX idx_tasks_assignee ON tasks(assignee);
-CREATE INDEX idx_checklists_task_id ON checklists(task_id);
+-- checklists 별도 테이블 전환 시 추가:
+-- CREATE INDEX idx_checklists_task_id ON checklists(task_id);
 CREATE INDEX idx_task_history_task_id ON task_history(task_id);
 CREATE INDEX idx_task_history_changed_at ON task_history(changed_at);
