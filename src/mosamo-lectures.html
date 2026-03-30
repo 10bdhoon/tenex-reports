@@ -7169,36 +7169,26 @@ details.transcript-accordion .transcript-body{padding:16px;max-height:500px;over
 <script>
 let currentLec = null;
 
+// nav-item 1~74 → haeil-lesson file ID 매핑
+const LECTURE_FILES = [998165,998240,998244,998262,998263,998492,998495,998497,998498,998499,1005347,1006588,1006612,1011017,1011018,1011019,1011026,1011028,1011033,1011034,1011035,1011036,1011038,1011039,1014489,1014490,1014491,1014497,1014498,1014501,1014502,1014503,1029047,1033839,1033841,1035418,1043765,1043768,1054213,1054222,1064595,1064609,1064615,1090893,1090894,1164660,1164662,1184164,1195879,1202173,1202174,1202175,1211380,1211382,1211383,1214612,1225819,1225939,1232174,1243792,1245988,1245990,1252169,1259758,1259761,1259763,1259764,1269143,1269144,1269147,1297981,1305452,1305453,1305454];
+
 function showLecture(num) {
-  // Hide all
   document.querySelectorAll('.lecture-content').forEach(el => el.style.display = 'none');
   document.getElementById('welcome').style.display = 'none';
-
-  // Show selected
   const el = document.getElementById('lec-' + num);
   if (el) el.style.display = 'block';
-
-  // Update nav
   document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
   const navItem = document.querySelector('.nav-item[data-num="' + num + '"]');
   if (navItem) navItem.classList.add('active');
-
   currentLec = num;
-
-  // Mobile: close sidebar
   if (window.innerWidth <= 768) {
     document.getElementById('sidebar').classList.remove('show');
   }
-
-  // Scroll to top
   window.scrollTo(0, 0);
 }
 
 function switchTab(lecNum, partIdx) {
-  const lec = document.getElementById('lec-' + lecNum);
-  if (!lec) return;
-  lec.querySelectorAll('.tab-panel').forEach((p, i) => p.style.display = i === partIdx ? 'block' : 'none');
-  lec.querySelectorAll('.tab-btn').forEach((b, i) => b.classList.toggle('active', i === partIdx));
+  // kept for backward compat but tabs are merged on load
 }
 
 function filterNav() {
@@ -7213,8 +7203,73 @@ function toggleSidebar() {
   document.getElementById('sidebar').classList.toggle('show');
 }
 
-// Auto-show first lecture
-showLecture(1);
+function openLessonPage(num, e) {
+  e.stopPropagation();
+  const fileId = LECTURE_FILES[num - 1];
+  if (fileId) window.open('/haeil-lesson-' + fileId + '.html', '_blank');
+}
+
+// DOM 초기화: 탭 병합, 전사 원문 accordion, ↗ 아이콘
+(function init() {
+  // 1) 탭 병합: tab-bar 제거, 모든 tab-panel 표시
+  document.querySelectorAll('.tab-bar').forEach(bar => bar.remove());
+  document.querySelectorAll('.tab-panel').forEach(panel => {
+    panel.style.display = 'block';
+  });
+
+  // 2) timeline-item → 전사 원문 accordion으로 감싸기
+  document.querySelectorAll('.lecture-content').forEach(lec => {
+    const items = lec.querySelectorAll('.timeline-item');
+    if (!items.length) return;
+
+    // 연속된 timeline-item 그룹 찾기
+    const groups = [];
+    let currentGroup = [];
+    items.forEach(item => {
+      // 타임스탬프 추출 → data-ts 속성으로
+      const text = item.textContent;
+      const tsMatch = text.match(/^\[([^\]]+)\]/);
+      if (tsMatch) {
+        item.setAttribute('data-ts', tsMatch[1]);
+        item.textContent = text.replace(/^\[[^\]]+\]\s*/, '');
+      }
+      if (currentGroup.length && item.previousElementSibling !== currentGroup[currentGroup.length - 1]) {
+        groups.push(currentGroup);
+        currentGroup = [];
+      }
+      currentGroup.push(item);
+    });
+    if (currentGroup.length) groups.push(currentGroup);
+
+    groups.forEach(group => {
+      const details = document.createElement('details');
+      details.className = 'transcript-accordion';
+      const summary = document.createElement('summary');
+      summary.textContent = '전사 원문 보기 (' + group.length + '개 항목)';
+      details.appendChild(summary);
+      const body = document.createElement('div');
+      body.className = 'transcript-body';
+      group[0].parentNode.insertBefore(details, group[0]);
+      group.forEach(item => body.appendChild(item));
+      details.appendChild(body);
+    });
+  });
+
+  // 3) 사이드바 ↗ 아이콘 추가
+  document.querySelectorAll('.nav-item').forEach(item => {
+    const num = parseInt(item.getAttribute('data-num'));
+    if (!LECTURE_FILES[num - 1]) return;
+    const link = document.createElement('span');
+    link.className = 'nav-ext';
+    link.textContent = '↗';
+    link.title = '개별 강의 페이지 열기';
+    link.onclick = function(e) { openLessonPage(num, e); };
+    item.appendChild(link);
+  });
+
+  // Auto-show first lecture
+  showLecture(1);
+})();
 </script>
 </body>
 </html>
