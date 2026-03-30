@@ -1,129 +1,2576 @@
 <!DOCTYPE html>
-<html lang="ko">
-<head><script src="auth.js"></script>
+<html lang="ko" data-theme="dark">
+<head>
+<script src="auth.js"></script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>하트비트 모니터링 — Tenex</title>
+<title>💓 하트비트 모니터링 — Tenex</title>
 <style>
-*{margin:0;padding:0;box-sizing:border-box}
-body{font-family:-apple-system,BlinkMacSystemFont,sans-serif;background:#0f172a;color:#e2e8f0}
-.header{background:#1a1a2e;color:#fff;padding:24px 32px;display:flex;align-items:center;gap:16px}
-.header h1{font-size:24px;font-weight:700}
-.header a{color:#8b8ba7;font-size:13px;text-decoration:none}
-.header a:hover{color:#fff}
-.content{max-width:1100px;margin:24px auto;padding:0 16px}
-
-.summary{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:12px;margin-bottom:32px}
-.sum-card{background:#1e293b;border:1px solid #334155;border-radius:10px;padding:16px;text-align:center}
-.sum-card .num{font-size:28px;font-weight:800}
-.sum-card .num.navy{color:#60a5fa}
-.sum-card .num.green{color:#16A34A}
-.sum-card .label{font-size:12px;color:#94a3b8;margin-top:4px}
-
-h2{color:#5b9bd5;font-size:18px;margin:32px 0 16px;font-weight:700}
-
-.hb-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:20px;margin-bottom:32px}
-.hb-card{background:#1e293b;border:1px solid #334155;border-radius:14px;padding:24px;transition:border-color .2s}
-.hb-card:hover{border-color:#002855}
-.hb-card .card-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px}
-.hb-card .agent-name{font-size:18px;font-weight:700;color:#f1f5f9;display:flex;align-items:center;gap:8px}
-.hb-card .agent-icon{font-size:32px}
-
-.status-badge{display:inline-block;padding:4px 12px;border-radius:6px;font-size:11px;font-weight:700}
-.status-badge.online{background:#064e3b;color:#34d399}
-.status-badge.offline{background:#7f1d1d;color:#fca5a5}
-
-.hb-card .info-row{display:flex;align-items:center;gap:8px;margin-bottom:8px;font-size:13px;color:#94a3b8}
-.hb-card .info-row .label{min-width:60px;color:#64748b;font-weight:600}
-
-.tag{display:inline-block;padding:3px 10px;border-radius:6px;font-size:11px;font-weight:600}
-.tag.navy{background:#001a3a;color:#5b9bd5}
-.tag.green{background:#052e16;color:#4ade80}
-.tag.cyan{background:#083344;color:#22d3ee}
-.tag.orange{background:#431407;color:#fb923c}
-.tag.blue{background:#1e3a5f;color:#60a5fa}
-
-.pulse{display:inline-block;width:8px;height:8px;border-radius:50%;background:#34d399;animation:pulse-anim 2s infinite}
-@keyframes pulse-anim{0%,100%{opacity:1}50%{opacity:.3}}
-
-@media(max-width:640px){
-  .header{padding:16px;flex-wrap:wrap}
-  .content{padding:0 8px}
-  .hb-grid{grid-template-columns:1fr}
+/* ===== CSS 변수 (다크/라이트 테마) ===== */
+:root {
+  --accent: #7C3AED;
+  --accent-light: #9D5CF6;
+  --accent-dim: rgba(124,58,237,0.15);
+  --accent-glow: rgba(124,58,237,0.4);
+  --green: #10B981;
+  --green-dim: rgba(16,185,129,0.15);
+  --red: #EF4444;
+  --red-dim: rgba(239,68,68,0.15);
+  --orange: #F59E0B;
+  --orange-dim: rgba(245,158,11,0.15);
+  --blue: #3B82F6;
+  --blue-dim: rgba(59,130,246,0.15);
+  --cyan: #06B6D4;
+  --cyan-dim: rgba(6,182,212,0.15);
+  --border-radius: 14px;
+  --border-radius-sm: 8px;
+  --transition: 0.2s ease;
 }
+
+[data-theme="dark"] {
+  --bg: #0A0F1E;
+  --bg-card: #111827;
+  --bg-card-hover: #1A2236;
+  --bg-input: #1F2937;
+  --border: #1E293B;
+  --border-hover: #334155;
+  --text-primary: #F1F5F9;
+  --text-secondary: #94A3B8;
+  --text-muted: #4B5563;
+  --header-bg: #0D1117;
+  --shadow: 0 4px 24px rgba(0,0,0,0.4);
+  --shadow-lg: 0 8px 40px rgba(0,0,0,0.6);
+}
+
+[data-theme="light"] {
+  --bg: #F1F5F9;
+  --bg-card: #FFFFFF;
+  --bg-card-hover: #F8FAFC;
+  --bg-input: #F1F5F9;
+  --border: #E2E8F0;
+  --border-hover: #CBD5E1;
+  --text-primary: #0F172A;
+  --text-secondary: #475569;
+  --text-muted: #94A3B8;
+  --header-bg: #FFFFFF;
+  --shadow: 0 2px 12px rgba(0,0,0,0.08);
+  --shadow-lg: 0 8px 32px rgba(0,0,0,0.12);
+}
+
+/* ===== 리셋 & 기본 ===== */
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans KR', sans-serif;
+  background: var(--bg);
+  color: var(--text-primary);
+  min-height: 100vh;
+  transition: background var(--transition), color var(--transition);
+  line-height: 1.5;
+}
+
+/* ===== 헤더 ===== */
+.header {
+  background: var(--header-bg);
+  border-bottom: 1px solid var(--border);
+  padding: 16px 32px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: var(--shadow);
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.back-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--text-secondary);
+  text-decoration: none;
+  font-size: 13px;
+  font-weight: 500;
+  padding: 6px 12px;
+  border-radius: var(--border-radius-sm);
+  border: 1px solid var(--border);
+  transition: all var(--transition);
+  white-space: nowrap;
+}
+
+.back-btn:hover {
+  color: var(--text-primary);
+  border-color: var(--border-hover);
+  background: var(--bg-input);
+}
+
+.header-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.header-title h1 {
+  font-size: 20px;
+  font-weight: 800;
+  color: var(--text-primary);
+  letter-spacing: -0.3px;
+}
+
+.header-title .subtitle {
+  font-size: 12px;
+  color: var(--text-secondary);
+  background: var(--accent-dim);
+  color: var(--accent-light);
+  padding: 2px 8px;
+  border-radius: 99px;
+  font-weight: 600;
+}
+
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.live-indicator {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  color: var(--green);
+  font-weight: 600;
+}
+
+.live-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--green);
+  animation: live-pulse 2s ease-in-out infinite;
+}
+
+@keyframes live-pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.5; transform: scale(0.8); }
+}
+
+.theme-toggle {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--bg-input);
+  border: 1px solid var(--border);
+  border-radius: 99px;
+  padding: 5px 14px;
+  cursor: pointer;
+  font-size: 12px;
+  color: var(--text-secondary);
+  font-weight: 600;
+  transition: all var(--transition);
+}
+
+.theme-toggle:hover {
+  border-color: var(--accent);
+  color: var(--accent-light);
+}
+
+#last-updated {
+  font-size: 11px;
+  color: var(--text-muted);
+}
+
+/* ===== 메인 콘텐츠 ===== */
+.main {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 32px 24px 64px;
+}
+
+/* ===== 섹션 헤더 ===== */
+.section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.section-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.section-title h2 {
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.section-title .section-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  background: var(--accent-dim);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+}
+
+/* ===== 히어로 시스템 상태 ===== */
+.hero-section {
+  margin-bottom: 40px;
+}
+
+.hero-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr;
+  gap: 16px;
+}
+
+.hero-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--border-radius);
+  padding: 24px;
+  transition: all var(--transition);
+  box-shadow: var(--shadow);
+  position: relative;
+  overflow: hidden;
+}
+
+.hero-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0;
+  right: 0; height: 3px;
+  border-radius: var(--border-radius) var(--border-radius) 0 0;
+}
+
+.hero-card.accent::before { background: linear-gradient(90deg, var(--accent), var(--accent-light)); }
+.hero-card.green::before { background: linear-gradient(90deg, var(--green), #34D399); }
+.hero-card.blue::before { background: linear-gradient(90deg, var(--blue), #60A5FA); }
+.hero-card.orange::before { background: linear-gradient(90deg, var(--orange), #FCD34D); }
+
+.hero-card:hover {
+  border-color: var(--border-hover);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-lg);
+}
+
+.gateway-card {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.gateway-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.gateway-header .gateway-title {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.gateway-status-badge {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 12px;
+  border-radius: 99px;
+  font-size: 12px;
+  font-weight: 700;
+  background: var(--green-dim);
+  color: var(--green);
+  border: 1px solid rgba(16,185,129,0.3);
+}
+
+.gateway-status-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--green);
+  animation: live-pulse 1.5s ease-in-out infinite;
+}
+
+.gateway-info-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+}
+
+.gateway-info-label {
+  color: var(--text-muted);
+  min-width: 80px;
+  font-weight: 500;
+}
+
+.gateway-info-value {
+  color: var(--text-secondary);
+  font-family: 'SF Mono', 'Fira Code', monospace;
+  font-size: 12px;
+}
+
+.gateway-info-value.highlight {
+  color: var(--accent-light);
+  font-weight: 700;
+}
+
+.metric-card {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.metric-label {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.metric-value {
+  font-size: 36px;
+  font-weight: 900;
+  line-height: 1;
+  letter-spacing: -1px;
+}
+
+.metric-value.accent { color: var(--accent-light); }
+.metric-value.green { color: var(--green); }
+.metric-value.blue { color: var(--blue); }
+.metric-value.orange { color: var(--orange); }
+
+.metric-sub {
+  font-size: 12px;
+  color: var(--text-muted);
+}
+
+/* ===== 필터 버튼 ===== */
+.filter-bar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.filter-btn {
+  padding: 6px 14px;
+  border-radius: 99px;
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--text-secondary);
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all var(--transition);
+}
+
+.filter-btn:hover, .filter-btn.active {
+  background: var(--accent-dim);
+  border-color: var(--accent);
+  color: var(--accent-light);
+}
+
+.filter-btn.active-green {
+  background: var(--green-dim);
+  border-color: var(--green);
+  color: var(--green);
+}
+
+.filter-btn.active-red {
+  background: var(--red-dim);
+  border-color: var(--red);
+  color: var(--red);
+}
+
+/* ===== 에이전트 카드 그리드 ===== */
+.agents-section { margin-bottom: 40px; }
+
+.agents-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 16px;
+}
+
+.agent-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--border-radius);
+  overflow: hidden;
+  transition: all var(--transition);
+  box-shadow: var(--shadow);
+  cursor: pointer;
+}
+
+.agent-card:hover {
+  border-color: var(--border-hover);
+  box-shadow: var(--shadow-lg);
+  transform: translateY(-2px);
+}
+
+.agent-card.expanded {
+  border-color: var(--accent);
+}
+
+.agent-card-main {
+  padding: 20px;
+}
+
+.agent-card-top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 16px;
+}
+
+.agent-identity {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.agent-icon-wrap {
+  width: 52px;
+  height: 52px;
+  border-radius: 14px;
+  background: var(--accent-dim);
+  border: 1px solid var(--accent-glow);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 26px;
+  position: relative;
+  flex-shrink: 0;
+}
+
+.agent-icon-wrap.karina { background: rgba(251,191,36,0.1); border-color: rgba(251,191,36,0.3); }
+.agent-icon-wrap.marketing { background: rgba(245,158,11,0.1); border-color: rgba(245,158,11,0.3); }
+.agent-icon-wrap.dev { background: rgba(124,58,237,0.1); border-color: rgba(124,58,237,0.3); }
+.agent-icon-wrap.cx { background: rgba(6,182,212,0.1); border-color: rgba(6,182,212,0.3); }
+.agent-icon-wrap.content { background: rgba(239,68,68,0.15); border-color: rgba(239,68,68,0.3); }
+
+.online-pulse-ring {
+  position: absolute;
+  top: -3px; right: -3px;
+  width: 14px; height: 14px;
+  border-radius: 50%;
+  background: var(--green);
+  border: 2px solid var(--bg-card);
+}
+
+.online-pulse-ring::after {
+  content: '';
+  position: absolute;
+  inset: -3px;
+  border-radius: 50%;
+  border: 2px solid var(--green);
+  animation: ring-pulse 2s ease-out infinite;
+}
+
+.offline-indicator {
+  position: absolute;
+  top: -3px; right: -3px;
+  width: 14px; height: 14px;
+  border-radius: 50%;
+  background: var(--red);
+  border: 2px solid var(--bg-card);
+}
+
+@keyframes ring-pulse {
+  0% { transform: scale(1); opacity: 0.8; }
+  100% { transform: scale(2.2); opacity: 0; }
+}
+
+.agent-name-group {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.agent-name {
+  font-size: 18px;
+  font-weight: 800;
+  color: var(--text-primary);
+  letter-spacing: -0.3px;
+}
+
+.agent-role {
+  font-size: 12px;
+  color: var(--text-secondary);
+  font-weight: 500;
+}
+
+.agent-card-top-right {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 6px;
+}
+
+.status-badge {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 4px 10px;
+  border-radius: 99px;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.status-badge.online {
+  background: var(--green-dim);
+  color: var(--green);
+  border: 1px solid rgba(16,185,129,0.3);
+}
+
+.status-badge.offline {
+  background: var(--red-dim);
+  color: var(--red);
+  border: 1px solid rgba(239,68,68,0.3);
+}
+
+.status-dot {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+}
+
+.status-dot.online { background: var(--green); animation: live-pulse 2s infinite; }
+.status-dot.offline { background: var(--red); }
+
+.last-seen {
+  font-size: 11px;
+  color: var(--text-muted);
+}
+
+.agent-card-meta {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.meta-item {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.meta-key {
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.meta-value {
+  font-size: 12px;
+  color: var(--text-secondary);
+  font-weight: 600;
+}
+
+.tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px 8px;
+  border-radius: 6px;
+  font-size: 11px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.tag.accent { background: var(--accent-dim); color: var(--accent-light); }
+.tag.green { background: var(--green-dim); color: var(--green); }
+.tag.cyan { background: var(--cyan-dim); color: var(--cyan); }
+.tag.orange { background: var(--orange-dim); color: var(--orange); }
+.tag.blue { background: var(--blue-dim); color: var(--blue); }
+.tag.red { background: var(--red-dim); color: var(--red); }
+
+.heartbeat-progress {
+  margin-bottom: 12px;
+}
+
+.progress-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 6px;
+}
+
+.progress-label {
+  font-size: 11px;
+  color: var(--text-muted);
+  font-weight: 600;
+}
+
+.progress-value {
+  font-size: 11px;
+  color: var(--text-secondary);
+  font-family: 'SF Mono', monospace;
+}
+
+.progress-bar {
+  height: 4px;
+  background: var(--border);
+  border-radius: 99px;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  border-radius: 99px;
+  background: linear-gradient(90deg, var(--accent), var(--accent-light));
+  transition: width 1s ease;
+}
+
+.progress-fill.green {
+  background: linear-gradient(90deg, var(--green), #34D399);
+}
+
+.accordion-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  font-size: 12px;
+  color: var(--text-muted);
+  padding: 8px;
+  border-top: 1px solid var(--border);
+  margin: 0 -20px -20px;
+  transition: all var(--transition);
+}
+
+.accordion-toggle:hover {
+  color: var(--accent-light);
+  background: var(--accent-dim);
+}
+
+.accordion-arrow {
+  font-size: 10px;
+  transition: transform var(--transition);
+}
+
+.agent-card.expanded .accordion-arrow {
+  transform: rotate(180deg);
+}
+
+/* ===== 아코디언 상세 ===== */
+.accordion-body {
+  display: none;
+  padding: 20px;
+  border-top: 1px solid var(--border);
+  background: var(--bg);
+}
+
+.agent-card.expanded .accordion-body {
+  display: block;
+}
+
+.accordion-section-title {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  margin-bottom: 10px;
+  margin-top: 16px;
+}
+
+.accordion-section-title:first-child { margin-top: 0; }
+
+.checklist {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.check-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  color: var(--text-secondary);
+}
+
+.check-icon {
+  width: 18px; height: 18px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;
+  flex-shrink: 0;
+}
+
+.check-icon.pass { background: var(--green-dim); color: var(--green); }
+.check-icon.fail { background: var(--red-dim); color: var(--red); }
+.check-icon.warn { background: var(--orange-dim); color: var(--orange); }
+
+.activity-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.activity-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  font-size: 12px;
+}
+
+.activity-time {
+  color: var(--text-muted);
+  font-family: monospace;
+  white-space: nowrap;
+  min-width: 42px;
+}
+
+.activity-text {
+  color: var(--text-secondary);
+  line-height: 1.4;
+}
+
+/* ===== 하트비트 타임라인 ===== */
+.timeline-section { margin-bottom: 40px; }
+
+.timeline-table {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--border-radius);
+  overflow: hidden;
+  box-shadow: var(--shadow);
+}
+
+.timeline-header-row {
+  display: grid;
+  grid-template-columns: 160px 1fr;
+  background: var(--bg);
+  border-bottom: 1px solid var(--border);
+  padding: 12px 20px;
+}
+
+.timeline-header-agent {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.timeline-hours {
+  display: flex;
+  justify-content: space-between;
+}
+
+.timeline-hour {
+  font-size: 10px;
+  color: var(--text-muted);
+  font-family: monospace;
+}
+
+.timeline-row {
+  display: grid;
+  grid-template-columns: 160px 1fr;
+  padding: 12px 20px;
+  border-bottom: 1px solid var(--border);
+  align-items: center;
+  transition: background var(--transition);
+}
+
+.timeline-row:last-child { border-bottom: none; }
+.timeline-row:hover { background: var(--bg-card-hover); }
+
+.timeline-agent-info {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.timeline-agent-icon { font-size: 18px; }
+
+.timeline-agent-name {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.timeline-agent-period {
+  font-size: 10px;
+  color: var(--text-muted);
+}
+
+.timeline-bar-area {
+  position: relative;
+  height: 28px;
+  background: var(--bg);
+  border-radius: 6px;
+  overflow: hidden;
+  border: 1px solid var(--border);
+}
+
+.timeline-now-line {
+  position: absolute;
+  top: 0; bottom: 0;
+  width: 1px;
+  background: var(--accent);
+  opacity: 0.7;
+  z-index: 2;
+}
+
+.timeline-now-line::before {
+  content: 'NOW';
+  position: absolute;
+  top: -1px;
+  left: 3px;
+  font-size: 7px;
+  color: var(--accent-light);
+  font-weight: 700;
+  letter-spacing: 0.3px;
+}
+
+.timeline-beat {
+  position: absolute;
+  top: 4px; bottom: 4px;
+  border-radius: 3px;
+  opacity: 0.9;
+}
+
+.timeline-beat.hit { background: var(--green); }
+.timeline-beat.miss { background: var(--red); opacity: 0.6; }
+.timeline-beat.expected {
+  background: var(--accent);
+  border: 1px dashed var(--accent-light);
+  opacity: 0.4;
+}
+
+.timeline-legend {
+  display: flex;
+  gap: 16px;
+  margin-top: 12px;
+  padding: 0 20px;
+  padding-bottom: 12px;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  color: var(--text-muted);
+}
+
+.legend-dot {
+  width: 10px; height: 10px;
+  border-radius: 2px;
+}
+
+/* ===== 조직도 ===== */
+.org-section { margin-bottom: 40px; }
+
+.org-chart {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--border-radius);
+  padding: 40px 32px;
+  box-shadow: var(--shadow);
+  overflow-x: auto;
+}
+
+.org-tree {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0;
+}
+
+.org-level {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 0;
+  position: relative;
+  width: 100%;
+}
+
+.org-node-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.org-node {
+  background: var(--bg);
+  border: 2px solid var(--border);
+  border-radius: var(--border-radius);
+  padding: 14px 20px;
+  text-align: center;
+  transition: all var(--transition);
+  white-space: nowrap;
+  min-width: 130px;
+  cursor: default;
+}
+
+.org-node:hover {
+  border-color: var(--accent);
+  background: var(--accent-dim);
+  box-shadow: 0 0 0 3px var(--accent-glow);
+}
+
+.org-node.ceo { border-color: var(--orange); }
+.org-node.ceo:hover { background: var(--orange-dim); box-shadow: 0 0 0 3px rgba(245,158,11,0.2); }
+
+.org-node.lead {
+  border-color: var(--accent);
+  background: var(--accent-dim);
+}
+
+.org-node.member { border-color: var(--border-hover); }
+
+.org-icon { font-size: 28px; margin-bottom: 4px; }
+.org-name { font-size: 14px; font-weight: 800; color: var(--text-primary); }
+.org-title { font-size: 11px; color: var(--text-secondary); margin-top: 2px; }
+.org-model { font-size: 10px; color: var(--text-muted); margin-top: 4px; }
+
+.org-connector-v {
+  width: 2px;
+  background: var(--border-hover);
+  height: 32px;
+}
+
+.org-connector-h-wrap {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  position: relative;
+  width: 100%;
+  padding: 0 20px;
+}
+
+.org-horizontal-line {
+  position: absolute;
+  top: 0;
+  height: 2px;
+  background: var(--border-hover);
+}
+
+.org-sub-group {
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+}
+
+.org-sub-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.org-sub-connector {
+  width: 2px;
+  height: 30px;
+  background: var(--border-hover);
+}
+
+.org-channel-badge {
+  margin-top: 6px;
+  padding: 2px 8px;
+  border-radius: 99px;
+  font-size: 10px;
+  font-weight: 600;
+}
+
+/* ===== 하트비트 체크 항목 ===== */
+.checks-section { margin-bottom: 40px; }
+
+.checks-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 16px;
+}
+
+.check-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--border-radius);
+  padding: 20px;
+  box-shadow: var(--shadow);
+  transition: all var(--transition);
+}
+
+.check-card:hover {
+  border-color: var(--border-hover);
+  box-shadow: var(--shadow-lg);
+}
+
+.check-card-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 14px;
+}
+
+.check-card-icon { font-size: 22px; }
+
+.check-card-title {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.check-card-period {
+  font-size: 11px;
+  color: var(--text-muted);
+  margin-left: auto;
+}
+
+.check-items {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.check-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 12px;
+  padding: 6px 8px;
+  border-radius: 6px;
+  transition: background var(--transition);
+}
+
+.check-row:hover { background: var(--bg); }
+
+.check-name {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  color: var(--text-secondary);
+}
+
+.check-status-badge {
+  padding: 2px 8px;
+  border-radius: 99px;
+  font-size: 10px;
+  font-weight: 700;
+}
+
+.check-status-badge.ok { background: var(--green-dim); color: var(--green); }
+.check-status-badge.warn { background: var(--orange-dim); color: var(--orange); }
+.check-status-badge.fail { background: var(--red-dim); color: var(--red); }
+.check-status-badge.skip { background: var(--border); color: var(--text-muted); }
+
+/* ===== 게이트웨이 모니터 ===== */
+.gateway-section { margin-bottom: 40px; }
+
+.gateway-monitor-grid {
+  display: grid;
+  grid-template-columns: 1.5fr 1fr 1fr;
+  gap: 16px;
+}
+
+.gateway-monitor-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--border-radius);
+  padding: 24px;
+  box-shadow: var(--shadow);
+  transition: all var(--transition);
+}
+
+.gateway-monitor-card:hover {
+  border-color: var(--border-hover);
+  box-shadow: var(--shadow-lg);
+}
+
+.gm-title {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.gm-main {
+  display: flex;
+  align-items: flex-end;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.gm-value {
+  font-size: 40px;
+  font-weight: 900;
+  line-height: 1;
+  letter-spacing: -1px;
+}
+
+.gm-unit {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-muted);
+  margin-bottom: 6px;
+}
+
+.gm-sub {
+  font-size: 12px;
+  color: var(--text-muted);
+}
+
+.ping-chart {
+  display: flex;
+  align-items: flex-end;
+  gap: 4px;
+  height: 60px;
+  margin-top: 16px;
+}
+
+.ping-bar {
+  flex: 1;
+  border-radius: 3px 3px 0 0;
+  background: var(--accent);
+  opacity: 0.6;
+  min-height: 4px;
+  transition: height 0.5s ease;
+}
+
+.ping-bar.current { opacity: 1; }
+
+.uptime-ring-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+.uptime-ring {
+  position: relative;
+  width: 100px;
+  height: 100px;
+}
+
+.uptime-ring svg {
+  transform: rotate(-90deg);
+}
+
+.uptime-ring-text {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.uptime-percent {
+  font-size: 20px;
+  font-weight: 900;
+  color: var(--green);
+  line-height: 1;
+}
+
+.uptime-label {
+  font-size: 9px;
+  color: var(--text-muted);
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.service-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.service-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 12px;
+  padding: 8px 10px;
+  border-radius: 8px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+}
+
+.service-name {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  color: var(--text-secondary);
+  font-weight: 500;
+}
+
+.service-dot {
+  width: 7px; height: 7px;
+  border-radius: 50%;
+}
+
+.service-dot.up { background: var(--green); animation: live-pulse 2s infinite; }
+.service-dot.down { background: var(--red); }
+.service-dot.warn { background: var(--orange); animation: live-pulse 2s infinite; }
+
+.service-meta {
+  font-size: 11px;
+  color: var(--text-muted);
+  font-family: monospace;
+}
+
+/* ===== 푸터 ===== */
+.footer {
+  text-align: center;
+  padding: 24px;
+  color: var(--text-muted);
+  font-size: 12px;
+  border-top: 1px solid var(--border);
+}
+
+/* ===== 반응형 ===== */
+@media (max-width: 1024px) {
+  .hero-grid { grid-template-columns: 1fr 1fr; }
+  .gateway-monitor-grid { grid-template-columns: 1fr 1fr; }
+}
+
+@media (max-width: 768px) {
+  .header { padding: 14px 16px; flex-wrap: wrap; gap: 12px; }
+  .main { padding: 20px 16px 48px; }
+  .hero-grid { grid-template-columns: 1fr 1fr; }
+  .agents-grid { grid-template-columns: 1fr; }
+  .gateway-monitor-grid { grid-template-columns: 1fr; }
+  .checks-grid { grid-template-columns: 1fr; }
+  .timeline-row { grid-template-columns: 110px 1fr; }
+  .header-title h1 { font-size: 17px; }
+  .org-sub-group { gap: 8px; }
+  .org-node { min-width: 100px; padding: 10px 12px; }
+  .org-name { font-size: 12px; }
+  #last-updated { display: none; }
+}
+
+@media (max-width: 480px) {
+  .hero-grid { grid-template-columns: 1fr; }
+  .agent-card-meta { grid-template-columns: 1fr; }
+  .header-right .live-indicator { display: none; }
+}
+
+/* ===== 애니메이션 ===== */
+@keyframes fade-in {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.hero-card, .agent-card, .check-card, .gateway-monitor-card {
+  animation: fade-in 0.4s ease both;
+}
+
+.hero-card:nth-child(1) { animation-delay: 0.0s; }
+.hero-card:nth-child(2) { animation-delay: 0.05s; }
+.hero-card:nth-child(3) { animation-delay: 0.1s; }
+.hero-card:nth-child(4) { animation-delay: 0.15s; }
+
+.agent-card:nth-child(1) { animation-delay: 0.1s; }
+.agent-card:nth-child(2) { animation-delay: 0.15s; }
+.agent-card:nth-child(3) { animation-delay: 0.2s; }
+.agent-card:nth-child(4) { animation-delay: 0.25s; }
+.agent-card:nth-child(5) { animation-delay: 0.3s; }
+
+/* ===== 스크롤바 ===== */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--border-hover); border-radius: 99px; }
+::-webkit-scrollbar-thumb:hover { background: var(--text-muted); }
 </style>
 </head>
 <body>
-<div class="header"><h1>💓 하트비트 모니터링</h1><a href="index.html">← 보고서 목록</a></div>
 
-<div class="content">
-
-<div class="summary">
-  <div class="sum-card"><div class="num navy">5</div><div class="label">전체 에이전트</div></div>
-  <div class="sum-card"><div class="num green">5</div><div class="label">온라인</div></div>
-</div>
-
-<h2>🤖 에이전트 현황</h2>
-<div class="hb-grid">
-
-  <div class="hb-card">
-    <div class="card-top">
-      <div class="agent-name"><span class="pulse"></span> 카리나</div>
-      <div class="agent-icon">👑</div>
+<!-- ===== 헤더 ===== -->
+<header class="header">
+  <div class="header-left">
+    <a href="index.html" class="back-btn">← 보고서 목록</a>
+    <div class="header-title">
+      <h1>💓 하트비트 모니터링</h1>
+      <span class="subtitle">LIVE</span>
     </div>
-    <div class="info-row"><span class="label">모델</span><span class="tag navy">Claude Opus</span></div>
-    <div class="info-row"><span class="label">채널</span><span class="tag cyan">텔레그램</span></div>
-    <div class="info-row"><span class="label">역할</span>총괄</div>
-    <div class="info-row"><span class="label">상태</span><span class="status-badge online">온라인</span></div>
   </div>
-
-  <div class="hb-card">
-    <div class="card-top">
-      <div class="agent-name"><span class="pulse"></span> 마실장</div>
-      <div class="agent-icon">📈</div>
+  <div class="header-right">
+    <div class="live-indicator">
+      <span class="live-dot"></span>
+      실시간 모니터링
     </div>
-    <div class="info-row"><span class="label">모델</span><span class="tag navy">Claude Opus</span></div>
-    <div class="info-row"><span class="label">채널</span><span class="tag orange">슬랙 #d1_광고-퍼포먼스</span></div>
-    <div class="info-row"><span class="label">역할</span>마케팅 실장</div>
-    <div class="info-row"><span class="label">상태</span><span class="status-badge online">온라인</span></div>
+    <span id="last-updated">업데이트 중...</span>
+    <button class="theme-toggle" onclick="toggleTheme()">
+      <span id="theme-icon">☀️</span>
+      <span id="theme-label">라이트</span>
+    </button>
   </div>
+</header>
 
-  <div class="hb-card">
-    <div class="card-top">
-      <div class="agent-name"><span class="pulse"></span> 개실장</div>
-      <div class="agent-icon">⚙️</div>
+<!-- ===== 메인 ===== -->
+<main class="main">
+
+  <!-- ===== 1. 시스템 상태 히어로 ===== -->
+  <section class="hero-section">
+    <div class="section-header" style="margin-bottom:16px;">
+      <div class="section-title">
+        <div class="section-icon">🖥️</div>
+        <h2>시스템 상태</h2>
+      </div>
     </div>
-    <div class="info-row"><span class="label">모델</span><span class="tag navy">Claude Opus</span></div>
-    <div class="info-row"><span class="label">채널</span><span class="tag blue">슬랙 #d2_개발-시스템</span></div>
-    <div class="info-row"><span class="label">역할</span>개발 실장</div>
-    <div class="info-row"><span class="label">상태</span><span class="status-badge online">온라인</span></div>
-  </div>
+    <div class="hero-grid">
 
-  <div class="hb-card">
-    <div class="card-top">
-      <div class="agent-name"><span class="pulse"></span> 고실장</div>
-      <div class="agent-icon">🎧</div>
+      <!-- Gateway 메인 카드 -->
+      <div class="hero-card accent gateway-card">
+        <div class="gateway-header">
+          <span class="gateway-title">OpenClaw Gateway</span>
+          <span class="gateway-status-badge">
+            <span class="gateway-status-dot"></span>
+            RUNNING
+          </span>
+        </div>
+        <div class="gateway-info-row">
+          <span class="gateway-info-label">호스트</span>
+          <span class="gateway-info-value highlight">Mac mini · 192.168.0.234</span>
+        </div>
+        <div class="gateway-info-row">
+          <span class="gateway-info-label">PID</span>
+          <span class="gateway-info-value">1061</span>
+        </div>
+        <div class="gateway-info-row">
+          <span class="gateway-info-label">OS</span>
+          <span class="gateway-info-value">macOS 26.3.1 (arm64)</span>
+        </div>
+        <div class="gateway-info-row">
+          <span class="gateway-info-label">Node.js</span>
+          <span class="gateway-info-value">v25.6.0</span>
+        </div>
+        <div class="gateway-info-row">
+          <span class="gateway-info-label">엔드포인트</span>
+          <span class="gateway-info-value">127.0.0.1:18789</span>
+        </div>
+      </div>
+
+      <!-- 세션 수 -->
+      <div class="hero-card blue">
+        <div class="metric-label">활성 세션</div>
+        <div class="metric-value blue">305</div>
+        <div class="metric-sub">전체 OpenClaw 세션</div>
+      </div>
+
+      <!-- 에이전트 수 -->
+      <div class="hero-card green">
+        <div class="metric-label">온라인 에이전트</div>
+        <div class="metric-value green" id="online-count">5</div>
+        <div class="metric-sub" id="agent-ratio">5 / 5 활성</div>
+      </div>
+
+      <!-- 하트비트 -->
+      <div class="hero-card orange">
+        <div class="metric-label">하트비트 이벤트</div>
+        <div class="metric-value orange" id="total-beats">47</div>
+        <div class="metric-sub">오늘 24시간 기준</div>
+      </div>
+
     </div>
-    <div class="info-row"><span class="label">모델</span><span class="tag navy">Claude Opus</span></div>
-    <div class="info-row"><span class="label">채널</span><span class="tag green">슬랙 #d3_고객-경험</span></div>
-    <div class="info-row"><span class="label">역할</span>고객성공 실장</div>
-    <div class="info-row"><span class="label">상태</span><span class="status-badge online">온라인</span></div>
-  </div>
+  </section>
 
-  <div class="hb-card">
-    <div class="card-top">
-      <div class="agent-name"><span class="pulse"></span> 콘실장</div>
-      <div class="agent-icon">🎬</div>
+  <!-- ===== 2. 에이전트 카드 그리드 ===== -->
+  <section class="agents-section">
+    <div class="section-header">
+      <div class="section-title">
+        <div class="section-icon">🤖</div>
+        <h2>에이전트 현황</h2>
+      </div>
+      <div class="filter-bar">
+        <button class="filter-btn active" onclick="filterAgents('all', this)">전체 (5)</button>
+        <button class="filter-btn" onclick="filterAgents('online', this)">온라인 (5)</button>
+        <button class="filter-btn" onclick="filterAgents('offline', this)">오프라인 (0)</button>
+      </div>
     </div>
-    <div class="info-row"><span class="label">모델</span><span class="tag navy">Claude Opus</span></div>
-    <div class="info-row"><span class="label">채널</span><span class="tag orange">슬랙 #d4_콘텐츠-채널</span></div>
-    <div class="info-row"><span class="label">역할</span>콘텐츠 실장</div>
-    <div class="info-row"><span class="label">상태</span><span class="status-badge online">온라인</span></div>
-  </div>
+    <div class="agents-grid" id="agents-grid">
 
-</div>
+      <!-- 카리나 -->
+      <div class="agent-card" data-status="online" data-id="karina" onclick="toggleCard(this)">
+        <div class="agent-card-main">
+          <div class="agent-card-top">
+            <div class="agent-identity">
+              <div class="agent-icon-wrap karina">
+                👑
+                <span class="online-pulse-ring"></span>
+              </div>
+              <div class="agent-name-group">
+                <span class="agent-name">카리나</span>
+                <span class="agent-role">총괄 비서</span>
+              </div>
+            </div>
+            <div class="agent-card-top-right">
+              <span class="status-badge online">
+                <span class="status-dot online"></span>
+                온라인
+              </span>
+              <span class="last-seen" data-ts="always">상시 활성</span>
+            </div>
+          </div>
 
-<p style="text-align:center;color:#64748b;font-size:12px;margin:40px 0 20px">최종 업데이트: 2026-03-27 | 데이터 소스: HEARTBEAT.md</p>
-</div>
+          <div class="agent-card-meta">
+            <div class="meta-item">
+              <span class="meta-key">워크스페이스</span>
+              <span class="meta-value">main</span>
+            </div>
+            <div class="meta-item">
+              <span class="meta-key">모델</span>
+              <span class="tag accent">Claude Opus</span>
+            </div>
+            <div class="meta-item">
+              <span class="meta-key">채널</span>
+              <span class="tag cyan">텔레그램</span>
+            </div>
+            <div class="meta-item">
+              <span class="meta-key">하트비트</span>
+              <span class="tag green">없음 (상시)</span>
+            </div>
+          </div>
+
+          <div class="heartbeat-progress">
+            <div class="progress-header">
+              <span class="progress-label">응답 가용성</span>
+              <span class="progress-value">100%</span>
+            </div>
+            <div class="progress-bar">
+              <div class="progress-fill green" style="width:100%"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="accordion-body">
+          <div class="accordion-section-title">📋 하트비트 체크 항목</div>
+          <div class="checklist">
+            <div class="check-item"><span class="check-icon pass">✓</span>텔레그램 봇 연결 상태</div>
+            <div class="check-item"><span class="check-icon pass">✓</span>OpenClaw Gateway 응답 확인</div>
+            <div class="check-item"><span class="check-icon pass">✓</span>에이전트 세션 활성화 확인</div>
+            <div class="check-item"><span class="check-icon pass">✓</span>보류 중인 메시지 처리</div>
+            <div class="check-item"><span class="check-icon pass">✓</span>일정 알림 발송 상태</div>
+          </div>
+          <div class="accordion-section-title">🕐 최근 활동</div>
+          <div class="activity-list">
+            <div class="activity-item">
+              <span class="activity-time">17:20</span>
+              <span class="activity-text">태훈 대표님 슬랙 지시 수신 → 개실장 위임</span>
+            </div>
+            <div class="activity-item">
+              <span class="activity-time">15:45</span>
+              <span class="activity-text">일정 리마인더 발송 완료</span>
+            </div>
+            <div class="activity-item">
+              <span class="activity-time">14:00</span>
+              <span class="activity-text">하트비트 대시보드 리뉴얼 지시</span>
+            </div>
+          </div>
+          <div class="accordion-section-title">ℹ️ 시스템 정보</div>
+          <div class="checklist">
+            <div class="check-item"><span class="check-icon pass">✓</span>역할: 총괄 비서 (보고 허브)</div>
+            <div class="check-item"><span class="check-icon pass">✓</span>채널: 텔레그램 DM</div>
+            <div class="check-item"><span class="check-icon pass">✓</span>지휘 체계: 태훈 직속</div>
+          </div>
+        </div>
+
+        <div class="accordion-toggle">
+          상세 보기 <span class="accordion-arrow">▼</span>
+        </div>
+      </div>
+
+      <!-- 마실장 -->
+      <div class="agent-card" data-status="online" data-id="marketing" onclick="toggleCard(this)">
+        <div class="agent-card-main">
+          <div class="agent-card-top">
+            <div class="agent-identity">
+              <div class="agent-icon-wrap marketing">
+                📈
+                <span class="online-pulse-ring"></span>
+              </div>
+              <div class="agent-name-group">
+                <span class="agent-name">마실장</span>
+                <span class="agent-role">마케팅실 총괄</span>
+              </div>
+            </div>
+            <div class="agent-card-top-right">
+              <span class="status-badge online">
+                <span class="status-dot online"></span>
+                온라인
+              </span>
+              <span class="last-seen" data-ts="14400">4시간 전</span>
+            </div>
+          </div>
+
+          <div class="agent-card-meta">
+            <div class="meta-item">
+              <span class="meta-key">워크스페이스</span>
+              <span class="meta-value">marketing-lead</span>
+            </div>
+            <div class="meta-item">
+              <span class="meta-key">모델</span>
+              <span class="tag accent">Claude Opus</span>
+            </div>
+            <div class="meta-item">
+              <span class="meta-key">채널</span>
+              <span class="tag orange">슬랙 #d1_광고-퍼포먼스</span>
+            </div>
+            <div class="meta-item">
+              <span class="meta-key">하트비트</span>
+              <span class="tag blue">4시간</span>
+            </div>
+          </div>
+
+          <div class="heartbeat-progress">
+            <div class="progress-header">
+              <span class="progress-label">다음 하트비트까지</span>
+              <span class="progress-value" id="prog-marketing">계산 중...</span>
+            </div>
+            <div class="progress-bar">
+              <div class="progress-fill" id="fill-marketing" style="width:50%"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="accordion-body">
+          <div class="accordion-section-title">📋 하트비트 체크 항목 (4시간 주기)</div>
+          <div class="checklist">
+            <div class="check-item"><span class="check-icon pass">✓</span>광고 성과 지표 수집 (CPC, CTR, ROAS)</div>
+            <div class="check-item"><span class="check-icon pass">✓</span>슬랙 채널 메시지 수신 확인</div>
+            <div class="check-item"><span class="check-icon pass">✓</span>캠페인 예산 소진율 점검</div>
+            <div class="check-item"><span class="check-icon pass">✓</span>SNS 조회수 수집 (sns-views-collect)</div>
+            <div class="check-item"><span class="check-icon warn">!</span>광고 A/B 테스트 결과 분석 (진행 중)</div>
+          </div>
+          <div class="accordion-section-title">🕐 최근 활동</div>
+          <div class="activity-list">
+            <div class="activity-item">
+              <span class="activity-time">13:00</span>
+              <span class="activity-text">4시간 하트비트 — 광고 지표 정상 수집</span>
+            </div>
+            <div class="activity-item">
+              <span class="activity-time">09:00</span>
+              <span class="activity-text">일간 광고 성과 보고서 발행</span>
+            </div>
+            <div class="activity-item">
+              <span class="activity-time">08:30</span>
+              <span class="activity-text">SNS 조회수 자동 수집 완료</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="accordion-toggle">
+          상세 보기 <span class="accordion-arrow">▼</span>
+        </div>
+      </div>
+
+      <!-- 개실장 -->
+      <div class="agent-card" data-status="online" data-id="dev" onclick="toggleCard(this)">
+        <div class="agent-card-main">
+          <div class="agent-card-top">
+            <div class="agent-identity">
+              <div class="agent-icon-wrap dev">
+                ⚙️
+                <span class="online-pulse-ring"></span>
+              </div>
+              <div class="agent-name-group">
+                <span class="agent-name">개실장</span>
+                <span class="agent-role">개발실 총괄</span>
+              </div>
+            </div>
+            <div class="agent-card-top-right">
+              <span class="status-badge online">
+                <span class="status-dot online"></span>
+                온라인
+              </span>
+              <span class="last-seen" data-ts="7200">2시간 전</span>
+            </div>
+          </div>
+
+          <div class="agent-card-meta">
+            <div class="meta-item">
+              <span class="meta-key">워크스페이스</span>
+              <span class="meta-value">dev</span>
+            </div>
+            <div class="meta-item">
+              <span class="meta-key">모델</span>
+              <span class="tag accent">Claude Opus</span>
+            </div>
+            <div class="meta-item">
+              <span class="meta-key">채널</span>
+              <span class="tag accent">슬랙 #e_앱-개발</span>
+            </div>
+            <div class="meta-item">
+              <span class="meta-key">하트비트</span>
+              <span class="tag blue">2시간</span>
+            </div>
+          </div>
+
+          <div class="heartbeat-progress">
+            <div class="progress-header">
+              <span class="progress-label">다음 하트비트까지</span>
+              <span class="progress-value" id="prog-dev">계산 중...</span>
+            </div>
+            <div class="progress-bar">
+              <div class="progress-fill" id="fill-dev" style="width:70%"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="accordion-body">
+          <div class="accordion-section-title">📋 하트비트 체크 항목 (2시간 주기)</div>
+          <div class="checklist">
+            <div class="check-item"><span class="check-icon pass">✓</span>OpenClaw Gateway 프로세스 상태 확인</div>
+            <div class="check-item"><span class="check-icon pass">✓</span>launchd 크론잡 전체 상태 점검</div>
+            <div class="check-item"><span class="check-icon pass">✓</span>brain.db (포트 8082) 응답 확인</div>
+            <div class="check-item"><span class="check-icon pass">✓</span>tenex-reports 배포 상태 확인</div>
+            <div class="check-item"><span class="check-icon pass">✓</span>슬랙 채널 메시지 수신 확인</div>
+            <div class="check-item"><span class="check-icon pass">✓</span>에러 로그 점검 (/tmp/tenex-*.log)</div>
+            <div class="check-item"><span class="check-icon pass">✓</span>cafe24-token-refresh 상태 확인</div>
+          </div>
+          <div class="accordion-section-title">🕐 최근 활동</div>
+          <div class="activity-list">
+            <div class="activity-item">
+              <span class="activity-time">17:23</span>
+              <span class="activity-text">하트비트 대시보드 리뉴얼 서브에이전트 실행 중</span>
+            </div>
+            <div class="activity-item">
+              <span class="activity-time">15:00</span>
+              <span class="activity-text">2시간 하트비트 — 모든 서비스 정상</span>
+            </div>
+            <div class="activity-item">
+              <span class="activity-time">13:00</span>
+              <span class="activity-text">tenex-reports-deploy 크론 실행 확인</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="accordion-toggle">
+          상세 보기 <span class="accordion-arrow">▼</span>
+        </div>
+      </div>
+
+      <!-- 고실장 -->
+      <div class="agent-card" data-status="online" data-id="cx" onclick="toggleCard(this)">
+        <div class="agent-card-main">
+          <div class="agent-card-top">
+            <div class="agent-identity">
+              <div class="agent-icon-wrap cx">
+                🎧
+                <span class="online-pulse-ring"></span>
+              </div>
+              <div class="agent-name-group">
+                <span class="agent-name">고실장</span>
+                <span class="agent-role">고객성공실 총괄</span>
+              </div>
+            </div>
+            <div class="agent-card-top-right">
+              <span class="status-badge online">
+                <span class="status-dot online"></span>
+                온라인
+              </span>
+              <span class="last-seen" data-ts="7200">2시간 전</span>
+            </div>
+          </div>
+
+          <div class="agent-card-meta">
+            <div class="meta-item">
+              <span class="meta-key">워크스페이스</span>
+              <span class="meta-value">cx</span>
+            </div>
+            <div class="meta-item">
+              <span class="meta-key">모델</span>
+              <span class="tag accent">Claude Opus</span>
+            </div>
+            <div class="meta-item">
+              <span class="meta-key">채널</span>
+              <span class="tag cyan">슬랙 #d3_고객-경험</span>
+            </div>
+            <div class="meta-item">
+              <span class="meta-key">하트비트</span>
+              <span class="tag blue">2시간</span>
+            </div>
+          </div>
+
+          <div class="heartbeat-progress">
+            <div class="progress-header">
+              <span class="progress-label">다음 하트비트까지</span>
+              <span class="progress-value" id="prog-cx">계산 중...</span>
+            </div>
+            <div class="progress-bar">
+              <div class="progress-fill" id="fill-cx" style="width:40%"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="accordion-body">
+          <div class="accordion-section-title">📋 하트비트 체크 항목 (2시간 주기)</div>
+          <div class="checklist">
+            <div class="check-item"><span class="check-icon pass">✓</span>고객 문의 미처리 건수 확인</div>
+            <div class="check-item"><span class="check-icon pass">✓</span>슬랙 #d3_고객-경험 채널 수신</div>
+            <div class="check-item"><span class="check-icon pass">✓</span>고객 NPS/CSAT 지표 수집</div>
+            <div class="check-item"><span class="check-icon pass">✓</span>이탈 고객 분석 크론 실행 확인</div>
+            <div class="check-item"><span class="check-icon pass">✓</span>CS 응답 SLA 준수율 점검</div>
+          </div>
+          <div class="accordion-section-title">🕐 최근 활동</div>
+          <div class="activity-list">
+            <div class="activity-item">
+              <span class="activity-time">15:00</span>
+              <span class="activity-text">2시간 하트비트 — 미처리 문의 0건</span>
+            </div>
+            <div class="activity-item">
+              <span class="activity-time">13:00</span>
+              <span class="activity-text">고객 이탈 분석 보고 완료</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="accordion-toggle">
+          상세 보기 <span class="accordion-arrow">▼</span>
+        </div>
+      </div>
+
+      <!-- 콘실장 -->
+      <div class="agent-card" data-status="online" data-id="content" onclick="toggleCard(this)">
+        <div class="agent-card-main">
+          <div class="agent-card-top">
+            <div class="agent-identity">
+              <div class="agent-icon-wrap content">
+                🎬
+                <span class="online-pulse-ring"></span>
+              </div>
+              <div class="agent-name-group">
+                <span class="agent-name">콘실장</span>
+                <span class="agent-role">콘텐츠실 총괄</span>
+              </div>
+            </div>
+            <div class="agent-card-top-right">
+              <span class="status-badge online">
+                <span class="status-dot online"></span>
+                온라인
+              </span>
+              <span class="last-seen" data-ts="21600">6시간 전</span>
+            </div>
+          </div>
+
+          <div class="agent-card-meta">
+            <div class="meta-item">
+              <span class="meta-key">워크스페이스</span>
+              <span class="meta-value">content</span>
+            </div>
+            <div class="meta-item">
+              <span class="meta-key">모델</span>
+              <span class="tag accent">Claude Opus</span>
+            </div>
+            <div class="meta-item">
+              <span class="meta-key">채널</span>
+              <span class="tag red">슬랙 #d4_콘텐츠-채널</span>
+            </div>
+            <div class="meta-item">
+              <span class="meta-key">하트비트</span>
+              <span class="tag orange">6시간</span>
+            </div>
+          </div>
+
+          <div class="heartbeat-progress">
+            <div class="progress-header">
+              <span class="progress-label">다음 하트비트까지</span>
+              <span class="progress-value" id="prog-content">계산 중...</span>
+            </div>
+            <div class="progress-bar">
+              <div class="progress-fill" id="fill-content" style="width:20%"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="accordion-body">
+          <div class="accordion-section-title">📋 하트비트 체크 항목 (6시간 주기)</div>
+          <div class="checklist">
+            <div class="check-item"><span class="check-icon pass">✓</span>콘텐츠 발행 큐 상태 확인</div>
+            <div class="check-item"><span class="check-icon pass">✓</span>슬랙 #d4_콘텐츠-채널 수신</div>
+            <div class="check-item"><span class="check-icon pass">✓</span>yt-tracker 크론 실행 확인</div>
+            <div class="check-item"><span class="check-icon pass">✓</span>콘텐츠 조회수/참여율 수집</div>
+            <div class="check-item"><span class="check-icon warn">!</span>영상 스크립트 자동 생성 파이프라인 (점검 중)</div>
+          </div>
+          <div class="accordion-section-title">🕐 최근 활동</div>
+          <div class="activity-list">
+            <div class="activity-item">
+              <span class="activity-time">11:00</span>
+              <span class="activity-text">6시간 하트비트 — 콘텐츠 큐 정상</span>
+            </div>
+            <div class="activity-item">
+              <span class="activity-time">09:30</span>
+              <span class="activity-text">yt-tracker 조회수 수집 완료</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="accordion-toggle">
+          상세 보기 <span class="accordion-arrow">▼</span>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ===== 3. 하트비트 타임라인 ===== -->
+  <section class="timeline-section">
+    <div class="section-header">
+      <div class="section-title">
+        <div class="section-icon">📊</div>
+        <h2>24시간 하트비트 타임라인</h2>
+      </div>
+    </div>
+    <div class="timeline-table">
+      <div class="timeline-header-row">
+        <div class="timeline-header-agent">에이전트</div>
+        <div class="timeline-hours" id="timeline-hours">
+          <!-- JS로 채움 -->
+        </div>
+      </div>
+
+      <!-- 카리나 (상시) -->
+      <div class="timeline-row">
+        <div class="timeline-agent-info">
+          <span class="timeline-agent-icon">👑</span>
+          <div>
+            <div class="timeline-agent-name">카리나</div>
+            <div class="timeline-agent-period">상시</div>
+          </div>
+        </div>
+        <div class="timeline-bar-area" id="timeline-karina">
+          <div class="timeline-now-line" id="now-karina"></div>
+        </div>
+      </div>
+
+      <!-- 마실장 (4h) -->
+      <div class="timeline-row">
+        <div class="timeline-agent-info">
+          <span class="timeline-agent-icon">📈</span>
+          <div>
+            <div class="timeline-agent-name">마실장</div>
+            <div class="timeline-agent-period">4시간</div>
+          </div>
+        </div>
+        <div class="timeline-bar-area" id="timeline-marketing">
+          <div class="timeline-now-line" id="now-marketing"></div>
+        </div>
+      </div>
+
+      <!-- 개실장 (2h) -->
+      <div class="timeline-row">
+        <div class="timeline-agent-info">
+          <span class="timeline-agent-icon">⚙️</span>
+          <div>
+            <div class="timeline-agent-name">개실장</div>
+            <div class="timeline-agent-period">2시간</div>
+          </div>
+        </div>
+        <div class="timeline-bar-area" id="timeline-dev">
+          <div class="timeline-now-line" id="now-dev"></div>
+        </div>
+      </div>
+
+      <!-- 고실장 (2h) -->
+      <div class="timeline-row">
+        <div class="timeline-agent-info">
+          <span class="timeline-agent-icon">🎧</span>
+          <div>
+            <div class="timeline-agent-name">고실장</div>
+            <div class="timeline-agent-period">2시간</div>
+          </div>
+        </div>
+        <div class="timeline-bar-area" id="timeline-cx">
+          <div class="timeline-now-line" id="now-cx"></div>
+        </div>
+      </div>
+
+      <!-- 콘실장 (6h) -->
+      <div class="timeline-row">
+        <div class="timeline-agent-info">
+          <span class="timeline-agent-icon">🎬</span>
+          <div>
+            <div class="timeline-agent-name">콘실장</div>
+            <div class="timeline-agent-period">6시간</div>
+          </div>
+        </div>
+        <div class="timeline-bar-area" id="timeline-content">
+          <div class="timeline-now-line" id="now-content"></div>
+        </div>
+      </div>
+
+      <div class="timeline-legend">
+        <div class="legend-item">
+          <div class="legend-dot" style="background:var(--green)"></div>
+          하트비트 성공
+        </div>
+        <div class="legend-item">
+          <div class="legend-dot" style="background:var(--red);opacity:0.6"></div>
+          하트비트 누락
+        </div>
+        <div class="legend-item">
+          <div class="legend-dot" style="background:var(--accent);opacity:0.4"></div>
+          예정 (미래)
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== 4. 에이전트 조직도 ===== -->
+  <section class="org-section">
+    <div class="section-header">
+      <div class="section-title">
+        <div class="section-icon">🏢</div>
+        <h2>에이전트 조직도</h2>
+      </div>
+    </div>
+    <div class="org-chart">
+      <div class="org-tree">
+
+        <!-- CEO 레벨 -->
+        <div class="org-level">
+          <div class="org-node-wrap">
+            <div class="org-node ceo">
+              <div class="org-icon">👤</div>
+              <div class="org-name">태훈</div>
+              <div class="org-title">CEO</div>
+              <div class="org-model">테넥스 대표</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="org-connector-v"></div>
+
+        <!-- 카리나 레벨 -->
+        <div class="org-level">
+          <div class="org-node-wrap">
+            <div class="org-node lead">
+              <div class="org-icon">👑</div>
+              <div class="org-name">카리나</div>
+              <div class="org-title">총괄 비서</div>
+              <div class="org-model">Claude Opus · 텔레그램</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="org-connector-v"></div>
+
+        <!-- 수평 분기선 -->
+        <div style="width:100%;max-width:800px;position:relative;height:2px;background:var(--border-hover);margin:0 auto;"></div>
+
+        <!-- 서브 커넥터 4개 -->
+        <div style="display:flex;justify-content:center;width:100%;max-width:800px;margin:0 auto;">
+          <div style="flex:1;display:flex;justify-content:center;"><div style="width:2px;height:24px;background:var(--border-hover);"></div></div>
+          <div style="flex:1;display:flex;justify-content:center;"><div style="width:2px;height:24px;background:var(--border-hover);"></div></div>
+          <div style="flex:1;display:flex;justify-content:center;"><div style="width:2px;height:24px;background:var(--border-hover);"></div></div>
+          <div style="flex:1;display:flex;justify-content:center;"><div style="width:2px;height:24px;background:var(--border-hover);"></div></div>
+        </div>
+
+        <!-- 실장 4명 레벨 -->
+        <div style="display:flex;justify-content:center;gap:16px;width:100%;max-width:800px;margin:0 auto;flex-wrap:wrap;">
+
+          <div class="org-node-wrap">
+            <div class="org-node member">
+              <div class="org-icon">📈</div>
+              <div class="org-name">마실장</div>
+              <div class="org-title">마케팅실 총괄</div>
+              <div class="org-model">4h · 슬랙</div>
+            </div>
+            <span class="org-channel-badge tag orange">marketing-lead</span>
+          </div>
+
+          <div class="org-node-wrap">
+            <div class="org-node member">
+              <div class="org-icon">⚙️</div>
+              <div class="org-name">개실장</div>
+              <div class="org-title">개발실 총괄</div>
+              <div class="org-model">2h · 슬랙</div>
+            </div>
+            <span class="org-channel-badge tag accent">dev</span>
+          </div>
+
+          <div class="org-node-wrap">
+            <div class="org-node member">
+              <div class="org-icon">🎧</div>
+              <div class="org-name">고실장</div>
+              <div class="org-title">고객성공실 총괄</div>
+              <div class="org-model">2h · 슬랙</div>
+            </div>
+            <span class="org-channel-badge tag cyan">cx</span>
+          </div>
+
+          <div class="org-node-wrap">
+            <div class="org-node member">
+              <div class="org-icon">🎬</div>
+              <div class="org-name">콘실장</div>
+              <div class="org-title">콘텐츠실 총괄</div>
+              <div class="org-model">6h · 슬랙</div>
+            </div>
+            <span class="org-channel-badge tag red">content</span>
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== 5. 하트비트 체크 항목 ===== -->
+  <section class="checks-section">
+    <div class="section-header">
+      <div class="section-title">
+        <div class="section-icon">✅</div>
+        <h2>하트비트 체크 항목 상세</h2>
+      </div>
+    </div>
+    <div class="checks-grid">
+
+      <!-- 카리나 -->
+      <div class="check-card">
+        <div class="check-card-header">
+          <span class="check-card-icon">👑</span>
+          <span class="check-card-title">카리나 — 상시</span>
+          <span class="check-card-period tag green">상시</span>
+        </div>
+        <div class="check-items">
+          <div class="check-row">
+            <span class="check-name">🔗 텔레그램 봇 연결</span>
+            <span class="check-status-badge ok">OK</span>
+          </div>
+          <div class="check-row">
+            <span class="check-name">🌐 Gateway 응답</span>
+            <span class="check-status-badge ok">OK</span>
+          </div>
+          <div class="check-row">
+            <span class="check-name">📨 메시지 큐 처리</span>
+            <span class="check-status-badge ok">OK</span>
+          </div>
+          <div class="check-row">
+            <span class="check-name">📅 일정 알림</span>
+            <span class="check-status-badge ok">OK</span>
+          </div>
+          <div class="check-row">
+            <span class="check-name">👥 세션 상태</span>
+            <span class="check-status-badge ok">OK</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 마실장 -->
+      <div class="check-card">
+        <div class="check-card-header">
+          <span class="check-card-icon">📈</span>
+          <span class="check-card-title">마실장 — 4시간</span>
+          <span class="check-card-period tag blue">4h</span>
+        </div>
+        <div class="check-items">
+          <div class="check-row">
+            <span class="check-name">💰 광고 지표 (CPC/CTR)</span>
+            <span class="check-status-badge ok">OK</span>
+          </div>
+          <div class="check-row">
+            <span class="check-name">📊 ROAS 수집</span>
+            <span class="check-status-badge ok">OK</span>
+          </div>
+          <div class="check-row">
+            <span class="check-name">💵 예산 소진율</span>
+            <span class="check-status-badge ok">OK</span>
+          </div>
+          <div class="check-row">
+            <span class="check-name">📱 SNS 조회수</span>
+            <span class="check-status-badge ok">OK</span>
+          </div>
+          <div class="check-row">
+            <span class="check-name">🧪 A/B 테스트</span>
+            <span class="check-status-badge warn">진행중</span>
+          </div>
+          <div class="check-row">
+            <span class="check-name">💬 슬랙 채널 수신</span>
+            <span class="check-status-badge ok">OK</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 개실장 -->
+      <div class="check-card">
+        <div class="check-card-header">
+          <span class="check-card-icon">⚙️</span>
+          <span class="check-card-title">개실장 — 2시간</span>
+          <span class="check-card-period tag accent">2h</span>
+        </div>
+        <div class="check-items">
+          <div class="check-row">
+            <span class="check-name">🔌 Gateway 프로세스</span>
+            <span class="check-status-badge ok">OK</span>
+          </div>
+          <div class="check-row">
+            <span class="check-name">⏱️ launchd 크론잡</span>
+            <span class="check-status-badge ok">OK</span>
+          </div>
+          <div class="check-row">
+            <span class="check-name">🧠 brain.db (8082)</span>
+            <span class="check-status-badge ok">OK</span>
+          </div>
+          <div class="check-row">
+            <span class="check-name">🚀 tenex-reports 배포</span>
+            <span class="check-status-badge ok">OK</span>
+          </div>
+          <div class="check-row">
+            <span class="check-name">📋 에러 로그 점검</span>
+            <span class="check-status-badge ok">OK</span>
+          </div>
+          <div class="check-row">
+            <span class="check-name">🔑 cafe24 토큰 갱신</span>
+            <span class="check-status-badge ok">OK</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 고실장 -->
+      <div class="check-card">
+        <div class="check-card-header">
+          <span class="check-card-icon">🎧</span>
+          <span class="check-card-title">고실장 — 2시간</span>
+          <span class="check-card-period tag cyan">2h</span>
+        </div>
+        <div class="check-items">
+          <div class="check-row">
+            <span class="check-name">📩 미처리 문의</span>
+            <span class="check-status-badge ok">0건</span>
+          </div>
+          <div class="check-row">
+            <span class="check-name">⭐ NPS 지표</span>
+            <span class="check-status-badge ok">OK</span>
+          </div>
+          <div class="check-row">
+            <span class="check-name">📊 CSAT 수집</span>
+            <span class="check-status-badge ok">OK</span>
+          </div>
+          <div class="check-row">
+            <span class="check-name">🚪 이탈 고객 분석</span>
+            <span class="check-status-badge ok">OK</span>
+          </div>
+          <div class="check-row">
+            <span class="check-name">⏰ SLA 준수율</span>
+            <span class="check-status-badge ok">OK</span>
+          </div>
+          <div class="check-row">
+            <span class="check-name">💬 슬랙 채널 수신</span>
+            <span class="check-status-badge ok">OK</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 콘실장 -->
+      <div class="check-card">
+        <div class="check-card-header">
+          <span class="check-card-icon">🎬</span>
+          <span class="check-card-title">콘실장 — 6시간</span>
+          <span class="check-card-period tag orange">6h</span>
+        </div>
+        <div class="check-items">
+          <div class="check-row">
+            <span class="check-name">📤 콘텐츠 발행 큐</span>
+            <span class="check-status-badge ok">OK</span>
+          </div>
+          <div class="check-row">
+            <span class="check-name">📺 yt-tracker 크론</span>
+            <span class="check-status-badge ok">OK</span>
+          </div>
+          <div class="check-row">
+            <span class="check-name">👁️ 조회수/참여율</span>
+            <span class="check-status-badge ok">OK</span>
+          </div>
+          <div class="check-row">
+            <span class="check-name">🎞️ 스크립트 파이프라인</span>
+            <span class="check-status-badge warn">점검중</span>
+          </div>
+          <div class="check-row">
+            <span class="check-name">💬 슬랙 채널 수신</span>
+            <span class="check-status-badge ok">OK</span>
+          </div>
+          <div class="check-row">
+            <span class="check-name">📁 콘텐츠 자산 저장</span>
+            <span class="check-status-badge ok">OK</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ===== 6. 게이트웨이 모니터 ===== -->
+  <section class="gateway-section">
+    <div class="section-header">
+      <div class="section-title">
+        <div class="section-icon">🌐</div>
+        <h2>게이트웨이 모니터</h2>
+      </div>
+    </div>
+    <div class="gateway-monitor-grid">
+
+      <!-- Ping 차트 -->
+      <div class="gateway-monitor-card">
+        <div class="gm-title">⚡ 응답 시간 (최근 15회)</div>
+        <div class="gm-main">
+          <span class="gm-value" style="color:var(--green)" id="gm-ping">12</span>
+          <span class="gm-unit">ms</span>
+        </div>
+        <div class="gm-sub">평균 응답 시간 · 127.0.0.1:18789</div>
+        <div class="ping-chart" id="ping-chart">
+          <!-- JS로 채움 -->
+        </div>
+      </div>
+
+      <!-- 업타임 링 -->
+      <div class="gateway-monitor-card">
+        <div class="gm-title">✅ 가동률</div>
+        <div class="uptime-ring-wrap">
+          <div class="uptime-ring">
+            <svg width="100" height="100" viewBox="0 0 100 100">
+              <circle cx="50" cy="50" r="42" fill="none" stroke="var(--border)" stroke-width="8"/>
+              <circle cx="50" cy="50" r="42" fill="none" stroke="var(--green)" stroke-width="8"
+                stroke-dasharray="263.89" stroke-dashoffset="0" stroke-linecap="round"/>
+            </svg>
+            <div class="uptime-ring-text">
+              <span class="uptime-percent">100%</span>
+              <span class="uptime-label">가동률</span>
+            </div>
+          </div>
+          <div style="text-align:center;">
+            <div style="font-size:13px;font-weight:700;color:var(--text-primary)">PID 1061</div>
+            <div style="font-size:11px;color:var(--text-muted)">오늘 기준 무중단</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 서비스 목록 -->
+      <div class="gateway-monitor-card">
+        <div class="gm-title">🔧 서비스 상태</div>
+        <div class="service-list">
+          <div class="service-row">
+            <span class="service-name">
+              <span class="service-dot up"></span>
+              Gateway
+            </span>
+            <span class="service-meta">:18789 · up</span>
+          </div>
+          <div class="service-row">
+            <span class="service-name">
+              <span class="service-dot up"></span>
+              brain.db
+            </span>
+            <span class="service-meta">:8082 · up</span>
+          </div>
+          <div class="service-row">
+            <span class="service-name">
+              <span class="service-dot up"></span>
+              tenex-reports
+            </span>
+            <span class="service-meta">Vercel · up</span>
+          </div>
+          <div class="service-row">
+            <span class="service-name">
+              <span class="service-dot up"></span>
+              launchd 크론
+            </span>
+            <span class="service-meta">10개 · active</span>
+          </div>
+          <div class="service-row">
+            <span class="service-name">
+              <span class="service-dot up"></span>
+              세션 동기화
+            </span>
+            <span class="service-meta">305세션 · up</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+</main>
+
+<footer class="footer">
+  <span id="footer-time">마지막 업데이트: 로딩 중...</span>
+  &nbsp;·&nbsp; 데이터 소스: HEARTBEAT.md &nbsp;·&nbsp; Mac mini 192.168.0.234 &nbsp;·&nbsp; macOS 26.3.1
+</footer>
+
+<!-- ===== 자바스크립트 ===== -->
+<script>
+(function() {
+  'use strict';
+
+  // ===== 테마 토글 =====
+  window.toggleTheme = function() {
+    const html = document.documentElement;
+    const isDark = html.getAttribute('data-theme') === 'dark';
+    html.setAttribute('data-theme', isDark ? 'light' : 'dark');
+    document.getElementById('theme-icon').textContent = isDark ? '🌙' : '☀️';
+    document.getElementById('theme-label').textContent = isDark ? '다크' : '라이트';
+    localStorage.setItem('theme', isDark ? 'light' : 'dark');
+  };
+
+  // 저장된 테마 적용
+  const savedTheme = localStorage.getItem('theme');
+  if (savedTheme) {
+    document.documentElement.setAttribute('data-theme', savedTheme);
+    if (savedTheme === 'light') {
+      document.getElementById('theme-icon').textContent = '🌙';
+      document.getElementById('theme-label').textContent = '다크';
+    }
+  }
+
+  // ===== 아코디언 카드 =====
+  window.toggleCard = function(card) {
+    const wasExpanded = card.classList.contains('expanded');
+    // 다른 카드 닫기 (선택적)
+    // document.querySelectorAll('.agent-card.expanded').forEach(c => c.classList.remove('expanded'));
+    card.classList.toggle('expanded', !wasExpanded);
+  };
+
+  // ===== 에이전트 필터 =====
+  window.filterAgents = function(filter, btn) {
+    document.querySelectorAll('.filter-btn').forEach(b => {
+      b.classList.remove('active', 'active-green', 'active-red');
+    });
+    if (filter === 'all') btn.classList.add('active');
+    else if (filter === 'online') btn.classList.add('active-green');
+    else btn.classList.add('active-red');
+
+    document.querySelectorAll('.agent-card').forEach(card => {
+      const status = card.getAttribute('data-status');
+      if (filter === 'all' || status === filter) {
+        card.style.display = '';
+      } else {
+        card.style.display = 'none';
+      }
+    });
+  };
+
+  // ===== 시간 유틸 =====
+  function formatRelativeTime(secondsAgo) {
+    if (secondsAgo < 60) return '방금 전';
+    if (secondsAgo < 3600) return Math.floor(secondsAgo / 60) + '분 전';
+    if (secondsAgo < 86400) return Math.floor(secondsAgo / 3600) + '시간 전';
+    return Math.floor(secondsAgo / 86400) + '일 전';
+  }
+
+  function formatTime(date) {
+    return date.toLocaleTimeString('ko-KR', { hour: '2-digit', minute: '2-digit' });
+  }
+
+  // ===== 마지막 하트비트 시간 업데이트 =====
+  function updateRelativeTimes() {
+    const now = new Date();
+    document.querySelectorAll('[data-ts]').forEach(el => {
+      const ts = el.getAttribute('data-ts');
+      if (ts === 'always') return;
+      const secs = parseInt(ts, 10);
+      el.textContent = formatRelativeTime(secs);
+    });
+
+    // 최종 업데이트 시간
+    const timeStr = now.toLocaleString('ko-KR', {
+      year: 'numeric', month: '2-digit', day: '2-digit',
+      hour: '2-digit', minute: '2-digit', second: '2-digit'
+    });
+    const el = document.getElementById('last-updated');
+    if (el) el.textContent = timeStr + ' 업데이트';
+    const fe = document.getElementById('footer-time');
+    if (fe) fe.textContent = '마지막 업데이트: ' + timeStr;
+  }
+
+  // ===== 하트비트 프로그레스 바 =====
+  const heartbeatIntervals = {
+    marketing: 4 * 3600,
+    dev: 2 * 3600,
+    cx: 2 * 3600,
+    content: 6 * 3600,
+  };
+
+  const lastBeats = {
+    marketing: 4 * 3600,
+    dev: 2 * 3600,
+    cx: 2 * 3600,
+    content: 6 * 3600,
+  };
+
+  function updateProgressBars() {
+    Object.entries(heartbeatIntervals).forEach(([id, interval]) => {
+      const elapsed = lastBeats[id];
+      const remaining = Math.max(0, interval - elapsed);
+      const pct = Math.min(100, (elapsed / interval) * 100);
+      const fill = document.getElementById('fill-' + id);
+      const prog = document.getElementById('prog-' + id);
+      if (fill) {
+        fill.style.width = pct + '%';
+        // 임박하면 빨강
+        if (remaining < 600) {
+          fill.style.background = 'linear-gradient(90deg, var(--red), #F87171)';
+        }
+      }
+      if (prog) {
+        const mins = Math.floor(remaining / 60);
+        const hrs = Math.floor(mins / 60);
+        const remMins = mins % 60;
+        if (hrs > 0) {
+          prog.textContent = hrs + 'h ' + remMins + 'm 후';
+        } else {
+          prog.textContent = mins + '분 후';
+        }
+      }
+    });
+  }
+
+  // ===== 타임라인 렌더링 =====
+  function renderTimeline() {
+    const now = new Date();
+    const startOfDay = new Date(now);
+    startOfDay.setHours(0, 0, 0, 0);
+    const totalMs = 24 * 3600 * 1000;
+    const nowPct = ((now - startOfDay) / totalMs) * 100;
+
+    // 시간 레이블 렌더
+    const hoursEl = document.getElementById('timeline-hours');
+    if (hoursEl) {
+      hoursEl.innerHTML = '';
+      for (let h = 0; h <= 24; h += 4) {
+        const span = document.createElement('span');
+        span.className = 'timeline-hour';
+        span.textContent = h.toString().padStart(2, '0') + ':00';
+        hoursEl.appendChild(span);
+      }
+    }
+
+    // NOW 라인 위치
+    ['karina', 'marketing', 'dev', 'cx', 'content'].forEach(id => {
+      const nowLine = document.getElementById('now-' + id);
+      if (nowLine) nowLine.style.left = nowPct + '%';
+    });
+
+    // 각 에이전트 타임라인 바 생성
+    const agents = [
+      { id: 'karina', interval: 0, color: 'green', always: true },
+      { id: 'marketing', interval: 4 * 3600 * 1000 },
+      { id: 'dev', interval: 2 * 3600 * 1000 },
+      { id: 'cx', interval: 2 * 3600 * 1000 },
+      { id: 'content', interval: 6 * 3600 * 1000 },
+    ];
+
+    agents.forEach(agent => {
+      const container = document.getElementById('timeline-' + agent.id);
+      if (!container) return;
+
+      // 기존 바 제거 (now-line 제외)
+      Array.from(container.children).forEach(child => {
+        if (!child.id || !child.id.startsWith('now-')) {
+          container.removeChild(child);
+        }
+      });
+
+      if (agent.always) {
+        // 카리나: 전체 초록 바
+        const bar = document.createElement('div');
+        bar.className = 'timeline-beat hit';
+        bar.style.left = '0%';
+        bar.style.width = nowPct + '%';
+        bar.title = '상시 활성';
+        container.appendChild(bar);
+        return;
+      }
+
+      // 주기별 하트비트 마커
+      let t = 0;
+      while (t < totalMs) {
+        const pct = (t / totalMs) * 100;
+        const widthPct = Math.min(0.8, (agent.interval / totalMs) * 0.3);
+        const bar = document.createElement('div');
+        bar.style.left = pct + '%';
+        bar.style.width = Math.max(0.6, widthPct * 100 * 0.15) + '%';
+        bar.title = formatTime(new Date(startOfDay.getTime() + t));
+
+        if (t + agent.interval <= (now - startOfDay)) {
+          // 과거 — 성공 (시뮬레이션: 가끔 miss)
+          const isMiss = Math.random() < 0.08;
+          bar.className = 'timeline-beat ' + (isMiss ? 'miss' : 'hit');
+        } else if (t <= (now - startOfDay)) {
+          // 현재 구간 — hit
+          bar.className = 'timeline-beat hit';
+        } else {
+          // 미래 — 예정
+          bar.className = 'timeline-beat expected';
+        }
+        container.appendChild(bar);
+        t += agent.interval;
+      }
+    });
+  }
+
+  // ===== 핑 차트 렌더 =====
+  function renderPingChart() {
+    const chart = document.getElementById('ping-chart');
+    if (!chart) return;
+    chart.innerHTML = '';
+    const pings = [];
+    for (let i = 0; i < 15; i++) {
+      pings.push(Math.floor(Math.random() * 18 + 5));
+    }
+    const max = Math.max(...pings);
+    pings.forEach((p, i) => {
+      const bar = document.createElement('div');
+      bar.className = 'ping-bar' + (i === pings.length - 1 ? ' current' : '');
+      bar.style.height = Math.max(4, (p / max) * 56) + 'px';
+      bar.title = p + 'ms';
+      chart.appendChild(bar);
+    });
+    const last = pings[pings.length - 1];
+    const pingEl = document.getElementById('gm-ping');
+    if (pingEl) pingEl.textContent = last;
+    pingEl.style.color = last < 20 ? 'var(--green)' : last < 50 ? 'var(--orange)' : 'var(--red)';
+  }
+
+  // ===== 초기화 =====
+  function init() {
+    updateRelativeTimes();
+    updateProgressBars();
+    renderTimeline();
+    renderPingChart();
+  }
+
+  // ===== 주기적 갱신 =====
+  init();
+  setInterval(updateRelativeTimes, 60 * 1000);
+  setInterval(renderPingChart, 5 * 1000);
+
+  // 탭 포커스 시 즉시 갱신
+  document.addEventListener('visibilitychange', function() {
+    if (!document.hidden) {
+      updateRelativeTimes();
+      renderPingChart();
+    }
+  });
+
+})();
+</script>
+
 </body>
 </html>
