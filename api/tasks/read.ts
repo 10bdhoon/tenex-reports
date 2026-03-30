@@ -9,10 +9,10 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   try {
     const supabase = getSupabaseClient();
 
-    // tasks + checklists JOIN 조회
+    // tasks 조회 (checklist는 jsonb 컬럼)
     const { data: tasksRaw, error: tasksError } = await supabase
       .from("tasks")
-      .select("*, checklists(id, text, done, sort_order)")
+      .select("*")
       .order("sort_order", { ascending: true });
 
     if (tasksError) throw tasksError;
@@ -35,9 +35,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       assignee: t.assignee,
       due: t.due_date,
       desc: t.note,
-      checklist: ((t.checklists as Array<Record<string, unknown>>) || [])
-        .sort((a, b) => ((a.sort_order as number) || 0) - ((b.sort_order as number) || 0))
-        .map((c) => ({ id: c.id, text: c.text, done: c.done })),
+      checklist: t.checklist || [],
       memo: "",
       _source: "supabase",
       sortOrder: t.sort_order,
