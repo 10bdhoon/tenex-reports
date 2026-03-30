@@ -18,20 +18,9 @@
             padding: 60px 24px 48px;
             text-align: center;
         }
-        .hero h1 {
-            font-size: 2rem;
-            font-weight: 800;
-            margin-bottom: 12px;
-        }
-        .hero p {
-            font-size: 1.05rem;
-            opacity: 0.85;
-        }
-        .container {
-            max-width: 700px;
-            margin: 0 auto;
-            padding: 40px 24px 80px;
-        }
+        .hero h1 { font-size: 2rem; font-weight: 800; margin-bottom: 12px; }
+        .hero p { font-size: 1.05rem; opacity: 0.85; }
+        .container { max-width: 720px; margin: 0 auto; padding: 40px 24px 80px; }
 
         .welcome {
             background: #f0f4f8;
@@ -39,186 +28,103 @@
             padding: 32px 28px;
             margin-bottom: 40px;
         }
-        .welcome h2 {
-            font-size: 1.3rem;
-            font-weight: 700;
-            color: #002855;
-            margin-bottom: 12px;
-        }
-        .welcome p {
-            font-size: 1rem;
-            color: #444;
-            line-height: 1.8;
-        }
+        .welcome h2 { font-size: 1.3rem; font-weight: 700; color: #002855; margin-bottom: 12px; }
+        .welcome p { font-size: 1rem; color: #444; line-height: 1.8; }
 
-        .section {
-            margin-bottom: 40px;
-        }
+        .section { margin-bottom: 48px; }
         .section h2 {
-            font-size: 1.35rem;
-            font-weight: 800;
-            color: #002855;
-            margin-bottom: 16px;
-            padding-bottom: 8px;
-            border-bottom: 2px solid #e8ecf0;
+            font-size: 1.35rem; font-weight: 800; color: #002855;
+            margin-bottom: 16px; padding-bottom: 8px; border-bottom: 2px solid #e8ecf0;
         }
-        .section h3 {
-            font-size: 1.1rem;
-            font-weight: 700;
-            color: #1a1a1a;
-            margin-top: 20px;
-            margin-bottom: 8px;
-        }
-        .section p {
-            font-size: 1rem;
-            color: #333;
-            margin-bottom: 12px;
-        }
-        .section ul {
-            margin: 8px 0 16px 20px;
-            color: #444;
-        }
-        .section ul li {
-            margin-bottom: 6px;
-            line-height: 1.7;
-        }
+        .section h3 { font-size: 1.1rem; font-weight: 700; color: #1a1a1a; margin-top: 24px; margin-bottom: 8px; }
+        .section p { font-size: 1rem; color: #333; margin-bottom: 12px; }
+        .section ul { margin: 8px 0 16px 20px; color: #444; }
+        .section ul li { margin-bottom: 6px; line-height: 1.7; }
+        .bold { font-weight: 700; }
 
-        .card-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr 1fr;
-            gap: 16px;
-            margin: 16px 0;
-        }
+        .card-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; margin: 16px 0; }
         .card {
-            background: #fff;
-            border: 1px solid #e0e4e8;
-            border-radius: 10px;
-            padding: 20px;
-            text-align: center;
+            background: #fff; border: 1px solid #e0e4e8; border-radius: 10px;
+            padding: 20px; text-align: center;
         }
         .card .emoji { font-size: 2rem; margin-bottom: 8px; }
-        .card .name {
-            font-weight: 700;
-            font-size: 0.95rem;
-            color: #002855;
-            margin-bottom: 4px;
-        }
-        .card .desc {
-            font-size: 0.85rem;
-            color: #666;
-            line-height: 1.5;
-        }
+        .card .name { font-weight: 700; font-size: 0.95rem; color: #002855; margin-bottom: 4px; }
+        .card .desc { font-size: 0.85rem; color: #666; line-height: 1.5; }
 
-        .product-row {
-            display: flex;
-            gap: 12px;
-            margin: 12px 0;
-            flex-wrap: wrap;
+        .product-card {
+            background: #fff; border: 1px solid #e0e4e8; border-radius: 10px;
+            padding: 20px 24px; margin-bottom: 12px;
         }
-        .product-tag {
-            background: #002855;
-            color: #fff;
-            padding: 8px 16px;
-            border-radius: 20px;
-            font-size: 0.9rem;
-            font-weight: 600;
-        }
+        .product-card .product-name { font-weight: 700; color: #002855; font-size: 1.05rem; margin-bottom: 4px; }
+        .product-card .product-price { font-size: 0.85rem; color: #888; margin-bottom: 6px; }
+        .product-card .product-desc { font-size: 0.95rem; color: #555; line-height: 1.6; }
 
-        .timeline {
-            margin-top: 20px;
+        .role-box {
+            background: linear-gradient(135deg, #002855 0%, #004080 100%);
+            color: #fff; border-radius: 14px; padding: 36px 32px; margin: 24px 0;
         }
-        .timeline-item {
-            display: flex;
-            gap: 16px;
-            margin-bottom: 20px;
-        }
-        .timeline-marker {
-            flex-shrink: 0;
-            width: 48px;
-            height: 48px;
-            background: #002855;
-            color: #fff;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 700;
-            font-size: 0.8rem;
-        }
-        .timeline-content {
-            flex: 1;
-        }
-        .timeline-content .title {
-            font-weight: 700;
-            color: #1a1a1a;
-            margin-bottom: 4px;
-        }
-        .timeline-content .detail {
-            font-size: 0.95rem;
-            color: #555;
-            line-height: 1.7;
-        }
+        .role-box h3 { color: #fff; font-size: 1.2rem; margin-bottom: 16px; margin-top: 0; }
+        .role-box p { color: rgba(255,255,255,0.9); margin-bottom: 10px; }
+        .role-box ul { margin: 8px 0 16px 20px; color: rgba(255,255,255,0.85); }
+        .role-box ul li { margin-bottom: 6px; }
 
-        .culture-summary {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 12px;
-            margin: 16px 0;
-        }
-        .culture-item {
-            background: #f8f9fa;
-            border-radius: 8px;
-            padding: 16px;
-        }
-        .culture-item .num {
-            font-size: 0.75rem;
-            font-weight: 700;
-            color: #002855;
-            margin-bottom: 4px;
-        }
-        .culture-item .label {
-            font-weight: 700;
-            font-size: 0.95rem;
-            color: #1a1a1a;
-            margin-bottom: 4px;
-        }
-        .culture-item .desc {
-            font-size: 0.85rem;
-            color: #666;
-            line-height: 1.5;
-        }
+        .culture-summary { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 16px 0; }
+        .culture-item { background: #f8f9fa; border-radius: 8px; padding: 16px; }
+        .culture-item .num { font-size: 0.75rem; font-weight: 700; color: #002855; margin-bottom: 4px; }
+        .culture-item .label { font-weight: 700; font-size: 0.95rem; color: #1a1a1a; margin-bottom: 4px; }
+        .culture-item .cdesc { font-size: 0.85rem; color: #666; line-height: 1.5; }
 
         .highlight-box {
-            background: #fffbeb;
-            border: 1px solid #f59e0b;
-            border-radius: 10px;
-            padding: 24px;
-            margin: 24px 0;
+            background: #fffbeb; border: 1px solid #f59e0b;
+            border-radius: 10px; padding: 24px; margin: 24px 0;
         }
-        .highlight-box h3 {
-            color: #b45309;
-            margin-top: 0;
+        .highlight-box h3 { color: #b45309; margin-top: 0; }
+
+        .brand-colors {
+            display: flex; gap: 16px; margin: 16px 0; align-items: center;
         }
+        .color-swatch {
+            width: 60px; height: 60px; border-radius: 10px; flex-shrink: 0;
+        }
+        .color-info { font-size: 0.95rem; color: #444; }
+        .color-info strong { display: block; margin-bottom: 2px; }
+
+        .timeline { margin-top: 20px; }
+        .timeline-item { display: flex; gap: 16px; margin-bottom: 24px; }
+        .timeline-marker {
+            flex-shrink: 0; width: 56px; height: 56px; background: #002855; color: #fff;
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            font-weight: 700; font-size: 0.75rem; text-align: center; line-height: 1.2;
+        }
+        .timeline-content { flex: 1; }
+        .timeline-content .title { font-weight: 700; color: #1a1a1a; margin-bottom: 4px; font-size: 1.05rem; }
+        .timeline-content .detail { font-size: 0.95rem; color: #555; line-height: 1.7; }
+        .timeline-content a { color: #002855; text-decoration: underline; }
+
+        .doc-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 16px 0; }
+        .doc-link {
+            display: block; background: #f8f9fa; border: 1px solid #e0e4e8;
+            border-radius: 8px; padding: 14px 16px; text-decoration: none; color: #333;
+            transition: border-color 0.2s;
+        }
+        .doc-link:hover { border-color: #002855; }
+        .doc-link .doc-title { font-weight: 700; font-size: 0.9rem; color: #002855; margin-bottom: 2px; }
+        .doc-link .doc-desc { font-size: 0.8rem; color: #888; }
 
         .footer-note {
-            text-align: center;
-            margin-top: 48px;
-            padding: 32px;
-            background: #f0f4f8;
-            border-radius: 12px;
-            color: #555;
-            font-size: 0.95rem;
-            line-height: 1.8;
+            text-align: center; margin-top: 48px; padding: 32px;
+            background: #f0f4f8; border-radius: 12px; color: #555;
+            font-size: 0.95rem; line-height: 1.8;
         }
-        .footer-note strong {
-            color: #002855;
-        }
+        .footer-note strong { color: #002855; }
 
         @media (max-width: 600px) {
             .card-grid { grid-template-columns: 1fr; }
             .culture-summary { grid-template-columns: 1fr; }
+            .doc-grid { grid-template-columns: 1fr; }
             .hero h1 { font-size: 1.6rem; }
             .container { padding: 32px 18px 60px; }
+            .brand-colors { flex-direction: column; align-items: flex-start; }
         }
     </style>
 </head>
@@ -226,7 +132,7 @@
 
 <div class="hero">
     <h1>🚀 테넥스 온보딩 가이드</h1>
-    <p>첫날 30분이면 충분합니다</p>
+    <p>첫날 30분이면 충분합니다. 나머지는 일하면서.</p>
 </div>
 
 <div class="container">
@@ -234,15 +140,15 @@
     <!-- Welcome -->
     <div class="welcome">
         <h2>환영합니다 👋</h2>
-        <p>테넥스에 합류하신 것을 환영합니다. 이 문서는 첫날 필요한 맥락만 담았습니다. 나머지는 일하면서 자연스럽게 알게 됩니다. 모르는 건 언제든 물어보세요 — 그게 우리 문화입니다.</p>
+        <p>테넥스에 합류하신 것을 환영합니다. 이 문서는 첫날 필요한 맥락만 담았습니다. 모든 걸 외우려고 하지 마세요 — 이건 사전이지 교과서가 아닙니다. 일하다가 "이게 뭐지?" 할 때 찾아보면 됩니다. 모르는 건 언제든 물어보세요.</p>
     </div>
 
-    <!-- 1. 우리가 뭘 하는 곳인지 -->
+    <!-- Part 1: 회사 -->
     <div class="section">
-        <h2>1. 우리가 하는 일</h2>
+        <h2>Part 1. 우리가 하는 일</h2>
 
         <h3>사명</h3>
-        <p><strong>"누구나 집에서, 스스로 회복하는 세상"</strong></p>
+        <p><span class="bold">"누구나 집에서, 스스로 회복하는 세상"</span></p>
         <p>병원에 줄 서고 도수치료 비용에 떠는 세상이 아니라, 스스로 몸을 이해하고 회복할 수 있는 세상을 만듭니다.</p>
 
         <h3>3축 생태계</h3>
@@ -250,7 +156,7 @@
             <div class="card">
                 <div class="emoji">📺</div>
                 <div class="name">1분도수</div>
-                <div class="desc">콘텐츠 채널<br>통증 원리·운동법 교육<br><strong>"깨우는 역할"</strong></div>
+                <div class="desc">콘텐츠 채널<br>유튜브 10만+ / 인스타 4.3만+<br><strong>"깨우는 역할"</strong></div>
             </div>
             <div class="card">
                 <div class="emoji">🏥</div>
@@ -263,86 +169,180 @@
                 <div class="desc">습관 관리 앱<br>챌린지·루틴·커머스<br><strong>"붙잡는 역할"</strong></div>
             </div>
         </div>
-        <p>이 셋은 따로 움직이지 않습니다. 1분도수가 사람을 깨우고, 키네메디칼이 몸을 바꾸고, 앱이 포기하지 않게 붙잡아줍니다.</p>
-
-        <h3>제품 라인업</h3>
-        <div class="product-row">
-            <span class="product-tag">CS-25 경추 견인기</span>
-            <span class="product-tag">ES-808 저주파</span>
-            <span class="product-tag">WS-200 근적외선</span>
-        </div>
-        <p>모두 도수치료의 핵심 원리(온열이완 → 전기자극 → 견인)를 집에서 쓸 수 있게 만든 기기입니다.</p>
+        <p>1분도수가 사람을 깨우고, 키네메디칼이 몸을 바꾸고, 앱이 포기하지 않게 붙잡아줍니다. 이 셋은 하나의 생태계입니다.</p>
 
         <h3>현재 규모</h3>
         <ul>
-            <li>유튜브 구독자 10만+, 인스타 4.3만+</li>
             <li>월 매출 1억+ (자체채널 비중 50%)</li>
-            <li>팀: 현재 3명</li>
+            <li>2026 목표: 연매출 200억</li>
+            <li>팀: 현재 3명 (대표 태훈 + 콘텐츠 총괄 인규 + 당신)</li>
         </ul>
     </div>
 
-    <!-- 2. 문화 요약 -->
+    <!-- Part 2: 제품 -->
     <div class="section">
-        <h2>2. 테넥스 문화 (요약)</h2>
-        <p>자세한 내용은 <strong>테넥스 문화 전문</strong>에 있습니다. 첫날은 이것만 알면 됩니다:</p>
+        <h2>Part 2. 우리 제품</h2>
+        <p>모두 도수치료의 핵심 원리를 집에서 쓸 수 있게 만든 의료기기입니다.</p>
+
+        <div class="product-card">
+            <div class="product-name">CS-25 자동 경추 견인·교정기</div>
+            <div class="product-price">398,000원 | 핵심 제품</div>
+            <div class="product-desc">도수치료사가 손으로 하던 "견인"을 자동으로 구현. 머리 무게를 받쳐주고 목뼈 사이 공간을 벌려 디스크 압박을 줄여줍니다. <span class="bold">헤드픽서가 핵심 차별점.</span></div>
+        </div>
+        <div class="product-card">
+            <div class="product-name">ES-808 타겟형 저주파 마사지기</div>
+            <div class="product-price">129,000원</div>
+            <div class="product-desc">전신을 떨리게 하는 게 아니라, 도수치료사가 중요하게 보는 통증 포인트에 저주파를 집중 전달. EMS+TENS 복합.</div>
+        </div>
+        <div class="product-card">
+            <div class="product-name">WS-200 밀착형 근적외선 찜질기</div>
+            <div class="product-price">128,000원</div>
+            <div class="product-desc">병원 근적외선 조사기를 집에서 쓸 수 있게 밀착형으로 설계. LED 108개, 열이 공기 중에 날아가기 전에 피부와 근막에 집중.</div>
+        </div>
+
+        <p style="margin-top: 16px;">고객 회복 루틴: <span class="bold">WS-200 온열이완 → ES-808 전기자극 → CS-25 견인교정</span></p>
+
+        <h3>개발 중</h3>
+        <ul>
+            <li>TH-1 통증크림 (바르는 열감, 파스 대체)</li>
+            <li>ES-808 부스터젤 (기기 종속 소모품)</li>
+            <li>보호대 (의료기기 수준)</li>
+            <li>CS-25 / ES-808 / WS-200 개선 버전</li>
+        </ul>
+    </div>
+
+    <!-- Part 3: 브랜드 -->
+    <div class="section">
+        <h2>Part 3. 브랜드 가이드</h2>
+
+        <h3>키컬러</h3>
+        <div class="brand-colors">
+            <div class="color-swatch" style="background: #002855;"></div>
+            <div class="color-info">
+                <strong>Pantone 282C — Deep Navy (#002855)</strong>
+                도수치료사 복장과 동일한 네이비. 의료 전문성과 신뢰를 상징합니다.
+            </div>
+        </div>
+
+        <h3>디자인 원칙: "의료 미니멀"</h3>
+        <ul>
+            <li><span class="bold">예쁜 미니멀 ❌</span> — 의료 미니멀 ✅</li>
+            <li>기능과 신뢰가 먼저, 장식은 최소</li>
+            <li>성분 비공개 (처방약처럼)</li>
+            <li>네이밍: 기기 [3글자]-[4자리] / 소모품 [카테고리]-[1자리]</li>
+        </ul>
+
+        <h3>마케팅 원칙</h3>
+        <ul>
+            <li>핵심 키워드: <span class="bold">'신뢰'</span> (제품 신뢰 + 판매자 신뢰)</li>
+            <li>광고 협력 대상: 의료인과 전문가로 제한</li>
+            <li>의료기관, 노인기관 외 협찬 금지</li>
+            <li>3중 타인증명: ①1분도수 전문가 ②의료계 권위 ③대중 인플루언서</li>
+        </ul>
+
+        <h3>고객 정의</h3>
+        <ul>
+            <li><span class="bold">고객 A</span>: 의사/물리치료사 (재활의학과, 정형외과, 신경외과, 한의원)</li>
+            <li><span class="bold">고객 B</span>: 목디스크·거북목·일자목 등 목 통증이 심한 환자</li>
+            <li>고객 문화 키워드: 지성인, 효자, 효녀, 남편, 아내, 부모님</li>
+            <li>핵심 고객: <span class="bold">"사지 않으면 안 되는 사람"</span></li>
+        </ul>
+    </div>
+
+    <!-- Part 4: 당신의 역할 -->
+    <div class="section">
+        <h2>Part 4. 당신의 역할</h2>
+
+        <div class="role-box">
+            <h3>CEO Staff — 대표 직속 실행 참모</h3>
+            <p>CEO가 방향과 기준을 잡으면, 당신이 실행하고 구현합니다.</p>
+            <ul>
+                <li>한 분야 전문가가 아니라, <strong>다영역 실행자</strong></li>
+                <li>CEO가 하는 모든 영역을 함께 — 고정된 업무 범위가 아닙니다</li>
+                <li>이 과정에서 사업 전체를 배우게 됩니다</li>
+            </ul>
+            <p style="margin-top: 16px; font-size: 0.95rem; opacity: 0.8;">성장 경로: CEO Staff → COO / 사업부장 / 공동창업자</p>
+        </div>
+
+        <h3>구체적으로 하게 될 일 (예시)</h3>
+        <ul>
+            <li><span class="bold">디자인</span> — 태훈이 기준/방향 잡으면 → 시안 제작, 상세페이지 리뉴얼</li>
+            <li><span class="bold">CRM</span> — 태훈이 기획하면 → 셋팅/실행</li>
+            <li><span class="bold">웹사이트</span> — 자사몰 전체 리뉴얼</li>
+            <li><span class="bold">제품 개선</span> — 제조사 협업, 제품 스펙 정리</li>
+            <li><span class="bold">앱</span> — 기획 보조, UI 디자인</li>
+            <li><span class="bold">그 외</span> — CEO가 하는 모든 것의 실행 파트</li>
+        </ul>
+
+        <h3>일하는 구조</h3>
+        <ul>
+            <li><span class="bold">보고선</span>: CEO(태훈) 직속</li>
+            <li><span class="bold">소통</span>: 대면 + 슬랙 (사무실 도보 2분 거리)</li>
+            <li><span class="bold">판단 vs 실행</span>: 태훈이 "이거 이렇게" 하면 → 당신이 만들어서 보여줌 → 피드백 → 개선</li>
+        </ul>
+
+        <div class="highlight-box">
+            <h3>⚡ 첫 달 핵심</h3>
+            <ul>
+                <li><span class="bold">Week 1</span>: 제품 직접 써보기 + 채널 영상 보기 + 맥락 파악</li>
+                <li><span class="bold">Week 2</span>: 첫 과제 하나 시작 (작지만 완결되는 것)</li>
+                <li><span class="bold">Week 3~4</span>: 피드백 루프 경험 (만들고 → 피드백 → 개선)</li>
+                <li>모르면 바로 물어보세요. 혼자 끙끙대다 3일 날리는 게 제일 나쁩니다.</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Part 5: 문화 요약 -->
+    <div class="section">
+        <h2>Part 5. 테넥스 문화 (요약)</h2>
+        <p>자세한 내용은 <a href="tenex-culture.html">테넥스 문화 전문</a>에 있습니다. 첫날은 이것만:</p>
 
         <div class="culture-summary">
             <div class="culture-item">
                 <div class="num">01</div>
                 <div class="label">모험가 정신</div>
-                <div class="desc">말도 안 되는 목표를 세우고, 끝까지 집착한다</div>
+                <div class="cdesc">말도 안 되는 목표를 세우고, 끝까지 집착한다</div>
             </div>
             <div class="culture-item">
                 <div class="num">02</div>
                 <div class="label">오너십</div>
-                <div class="desc">실력보다 오너십. 내 숫자처럼 느끼고, 내 일로 가져간다</div>
+                <div class="cdesc">실력보다 오너십. 내 숫자처럼 느끼고, 내 일로 가져간다</div>
             </div>
             <div class="culture-item">
                 <div class="num">03</div>
                 <div class="label">결과 구체화 → 즉시 실행</div>
-                <div class="desc">결과를 선명하게 본 뒤, 미친 속도로 실행한다</div>
+                <div class="cdesc">결과를 선명하게 본 뒤, 미친 속도로 실행한다</div>
             </div>
             <div class="culture-item">
                 <div class="num">04</div>
                 <div class="label">구조적 단순함</div>
-                <div class="desc">본질 외에는 다 버린다. 복잡성은 원천 차단</div>
+                <div class="cdesc">본질 외에는 다 버린다. 복잡성은 원천 차단</div>
             </div>
             <div class="culture-item">
                 <div class="num">05</div>
                 <div class="label">자유로운 소통</div>
-                <div class="desc">직접, 즉시, 공개적으로. 뒤에서 말하지 않는다</div>
+                <div class="cdesc">직접, 즉시, 공개적으로. 뒤에서 말하지 않는다</div>
             </div>
             <div class="culture-item">
                 <div class="num">06</div>
                 <div class="label">진정성</div>
-                <div class="desc">모든 가치 위의 마지막 레이어. 시시한 선택을 거부한다</div>
+                <div class="cdesc">모든 가치 위의 마지막 레이어. 시시한 선택을 거부한다</div>
             </div>
         </div>
 
         <div class="highlight-box">
-            <h3>⚡ 첫날 꼭 기억할 3가지</h3>
+            <h3>⚡ 꼭 기억할 3가지</h3>
             <ul>
-                <li><strong>모르면 바로 물어보세요.</strong> 혼자 끙끙대다 3일 날리는 게 제일 나쁩니다.</li>
-                <li><strong>2유형 업무는 바로 실행하세요.</strong> 보고/승인 안 기다려도 됩니다. 되돌릴 수 있으면 그냥 하세요.</li>
-                <li><strong>안 맞는 게 있으면 솔직히 말해주세요.</strong> 우리도 완벽하지 않습니다.</li>
+                <li><span class="bold">모르면 바로 물어보세요.</span> 혼자 끙끙대다 3일 날리는 게 제일 나쁩니다.</li>
+                <li><span class="bold">2유형 업무는 바로 실행하세요.</span> 되돌릴 수 있으면 보고 없이 그냥 하세요.</li>
+                <li><span class="bold">안 맞는 게 있으면 솔직히 말해주세요.</span> 우리도 완벽하지 않습니다.</li>
             </ul>
         </div>
     </div>
 
-    <!-- 3. 일하는 방식 -->
+    <!-- Part 6: 온보딩 로드맵 -->
     <div class="section">
-        <h2>3. 일하는 방식</h2>
-        <ul>
-            <li><strong>DRI (직접책임자)</strong>: 모든 업무에 딱 한 명의 책임자. 본인 업무의 모든 것을 파악하고 있어야 합니다.</li>
-            <li><strong>카드</strong>: 업무 시작 시 카드 하나 발행 → 별도 보고/결재 없음</li>
-            <li><strong>주간 미팅</strong>: 주 1회. '5분 안에, 초딩도 알 수 있을 만큼 간결히.'</li>
-            <li><strong>커뮤니케이션</strong>: 슬랙 + 대면. 중요한 건 공개적으로.</li>
-        </ul>
-    </div>
-
-    <!-- 4. 온보딩 타임라인 -->
-    <div class="section">
-        <h2>4. 온보딩 로드맵</h2>
+        <h2>Part 6. 온보딩 로드맵</h2>
         <p>한 번에 다 외우려고 하지 마세요. 단계별로 자연스럽게 흡수됩니다.</p>
 
         <div class="timeline">
@@ -351,42 +351,45 @@
                 <div class="timeline-content">
                     <div class="title">맥락 파악</div>
                     <div class="detail">
-                        이 온보딩 가이드 읽기 (지금 하고 있는 것 ✅)<br>
-                        제품 직접 만져보기 (CS-25, ES-808, WS-200)<br>
-                        1분도수 채널 영상 5~10개 시청
+                        ✅ 이 온보딩 가이드 읽기 (지금 하고 있는 것)<br>
+                        ✅ 태훈과 30분 대화 — "왜 이 사업에 인생을 걸었는지"<br>
+                        ✅ 제품 직접 만져보기 (CS-25, ES-808, WS-200)
                     </div>
                 </div>
             </div>
             <div class="timeline-item">
                 <div class="timeline-marker">Week<br>1</div>
                 <div class="timeline-content">
-                    <div class="title">문화 + 첫 과제</div>
+                    <div class="title">문화 + 브랜드 + 첫 과제</div>
                     <div class="detail">
-                        테넥스 문화 전문 읽기<br>
-                        첫 과제 시작 (작지만 완결되는 것)<br>
-                        주간 미팅 참여
+                        📖 <a href="tenex-culture.html">테넥스 문화 전문</a> 읽기<br>
+                        📖 <a href="brand-design-system.html">키네메디칼 디자인 시스템</a> 파악<br>
+                        📺 1분도수 채널 영상 10개+ 시청<br>
+                        🎯 첫 과제 시작 + 주간 미팅 참여
                     </div>
                 </div>
             </div>
             <div class="timeline-item">
                 <div class="timeline-marker">Week<br>2</div>
                 <div class="timeline-content">
-                    <div class="title">사업 이해</div>
+                    <div class="title">전략 + 사업 이해</div>
                     <div class="detail">
-                        사업구조화 문서 읽기 (사명/비전/스크립트/고객/원칙)<br>
-                        창업가 시점 문서 (왜 이 제품을 만들었는가)<br>
-                        브랜드 디자인 시스템 파악
+                        📖 <a href="tenex-strategy.html">TENEX 핵심전략 2026</a><br>
+                        📖 <a href="product-roadmap.html">제품 로드맵</a><br>
+                        📖 <a href="crm.html">CRM 전략</a><br>
+                        📖 노션: 사업구조화 + 창업가 시점 문서
                     </div>
                 </div>
             </div>
             <div class="timeline-item">
                 <div class="timeline-marker">Week<br>3</div>
                 <div class="timeline-content">
-                    <div class="title">고객 이해</div>
+                    <div class="title">고객 + 시장 이해</div>
                     <div class="detail">
-                        고객시점 VOC 문서 (실제 인터뷰 4건 + 인사이트)<br>
-                        주인공(핫버튼) 정의 문서<br>
-                        자사몰/상세페이지 분석
+                        📖 노션: 고객시점 VOC (실제 인터뷰 4건 + 인사이트)<br>
+                        📖 노션: 주인공(핫버튼) 정의<br>
+                        📖 <a href="kinemedical-redesign.html">자사몰 리디자인 시안</a><br>
+                        📖 <a href="es808.html">ES-808 상세</a>
                     </div>
                 </div>
             </div>
@@ -395,19 +398,90 @@
                 <div class="timeline-content">
                     <div class="title">자기 영역 확립</div>
                     <div class="detail">
-                        담당 업무에서 첫 결과물 완성<br>
-                        피드백 루프 경험 (실행 → 피드백 → 개선)<br>
-                        1:1 미팅에서 한 달 회고
+                        🎯 담당 업무에서 첫 결과물 완성<br>
+                        🔄 피드백 루프 체감 (실행 → 피드백 → 개선)<br>
+                        💬 태훈과 1:1 한 달 회고
                     </div>
                 </div>
             </div>
         </div>
     </div>
 
+    <!-- Part 7: 참고 문서 -->
+    <div class="section">
+        <h2>Part 7. 참고 문서 모음</h2>
+        <p>필요할 때 찾아보세요. 전부 읽을 필요 없습니다.</p>
+
+        <h3>🏢 조직 & 문화</h3>
+        <div class="doc-grid">
+            <a href="tenex-culture.html" class="doc-link">
+                <div class="doc-title">테넥스 문화</div>
+                <div class="doc-desc">조직 문화 + 핵심가치 7개</div>
+            </a>
+            <a href="2026-team-structure.html" class="doc-link">
+                <div class="doc-title">팀 구조 & 채용 로드맵</div>
+                <div class="doc-desc">현재 조직도 + 채용 계획</div>
+            </a>
+        </div>
+
+        <h3>📊 전략 & 사업</h3>
+        <div class="doc-grid">
+            <a href="tenex-strategy.html" class="doc-link">
+                <div class="doc-title">핵심전략 2026</div>
+                <div class="doc-desc">올해 방향 + 핵심 지표</div>
+            </a>
+            <a href="product-roadmap.html" class="doc-link">
+                <div class="doc-title">제품 로드맵</div>
+                <div class="doc-desc">현재/개발 중/계획 제품</div>
+            </a>
+            <a href="global-strategy.html" class="doc-link">
+                <div class="doc-title">글로벌 진출 전략</div>
+                <div class="doc-desc">미국 시장 진출 로드맵</div>
+            </a>
+            <a href="funding.html" class="doc-link">
+                <div class="doc-title">자금조달</div>
+                <div class="doc-desc">법인 전환 + 투자 계획</div>
+            </a>
+        </div>
+
+        <h3>🎨 브랜드 & 제품</h3>
+        <div class="doc-grid">
+            <a href="brand-design-system.html" class="doc-link">
+                <div class="doc-title">디자인 시스템</div>
+                <div class="doc-desc">컬러/타이포/원칙</div>
+            </a>
+            <a href="kinemedical-redesign.html" class="doc-link">
+                <div class="doc-title">자사몰 리디자인</div>
+                <div class="doc-desc">웹사이트 리뉴얼 시안</div>
+            </a>
+            <a href="es808.html" class="doc-link">
+                <div class="doc-title">ES-808 상세</div>
+                <div class="doc-desc">타겟형 저주파 마사지기</div>
+            </a>
+            <a href="1min-dosu-app.html" class="doc-link">
+                <div class="doc-title">1분도수 앱</div>
+                <div class="doc-desc">앱 기획/구조</div>
+            </a>
+        </div>
+
+        <h3>📈 마케팅 & CRM</h3>
+        <div class="doc-grid">
+            <a href="crm.html" class="doc-link">
+                <div class="doc-title">CRM 전략</div>
+                <div class="doc-desc">자동화/세그먼트/캠페인</div>
+            </a>
+            <a href="profit-simulation.html" class="doc-link">
+                <div class="doc-title">수익 시뮬레이션</div>
+                <div class="doc-desc">매출/자금 시나리오</div>
+            </a>
+        </div>
+    </div>
+
     <!-- Footer -->
     <div class="footer-note">
         <strong>완벽하게 이해하고 시작하려 하지 마세요.</strong><br>
-        모르는 건 물어보고, 해보면서 알게 되는 게 더 많습니다.<br>
+        문서는 사전이지 교과서가 아닙니다.<br>
+        일하다가 궁금할 때 찾아보고, 모르면 물어보세요.<br>
         우리도 매주 실패하고 개선합니다. 같이 합시다. 🔥
     </div>
 
