@@ -20,11 +20,13 @@ function parseCookies(cookieHeader: string): Record<string, string> {
 export default async function middleware(req: Request) {
   const url = new URL(req.url);
 
-  // Allow login page and auth API routes
+  // Allow login page, auth API routes, and public FAQ page
   if (
     url.pathname === "/login" ||
     url.pathname === "/login.html" ||
-    url.pathname.startsWith("/api/auth")
+    url.pathname.startsWith("/api/auth") ||
+    url.pathname === "/faq" ||
+    url.pathname === "/faq.html"
   ) {
     return next();
   }
