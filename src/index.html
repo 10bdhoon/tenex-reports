@@ -293,7 +293,60 @@ body.sidebar-collapsed .header-toggle{display:flex}
 .tb-stat{background:var(--bg-card);border:1px solid var(--border);border-radius:10px;padding:10px 16px;min-width:80px;text-align:center}
 .tb-stat .stat-num{font-size:20px;font-weight:700;color:var(--text)}
 .tb-stat .stat-label{font-size:11px;color:var(--text-secondary);margin-top:2px}
+/* ── Category Card Grid ── */
+.tb-cat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.tb-cat-card{background:var(--bg-card);border:1px solid var(--border);border-radius:12px;padding:0;box-shadow:var(--shadow);transition:all .2s;overflow:hidden;display:flex;flex-direction:column}
+.tb-cat-card:hover{box-shadow:var(--shadow-lg)}
+.tb-cat-card-header{display:flex;align-items:center;gap:8px;padding:14px 16px 10px;border-bottom:1px solid var(--border);font-size:15px;font-weight:700;color:var(--text)}
+.tb-cat-card-header .cat-icon{font-size:20px}
+.tb-cat-card-header .cat-task-count{margin-left:auto;font-size:11px;font-weight:600;color:var(--text-secondary);background:var(--accent-light);padding:2px 8px;border-radius:10px}
+.tb-cat-card-body{flex:1;padding:8px 12px;min-height:40px}
+.tb-cat-card-body .no-tasks{text-align:center;color:var(--text-secondary);font-size:12px;padding:16px 0;opacity:.6}
+.tb-cat-task{padding:8px 10px;border-radius:8px;cursor:pointer;transition:background .15s;position:relative;border-left:3px solid transparent}
+.tb-cat-task:hover{background:var(--accent-light)}
+.tb-cat-task.urgency-red{border-left-color:#ef4444}
+.tb-cat-task.urgency-yellow{border-left-color:#eab308}
+.tb-cat-task.urgency-green{border-left-color:#22c55e}
+.tb-cat-task-row{display:flex;align-items:center;gap:8px}
+.tb-cat-task-status{font-size:16px;cursor:pointer;user-select:none;flex-shrink:0;padding:2px;border-radius:4px;transition:background .15s}
+.tb-cat-task-status:hover{background:rgba(0,40,85,0.1)}
+.tb-cat-task-title{flex:1;font-size:13px;font-weight:600;color:var(--text);min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tb-cat-task.done-task .tb-cat-task-title{text-decoration:line-through;color:var(--text-secondary);opacity:.6}
+.tb-cat-task-badges{display:flex;gap:4px;align-items:center;flex-shrink:0}
+.tb-cat-task-badges .urgency-dot{font-size:10px}
+.tb-cat-task-badges .imp-badge{font-size:10px;padding:1px 5px;border-radius:6px;background:#ede9fe;color:#7c3aed;font-weight:600}
+[data-theme="dark"] .tb-cat-task-badges .imp-badge{background:rgba(139,92,246,0.15);color:#c4b5fd}
+.tb-cat-task-badges .due-badge{font-size:10px;color:var(--text-secondary)}
+.tb-cat-task-delete{opacity:0;border:none;background:none;color:var(--text-secondary);cursor:pointer;font-size:12px;padding:2px 4px;border-radius:4px;transition:all .15s;flex-shrink:0}
+.tb-cat-task:hover .tb-cat-task-delete{opacity:.6}
+.tb-cat-task-delete:hover{opacity:1!important;color:#ef4444;background:rgba(239,68,68,0.1)}
+/* Accordion Detail */
+.tb-accordion{max-height:0;overflow:hidden;transition:max-height .3s ease}
+.tb-accordion.open{max-height:600px}
+.tb-accordion-inner{padding:8px 10px 12px 28px;font-size:12px;color:var(--text-secondary);border-top:1px dashed var(--border);margin-top:6px}
+.tb-accordion-inner .acc-section{margin-bottom:8px}
+.tb-accordion-inner .acc-label{font-weight:700;color:var(--text);margin-bottom:4px;font-size:11px;text-transform:uppercase;letter-spacing:.5px}
+.tb-checklist-item{display:flex;align-items:center;gap:6px;padding:3px 0;cursor:pointer}
+.tb-checklist-item input[type="checkbox"]{accent-color:var(--accent);cursor:pointer}
+.tb-checklist-item.checked span{text-decoration:line-through;opacity:.5}
+.tb-checklist-add{display:flex;gap:4px;margin-top:4px}
+.tb-checklist-add input{flex:1;padding:3px 6px;border:1px solid var(--border);border-radius:5px;background:var(--bg);color:var(--text);font-size:11px;outline:none}
+.tb-checklist-add input:focus{border-color:var(--accent)}
+.tb-checklist-add button{padding:3px 8px;border:none;border-radius:5px;background:var(--accent);color:#fff;font-size:11px;cursor:pointer}
+.tb-inline-edit{width:100%;padding:3px 6px;border:1px solid var(--border);border-radius:5px;background:var(--bg);color:var(--text);font-size:12px;outline:none;resize:vertical}
+.tb-inline-edit:focus{border-color:var(--accent)}
+.tb-inline-val{cursor:pointer;padding:2px 4px;border-radius:4px;min-height:18px;transition:background .15s}
+.tb-inline-val:hover{background:var(--accent-light)}
+.tb-inline-val.placeholder{font-style:italic;opacity:.5}
+/* Progress Bar */
+.tb-cat-card-footer{padding:10px 16px 12px;border-top:1px solid var(--border)}
+.tb-progress-wrap{display:flex;align-items:center;gap:8px}
+.tb-progress-bar{flex:1;height:4px;background:var(--border);border-radius:2px;overflow:hidden}
+.tb-progress-fill{height:100%;background:var(--accent);border-radius:2px;transition:width .3s}
+.tb-progress-text{font-size:11px;color:var(--text-secondary);font-weight:600;white-space:nowrap}
+@media(max-width:1024px){.tb-cat-grid{grid-template-columns:repeat(2,1fr)}}
 @media(max-width:768px){
+  .tb-cat-grid{grid-template-columns:1fr}
   .tb-add-form .form-row{flex-direction:column}
   .tb-add-form .form-title{min-width:0}
 }
@@ -743,12 +796,18 @@ const URGENCY_LABEL={red:'🔴 긴급',yellow:'🟡 주의',green:'🟢 일반'}
 
 let tbTasks=[],tbFilter='all',tbStatusFilter='all',tbSearchQuery='',tbCatFilter='all';
 
+function ensureTaskFields(t){
+  if(!t.checklist)t.checklist=[];
+  if(!t.assignee)t.assignee='';
+  if(!t.memo)t.memo='';
+  return t;
+}
 function loadTasks(){
   try{
     const saved=localStorage.getItem(TB_STORAGE);
-    if(saved){tbTasks=JSON.parse(saved);return}
+    if(saved){tbTasks=JSON.parse(saved).map(ensureTaskFields);return}
   }catch(e){}
-  tbTasks=DEFAULT_TASKS.map(t=>({...t}));
+  tbTasks=DEFAULT_TASKS.map(t=>ensureTaskFields({...t}));
   saveTasks();
 }
 function saveTasks(){localStorage.setItem(TB_STORAGE,JSON.stringify(tbTasks))}
@@ -819,51 +878,170 @@ function renderTbStatusBar(){
   bar.querySelectorAll('[data-tsf]').forEach(el=>el.onclick=()=>{tbStatusFilter=el.dataset.tsf;renderTbAll()});
 }
 
+let tbOpenAccordion=null;
+
 function renderTbTasks(){
-  const tasks=getFilteredTasks();
   const list=document.getElementById('tbTaskList');
   const empty=document.getElementById('tbEmpty');
-  if(!tasks.length){list.innerHTML='';empty.style.display='block';return}
-  empty.style.display='none';
   const catMap={};CATEGORIES.forEach(c=>catMap[c.key]=c);
-  list.innerHTML=tasks.map(t=>{
-    const cat=catMap[t.cat];
-    const catLabel=cat?cat.icon+' '+cat.label:t.cat;
-    const isDone=t.status==='done';
-    return '<div class="task-card'+(isDone?' done-card':'')+'" data-tid="'+t.id+'">'+
-      '<div class="urgency-bar '+t.urgency+'"></div>'+
-      '<span class="tc-status" data-tid="'+t.id+'" title="클릭하여 상태 변경">'+TB_STATUS_EMOJI[t.status]+'</span>'+
-      '<div class="tc-info">'+
-        '<div class="tc-title">'+escapeHtml(t.title)+'</div>'+
-        (t.desc?'<div class="tc-desc">'+escapeHtml(t.desc)+'</div>':'')+
-        '<div class="tc-badges">'+
-          '<span class="tc-badge tc-badge-cat">'+catLabel+'</span>'+
-          '<span class="tc-badge tc-badge-imp">'+t.importance+'</span>'+
-          '<span class="tc-badge" style="background:transparent;color:var(--text-secondary)">'+URGENCY_LABEL[t.urgency]+'</span>'+
-          (t.due?'<span class="tc-badge tc-badge-due">⏰ '+t.due+'</span>':'')+
-          '<span class="tc-badge" style="background:transparent;color:var(--text-secondary);opacity:.6">'+t.created+'</span>'+
-        '</div>'+
-      '</div>'+
-      '<button class="tc-delete" data-tid="'+t.id+'" title="삭제">✕</button>'+
-    '</div>';
-  }).join('');
-  // Event: status toggle
-  list.querySelectorAll('.tc-status').forEach(el=>el.onclick=e=>{
+
+  // Build per-category filtered tasks
+  const catCards=[];
+  CATEGORIES.forEach(cat=>{
+    // If category filter active, only show that category
+    if(tbCatFilter!=='all'&&tbCatFilter!==cat.key)return;
+    let tasks=tbTasks.filter(t=>t.cat===cat.key);
+    // Apply status filter
+    if(tbStatusFilter!=='all')tasks=tasks.filter(t=>t.status===tbStatusFilter);
+    // Apply urgency/week filter
+    if(tbFilter==='red')tasks=tasks.filter(t=>t.urgency==='red');
+    if(tbFilter==='week'){
+      const now=new Date();const weekAgo=new Date(now);weekAgo.setDate(now.getDate()-7);
+      tasks=tasks.filter(t=>new Date(t.created)>=weekAgo);
+    }
+    // Apply search
+    if(tbSearchQuery){const q=tbSearchQuery.toLowerCase();tasks=tasks.filter(t=>t.title.toLowerCase().includes(q))}
+    // Hide card if filters active and no tasks match
+    if((tbFilter!=='all'||tbStatusFilter!=='all'||tbSearchQuery)&&tasks.length===0)return;
+    catCards.push({cat,tasks:sortTasks(tasks)});
+  });
+
+  if(catCards.length===0){list.innerHTML='';empty.style.display='block';return}
+  empty.style.display='none';
+
+  // Render grid
+  let html='<div class="tb-cat-grid">';
+  catCards.forEach(({cat,tasks})=>{
+    const allCatTasks=tbTasks.filter(t=>t.cat===cat.key);
+    const doneCount=allCatTasks.filter(t=>t.status==='done').length;
+    const totalCount=allCatTasks.length;
+    const pct=totalCount?Math.round(doneCount/totalCount*100):0;
+    html+='<div class="tb-cat-card">';
+    html+='<div class="tb-cat-card-header"><span class="cat-icon">'+cat.icon+'</span>'+cat.label+'<span class="cat-task-count">'+tasks.length+'건</span></div>';
+    html+='<div class="tb-cat-card-body">';
+    if(tasks.length===0){
+      html+='<div class="no-tasks">업무 없음</div>';
+    } else {
+      tasks.forEach(t=>{
+        const isDone=t.status==='done';
+        const isOpen=tbOpenAccordion===t.id;
+        const urgDot=t.urgency==='red'?'🔴':t.urgency==='yellow'?'🟡':'🟢';
+        html+='<div class="tb-cat-task urgency-'+t.urgency+(isDone?' done-task':'')+'" data-tid="'+t.id+'">';
+        html+='<div class="tb-cat-task-row">';
+        html+='<span class="tb-cat-task-status" data-tid="'+t.id+'" title="클릭하여 상태 변경">'+TB_STATUS_EMOJI[t.status]+'</span>';
+        html+='<span class="tb-cat-task-title" title="'+escapeHtml(t.title)+'">'+escapeHtml(t.title)+'</span>';
+        html+='<span class="tb-cat-task-badges"><span class="urgency-dot">'+urgDot+'</span><span class="imp-badge">'+t.importance+'</span>'+(t.due?'<span class="due-badge">'+t.due+'</span>':'')+'</span>';
+        html+='<button class="tb-cat-task-delete" data-tid="'+t.id+'" title="삭제">✕</button>';
+        html+='</div>';
+        // Accordion
+        html+='<div class="tb-accordion'+(isOpen?' open':'')+'">';
+        html+='<div class="tb-accordion-inner">';
+        // Checklist
+        const checklist=t.checklist||[];
+        html+='<div class="acc-section"><div class="acc-label">체크리스트</div>';
+        checklist.forEach((ci,idx)=>{
+          html+='<div class="tb-checklist-item'+(ci.done?' checked':'')+'" data-tid="'+t.id+'" data-ci="'+idx+'"><input type="checkbox"'+(ci.done?' checked':'')+' data-tid="'+t.id+'" data-ci="'+idx+'"><span>'+escapeHtml(ci.text)+'</span></div>';
+        });
+        html+='<div class="tb-checklist-add"><input type="text" placeholder="항목 추가..." data-tid="'+t.id+'"><button data-tid="'+t.id+'">+</button></div>';
+        html+='</div>';
+        // Assignee
+        const assignee=t.assignee||'';
+        html+='<div class="acc-section"><div class="acc-label">담당자</div>';
+        html+='<div class="tb-inline-val'+(assignee?'':' placeholder')+'" data-field="assignee" data-tid="'+t.id+'">'+(assignee?escapeHtml(assignee):'클릭하여 입력')+'</div>';
+        html+='</div>';
+        // Memo
+        const memo=t.memo||'';
+        html+='<div class="acc-section"><div class="acc-label">메모</div>';
+        html+='<div class="tb-inline-val'+(memo?'':' placeholder')+'" data-field="memo" data-tid="'+t.id+'">'+(memo?escapeHtml(memo):'클릭하여 입력')+'</div>';
+        html+='</div>';
+        html+='</div></div>';
+        html+='</div>';
+      });
+    }
+    html+='</div>';
+    // Progress bar
+    html+='<div class="tb-cat-card-footer"><div class="tb-progress-wrap"><div class="tb-progress-bar"><div class="tb-progress-fill" style="width:'+pct+'%"></div></div><span class="tb-progress-text">'+doneCount+'/'+totalCount+' ('+pct+'%)</span></div></div>';
+    html+='</div>';
+  });
+  html+='</div>';
+  list.innerHTML=html;
+
+  // ── Events ──
+  // Status toggle
+  list.querySelectorAll('.tb-cat-task-status').forEach(el=>el.onclick=e=>{
     e.stopPropagation();
-    const tid=el.dataset.tid;
-    const task=tbTasks.find(t=>t.id===tid);
+    const task=tbTasks.find(t=>t.id===el.dataset.tid);
     if(!task)return;
     const idx=TB_STATUS_CYCLE.indexOf(task.status);
     task.status=TB_STATUS_CYCLE[(idx+1)%TB_STATUS_CYCLE.length];
     saveTasks();renderTbAll();
   });
-  // Event: delete
-  list.querySelectorAll('.tc-delete').forEach(el=>el.onclick=e=>{
+  // Delete
+  list.querySelectorAll('.tb-cat-task-delete').forEach(el=>el.onclick=e=>{
     e.stopPropagation();
-    const tid=el.dataset.tid;
-    tbTasks=tbTasks.filter(t=>t.id!==tid);
+    tbTasks=tbTasks.filter(t=>t.id!==el.dataset.tid);
+    if(tbOpenAccordion===el.dataset.tid)tbOpenAccordion=null;
     saveTasks();renderTbAll();
   });
+  // Accordion toggle (click on task row)
+  list.querySelectorAll('.tb-cat-task-row').forEach(row=>{
+    row.onclick=e=>{
+      if(e.target.closest('.tb-cat-task-status')||e.target.closest('.tb-cat-task-delete'))return;
+      const tid=row.closest('.tb-cat-task').dataset.tid;
+      tbOpenAccordion=tbOpenAccordion===tid?null:tid;
+      // Toggle without full re-render for smoothness
+      list.querySelectorAll('.tb-accordion').forEach(acc=>{
+        const taskEl=acc.closest('.tb-cat-task');
+        acc.classList.toggle('open',taskEl&&taskEl.dataset.tid===tbOpenAccordion);
+      });
+    };
+  });
+  // Checklist toggle
+  list.querySelectorAll('.tb-checklist-item input[type="checkbox"]').forEach(cb=>cb.onchange=e=>{
+    e.stopPropagation();
+    const task=tbTasks.find(t=>t.id===cb.dataset.tid);
+    if(!task||!task.checklist)return;
+    task.checklist[parseInt(cb.dataset.ci)].done=cb.checked;
+    saveTasks();renderTbAll();
+  });
+  // Checklist add
+  list.querySelectorAll('.tb-checklist-add button').forEach(btn=>btn.onclick=e=>{
+    e.stopPropagation();
+    const input=btn.previousElementSibling;
+    const text=input.value.trim();
+    if(!text)return;
+    const task=tbTasks.find(t=>t.id===btn.dataset.tid);
+    if(!task)return;
+    if(!task.checklist)task.checklist=[];
+    task.checklist.push({text,done:false});
+    saveTasks();renderTbAll();
+  });
+  list.querySelectorAll('.tb-checklist-add input').forEach(inp=>inp.onkeydown=e=>{
+    if(e.key==='Enter'){e.stopPropagation();inp.nextElementSibling.click()}
+  });
+  // Inline edit (assignee/memo)
+  list.querySelectorAll('.tb-inline-val').forEach(el=>el.onclick=e=>{
+    e.stopPropagation();
+    const field=el.dataset.field;
+    const tid=el.dataset.tid;
+    const task=tbTasks.find(t=>t.id===tid);
+    if(!task)return;
+    if(field==='memo'){
+      const ta=document.createElement('textarea');
+      ta.className='tb-inline-edit';ta.rows=2;ta.value=task.memo||'';
+      el.replaceWith(ta);ta.focus();
+      const save=()=>{task[field]=ta.value.trim();saveTasks();renderTbAll()};
+      ta.onblur=save;ta.onkeydown=ev=>{if(ev.key==='Enter'&&!ev.shiftKey){ev.preventDefault();save()}};
+    } else {
+      const inp=document.createElement('input');
+      inp.type='text';inp.className='tb-inline-edit';inp.value=task[field]||'';
+      el.replaceWith(inp);inp.focus();
+      const save=()=>{task[field]=inp.value.trim();saveTasks();renderTbAll()};
+      inp.onblur=save;inp.onkeydown=ev=>{if(ev.key==='Enter')save()};
+    }
+  });
+  // Prevent accordion close when clicking inside accordion
+  list.querySelectorAll('.tb-accordion-inner').forEach(el=>el.onclick=e=>e.stopPropagation());
 }
 
 function escapeHtml(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;')}
@@ -901,7 +1079,7 @@ function initTaskBoard(){
   const sel=document.getElementById('tbNewCat');
   sel.innerHTML=CATEGORIES.map(c=>'<option value="'+c.key+'">'+c.icon+' '+c.key+' '+c.label+'</option>').join('');
   // Search
-  document.getElementById('tbSearch').oninput=e=>{tbSearchQuery=e.target.value;renderTbTasks()};
+  document.getElementById('tbSearch').oninput=e=>{tbSearchQuery=e.target.value;renderTbAll()};
   // Add form toggle
   document.getElementById('tbAddBtn').onclick=()=>{
     const form=document.getElementById('tbAddForm');
@@ -929,7 +1107,8 @@ function addTask(){
     importance:document.getElementById('tbNewImp').value,
     status:'waiting',
     created:new Date().toISOString().slice(0,10),
-    due:document.getElementById('tbNewDue').value||null
+    due:document.getElementById('tbNewDue').value||null,
+    checklist:[],assignee:'',memo:''
   };
   tbTasks.unshift(task);
   saveTasks();
