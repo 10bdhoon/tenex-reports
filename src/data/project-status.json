@@ -1,5 +1,5 @@
 {
-  "updated": "2026-03-30T16:59",
+  "updated": "2026-03-30T08:00:30.968Z",
   "tasks": [
     {
       "id": "t01",
@@ -266,7 +266,7 @@
       "cat": "G",
       "urgency": "yellow",
       "importance": "중",
-      "status": "doing",
+      "status": "done",
       "assignee": "태훈",
       "due": null,
       "desc": "G-채용 채널에서 진행중",
@@ -424,47 +424,6 @@
       "_source": "json",
       "sortOrder": 0,
       "priorityOrder": 0
-    },
-    {
-      "id": "t22",
-      "title": "해외사업 개박살 내보자!!",
-      "status": "in_progress",
-      "cat": "J",
-      "assignee": "태훈",
-      "dueDate": null,
-      "importance": "상",
-      "urgency": "red",
-      "note": "국가별 임팩트 체크 완료. 인증/물류/판매/마케팅 준비 중",
-      "checklist": [
-        {
-          "text": "국가별 임팩트 체크",
-          "done": true
-        },
-        {
-          "text": "제품 준비 - 인증",
-          "done": false
-        },
-        {
-          "text": "KTC 원스톱 인증 서비스 (ktc.re.kr)",
-          "done": false
-        },
-        {
-          "text": "UL코리아 인증 문의",
-          "done": false
-        },
-        {
-          "text": "물류 준비 - Loadit (loadit.co.kr)",
-          "done": false
-        },
-        {
-          "text": "판매 준비 - 쇼피파이 쇼핑몰 제작",
-          "done": false
-        },
-        {
-          "text": "마케팅 준비 - 인스타/틱톡 개설 + Heygen 콘텐츠 재가공",
-          "done": false
-        }
-      ]
     }
   ],
   "agents": [
