@@ -1098,13 +1098,63 @@ function ensureTaskFields(t){
   if(t.priorityOrder==null)t.priorityOrder=0;
   return t;
 }
-function loadTasks(){
+const JSON_STATUS_MAP={done:'done',in_progress:'doing',pending:'waiting',blocked:'delay',doing:'doing',waiting:'waiting'};
+function mapJsonTask(jt){
+  return ensureTaskFields({
+    id:jt.id,title:jt.title,cat:jt.cat,urgency:jt.urgency,importance:jt.importance,
+    status:JSON_STATUS_MAP[jt.status]||jt.status,
+    assignee:jt.assignee||'',created:jt.created,
+    due:jt.dueDate||null,desc:jt.note||'',
+    checklist:jt.checklist||[],memo:'',
+    _source:'json'
+  });
+}
+async function loadTasksFromJson(){
   try{
-    const saved=localStorage.getItem(TB_STORAGE);
-    if(saved){tbTasks=JSON.parse(saved).map(ensureTaskFields);return}
-  }catch(e){}
-  tbTasks=DEFAULT_TASKS.map(t=>ensureTaskFields({...t}));
-  saveTasks();
+    const res=await fetch('/data/project-status.json');
+    if(!res.ok)throw new Error('fetch failed');
+    const json=await res.json();
+    const jsonTasks=json.tasks.map(mapJsonTask);
+    const jsonById=new Map(jsonTasks.map(t=>[t.id,t]));
+    // Merge with localStorage
+    let localTasks=[];
+    try{
+      const saved=localStorage.getItem(TB_STORAGE);
+      if(saved)localTasks=JSON.parse(saved).map(ensureTaskFields);
+    }catch(e){}
+    if(localTasks.length===0){
+      tbTasks=jsonTasks;saveTasks();return;
+    }
+    // Build merged list: start with JSON tasks, preserve local-only tasks
+    const merged=[];
+    const localById=new Map(localTasks.map(t=>[t.id,t]));
+    // JSON tasks take priority for data, but preserve local priorityOrder/sortOrder
+    jsonTasks.forEach(jt=>{
+      const lt=localById.get(jt.id);
+      if(lt){
+        jt.priorityOrder=lt.priorityOrder;
+        jt.sortOrder=lt.sortOrder;
+        jt.memo=lt.memo||jt.memo;
+      }
+      merged.push(jt);
+    });
+    // Add local-only tasks (user-added, not in JSON)
+    localTasks.forEach(lt=>{
+      if(!jsonById.has(lt.id)){
+        lt._source='local';
+        merged.push(lt);
+      }
+    });
+    tbTasks=merged;saveTasks();
+  }catch(e){
+    // Fallback: localStorage or DEFAULT_TASKS
+    try{
+      const saved=localStorage.getItem(TB_STORAGE);
+      if(saved){tbTasks=JSON.parse(saved).map(ensureTaskFields);return}
+    }catch(e2){}
+    tbTasks=DEFAULT_TASKS.map(t=>ensureTaskFields({...t}));
+    saveTasks();
+  }
 }
 function saveTasks(){localStorage.setItem(TB_STORAGE,JSON.stringify(tbTasks))}
 
@@ -1928,9 +1978,8 @@ function renderSecurityDashboard(){
   return h;
 }
 
-function initTaskBoard(){
-  loadTasks();
-  loadAgentData();
+async function initTaskBoard(){
+  await Promise.all([loadTasksFromJson(),loadAgentDataFromJson()]);
   // Sidebar nav click
   document.getElementById('navTaskboard').onclick=()=>{
     switchView('taskboard');closeMobile();
@@ -1968,7 +2017,7 @@ function addTask(){
     status:'waiting',
     created:new Date().toISOString().slice(0,10),
     due:document.getElementById('tbNewDue').value||null,
-    checklist:[],assignee:'',memo:'',desc:'',priorityOrder:0
+    checklist:[],assignee:'',memo:'',desc:'',priorityOrder:0,_source:'local'
   };
   tbTasks.unshift(task);
   saveTasks();
@@ -2167,13 +2216,41 @@ const DEFAULT_AGENT_TASKS=[
 ];
 
 let agentData=[];
-function loadAgentData(){
+async function loadAgentDataFromJson(){
   try{
-    const saved=localStorage.getItem(AB_STORAGE);
-    if(saved){agentData=JSON.parse(saved);return}
-  }catch(e){}
-  agentData=DEFAULT_AGENT_TASKS.map(a=>({...a,tasks:a.tasks.map(t=>({...t}))}));
-  saveAgentData();
+    const res=await fetch('/data/project-status.json');
+    if(!res.ok)throw new Error('fetch failed');
+    const json=await res.json();
+    const jsonAgents=json.agents.map(a=>({...a,tasks:a.tasks.map(t=>({...t,status:JSON_STATUS_MAP[t.status]||t.status}))}));
+    const jsonById=new Map(jsonAgents.map(a=>[a.id,a]));
+    let localAgents=[];
+    try{
+      const saved=localStorage.getItem(AB_STORAGE);
+      if(saved)localAgents=JSON.parse(saved);
+    }catch(e){}
+    if(localAgents.length===0){
+      agentData=jsonAgents;saveAgentData();return;
+    }
+    // Merge: JSON agents data wins, keep local-only agents
+    const merged=[];
+    const localById=new Map(localAgents.map(a=>[a.id,a]));
+    jsonAgents.forEach(ja=>{
+      merged.push(ja);
+    });
+    localAgents.forEach(la=>{
+      if(!jsonById.has(la.id)){
+        merged.push(la);
+      }
+    });
+    agentData=merged;saveAgentData();
+  }catch(e){
+    try{
+      const saved=localStorage.getItem(AB_STORAGE);
+      if(saved){agentData=JSON.parse(saved);return}
+    }catch(e2){}
+    agentData=DEFAULT_AGENT_TASKS.map(a=>({...a,tasks:a.tasks.map(t=>({...t}))}));
+    saveAgentData();
+  }
 }
 function saveAgentData(){localStorage.setItem(AB_STORAGE,JSON.stringify(agentData))}
 
