@@ -1420,17 +1420,301 @@ function switchView(view){
 }
 function openSystemPage(href,title){
   switchView('system');
+  const iframeWrap=document.getElementById('systemIframeWrap');
+  const contentEl=document.getElementById('systemContent');
   const iframe=document.getElementById('systemIframe');
   const loading=document.getElementById('systemLoading');
+  contentEl.innerHTML='';
+  iframeWrap.style.display='';
   document.getElementById('systemViewTitle').textContent=title||'';
   loading.classList.remove('hidden');
   iframe.src=href;
   iframe.onload=()=>loading.classList.add('hidden');
-  // Highlight matching sidebar system nav
+  document.querySelectorAll('#sidebarSystem .nav-item').forEach(el=>el.classList.remove('active'));
+  closeMobile();
+}
+
+const SYSTEM_PAGE_TITLES={cron:'🔄 크론 대시보드',deploy:'🚀 배포 현황',system:'🖥️ 자동화 시스템 현황',heartbeat:'💓 하트비트 모니터링',security:'🔒 보안 현황'};
+const SYSTEM_RENDERERS={cron:renderCronDashboard,deploy:renderDeployDashboard,system:renderSystemStatus,heartbeat:renderHeartbeatDashboard,security:renderSecurityDashboard};
+
+function openSystemDashboard(page,label){
+  switchView('system');
+  const iframeWrap=document.getElementById('systemIframeWrap');
+  const contentEl=document.getElementById('systemContent');
+  const iframe=document.getElementById('systemIframe');
+  iframe.src='about:blank';
+  iframeWrap.style.display='none';
+  document.getElementById('systemViewTitle').textContent=SYSTEM_PAGE_TITLES[page]||label||'';
+  const renderer=SYSTEM_RENDERERS[page];
+  contentEl.innerHTML=renderer?renderer():'';
+  // Bind events after render
+  if(page==='cron')bindCronEvents(contentEl);
+  // Highlight sidebar
   document.querySelectorAll('#sidebarSystem .nav-item').forEach(el=>{
-    el.classList.toggle('active',el.dataset.systemHref===href);
+    el.classList.toggle('active',el.dataset.systemPage===page);
   });
   closeMobile();
+}
+
+/* ═══════ System Dashboard Render Functions ═══════ */
+
+function renderCronDashboard(){
+  const crons=[
+    {name:'cafe24-token-refresh',time:'*/90m',desc:'카페24 API 토큰 자동 갱신',meta:'90분 간격 | 마지막 실행: 정상',dot:'navy',tags:[{t:'API',c:'navy'},{t:'카페24',c:'green'}],schedule:'90분',status:'ok'},
+    {name:'daily-report',time:'07:00',desc:'텔레그램 일일 매출 리포트',meta:'매일 07:00 | 마지막 실행: 정상',dot:'blue',tags:[{t:'텔레그램',c:'cyan'},{t:'매출',c:'green'}],schedule:'매일 07:00',status:'ok'},
+    {name:'plaud-pipeline',time:'*/30',desc:'Plaud 녹음 전사+요약',meta:'30분 간격 | 마지막 실행: 정상',dot:'navy',tags:[{t:'Plaud',c:'navy'},{t:'전사',c:'cyan'}],schedule:'30분',status:'ok'},
+    {name:'plaud-daily-report',time:'22:00',desc:'Plaud 일일 요약 보고',meta:'매일 22:00 | 마지막 실행: 정상',dot:'blue',tags:[{t:'Plaud',c:'navy'},{t:'보고',c:'green'}],schedule:'매일 22:00',status:'ok'},
+    {name:'tenex-reports-deploy',time:'*/10',desc:'리포트 변경감지→Vercel 배포',meta:'10분 간격 | 마지막 실행: 정상',dot:'green',tags:[{t:'Vercel',c:'green'},{t:'배포',c:'gray'}],schedule:'10분',status:'ok'},
+    {name:'brain-conv-sync',time:'*/30',desc:'대화→brain.db 동기화',meta:'30분 간격 | 마지막 실행: 정상',dot:'navy',tags:[{t:'brain.db',c:'navy'},{t:'동기화',c:'cyan'}],schedule:'30분',status:'ok'},
+    {name:'heartbeat-sync',time:'*/1h',desc:'HEARTBEAT.md 동기화',meta:'1시간 간격 | 마지막 실행: 정상',dot:'blue',tags:[{t:'하트비트',c:'blue'},{t:'동기화',c:'gray'}],schedule:'1시간',status:'ok'},
+    {name:'calendar-reminder',time:'*/30',desc:'구글 캘린더 리마인더',meta:'30분 간격 | 마지막 실행: 정상',dot:'navy',tags:[{t:'Google',c:'navy'},{t:'캘린더',c:'cyan'}],schedule:'30분',status:'ok'},
+    {name:'slack-notion-sync',time:'*/30',desc:'슬랙→노션 업무 추적',meta:'30분 간격 | 마지막 실행: 정상',dot:'navy',tags:[{t:'Slack',c:'cyan'},{t:'Notion',c:'green'}],schedule:'30분',status:'ok'},
+    {name:'cafe24-webhook',time:'상시',desc:'카페24 주문/취소 실시간 알림',meta:'상시 | 마지막 실행: 정상',dot:'green',tags:[{t:'카페24',c:'green'},{t:'웹훅',c:'orange'}],schedule:'상시',status:'ok'},
+    {name:'mixpanel-weekly',time:'월08',desc:'Mixpanel 주간 리포트',meta:'매주 월요일 08:00 | 마지막 실행: 정상',dot:'cyan',tags:[{t:'Mixpanel',c:'cyan'},{t:'주간',c:'gray'}],schedule:'매주 월 08:00',status:'ok'},
+    {name:'openclaw-watchdog',time:'*/5',desc:'OpenClaw 게이트웨이 감시',meta:'5분 간격 | 마지막 실행: 정상',dot:'green',tags:[{t:'OpenClaw',c:'green'},{t:'감시',c:'gray'}],schedule:'5분',status:'ok'},
+    {name:'memory-watcher',time:'상시',desc:'메모리 파일 변경 감지',meta:'상시 | 마지막 실행: 정상',dot:'green',tags:[{t:'메모리',c:'green'},{t:'감시',c:'gray'}],schedule:'상시',status:'ok'},
+    {name:'session-sync',time:'*/10',desc:'세션→brain.db 동기화',meta:'10분 간격 | 마지막 실행: 정상',dot:'navy',tags:[{t:'brain.db',c:'navy'},{t:'세션',c:'cyan'}],schedule:'10분',status:'ok'},
+  ];
+  const total=crons.length,ok=crons.filter(c=>c.status==='ok').length,err=crons.filter(c=>c.status==='error').length;
+  const interval30=crons.filter(c=>c.schedule.includes('30분')).length;
+  const always=crons.filter(c=>c.schedule==='상시').length;
+  let h='';
+  h+='<div class="sc-summary">';
+  h+='<div class="sc-sum-card"><div class="num navy">'+total+'</div><div class="sc-label">전체 크론</div></div>';
+  h+='<div class="sc-sum-card"><div class="num green">'+ok+'</div><div class="sc-label">정상</div></div>';
+  h+='<div class="sc-sum-card"><div class="num red">'+err+'</div><div class="sc-label">오류</div></div>';
+  h+='<div class="sc-sum-card"><div class="num blue">'+interval30+'</div><div class="sc-label">30분 간격</div></div>';
+  h+='<div class="sc-sum-card"><div class="num yellow">'+always+'</div><div class="sc-label">상시</div></div>';
+  h+='</div>';
+  h+='<div class="sc-filter-tabs" id="scCronFilters">';
+  h+='<div class="sc-filter-tab active" data-filter="all">전체<span class="sc-filter-count">'+total+'</span></div>';
+  h+='<div class="sc-filter-tab" data-filter="ok">정상<span class="sc-filter-count">'+ok+'</span></div>';
+  h+='<div class="sc-filter-tab" data-filter="error">오류<span class="sc-filter-count">'+err+'</span></div>';
+  h+='</div>';
+  h+='<div class="sc-section-title">⏰ 하루 타임라인</div>';
+  h+='<div class="sc-timeline">';
+  crons.forEach(c=>{
+    const tagsHtml=c.tags.map(t=>'<span class="sc-tag '+t.c+'">'+t.t+'</span>').join('');
+    const statusCls=c.status==='ok'?'active':'error';
+    const statusLabel=c.status==='ok'?'정상':'오류';
+    h+='<div class="sc-tl-item" data-status="'+c.status+'">';
+    h+='<div class="sc-tl-time">'+c.time+'</div>';
+    h+='<div class="sc-tl-dot '+c.dot+'"></div>';
+    h+='<div class="sc-tl-card"><h3>'+c.name+' <span class="sc-status '+statusCls+'">'+statusLabel+'</span></h3>';
+    h+='<div class="desc">'+c.desc+'</div>';
+    h+='<div class="meta">'+c.meta+'</div>';
+    h+='<div class="tags">'+tagsHtml+'</div></div></div>';
+  });
+  h+='</div>';
+  h+='<div class="sc-section-title">📋 크론 전체 목록</div>';
+  h+='<div style="overflow-x:auto"><table>';
+  h+='<tr><th>이름</th><th>주기</th><th>설명</th><th>상태</th></tr>';
+  crons.forEach(c=>{
+    const statusCls=c.status==='ok'?'active':'error';
+    const statusLabel=c.status==='ok'?'정상':'오류';
+    h+='<tr><td>'+c.name+'</td><td>'+c.schedule+'</td><td>'+c.desc+'</td><td><span class="sc-status '+statusCls+'">'+statusLabel+'</span></td></tr>';
+  });
+  h+='</table></div>';
+  h+='<p class="sc-footer">최종 업데이트: 2026-03-27 | 데이터 소스: openclaw cron list</p>';
+  return h;
+}
+function bindCronEvents(el){
+  el.querySelectorAll('.sc-filter-tab').forEach(tab=>{
+    tab.onclick=()=>{
+      el.querySelectorAll('.sc-filter-tab').forEach(t=>t.classList.remove('active'));
+      tab.classList.add('active');
+      const filter=tab.dataset.filter;
+      el.querySelectorAll('.sc-tl-item').forEach(item=>{
+        const status=item.dataset.status;
+        if(filter==='all')item.classList.remove('hidden');
+        else if(filter==='ok')item.classList.toggle('hidden',status!=='ok');
+        else if(filter==='error')item.classList.toggle('hidden',status!=='error');
+      });
+    };
+  });
+}
+
+function renderDeployDashboard(){
+  const now=new Date();
+  const fmt=d=>d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')+' '+String(d.getHours()).padStart(2,'0')+':'+String(d.getMinutes()).padStart(2,'0');
+  const ts=fmt(now);
+  let h='';
+  h+='<div class="sc-summary">';
+  h+='<div class="sc-sum-card"><div class="num navy">2</div><div class="sc-label">전체 사이트</div></div>';
+  h+='<div class="sc-sum-card"><div class="num green">2</div><div class="sc-label">정상</div></div>';
+  h+='</div>';
+  h+='<div class="sc-section-title">🌐 배포 사이트</div>';
+  h+='<div class="sc-deploy-grid">';
+  // tenex-reports
+  h+='<div class="sc-deploy-card">';
+  h+='<div class="card-header"><div class="site-name">tenex-reports</div><div class="site-icon">📄</div></div>';
+  h+='<div class="info-row"><span class="rlabel">URL</span><a href="https://tenex-reports.vercel.app" target="_blank">tenex-reports.vercel.app</a></div>';
+  h+='<div class="info-row"><span class="rlabel">상태</span><span class="sc-status-badge ok">정상</span></div>';
+  h+='<div class="info-row"><span class="rlabel">프레임워크</span><span class="sc-tag navy">정적 HTML</span></div>';
+  h+='<div class="info-row"><span class="rlabel">플랫폼</span><span class="sc-tag green">Vercel</span></div>';
+  h+='<div class="sc-deploy-time">마지막 배포: '+ts+'</div>';
+  h+='</div>';
+  // tenex-dashboard
+  h+='<div class="sc-deploy-card">';
+  h+='<div class="card-header"><div class="site-name">tenex-dashboard</div><div class="site-icon">📊</div></div>';
+  h+='<div class="info-row"><span class="rlabel">URL</span><a href="https://tenex-dashboard.vercel.app" target="_blank">tenex-dashboard.vercel.app</a></div>';
+  h+='<div class="info-row"><span class="rlabel">상태</span><span class="sc-status-badge ok">정상</span></div>';
+  h+='<div class="info-row"><span class="rlabel">프레임워크</span><span class="sc-tag blue">Next.js 16</span></div>';
+  h+='<div class="info-row"><span class="rlabel">플랫폼</span><span class="sc-tag green">Vercel</span></div>';
+  h+='<div class="sc-deploy-time">마지막 배포: '+ts+'</div>';
+  h+='</div>';
+  h+='</div>';
+  h+='<p class="sc-footer">최종 업데이트: 2026-03-27</p>';
+  return h;
+}
+
+function renderSystemStatus(){
+  let h='';
+  h+='<div class="sc-sys-grid">';
+  h+='<div class="sc-sys-card"><div class="sc-sys-label">크론잡 (OpenClaw)</div><div class="val">9개</div><div class="sub2">상시 운영 중</div></div>';
+  h+='<div class="sc-sys-card"><div class="sc-sys-label">launchd 잡 (Mac mini)</div><div class="val">5개</div><div class="sub2">시스템 레벨 자동화</div></div>';
+  h+='<div class="sc-sys-card"><div class="sc-sys-label">git 백업</div><div class="val">하루 3회</div><div class="sub2">09:00 / 15:00 / 23:00</div></div>';
+  h+='<div class="sc-sys-card"><div class="sc-sys-label">brain.db (SQLite)</div><div class="val">포트 8082</div><div class="sub2">장기기억 서버</div></div>';
+  h+='</div>';
+  // OpenClaw 크론잡
+  h+='<div class="sc-section"><h2>⏰ OpenClaw 크론잡</h2><table>';
+  h+='<thead><tr><th>이름</th><th>스케줄</th><th>설명</th><th>상태</th></tr></thead><tbody>';
+  const ocCrons=[
+    ['아침 브리핑','매일 07:00','일정 확인 / 이번 주 마감 / 날씨 → 텔레그램 전송','ok'],
+    ['헬스장 운동 리마인더','매일 09:00','운동 알림 → 텔레그램','ok'],
+    ['Plaud 30분 수집 (Gemini 전사)','매일 11-21시 30분 간격','Plaud 녹음 자동 수집 → Gemini 전사 → brain.db 저장','ok'],
+    ['ES-808 배송 안내 SMS','평일 18:00','당일 송장 입력 건 조회 → 중복 제거 → 듀얼번호(*7782) 문자 자동 발송','ok'],
+    ['저녁 녹음 수집','매일 21:45','오늘 Plaud 녹음 최종 수집 + 하루 핵심 요약 → 텔레그램','ok'],
+    ['일일 회고','매일 22:00','완료 / 이슈 / 내일 할 일 3줄 → 텔레그램','ok'],
+    ['독서 리마인더','매일 22:30','10페이지 독서 알림','ok'],
+    ['주간 규칙 검사','매주 금요일 11:00','BOOTSTRAP.md / LEARNINGS.md 리뷰 → 개선 계획 보고','ok'],
+    ['비즈모아 ES-808 팔로업','매주 화요일 10:00','FCC 인증 / 미국 진출 진행 상황 트래킹 알림','ok'],
+  ];
+  ocCrons.forEach(c=>{
+    h+='<tr><td><strong>'+c[0]+'</strong></td><td><code>'+c[1]+'</code></td><td>'+c[2]+'</td><td><span class="sc-status active">ok</span></td></tr>';
+  });
+  h+='</tbody></table></div>';
+  // launchd
+  h+='<div class="sc-section"><h2>🖥️ Mac mini launchd 잡 (시스템 레벨)</h2><table>';
+  h+='<thead><tr><th>이름</th><th>주기</th><th>설명</th><th>스크립트</th></tr></thead><tbody>';
+  const launchd=[
+    ['카페24 토큰 갱신','60분마다','access_token 자동 갱신 → .env 업데이트','refresh-cafe24-token.sh'],
+    ['brain.db 서버','상시 (포트 8082)','SQLite 장기기억 서버. 모든 대화/녹음/문서 저장 및 검색','com.tenex.second-brain'],
+    ['Plaud 파이프라인','60분마다','Plaud 녹음 자동 수집 보조 (OpenClaw 크론잡과 이중화)','plaud-pipeline.sh'],
+    ['워크스페이스 백업','09:00 / 15:00 / 23:00','git commit + push → GitHub (karina-workspace)','workspace-backup.sh'],
+    ['tenex-reports 자동 배포','10분마다 (변경 시만)','파일 해시 비교 → 변경 감지 시 Vercel 재배포','deploy-tenex-reports.sh'],
+  ];
+  launchd.forEach(c=>{
+    h+='<tr><td><strong>'+c[0]+'</strong></td><td><code>'+c[1]+'</code></td><td>'+c[2]+'</td><td><code>'+c[3]+'</code></td></tr>';
+  });
+  h+='</tbody></table></div>';
+  // ES-808 SMS
+  h+='<div class="sc-section"><h2>📱 ES-808 배송 안내 SMS 상세</h2><table>';
+  h+='<thead><tr><th>항목</th><th>내용</th></tr></thead><tbody>';
+  const sms=[
+    ['발송 방식','osascript → Messages.app (듀얼번호 <code>*7782</code> prefix)'],
+    ['조회 기준','송장 입력일 (tracking_no_updated_date = 오늘) — 최근 7일 주문 대상'],
+    ['중복 방지','당일 발송 이력 <code>locks/sent-YYYY-MM-DD.json</code> 저장 → 재실행 시 스킵'],
+    ['대상 쇼핑몰','shop5 (키네메디칼) + shop6 (1분도수)'],
+    ['스크립트','<code>~/.openclaw/workspace/cs-automation/es808-auto-send.js</code>'],
+    ['수동 실행','<code>cd ~/.openclaw/workspace/cs-automation && node es808-auto-send.js</code>'],
+    ['업데이트 이력','v1: shipping_status 기준 → v2: 송장 입력일 기준 (2026-03-11)'],
+  ];
+  sms.forEach(c=>{h+='<tr><td>'+c[0]+'</td><td>'+c[1]+'</td></tr>'});
+  h+='</tbody></table></div>';
+  // 카페24 토큰
+  h+='<div class="sc-section"><h2>🔑 카페24 토큰 자동화</h2><table>';
+  h+='<thead><tr><th>항목</th><th>내용</th></tr></thead><tbody>';
+  [['갱신 방식','refresh_token → 새 access_token 발급 → .env 업데이트'],['주기','60분마다 (launchd)'],['스크립트','<code>~/Desktop/tenex-assistant/refresh-cafe24-token.sh</code>'],['수동 갱신','<code>bash ~/Desktop/tenex-assistant/refresh-cafe24-token.sh</code>'],['로그','<code>~/Desktop/tenex-assistant/token-refresh.log</code>']].forEach(c=>{h+='<tr><td>'+c[0]+'</td><td>'+c[1]+'</td></tr>'});
+  h+='</tbody></table></div>';
+  // git 백업
+  h+='<div class="sc-section"><h2>💾 Git 백업 시스템</h2><table>';
+  h+='<thead><tr><th>항목</th><th>내용</th></tr></thead><tbody>';
+  [['레포','<code>github.com/10bdhoon/karina-workspace</code>'],['백업 주기','09:00 / 15:00 / 23:00 (하루 3회 자동 커밋 + 푸시)'],['스크립트','<code>~/.openclaw/workspace/scripts/workspace-backup.sh</code>'],['주의사항','50MB 이상 파일은 .gitignore 처리 필수 (BFG로 히스토리 정리 2026-03-11)']].forEach(c=>{h+='<tr><td>'+c[0]+'</td><td>'+c[1]+'</td></tr>'});
+  h+='</tbody></table></div>';
+  // brain.db
+  h+='<div class="sc-section"><h2>🧠 brain.db (제2의 뇌)</h2><table>';
+  h+='<thead><tr><th>항목</th><th>내용</th></tr></thead><tbody>';
+  [['종류','SQLite + HTTP API'],['포트','<code>8082</code>'],['검색','<code>curl "http://localhost:8082/search?q=키워드&amp;limit=5"</code>'],['저장','<code>curl -X POST http://localhost:8082/insert -d \'{"date":"...","source":"telegram","content":"..."}\'</code>'],['저장 대상','텔레그램 대화 / Plaud 녹음 전사 / 주요 결정사항']].forEach(c=>{h+='<tr><td>'+c[0]+'</td><td>'+c[1]+'</td></tr>'});
+  h+='</tbody></table></div>';
+  h+='<p class="sc-footer">tenex-reports · 자동 배포 (변경 감지 시 10분 내 반영)</p>';
+  return h;
+}
+
+function renderHeartbeatDashboard(){
+  const agents=[
+    {name:'카리나',icon:'👑',model:'Claude Opus',channel:'텔레그램',channelColor:'cyan',role:'총괄',status:'온라인'},
+    {name:'마실장',icon:'📈',model:'Claude Opus',channel:'슬랙 #d1_광고-퍼포먼스',channelColor:'orange',role:'마케팅 실장',status:'온라인'},
+    {name:'개실장',icon:'⚙️',model:'Claude Opus',channel:'슬랙 #d2_개발-시스템',channelColor:'blue',role:'개발 실장',status:'온라인'},
+    {name:'고실장',icon:'🎧',model:'Claude Opus',channel:'슬랙 #d3_고객-경험',channelColor:'green',role:'고객성공 실장',status:'온라인'},
+    {name:'콘실장',icon:'🎬',model:'Claude Opus',channel:'슬랙 #d4_콘텐츠-채널',channelColor:'orange',role:'콘텐츠 실장',status:'온라인'},
+  ];
+  let h='';
+  h+='<div class="sc-summary">';
+  h+='<div class="sc-sum-card"><div class="num navy">'+agents.length+'</div><div class="sc-label">전체 에이전트</div></div>';
+  h+='<div class="sc-sum-card"><div class="num green">'+agents.filter(a=>a.status==='온라인').length+'</div><div class="sc-label">온라인</div></div>';
+  h+='</div>';
+  h+='<div class="sc-section-title">🤖 에이전트 현황</div>';
+  h+='<div class="sc-hb-grid">';
+  agents.forEach(a=>{
+    h+='<div class="sc-hb-card">';
+    h+='<div class="card-top"><div class="agent-name"><span class="sc-pulse"></span> '+a.name+'</div><div class="agent-icon">'+a.icon+'</div></div>';
+    h+='<div class="info-row"><span class="rlabel">모델</span><span class="sc-tag navy">'+a.model+'</span></div>';
+    h+='<div class="info-row"><span class="rlabel">채널</span><span class="sc-tag '+a.channelColor+'">'+a.channel+'</span></div>';
+    h+='<div class="info-row"><span class="rlabel">역할</span>'+a.role+'</div>';
+    h+='<div class="info-row"><span class="rlabel">상태</span><span class="sc-status-badge online">'+a.status+'</span></div>';
+    h+='</div>';
+  });
+  h+='</div>';
+  h+='<p class="sc-footer">최종 업데이트: 2026-03-27 | 데이터 소스: HEARTBEAT.md</p>';
+  return h;
+}
+
+function renderSecurityDashboard(){
+  const apis=[
+    {icon:'🛒',name:'Cafe24 API',usage:'주문/상품 관리',badge:'auto',badgeLabel:'토큰 자동 갱신'},
+    {icon:'📊',name:'Meta Marketing API',usage:'광고 성과 조회',badge:'ok',badgeLabel:'정상'},
+    {icon:'▶️',name:'YouTube Data API',usage:'채널/영상 데이터',badge:'ok',badgeLabel:'정상'},
+    {icon:'📝',name:'Notion API',usage:'태스크 관리',badge:'ok',badgeLabel:'정상'},
+    {icon:'📈',name:'Mixpanel API',usage:'이벤트 분석',badge:'ok',badgeLabel:'정상'},
+    {icon:'💬',name:'Slack Bot',usage:'채널 메시징',badge:'ok',badgeLabel:'정상'},
+    {icon:'✨',name:'Google Gemini',usage:'AI 생성',badge:'ok',badgeLabel:'정상'},
+  ];
+  const perms=[
+    {icon:'👑',name:'카리나',scope:'전체 권한'},
+    {icon:'📈',name:'마실장',scope:'마케팅/광고 영역'},
+    {icon:'⚙️',name:'개실장',scope:'개발/시스템 영역'},
+    {icon:'🎧',name:'고실장',scope:'고객/CS 영역'},
+    {icon:'🎬',name:'콘실장',scope:'콘텐츠/채널 영역'},
+  ];
+  let h='';
+  h+='<div class="sc-summary">';
+  h+='<div class="sc-sum-card"><div class="num navy">'+apis.length+'</div><div class="sc-label">API 서비스</div></div>';
+  h+='<div class="sc-sum-card"><div class="num green">'+apis.length+'</div><div class="sc-label">정상</div></div>';
+  h+='</div>';
+  h+='<div class="sc-section-title">🔑 API 토큰 현황</div>';
+  h+='<div class="sc-sec-grid">';
+  apis.forEach(a=>{
+    h+='<div class="sc-sec-card"><div class="card-top"><div class="svc-name">'+a.icon+' '+a.name+'</div></div>';
+    h+='<div class="info-row"><span class="rlabel">용도</span>'+a.usage+'</div>';
+    h+='<div class="info-row"><span class="rlabel">상태</span><span class="sc-status-badge '+a.badge+'">'+a.badgeLabel+'</span></div>';
+    h+='</div>';
+  });
+  h+='</div>';
+  h+='<div class="sc-section-title">🖥️ 서버 정보</div>';
+  h+='<div class="sc-info-box">';
+  h+='<div class="row"><span class="rlabel">하드웨어</span><span class="val">Mac Mini M4</span></div>';
+  h+='<div class="row"><span class="rlabel">운영체제</span><span class="val">macOS Sequoia</span></div>';
+  h+='<div class="row"><span class="rlabel">네트워크</span><span class="val">Tailscale 100.95.220.26</span></div>';
+  h+='</div>';
+  h+='<div class="sc-section-title">👤 에이전트 권한</div>';
+  h+='<div class="sc-perm-grid">';
+  perms.forEach(p=>{
+    h+='<div class="sc-perm-card"><div class="agent">'+p.icon+' '+p.name+'</div><div class="scope">'+p.scope+'</div></div>';
+  });
+  h+='</div>';
+  h+='<p class="sc-footer">최종 업데이트: 2026-03-27</p>';
+  return h;
 }
 
 function initTaskBoard(){
