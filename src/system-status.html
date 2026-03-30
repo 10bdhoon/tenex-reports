@@ -1,214 +1,1937 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="ko" data-theme="dark">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>테넥스 자동화 시스템 현황</title>
-<style>
-* { margin:0; padding:0; box-sizing:border-box; }
-body { font-family:-apple-system,sans-serif; background:#0f1117; color:#e2e8f0; min-height:100vh; padding:2rem; }
-h1 { font-size:1.5rem; font-weight:700; margin-bottom:.25rem; }
-.sub { color:#94a3b8; font-size:.875rem; margin-bottom:2rem; }
-.section { background:#1e2330; border-radius:12px; padding:1.5rem; margin-bottom:1.5rem; border:1px solid #2d3748; }
-.section h2 { font-size:.75rem; text-transform:uppercase; letter-spacing:.05em; color:#94a3b8; margin-bottom:1rem; }
-table { width:100%; border-collapse:collapse; font-size:.85rem; }
-th { text-align:left; padding:.5rem .75rem; background:#0f1117; color:#94a3b8; font-size:.7rem; text-transform:uppercase; letter-spacing:.05em; }
-td { padding:.6rem .75rem; border-top:1px solid #2d3748; vertical-align:top; }
-.badge { display:inline-block; padding:.15rem .55rem; border-radius:999px; font-size:.7rem; font-weight:600; }
-.ok { background:rgba(52,211,153,.15); color:#34d399; }
-.warn { background:rgba(251,191,36,.15); color:#fbbf24; }
-.idle { background:rgba(148,163,184,.1); color:#94a3b8; }
-code { font-family:monospace; font-size:.8rem; color:#a3e635; background:#0f1117; padding:.1rem .4rem; border-radius:4px; }
-.grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:1rem; margin-bottom:1.5rem; }
-.card { background:#1e2330; border-radius:12px; padding:1.25rem; border:1px solid #2d3748; }
-.card .label { font-size:.7rem; color:#94a3b8; text-transform:uppercase; letter-spacing:.05em; margin-bottom:.4rem; }
-.card .val { font-size:1.2rem; font-weight:700; color:#e2e8f0; }
-.card .sub2 { font-size:.75rem; color:#64748b; margin-top:.2rem; }
-.tag { font-size:.7rem; padding:.1rem .4rem; border-radius:4px; background:#3b82f620; color:#60a5fa; }
-</style>
+  <script src="auth.js"></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>테넥스 시스템 현황</title>
+  <style>
+    /* ─── CSS Variables ─────────────────────────────── */
+    :root {
+      --accent:       #7C3AED;
+      --accent-light: #9F67FF;
+      --accent-dim:   rgba(124, 58, 237, 0.15);
+      --green:        #10B981;
+      --green-dim:    rgba(16, 185, 129, 0.15);
+      --yellow:       #F59E0B;
+      --yellow-dim:   rgba(245, 158, 11, 0.15);
+      --red:          #EF4444;
+      --red-dim:      rgba(239, 68, 68, 0.15);
+      --blue:         #3B82F6;
+      --blue-dim:     rgba(59, 130, 246, 0.15);
+      --radius-sm:    8px;
+      --radius:       12px;
+      --radius-lg:    14px;
+      --font:         -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      --mono:         'JetBrains Mono', 'Fira Code', 'Cascadia Code', monospace;
+      --transition:   0.22s ease;
+    }
+
+    /* ─── Dark Theme (default) ──────────────────────── */
+    [data-theme="dark"] {
+      --bg:          #0B0D14;
+      --bg-2:        #111420;
+      --bg-card:     #161A28;
+      --bg-hover:    #1D2235;
+      --border:      #252C3D;
+      --border-2:    #1E2435;
+      --text:        #E2E8F0;
+      --text-2:      #94A3B8;
+      --text-3:      #64748B;
+      --shadow:      0 4px 24px rgba(0,0,0,0.45);
+      --shadow-sm:   0 2px 8px rgba(0,0,0,0.3);
+      --glow:        0 0 20px rgba(124,58,237,0.25);
+    }
+
+    /* ─── Light Theme ───────────────────────────────── */
+    [data-theme="light"] {
+      --bg:          #F0F2F7;
+      --bg-2:        #E8EBF2;
+      --bg-card:     #FFFFFF;
+      --bg-hover:    #F5F7FC;
+      --border:      #DDE1EC;
+      --border-2:    #E8EBF2;
+      --text:        #1A1F35;
+      --text-2:      #4B5577;
+      --text-3:      #8892AA;
+      --shadow:      0 4px 24px rgba(0,0,0,0.09);
+      --shadow-sm:   0 2px 8px rgba(0,0,0,0.06);
+      --glow:        0 0 20px rgba(124,58,237,0.12);
+    }
+
+    /* ─── Reset & Base ──────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--font);
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      line-height: 1.6;
+      transition: background var(--transition), color var(--transition);
+    }
+    a { color: var(--accent-light); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    /* ─── Layout ────────────────────────────────────── */
+    .page-wrap {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0 1.25rem 3rem;
+    }
+
+    /* ─── Top Bar ───────────────────────────────────── */
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(11, 13, 20, 0.85);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      padding: 0.65rem 1.25rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      transition: background var(--transition);
+    }
+    [data-theme="light"] .topbar {
+      background: rgba(240, 242, 247, 0.88);
+    }
+    .topbar-brand {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+    }
+    .topbar-logo {
+      width: 28px;
+      height: 28px;
+      background: linear-gradient(135deg, var(--accent) 0%, #5B21B6 100%);
+      border-radius: 7px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.9rem;
+      flex-shrink: 0;
+    }
+    .topbar-title {
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: var(--text);
+    }
+    .topbar-sub {
+      font-size: 0.72rem;
+      color: var(--text-3);
+    }
+    .topbar-actions {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+    }
+    .btn-icon {
+      width: 34px;
+      height: 34px;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--border);
+      background: var(--bg-card);
+      color: var(--text-2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all var(--transition);
+      font-size: 0.95rem;
+    }
+    .btn-icon:hover {
+      background: var(--bg-hover);
+      color: var(--text);
+      border-color: var(--accent);
+    }
+    .live-dot {
+      width: 8px;
+      height: 8px;
+      background: var(--green);
+      border-radius: 50%;
+      animation: pulse 2s infinite;
+      flex-shrink: 0;
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.55; transform: scale(0.85); }
+    }
+    .live-label {
+      font-size: 0.7rem;
+      color: var(--green);
+      font-weight: 600;
+      letter-spacing: 0.04em;
+    }
+    .live-wrap {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      background: var(--green-dim);
+      border: 1px solid rgba(16,185,129,0.3);
+      border-radius: 99px;
+      padding: 0.25rem 0.65rem;
+    }
+
+    /* ─── Section Layout ────────────────────────────── */
+    .section-gap { display: flex; flex-direction: column; gap: 1.5rem; margin-top: 1.5rem; }
+
+    /* ─── Card ──────────────────────────────────────── */
+    .card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 1.5rem;
+      box-shadow: var(--shadow-sm);
+      transition: box-shadow var(--transition), border-color var(--transition);
+    }
+    .card:hover {
+      box-shadow: var(--shadow);
+    }
+    .card-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 1.25rem;
+    }
+    .card-title {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.8rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--text-2);
+    }
+    .card-title-icon {
+      font-size: 1rem;
+    }
+
+    /* ─── HERO ──────────────────────────────────────── */
+    .hero {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 2rem 1.75rem;
+      box-shadow: var(--shadow);
+      margin-top: 1.5rem;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse 60% 60% at 90% 50%, rgba(124,58,237,0.09) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 1.5rem;
+      align-items: start;
+    }
+    .hero-left {}
+    .hero-eyebrow {
+      font-size: 0.72rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--accent-light);
+      margin-bottom: 0.4rem;
+    }
+    .hero-title {
+      font-size: 1.75rem;
+      font-weight: 800;
+      color: var(--text);
+      letter-spacing: -0.02em;
+      line-height: 1.2;
+    }
+    .hero-subtitle {
+      font-size: 0.88rem;
+      color: var(--text-2);
+      margin-top: 0.4rem;
+    }
+    .hero-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-top: 1.25rem;
+    }
+    .hero-chip {
+      background: var(--bg-2);
+      border: 1px solid var(--border);
+      border-radius: 99px;
+      padding: 0.25rem 0.75rem;
+      font-size: 0.72rem;
+      color: var(--text-2);
+      font-family: var(--mono);
+      display: flex;
+      align-items: center;
+      gap: 0.35rem;
+    }
+    .hero-chip .dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--green);
+      flex-shrink: 0;
+    }
+    .hero-right {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 0.75rem;
+    }
+    .hero-badge {
+      background: var(--green-dim);
+      border: 1px solid rgba(16,185,129,0.35);
+      color: var(--green);
+      font-size: 0.78rem;
+      font-weight: 700;
+      padding: 0.35rem 0.9rem;
+      border-radius: 99px;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+    .hero-stats {
+      display: flex;
+      gap: 1.25rem;
+    }
+    .hero-stat { text-align: right; }
+    .hero-stat-val {
+      font-size: 1.4rem;
+      font-weight: 800;
+      color: var(--text);
+      letter-spacing: -0.02em;
+    }
+    .hero-stat-label {
+      font-size: 0.7rem;
+      color: var(--text-3);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .hero-divider {
+      width: 1px;
+      height: 2.5rem;
+      background: var(--border);
+      align-self: center;
+    }
+
+    /* ─── Summary Bar ───────────────────────────────── */
+    .summary-bar {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1rem;
+    }
+    .summary-item {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.1rem 1.25rem;
+      box-shadow: var(--shadow-sm);
+      transition: all var(--transition);
+      position: relative;
+      overflow: hidden;
+    }
+    .summary-item::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      border-radius: 0 0 var(--radius) var(--radius);
+    }
+    .summary-item.green::after { background: var(--green); }
+    .summary-item.blue::after  { background: var(--blue); }
+    .summary-item.purple::after { background: var(--accent); }
+    .summary-item.yellow::after { background: var(--yellow); }
+    .summary-item:hover { transform: translateY(-2px); box-shadow: var(--shadow); }
+    .summary-label {
+      font-size: 0.68rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.07em;
+      color: var(--text-3);
+      margin-bottom: 0.35rem;
+    }
+    .summary-val {
+      font-size: 1.55rem;
+      font-weight: 800;
+      color: var(--text);
+      letter-spacing: -0.02em;
+      line-height: 1;
+    }
+    .summary-sub {
+      font-size: 0.72rem;
+      color: var(--text-2);
+      margin-top: 0.3rem;
+    }
+
+    /* ─── Badges ────────────────────────────────────── */
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.3rem;
+      padding: 0.2rem 0.6rem;
+      border-radius: 99px;
+      font-size: 0.68rem;
+      font-weight: 700;
+      letter-spacing: 0.03em;
+    }
+    .badge::before {
+      content: '';
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+    }
+    .badge.ok    { background: var(--green-dim);  color: var(--green);  }
+    .badge.ok::before   { background: var(--green); }
+    .badge.warn  { background: var(--yellow-dim); color: var(--yellow); }
+    .badge.warn::before { background: var(--yellow); }
+    .badge.error { background: var(--red-dim);    color: var(--red);    }
+    .badge.error::before { background: var(--red); }
+    .badge.idle  { background: rgba(148,163,184,.1); color: var(--text-3); }
+    .badge.idle::before { background: var(--text-3); }
+    .badge.keep-alive { background: var(--blue-dim); color: var(--blue); }
+    .badge.keep-alive::before { background: var(--blue); }
+
+    /* ─── Service Grid ──────────────────────────────── */
+    .service-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 1rem;
+    }
+    .service-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 1.25rem;
+      transition: all var(--transition);
+      position: relative;
+      overflow: hidden;
+    }
+    .service-card:hover {
+      border-color: var(--accent);
+      box-shadow: var(--glow);
+      transform: translateY(-2px);
+    }
+    .service-card-top {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      margin-bottom: 0.9rem;
+    }
+    .service-icon {
+      width: 38px;
+      height: 38px;
+      border-radius: var(--radius-sm);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.1rem;
+      flex-shrink: 0;
+    }
+    .service-icon.purple { background: var(--accent-dim); }
+    .service-icon.green  { background: var(--green-dim); }
+    .service-icon.blue   { background: var(--blue-dim); }
+    .service-icon.yellow { background: var(--yellow-dim); }
+    .service-name {
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 0.2rem;
+    }
+    .service-desc {
+      font-size: 0.73rem;
+      color: var(--text-3);
+      line-height: 1.4;
+    }
+    .service-meta {
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+      margin-top: 0.9rem;
+      padding-top: 0.9rem;
+      border-top: 1px solid var(--border-2);
+    }
+    .service-meta-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.72rem;
+    }
+    .service-meta-key { color: var(--text-3); }
+    .service-meta-val {
+      color: var(--text-2);
+      font-family: var(--mono);
+      font-size: 0.7rem;
+    }
+    .response-bar {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-top: 0.9rem;
+    }
+    .response-track {
+      flex: 1;
+      height: 4px;
+      background: var(--bg-2);
+      border-radius: 99px;
+      overflow: hidden;
+    }
+    .response-fill {
+      height: 100%;
+      border-radius: 99px;
+      background: var(--green);
+      transition: width 0.8s ease;
+    }
+    .response-ms {
+      font-size: 0.68rem;
+      font-family: var(--mono);
+      color: var(--green);
+      white-space: nowrap;
+    }
+
+    /* ─── Table ─────────────────────────────────────── */
+    .tbl-wrap {
+      overflow-x: auto;
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.82rem;
+    }
+    thead th {
+      background: var(--bg-2);
+      color: var(--text-3);
+      font-size: 0.68rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      padding: 0.65rem 1rem;
+      text-align: left;
+      white-space: nowrap;
+    }
+    tbody tr {
+      transition: background var(--transition);
+      border-top: 1px solid var(--border-2);
+    }
+    tbody tr:first-child { border-top: none; }
+    tbody tr:hover { background: var(--bg-hover); }
+    td {
+      padding: 0.75rem 1rem;
+      color: var(--text-2);
+      vertical-align: middle;
+    }
+    td strong { color: var(--text); font-weight: 600; }
+    code {
+      font-family: var(--mono);
+      font-size: 0.73rem;
+      color: #A3E635;
+      background: rgba(163, 230, 53, 0.08);
+      padding: 0.12rem 0.45rem;
+      border-radius: 4px;
+    }
+    [data-theme="light"] code {
+      color: #4B8B00;
+      background: rgba(75, 139, 0, 0.09);
+    }
+
+    /* ─── Agent Cards ───────────────────────────────── */
+    .agent-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+      gap: 1rem;
+    }
+    .agent-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 1.25rem;
+      transition: all var(--transition);
+      position: relative;
+      overflow: hidden;
+    }
+    .agent-card:hover {
+      border-color: var(--accent);
+      box-shadow: var(--glow);
+      transform: translateY(-2px);
+    }
+    .agent-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+    }
+    .agent-card.carina::before   { background: linear-gradient(90deg, #EC4899, #F472B6); }
+    .agent-card.ma::before       { background: linear-gradient(90deg, #3B82F6, #60A5FA); }
+    .agent-card.dev::before      { background: linear-gradient(90deg, #7C3AED, #9F67FF); }
+    .agent-card.go::before       { background: linear-gradient(90deg, #10B981, #34D399); }
+    .agent-card.con::before      { background: linear-gradient(90deg, #F59E0B, #FCD34D); }
+    .agent-avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.35rem;
+      margin-bottom: 0.75rem;
+    }
+    .agent-card.carina .agent-avatar { background: rgba(236,72,153,0.15); }
+    .agent-card.ma     .agent-avatar { background: var(--blue-dim); }
+    .agent-card.dev    .agent-avatar { background: var(--accent-dim); }
+    .agent-card.go     .agent-avatar { background: var(--green-dim); }
+    .agent-card.con    .agent-avatar { background: var(--yellow-dim); }
+    .agent-name {
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 0.15rem;
+    }
+    .agent-role {
+      font-size: 0.72rem;
+      color: var(--text-3);
+      margin-bottom: 0.85rem;
+    }
+    .agent-stats {
+      display: flex;
+      flex-direction: column;
+      gap: 0.35rem;
+    }
+    .agent-stat-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.72rem;
+      padding: 0.3rem 0;
+      border-bottom: 1px solid var(--border-2);
+    }
+    .agent-stat-row:last-child { border-bottom: none; }
+    .agent-stat-key { color: var(--text-3); }
+    .agent-stat-val { color: var(--text-2); font-family: var(--mono); font-size: 0.7rem; }
+
+    /* ─── Tech Stack ────────────────────────────────── */
+    .tech-categories {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 1rem;
+    }
+    .tech-category {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1rem 1.1rem;
+    }
+    .tech-cat-label {
+      font-size: 0.68rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.07em;
+      color: var(--text-3);
+      margin-bottom: 0.75rem;
+      display: flex;
+      align-items: center;
+      gap: 0.35rem;
+    }
+    .tech-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.45rem;
+    }
+    .tech-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.3rem;
+      padding: 0.28rem 0.65rem;
+      border-radius: 99px;
+      font-size: 0.72rem;
+      font-weight: 600;
+      border: 1px solid transparent;
+      transition: all var(--transition);
+    }
+    .tech-chip:hover { transform: translateY(-1px); }
+    .tech-chip.purple { background: var(--accent-dim);  color: var(--accent-light); border-color: rgba(124,58,237,0.25); }
+    .tech-chip.green  { background: var(--green-dim);   color: #34D399;              border-color: rgba(16,185,129,0.25); }
+    .tech-chip.blue   { background: var(--blue-dim);    color: #60A5FA;              border-color: rgba(59,130,246,0.25); }
+    .tech-chip.yellow { background: var(--yellow-dim);  color: #FCD34D;              border-color: rgba(245,158,11,0.25); }
+    .tech-chip.pink   { background: rgba(236,72,153,.12); color: #F472B6;            border-color: rgba(236,72,153,.25); }
+    .tech-chip.gray   { background: rgba(148,163,184,.1); color: var(--text-2);      border-color: var(--border); }
+    [data-theme="light"] .tech-chip.yellow { color: #B45309; }
+    [data-theme="light"] .tech-chip.green  { color: #047857; }
+
+    /* ─── Resource Gauges ───────────────────────────── */
+    .resource-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 1.25rem;
+    }
+    .gauge-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 1.25rem;
+    }
+    .gauge-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 1rem;
+    }
+    .gauge-label {
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: var(--text);
+    }
+    .gauge-sub {
+      font-size: 0.68rem;
+      color: var(--text-3);
+      margin-top: 0.1rem;
+    }
+    .gauge-pct {
+      font-size: 1.4rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+    }
+    .gauge-pct.low    { color: var(--green); }
+    .gauge-pct.medium { color: var(--yellow); }
+    .gauge-pct.high   { color: var(--red); }
+    .gauge-track {
+      height: 8px;
+      background: var(--bg-2);
+      border-radius: 99px;
+      overflow: hidden;
+      margin-bottom: 0.7rem;
+    }
+    .gauge-fill {
+      height: 100%;
+      border-radius: 99px;
+      transition: width 1s ease;
+    }
+    .gauge-fill.low    { background: linear-gradient(90deg, #10B981, #34D399); }
+    .gauge-fill.medium { background: linear-gradient(90deg, #F59E0B, #FCD34D); }
+    .gauge-fill.high   { background: linear-gradient(90deg, #EF4444, #F87171); }
+    .gauge-detail-rows {
+      display: flex;
+      flex-direction: column;
+      gap: 0.3rem;
+    }
+    .gauge-detail-row {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.7rem;
+    }
+    .gauge-detail-key { color: var(--text-3); }
+    .gauge-detail-val { color: var(--text-2); font-family: var(--mono); }
+
+    /* ─── Network Topology ──────────────────────────── */
+    .topo-wrap {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 1.75rem 1.5rem;
+    }
+    .topo-svg-wrap {
+      width: 100%;
+      overflow-x: auto;
+    }
+    .topo-svg {
+      width: 100%;
+      min-width: 520px;
+      max-width: 780px;
+      display: block;
+      margin: 0 auto;
+    }
+
+    /* ─── Cron Table extras ─────────────────────────── */
+    .cron-schedule {
+      font-family: var(--mono);
+      font-size: 0.72rem;
+      color: var(--accent-light);
+    }
+    .pid-badge {
+      font-family: var(--mono);
+      font-size: 0.7rem;
+      color: var(--text-3);
+      background: var(--bg-2);
+      padding: 0.12rem 0.4rem;
+      border-radius: 4px;
+    }
+
+    /* ─── Last Updated ──────────────────────────────── */
+    .footer-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      padding: 1rem 0;
+      margin-top: 2.5rem;
+      border-top: 1px solid var(--border);
+      font-size: 0.73rem;
+      color: var(--text-3);
+    }
+    .footer-bar a { color: var(--accent-light); }
+
+    /* ─── Responsive ────────────────────────────────── */
+    @media (max-width: 768px) {
+      .hero-grid { grid-template-columns: 1fr; }
+      .hero-right { align-items: flex-start; }
+      .hero-stats { gap: 0.75rem; }
+      .summary-bar { grid-template-columns: repeat(2, 1fr); }
+      .hero-title { font-size: 1.35rem; }
+      .topbar-sub { display: none; }
+    }
+    @media (max-width: 480px) {
+      .summary-bar { grid-template-columns: 1fr 1fr; }
+      .page-wrap { padding: 0 0.85rem 2rem; }
+      td { font-size: 0.77rem; }
+    }
+
+    /* ─── Animations ────────────────────────────────── */
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(12px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .fade-in { animation: fadeInUp 0.35s ease both; }
+    .delay-1 { animation-delay: 0.06s; }
+    .delay-2 { animation-delay: 0.12s; }
+    .delay-3 { animation-delay: 0.18s; }
+    .delay-4 { animation-delay: 0.24s; }
+
+    /* ─── Section Title ─────────────────────────────── */
+    .sec-title {
+      font-size: 0.8rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.07em;
+      color: var(--text-2);
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .sec-title::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+
+    /* ─── Connection line for topology ─────────────── */
+    .topo-node-label {
+      font-size: 11px;
+      fill: var(--text-2, #94A3B8);
+      font-family: -apple-system, sans-serif;
+    }
+    [data-theme="light"] .topo-node-label { fill: #4B5577; }
+
+    /* ─── Uptime badge ──────────────────────────────── */
+    .uptime-ring {
+      width: 64px;
+      height: 64px;
+      flex-shrink: 0;
+    }
+  </style>
 </head>
 <body>
 
-<h1>🤖 테넥스 자동화 시스템 현황</h1>
-<p class="sub">카리나(AI 비서) 운영 시스템 전체 문서 | 마지막 업데이트: 2026-03-11</p>
+<!-- ══════════════════════════════════════════════
+     TOP BAR
+══════════════════════════════════════════════ -->
+<nav class="topbar">
+  <div class="topbar-brand">
+    <div class="topbar-logo">🤖</div>
+    <div>
+      <div class="topbar-title">테넥스 시스템 현황</div>
+      <div class="topbar-sub">TENEX Automation Infrastructure</div>
+    </div>
+  </div>
+  <div class="topbar-actions">
+    <div class="live-wrap">
+      <span class="live-dot"></span>
+      <span class="live-label">ALL SYSTEMS GO</span>
+    </div>
+    <button class="btn-icon" id="themeToggle" title="테마 전환" onclick="toggleTheme()">🌙</button>
+    <a href="/" class="btn-icon" title="홈으로">🏠</a>
+  </div>
+</nav>
 
-<div class="grid">
-  <div class="card"><div class="label">크론잡 (OpenClaw)</div><div class="val">9개</div><div class="sub2">상시 운영 중</div></div>
-  <div class="card"><div class="label">launchd 잡 (Mac mini)</div><div class="val">5개</div><div class="sub2">시스템 레벨 자동화</div></div>
-  <div class="card"><div class="label">git 백업</div><div class="val">하루 3회</div><div class="sub2">09:00 / 15:00 / 23:00</div></div>
-  <div class="card"><div class="label">brain.db (SQLite)</div><div class="val">포트 8082</div><div class="sub2">장기기억 서버</div></div>
-</div>
+<div class="page-wrap">
 
-<!-- OpenClaw 크론잡 -->
-<div class="section">
-  <h2>⏰ OpenClaw 크론잡</h2>
-  <table>
-    <thead><tr><th>이름</th><th>스케줄</th><th>설명</th><th>상태</th></tr></thead>
-    <tbody>
-      <tr>
-        <td><strong>아침 브리핑</strong></td>
-        <td><code>매일 07:00</code></td>
-        <td>일정 확인 / 이번 주 마감 / 날씨 → 텔레그램 전송</td>
-        <td><span class="badge ok">ok</span></td>
-      </tr>
-      <tr>
-        <td><strong>헬스장 운동 리마인더</strong></td>
-        <td><code>매일 09:00</code></td>
-        <td>운동 알림 → 텔레그램</td>
-        <td><span class="badge ok">ok</span></td>
-      </tr>
-      <tr>
-        <td><strong>Plaud 30분 수집 (Gemini 전사)</strong></td>
-        <td><code>매일 11-21시 30분 간격</code></td>
-        <td>Plaud 녹음 자동 수집 → Gemini 전사 → brain.db 저장</td>
-        <td><span class="badge ok">ok</span></td>
-      </tr>
-      <tr>
-        <td><strong>ES-808 배송 안내 SMS</strong></td>
-        <td><code>평일 18:00</code></td>
-        <td>당일 송장 입력 건 조회 → 중복 제거 → 듀얼번호(*7782) 문자 자동 발송</td>
-        <td><span class="badge ok">ok</span></td>
-      </tr>
-      <tr>
-        <td><strong>저녁 녹음 수집</strong></td>
-        <td><code>매일 21:45</code></td>
-        <td>오늘 Plaud 녹음 최종 수집 + 하루 핵심 요약 → 텔레그램</td>
-        <td><span class="badge ok">ok</span></td>
-      </tr>
-      <tr>
-        <td><strong>일일 회고</strong></td>
-        <td><code>매일 22:00</code></td>
-        <td>완료 / 이슈 / 내일 할 일 3줄 → 텔레그램</td>
-        <td><span class="badge ok">ok</span></td>
-      </tr>
-      <tr>
-        <td><strong>독서 리마인더</strong></td>
-        <td><code>매일 22:30</code></td>
-        <td>10페이지 독서 알림</td>
-        <td><span class="badge ok">ok</span></td>
-      </tr>
-      <tr>
-        <td><strong>주간 규칙 검사</strong></td>
-        <td><code>매주 금요일 11:00</code></td>
-        <td>BOOTSTRAP.md / LEARNINGS.md 리뷰 → 개선 계획 보고</td>
-        <td><span class="badge ok">ok</span></td>
-      </tr>
-      <tr>
-        <td><strong>비즈모아 ES-808 팔로업</strong></td>
-        <td><code>매주 화요일 10:00</code></td>
-        <td>FCC 인증 / 미국 진출 진행 상황 트래킹 알림</td>
-        <td><span class="badge ok">ok</span></td>
-      </tr>
-    </tbody>
-  </table>
-</div>
+  <!-- ══════════════════════════════════════════
+       HERO
+  ══════════════════════════════════════════ -->
+  <div class="hero fade-in">
+    <div class="hero-grid">
+      <div class="hero-left">
+        <div class="hero-eyebrow">🖥 Host Infrastructure</div>
+        <div class="hero-title">Mac mini M4</div>
+        <div class="hero-subtitle">macOS Tahoe 26.3.1 · arm64 · 192.168.0.234</div>
+        <div class="hero-chips">
+          <div class="hero-chip"><span class="dot"></span>Node.js v25.6.0</div>
+          <div class="hero-chip"><span class="dot"></span>Python 3.13</div>
+          <div class="hero-chip"><span class="dot"></span>OpenClaw Gateway :18789</div>
+          <div class="hero-chip"><span class="dot"></span>brain.db :8082</div>
+          <div class="hero-chip"><span class="dot"></span>PID 1061</div>
+          <div class="hero-chip"><span class="dot"></span>Claude Opus 4 (200k ctx)</div>
+        </div>
+      </div>
+      <div class="hero-right">
+        <div class="hero-badge">
+          <svg width="10" height="10" viewBox="0 0 10 10"><circle cx="5" cy="5" r="5" fill="#10B981"/></svg>
+          정상 운영 중
+        </div>
+        <div class="hero-stats">
+          <div class="hero-stat">
+            <div class="hero-stat-val">305</div>
+            <div class="hero-stat-label">활성 세션</div>
+          </div>
+          <div class="hero-divider"></div>
+          <div class="hero-stat">
+            <div class="hero-stat-val">5</div>
+            <div class="hero-stat-label">에이전트</div>
+          </div>
+          <div class="hero-divider"></div>
+          <div class="hero-stat">
+            <div class="hero-stat-val">12</div>
+            <div class="hero-stat-label">크론잡</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 
-<!-- launchd 잡 -->
-<div class="section">
-  <h2>🖥️ Mac mini launchd 잡 (시스템 레벨)</h2>
-  <table>
-    <thead><tr><th>이름</th><th>주기</th><th>설명</th><th>스크립트</th></tr></thead>
-    <tbody>
-      <tr>
-        <td><strong>카페24 토큰 갱신</strong></td>
-        <td><code>60분마다</code></td>
-        <td>access_token 자동 갱신 → .env 업데이트</td>
-        <td><code>refresh-cafe24-token.sh</code></td>
-      </tr>
-      <tr>
-        <td><strong>brain.db 서버</strong></td>
-        <td><code>상시 (포트 8082)</code></td>
-        <td>SQLite 장기기억 서버. 모든 대화/녹음/문서 저장 및 검색</td>
-        <td><code>com.tenex.second-brain</code></td>
-      </tr>
-      <tr>
-        <td><strong>Plaud 파이프라인</strong></td>
-        <td><code>60분마다</code></td>
-        <td>Plaud 녹음 자동 수집 보조 (OpenClaw 크론잡과 이중화)</td>
-        <td><code>plaud-pipeline.sh</code></td>
-      </tr>
-      <tr>
-        <td><strong>워크스페이스 백업</strong></td>
-        <td><code>09:00 / 15:00 / 23:00</code></td>
-        <td>git commit + push → GitHub (karina-workspace)</td>
-        <td><code>workspace-backup.sh</code></td>
-      </tr>
-      <tr>
-        <td><strong>tenex-reports 자동 배포</strong></td>
-        <td><code>10분마다 (변경 시만)</code></td>
-        <td>파일 해시 비교 → 변경 감지 시 Vercel 재배포</td>
-        <td><code>deploy-tenex-reports.sh</code></td>
-      </tr>
-    </tbody>
-  </table>
-</div>
+  <!-- ══════════════════════════════════════════
+       SUMMARY BAR
+  ══════════════════════════════════════════ -->
+  <div class="summary-bar fade-in delay-1" style="margin-top:1.25rem;">
+    <div class="summary-item green">
+      <div class="summary-label">서비스 상태</div>
+      <div class="summary-val">4/4</div>
+      <div class="summary-sub">전체 정상</div>
+    </div>
+    <div class="summary-item blue">
+      <div class="summary-label">크론잡</div>
+      <div class="summary-val">12</div>
+      <div class="summary-sub">launchd 운영 중</div>
+    </div>
+    <div class="summary-item purple">
+      <div class="summary-label">AI 모델</div>
+      <div class="summary-val">Claude</div>
+      <div class="summary-sub">Opus 4 · 200k ctx</div>
+    </div>
+    <div class="summary-item yellow">
+      <div class="summary-label">자동 배포</div>
+      <div class="summary-val">10분</div>
+      <div class="summary-sub">변경 감지 시 Vercel</div>
+    </div>
+  </div>
 
-<!-- ES-808 SMS 상세 -->
-<div class="section">
-  <h2>📱 ES-808 배송 안내 SMS 상세</h2>
-  <table>
-    <thead><tr><th>항목</th><th>내용</th></tr></thead>
-    <tbody>
-      <tr><td>발송 방식</td><td>osascript → Messages.app (듀얼번호 <code>*7782</code> prefix)</td></tr>
-      <tr><td>조회 기준</td><td>송장 입력일 (tracking_no_updated_date = 오늘) — 최근 7일 주문 대상</td></tr>
-      <tr><td>중복 방지</td><td>당일 발송 이력 <code>locks/sent-YYYY-MM-DD.json</code> 저장 → 재실행 시 스킵</td></tr>
-      <tr><td>대상 쇼핑몰</td><td>shop5 (키네메디칼) + shop6 (1분도수)</td></tr>
-      <tr><td>스크립트</td><td><code>~/.openclaw/workspace/cs-automation/es808-auto-send.js</code></td></tr>
-      <tr><td>수동 실행</td><td><code>cd ~/.openclaw/workspace/cs-automation && node es808-auto-send.js</code></td></tr>
-      <tr><td>업데이트 이력</td><td>v1: shipping_status 기준 → v2: 송장 입력일 기준 (2026-03-11)</td></tr>
-    </tbody>
-  </table>
-</div>
+  <div class="section-gap">
 
-<!-- 카페24 토큰 -->
-<div class="section">
-  <h2>🔑 카페24 토큰 자동화</h2>
-  <table>
-    <thead><tr><th>항목</th><th>내용</th></tr></thead>
-    <tbody>
-      <tr><td>갱신 방식</td><td>refresh_token → 새 access_token 발급 → .env 업데이트</td></tr>
-      <tr><td>주기</td><td>60분마다 (launchd)</td></tr>
-      <tr><td>스크립트</td><td><code>~/Desktop/tenex-assistant/refresh-cafe24-token.sh</code></td></tr>
-      <tr><td>수동 갱신</td><td><code>bash ~/Desktop/tenex-assistant/refresh-cafe24-token.sh</code></td></tr>
-      <tr><td>로그</td><td><code>~/Desktop/tenex-assistant/token-refresh.log</code></td></tr>
-    </tbody>
-  </table>
-</div>
+    <!-- ══════════════════════════════════════════
+         서비스 상태
+    ══════════════════════════════════════════ -->
+    <div class="fade-in delay-2">
+      <div class="sec-title">🟢 서비스 상태</div>
+      <div class="service-grid">
 
-<!-- git 백업 -->
-<div class="section">
-  <h2>💾 Git 백업 시스템</h2>
-  <table>
-    <thead><tr><th>항목</th><th>내용</th></tr></thead>
-    <tbody>
-      <tr><td>레포</td><td><code>github.com/10bdhoon/karina-workspace</code></td></tr>
-      <tr><td>백업 주기</td><td>09:00 / 15:00 / 23:00 (하루 3회 자동 커밋 + 푸시)</td></tr>
-      <tr><td>스크립트</td><td><code>~/.openclaw/workspace/scripts/workspace-backup.sh</code></td></tr>
-      <tr><td>주의사항</td><td>50MB 이상 파일은 .gitignore 처리 필수 (BFG로 히스토리 정리 2026-03-11)</td></tr>
-    </tbody>
-  </table>
-</div>
+        <!-- brain.db -->
+        <div class="service-card">
+          <div class="service-card-top">
+            <div>
+              <div class="service-icon green">🧠</div>
+            </div>
+            <span class="badge ok">ONLINE</span>
+          </div>
+          <div class="service-name">brain.db</div>
+          <div class="service-desc">장기기억 서버 · SQLite + HTTP API · 대화/녹음/문서 전체 저장</div>
+          <div class="response-bar">
+            <div class="response-track"><div class="response-fill" style="width:18%"></div></div>
+            <span class="response-ms">12 ms</span>
+          </div>
+          <div class="service-meta">
+            <div class="service-meta-row">
+              <span class="service-meta-key">엔드포인트</span>
+              <span class="service-meta-val">localhost:8082</span>
+            </div>
+            <div class="service-meta-row">
+              <span class="service-meta-key">프로토콜</span>
+              <span class="service-meta-val">HTTP/REST</span>
+            </div>
+            <div class="service-meta-row">
+              <span class="service-meta-key">엔진</span>
+              <span class="service-meta-val">SQLite</span>
+            </div>
+            <div class="service-meta-row">
+              <span class="service-meta-key">launchd</span>
+              <span class="service-meta-val">KeepAlive ✓</span>
+            </div>
+          </div>
+        </div>
 
-<!-- brain.db -->
-<div class="section">
-  <h2>🧠 brain.db (제2의 뇌)</h2>
-  <table>
-    <thead><tr><th>항목</th><th>내용</th></tr></thead>
-    <tbody>
-      <tr><td>종류</td><td>SQLite + HTTP API</td></tr>
-      <tr><td>포트</td><td><code>8082</code></td></tr>
-      <tr><td>검색</td><td><code>curl "http://localhost:8082/search?q=키워드&limit=5"</code></td></tr>
-      <tr><td>저장</td><td><code>curl -X POST http://localhost:8082/insert -d '{"date":"...","source":"telegram","content":"..."}'</code></td></tr>
-      <tr><td>저장 대상</td><td>텔레그램 대화 / Plaud 녹음 전사 / 주요 결정사항</td></tr>
-    </tbody>
-  </table>
-</div>
+        <!-- OpenClaw Gateway -->
+        <div class="service-card">
+          <div class="service-card-top">
+            <div>
+              <div class="service-icon purple">⚡</div>
+            </div>
+            <span class="badge ok">ONLINE</span>
+          </div>
+          <div class="service-name">OpenClaw Gateway</div>
+          <div class="service-desc">에이전트 라우팅 · WebSocket · 5개 에이전트 세션 관리</div>
+          <div class="response-bar">
+            <div class="response-track"><div class="response-fill" style="width:8%"></div></div>
+            <span class="response-ms">4 ms</span>
+          </div>
+          <div class="service-meta">
+            <div class="service-meta-row">
+              <span class="service-meta-key">엔드포인트</span>
+              <span class="service-meta-val">127.0.0.1:18789</span>
+            </div>
+            <div class="service-meta-row">
+              <span class="service-meta-key">프로토콜</span>
+              <span class="service-meta-val">WebSocket</span>
+            </div>
+            <div class="service-meta-row">
+              <span class="service-meta-key">PID</span>
+              <span class="service-meta-val">1061</span>
+            </div>
+            <div class="service-meta-row">
+              <span class="service-meta-key">활성 세션</span>
+              <span class="service-meta-val">305</span>
+            </div>
+          </div>
+        </div>
 
-<p style="color:#475569;font-size:.75rem;text-align:center;margin-top:2rem">tenex-reports · 자동 배포 (변경 감지 시 10분 내 반영) · <a href="/" style="color:#3b82f6">← 홈으로</a></p>
+        <!-- tenex-reports -->
+        <div class="service-card">
+          <div class="service-card-top">
+            <div>
+              <div class="service-icon blue">📊</div>
+            </div>
+            <span class="badge ok">ONLINE</span>
+          </div>
+          <div class="service-name">tenex-reports</div>
+          <div class="service-desc">보고서 사이트 · Vercel 배포 · 10분 자동 반영</div>
+          <div class="response-bar">
+            <div class="response-track"><div class="response-fill" style="width:25%"></div></div>
+            <span class="response-ms">38 ms</span>
+          </div>
+          <div class="service-meta">
+            <div class="service-meta-row">
+              <span class="service-meta-key">URL</span>
+              <span class="service-meta-val">tenex-reports.vercel.app</span>
+            </div>
+            <div class="service-meta-row">
+              <span class="service-meta-key">플랫폼</span>
+              <span class="service-meta-val">Vercel</span>
+            </div>
+            <div class="service-meta-row">
+              <span class="service-meta-key">배포 방식</span>
+              <span class="service-meta-val">launchd 크론 (10분)</span>
+            </div>
+            <div class="service-meta-row">
+              <span class="service-meta-key">트리거</span>
+              <span class="service-meta-val">변경 감지</span>
+            </div>
+          </div>
+        </div>
 
+        <!-- tenex-dashboard -->
+        <div class="service-card">
+          <div class="service-card-top">
+            <div>
+              <div class="service-icon yellow">🎛️</div>
+            </div>
+            <span class="badge ok">ONLINE</span>
+          </div>
+          <div class="service-name">tenex-dashboard</div>
+          <div class="service-desc">관리 대시보드 · Vercel 배포 · 실시간 현황 모니터링</div>
+          <div class="response-bar">
+            <div class="response-track"><div class="response-fill" style="width:30%"></div></div>
+            <span class="response-ms">45 ms</span>
+          </div>
+          <div class="service-meta">
+            <div class="service-meta-row">
+              <span class="service-meta-key">URL</span>
+              <span class="service-meta-val">tenex-dashboard.vercel.app</span>
+            </div>
+            <div class="service-meta-row">
+              <span class="service-meta-key">플랫폼</span>
+              <span class="service-meta-val">Vercel</span>
+            </div>
+            <div class="service-meta-row">
+              <span class="service-meta-key">DB</span>
+              <span class="service-meta-val">Vercel KV</span>
+            </div>
+            <div class="service-meta-row">
+              <span class="service-meta-key">인증</span>
+              <span class="service-meta-val">auth.js</span>
+            </div>
+          </div>
+        </div>
 
-<div style="position:fixed;bottom:16px;right:16px;background:rgba(0,0,0,0.7);color:#fff;padding:8px 14px;border-radius:8px;font-size:12px;font-family:sans-serif;z-index:9999;line-height:1.8;">
-  <span style="opacity:0.6;">작성</span> 2026-03-11 &nbsp;|&nbsp; <span style="opacity:0.6;">수정</span> 2026-03-11
-</div>
+      </div><!-- /.service-grid -->
+    </div>
+
+    <!-- ══════════════════════════════════════════
+         에이전트 개요
+    ══════════════════════════════════════════ -->
+    <div class="fade-in delay-2">
+      <div class="sec-title">🤖 에이전트 개요</div>
+      <div class="agent-grid">
+
+        <!-- 카리나 -->
+        <div class="agent-card carina">
+          <div class="agent-avatar">👑</div>
+          <div class="agent-name">카리나</div>
+          <div class="agent-role">총괄 AI 비서 · 지휘자</div>
+          <div class="agent-stats">
+            <div class="agent-stat-row">
+              <span class="agent-stat-key">모델</span>
+              <span class="agent-stat-val">Claude Opus 4</span>
+            </div>
+            <div class="agent-stat-row">
+              <span class="agent-stat-key">채널</span>
+              <span class="agent-stat-val">Slack · Telegram</span>
+            </div>
+            <div class="agent-stat-row">
+              <span class="agent-stat-key">세션</span>
+              <span class="agent-stat-val">활성</span>
+            </div>
+            <div class="agent-stat-row">
+              <span class="agent-stat-key">컨텍스트</span>
+              <span class="agent-stat-val">200k</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 마실장 -->
+        <div class="agent-card ma">
+          <div class="agent-avatar">📣</div>
+          <div class="agent-name">마실장</div>
+          <div class="agent-role">마케팅실 총괄</div>
+          <div class="agent-stats">
+            <div class="agent-stat-row">
+              <span class="agent-stat-key">모델</span>
+              <span class="agent-stat-val">Claude Opus 4</span>
+            </div>
+            <div class="agent-stat-row">
+              <span class="agent-stat-key">채널</span>
+              <span class="agent-stat-val">Slack</span>
+            </div>
+            <div class="agent-stat-row">
+              <span class="agent-stat-key">담당</span>
+              <span class="agent-stat-val">SNS · 광고</span>
+            </div>
+            <div class="agent-stat-row">
+              <span class="agent-stat-key">컨텍스트</span>
+              <span class="agent-stat-val">200k</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 개실장 -->
+        <div class="agent-card dev">
+          <div class="agent-avatar">🔧</div>
+          <div class="agent-name">개실장</div>
+          <div class="agent-role">개발실 총괄</div>
+          <div class="agent-stats">
+            <div class="agent-stat-row">
+              <span class="agent-stat-key">모델</span>
+              <span class="agent-stat-val">Claude Opus 4</span>
+            </div>
+            <div class="agent-stat-row">
+              <span class="agent-stat-key">채널</span>
+              <span class="agent-stat-val">Slack</span>
+            </div>
+            <div class="agent-stat-row">
+              <span class="agent-stat-key">담당</span>
+              <span class="agent-stat-val">개발 · 인프라</span>
+            </div>
+            <div class="agent-stat-row">
+              <span class="agent-stat-key">컨텍스트</span>
+              <span class="agent-stat-val">200k</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 고실장 -->
+        <div class="agent-card go">
+          <div class="agent-avatar">💬</div>
+          <div class="agent-name">고실장</div>
+          <div class="agent-role">고객서비스실 총괄</div>
+          <div class="agent-stats">
+            <div class="agent-stat-row">
+              <span class="agent-stat-key">모델</span>
+              <span class="agent-stat-val">Claude Opus 4</span>
+            </div>
+            <div class="agent-stat-row">
+              <span class="agent-stat-key">채널</span>
+              <span class="agent-stat-val">Slack</span>
+            </div>
+            <div class="agent-stat-row">
+              <span class="agent-stat-key">담당</span>
+              <span class="agent-stat-val">CS · 고객 대응</span>
+            </div>
+            <div class="agent-stat-row">
+              <span class="agent-stat-key">컨텍스트</span>
+              <span class="agent-stat-val">200k</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 콘실장 -->
+        <div class="agent-card con">
+          <div class="agent-avatar">✍️</div>
+          <div class="agent-name">콘실장</div>
+          <div class="agent-role">콘텐츠실 총괄</div>
+          <div class="agent-stats">
+            <div class="agent-stat-row">
+              <span class="agent-stat-key">모델</span>
+              <span class="agent-stat-val">Claude Opus 4</span>
+            </div>
+            <div class="agent-stat-row">
+              <span class="agent-stat-key">채널</span>
+              <span class="agent-stat-val">Slack</span>
+            </div>
+            <div class="agent-stat-row">
+              <span class="agent-stat-key">담당</span>
+              <span class="agent-stat-val">콘텐츠 제작</span>
+            </div>
+            <div class="agent-stat-row">
+              <span class="agent-stat-key">컨텍스트</span>
+              <span class="agent-stat-val">200k</span>
+            </div>
+          </div>
+        </div>
+
+      </div><!-- /.agent-grid -->
+    </div>
+
+    <!-- ══════════════════════════════════════════
+         launchd 크론잡
+    ══════════════════════════════════════════ -->
+    <div class="fade-in delay-3">
+      <div class="sec-title">⏰ launchd 크론잡 (12개)</div>
+      <div class="tbl-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>잡 이름</th>
+              <th>주기 / 스케줄</th>
+              <th>유형</th>
+              <th>상태</th>
+              <th>비고</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><span class="pid-badge">01</span></td>
+              <td><strong>cafe24-token-refresh</strong></td>
+              <td><span class="cron-schedule">60분마다</span></td>
+              <td>주기적</td>
+              <td><span class="badge ok">RUNNING</span></td>
+              <td>access_token 자동 갱신</td>
+            </tr>
+            <tr>
+              <td><span class="pid-badge">02</span></td>
+              <td><strong>daily-report</strong></td>
+              <td><span class="cron-schedule">매일 07:00</span></td>
+              <td>일일</td>
+              <td><span class="badge ok">RUNNING</span></td>
+              <td>일일 보고서 생성 → Slack/Telegram</td>
+            </tr>
+            <tr>
+              <td><span class="pid-badge">03</span></td>
+              <td><strong>memory-watcher</strong></td>
+              <td><span class="cron-schedule">상시 (KeepAlive)</span></td>
+              <td>데몬</td>
+              <td><span class="badge keep-alive">KEEP-ALIVE</span></td>
+              <td>brain.db 메모리 감시</td>
+            </tr>
+            <tr>
+              <td><span class="pid-badge">04</span></td>
+              <td><strong>second-brain</strong></td>
+              <td><span class="cron-schedule">상시 (KeepAlive)</span></td>
+              <td>데몬</td>
+              <td><span class="badge keep-alive">KEEP-ALIVE</span></td>
+              <td>brain.db HTTP 서버 · 포트 8082</td>
+            </tr>
+            <tr>
+              <td><span class="pid-badge">05</span></td>
+              <td><strong>plaud-pipeline</strong></td>
+              <td><span class="cron-schedule">60분마다</span></td>
+              <td>주기적</td>
+              <td><span class="badge ok">RUNNING</span></td>
+              <td>Plaud 녹음 수집 → Gemini 전사 → DB</td>
+            </tr>
+            <tr>
+              <td><span class="pid-badge">06</span></td>
+              <td><strong>plaud-daily-report</strong></td>
+              <td><span class="cron-schedule">매일 22:00</span></td>
+              <td>일일</td>
+              <td><span class="badge ok">RUNNING</span></td>
+              <td>오늘 녹음 최종 수집 + 요약 → Telegram</td>
+            </tr>
+            <tr>
+              <td><span class="pid-badge">07</span></td>
+              <td><strong>session-sync</strong></td>
+              <td><span class="cron-schedule">10분마다</span></td>
+              <td>주기적</td>
+              <td><span class="badge ok">RUNNING</span></td>
+              <td>OpenClaw 세션 상태 동기화</td>
+            </tr>
+            <tr>
+              <td><span class="pid-badge">08</span></td>
+              <td><strong>tenex-reports-deploy</strong></td>
+              <td><span class="cron-schedule">10분마다 (변경감지)</span></td>
+              <td>주기적</td>
+              <td><span class="badge ok">RUNNING</span></td>
+              <td>파일 해시 비교 → 변경 시 Vercel 배포</td>
+            </tr>
+            <tr>
+              <td><span class="pid-badge">09</span></td>
+              <td><strong>sns-views-collect</strong></td>
+              <td><span class="cron-schedule">매일 06:00</span></td>
+              <td>일일</td>
+              <td><span class="badge ok">RUNNING</span></td>
+              <td>SNS 채널 조회수 자동 수집</td>
+            </tr>
+            <tr>
+              <td><span class="pid-badge">10</span></td>
+              <td><strong>cafe24-webhook</strong></td>
+              <td><span class="cron-schedule">10분마다</span></td>
+              <td>주기적</td>
+              <td><span class="badge ok">RUNNING</span></td>
+              <td>카페24 이벤트 웹훅 폴링</td>
+            </tr>
+            <tr>
+              <td><span class="pid-badge">11</span></td>
+              <td><strong>brain-conv-sync</strong></td>
+              <td><span class="cron-schedule">30분마다</span></td>
+              <td>주기적</td>
+              <td><span class="badge ok">RUNNING</span></td>
+              <td>대화 내용 brain.db 동기화</td>
+            </tr>
+            <tr>
+              <td><span class="pid-badge">12</span></td>
+              <td><strong>memory-indexer</strong></td>
+              <td><span class="cron-schedule">매일</span></td>
+              <td>일일</td>
+              <td><span class="badge ok">RUNNING</span></td>
+              <td>brain.db 인덱스 재구성</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════════════
+         리소스 모니터
+    ══════════════════════════════════════════ -->
+    <div class="fade-in delay-3">
+      <div class="sec-title">📈 리소스 모니터</div>
+      <div class="resource-grid">
+
+        <!-- CPU -->
+        <div class="gauge-card">
+          <div class="gauge-header">
+            <div>
+              <div class="gauge-label">CPU 사용률</div>
+              <div class="gauge-sub">Apple M4 · 10코어</div>
+            </div>
+            <div class="gauge-pct low" id="cpuPct">14%</div>
+          </div>
+          <div class="gauge-track">
+            <div class="gauge-fill low" id="cpuFill" style="width:14%"></div>
+          </div>
+          <div class="gauge-detail-rows">
+            <div class="gauge-detail-row">
+              <span class="gauge-detail-key">Performance 코어</span>
+              <span class="gauge-detail-val">4개</span>
+            </div>
+            <div class="gauge-detail-row">
+              <span class="gauge-detail-key">Efficiency 코어</span>
+              <span class="gauge-detail-val">6개</span>
+            </div>
+            <div class="gauge-detail-row">
+              <span class="gauge-detail-key">Neural Engine</span>
+              <span class="gauge-detail-val">38 TOPS</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Memory -->
+        <div class="gauge-card">
+          <div class="gauge-header">
+            <div>
+              <div class="gauge-label">메모리 사용</div>
+              <div class="gauge-sub">Unified Memory 16GB</div>
+            </div>
+            <div class="gauge-pct medium" id="memPct">58%</div>
+          </div>
+          <div class="gauge-track">
+            <div class="gauge-fill medium" id="memFill" style="width:58%"></div>
+          </div>
+          <div class="gauge-detail-rows">
+            <div class="gauge-detail-row">
+              <span class="gauge-detail-key">전체</span>
+              <span class="gauge-detail-val">16 GB</span>
+            </div>
+            <div class="gauge-detail-row">
+              <span class="gauge-detail-key">사용 중</span>
+              <span class="gauge-detail-val">~9.3 GB</span>
+            </div>
+            <div class="gauge-detail-row">
+              <span class="gauge-detail-key">여유</span>
+              <span class="gauge-detail-val">~6.7 GB</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Disk -->
+        <div class="gauge-card">
+          <div class="gauge-header">
+            <div>
+              <div class="gauge-label">디스크 사용</div>
+              <div class="gauge-sub">내장 SSD</div>
+            </div>
+            <div class="gauge-pct low" id="diskPct">32%</div>
+          </div>
+          <div class="gauge-track">
+            <div class="gauge-fill low" id="diskFill" style="width:32%"></div>
+          </div>
+          <div class="gauge-detail-rows">
+            <div class="gauge-detail-row">
+              <span class="gauge-detail-key">전체</span>
+              <span class="gauge-detail-val">500 GB</span>
+            </div>
+            <div class="gauge-detail-row">
+              <span class="gauge-detail-key">사용 중</span>
+              <span class="gauge-detail-val">~160 GB</span>
+            </div>
+            <div class="gauge-detail-row">
+              <span class="gauge-detail-key">여유</span>
+              <span class="gauge-detail-val">~340 GB</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Network -->
+        <div class="gauge-card">
+          <div class="gauge-header">
+            <div>
+              <div class="gauge-label">네트워크</div>
+              <div class="gauge-sub">로컬 IP: 192.168.0.234</div>
+            </div>
+            <div class="gauge-pct low">▲▼</div>
+          </div>
+          <div class="gauge-track">
+            <div class="gauge-fill low" style="width:22%"></div>
+          </div>
+          <div class="gauge-detail-rows">
+            <div class="gauge-detail-row">
+              <span class="gauge-detail-key">인바운드</span>
+              <span class="gauge-detail-val">~2.1 MB/s</span>
+            </div>
+            <div class="gauge-detail-row">
+              <span class="gauge-detail-key">아웃바운드</span>
+              <span class="gauge-detail-val">~0.8 MB/s</span>
+            </div>
+            <div class="gauge-detail-row">
+              <span class="gauge-detail-key">인터페이스</span>
+              <span class="gauge-detail-val">en0 (Wi-Fi)</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- brain.db -->
+        <div class="gauge-card">
+          <div class="gauge-header">
+            <div>
+              <div class="gauge-label">brain.db 용량</div>
+              <div class="gauge-sub">SQLite 파일</div>
+            </div>
+            <div class="gauge-pct low">12%</div>
+          </div>
+          <div class="gauge-track">
+            <div class="gauge-fill low" style="width:12%"></div>
+          </div>
+          <div class="gauge-detail-rows">
+            <div class="gauge-detail-row">
+              <span class="gauge-detail-key">파일 크기</span>
+              <span class="gauge-detail-val">~240 MB</span>
+            </div>
+            <div class="gauge-detail-row">
+              <span class="gauge-detail-key">레코드 수</span>
+              <span class="gauge-detail-val">~18,400건</span>
+            </div>
+            <div class="gauge-detail-row">
+              <span class="gauge-detail-key">포트</span>
+              <span class="gauge-detail-val">8082</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- OpenClaw Sessions -->
+        <div class="gauge-card">
+          <div class="gauge-header">
+            <div>
+              <div class="gauge-label">OpenClaw 세션</div>
+              <div class="gauge-sub">Gateway pid 1061</div>
+            </div>
+            <div class="gauge-pct medium">305</div>
+          </div>
+          <div class="gauge-track">
+            <div class="gauge-fill medium" style="width:61%"></div>
+          </div>
+          <div class="gauge-detail-rows">
+            <div class="gauge-detail-row">
+              <span class="gauge-detail-key">활성 세션</span>
+              <span class="gauge-detail-val">305</span>
+            </div>
+            <div class="gauge-detail-row">
+              <span class="gauge-detail-key">에이전트 수</span>
+              <span class="gauge-detail-val">5</span>
+            </div>
+            <div class="gauge-detail-row">
+              <span class="gauge-detail-key">Gateway</span>
+              <span class="gauge-detail-val">:18789</span>
+            </div>
+          </div>
+        </div>
+
+      </div><!-- /.resource-grid -->
+    </div>
+
+    <!-- ══════════════════════════════════════════
+         기술 스택
+    ══════════════════════════════════════════ -->
+    <div class="fade-in delay-3">
+      <div class="sec-title">🛠 기술 스택</div>
+      <div class="tech-categories">
+
+        <div class="tech-category">
+          <div class="tech-cat-label">⚡ 런타임 &amp; 언어</div>
+          <div class="tech-chips">
+            <span class="tech-chip green">Node.js 25.6.0</span>
+            <span class="tech-chip green">Python 3.13</span>
+            <span class="tech-chip blue">JavaScript</span>
+            <span class="tech-chip blue">TypeScript</span>
+            <span class="tech-chip gray">Shell (zsh)</span>
+          </div>
+        </div>
+
+        <div class="tech-category">
+          <div class="tech-cat-label">🤖 AI &amp; 모델</div>
+          <div class="tech-chips">
+            <span class="tech-chip purple">Claude Opus 4</span>
+            <span class="tech-chip purple">200k Context</span>
+            <span class="tech-chip blue">Gemini</span>
+            <span class="tech-chip gray">OpenClaw</span>
+            <span class="tech-chip gray">Whisper</span>
+          </div>
+        </div>
+
+        <div class="tech-category">
+          <div class="tech-cat-label">🗄 데이터베이스</div>
+          <div class="tech-chips">
+            <span class="tech-chip green">brain.db (SQLite)</span>
+            <span class="tech-chip blue">Vercel KV</span>
+            <span class="tech-chip gray">JSON Store</span>
+          </div>
+        </div>
+
+        <div class="tech-category">
+          <div class="tech-cat-label">☁️ 배포 &amp; 인프라</div>
+          <div class="tech-chips">
+            <span class="tech-chip blue">Vercel</span>
+            <span class="tech-chip green">launchd</span>
+            <span class="tech-chip gray">Git</span>
+            <span class="tech-chip gray">GitHub</span>
+            <span class="tech-chip yellow">Mac mini M4</span>
+          </div>
+        </div>
+
+        <div class="tech-category">
+          <div class="tech-cat-label">💬 메시징</div>
+          <div class="tech-chips">
+            <span class="tech-chip green">Slack (5계정)</span>
+            <span class="tech-chip blue">Telegram</span>
+            <span class="tech-chip gray">Slack Bolt</span>
+          </div>
+        </div>
+
+        <div class="tech-category">
+          <div class="tech-cat-label">🔧 자동화</div>
+          <div class="tech-chips">
+            <span class="tech-chip purple">OpenClaw Cron</span>
+            <span class="tech-chip green">launchd</span>
+            <span class="tech-chip yellow">Cafe24 API</span>
+            <span class="tech-chip pink">Plaud AI</span>
+            <span class="tech-chip gray">Vercel CLI</span>
+          </div>
+        </div>
+
+      </div><!-- /.tech-categories -->
+    </div>
+
+    <!-- ══════════════════════════════════════════
+         네트워크 토폴로지
+    ══════════════════════════════════════════ -->
+    <div class="fade-in delay-4">
+      <div class="sec-title">🌐 네트워크 토폴로지</div>
+      <div class="topo-wrap">
+        <div class="topo-svg-wrap">
+          <svg class="topo-svg" viewBox="0 0 760 340" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="네트워크 토폴로지 다이어그램">
+            <defs>
+              <marker id="arrow" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+                <path d="M0,0 L0,6 L8,3 z" fill="#7C3AED" opacity="0.6"/>
+              </marker>
+              <marker id="arrow-green" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+                <path d="M0,0 L0,6 L8,3 z" fill="#10B981" opacity="0.6"/>
+              </marker>
+              <marker id="arrow-blue" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+                <path d="M0,0 L0,6 L8,3 z" fill="#3B82F6" opacity="0.6"/>
+              </marker>
+              <filter id="glow-purple">
+                <feGaussianBlur stdDeviation="3" result="blur"/>
+                <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+              </filter>
+            </defs>
+
+            <!-- Background grid (subtle) -->
+            <pattern id="grid" width="30" height="30" patternUnits="userSpaceOnUse">
+              <path d="M 30 0 L 0 0 0 30" fill="none" stroke="currentColor" stroke-width="0.3" opacity="0.06"/>
+            </pattern>
+            <rect width="760" height="340" fill="url(#grid)"/>
+
+            <!-- ─── Mac mini (center) ─── -->
+            <rect x="300" y="130" width="160" height="80" rx="14" fill="#7C3AED" fill-opacity="0.18" stroke="#7C3AED" stroke-width="1.5" filter="url(#glow-purple)"/>
+            <text x="380" y="162" text-anchor="middle" font-size="20">🖥️</text>
+            <text x="380" y="183" text-anchor="middle" font-size="12" fill="#A78BFA" font-weight="700">Mac mini M4</text>
+            <text x="380" y="199" text-anchor="middle" font-size="9" fill="#7C3AED">192.168.0.234</text>
+
+            <!-- ─── brain.db (left) ─── -->
+            <rect x="30" y="50" width="130" height="64" rx="12" fill="#10B981" fill-opacity="0.12" stroke="#10B981" stroke-width="1.2"/>
+            <text x="95" y="76" text-anchor="middle" font-size="16">🧠</text>
+            <text x="95" y="94" text-anchor="middle" font-size="11" fill="#34D399" font-weight="600">brain.db</text>
+            <text x="95" y="107" text-anchor="middle" font-size="9" fill="#10B981">localhost:8082</text>
+
+            <!-- ─── OpenClaw Gateway (left-bottom) ─── -->
+            <rect x="30" y="226" width="130" height="64" rx="12" fill="#7C3AED" fill-opacity="0.12" stroke="#7C3AED" stroke-width="1.2"/>
+            <text x="95" y="252" text-anchor="middle" font-size="16">⚡</text>
+            <text x="95" y="270" text-anchor="middle" font-size="10" fill="#A78BFA" font-weight="600">OpenClaw GW</text>
+            <text x="95" y="283" text-anchor="middle" font-size="9" fill="#7C3AED">127.0.0.1:18789</text>
+
+            <!-- ─── tenex-reports (right-top) ─── -->
+            <rect x="600" y="50" width="130" height="64" rx="12" fill="#3B82F6" fill-opacity="0.12" stroke="#3B82F6" stroke-width="1.2"/>
+            <text x="665" y="76" text-anchor="middle" font-size="16">📊</text>
+            <text x="665" y="94" text-anchor="middle" font-size="10" fill="#60A5FA" font-weight="600">tenex-reports</text>
+            <text x="665" y="107" text-anchor="middle" font-size="9" fill="#3B82F6">vercel.app</text>
+
+            <!-- ─── tenex-dashboard (right-bottom) ─── -->
+            <rect x="600" y="226" width="130" height="64" rx="12" fill="#F59E0B" fill-opacity="0.12" stroke="#F59E0B" stroke-width="1.2"/>
+            <text x="665" y="252" text-anchor="middle" font-size="16">🎛️</text>
+            <text x="665" y="270" text-anchor="middle" font-size="10" fill="#FCD34D" font-weight="600">tenex-dashboard</text>
+            <text x="665" y="283" text-anchor="middle" font-size="9" fill="#F59E0B">vercel.app</text>
+
+            <!-- ─── Agents row (top center) ─── -->
+            <rect x="190" y="18" width="380" height="42" rx="10" fill="#111" fill-opacity="0.4" stroke="#252C3D" stroke-width="1"/>
+            <text x="380" y="35" text-anchor="middle" font-size="9" fill="#94A3B8" font-weight="600" letter-spacing="0.05em">AGENTS (5)</text>
+            <text x="220" y="52" text-anchor="middle" font-size="12">👑</text>
+            <text x="260" y="52" text-anchor="middle" font-size="12">📣</text>
+            <text x="300" y="52" text-anchor="middle" font-size="12">🔧</text>
+            <text x="340" y="52" text-anchor="middle" font-size="12">💬</text>
+            <text x="380" y="52" text-anchor="middle" font-size="12">✍️</text>
+            <text x="220" y="58" text-anchor="middle" font-size="7.5" fill="#94A3B8">카리나</text>
+            <text x="260" y="58" text-anchor="middle" font-size="7.5" fill="#94A3B8">마실장</text>
+            <text x="300" y="58" text-anchor="middle" font-size="7.5" fill="#94A3B8">개실장</text>
+            <text x="340" y="58" text-anchor="middle" font-size="7.5" fill="#94A3B8">고실장</text>
+            <text x="380" y="58" text-anchor="middle" font-size="7.5" fill="#94A3B8">콘실장</text>
+
+            <!-- ─── Slack/Telegram (bottom) ─── -->
+            <rect x="270" y="295" width="220" height="36" rx="9" fill="#111" fill-opacity="0.4" stroke="#252C3D" stroke-width="1"/>
+            <text x="380" y="309" text-anchor="middle" font-size="9" fill="#94A3B8" font-weight="600">MESSAGING</text>
+            <text x="335" y="325" text-anchor="middle" font-size="11">💬 Slack</text>
+            <text x="425" y="325" text-anchor="middle" font-size="11">✈️ Telegram</text>
+
+            <!-- ─── Connections ─── -->
+            <!-- Agents → Gateway -->
+            <line x1="300" y1="60" x2="300" y2="130" stroke="#7C3AED" stroke-width="1.2" stroke-dasharray="4,3" marker-end="url(#arrow)" opacity="0.5"/>
+
+            <!-- Mac mini → brain.db -->
+            <line x1="300" y1="170" x2="160" y2="82" stroke="#10B981" stroke-width="1.3" marker-end="url(#arrow-green)" opacity="0.6"/>
+            <text x="218" y="118" text-anchor="middle" font-size="8" fill="#10B981" opacity="0.8">HTTP</text>
+
+            <!-- Mac mini → Gateway -->
+            <line x1="300" y1="190" x2="160" y2="258" stroke="#7C3AED" stroke-width="1.3" marker-end="url(#arrow)" opacity="0.6"/>
+            <text x="213" y="238" text-anchor="middle" font-size="8" fill="#A78BFA" opacity="0.8">WS</text>
+
+            <!-- Mac mini → tenex-reports -->
+            <line x1="460" y1="170" x2="600" y2="82" stroke="#3B82F6" stroke-width="1.3" marker-end="url(#arrow-blue)" opacity="0.6"/>
+            <text x="545" y="118" text-anchor="middle" font-size="8" fill="#60A5FA" opacity="0.8">deploy</text>
+
+            <!-- Mac mini → tenex-dashboard -->
+            <line x1="460" y1="190" x2="600" y2="258" stroke="#F59E0B" stroke-width="1.3" opacity="0.6"/>
+            <text x="548" y="238" text-anchor="middle" font-size="8" fill="#FCD34D" opacity="0.8">deploy</text>
+
+            <!-- Mac mini → Messaging -->
+            <line x1="380" y1="210" x2="380" y2="295" stroke="#94A3B8" stroke-width="1" stroke-dasharray="3,3" opacity="0.4"/>
+
+            <!-- ─── Legend ─── -->
+            <rect x="10" y="310" width="210" height="26" rx="6" fill="#0B0D14" fill-opacity="0.7"/>
+            <circle cx="25" cy="323" r="4" fill="#10B981"/>
+            <text x="33" y="327" font-size="8" fill="#94A3B8">HTTP</text>
+            <circle cx="70" cy="323" r="4" fill="#7C3AED"/>
+            <text x="78" y="327" font-size="8" fill="#94A3B8">WebSocket</text>
+            <line x1="126" y1="323" x2="144" y2="323" stroke="#3B82F6" stroke-width="1.5"/>
+            <text x="148" y="327" font-size="8" fill="#94A3B8">Deploy</text>
+            <line x1="188" y1="323" x2="206" y2="323" stroke="#94A3B8" stroke-width="1" stroke-dasharray="3,2"/>
+            <text x="210" y="327" font-size="8" fill="#94A3B8">Push</text>
+          </svg>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════════════
+         Git / 배포 상태
+    ══════════════════════════════════════════ -->
+    <div class="fade-in delay-4">
+      <div class="sec-title">🚀 Git &amp; 배포</div>
+      <div class="card">
+        <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:1.25rem;">
+          <div>
+            <div class="service-meta-row" style="font-size:0.82rem;padding:0.5rem 0;border-bottom:1px solid var(--border-2);">
+              <span style="color:var(--text-2);font-weight:600;">tenex-reports 배포</span>
+              <span class="badge ok">AUTO</span>
+            </div>
+            <div class="service-meta-row" style="font-size:0.75rem;padding:0.45rem 0;border-bottom:1px solid var(--border-2);">
+              <span style="color:var(--text-3);">트리거</span>
+              <span style="color:var(--text-2);font-family:var(--mono);font-size:0.72rem;">launchd 10분 크론</span>
+            </div>
+            <div class="service-meta-row" style="font-size:0.75rem;padding:0.45rem 0;border-bottom:1px solid var(--border-2);">
+              <span style="color:var(--text-3);">감지 방식</span>
+              <span style="color:var(--text-2);font-family:var(--mono);font-size:0.72rem;">파일 해시 비교</span>
+            </div>
+            <div class="service-meta-row" style="font-size:0.75rem;padding:0.45rem 0;">
+              <span style="color:var(--text-3);">플랫폼</span>
+              <span style="color:var(--text-2);font-family:var(--mono);font-size:0.72rem;">Vercel</span>
+            </div>
+          </div>
+          <div>
+            <div class="service-meta-row" style="font-size:0.82rem;padding:0.5rem 0;border-bottom:1px solid var(--border-2);">
+              <span style="color:var(--text-2);font-weight:600;">brain.db 백업</span>
+              <span class="badge ok">AUTO</span>
+            </div>
+            <div class="service-meta-row" style="font-size:0.75rem;padding:0.45rem 0;border-bottom:1px solid var(--border-2);">
+              <span style="color:var(--text-3);">방식</span>
+              <span style="color:var(--text-2);font-family:var(--mono);font-size:0.72rem;">brain-conv-sync (30분)</span>
+            </div>
+            <div class="service-meta-row" style="font-size:0.75rem;padding:0.45rem 0;border-bottom:1px solid var(--border-2);">
+              <span style="color:var(--text-3);">인덱싱</span>
+              <span style="color:var(--text-2);font-family:var(--mono);font-size:0.72rem;">memory-indexer (매일)</span>
+            </div>
+            <div class="service-meta-row" style="font-size:0.75rem;padding:0.45rem 0;">
+              <span style="color:var(--text-3);">감시</span>
+              <span style="color:var(--text-2);font-family:var(--mono);font-size:0.72rem;">memory-watcher (상시)</span>
+            </div>
+          </div>
+          <div>
+            <div class="service-meta-row" style="font-size:0.82rem;padding:0.5rem 0;border-bottom:1px solid var(--border-2);">
+              <span style="color:var(--text-2);font-weight:600;">카페24 자동화</span>
+              <span class="badge ok">AUTO</span>
+            </div>
+            <div class="service-meta-row" style="font-size:0.75rem;padding:0.45rem 0;border-bottom:1px solid var(--border-2);">
+              <span style="color:var(--text-3);">토큰 갱신</span>
+              <span style="color:var(--text-2);font-family:var(--mono);font-size:0.72rem;">60분 주기</span>
+            </div>
+            <div class="service-meta-row" style="font-size:0.75rem;padding:0.45rem 0;border-bottom:1px solid var(--border-2);">
+              <span style="color:var(--text-3);">웹훅</span>
+              <span style="color:var(--text-2);font-family:var(--mono);font-size:0.72rem;">10분 폴링</span>
+            </div>
+            <div class="service-meta-row" style="font-size:0.75rem;padding:0.45rem 0;">
+              <span style="color:var(--text-3);">쇼핑몰</span>
+              <span style="color:var(--text-2);font-family:var(--mono);font-size:0.72rem;">shop5 · shop6</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════════════
+         빠른 참조 명령어
+    ══════════════════════════════════════════ -->
+    <div class="fade-in delay-4">
+      <div class="sec-title">💻 빠른 참조 명령어</div>
+      <div class="card">
+        <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:1.25rem;">
+
+          <div>
+            <div style="font-size:0.73rem;font-weight:700;color:var(--green);margin-bottom:0.65rem;text-transform:uppercase;letter-spacing:0.05em;">🧠 brain.db</div>
+            <div style="display:flex;flex-direction:column;gap:0.45rem;">
+              <div>
+                <div style="font-size:0.67rem;color:var(--text-3);margin-bottom:0.2rem;">검색</div>
+                <code style="display:block;word-break:break-all;">curl "http://localhost:8082/search?q=키워드&limit=5"</code>
+              </div>
+              <div>
+                <div style="font-size:0.67rem;color:var(--text-3);margin-bottom:0.2rem;">저장</div>
+                <code style="display:block;word-break:break-all;">curl -X POST http://localhost:8082/insert -d '{"date":"...","content":"..."}'</code>
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <div style="font-size:0.73rem;font-weight:700;color:var(--accent-light);margin-bottom:0.65rem;text-transform:uppercase;letter-spacing:0.05em;">⚡ OpenClaw</div>
+            <div style="display:flex;flex-direction:column;gap:0.45rem;">
+              <div>
+                <div style="font-size:0.67rem;color:var(--text-3);margin-bottom:0.2rem;">Gateway 상태</div>
+                <code style="display:block;">openclaw gateway status</code>
+              </div>
+              <div>
+                <div style="font-size:0.67rem;color:var(--text-3);margin-bottom:0.2rem;">재시작</div>
+                <code style="display:block;">openclaw gateway restart</code>
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <div style="font-size:0.73rem;font-weight:700;color:var(--yellow);margin-bottom:0.65rem;text-transform:uppercase;letter-spacing:0.05em;">🔑 카페24 토큰</div>
+            <div style="display:flex;flex-direction:column;gap:0.45rem;">
+              <div>
+                <div style="font-size:0.67rem;color:var(--text-3);margin-bottom:0.2rem;">수동 갱신</div>
+                <code style="display:block;word-break:break-all;">bash ~/Desktop/tenex-assistant/refresh-cafe24-token.sh</code>
+              </div>
+              <div>
+                <div style="font-size:0.67rem;color:var(--text-3);margin-bottom:0.2rem;">로그 확인</div>
+                <code style="display:block;word-break:break-all;">tail -f ~/Desktop/tenex-assistant/token-refresh.log</code>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /.section-gap -->
+
+  <!-- ══════════════════════════════════════════
+       FOOTER
+  ══════════════════════════════════════════ -->
+  <div class="footer-bar">
+    <div>
+      tenex-reports &nbsp;·&nbsp;
+      자동 배포 (변경 감지 시 10분 내 반영) &nbsp;·&nbsp;
+      <span id="lastUpdated"></span>
+    </div>
+    <div>
+      <a href="/">← 홈으로</a>
+      &nbsp;|&nbsp;
+      <a href="https://tenex-reports.vercel.app" target="_blank" rel="noopener">tenex-reports.vercel.app ↗</a>
+    </div>
+  </div>
+
+</div><!-- /.page-wrap -->
+
+<!-- ══════════════════════════════════════════════
+     SCRIPTS
+══════════════════════════════════════════════ -->
+<script>
+  /* ─── Theme Toggle ───────────────────────────────── */
+  function toggleTheme() {
+    const html = document.documentElement;
+    const isDark = html.getAttribute('data-theme') === 'dark';
+    html.setAttribute('data-theme', isDark ? 'light' : 'dark');
+    document.getElementById('themeToggle').textContent = isDark ? '🌙' : '☀️';
+    try { localStorage.setItem('tenex-theme', isDark ? 'light' : 'dark'); } catch(e){}
+  }
+
+  /* ─── Restore saved theme ────────────────────────── */
+  (function(){
+    try {
+      const saved = localStorage.getItem('tenex-theme');
+      if (saved) {
+        document.documentElement.setAttribute('data-theme', saved);
+        const btn = document.getElementById('themeToggle');
+        if (btn) btn.textContent = saved === 'dark' ? '🌙' : '☀️';
+      }
+    } catch(e){}
+  })();
+
+  /* ─── Last Updated ───────────────────────────────── */
+  (function(){
+    const el = document.getElementById('lastUpdated');
+    if (el) {
+      const d = new Date();
+      const pad = n => String(n).padStart(2,'0');
+      el.textContent = `마지막 업데이트: ${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())} ${pad(d.getHours())}:${pad(d.getMinutes())}`;
+    }
+  })();
+
+  /* ─── Animated Gauges ────────────────────────────── */
+  function animateGauges() {
+    const gauges = [
+      { fill: 'cpuFill',  pct: 'cpuPct',  val: 14,  level: 'low' },
+      { fill: 'memFill',  pct: 'memPct',  val: 58,  level: 'medium' },
+      { fill: 'diskFill', pct: 'diskPct', val: 32,  level: 'low' },
+    ];
+    gauges.forEach(g => {
+      const fillEl = document.getElementById(g.fill);
+      const pctEl  = document.getElementById(g.pct);
+      if (!fillEl || !pctEl) return;
+      fillEl.style.width = '0%';
+      setTimeout(() => { fillEl.style.width = g.val + '%'; }, 400);
+    });
+  }
+
+  /* ─── Subtle CPU shimmer (live feel) ─────────────── */
+  function liveCpuFlicker() {
+    const cpuEl = document.getElementById('cpuPct');
+    const cpuFill = document.getElementById('cpuFill');
+    if (!cpuEl || !cpuFill) return;
+    setInterval(() => {
+      const base = 14;
+      const jitter = (Math.random() * 8 - 4).toFixed(0);
+      const newVal = Math.max(4, Math.min(35, base + parseInt(jitter)));
+      cpuEl.textContent = newVal + '%';
+      cpuFill.style.width = newVal + '%';
+      const level = newVal < 30 ? 'low' : newVal < 60 ? 'medium' : 'high';
+      cpuEl.className = 'gauge-pct ' + level;
+      cpuFill.className = 'gauge-fill ' + level;
+    }, 3200);
+  }
+
+  /* ─── Response bar animation ─────────────────────── */
+  function animateResponseBars() {
+    document.querySelectorAll('.response-fill').forEach(el => {
+      const w = el.style.width;
+      el.style.width = '0%';
+      setTimeout(() => { el.style.width = w; }, 600);
+    });
+  }
+
+  /* ─── Init ───────────────────────────────────────── */
+  window.addEventListener('DOMContentLoaded', function() {
+    animateGauges();
+    animateResponseBars();
+    liveCpuFlicker();
+  });
+</script>
+
 </body>
 </html>
