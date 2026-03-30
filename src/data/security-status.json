@@ -1,19 +1,28 @@
 {
   "updatedAt": "2026-03-30",
+  "accounts": [
+    {"username":"admin","role":"admin","access":"전체","status":"active"},
+    {"username":"almani","role":"viewer","access":"/crm, /crm.html만","status":"active"},
+    {"username":"dlsrb","role":"viewer","access":"전체","status":"active"},
+    {"username":"wpgud","role":"viewer","access":"전체","status":"active"}
+  ],
   "tokens": [
-    {"name":"카페24 API","type":"OAuth2","status":"active","lastRefresh":"2026-03-30 17:00","expiresIn":"90분"},
     {"name":"GitHub PAT","type":"Token","status":"active","lastRefresh":"2026-03-15","expiresIn":"30일"},
+    {"name":"Supabase","type":"API Key","status":"active","lastRefresh":"2026-03-30","expiresIn":"무제한"},
     {"name":"Vercel Token","type":"Token","status":"active","lastRefresh":"2026-03-01","expiresIn":"무제한"},
-    {"name":"YouTube Data API","type":"OAuth2","status":"active","lastRefresh":"2026-03-30","expiresIn":"1시간"},
+    {"name":"카페24 API","type":"OAuth2","status":"active","lastRefresh":"2026-03-30","expiresIn":"90분 자동갱신"},
+    {"name":"YouTube Data API","type":"OAuth2","status":"active","lastRefresh":"2026-03-30","expiresIn":"1시간 자동갱신"},
     {"name":"Meta Graph API","type":"Token","status":"warning","lastRefresh":"2026-03-28","expiresIn":"60일"},
     {"name":"OpenAI API","type":"API Key","status":"active","lastRefresh":"-","expiresIn":"무제한"},
     {"name":"Anthropic API","type":"API Key","status":"active","lastRefresh":"-","expiresIn":"무제한"}
   ],
   "checklist": [
     {"item":"JWT_SECRET 환경변수 설정","done":true},
-    {"item":"GITHUB_TOKEN Vercel 환경변수","done":false},
+    {"item":"GITHUB_TOKEN Vercel 환경변수","done":true},
+    {"item":"SUPABASE_URL/ANON_KEY/SERVICE_KEY 설정","done":true},
     {"item":"admin 비밀번호 변경","done":true},
     {"item":"almani 접근 제한 (/crm만)","done":true},
-    {"item":"browser.headless = true","done":true}
+    {"item":"browser.headless = true 유지","done":true},
+    {"item":"project-status.json 수정 금지 규칙","done":true}
   ]
 }

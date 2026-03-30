@@ -382,7 +382,7 @@ body.sidebar-collapsed .header-toggle{display:flex}
 .system-content .sc-sys-card .val{font-size:1.2rem;font-weight:700;color:var(--text)}
 .system-content .sc-sys-card .sub2{font-size:.75rem;color:var(--text-secondary);margin-top:.2rem}
 
-/* Security grid */
+/* Security grid (legacy) */
 .system-content .sc-sec-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:16px;margin-bottom:32px}
 .system-content .sc-sec-card{background:var(--bg-card);border:1px solid var(--border);border-radius:12px;padding:20px;transition:border-color .2s}
 .system-content .sc-sec-card:hover{border-color:var(--accent)}
@@ -390,6 +390,70 @@ body.sidebar-collapsed .header-toggle{display:flex}
 .system-content .sc-sec-card .svc-name{font-size:15px;font-weight:700;color:var(--text);display:flex;align-items:center;gap:8px}
 .system-content .sc-sec-card .info-row{display:flex;align-items:center;gap:8px;margin-bottom:6px;font-size:13px;color:var(--text-secondary)}
 .system-content .sc-sec-card .info-row .rlabel{min-width:50px;color:var(--text-secondary);font-weight:600}
+
+/* Security - Accounts */
+.system-content .sc-sec-accounts{margin-bottom:32px}
+.system-content .sc-sec-username{font-weight:700;color:var(--text);font-size:13px}
+.system-content .sc-sec-role{display:inline-block;padding:3px 10px;border-radius:12px;font-size:11px;font-weight:600}
+.system-content .sc-sec-role.admin{background:rgba(239,68,68,0.12);color:#ef4444}
+.system-content .sc-sec-role.viewer{background:rgba(96,165,250,0.12);color:#60a5fa}
+.system-content .sc-sec-access{font-size:12px;color:var(--text-secondary)}
+.system-content .sc-sec-del-btn{
+  padding:4px 12px;border-radius:6px;font-size:11px;font-weight:600;cursor:pointer;
+  border:1px solid rgba(239,68,68,0.3);background:rgba(239,68,68,0.08);color:#ef4444;transition:all .2s;
+}
+.system-content .sc-sec-del-btn:hover{background:rgba(239,68,68,0.2);border-color:#ef4444}
+.system-content .sc-sec-add-btn{
+  display:inline-flex;align-items:center;gap:4px;margin-top:12px;padding:8px 20px;border-radius:8px;
+  font-size:13px;font-weight:600;cursor:pointer;border:1px dashed var(--border);
+  background:var(--bg);color:var(--accent);transition:all .2s;
+}
+.system-content .sc-sec-add-btn:hover{border-color:var(--accent);background:var(--accent-light)}
+
+/* Security - Add Account Form */
+.system-content .sc-sec-add-form{
+  display:none;margin-top:12px;padding:16px 20px;border-radius:10px;
+  background:var(--bg-card);border:1px solid var(--border);
+}
+.system-content .sc-sec-add-form.open{display:block}
+.system-content .sc-sec-form-row{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+.system-content .sc-sec-form-row label{min-width:70px;font-size:12px;font-weight:600;color:var(--text-secondary)}
+.system-content .sc-sec-form-row input,.system-content .sc-sec-form-row select{
+  flex:1;padding:7px 12px;border-radius:7px;border:1px solid var(--border);
+  background:var(--bg);color:var(--text);font-size:13px;
+}
+.system-content .sc-sec-form-row input:focus,.system-content .sc-sec-form-row select:focus{
+  outline:none;border-color:var(--accent);box-shadow:0 0 0 2px var(--accent-light);
+}
+.system-content .sc-sec-form-actions{display:flex;gap:8px;margin-top:4px;justify-content:flex-end}
+.system-content .sc-sec-save-btn{
+  padding:7px 20px;border-radius:7px;font-size:12px;font-weight:600;cursor:pointer;
+  border:none;background:var(--accent);color:#fff;transition:opacity .2s;
+}
+.system-content .sc-sec-save-btn:hover{opacity:.85}
+.system-content .sc-sec-cancel-btn{
+  padding:7px 20px;border-radius:7px;font-size:12px;font-weight:600;cursor:pointer;
+  border:1px solid var(--border);background:var(--bg);color:var(--text-secondary);transition:all .2s;
+}
+.system-content .sc-sec-cancel-btn:hover{background:var(--accent-light)}
+
+/* Security - Checklist (enhanced) */
+.system-content .sc-sec-checklist{margin-bottom:32px}
+.system-content .sc-sec-checklist-item{
+  display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid var(--border);
+  font-size:13px;color:var(--text);cursor:pointer;user-select:none;
+}
+.system-content .sc-sec-checklist-item:last-child{border-bottom:none}
+.system-content .sc-sec-checklist-item input[type="checkbox"]{display:none}
+.system-content .sc-sec-checkmark{
+  width:20px;height:20px;border-radius:6px;display:flex;align-items:center;justify-content:center;
+  font-size:12px;flex-shrink:0;border:1.5px solid var(--border);background:var(--bg);transition:all .2s;
+}
+.system-content .sc-sec-checkmark::after{content:'';display:none}
+.system-content .sc-sec-checkmark.done{background:rgba(52,211,153,0.15);border-color:#34d399;color:#34d399}
+.system-content .sc-sec-checkmark.done::after{content:'✓';display:block;font-weight:700}
+.system-content .sc-sec-checklist-text{transition:color .2s}
+.system-content .sc-sec-checklist-text.done{color:var(--text-secondary);text-decoration:line-through}
 
 .system-content .sc-info-box{background:var(--bg-card);border:1px solid var(--border);border-radius:12px;padding:20px;margin-bottom:20px}
 .system-content .sc-info-box h3{font-size:14px;font-weight:700;color:var(--text);margin-bottom:12px}
@@ -507,6 +571,15 @@ body.sidebar-collapsed .header-toggle{display:flex}
 }
 [data-theme="dark"] .system-content .sc-detail-tag{background:rgba(37,99,235,0.15)}
 
+/* Detail links (related reports/deploys) */
+.system-content .sc-detail-links{display:flex;flex-wrap:wrap;gap:8px}
+.system-content .sc-detail-link{
+  display:inline-flex;align-items:center;gap:4px;padding:5px 12px;border-radius:8px;font-size:12px;
+  font-weight:600;color:var(--accent);background:var(--accent-light);text-decoration:none;
+  border:1px solid transparent;transition:all .2s;
+}
+.system-content .sc-detail-link:hover{border-color:var(--accent);background:rgba(37,99,235,0.15)}
+
 /* Troubleshooting */
 .system-content .sc-trouble-item{
   font-size:12px;color:var(--text-secondary);line-height:1.8;padding-left:20px;position:relative;
@@ -595,6 +668,8 @@ body.sidebar-collapsed .header-toggle{display:flex}
   .system-content .sc-sec-table{font-size:11px}
   .system-content .sc-sec-table th,.system-content .sc-sec-table td{padding:8px 8px}
   .system-content .sc-sec-grid{grid-template-columns:1fr}
+  .system-content .sc-sec-form-row{flex-wrap:wrap}
+  .system-content .sc-sec-form-row label{min-width:unset;width:100%}
   .system-content .sc-perm-grid{grid-template-columns:1fr}
   .system-content .sc-cron-stats{gap:8px}
   .system-content .sc-cron-stat{min-width:80px;padding:10px 12px}
@@ -2489,21 +2564,56 @@ async function renderSecurityDashboard(){
   try{
     const res=await fetch('/data/security-status.json?t='+Date.now());
     const data=await res.json();
+    const accounts=data.accounts||[];
     const tokens=data.tokens||[];
     const checklist=data.checklist||[];
-    const total=tokens.length;
+    const totalTokens=tokens.length;
     const activeCount=tokens.filter(t=>t.status==='active').length;
     const warnCount=tokens.filter(t=>t.status==='warning').length;
+    const expiredCount=tokens.filter(t=>t.status==='expired').length;
     const doneCount=checklist.filter(c=>c.done).length;
     const statusLabels={active:'정상',warning:'주의',expired:'만료'};
+    const roleLabels={admin:'관리자',viewer:'뷰어'};
     let h='';
+
+    // Summary stats
     h+='<div class="sc-cron-stats">';
-    h+='<div class="sc-cron-stat"><div class="stat-num navy">'+total+'</div><div class="stat-label">전체 토큰</div></div>';
-    h+='<div class="sc-cron-stat"><div class="stat-num green">'+activeCount+'</div><div class="stat-label">정상</div></div>';
-    h+='<div class="sc-cron-stat"><div class="stat-num yellow">'+warnCount+'</div><div class="stat-label">주의</div></div>';
+    h+='<div class="sc-cron-stat"><div class="stat-num navy">'+accounts.length+'</div><div class="stat-label">계정</div></div>';
+    h+='<div class="sc-cron-stat"><div class="stat-num green">'+activeCount+'</div><div class="stat-label">토큰 정상</div></div>';
+    if(warnCount>0) h+='<div class="sc-cron-stat"><div class="stat-num yellow">'+warnCount+'</div><div class="stat-label">주의</div></div>';
+    if(expiredCount>0) h+='<div class="sc-cron-stat"><div class="stat-num red">'+expiredCount+'</div><div class="stat-label">만료</div></div>';
     h+='<div class="sc-cron-stat"><div class="stat-num blue">'+doneCount+'/'+checklist.length+'</div><div class="stat-label">보안 체크</div></div>';
     h+='</div>';
-    // Token table
+
+    // ── Section A: 통합 계정 관리 ──
+    h+='<div class="sc-section-title">👤 통합 계정 관리</div>';
+    h+='<div class="sc-sec-accounts">';
+    h+='<table class="sc-sec-table">';
+    h+='<thead><tr><th>계정</th><th>역할</th><th>접근 범위</th><th>상태</th><th>관리</th></tr></thead>';
+    h+='<tbody id="secAccountRows">';
+    accounts.forEach((a,i)=>{
+      const roleBadge=a.role==='admin'?'admin':'viewer';
+      h+='<tr data-idx="'+i+'">';
+      h+='<td><span class="sc-sec-username">'+a.username+'</span></td>';
+      h+='<td><span class="sc-sec-role '+roleBadge+'">'+(roleLabels[a.role]||a.role)+'</span></td>';
+      h+='<td class="sc-sec-access">'+a.access+'</td>';
+      h+='<td><span class="sc-sec-status active">활성</span></td>';
+      h+='<td><button class="sc-sec-del-btn" onclick="confirmDeleteAccount(\''+a.username+'\')">삭제</button></td>';
+      h+='</tr>';
+    });
+    h+='</tbody></table>';
+    // Add account button + inline form
+    h+='<button class="sc-sec-add-btn" id="secAddAcctBtn" onclick="toggleAddAccountForm()">+ 계정 추가</button>';
+    h+='<div class="sc-sec-add-form" id="secAddForm">';
+    h+='<div class="sc-sec-form-row"><label>계정명</label><input type="text" id="secNewUser" placeholder="username" /></div>';
+    h+='<div class="sc-sec-form-row"><label>비밀번호</label><input type="password" id="secNewPass" placeholder="••••••" /></div>';
+    h+='<div class="sc-sec-form-row"><label>역할</label><select id="secNewRole"><option value="viewer">뷰어</option><option value="admin">관리자</option></select></div>';
+    h+='<div class="sc-sec-form-row"><label>접근 범위</label><input type="text" id="secNewAccess" placeholder="전체" value="전체" /></div>';
+    h+='<div class="sc-sec-form-actions"><button class="sc-sec-save-btn" onclick="saveNewAccount()">저장</button><button class="sc-sec-cancel-btn" onclick="toggleAddAccountForm()">취소</button></div>';
+    h+='</div>';
+    h+='</div>';
+
+    // ── Section B: API 키 / 토큰 현황 ──
     h+='<div class="sc-section-title">🔑 API 키 / 토큰 현황</div>';
     h+='<table class="sc-sec-table">';
     h+='<thead><tr><th>이름</th><th>타입</th><th>상태</th><th>마지막 갱신</th><th>만료</th></tr></thead>';
@@ -2518,17 +2628,65 @@ async function renderSecurityDashboard(){
       h+='</tr>';
     });
     h+='</tbody></table>';
-    // Checklist
+
+    // ── Section C: 보안 체크리스트 ──
     h+='<div class="sc-section-title">✅ 보안 체크리스트</div>';
-    h+='<div class="sc-checklist">';
-    checklist.forEach(c=>{
-      h+='<div class="sc-checklist-item">';
-      h+='<span class="sc-checklist-check '+(c.done?'done':'undone')+'">'+(c.done?'✓':'')+'</span>';
-      h+='<span'+(c.done?'':' style="color:var(--text-secondary)"')+'>'+c.item+'</span>';
-      h+='</div>';
+    h+='<div class="sc-sec-checklist">';
+    checklist.forEach((c,i)=>{
+      h+='<label class="sc-sec-checklist-item">';
+      h+='<input type="checkbox" '+(c.done?'checked':'')+' onchange="toggleSecCheck(this,'+i+')" />';
+      h+='<span class="sc-sec-checkmark '+(c.done?'done':'')+'"></span>';
+      h+='<span class="sc-sec-checklist-text'+(c.done?' done':'')+'">'+c.item+'</span>';
+      h+='</label>';
     });
     h+='</div>';
+
     h+='<div class="sc-cron-updated">업데이트: '+data.updatedAt+' | 데이터 소스: security-status.json</div>';
+
+    // Bind interactive helpers after render
+    setTimeout(()=>{
+      window.toggleAddAccountForm=function(){
+        const f=document.getElementById('secAddForm');
+        if(f) f.classList.toggle('open');
+      };
+      window.saveNewAccount=function(){
+        const user=document.getElementById('secNewUser').value.trim();
+        if(!user){alert('계정명을 입력하세요');return;}
+        // Visual-only: add row to table
+        const tbody=document.getElementById('secAccountRows');
+        if(!tbody)return;
+        const role=document.getElementById('secNewRole').value;
+        const access=document.getElementById('secNewAccess').value||'전체';
+        const tr=document.createElement('tr');
+        tr.innerHTML='<td><span class="sc-sec-username">'+user+'</span></td>'
+          +'<td><span class="sc-sec-role '+(role==='admin'?'admin':'viewer')+'">'+(role==='admin'?'관리자':'뷰어')+'</span></td>'
+          +'<td class="sc-sec-access">'+access+'</td>'
+          +'<td><span class="sc-sec-status active">활성</span></td>'
+          +'<td><button class="sc-sec-del-btn" onclick="confirmDeleteAccount(\''+user+'\')">삭제</button></td>';
+        tbody.appendChild(tr);
+        document.getElementById('secNewUser').value='';
+        document.getElementById('secNewPass').value='';
+        document.getElementById('secNewAccess').value='전체';
+        document.getElementById('secAddForm').classList.remove('open');
+      };
+      window.confirmDeleteAccount=function(username){
+        if(!confirm('계정 "'+username+'"을(를) 삭제하시겠습니까?'))return;
+        const rows=document.querySelectorAll('#secAccountRows tr');
+        rows.forEach(r=>{
+          const name=r.querySelector('.sc-sec-username');
+          if(name&&name.textContent===username) r.remove();
+        });
+      };
+      window.toggleSecCheck=function(el,idx){
+        // Visual toggle only
+        const item=el.closest('.sc-sec-checklist-item');
+        const mark=item.querySelector('.sc-sec-checkmark');
+        const text=item.querySelector('.sc-sec-checklist-text');
+        if(el.checked){mark.classList.add('done');text.classList.add('done');}
+        else{mark.classList.remove('done');text.classList.remove('done');}
+      };
+    },0);
+
     return h;
   }catch(e){
     return '<div style="text-align:center;padding:40px;color:var(--text-secondary)">보안 상태를 불러올 수 없습니다</div>';
