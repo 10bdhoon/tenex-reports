@@ -511,11 +511,64 @@ body.sidebar-collapsed .header-toggle{display:flex}
 [data-theme="dark"] .tb-priority-imp{background:rgba(139,92,246,0.15);color:#c4b5fd}
 .tb-priority-status{font-size:15px;cursor:pointer;user-select:none;flex-shrink:0;padding:2px;border-radius:4px;transition:background .15s}
 .tb-priority-status:hover{background:rgba(0,40,85,0.1)}
+/* ── Task Checkbox ── */
+.tb-task-checkbox{position:relative;width:16px;height:16px;cursor:pointer;flex-shrink:0;accent-color:var(--accent)}
+.tb-task-checkbox.state-waiting{opacity:.4}
+.tb-task-checkbox.state-doing{opacity:1}
+.tb-task-checkbox.state-done{opacity:1}
+/* ── Priority Drag Handle ── */
+.tb-priority-drag-handle{cursor:grab;font-size:16px;color:var(--text-secondary);user-select:none;padding:0 2px;flex-shrink:0;transition:color .15s}
+.tb-priority-drag-handle:active{cursor:grabbing}
+.tb-priority-drag-handle:hover{color:var(--text)}
+.tb-priority-item[draggable="true"]{cursor:default}
+.tb-priority-item.dragging{opacity:.4;transform:scale(.98)}
+.tb-priority-drop-indicator{height:2px;background:var(--accent);border-radius:2px;margin:2px 0;pointer-events:none}
+/* ── Detail Panel ── */
+.tb-detail-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.3);z-index:390}
+.tb-detail-overlay.show{display:block}
+.tb-detail-panel{position:fixed;top:0;right:-420px;width:380px;height:100%;background:var(--bg-card);border-left:1px solid var(--border);z-index:400;transition:right .3s;display:flex;flex-direction:column;box-shadow:-4px 0 20px rgba(0,0,0,0.1);overflow:hidden}
+.tb-detail-panel.open{right:0}
+.tb-detail-header{padding:16px 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px}
+.tb-detail-header input{flex:1;font-size:16px;font-weight:700;border:1px solid transparent;background:transparent;color:var(--text);padding:4px 8px;border-radius:6px;outline:none;transition:border-color .15s}
+.tb-detail-header input:focus{border-color:var(--accent);background:var(--bg)}
+.tb-detail-close{background:none;border:none;font-size:20px;cursor:pointer;color:var(--text-secondary);padding:4px;border-radius:4px;transition:background .15s}
+.tb-detail-close:hover{background:var(--accent-light)}
+.tb-detail-body{flex:1;overflow-y:auto;padding:16px 20px}
+.tb-detail-section{margin-bottom:16px}
+.tb-detail-label{font-size:11px;font-weight:700;color:var(--text-secondary);text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px}
+.tb-detail-status-btns{display:flex;gap:6px}
+.tb-detail-status-btn{padding:6px 14px;border-radius:8px;border:1px solid var(--border);background:var(--bg);color:var(--text);font-size:12px;font-weight:600;cursor:pointer;transition:all .15s}
+.tb-detail-status-btn:hover{border-color:var(--accent)}
+.tb-detail-status-btn.active-waiting{background:#fef3c7;border-color:#f59e0b;color:#92400e}
+.tb-detail-status-btn.active-doing{background:#dbeafe;border-color:#3b82f6;color:#1e40af}
+.tb-detail-status-btn.active-done{background:#d1fae5;border-color:#10b981;color:#065f46}
+[data-theme="dark"] .tb-detail-status-btn.active-waiting{background:rgba(245,158,11,0.15);color:#fbbf24}
+[data-theme="dark"] .tb-detail-status-btn.active-doing{background:rgba(59,130,246,0.15);color:#60a5fa}
+[data-theme="dark"] .tb-detail-status-btn.active-done{background:rgba(16,185,129,0.15);color:#34d399}
+.tb-detail-select{width:100%;padding:7px 10px;border:1px solid var(--border);border-radius:7px;background:var(--bg);color:var(--text);font-size:13px;outline:none;cursor:pointer}
+.tb-detail-select:focus{border-color:var(--accent)}
+.tb-detail-input{width:100%;padding:7px 10px;border:1px solid var(--border);border-radius:7px;background:var(--bg);color:var(--text);font-size:13px;outline:none}
+.tb-detail-input:focus{border-color:var(--accent)}
+.tb-detail-textarea{width:100%;padding:7px 10px;border:1px solid var(--border);border-radius:7px;background:var(--bg);color:var(--text);font-size:13px;outline:none;resize:vertical;min-height:60px;font-family:inherit}
+.tb-detail-textarea:focus{border-color:var(--accent)}
+.tb-detail-checklist-item{display:flex;align-items:center;gap:8px;padding:5px 0;position:relative}
+.tb-detail-checklist-item input[type="checkbox"]{accent-color:var(--accent);cursor:pointer;flex-shrink:0}
+.tb-detail-checklist-item span{flex:1;font-size:13px;color:var(--text)}
+.tb-detail-checklist-item.checked span{text-decoration:line-through;opacity:.5}
+.tb-detail-checklist-item .cl-delete{opacity:0;border:none;background:none;color:var(--text-secondary);cursor:pointer;font-size:11px;padding:2px 4px;border-radius:4px;transition:all .15s;flex-shrink:0}
+.tb-detail-checklist-item:hover .cl-delete{opacity:.6}
+.tb-detail-checklist-item .cl-delete:hover{opacity:1!important;color:#ef4444}
+.tb-detail-checklist-add{display:flex;gap:6px;margin-top:6px}
+.tb-detail-checklist-add input{flex:1;padding:5px 8px;border:1px solid var(--border);border-radius:6px;background:var(--bg);color:var(--text);font-size:12px;outline:none}
+.tb-detail-checklist-add input:focus{border-color:var(--accent)}
+.tb-detail-checklist-add button{padding:5px 10px;border:none;border-radius:6px;background:var(--accent);color:#fff;font-size:12px;cursor:pointer;transition:opacity .15s}
+.tb-detail-checklist-add button:hover{opacity:.85}
 @media(max-width:1024px){.tb-cat-grid{grid-template-columns:repeat(2,1fr)}}
 @media(max-width:768px){
   .tb-cat-grid{grid-template-columns:1fr}
   .tb-add-form .form-row{flex-direction:column}
   .tb-add-form .form-title{min-width:0}
+  .tb-detail-panel{width:100%;right:-100%}
 }
 </style>
 </head>
@@ -638,6 +691,15 @@ body.sidebar-collapsed .header-toggle{display:flex}
       <div class="tb-tab-panel" id="tabAgents">
         <div id="agentGrid" class="agent-grid"></div>
       </div>
+    </div>
+    <!-- Task Detail Panel -->
+    <div class="tb-detail-overlay" id="tbDetailOverlay"></div>
+    <div class="tb-detail-panel" id="tbDetailPanel">
+      <div class="tb-detail-header">
+        <input type="text" id="tbDetailTitle" placeholder="업무 제목">
+        <button class="tb-detail-close" id="tbDetailClose">✕</button>
+      </div>
+      <div class="tb-detail-body" id="tbDetailBody"></div>
     </div>
     <!-- System View -->
     <div class="system-view" id="systemView">
@@ -996,7 +1058,9 @@ function ensureTaskFields(t){
   if(!t.checklist)t.checklist=[];
   if(!t.assignee)t.assignee='';
   if(!t.memo)t.memo='';
+  if(!t.desc)t.desc='';
   if(t.sortOrder==null)t.sortOrder=0;
+  if(t.priorityOrder==null)t.priorityOrder=0;
   return t;
 }
 function loadTasks(){
@@ -1081,7 +1145,7 @@ function renderTbStatusBar(){
   bar.querySelectorAll('[data-tsf]').forEach(el=>el.onclick=()=>{tbStatusFilter=el.dataset.tsf;renderTbAll()});
 }
 
-let tbOpenAccordion=null;
+let tbDetailTid=null;
 
 function renderTbTasks(){
   const list=document.getElementById('tbTaskList');
@@ -1128,37 +1192,17 @@ function renderTbTasks(){
     } else {
       tasks.forEach(t=>{
         const isDone=t.status==='done';
-        const isOpen=tbOpenAccordion===t.id;
         const urgDot=t.urgency==='red'?'🔴':t.urgency==='yellow'?'🟡':'🟢';
+        const cbClass='tb-task-checkbox state-'+t.status;
+        const cbChecked=t.status==='done'?' checked':'';
         html+='<div class="tb-cat-task urgency-'+t.urgency+(isDone?' done-task':'')+'" data-tid="'+t.id+'" draggable="true">';
         html+='<div class="tb-cat-task-row">';
+        html+='<input type="checkbox" class="'+cbClass+'" data-tid="'+t.id+'"'+cbChecked+' title="'+TB_STATUS_LABEL[t.status]+'">';
         html+='<span class="tb-cat-task-status" data-tid="'+t.id+'" title="클릭하여 상태 변경">'+TB_STATUS_EMOJI[t.status]+'</span>';
-        html+='<span class="tb-cat-task-title" title="'+escapeHtml(t.title)+'">'+escapeHtml(t.title)+'</span>';
+        html+='<span class="tb-cat-task-title" data-tid="'+t.id+'" title="'+escapeHtml(t.title)+'">'+escapeHtml(t.title)+'</span>';
         html+='<span class="tb-cat-task-badges"><span class="urgency-dot">'+urgDot+'</span><span class="imp-badge">'+t.importance+'</span>'+(t.due?'<span class="due-badge">'+t.due+'</span>':'')+'</span>';
         html+='<button class="tb-cat-task-delete" data-tid="'+t.id+'" title="삭제">✕</button>';
         html+='</div>';
-        // Accordion
-        html+='<div class="tb-accordion'+(isOpen?' open':'')+'">';
-        html+='<div class="tb-accordion-inner">';
-        // Checklist
-        const checklist=t.checklist||[];
-        html+='<div class="acc-section"><div class="acc-label">체크리스트</div>';
-        checklist.forEach((ci,idx)=>{
-          html+='<div class="tb-checklist-item'+(ci.done?' checked':'')+'" data-tid="'+t.id+'" data-ci="'+idx+'"><input type="checkbox"'+(ci.done?' checked':'')+' data-tid="'+t.id+'" data-ci="'+idx+'"><span>'+escapeHtml(ci.text)+'</span></div>';
-        });
-        html+='<div class="tb-checklist-add"><input type="text" placeholder="항목 추가..." data-tid="'+t.id+'"><button data-tid="'+t.id+'">+</button></div>';
-        html+='</div>';
-        // Assignee
-        const assignee=t.assignee||'';
-        html+='<div class="acc-section"><div class="acc-label">담당자</div>';
-        html+='<div class="tb-inline-val'+(assignee?'':' placeholder')+'" data-field="assignee" data-tid="'+t.id+'">'+(assignee?escapeHtml(assignee):'클릭하여 입력')+'</div>';
-        html+='</div>';
-        // Memo
-        const memo=t.memo||'';
-        html+='<div class="acc-section"><div class="acc-label">메모</div>';
-        html+='<div class="tb-inline-val'+(memo?'':' placeholder')+'" data-field="memo" data-tid="'+t.id+'">'+(memo?escapeHtml(memo):'클릭하여 입력')+'</div>';
-        html+='</div>';
-        html+='</div></div>';
         html+='</div>';
       });
     }
@@ -1178,14 +1222,19 @@ function renderTbTasks(){
   if(tbFilter==='red')plTasks=plTasks.filter(t=>t.urgency==='red');
   if(tbFilter==='week'){const now=new Date();const weekAgo=new Date(now);weekAgo.setDate(now.getDate()-7);plTasks=plTasks.filter(t=>new Date(t.created)>=weekAgo);}
   if(tbSearchQuery){const q=tbSearchQuery.toLowerCase();plTasks=plTasks.filter(t=>t.title.toLowerCase().includes(q));}
-  // Sort by urgency → importance (original sort without manual order)
-  plTasks=plTasks.slice().sort((a,b)=>{
-    const u=URGENCY_ORDER[a.urgency]-URGENCY_ORDER[b.urgency];
-    if(u!==0)return u;
-    const i=IMP_ORDER[a.importance]-IMP_ORDER[b.importance];
-    if(i!==0)return i;
-    return a.created<b.created?1:-1;
-  });
+  // Sort by priorityOrder if any, otherwise urgency → importance
+  const hasManualPriority=plTasks.some(t=>t.priorityOrder!==0);
+  if(hasManualPriority){
+    plTasks=plTasks.slice().sort((a,b)=>(a.priorityOrder||999)-(b.priorityOrder||999));
+  } else {
+    plTasks=plTasks.slice().sort((a,b)=>{
+      const u=URGENCY_ORDER[a.urgency]-URGENCY_ORDER[b.urgency];
+      if(u!==0)return u;
+      const i=IMP_ORDER[a.importance]-IMP_ORDER[b.importance];
+      if(i!==0)return i;
+      return a.created<b.created?1:-1;
+    });
+  }
   if(plTasks.length>0){
     html+='<div class="tb-priority-section">';
     html+='<div class="tb-priority-title">🎯 우선순위 리스트</div>';
@@ -1194,7 +1243,8 @@ function renderTbTasks(){
       const urgDot=t.urgency==='red'?'🔴':t.urgency==='yellow'?'🟡':'🟢';
       const c=catMapPL[t.cat];
       const catLabel=c?c.icon+' '+c.key:'';
-      html+='<div class="tb-priority-item">';
+      html+='<div class="tb-priority-item" draggable="true" data-tid="'+t.id+'">';
+      html+='<span class="tb-priority-drag-handle" title="드래그하여 순서 변경">≡</span>';
       html+='<span class="tb-priority-num">'+(idx+1)+'</span>';
       html+='<span class="tb-priority-urgency">'+urgDot+'</span>';
       html+='<span class="tb-priority-title-text" title="'+escapeHtml(t.title)+'">'+escapeHtml(t.title)+'</span>';
@@ -1208,6 +1258,9 @@ function renderTbTasks(){
 
   list.innerHTML=html;
 
+  // Set indeterminate state for "doing" checkboxes
+  list.querySelectorAll('.tb-task-checkbox.state-doing').forEach(cb=>{cb.indeterminate=true;cb.checked=false});
+
   // ── Events ──
   // Priority list status toggle
   list.querySelectorAll('.tb-priority-status').forEach(el=>el.onclick=e=>{
@@ -1218,7 +1271,19 @@ function renderTbTasks(){
     task.status=TB_STATUS_CYCLE[(idx+1)%TB_STATUS_CYCLE.length];
     saveTasks();renderTbAll();
   });
-  // Status toggle
+  // Checkbox status cycle (대기→진행중→완료)
+  list.querySelectorAll('.tb-task-checkbox').forEach(cb=>{
+    cb.onclick=e=>{
+      e.stopPropagation();
+      e.preventDefault();
+      const task=tbTasks.find(t=>t.id===cb.dataset.tid);
+      if(!task)return;
+      const idx=TB_STATUS_CYCLE.indexOf(task.status);
+      task.status=TB_STATUS_CYCLE[(idx+1)%TB_STATUS_CYCLE.length];
+      saveTasks();renderTbAll();
+    };
+  });
+  // Status emoji toggle
   list.querySelectorAll('.tb-cat-task-status').forEach(el=>el.onclick=e=>{
     e.stopPropagation();
     const task=tbTasks.find(t=>t.id===el.dataset.tid);
@@ -1232,68 +1297,72 @@ function renderTbTasks(){
     e.stopPropagation();
     if(!confirm('정말 삭제하시겠습니까?'))return;
     tbTasks=tbTasks.filter(t=>t.id!==el.dataset.tid);
-    if(tbOpenAccordion===el.dataset.tid)tbOpenAccordion=null;
+    closeDetailPanel();
     saveTasks();renderTbAll();
   });
-  // Accordion toggle (click on task row)
-  list.querySelectorAll('.tb-cat-task-row').forEach(row=>{
-    row.onclick=e=>{
-      if(e.target.closest('.tb-cat-task-status')||e.target.closest('.tb-cat-task-delete'))return;
-      const tid=row.closest('.tb-cat-task').dataset.tid;
-      tbOpenAccordion=tbOpenAccordion===tid?null:tid;
-      // Toggle without full re-render for smoothness
-      list.querySelectorAll('.tb-accordion').forEach(acc=>{
-        const taskEl=acc.closest('.tb-cat-task');
-        acc.classList.toggle('open',taskEl&&taskEl.dataset.tid===tbOpenAccordion);
-      });
+  // Task title click → open detail panel
+  list.querySelectorAll('.tb-cat-task-title').forEach(el=>{
+    el.onclick=e=>{
+      e.stopPropagation();
+      openDetailPanel(el.dataset.tid);
     };
   });
-  // Checklist toggle
-  list.querySelectorAll('.tb-checklist-item input[type="checkbox"]').forEach(cb=>cb.onchange=e=>{
-    e.stopPropagation();
-    const task=tbTasks.find(t=>t.id===cb.dataset.tid);
-    if(!task||!task.checklist)return;
-    task.checklist[parseInt(cb.dataset.ci)].done=cb.checked;
-    saveTasks();renderTbAll();
+
+  // ── Priority List Drag & Drop ──
+  let plDragTid=null;
+  function removePriorityIndicators(){list.querySelectorAll('.tb-priority-drop-indicator').forEach(el=>el.remove());list.querySelectorAll('.tb-priority-item.dragging').forEach(el=>el.classList.remove('dragging'))}
+  list.querySelectorAll('.tb-priority-item[draggable="true"]').forEach(item=>{
+    item.addEventListener('dragstart',e=>{
+      // Only allow drag from handle
+      if(!e.target.closest('.tb-priority-drag-handle')){e.preventDefault();return}
+      plDragTid=item.dataset.tid;
+      e.dataTransfer.effectAllowed='move';
+      e.dataTransfer.setData('text/plain',plDragTid);
+      requestAnimationFrame(()=>item.classList.add('dragging'));
+    });
+    item.addEventListener('dragend',()=>{
+      item.classList.remove('dragging');
+      plDragTid=null;
+      removePriorityIndicators();
+    });
+    item.addEventListener('dragover',e=>{
+      if(!plDragTid)return;
+      e.preventDefault();
+      e.dataTransfer.dropEffect='move';
+      removePriorityIndicators();
+      const rect=item.getBoundingClientRect();
+      const midY=rect.top+rect.height/2;
+      const indicator=document.createElement('div');
+      indicator.className='tb-priority-drop-indicator';
+      if(e.clientY<midY){
+        item.parentNode.insertBefore(indicator,item);
+      } else {
+        item.parentNode.insertBefore(indicator,item.nextSibling);
+      }
+    });
+    item.addEventListener('drop',e=>{
+      e.preventDefault();
+      e.stopPropagation();
+      if(!plDragTid||plDragTid===item.dataset.tid){removePriorityIndicators();return}
+      const dragTask=tbTasks.find(t=>t.id===plDragTid);
+      if(!dragTask){removePriorityIndicators();return}
+      // Get all priority items in current DOM order
+      const plItems=Array.from(list.querySelectorAll('.tb-priority-item[data-tid]'));
+      const plIds=plItems.map(el=>el.dataset.tid).filter(id=>id!==plDragTid);
+      const targetIdx=plIds.indexOf(item.dataset.tid);
+      const rect=item.getBoundingClientRect();
+      const midY=rect.top+rect.height/2;
+      const insertIdx=e.clientY<midY?targetIdx:targetIdx+1;
+      plIds.splice(insertIdx,0,plDragTid);
+      // Update priorityOrder for all tasks in the list
+      plIds.forEach((id,i)=>{
+        const t=tbTasks.find(tk=>tk.id===id);
+        if(t)t.priorityOrder=i+1;
+      });
+      removePriorityIndicators();
+      saveTasks();renderTbAll();
+    });
   });
-  // Checklist add
-  list.querySelectorAll('.tb-checklist-add button').forEach(btn=>btn.onclick=e=>{
-    e.stopPropagation();
-    const input=btn.previousElementSibling;
-    const text=input.value.trim();
-    if(!text)return;
-    const task=tbTasks.find(t=>t.id===btn.dataset.tid);
-    if(!task)return;
-    if(!task.checklist)task.checklist=[];
-    task.checklist.push({text,done:false});
-    saveTasks();renderTbAll();
-  });
-  list.querySelectorAll('.tb-checklist-add input').forEach(inp=>inp.onkeydown=e=>{
-    if(e.key==='Enter'){e.stopPropagation();inp.nextElementSibling.click()}
-  });
-  // Inline edit (assignee/memo)
-  list.querySelectorAll('.tb-inline-val').forEach(el=>el.onclick=e=>{
-    e.stopPropagation();
-    const field=el.dataset.field;
-    const tid=el.dataset.tid;
-    const task=tbTasks.find(t=>t.id===tid);
-    if(!task)return;
-    if(field==='memo'){
-      const ta=document.createElement('textarea');
-      ta.className='tb-inline-edit';ta.rows=2;ta.value=task.memo||'';
-      el.replaceWith(ta);ta.focus();
-      const save=()=>{task[field]=ta.value.trim();saveTasks();renderTbAll()};
-      ta.onblur=save;ta.onkeydown=ev=>{if(ev.key==='Enter'&&!ev.shiftKey){ev.preventDefault();save()}};
-    } else {
-      const inp=document.createElement('input');
-      inp.type='text';inp.className='tb-inline-edit';inp.value=task[field]||'';
-      el.replaceWith(inp);inp.focus();
-      const save=()=>{task[field]=inp.value.trim();saveTasks();renderTbAll()};
-      inp.onblur=save;inp.onkeydown=ev=>{if(ev.key==='Enter')save()};
-    }
-  });
-  // Prevent accordion close when clicking inside accordion
-  list.querySelectorAll('.tb-accordion-inner').forEach(el=>el.onclick=e=>e.stopPropagation());
 
   // ── Drag & Drop ──
   let dragTid=null;
@@ -1388,6 +1457,106 @@ function renderTbTasks(){
 }
 
 function escapeHtml(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;')}
+
+/* ═══════ Detail Panel ═══════ */
+function openDetailPanel(tid){
+  const task=tbTasks.find(t=>t.id===tid);
+  if(!task)return;
+  tbDetailTid=tid;
+  const panel=document.getElementById('tbDetailPanel');
+  const overlay=document.getElementById('tbDetailOverlay');
+  const titleInput=document.getElementById('tbDetailTitle');
+  titleInput.value=task.title;
+  titleInput.onblur=()=>{task.title=titleInput.value.trim()||task.title;saveTasks();renderTbAll()};
+  titleInput.onkeydown=e=>{if(e.key==='Enter')titleInput.blur()};
+  renderDetailBody(task);
+  panel.classList.add('open');
+  overlay.classList.add('show');
+  overlay.onclick=()=>closeDetailPanel();
+  document.getElementById('tbDetailClose').onclick=()=>closeDetailPanel();
+}
+function closeDetailPanel(){
+  tbDetailTid=null;
+  document.getElementById('tbDetailPanel').classList.remove('open');
+  document.getElementById('tbDetailOverlay').classList.remove('show');
+}
+function renderDetailBody(task){
+  const body=document.getElementById('tbDetailBody');
+  const catOpts=CATEGORIES.map(c=>'<option value="'+c.key+'"'+(task.cat===c.key?' selected':'')+'>'+c.icon+' '+c.key+' '+c.label+'</option>').join('');
+  const urgOpts=[{k:'red',l:'🔴 긴급'},{k:'yellow',l:'🟡 주의'},{k:'green',l:'🟢 일반'}].map(u=>'<option value="'+u.k+'"'+(task.urgency===u.k?' selected':'')+'>'+u.l+'</option>').join('');
+  const impOpts=['상','중','하'].map(i=>'<option value="'+i+'"'+(task.importance===i?' selected':'')+'>'+i+'</option>').join('');
+  let html='';
+  // Status buttons
+  html+='<div class="tb-detail-section"><div class="tb-detail-label">상태</div><div class="tb-detail-status-btns">';
+  [{k:'waiting',l:'⏳ 대기'},{k:'doing',l:'🔧 진행중'},{k:'done',l:'✅ 완료'}].forEach(s=>{
+    html+='<button class="tb-detail-status-btn'+(task.status===s.k?' active-'+s.k:'')+'" data-st="'+s.k+'">'+s.l+'</button>';
+  });
+  html+='</div></div>';
+  // Category
+  html+='<div class="tb-detail-section"><div class="tb-detail-label">카테고리</div><select class="tb-detail-select" id="dpCat">'+catOpts+'</select></div>';
+  // Urgency
+  html+='<div class="tb-detail-section"><div class="tb-detail-label">긴급도</div><select class="tb-detail-select" id="dpUrgency">'+urgOpts+'</select></div>';
+  // Importance
+  html+='<div class="tb-detail-section"><div class="tb-detail-label">중요도</div><select class="tb-detail-select" id="dpImp">'+impOpts+'</select></div>';
+  // Assignee
+  html+='<div class="tb-detail-section"><div class="tb-detail-label">담당자</div><input class="tb-detail-input" id="dpAssignee" value="'+escapeHtml(task.assignee||'')+'" placeholder="담당자 입력"></div>';
+  // Due date
+  html+='<div class="tb-detail-section"><div class="tb-detail-label">마감일</div><input type="date" class="tb-detail-input" id="dpDue" value="'+(task.due||'')+'"></div>';
+  // Description
+  html+='<div class="tb-detail-section"><div class="tb-detail-label">업무 설명</div><textarea class="tb-detail-textarea" id="dpDesc" placeholder="업무 설명을 입력하세요..." rows="3">'+escapeHtml(task.desc||'')+'</textarea></div>';
+  // Checklist
+  const cl=task.checklist||[];
+  html+='<div class="tb-detail-section"><div class="tb-detail-label">체크리스트</div>';
+  cl.forEach((ci,idx)=>{
+    html+='<div class="tb-detail-checklist-item'+(ci.done?' checked':'')+'" data-ci="'+idx+'">';
+    html+='<input type="checkbox"'+(ci.done?' checked':'')+' data-ci="'+idx+'">';
+    html+='<span>'+escapeHtml(ci.text)+'</span>';
+    html+='<button class="cl-delete" data-ci="'+idx+'" title="삭제">✕</button>';
+    html+='</div>';
+  });
+  html+='<div class="tb-detail-checklist-add"><input type="text" placeholder="항목 추가..." id="dpClAdd"><button id="dpClAddBtn">+</button></div>';
+  html+='</div>';
+  // Memo
+  html+='<div class="tb-detail-section"><div class="tb-detail-label">메모</div><textarea class="tb-detail-textarea" id="dpMemo" placeholder="메모를 입력하세요..." rows="3">'+escapeHtml(task.memo||'')+'</textarea></div>';
+  body.innerHTML=html;
+  // Bind events
+  // Status buttons
+  body.querySelectorAll('.tb-detail-status-btn').forEach(btn=>btn.onclick=()=>{
+    task.status=btn.dataset.st;saveTasks();renderDetailBody(task);renderTbAll();
+  });
+  // Selects
+  document.getElementById('dpCat').onchange=e=>{task.cat=e.target.value;saveTasks();renderTbAll()};
+  document.getElementById('dpUrgency').onchange=e=>{task.urgency=e.target.value;saveTasks();renderTbAll()};
+  document.getElementById('dpImp').onchange=e=>{task.importance=e.target.value;saveTasks();renderTbAll()};
+  // Inputs
+  document.getElementById('dpAssignee').onblur=e=>{task.assignee=e.target.value.trim();saveTasks();renderTbAll()};
+  document.getElementById('dpDue').onchange=e=>{task.due=e.target.value||null;saveTasks();renderTbAll()};
+  document.getElementById('dpDesc').onblur=e=>{task.desc=e.target.value.trim();saveTasks();renderTbAll()};
+  document.getElementById('dpMemo').onblur=e=>{task.memo=e.target.value.trim();saveTasks();renderTbAll()};
+  // Checklist toggle
+  body.querySelectorAll('.tb-detail-checklist-item input[type="checkbox"]').forEach(cb=>cb.onchange=()=>{
+    const ci=parseInt(cb.dataset.ci);
+    if(task.checklist[ci])task.checklist[ci].done=cb.checked;
+    saveTasks();renderDetailBody(task);renderTbAll();
+  });
+  // Checklist delete
+  body.querySelectorAll('.cl-delete').forEach(btn=>btn.onclick=()=>{
+    task.checklist.splice(parseInt(btn.dataset.ci),1);
+    saveTasks();renderDetailBody(task);renderTbAll();
+  });
+  // Checklist add
+  const clAddBtn=document.getElementById('dpClAddBtn');
+  const clAddInput=document.getElementById('dpClAdd');
+  const addClItem=()=>{
+    const text=clAddInput.value.trim();
+    if(!text)return;
+    if(!task.checklist)task.checklist=[];
+    task.checklist.push({text,done:false});
+    saveTasks();renderDetailBody(task);renderTbAll();
+  };
+  clAddBtn.onclick=addClItem;
+  clAddInput.onkeydown=e=>{if(e.key==='Enter')addClItem()};
+}
 
 function renderTbAll(){renderTbStats();renderTbFilters();renderTbStatusBar();renderTbTasks()}
 
@@ -1757,7 +1926,7 @@ function addTask(){
     status:'waiting',
     created:new Date().toISOString().slice(0,10),
     due:document.getElementById('tbNewDue').value||null,
-    checklist:[],assignee:'',memo:''
+    checklist:[],assignee:'',memo:'',desc:'',priorityOrder:0
   };
   tbTasks.unshift(task);
   saveTasks();
