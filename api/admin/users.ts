@@ -133,14 +133,20 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   }
 
   if (req.method === "PATCH") {
-    // Update allowedPaths: expects { username, allowedPaths }
-    const { username, allowedPaths } = req.body || {};
+    // Update allowedPaths and/or role: expects { username, allowedPaths?, role? }
+    const { username, allowedPaths, role } = req.body || {};
     if (!username) return res.status(400).json({ error: "username required" });
-    const updated = users.map((u) =>
-      u.username === username
-        ? { ...u, allowedPaths: allowedPaths && allowedPaths.length ? allowedPaths : undefined }
-        : u
-    );
+    const updated = users.map((u) => {
+      if (u.username !== username) return u;
+      const patch: Partial<User> = {};
+      if (allowedPaths !== undefined) {
+        patch.allowedPaths = allowedPaths && allowedPaths.length ? allowedPaths : undefined;
+      }
+      if (role !== undefined) {
+        patch.role = role;
+      }
+      return { ...u, ...patch };
+    });
     return res.json({ usersEnvString: buildEnvString(updated), users: updated.map(({ passwordHash: _h, ...r }) => r) });
   }
 

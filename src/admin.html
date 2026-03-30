@@ -227,6 +227,25 @@ textarea{resize:vertical;min-height:80px;font-size:12px;font-family:'SF Mono',Co
   </div>
 </div>
 
+<!-- 권한 변경 모달 -->
+<div class="modal" id="roleModal">
+  <div class="modal-box">
+    <div class="modal-title">🛡️ 권한 변경 — <span id="roleModalUsername"></span></div>
+    <input type="hidden" id="roleUsername">
+    <div class="form-group">
+      <label>권한</label>
+      <select id="roleValue">
+        <option value="viewer">viewer (제한 접근)</option>
+        <option value="admin">admin (전체 접근)</option>
+      </select>
+    </div>
+    <div class="modal-actions">
+      <button class="btn btn-secondary" onclick="closeRoleModal()">취소</button>
+      <button class="btn btn-primary" onclick="updateRole()">저장 및 환경변수 반영</button>
+    </div>
+  </div>
+</div>
+
 <!-- 접근 경로 수정 모달 -->
 <div class="modal" id="pathModal">
   <div class="modal-box">
@@ -318,6 +337,7 @@ function renderTable(){
       +'<td><div class="btn-actions">'
       +(u.username!=='admin'?'<button class="btn btn-del" onclick="deleteUser(\''+u.username+'\')">🗑 삭제</button>':'')
       +'<button class="btn btn-pw" onclick="openPwModal(\''+u.username+'\')">🔑 비번</button>'
+      +'<button class="btn btn-path" onclick="openRoleModal(\''+u.username+'\',\''+u.role+'\')">🛡 권한</button>'
       +'<button class="btn btn-path" onclick="openPathModal(\''+u.username+'\')">🗂 경로</button>'
       +'</div></td>'
       +'</tr>';
@@ -430,6 +450,36 @@ async function changePw(){
   }
   toast('"'+username+'" 비밀번호 변경됨. 환경변수에 반영 필요.','success');
   closePwModal();
+}
+
+// ── Update Role Modal ──
+function openRoleModal(username,currentRole){
+  document.getElementById('roleUsername').value=username;
+  document.getElementById('roleModalUsername').textContent=username;
+  document.getElementById('roleValue').value=currentRole;
+  document.getElementById('roleModal').classList.add('open');
+}
+function closeRoleModal(){document.getElementById('roleModal').classList.remove('open');}
+async function updateRole(){
+  var username=document.getElementById('roleUsername').value;
+  var role=document.getElementById('roleValue').value;
+
+  localUsers=localUsers.map(function(u){return u.username===username?Object.assign({},u,{role:role}):u;});
+  saveLocalState();
+  renderTable();
+
+  if(apiAvailable){
+    try{
+      var res=await fetch('/api/admin/users',{
+        method:'PATCH',
+        headers:{'Content-Type':'application/json'},
+        body:JSON.stringify({username:username,role:role})
+      });
+      if(res.ok){var data=await res.json();showEnvString(data.usersEnvString);}
+    }catch(e){}
+  }
+  toast('"'+username+'" 권한이 '+role+'(으)로 변경됨. 환경변수에 반영 필요.','success');
+  closeRoleModal();
 }
 
 // ── Update Paths Modal ──
