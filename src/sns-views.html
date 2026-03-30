@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SNS 조회수 트래킹 — 1분도수</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: -apple-system, 'Pretendard', sans-serif; background: #0f172a; color: #e2e8f0; padding: 24px; }
+    .header { text-align: center; margin-bottom: 32px; }
+    .header h1 { font-size: 28px; font-weight: 700; color: #f8fafc; }
+    .header p { color: #94a3b8; margin-top: 8px; font-size: 14px; }
+    .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; margin-bottom: 32px; }
+    .stat-card { background: #1e293b; border-radius: 12px; padding: 24px; border: 1px solid #334155; }
+    .stat-card .platform { font-size: 13px; color: #94a3b8; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; display: flex; align-items: center; gap: 8px; }
+    .stat-card .platform .dot { width: 8px; height: 8px; border-radius: 50%; }
+    .stat-card .platform .dot.youtube { background: #ef4444; }
+    .stat-card .platform .dot.instagram { background: #e879f9; }
+    .stat-card .platform .dot.tiktok { background: #22d3ee; }
+    .stat-card .value { font-size: 36px; font-weight: 700; color: #f8fafc; }
+    .stat-card .label { font-size: 13px; color: #64748b; margin-top: 4px; }
+    .stat-card .change { font-size: 14px; margin-top: 8px; }
+    .stat-card .change.up { color: #4ade80; }
+    .stat-card .change.down { color: #f87171; }
+    .stat-card .change.neutral { color: #94a3b8; }
+    .stat-card .sub-stats { display: flex; gap: 24px; margin-top: 16px; padding-top: 16px; border-top: 1px solid #334155; }
+    .stat-card .sub-stat { }
+    .stat-card .sub-stat .sub-value { font-size: 18px; font-weight: 600; color: #cbd5e1; }
+    .stat-card .sub-stat .sub-label { font-size: 11px; color: #64748b; }
+    .chart-section { background: #1e293b; border-radius: 12px; padding: 24px; border: 1px solid #334155; margin-bottom: 24px; }
+    .chart-section h2 { font-size: 18px; font-weight: 600; margin-bottom: 16px; color: #f8fafc; }
+    .chart-container { position: relative; height: 320px; }
+    .table-section { background: #1e293b; border-radius: 12px; padding: 24px; border: 1px solid #334155; margin-bottom: 24px; }
+    .table-section h2 { font-size: 18px; font-weight: 600; margin-bottom: 16px; color: #f8fafc; }
+    table { width: 100%; border-collapse: collapse; }
+    th { text-align: left; padding: 12px 16px; font-size: 12px; color: #94a3b8; text-transform: uppercase; letter-spacing: 1px; border-bottom: 1px solid #334155; }
+    td { padding: 12px 16px; font-size: 14px; color: #e2e8f0; border-bottom: 1px solid #1e293b; }
+    tr:hover td { background: #334155; }
+    .updated { text-align: center; color: #64748b; font-size: 12px; margin-top: 16px; }
+    .no-data { text-align: center; color: #64748b; padding: 40px; font-size: 16px; }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <h1>📊 SNS 일별 조회수 트래킹</h1>
+    <p>1분도수 — YouTube · Instagram · TikTok</p>
+  </div>
+
+  <div class="stats-grid" id="statsGrid"></div>
+
+  <div class="chart-section">
+    <h2>YouTube 일별 조회수 추이</h2>
+    <div class="chart-container"><canvas id="ytViewsChart"></canvas></div>
+  </div>
+
+  <div class="chart-section">
+    <h2>구독자 · 팔로워 추이</h2>
+    <div class="chart-container"><canvas id="followersChart"></canvas></div>
+  </div>
+
+  <div class="chart-section">
+    <h2>TikTok 좋아요 추이</h2>
+    <div class="chart-container"><canvas id="tiktokChart"></canvas></div>
+  </div>
+
+  <div class="table-section">
+    <h2>일별 데이터 (최근 14일)</h2>
+    <div style="overflow-x:auto;">
+      <table id="dataTable">
+        <thead>
+          <tr>
+            <th>날짜</th>
+            <th>YT 조회수</th>
+            <th>YT 일별증감</th>
+            <th>YT 구독자</th>
+            <th>인스타 팔로워</th>
+            <th>틱톡 팔로워</th>
+            <th>틱톡 좋아요</th>
+          </tr>
+        </thead>
+        <tbody id="tableBody"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <p class="updated" id="updatedAt"></p>
+
+  <script>
+    const DATA_URL = './data/sns-views.json';
+
+    function fmt(n) {
+      if (n == null) return '-';
+      return n.toLocaleString('ko-KR');
+    }
+    function fmtDelta(curr, prev) {
+      if (prev == null || curr == null) return { text: '데이터 수집 중', cls: 'neutral' };
+      const d = curr - prev;
+      const pct = prev > 0 ? ((d / prev) * 100).toFixed(2) : '0';
+      if (d > 0) return { text: `▲ +${fmt(d)} (+${pct}%)`, cls: 'up' };
+      if (d < 0) return { text: `▼ ${fmt(d)} (${pct}%)`, cls: 'down' };
+      return { text: '— 변동 없음', cls: 'neutral' };
+    }
+
+    async function init() {
+      let data;
+      try {
+        const res = await fetch(DATA_URL);
+        data = await res.json();
+      } catch (e) {
+        document.getElementById('statsGrid').innerHTML = '<div class="no-data">데이터를 불러올 수 없습니다.</div>';
+        return;
+      }
+      if (!data.length) {
+        document.getElementById('statsGrid').innerHTML = '<div class="no-data">수집된 데이터가 없습니다.</div>';
+        return;
+      }
+
+      data.sort((a, b) => a.date.localeCompare(b.date));
+      const latest = data[data.length - 1];
+      const prev = data.length > 1 ? data[data.length - 2] : null;
+
+      // Stats cards
+      const ytDelta = fmtDelta(latest.youtube.total_views, prev?.youtube?.total_views);
+      const subDelta = fmtDelta(latest.youtube.subscribers, prev?.youtube?.subscribers);
+      const igDelta = fmtDelta(latest.instagram.followers, prev?.instagram?.followers);
+      const tkDelta = fmtDelta(latest.tiktok.followers, prev?.tiktok?.followers);
+
+      document.getElementById('statsGrid').innerHTML = `
+        <div class="stat-card">
+          <div class="platform"><span class="dot youtube"></span>YouTube</div>
+          <div class="value">${fmt(latest.youtube.total_views)}</div>
+          <div class="label">누적 조회수</div>
+          <div class="change ${ytDelta.cls}">${ytDelta.text}</div>
+          <div class="sub-stats">
+            <div class="sub-stat"><div class="sub-value">${fmt(latest.youtube.subscribers)}</div><div class="sub-label">구독자</div></div>
+            <div class="sub-stat"><div class="sub-value">${fmt(latest.youtube.video_count)}</div><div class="sub-label">영상 수</div></div>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="platform"><span class="dot instagram"></span>Instagram</div>
+          <div class="value">${fmt(latest.instagram.followers)}</div>
+          <div class="label">팔로워</div>
+          <div class="change ${igDelta.cls}">${igDelta.text}</div>
+          <div class="sub-stats">
+            <div class="sub-stat"><div class="sub-value">${fmt(latest.instagram.post_count)}</div><div class="sub-label">포스트</div></div>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="platform"><span class="dot tiktok"></span>TikTok</div>
+          <div class="value">${fmt(latest.tiktok.followers)}</div>
+          <div class="label">팔로워</div>
+          <div class="change ${tkDelta.cls}">${tkDelta.text}</div>
+          <div class="sub-stats">
+            <div class="sub-stat"><div class="sub-value">${fmt(latest.tiktok.total_likes)}</div><div class="sub-label">좋아요</div></div>
+            <div class="sub-stat"><div class="sub-value">${fmt(latest.tiktok.video_count)}</div><div class="sub-label">영상 수</div></div>
+          </div>
+        </div>
+      `;
+
+      // Charts
+      const labels = data.map(d => d.date.slice(5)); // MM-DD
+      const chartOpts = {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: { legend: { labels: { color: '#94a3b8' } } },
+        scales: {
+          x: { ticks: { color: '#64748b' }, grid: { color: '#1e293b' } },
+          y: { ticks: { color: '#64748b', callback: v => v.toLocaleString() }, grid: { color: '#334155' } }
+        }
+      };
+
+      // YouTube views (daily delta)
+      const ytViews = data.map(d => d.youtube.total_views);
+      const ytDaily = ytViews.map((v, i) => i === 0 ? 0 : v - ytViews[i - 1]);
+      new Chart(document.getElementById('ytViewsChart'), {
+        type: 'bar',
+        data: {
+          labels,
+          datasets: [{
+            label: 'YouTube 일별 조회수 증감',
+            data: ytDaily,
+            backgroundColor: 'rgba(239,68,68,0.7)',
+            borderRadius: 4
+          }]
+        },
+        options: { ...chartOpts, plugins: { ...chartOpts.plugins, tooltip: { callbacks: { label: ctx => `+${fmt(ctx.raw)}` } } } }
+      });
+
+      // Followers
+      new Chart(document.getElementById('followersChart'), {
+        type: 'line',
+        data: {
+          labels,
+          datasets: [
+            { label: 'YouTube 구독자', data: data.map(d => d.youtube.subscribers), borderColor: '#ef4444', backgroundColor: 'rgba(239,68,68,0.1)', tension: 0.3, fill: true },
+            { label: 'Instagram 팔로워', data: data.map(d => d.instagram.followers), borderColor: '#e879f9', backgroundColor: 'rgba(232,121,249,0.1)', tension: 0.3, fill: true },
+            { label: 'TikTok 팔로워', data: data.map(d => d.tiktok.followers), borderColor: '#22d3ee', backgroundColor: 'rgba(34,211,238,0.1)', tension: 0.3, fill: true }
+          ]
+        },
+        options: chartOpts
+      });
+
+      // TikTok likes
+      new Chart(document.getElementById('tiktokChart'), {
+        type: 'line',
+        data: {
+          labels,
+          datasets: [{
+            label: 'TikTok 누적 좋아요',
+            data: data.map(d => d.tiktok.total_likes),
+            borderColor: '#22d3ee',
+            backgroundColor: 'rgba(34,211,238,0.1)',
+            tension: 0.3,
+            fill: true
+          }]
+        },
+        options: chartOpts
+      });
+
+      // Table (recent 14)
+      const recent = data.slice(-14).reverse();
+      const tbody = document.getElementById('tableBody');
+      recent.forEach((d, i) => {
+        const p = i < recent.length - 1 ? recent[i + 1] : null; // prev is next in reversed
+        const ytDayDelta = p ? d.youtube.total_views - p.youtube.total_views : '-';
+        const row = document.createElement('tr');
+        row.innerHTML = `
+          <td>${d.date}</td>
+          <td>${fmt(d.youtube.total_views)}</td>
+          <td style="color:${typeof ytDayDelta === 'number' && ytDayDelta > 0 ? '#4ade80' : typeof ytDayDelta === 'number' && ytDayDelta < 0 ? '#f87171' : '#94a3b8'}">${typeof ytDayDelta === 'number' ? (ytDayDelta > 0 ? '+' : '') + fmt(ytDayDelta) : '-'}</td>
+          <td>${fmt(d.youtube.subscribers)}</td>
+          <td>${fmt(d.instagram.followers)}</td>
+          <td>${fmt(d.tiktok.followers)}</td>
+          <td>${fmt(d.tiktok.total_likes)}</td>
+        `;
+        tbody.appendChild(row);
+      });
+
+      document.getElementById('updatedAt').textContent = `마지막 업데이트: ${latest.collected_at || latest.date}`;
+    }
+
+    init();
+  </script>
+</body>
+</html>
