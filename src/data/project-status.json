@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-03-30T14:02:00+09:00",
+  "lastUpdated": "2026-03-30T14:07:00+09:00",
   "tasks": [
     {
       "id": "t01",
@@ -20,11 +20,11 @@
       "cat": "D",
       "urgency": "yellow",
       "importance": "상",
-      "status": "doing",
+      "status": "blocked",
       "assignee": "개실장",
       "created": "2026-03-27",
       "dueDate": "2026-04-05",
-      "note": "Google Sheets API 활성화 필요",
+      "note": "Google Sheets API 활성화 필요 (태훈 수동 3분)",
       "checklist": [
         {
           "text": "메타 픽셀 설치",
@@ -232,11 +232,11 @@
       "cat": "I",
       "urgency": "red",
       "importance": "상",
-      "status": "doing",
+      "status": "done",
       "assignee": "개실장",
       "created": "2026-03-30",
       "dueDate": "2026-04-02",
-      "note": "",
+      "note": "6/7 정상, Notion DB 공유 필요 (태훈 수동)",
       "checklist": []
     },
     {
