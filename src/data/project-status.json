@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-03-30T14:20:00+09:00",
+  "lastUpdated": "2026-03-30T14:15:00+09:00",
   "tasks": [
     {
       "id": "t01",
@@ -50,7 +50,7 @@
       "assignee": "개실장",
       "created": "2026-03-27",
       "dueDate": "2026-04-07",
-      "note": "1min-dosu-app 하나로",
+      "note": "iframe lazy-load로 4개→1개 통합 (31c267c)",
       "checklist": [
         {
           "text": "탭 구조 통합 (iframe lazy-load)",
