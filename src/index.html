@@ -204,6 +204,43 @@ body.sidebar-collapsed .header-toggle{display:flex}
 .taskboard-view{display:none}
 .taskboard-view.active{display:block}
 .reports-view.hidden{display:none}
+/* Tab Bar */
+.tb-tab-bar{display:flex;gap:0;margin-bottom:20px;border-bottom:2px solid var(--border);position:relative}
+.tb-tab{padding:10px 24px;font-size:14px;font-weight:600;color:var(--text-secondary);cursor:pointer;border:none;background:none;border-bottom:2px solid transparent;margin-bottom:-2px;transition:all .2s;white-space:nowrap}
+.tb-tab:hover{color:var(--text);background:var(--accent-light);border-radius:8px 8px 0 0}
+.tb-tab.active{color:var(--accent);border-bottom-color:var(--accent)}
+[data-theme="dark"] .tb-tab.active{color:#5b9bd5;border-bottom-color:#5b9bd5}
+.tb-tab-panel{display:none}
+.tb-tab-panel.active{display:block}
+/* Agent Board */
+.agent-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
+.agent-card{background:var(--bg-card);border:1px solid var(--border);border-radius:12px;padding:18px;box-shadow:var(--shadow);transition:all .2s}
+.agent-card:hover{box-shadow:var(--shadow-lg)}
+.agent-card-header{display:flex;align-items:center;gap:10px;margin-bottom:14px;padding-bottom:10px;border-bottom:1px solid var(--border)}
+.agent-card-icon{font-size:28px}
+.agent-card-info h3{font-size:15px;font-weight:700;color:var(--text);margin-bottom:2px}
+.agent-card-info .agent-role{font-size:12px;color:var(--text-secondary)}
+.agent-card-stats{display:flex;gap:8px;margin-left:auto}
+.agent-card-stats span{font-size:11px;padding:2px 7px;border-radius:8px;font-weight:600}
+.agent-task-list{list-style:none}
+.agent-task-item{display:flex;align-items:center;gap:8px;padding:7px 8px;border-radius:7px;transition:background .15s;font-size:13px}
+.agent-task-item:hover{background:var(--accent-light)}
+.agent-task-status{cursor:pointer;font-size:15px;user-select:none;flex-shrink:0;padding:2px;border-radius:4px;transition:background .15s}
+.agent-task-status:hover{background:rgba(0,40,85,0.1)}
+.agent-task-name{flex:1;color:var(--text)}
+.agent-task-item.done .agent-task-name{text-decoration:line-through;opacity:.5}
+.agent-task-item.delay .agent-task-name{color:#ef4444;font-weight:600}
+[data-theme="dark"] .agent-task-item.delay .agent-task-name{color:#f87171}
+.agent-add-wrap{display:flex;gap:6px;margin-top:10px;padding-top:8px;border-top:1px solid var(--border)}
+.agent-add-input{flex:1;padding:6px 10px;border-radius:7px;border:1px solid var(--border);background:var(--bg);color:var(--text);font-size:12px;outline:none}
+.agent-add-input:focus{border-color:var(--accent)}
+.agent-add-input::placeholder{color:var(--text-secondary)}
+.agent-add-btn{padding:6px 12px;border-radius:7px;border:none;background:var(--accent);color:#fff;font-size:12px;font-weight:600;cursor:pointer;transition:opacity .2s;white-space:nowrap}
+.agent-add-btn:hover{opacity:.85}
+@media(max-width:768px){
+  .agent-grid{grid-template-columns:1fr}
+  .tb-tab{padding:8px 14px;font-size:13px}
+}
 .tb-filter-bar{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px}
 .tb-filter-chip{display:inline-flex;align-items:center;gap:4px;padding:5px 12px;border-radius:20px;border:1px solid var(--border);background:var(--bg-card);color:var(--text-secondary);font-size:12px;font-weight:500;cursor:pointer;transition:all .2s;white-space:nowrap}
 .tb-filter-chip:hover{border-color:var(--accent);color:var(--accent)}
@@ -337,39 +374,50 @@ body.sidebar-collapsed .header-toggle{display:flex}
     <div class="taskboard-view" id="taskboardView">
       <div class="content-header">
         <div class="breadcrumb"><span>홈</span> / <span>업무보드</span></div>
-        <h2>📋 태훈 업무보드</h2>
+        <h2>📋 업무보드</h2>
       </div>
-      <div class="tb-stats" id="tbStats"></div>
-      <div class="tb-search-wrap">
-        <span class="tb-search-icon">🔍</span>
-        <input type="text" id="tbSearch" placeholder="업무 검색...">
+      <div class="tb-tab-bar">
+        <button class="tb-tab active" data-tab="my">내 업무</button>
+        <button class="tb-tab" data-tab="agents">실장 현황</button>
       </div>
-      <div class="tb-filter-bar" id="tbFilterBar"></div>
-      <div class="tb-status-bar" id="tbStatusBar"></div>
-      <button class="tb-add-btn" id="tbAddBtn">＋ 새 업무</button>
-      <div class="tb-add-form" id="tbAddForm">
-        <div class="form-row">
-          <input class="form-title" type="text" id="tbNewTitle" placeholder="업무 제목">
-          <select id="tbNewCat"></select>
-          <select id="tbNewUrgency">
-            <option value="green">🟢 일반</option>
-            <option value="yellow">🟡 주의</option>
-            <option value="red">🔴 긴급</option>
-          </select>
-          <select id="tbNewImp">
-            <option value="상">중요도: 상</option>
-            <option value="중">중요도: 중</option>
-            <option value="하">중요도: 하</option>
-          </select>
-          <input type="date" id="tbNewDue">
+      <!-- Tab 1: 내 업무 -->
+      <div class="tb-tab-panel active" id="tabMy">
+        <div class="tb-stats" id="tbStats"></div>
+        <div class="tb-search-wrap">
+          <span class="tb-search-icon">🔍</span>
+          <input type="text" id="tbSearch" placeholder="업무 검색...">
         </div>
-        <div class="form-actions">
-          <button class="btn-save" id="tbSaveBtn">추가</button>
-          <button class="btn-cancel" id="tbCancelBtn">취소</button>
+        <div class="tb-filter-bar" id="tbFilterBar"></div>
+        <div class="tb-status-bar" id="tbStatusBar"></div>
+        <button class="tb-add-btn" id="tbAddBtn">＋ 새 업무</button>
+        <div class="tb-add-form" id="tbAddForm">
+          <div class="form-row">
+            <input class="form-title" type="text" id="tbNewTitle" placeholder="업무 제목">
+            <select id="tbNewCat"></select>
+            <select id="tbNewUrgency">
+              <option value="green">🟢 일반</option>
+              <option value="yellow">🟡 주의</option>
+              <option value="red">🔴 긴급</option>
+            </select>
+            <select id="tbNewImp">
+              <option value="상">중요도: 상</option>
+              <option value="중">중요도: 중</option>
+              <option value="하">중요도: 하</option>
+            </select>
+            <input type="date" id="tbNewDue">
+          </div>
+          <div class="form-actions">
+            <button class="btn-save" id="tbSaveBtn">추가</button>
+            <button class="btn-cancel" id="tbCancelBtn">취소</button>
+          </div>
         </div>
+        <div id="tbTaskList"></div>
+        <div class="tb-empty" id="tbEmpty" style="display:none">해당하는 업무가 없습니다.</div>
       </div>
-      <div id="tbTaskList"></div>
-      <div class="tb-empty" id="tbEmpty" style="display:none">해당하는 업무가 없습니다.</div>
+      <!-- Tab 2: 실장 현황 -->
+      <div class="tb-tab-panel" id="tabAgents">
+        <div id="agentGrid" class="agent-grid"></div>
+      </div>
     </div>
   </div>
   <div class="footer">마지막 업데이트: 2026. 3. 27. | tenex-reports.vercel.app</div>
