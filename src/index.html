@@ -1060,9 +1060,6 @@ body.sidebar-collapsed .header-toggle{display:flex}
         <div class="nav-sub-item" data-nav-href="/archive/leaders-meeting-2026-03-24.html" data-nav-title="리더 회의 (3/24)">
           <span>📋 과거 회의록</span>
         </div>
-        <div class="nav-sub-item" data-nav-href="/1min-dosu-app.html" data-nav-title="1분도수 앱 (통합)">
-          <span>📱 앱 통합</span>
-        </div>
         <div class="nav-sub-item" data-nav-href="/onboarding-guide.html" data-nav-title="온보딩 가이드">
           <span>📖 온보딩</span>
         </div>
@@ -1079,19 +1076,18 @@ body.sidebar-collapsed .header-toggle{display:flex}
           <span>📋 채용분석</span>
         </div>
       </div>
-    </div>
-
-    <!-- 시스템 -->
-    <div class="sidebar-system" id="sidebarSystem">
-      <div class="nav-section-title nav-archive-toggle" id="systemToggle" style="padding:6px 8px 5px">⚙️ 시스템 <span class="expand-arrow" id="systemArrow">▶</span></div>
-      <div class="nav-sub-list" id="systemList">
-        <div class="nav-sub-item" data-system-page="system"><span>🖥️ 시스템 현황</span></div>
-        <div class="nav-sub-item" data-system-page="cron"><span>🔄 크론</span></div>
-        <div class="nav-sub-item" data-system-page="deploy"><span>🚀 배포</span></div>
-        <div class="nav-sub-item" data-system-page="security"><span>🔒 보안</span></div>
-        <div class="nav-sub-item" data-system-page="skills"><span>🧩 스킬</span></div>
-        <div class="nav-sub-item" data-system-page="heartbeat"><span>💓 하트비트</span></div>
-        <div class="nav-sub-item" data-system-page="pipeline"><span>🔗 파이프라인</span></div>
+      <!-- 시스템 (아카이브 하위) -->
+      <div class="sidebar-system" id="sidebarSystem">
+        <div class="nav-section-title nav-archive-toggle" id="systemToggle" style="padding:6px 8px 5px">⚙️ 시스템 <span class="expand-arrow" id="systemArrow">▶</span></div>
+        <div class="nav-sub-list" id="systemList">
+          <div class="nav-sub-item" data-system-page="system"><span>🖥️ 시스템 현황</span></div>
+          <div class="nav-sub-item" data-system-page="cron"><span>🔄 크론</span></div>
+          <div class="nav-sub-item" data-system-page="deploy"><span>🚀 배포</span></div>
+          <div class="nav-sub-item" data-system-page="security"><span>🔒 보안</span></div>
+          <div class="nav-sub-item" data-system-page="skills"><span>🧩 스킬</span></div>
+          <div class="nav-sub-item" data-system-page="heartbeat"><span>💓 하트비트</span></div>
+          <div class="nav-sub-item" data-system-page="pipeline"><span>🔗 파이프라인</span></div>
+        </div>
       </div>
     </div>
 
@@ -1269,7 +1265,7 @@ const DEFAULT_REPORTS=[
   {href:'/crm.html',icon:'📊',title:'CRM 전략 v2',desc:'고객 페르소나',date:'3/19',cat:'D',sub:'CRM'},
   {href:'/customer-journey-v5.html',icon:'🗺️',title:'고객 여정 분석',desc:'승무원 수분크림',date:'3/23',cat:'D',sub:'그로스'},
   {href:'/archive/leaders-meeting-2026-03-24.html',icon:'📋',title:'리더 회의 (3/24)',desc:'',date:'3/25',cat:'D',sub:'퍼포먼스'},
-  {href:'/1min-dosu-app.html',icon:'💪',title:'1분도수 앱 (통합)',desc:'기획 · 기술스펙 · 고객여정 · 앱소개',date:'3/30',cat:'E',sub:'1분도수 앱'},
+  {href:'/app-overview.html',icon:'📱',title:'앱 종합',desc:'기획 · 기술스펙 · 고객여정 · 앱소개',date:'3/31',cat:'E',sub:'앱'},
   {href:'/funding.html',icon:'💰',title:'자금조달',desc:'지분 · 스톡옵션 · 초창패',date:'3/19',cat:'F',sub:'자금조달',adminOnly:true},
   {href:'/2026-team-structure.html',icon:'👥',title:'팀 구조 & 채용 로드맵',desc:'2026 계획',date:'3/16',cat:'G',sub:'팀 구조',adminOnly:true},
   {href:'/apr-hiring-analysis.html',icon:'📋',title:'APR 채용 공고 분석',desc:'',date:'3/19',cat:'G',sub:'채용'},
