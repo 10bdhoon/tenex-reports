@@ -338,6 +338,118 @@ body.sidebar-collapsed .header-toggle{display:flex}
 
 .system-content .sc-footer{text-align:center;color:var(--text-secondary);font-size:12px;margin:40px 0 20px}
 
+/* ── Cron Dashboard Cards ── */
+.system-content .sc-cron-stats{display:flex;gap:12px;margin-bottom:24px;flex-wrap:wrap}
+.system-content .sc-cron-stat{background:var(--bg-card);border:1px solid var(--border);border-radius:10px;padding:14px 20px;text-align:center;min-width:100px;flex:1}
+.system-content .sc-cron-stat .stat-num{font-size:28px;font-weight:800}
+.system-content .sc-cron-stat .stat-num.green{color:#22c55e}
+.system-content .sc-cron-stat .stat-num.red{color:#ef4444}
+.system-content .sc-cron-stat .stat-num.gray{color:#94a3b8}
+.system-content .sc-cron-stat .stat-num.yellow{color:#f59e0b}
+.system-content .sc-cron-stat .stat-num.navy{color:#002855}
+[data-theme="dark"] .system-content .sc-cron-stat .stat-num.navy{color:#5b9bd5}
+.system-content .sc-cron-stat .stat-label{font-size:12px;color:var(--text-secondary);margin-top:4px}
+
+.system-content .sc-cron-card{
+  background:var(--bg-card);border:1px solid var(--border);border-radius:12px;
+  padding:0;margin-bottom:12px;transition:all .2s;overflow:hidden;
+  border-left:4px solid var(--border);
+}
+.system-content .sc-cron-card:hover{box-shadow:var(--shadow-lg);border-color:var(--accent)}
+.system-content .sc-cron-card.status-ok{border-left-color:#22c55e}
+.system-content .sc-cron-card.status-error{border-left-color:#ef4444}
+.system-content .sc-cron-card.status-idle{border-left-color:#94a3b8}
+.system-content .sc-cron-card.status-running{border-left-color:#f59e0b}
+
+.system-content .sc-cron-card-header{
+  padding:16px 20px;cursor:pointer;display:flex;flex-direction:column;gap:8px;
+}
+.system-content .sc-cron-card-top{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.system-content .sc-cron-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0}
+.system-content .sc-cron-dot.ok{background:#22c55e}
+.system-content .sc-cron-dot.error{background:#ef4444}
+.system-content .sc-cron-dot.idle{background:#94a3b8}
+.system-content .sc-cron-dot.running{background:#f59e0b;animation:sc-pulse-anim 1.5s infinite}
+
+.system-content .sc-cron-name{font-size:15px;font-weight:700;color:var(--text);flex:1}
+.system-content .sc-cron-status-badge{
+  font-size:11px;padding:3px 10px;border-radius:12px;font-weight:600;
+}
+.system-content .sc-cron-status-badge.ok{background:rgba(34,197,94,0.12);color:#22c55e}
+.system-content .sc-cron-status-badge.error{background:rgba(239,68,68,0.12);color:#ef4444}
+.system-content .sc-cron-status-badge.idle{background:rgba(148,163,184,0.12);color:#94a3b8}
+.system-content .sc-cron-status-badge.running{background:rgba(245,158,11,0.12);color:#f59e0b}
+
+.system-content .sc-cron-schedule-badge{
+  font-size:12px;color:var(--accent);font-weight:600;
+  background:var(--accent-light);padding:3px 10px;border-radius:12px;
+}
+[data-theme="dark"] .system-content .sc-cron-schedule-badge{background:rgba(124,58,237,0.15);color:#a78bfa}
+
+.system-content .sc-cron-arrow{
+  font-size:10px;color:var(--text-secondary);transition:transform .3s;flex-shrink:0;
+}
+.system-content .sc-cron-arrow.open{transform:rotate(180deg)}
+
+.system-content .sc-cron-desc{font-size:13px;color:var(--text-secondary);padding-left:20px;line-height:1.5}
+.system-content .sc-cron-times{
+  display:flex;align-items:center;gap:16px;font-size:12px;
+  color:var(--text-secondary);padding-left:20px;flex-wrap:wrap;
+}
+.system-content .sc-cron-times strong{color:var(--text)}
+
+/* Cron Accordion Detail */
+.system-content .sc-cron-detail{
+  max-height:0;overflow:hidden;transition:max-height .35s ease;
+  border-top:0 solid var(--border);
+}
+.system-content .sc-cron-detail.open{max-height:800px;border-top-width:1px}
+.system-content .sc-cron-detail-inner{padding:16px 20px}
+
+.system-content .sc-cron-detail .sc-detail-title{
+  font-size:13px;font-weight:700;color:var(--text);margin-bottom:8px;
+  display:flex;align-items:center;gap:6px;
+}
+.system-content .sc-cron-detail .sc-detail-section{margin-bottom:16px}
+.system-content .sc-cron-detail .sc-detail-section:last-child{margin-bottom:0}
+
+/* Flow steps */
+.system-content .sc-flow-step{
+  display:inline-block;padding:5px 12px;border-radius:8px;font-size:12px;font-weight:600;
+  background:var(--accent-light);color:var(--accent);border:1px solid rgba(124,58,237,0.15);
+}
+[data-theme="dark"] .system-content .sc-flow-step{background:rgba(124,58,237,0.12);color:#a78bfa;border-color:rgba(124,58,237,0.2)}
+.system-content .sc-flow-arrow{
+  display:inline-block;margin:0 6px;color:var(--text-secondary);font-size:12px;
+}
+.system-content .sc-flow-wrap{display:flex;flex-wrap:wrap;align-items:center;gap:4px}
+
+/* Detail bullets */
+.system-content .sc-detail-bullets div{
+  font-size:12px;color:var(--text-secondary);line-height:1.8;padding-left:14px;position:relative;
+}
+.system-content .sc-detail-bullets div::before{
+  content:'';position:absolute;left:0;top:9px;width:5px;height:5px;border-radius:50%;background:var(--accent);
+}
+
+/* Tech stack tags */
+.system-content .sc-detail-tag{
+  display:inline-block;padding:3px 10px;border-radius:6px;font-size:11px;font-weight:600;
+  background:rgba(37,99,235,0.1);color:#60a5fa;margin:2px 4px 2px 0;
+}
+[data-theme="dark"] .system-content .sc-detail-tag{background:rgba(37,99,235,0.15)}
+
+/* Troubleshooting */
+.system-content .sc-trouble-item{
+  font-size:12px;color:var(--text-secondary);line-height:1.8;padding-left:20px;position:relative;
+}
+.system-content .sc-trouble-item::before{content:'⚠';position:absolute;left:0;color:#f59e0b}
+
+.system-content .sc-cron-updated{
+  text-align:center;color:var(--text-secondary);font-size:12px;margin-top:32px;padding-top:16px;
+  border-top:1px solid var(--border);
+}
+
 @media(max-width:640px){
   .system-content .sc-timeline{padding-left:40px}
   .system-content .sc-tl-time{left:-40px;width:32px;font-size:11px}
@@ -350,6 +462,12 @@ body.sidebar-collapsed .header-toggle{display:flex}
   .system-content .sc-hb-grid{grid-template-columns:1fr}
   .system-content .sc-sec-grid{grid-template-columns:1fr}
   .system-content .sc-perm-grid{grid-template-columns:1fr}
+  .system-content .sc-cron-stats{gap:8px}
+  .system-content .sc-cron-stat{min-width:80px;padding:10px 12px}
+  .system-content .sc-cron-stat .stat-num{font-size:22px}
+  .system-content .sc-cron-card-header{padding:12px 14px}
+  .system-content .sc-cron-detail-inner{padding:12px 14px}
+  .system-content .sc-flow-step{font-size:11px;padding:4px 8px}
 }
 
 /* ── Task Board ── */
@@ -1691,7 +1809,7 @@ function openSystemPage(href,title){
 }
 
 const SYSTEM_PAGE_TITLES={cron:'🔄 크론 대시보드',deploy:'🚀 배포 현황',system:'🖥️ 자동화 시스템 현황',heartbeat:'💓 하트비트 모니터링',security:'🔒 보안 현황'};
-const SYSTEM_RENDERERS={cron:renderCronDashboard,deploy:renderDeployDashboard,system:renderSystemStatus,heartbeat:renderHeartbeatDashboard,security:renderSecurityDashboard};
+const SYSTEM_RENDERERS={deploy:renderDeployDashboard,system:renderSystemStatus,heartbeat:renderHeartbeatDashboard,security:renderSecurityDashboard};
 
 function openSystemDashboard(page,label){
   switchView('system');
@@ -1704,10 +1822,13 @@ function openSystemDashboard(page,label){
   iframeWrap.style.display='none';
   newTabBtn.style.display='none';
   document.getElementById('systemViewTitle').textContent=SYSTEM_PAGE_TITLES[page]||label||'';
-  const renderer=SYSTEM_RENDERERS[page];
-  contentEl.innerHTML=renderer?renderer():'';
-  // Bind events after render
-  if(page==='cron')bindCronEvents(contentEl);
+  if(page==='cron'){
+    contentEl.innerHTML='<div style="text-align:center;padding:40px;color:var(--text-secondary)">로딩 중...</div>';
+    renderCronDashboard().then(html=>{contentEl.innerHTML=html;});
+  } else {
+    const renderer=SYSTEM_RENDERERS[page];
+    contentEl.innerHTML=renderer?renderer():'';
+  }
   // Highlight sidebar
   document.querySelectorAll('#sidebarSystem .nav-item').forEach(el=>{
     el.classList.toggle('active',el.dataset.systemPage===page);
@@ -1717,80 +1838,121 @@ function openSystemDashboard(page,label){
 
 /* ═══════ System Dashboard Render Functions ═══════ */
 
-function renderCronDashboard(){
-  const crons=[
-    {name:'cafe24-token-refresh',time:'*/90m',desc:'카페24 API 토큰 자동 갱신',meta:'90분 간격 | 마지막 실행: 정상',dot:'navy',tags:[{t:'API',c:'navy'},{t:'카페24',c:'green'}],schedule:'90분',status:'ok'},
-    {name:'daily-report',time:'07:00',desc:'텔레그램 일일 매출 리포트',meta:'매일 07:00 | 마지막 실행: 정상',dot:'blue',tags:[{t:'텔레그램',c:'cyan'},{t:'매출',c:'green'}],schedule:'매일 07:00',status:'ok'},
-    {name:'plaud-pipeline',time:'*/30',desc:'Plaud 녹음 전사+요약',meta:'30분 간격 | 마지막 실행: 정상',dot:'navy',tags:[{t:'Plaud',c:'navy'},{t:'전사',c:'cyan'}],schedule:'30분',status:'ok'},
-    {name:'plaud-daily-report',time:'22:00',desc:'Plaud 일일 요약 보고',meta:'매일 22:00 | 마지막 실행: 정상',dot:'blue',tags:[{t:'Plaud',c:'navy'},{t:'보고',c:'green'}],schedule:'매일 22:00',status:'ok'},
-    {name:'tenex-reports-deploy',time:'*/10',desc:'리포트 변경감지→Vercel 배포',meta:'10분 간격 | 마지막 실행: 정상',dot:'green',tags:[{t:'Vercel',c:'green'},{t:'배포',c:'gray'}],schedule:'10분',status:'ok'},
-    {name:'brain-conv-sync',time:'*/30',desc:'대화→brain.db 동기화',meta:'30분 간격 | 마지막 실행: 정상',dot:'navy',tags:[{t:'brain.db',c:'navy'},{t:'동기화',c:'cyan'}],schedule:'30분',status:'ok'},
-    {name:'heartbeat-sync',time:'*/1h',desc:'HEARTBEAT.md 동기화',meta:'1시간 간격 | 마지막 실행: 정상',dot:'blue',tags:[{t:'하트비트',c:'blue'},{t:'동기화',c:'gray'}],schedule:'1시간',status:'ok'},
-    {name:'calendar-reminder',time:'*/30',desc:'구글 캘린더 리마인더',meta:'30분 간격 | 마지막 실행: 정상',dot:'navy',tags:[{t:'Google',c:'navy'},{t:'캘린더',c:'cyan'}],schedule:'30분',status:'ok'},
-    {name:'slack-notion-sync',time:'*/30',desc:'슬랙→노션 업무 추적',meta:'30분 간격 | 마지막 실행: 정상',dot:'navy',tags:[{t:'Slack',c:'cyan'},{t:'Notion',c:'green'}],schedule:'30분',status:'ok'},
-    {name:'cafe24-webhook',time:'상시',desc:'카페24 주문/취소 실시간 알림',meta:'상시 | 마지막 실행: 정상',dot:'green',tags:[{t:'카페24',c:'green'},{t:'웹훅',c:'orange'}],schedule:'상시',status:'ok'},
-    {name:'mixpanel-weekly',time:'월08',desc:'Mixpanel 주간 리포트',meta:'매주 월요일 08:00 | 마지막 실행: 정상',dot:'cyan',tags:[{t:'Mixpanel',c:'cyan'},{t:'주간',c:'gray'}],schedule:'매주 월 08:00',status:'ok'},
-    {name:'openclaw-watchdog',time:'*/5',desc:'OpenClaw 게이트웨이 감시',meta:'5분 간격 | 마지막 실행: 정상',dot:'green',tags:[{t:'OpenClaw',c:'green'},{t:'감시',c:'gray'}],schedule:'5분',status:'ok'},
-    {name:'memory-watcher',time:'상시',desc:'메모리 파일 변경 감지',meta:'상시 | 마지막 실행: 정상',dot:'green',tags:[{t:'메모리',c:'green'},{t:'감시',c:'gray'}],schedule:'상시',status:'ok'},
-    {name:'session-sync',time:'*/10',desc:'세션→brain.db 동기화',meta:'10분 간격 | 마지막 실행: 정상',dot:'navy',tags:[{t:'brain.db',c:'navy'},{t:'세션',c:'cyan'}],schedule:'10분',status:'ok'},
-  ];
-  const total=crons.length,ok=crons.filter(c=>c.status==='ok').length,err=crons.filter(c=>c.status==='error').length;
-  const interval30=crons.filter(c=>c.schedule.includes('30분')).length;
-  const always=crons.filter(c=>c.schedule==='상시').length;
-  let h='';
-  h+='<div class="sc-summary">';
-  h+='<div class="sc-sum-card"><div class="num navy">'+total+'</div><div class="sc-label">전체 크론</div></div>';
-  h+='<div class="sc-sum-card"><div class="num green">'+ok+'</div><div class="sc-label">정상</div></div>';
-  h+='<div class="sc-sum-card"><div class="num red">'+err+'</div><div class="sc-label">오류</div></div>';
-  h+='<div class="sc-sum-card"><div class="num blue">'+interval30+'</div><div class="sc-label">30분 간격</div></div>';
-  h+='<div class="sc-sum-card"><div class="num yellow">'+always+'</div><div class="sc-label">상시</div></div>';
-  h+='</div>';
-  h+='<div class="sc-filter-tabs" id="scCronFilters">';
-  h+='<div class="sc-filter-tab active" data-filter="all">전체<span class="sc-filter-count">'+total+'</span></div>';
-  h+='<div class="sc-filter-tab" data-filter="ok">정상<span class="sc-filter-count">'+ok+'</span></div>';
-  h+='<div class="sc-filter-tab" data-filter="error">오류<span class="sc-filter-count">'+err+'</span></div>';
-  h+='</div>';
-  h+='<div class="sc-section-title">⏰ 하루 타임라인</div>';
-  h+='<div class="sc-timeline">';
-  crons.forEach(c=>{
-    const tagsHtml=c.tags.map(t=>'<span class="sc-tag '+t.c+'">'+t.t+'</span>').join('');
-    const statusCls=c.status==='ok'?'active':'error';
-    const statusLabel=c.status==='ok'?'정상':'오류';
-    h+='<div class="sc-tl-item" data-status="'+c.status+'">';
-    h+='<div class="sc-tl-time">'+c.time+'</div>';
-    h+='<div class="sc-tl-dot '+c.dot+'"></div>';
-    h+='<div class="sc-tl-card"><h3>'+c.name+' <span class="sc-status '+statusCls+'">'+statusLabel+'</span></h3>';
-    h+='<div class="desc">'+c.desc+'</div>';
-    h+='<div class="meta">'+c.meta+'</div>';
-    h+='<div class="tags">'+tagsHtml+'</div></div></div>';
-  });
-  h+='</div>';
-  h+='<div class="sc-section-title">📋 크론 전체 목록</div>';
-  h+='<div style="overflow-x:auto"><table>';
-  h+='<tr><th>이름</th><th>주기</th><th>설명</th><th>상태</th></tr>';
-  crons.forEach(c=>{
-    const statusCls=c.status==='ok'?'active':'error';
-    const statusLabel=c.status==='ok'?'정상':'오류';
-    h+='<tr><td>'+c.name+'</td><td>'+c.schedule+'</td><td>'+c.desc+'</td><td><span class="sc-status '+statusCls+'">'+statusLabel+'</span></td></tr>';
-  });
-  h+='</table></div>';
-  h+='<p class="sc-footer">최종 업데이트: 2026-03-27 | 데이터 소스: openclaw cron list</p>';
-  return h;
+function toggleCronDetail(idx){
+  const det=document.getElementById('cronDetail'+idx);
+  const arrow=document.getElementById('cronArrow'+idx);
+  if(!det)return;
+  const isOpen=det.classList.contains('open');
+  if(isOpen){det.classList.remove('open');if(arrow)arrow.classList.remove('open');}
+  else{det.classList.add('open');if(arrow)arrow.classList.add('open');}
 }
-function bindCronEvents(el){
-  el.querySelectorAll('.sc-filter-tab').forEach(tab=>{
-    tab.onclick=()=>{
-      el.querySelectorAll('.sc-filter-tab').forEach(t=>t.classList.remove('active'));
-      tab.classList.add('active');
-      const filter=tab.dataset.filter;
-      el.querySelectorAll('.sc-tl-item').forEach(item=>{
-        const status=item.dataset.status;
-        if(filter==='all')item.classList.remove('hidden');
-        else if(filter==='ok')item.classList.toggle('hidden',status!=='ok');
-        else if(filter==='error')item.classList.toggle('hidden',status!=='error');
+
+async function renderCronDashboard(){
+  const statusLabels={ok:'정상',error:'오류',idle:'대기',running:'실행중'};
+  try{
+    const res=await fetch('/data/cron-status.json?t='+Date.now());
+    const data=await res.json();
+    const crons=data.crons||[];
+    const total=crons.length;
+    const ok=crons.filter(c=>c.status==='ok').length;
+    const err=crons.filter(c=>c.status==='error').length;
+    const idle=crons.filter(c=>c.status==='idle').length;
+    let h='';
+    // Stats
+    h+='<div class="sc-cron-stats">';
+    h+='<div class="sc-cron-stat"><div class="stat-num navy">'+total+'</div><div class="stat-label">전체 크론</div></div>';
+    h+='<div class="sc-cron-stat"><div class="stat-num green">'+ok+'</div><div class="stat-label">정상</div></div>';
+    h+='<div class="sc-cron-stat"><div class="stat-num red">'+err+'</div><div class="stat-label">오류</div></div>';
+    h+='<div class="sc-cron-stat"><div class="stat-num gray">'+idle+'</div><div class="stat-label">대기</div></div>';
+    h+='</div>';
+    // Filter tabs
+    h+='<div class="sc-filter-tabs" id="scCronFilters">';
+    h+='<div class="sc-filter-tab active" data-filter="all">전체 <span class="sc-filter-count">'+total+'</span></div>';
+    h+='<div class="sc-filter-tab" data-filter="ok">정상 <span class="sc-filter-count">'+ok+'</span></div>';
+    h+='<div class="sc-filter-tab" data-filter="error">오류 <span class="sc-filter-count">'+err+'</span></div>';
+    h+='<div class="sc-filter-tab" data-filter="idle">대기 <span class="sc-filter-count">'+idle+'</span></div>';
+    h+='</div>';
+    // Cards
+    h+='<div id="cronCardList">';
+    crons.forEach((c,idx)=>{
+      const st=c.status||'ok';
+      const stLabel=statusLabels[st]||st;
+      h+='<div class="sc-cron-card status-'+st+'" data-status="'+st+'">';
+      h+='<div class="sc-cron-card-header" onclick="toggleCronDetail('+idx+')">';
+      // Top row
+      h+='<div class="sc-cron-card-top">';
+      h+='<span class="sc-cron-dot '+st+'"></span>';
+      h+='<span class="sc-cron-name">'+c.label+'</span>';
+      h+='<span class="sc-cron-status-badge '+st+'">'+stLabel+'</span>';
+      h+='<span class="sc-cron-schedule-badge">'+c.scheduleLabel+'</span>';
+      h+='<span class="sc-cron-arrow" id="cronArrow'+idx+'">&#9660;</span>';
+      h+='</div>';
+      // Desc
+      if(c.desc) h+='<div class="sc-cron-desc">'+c.desc+'</div>';
+      // Times
+      h+='<div class="sc-cron-times">';
+      h+='<span><strong>마지막 실행:</strong> '+(c.lastRun||'없음')+'</span>';
+      h+='<span><strong>다음 실행:</strong> '+(c.nextRun||'미정')+'</span>';
+      h+='</div>';
+      h+='</div>'; // end header
+      // Accordion detail
+      h+='<div class="sc-cron-detail" id="cronDetail'+idx+'">';
+      h+='<div class="sc-cron-detail-inner">';
+      // Flow
+      if(c.flow&&c.flow.length){
+        h+='<div class="sc-detail-section"><div class="sc-detail-title">&#9889; 동작 흐름</div>';
+        h+='<div class="sc-flow-wrap">';
+        c.flow.forEach((step,i)=>{
+          if(i>0) h+='<span class="sc-flow-arrow">&rarr;</span>';
+          h+='<span class="sc-flow-step">'+step+'</span>';
+        });
+        h+='</div></div>';
+      }
+      // Detail bullets
+      if(c.detail&&c.detail.length){
+        h+='<div class="sc-detail-section"><div class="sc-detail-title">&#128203; 상세 설명</div>';
+        h+='<div class="sc-detail-bullets">';
+        c.detail.forEach(d=>{h+='<div>'+d+'</div>';});
+        h+='</div></div>';
+      }
+      // Tech stack
+      if(c.techStack&&c.techStack.length){
+        h+='<div class="sc-detail-section"><div class="sc-detail-title">&#128295; 기술 스택</div>';
+        h+='<div>';
+        c.techStack.forEach(t=>{h+='<span class="sc-detail-tag">'+t+'</span>';});
+        h+='</div></div>';
+      }
+      // Troubleshooting
+      if(c.troubleshooting&&c.troubleshooting.length){
+        h+='<div class="sc-detail-section"><div class="sc-detail-title">&#128736; 트러블슈팅</div>';
+        h+='<div>';
+        c.troubleshooting.forEach(t=>{h+='<div class="sc-trouble-item">'+t+'</div>';});
+        h+='</div></div>';
+      }
+      h+='</div></div>'; // end detail-inner, detail
+      h+='</div>'; // end card
+    });
+    h+='</div>'; // end cronCardList
+    h+='<div class="sc-cron-updated">업데이트: '+data.updatedAt+' | 데이터 소스: cron-status.json</div>';
+    // Bind filter events after returning HTML (use setTimeout to ensure DOM is ready)
+    setTimeout(()=>{
+      document.querySelectorAll('#scCronFilters .sc-filter-tab').forEach(tab=>{
+        tab.onclick=()=>{
+          document.querySelectorAll('#scCronFilters .sc-filter-tab').forEach(t=>t.classList.remove('active'));
+          tab.classList.add('active');
+          const filter=tab.dataset.filter;
+          document.querySelectorAll('#cronCardList .sc-cron-card').forEach(card=>{
+            const st=card.dataset.status;
+            if(filter==='all') card.style.display='';
+            else card.style.display=(st===filter)?'':'none';
+          });
+        };
       });
-    };
-  });
+    },0);
+    return h;
+  }catch(e){
+    return '<div style="text-align:center;padding:40px;color:var(--text-secondary)">크론 상태를 불러올 수 없습니다</div>';
+  }
 }
 
 function renderDeployDashboard(){
