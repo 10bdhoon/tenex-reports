@@ -3,55 +3,585 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>앱 종합 — 테넥스</title>
+<title>1분도수 앱 — 통합 문서</title>
+<script src='auth.js'></script>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-body{background:#0d1117;color:#e6edf3;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;min-height:100vh;display:flex;flex-direction:column}
-.back{display:inline-block;padding:10px 20px;font-size:12px;color:#58a6ff;text-decoration:none;background:#161b22;border-bottom:1px solid #21262d}
-.back:hover{color:#79c0ff;text-decoration:underline}
-.tab-nav{position:sticky;top:0;z-index:100;background:#161b22;border-bottom:1px solid #21262d;display:flex;overflow-x:auto;padding:0 20px}
-.tab-btn{background:none;border:none;border-bottom:2px solid transparent;color:#8b949e;padding:14px 20px;font-size:14px;font-weight:500;cursor:pointer;white-space:nowrap;transition:color .15s,border-color .15s}
-.tab-btn:hover{color:#e6edf3}
-.tab-btn.active{color:#e6edf3;border-bottom-color:#58a6ff}
-.tab-pane{display:none;flex:1}
-.tab-pane.active{display:flex;flex-direction:column}
-.embed-frame{width:100%;flex:1;min-height:calc(100vh - 100px);border:none;background:#0d1117}
-.badge{position:fixed;bottom:16px;right:16px;background:rgba(0,0,0,0.7);color:#fff;padding:8px 14px;border-radius:8px;font-size:12px;line-height:1.8;z-index:9999}
-.badge span{opacity:.6}
+body{background:#0d1117;color:#e6edf3;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans KR",sans-serif;min-height:100vh;padding-bottom:60px}
+
+/* ── BACK LINK ── */
+.back-link{position:fixed;top:12px;left:16px;z-index:200;background:rgba(22,27,34,0.9);border:1px solid #21262d;border-radius:8px;padding:6px 14px;font-size:13px;color:#58a6ff;text-decoration:none;backdrop-filter:blur(8px)}
+.back-link:hover{background:#21262d;text-decoration:none}
+
+/* ── MAIN TAB NAV ── */
+.main-tab-nav{position:sticky;top:0;z-index:150;background:#161b22;border-bottom:1px solid #21262d;display:flex;overflow-x:auto;padding:0 20px}
+.main-tab-btn{background:none;border:none;border-bottom:3px solid transparent;color:#8b949e;padding:14px 20px;font-size:14px;font-weight:600;cursor:pointer;white-space:nowrap;transition:color .15s,border-color .15s}
+.main-tab-btn:hover{color:#e6edf3}
+.main-tab-btn.active{color:#e6edf3;border-bottom-color:#58a6ff}
+.main-tab-pane{display:none}
+.main-tab-pane.active{display:block}
+
+/* ── COMMON ── */
+.page{max-width:960px;margin:0 auto;padding:32px 20px}
+.section{margin-bottom:40px}
+.section-title-bar{font-size:11px;letter-spacing:2px;text-transform:uppercase;color:#58a6ff;margin-bottom:16px;padding-bottom:8px;border-bottom:1px solid #21262d}
+h1{font-size:26px;font-weight:700;color:#e6edf3;margin-bottom:8px;line-height:1.3}
+h2{font-size:20px;font-weight:600;color:#e6edf3;margin:24px 0 10px}
+h3{font-size:16px;font-weight:600;color:#e6edf3;margin:0 0 6px}
+h4{font-size:14px;font-weight:600;color:#e6edf3;margin:0 0 4px}
+p{font-size:14px;line-height:1.75;color:#8b949e;margin-bottom:10px}
+ul,ol{padding-left:20px;margin-bottom:12px}
+li{font-size:14px;line-height:1.8;color:#8b949e;margin-bottom:3px}
+strong{color:#c9d1d9}
+a{color:#58a6ff;text-decoration:none}
+a:hover{text-decoration:underline}
+code{background:#161b22;border:1px solid #21262d;border-radius:4px;padding:2px 6px;font-size:13px;color:#79c0ff;font-family:monospace}
+.hero{background:linear-gradient(135deg,#0d1117 0%,#161b22 100%);border:1px solid #21262d;border-radius:12px;padding:32px 24px;margin-bottom:32px;text-align:center}
+.hero-label{font-size:11px;letter-spacing:3px;text-transform:uppercase;color:#8b949e;margin-bottom:12px}
+.hero h1{margin-bottom:8px}
+.hero p{font-size:14px;color:#8b949e;margin-bottom:16px}
+.hero-badges{display:flex;flex-wrap:wrap;gap:8px;justify-content:center}
+.hero-badge{background:#21262d;color:#58a6ff;border-radius:20px;padding:4px 12px;font-size:12px;font-weight:500}
+.card{background:#161b22;border:1px solid #21262d;border-radius:12px;padding:24px;margin-bottom:16px}
+.grid-2{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;margin-bottom:24px}
+.grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:24px}
+.grid-4{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:24px}
+@media(max-width:700px){.grid-2,.grid-3,.grid-4{grid-template-columns:1fr}}
+@media(max-width:900px){.grid-4{grid-template-columns:repeat(2,1fr)}}
+.note-box{background:#0d2137;border:1px solid #1d4ed8;border-radius:8px;padding:14px;font-size:13px;color:#8b949e;line-height:1.7}
+.note-box strong{color:#58a6ff}
+footer.page-footer{text-align:center;padding:24px;font-size:12px;color:#484f58;border-top:1px solid #21262d;margin-top:32px}
+
+/* ── SUB-SECTION ACCORDION ── */
+.sub-section{margin-bottom:24px}
+.sub-section-header{display:flex;align-items:center;gap:10px;padding:12px 16px;background:#161b22;border:1px solid #21262d;border-radius:10px;cursor:pointer;font-size:14px;font-weight:600;color:#e6edf3;user-select:none}
+.sub-section-header:hover{background:#1c2128}
+.sub-section-header .arrow{transition:transform .2s;font-size:12px;color:#8b949e}
+.sub-section-header.open .arrow{transform:rotate(90deg)}
+.sub-section-body{display:none;padding:16px 0 0}
+.sub-section-body.open{display:block}
+
+/* ── BOTTOM BADGE ── */
+.bottom-badge{position:fixed;bottom:0;left:0;right:0;z-index:200;background:rgba(22,27,34,0.95);border-top:1px solid #21262d;padding:8px 16px;text-align:center;font-size:11px;color:#484f58;backdrop-filter:blur(8px)}
+
+/* ======================================== */
+/* TAB 1: 앱 개요 (t1-) */
+/* ======================================== */
+.t1-badge-new{background:#0d2b1a;color:#3fb950;border-radius:4px;padding:2px 8px;font-size:11px;font-weight:600;vertical-align:middle}
+.t1-kpi-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:24px}
+@media(max-width:700px){.t1-kpi-grid{grid-template-columns:repeat(2,1fr)}}
+.t1-kpi-card{background:#161b22;border:1px solid #21262d;border-radius:12px;padding:20px;text-align:center}
+.t1-kpi-value{font-size:24px;font-weight:700;color:#58a6ff;display:block;margin-bottom:4px}
+.t1-kpi-label{font-size:12px;color:#8b949e;display:block;margin-bottom:4px}
+.t1-kpi-sub{font-size:11px;color:#484f58}
+.t1-tech-tags{display:flex;flex-direction:column;gap:4px;margin-top:8px}
+.t1-tech-tag{display:inline-block;background:#21262d;color:#8b949e;border-radius:6px;padding:3px 8px;font-size:11px}
+.t1-flywheel-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:24px}
+@media(max-width:640px){.t1-flywheel-grid{grid-template-columns:1fr}}
+.t1-flywheel-card{background:#0d2137;border:1px solid #1d4ed8;border-radius:12px;padding:20px}
+.t1-flywheel-icon{font-size:24px;margin-bottom:10px}
+.t1-flywheel-title{font-size:14px;font-weight:700;color:#e6edf3;margin-bottom:8px}
+.t1-flywheel-desc{font-size:12px;color:#8b949e;line-height:1.7}
+.t1-change-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:24px}
+@media(max-width:640px){.t1-change-grid{grid-template-columns:1fr}}
+.t1-change-section-label{font-size:14px;font-weight:700;margin-bottom:12px}
+.t1-change-section-label.red{color:#f85149}
+.t1-change-section-label.green{color:#3fb950}
+.t1-change-item{background:#161b22;border:1px solid #21262d;border-radius:10px;padding:16px;margin-bottom:8px}
+.t1-change-item.red-border{border-left:3px solid #f85149}
+.t1-change-item.green-border{border-left:3px solid #3fb950}
+.t1-change-item h4{font-size:13px;font-weight:700;color:#e6edf3;margin-bottom:4px}
+.t1-change-item p{font-size:12px;color:#8b949e;margin:0}
+.t1-device-ux-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:16px}
+@media(max-width:640px){.t1-device-ux-grid{grid-template-columns:1fr}}
+.t1-device-ux-card{background:#161b22;border:1px solid #21262d;border-radius:12px;overflow:hidden}
+.t1-device-ux-header{padding:14px;border-bottom:1px solid #21262d;font-size:13px;font-weight:700}
+.t1-device-ux-header.green{color:#3fb950}
+.t1-device-ux-header.blue{color:#58a6ff}
+.t1-device-ux-header.orange{color:#d29922}
+.t1-device-ux-body{padding:14px}
+.t1-device-ux-step{margin-bottom:10px}
+.t1-device-ux-step-label{font-size:11px;font-weight:700;color:#e6edf3;margin-bottom:4px}
+.t1-device-ux-step-text{font-size:12px;color:#8b949e;line-height:1.6}
+.t1-pain-table{width:100%;border-collapse:collapse;margin-bottom:16px;font-size:14px}
+.t1-pain-table thead th{background:#1f2937;color:#e6edf3;padding:12px 14px;text-align:left;font-weight:600;border-bottom:2px solid #21262d}
+.t1-pain-table tbody td{padding:10px 14px;color:#8b949e;border-bottom:1px solid #21262d;vertical-align:top}
+.t1-pain-table tbody tr:last-child td{border-bottom:none}
+.t1-tag-red{background:#2b0d0d;color:#f85149;border-radius:4px;padding:2px 8px;font-size:11px;display:inline-block}
+.t1-tag-orange{background:#2b1d00;color:#d29922;border-radius:4px;padding:2px 8px;font-size:11px;display:inline-block}
+.t1-tag-green{background:#0d2b1a;color:#3fb950;border-radius:4px;padding:2px 8px;font-size:11px;display:inline-block}
+.t1-video-section-title{font-size:14px;font-weight:700;color:#e6edf3;margin-bottom:10px}
+.t1-video-item{display:flex;align-items:flex-start;gap:10px;background:#161b22;border:1px solid #21262d;border-radius:8px;padding:10px;margin-bottom:8px}
+.t1-video-thumb{width:32px;height:32px;background:#21262d;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:12px;color:#58a6ff;flex-shrink:0}
+.t1-video-info h4{font-size:13px;font-weight:600;color:#e6edf3;margin-bottom:2px}
+.t1-video-id{font-size:12px;font-weight:600;color:#58a6ff}
+.t1-video-url{font-size:11px;color:#58a6ff;margin-bottom:2px}
+.t1-video-desc{font-size:11px;color:#8b949e}
+.t1-push-card{background:#161b22;border:1px solid #21262d;border-radius:12px;padding:20px;margin-bottom:12px;border-left:3px solid #21262d}
+.t1-push-card.orange{border-left-color:#d29922}
+.t1-push-card.purple{border-left-color:#8b5cf6}
+.t1-push-time{font-size:11px;color:#8b949e;margin-bottom:6px}
+.t1-push-title{font-size:14px;font-weight:600;color:#e6edf3;margin-bottom:6px}
+.t1-push-body{font-size:13px;color:#8b949e;line-height:1.6}
+.t1-db-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-bottom:24px}
+@media(max-width:640px){.t1-db-grid{grid-template-columns:1fr}}
+.t1-db-table-card{background:#161b22;border:1px solid #21262d;border-radius:10px;overflow:hidden;margin-bottom:16px}
+.t1-db-table-header{background:#1f2937;color:#e6edf3;font-size:12px;font-weight:700;padding:10px 14px;letter-spacing:1px}
+.t1-db-table{width:100%;border-collapse:collapse;font-size:13px}
+.t1-db-table thead th{background:#1f2937;color:#e6edf3;padding:10px 14px;text-align:left;font-weight:600;border-bottom:1px solid #21262d}
+.t1-db-table tbody td{padding:8px 14px;color:#8b949e;border-bottom:1px solid #21262d}
+.t1-db-table tbody tr:last-child td{border-bottom:none}
+.t1-col-t{color:#79c0ff;font-family:monospace;font-size:12px}
+.t1-timeline{display:flex;flex-direction:column;gap:0}
+.t1-tl-item{position:relative;padding-left:28px;padding-bottom:20px;border-left:1px solid #21262d}
+.t1-tl-item:last-child{border-left:none;padding-bottom:0}
+.t1-tl-dot{position:absolute;left:-5px;top:4px;width:10px;height:10px;background:#58a6ff;border-radius:50%}
+.t1-tl-day{font-size:14px;font-weight:600;color:#e6edf3;margin-bottom:8px}
+.t1-tl-tasks{padding-left:16px}
+.t1-tl-tasks li{font-size:13px;color:#8b949e;line-height:1.8}
+.t1-vision-card{background:#161b22;border:1px solid #21262d;border-radius:12px;padding:24px}
+.t1-vision-icon{font-size:28px;margin-bottom:12px}
+.t1-loop-container{display:flex;align-items:flex-start;flex-wrap:wrap;gap:8px;margin-bottom:16px}
+.t1-loop-step{background:#161b22;border:1px solid #21262d;border-radius:12px;padding:16px;text-align:center;flex:1;min-width:100px}
+.t1-loop-step .step-icon{font-size:24px;margin-bottom:6px}
+.t1-loop-step .step-num{font-size:10px;color:#58a6ff;font-weight:600;letter-spacing:1px;margin-bottom:4px}
+.t1-loop-step .step-title{font-size:13px;font-weight:600;color:#e6edf3;margin-bottom:4px}
+.t1-loop-step .step-desc{font-size:11px;color:#8b949e;line-height:1.5}
+.t1-loop-arrow{font-size:18px;color:#8b949e;align-self:center;padding-top:8px}
+.t1-loop-return{background:#161b22;border:1px solid #21262d;border-radius:8px;padding:12px 16px;font-size:13px;color:#8b949e;text-align:center}
+.t1-screen-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:12px}
+@media(max-width:700px){.t1-screen-grid{grid-template-columns:repeat(2,1fr)}}
+.t1-screen-card{background:#161b22;border:1px solid #21262d;border-radius:10px;overflow:hidden}
+.t1-screen-header{background:#1f2937;color:#e6edf3;font-size:12px;font-weight:600;padding:8px 12px}
+.t1-screen-item{padding:7px 12px;font-size:12px;color:#8b949e;border-bottom:1px solid #21262d}
+.t1-screen-item:last-child{border-bottom:none}
+.t1-screen-item.phase2{color:#484f58;font-style:italic}
+.t1-screen-hint{font-size:11px;color:#484f58;margin-top:6px}
+.t1-db-field{display:flex;justify-content:space-between;padding:6px 14px;border-bottom:1px solid #21262d;font-size:12px}
+.t1-db-field:last-child{border-bottom:none}
+.t1-db-field-name{color:#8b949e}
+.t1-db-field-type{color:#484f58;font-family:monospace}
+.t1-badge-pk{background:#1f2937;color:#58a6ff;border-radius:3px;padding:1px 5px;font-size:10px}
+.t1-badge-fk{background:#1f2937;color:#3fb950;border-radius:3px;padding:1px 5px;font-size:10px}
+.t1-roadmap{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:24px}
+@media(max-width:700px){.t1-roadmap{grid-template-columns:1fr}}
+.t1-phase-card{background:#161b22;border:1px solid #21262d;border-radius:12px;overflow:hidden}
+.t1-phase-card.phase-1{border-top:3px solid #58a6ff}
+.t1-phase-card.phase-2{border-top:3px solid #3fb950}
+.t1-phase-card.phase-3{border-top:3px solid #d29922}
+.t1-phase-card.phase-4{border-top:3px solid #f85149}
+.t1-phase-header{padding:16px}
+.t1-phase-label{font-size:10px;letter-spacing:1px;color:#8b949e;margin-bottom:4px}
+.t1-phase-name{font-size:15px;font-weight:700;color:#e6edf3}
+.t1-phase-body{padding:0 16px 16px}
+.t1-phase-item{font-size:12px;color:#8b949e;padding:5px 0;border-bottom:1px solid #21262d}
+.t1-phase-item:last-of-type{border-bottom:none;margin-bottom:10px}
+.t1-phase-kpi{background:#0d1117;border-radius:8px;padding:10px}
+.t1-phase-kpi-item{font-size:11px;color:#8b949e;margin-bottom:4px}
+.t1-phase-kpi-item strong{color:#58a6ff}
+.t1-tech-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:24px}
+@media(max-width:700px){.t1-tech-grid{grid-template-columns:1fr}}
+.t1-tech-card{background:#161b22;border:1px solid #21262d;border-radius:12px;padding:20px}
+.t1-tech-icon{font-size:24px;margin-bottom:8px}
+.t1-tech-title{font-size:14px;font-weight:600;color:#e6edf3;margin-bottom:10px}
+.t1-final-vision{background:linear-gradient(135deg,#0d1117 0%,#161b22 100%);border:1px solid #21262d;border-radius:12px;padding:32px;text-align:center}
+.t1-final-vision h2{margin-bottom:16px}
+.t1-final-vision p{margin-bottom:24px}
+.t1-final-kpi-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:24px}
+@media(max-width:600px){.t1-final-kpi-grid{grid-template-columns:1fr}}
+.t1-final-kpi-val{font-size:28px;font-weight:700;color:#58a6ff;margin-bottom:4px}
+.t1-final-kpi-label{font-size:12px;color:#8b949e}
+
+/* ======================================== */
+/* TAB 2: 기술 스펙 (t2-) */
+/* ======================================== */
+.t2-section-header{display:flex;align-items:center;gap:12px;margin-bottom:24px;padding-bottom:12px;border-bottom:2px solid #58a6ff}
+.t2-section-num{background:#58a6ff;color:#0d1117;width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:14px;flex-shrink:0}
+.t2-section-title{font-size:20px;font-weight:800;color:#e6edf3}
+.t2-section-sub{font-size:13px;color:#8b949e}
+.t2-card-title{font-size:14px;font-weight:700;color:#e6edf3;margin-bottom:12px;display:flex;align-items:center;gap:8px}
+.t2-stack-group{margin-bottom:16px}
+.t2-stack-label{font-size:11px;text-transform:uppercase;letter-spacing:0.08em;color:#8b949e;margin-bottom:8px;font-weight:600}
+.t2-pills{display:flex;flex-wrap:wrap;gap:8px}
+.t2-pill{padding:6px 14px;border-radius:20px;font-size:12px;font-weight:600}
+.t2-pill-navy{background:#0d2137;color:#58a6ff}
+.t2-pill-blue{background:#0d2137;color:#79c0ff}
+.t2-pill-green{background:#0d2b1a;color:#3fb950}
+.t2-pill-gold{background:#2b1f00;color:#d29922}
+.t2-pill-red{background:#2b0d0d;color:#f85149}
+.t2-pill-gray{background:#21262d;color:#8b949e}
+.t2-arch-wrap{overflow-x:auto}
+svg.t2-arch{min-width:600px;width:100%}
+.t2-infra-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px}
+.t2-infra-item{background:#161b22;border:1px solid #21262d;border-radius:10px;padding:16px;text-align:center}
+.t2-infra-icon{font-size:28px;margin-bottom:8px}
+.t2-infra-name{font-weight:700;font-size:14px;color:#e6edf3;margin-bottom:4px}
+.t2-infra-desc{font-size:12px;color:#8b949e}
+.t2-infra-badge{display:inline-block;margin-top:6px;padding:2px 10px;border-radius:10px;font-size:11px;font-weight:600}
+.t2-ib-primary{background:#0d2137;color:#58a6ff}
+.t2-ib-alt{background:#21262d;color:#8b949e}
+.t2-info-box{padding:12px 16px;background:#0d2137;border-radius:8px;border-left:4px solid #58a6ff;margin-bottom:20px;font-size:13px;color:#8b949e;line-height:1.7}
+.t2-info-box strong{color:#e6edf3}
+.t2-flow{display:flex;flex-wrap:wrap;gap:0;align-items:stretch}
+.t2-flow-step{flex:1;min-width:120px}
+.t2-flow-box{background:#161b22;border:2px solid #21262d;border-radius:10px;padding:16px 12px;text-align:center;height:100%}
+.t2-flow-box:hover{border-color:#58a6ff}
+.t2-flow-icon{font-size:24px;margin-bottom:8px}
+.t2-flow-name{font-weight:700;font-size:13px;color:#e6edf3;margin-bottom:4px}
+.t2-flow-desc{font-size:11px;color:#8b949e}
+.t2-flow-arrow{display:flex;align-items:center;padding:0 4px;color:#58a6ff;font-size:16px;flex-shrink:0}
+.t2-moat-timeline-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px}
+.t2-moat-card{border-radius:12px;padding:20px;position:relative;overflow:hidden;background:#161b22;border:1px solid #21262d}
+.t2-moat-card::before{content:'';position:absolute;top:0;left:0;right:0;height:4px}
+.t2-moat-now::before{background:#58a6ff}
+.t2-moat-6m::before{background:#3fb950}
+.t2-moat-1y::before{background:#d29922}
+.t2-moat-2y::before{background:#f85149}
+.t2-moat-period{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:8px;color:#8b949e}
+.t2-moat-depth{font-size:28px;font-weight:900;margin-bottom:4px}
+.t2-moat-title{font-weight:700;font-size:14px;margin-bottom:8px;color:#e6edf3}
+.t2-moat-list{list-style:none;padding-left:0}
+.t2-moat-list li{font-size:12px;color:#8b949e;padding:2px 0;padding-left:12px;position:relative}
+.t2-moat-list li::before{content:'*';position:absolute;left:0}
+.t2-moat-item{display:flex;gap:16px;margin-bottom:16px;align-items:flex-start}
+.t2-moat-icon-wrap{width:48px;height:48px;border-radius:12px;background:#0d2137;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0}
+.t2-moat-content h4{font-weight:700;color:#e6edf3;margin-bottom:4px}
+.t2-moat-content p{font-size:13px;color:#8b949e}
+.t2-highlight{background:linear-gradient(135deg,#0d2137 0%,#161b22 100%);border:1px solid #1d4ed8;border-radius:12px;padding:20px 24px;margin-bottom:16px;color:#e6edf3}
+.t2-highlight h3{font-size:16px;margin-bottom:8px}
+.t2-highlight p{font-size:14px;color:#8b949e}
+.t2-phase-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:16px}
+.t2-phase-card{border-radius:12px;padding:20px;border-left:5px solid;background:#161b22}
+.t2-phase-1{border-color:#58a6ff}
+.t2-phase-2{border-color:#3fb950}
+.t2-phase-3{border-color:#d29922}
+.t2-phase-label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.05em;color:#8b949e}
+.t2-phase-name{font-weight:800;color:#e6edf3;font-size:16px;margin:4px 0 10px}
+.t2-phase-list{list-style:none;padding-left:0}
+.t2-phase-list li{font-size:13px;color:#8b949e;padding:3px 0;padding-left:16px;position:relative}
+.t2-phase-list li::before{content:'V';position:absolute;left:0;color:#3fb950;font-weight:700}
+@media(max-width:600px){.t2-flow{flex-direction:column}.t2-flow-arrow{transform:rotate(90deg);justify-content:center}}
+
+/* ======================================== */
+/* TAB 3: 여정 계획 (t3-) */
+/* ======================================== */
+.t3-step-badge{background:#58a6ff;color:#0d1117;border-radius:8px;padding:4px 12px;font-size:12px;font-weight:700;white-space:nowrap}
+.t3-section-label{display:flex;align-items:center;gap:10px;margin-bottom:20px}
+.t3-section-title{font-size:18px;font-weight:700;color:#e6edf3}
+.t3-q-block{background:#161b22;border:1px solid #21262d;border-radius:12px;padding:16px;margin-bottom:12px}
+.t3-q-label{font-size:11px;font-weight:700;color:#58a6ff;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:8px}
+.t3-q-text{font-weight:600;font-size:14px;margin-bottom:10px;color:#e6edf3}
+.t3-chips{display:flex;flex-wrap:wrap;gap:6px}
+.t3-chip{background:#21262d;border:1.5px solid #30363d;border-radius:20px;padding:4px 12px;font-size:12px;font-weight:500;color:#8b949e}
+.t3-chip.device{border-color:#58a6ff;color:#58a6ff}
+.t3-chip.time{border-color:#8b949e;color:#8b949e}
+.t3-vas-section{margin-top:16px}
+.t3-vas-title{font-size:13px;font-weight:600;margin-bottom:10px;color:#8b949e}
+.t3-vas-bar{display:flex;border-radius:8px;overflow:hidden;height:48px}
+.t3-vas-seg{display:flex;align-items:center;justify-content:center;flex-direction:column;font-size:10px;font-weight:600;color:white;padding:2px 4px;text-align:center;line-height:1.3}
+.t3-vas-1-3{background:#166534;flex:3}
+.t3-vas-4-5{background:#854d0e;flex:2}
+.t3-vas-6-7{background:#9a3412;flex:2}
+.t3-vas-8-10{background:#991b1b;flex:3}
+.t3-vas-labels{display:flex;margin-top:6px}
+.t3-vas-label-item{display:flex;align-items:flex-start;gap:4px;font-size:11px;padding:0 4px;color:#8b949e}
+.t3-vas-label-item:nth-child(1){flex:3}
+.t3-vas-label-item:nth-child(2){flex:2}
+.t3-vas-label-item:nth-child(3){flex:2}
+.t3-vas-label-item:nth-child(4){flex:3}
+.t3-vas-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;margin-top:2px}
+.t3-algo-table{width:100%;border-collapse:separate;border-spacing:0;font-size:13px}
+.t3-algo-table th{background:#1f2937;color:#e6edf3;padding:10px 12px;text-align:left;font-size:12px}
+.t3-algo-table th:first-child{border-radius:8px 0 0 0}
+.t3-algo-table th:last-child{border-radius:0 8px 0 0}
+.t3-algo-table td{padding:10px 12px;border-bottom:1px solid #21262d;vertical-align:top;color:#8b949e}
+.t3-algo-table tr:last-child td{border-bottom:none}
+.t3-algo-table tr:nth-child(even) td{background:#0d1117}
+.t3-group-a{border-left:4px solid #58a6ff}
+.t3-group-b{border-left:4px solid #3fb950}
+.t3-badge-num{display:inline-flex;align-items:center;justify-content:center;width:22px;height:22px;border-radius:50%;background:#1f2937;color:#e6edf3;font-size:11px;font-weight:700;flex-shrink:0;margin-right:4px}
+.t3-demotion-tag{display:inline-block;background:#2b1f00;color:#d29922;border-radius:4px;padding:1px 6px;font-size:10px;font-weight:600;margin-left:4px}
+.t3-group-badge{display:inline-block;border-radius:4px;padding:2px 8px;font-size:10px;font-weight:700;margin-bottom:4px}
+.t3-group-badge-a{background:#0d2137;color:#58a6ff}
+.t3-group-badge-b{background:#0d2b1a;color:#3fb950}
+.t3-tag{display:inline-block;border-radius:6px;padding:2px 8px;font-size:11px;font-weight:600}
+.t3-tag-normal{background:#0d2b1a;color:#3fb950}
+.t3-tag-warn{background:#2b1f00;color:#d29922}
+.t3-tag-danger{background:#2b0d0d;color:#f85149}
+.t3-phone-wrap{display:flex;justify-content:center;padding:8px 0 16px}
+.t3-phone{width:260px;background:#111;border-radius:36px;padding:12px;box-shadow:0 20px 60px rgba(0,0,0,0.3)}
+.t3-phone-screen{background:#161b22;border-radius:26px;overflow:hidden}
+.t3-phone-topbar{background:#0d2137;color:white;text-align:center;padding:10px;font-size:13px;font-weight:700}
+.t3-phone-section{padding:12px;border-bottom:1px solid #21262d}
+.t3-phone-section:last-child{border-bottom:none}
+.t3-phone-section-title{font-size:10px;font-weight:700;text-transform:uppercase;color:#8b949e;letter-spacing:0.5px;margin-bottom:6px}
+.t3-phone-card{background:#0d1117;border-radius:10px;padding:10px;font-size:12px;margin-bottom:6px;border:1px solid #21262d;color:#8b949e}
+.t3-phone-card.highlight{background:#0d2137;color:white;border-color:#1d4ed8}
+.t3-phone-card.cross-sell{background:#2b1d00;border-color:#d29922;font-size:11px;color:#d29922}
+.t3-emergency-btn{background:#f85149;color:white;border-radius:8px;padding:8px;text-align:center;font-size:11px;font-weight:700;margin-top:6px}
+.t3-flow-dark{display:flex;flex-direction:column;align-items:center;gap:0}
+.t3-flow-node{background:#161b22;border:2px solid #30363d;border-radius:12px;padding:12px 20px;text-align:center;font-size:13px;font-weight:600;color:#e6edf3;min-width:200px;max-width:320px;width:100%}
+.t3-flow-node.red{border-color:#f85149;background:#2b0d0d;color:#f85149}
+.t3-flow-node.green{border-color:#3fb950;background:#0d2b1a;color:#3fb950}
+.t3-flow-node.orange{border-color:#d29922;background:#2b1f00;color:#d29922}
+.t3-flow-arrow{font-size:20px;color:#484f58;margin:4px 0;line-height:1}
+.t3-flow-branch{display:flex;gap:16px;width:100%;justify-content:center;flex-wrap:wrap}
+.t3-flow-branch .t3-flow-node{min-width:140px;flex:1}
+.t3-data-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+@media(max-width:600px){.t3-data-grid{grid-template-columns:1fr}}
+.t3-data-card{background:#161b22;border-radius:12px;padding:16px;border:1px solid #21262d;border-top:3px solid #58a6ff}
+.t3-data-card-icon{font-size:24px;margin-bottom:8px}
+.t3-data-card-title{font-weight:700;font-size:14px;margin-bottom:6px;color:#e6edf3}
+.t3-data-card-items{list-style:none;padding-left:0}
+.t3-data-card-items li{font-size:12px;color:#8b949e;padding:3px 0;border-bottom:1px solid #21262d;display:flex;align-items:center;gap:6px}
+.t3-data-card-items li:last-child{border-bottom:none}
+.t3-data-card-items li::before{content:"->"; color:#58a6ff;font-weight:700}
+.t3-retention-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+@media(max-width:600px){.t3-retention-grid{grid-template-columns:1fr}}
+.t3-ret-card{background:#161b22;border-radius:12px;padding:16px;border:1px solid #21262d;text-align:center}
+.t3-ret-icon{font-size:28px;margin-bottom:8px}
+.t3-ret-title{font-weight:700;font-size:13px;color:#e6edf3;margin-bottom:6px}
+.t3-ret-desc{font-size:12px;color:#8b949e;line-height:1.5}
+.t3-journey-card{background:#0d2137;border:1px solid #1d4ed8;border-radius:16px;padding:20px;color:#e6edf3}
+.t3-journey-title{font-size:15px;font-weight:700;margin-bottom:4px}
+.t3-journey-sub{font-size:12px;color:#8b949e;margin-bottom:16px}
+.t3-vas-graph{background:rgba(255,255,255,0.05);border-radius:8px;padding:12px;height:80px;position:relative;margin-bottom:12px;overflow:hidden}
+.t3-vas-graph svg{width:100%;height:100%}
+.t3-journey-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.t3-journey-stat{background:rgba(255,255,255,0.05);border-radius:8px;padding:8px;text-align:center}
+.t3-journey-stat-num{font-size:20px;font-weight:800;color:#58a6ff}
+.t3-journey-stat-label{font-size:10px;color:#8b949e}
+.t3-popup-card{background:#161b22;border-radius:16px;padding:20px;border:1px solid #21262d;position:relative;overflow:hidden}
+.t3-popup-card::before{content:"";position:absolute;top:0;left:0;right:0;height:4px;background:linear-gradient(90deg,#58a6ff,#3fb950)}
+.t3-popup-tag{display:inline-block;background:#0d2137;color:#58a6ff;border-radius:6px;padding:2px 8px;font-size:11px;font-weight:700;margin-bottom:10px}
+.t3-popup-text{font-size:13px;line-height:1.6;color:#8b949e}
+.t3-popup-cta{margin-top:14px;display:flex;gap:8px}
+.t3-btn-primary{background:#58a6ff;color:#0d1117;border:none;border-radius:8px;padding:8px 16px;font-size:12px;font-weight:700;cursor:pointer;flex:1}
+.t3-btn-secondary{background:#161b22;color:#58a6ff;border:1.5px solid #58a6ff;border-radius:8px;padding:8px 16px;font-size:12px;font-weight:700;cursor:pointer;flex:1}
+.t3-changes-list{list-style:none;padding-left:0}
+.t3-changes-list li{display:flex;align-items:flex-start;gap:10px;padding:10px 0;border-bottom:1px solid #21262d;font-size:13px;color:#8b949e}
+.t3-changes-list li:last-child{border-bottom:none}
+.t3-change-num{flex-shrink:0;width:22px;height:22px;background:#58a6ff;color:#0d1117;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;margin-top:1px}
+.t3-change-content strong{color:#e6edf3;display:block;margin-bottom:2px}
+.t3-change-content span{color:#8b949e;font-size:12px}
+
+/* ======================================== */
+/* TAB 4: 상세 기능 (t4-) */
+/* ======================================== */
+.t4-demo-showcase{display:grid;grid-template-columns:240px 1fr;gap:24px;align-items:flex-start;margin-bottom:24px}
+@media(max-width:700px){.t4-demo-showcase{grid-template-columns:1fr}}
+.t4-ob-device{background:#161b22;border:1px solid #21262d;border-radius:16px;padding:16px;width:240px}
+.t4-ob-device-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
+.t4-ob-brand{font-size:11px;font-weight:700;color:#e6edf3;letter-spacing:1px}
+.t4-ob-brand span{color:#58a6ff}
+.t4-ob-brand-sub{font-size:8px;color:#8b949e}
+.t4-p-step{background:#0d1117;border-radius:8px;padding:10px;margin-bottom:8px}
+.t4-p-step-label{font-size:9px;color:#58a6ff;font-weight:600;letter-spacing:1px;margin-bottom:4px}
+.t4-p-step-title{font-size:12px;font-weight:600;color:#e6edf3;margin-bottom:8px}
+.t4-p-btn-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:4px}
+.t4-p-btn{background:#21262d;border:1px solid #21262d;border-radius:6px;padding:6px 4px;text-align:center;font-size:9px;color:#8b949e}
+.t4-p-btn.active{background:#0d2137;border-color:#58a6ff;color:#58a6ff}
+.t4-p-slider-wrap{display:flex;flex-direction:column;gap:4px}
+.t4-p-slider-labels{display:flex;justify-content:space-between;font-size:8px;color:#8b949e}
+.t4-p-slider-val{font-size:18px;font-weight:700;color:#58a6ff;text-align:center}
+.t4-p-slider-bar{background:#21262d;height:4px;border-radius:2px;position:relative;margin:4px 0}
+.t4-p-slider-fill{position:absolute;left:0;top:0;width:50%;height:100%;background:#58a6ff;border-radius:2px}
+.t4-p-slider-dot{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:10px;height:10px;background:#58a6ff;border-radius:50%}
+.t4-p-device-list{display:flex;flex-direction:column;gap:4px}
+.t4-p-device-item{display:flex;align-items:center;gap:6px;background:#21262d;border-radius:6px;padding:5px 8px}
+.t4-p-device-check{width:8px;height:8px;border-radius:50%;background:#21262d;border:1px solid #484f58;flex-shrink:0}
+.t4-p-device-check.on{background:#58a6ff;border-color:#58a6ff}
+.t4-p-device-name{font-size:10px;font-weight:600;color:#e6edf3}
+.t4-p-device-sub{font-size:8px;color:#8b949e}
+.t4-p-cta{background:#58a6ff;color:#0d1117;border-radius:8px;padding:10px;text-align:center;font-size:11px;font-weight:700;margin-top:8px}
+.t4-flow-step-item{display:flex;align-items:flex-start;gap:12px;background:#161b22;border:1px solid #21262d;border-radius:10px;padding:14px;margin-bottom:8px}
+.t4-flow-step-num{width:28px;height:28px;border-radius:50%;background:#58a6ff;color:#0d1117;font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.t4-flow-step-body h4{font-size:13px;font-weight:600;color:#e6edf3;margin-bottom:2px}
+.t4-flow-step-body p{font-size:12px;color:#8b949e;margin:0}
+.t4-ai-processing-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-bottom:24px}
+@media(max-width:640px){.t4-ai-processing-grid{grid-template-columns:1fr}}
+.t4-ai-processing-box{background:#161b22;border:1px solid #21262d;border-radius:12px;padding:20px}
+.t4-ai-label{font-size:10px;letter-spacing:2px;color:#58a6ff;margin-bottom:8px}
+.t4-ai-processing-title{font-size:14px;font-weight:600;color:#e6edf3;margin-bottom:12px}
+.t4-ai-step{display:flex;align-items:center;gap:8px;margin-bottom:8px}
+.t4-ai-step-check{color:#3fb950;font-size:12px}
+.t4-ai-step-text{font-size:12px;color:#8b949e}
+.t4-ai-badge{background:#21262d;color:#8b949e;border-radius:6px;padding:4px 10px;font-size:11px;margin-top:10px;display:inline-block}
+.t4-result-box{background:#161b22;border:1px solid #21262d;border-radius:12px;padding:20px}
+.t4-result-title{font-size:15px;font-weight:700;color:#e6edf3;margin-bottom:4px}
+.t4-result-sub{font-size:12px;color:#8b949e;margin-bottom:14px}
+.t4-routine-card{background:#0d1117;border:1px solid #21262d;border-radius:8px;padding:12px;margin-bottom:8px}
+.t4-routine-stage{font-size:10px;font-weight:600;border-radius:4px;padding:2px 8px;display:inline-block;margin-bottom:6px}
+.t4-stage-recovery{background:#0d2b1a;color:#3fb950}
+.t4-stage-correction{background:#2b1f00;color:#d29922}
+.t4-stage-exercise{background:#0d2137;color:#58a6ff}
+.t4-routine-title{font-size:13px;font-weight:600;color:#e6edf3;margin-bottom:4px}
+.t4-routine-desc{font-size:12px;color:#8b949e}
+.t4-routine-link{font-size:12px;color:#58a6ff;margin-top:4px}
+.t4-ai-prediction{background:#0d2137;border:1px solid #1d4ed8;border-radius:8px;padding:10px;margin-top:8px}
+.t4-ai-pred-label{font-size:9px;letter-spacing:2px;color:#58a6ff;margin-bottom:4px}
+.t4-ai-pred-value{font-size:13px;color:#e6edf3;font-weight:500}
+.t4-features-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:24px}
+@media(max-width:640px){.t4-features-grid{grid-template-columns:1fr}}
+.t4-feature-card{background:#161b22;border:1px solid #21262d;border-radius:12px;padding:20px}
+.t4-feature-icon{font-size:24px;margin-bottom:10px}
+.t4-feature-title{font-size:14px;font-weight:600;color:#e6edf3;margin-bottom:6px}
+.t4-feature-desc{font-size:13px;color:#8b949e;line-height:1.6}
+.t4-value-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-bottom:24px}
+@media(max-width:640px){.t4-value-grid{grid-template-columns:1fr}}
+.t4-value-card{background:#161b22;border:1px solid #21262d;border-radius:12px;padding:20px}
+.t4-value-num{font-size:32px;font-weight:700;color:#58a6ff;margin-bottom:6px}
+.t4-value-label{font-size:13px;font-weight:600;color:#e6edf3;margin-bottom:8px}
+.t4-value-desc{font-size:13px;color:#8b949e;line-height:1.6}
+.t4-source-link{display:inline-block;background:#21262d;color:#58a6ff;border-radius:8px;padding:10px 16px;font-size:13px;margin-top:8px}
+.t4-source-link:hover{background:#30363d;text-decoration:none}
 </style>
 </head>
 <body>
-<a class="back" href="index.html">← 허브로 돌아가기</a>
-<nav class="tab-nav">
-  <button class="tab-btn active" onclick="showTab('overview',this)">📱 앱 개요</button>
-  <button class="tab-btn" onclick="showTab('tech',this)">🔧 기술 스펙</button>
-  <button class="tab-btn" onclick="showTab('journey',this)">🗺️ 여정 계획</button>
-  <button class="tab-btn" onclick="showTab('kine',this)">📋 키네메디칼 앱</button>
+
+<a href="index.html" class="back-link">&larr; 허브로 돌아가기</a>
+
+<nav class="main-tab-nav" style="padding-left:140px">
+  <button class="main-tab-btn active" onclick="switchMainTab(1,this)">📱 앱 개요</button>
+  <button class="main-tab-btn" onclick="switchMainTab(2,this)">🔧 기술 스펙</button>
+  <button class="main-tab-btn" onclick="switchMainTab(3,this)">🗺️ 여정 계획</button>
+  <button class="main-tab-btn" onclick="switchMainTab(4,this)">📋 상세 기능</button>
 </nav>
 
-<div id="tab-overview" class="tab-pane active">
-  <iframe class="embed-frame" src="1min-dosu-app.html" loading="lazy"></iframe>
+<!-- ================================================================== -->
+<!-- TAB 1: 앱 개요 -->
+<!-- ================================================================== -->
+<div id="main-tab-1" class="main-tab-pane active">
+<div class="page">
+
+  <div class="sub-section">
+    <div class="sub-section-header open" onclick="toggleSub(this)"><span class="arrow">&#9654;</span> 1분도수 ver4 앱 기획</div>
+    <div class="sub-section-body open">
+      <div class="hero"><div class="hero-label">1분도수 · APP PLAN v1.1</div><h1>1분도수 ver4</h1><p>앱 기획서 v1.1 + 전체 화면 플로우</p><div class="hero-badges"><span class="hero-badge">4050 타겟</span><span class="hero-badge">운동-회복-교정</span><span class="hero-badge">데이터 플라이휠</span><span class="hero-badge">v1.1</span></div></div>
+      <div class="section"><div class="section-title-bar">앱 개요</div><div class="t1-kpi-grid"><div class="t1-kpi-card"><span class="t1-kpi-value">1분도수</span><span class="t1-kpi-label">앱 이름</span></div><div class="t1-kpi-card"><span class="t1-kpi-value">4050</span><span class="t1-kpi-label">주 타겟</span><div class="t1-kpi-sub">목·어깨·허리 통증</div></div><div class="t1-kpi-card"><span class="t1-kpi-value">1주</span><span class="t1-kpi-label">출시 목표</span><div class="t1-kpi-sub">MVP 우선</div></div><div class="t1-kpi-card"><span class="t1-kpi-label">스택</span><div class="t1-tech-tags"><span class="t1-tech-tag">React Native (Expo)</span><span class="t1-tech-tag">Supabase</span><span class="t1-tech-tag">카카오 로그인</span></div></div></div><div class="t1-flywheel-grid"><div class="t1-flywheel-card"><div class="t1-flywheel-icon">🎯</div><div class="t1-flywheel-title">데이터 플라이휠</div><div class="t1-flywheel-desc">매일 통증 점수 입력 → AI 추천 정교화 → 효과 체감 → 지속 사용</div></div><div class="t1-flywheel-card"><div class="t1-flywheel-icon">🏥</div><div class="t1-flywheel-title">루틴 안에서 자연 구매</div><div class="t1-flywheel-desc">기기 없으면 "왜 필요한지" 영상 먼저 → 자연스럽게 제품 소개 → 반감 없이 구매로</div></div><div class="t1-flywheel-card"><div class="t1-flywheel-icon">👴</div><div class="t1-flywheel-title">4050 최적화 UX</div><div class="t1-flywheel-desc">큰 글자·큰 버튼·여유 있는 간격·3탭. 그래프로 직관적 진행상황 표시.</div></div></div></div>
+      <div class="section"><div class="section-title-bar">v1.1 핵심 변경사항 <span class="t1-badge-new">NEW</span></div><div class="t1-change-grid"><div><div class="t1-change-section-label red">v1.0 문제점</div><div class="t1-change-item red-border"><h4>기기 없으면 "구매하기" 버튼 바로 표시</h4><p>첫 화면부터 돈 내라는 느낌 → 반감 유발 → 이탈</p></div><div class="t1-change-item red-border"><h4>카드 간격이 좁음</h4><p>4050 타겟에게 답답한 UI → 직관성 떨어짐</p></div></div><div><div class="t1-change-section-label green">v1.1 해결책</div><div class="t1-change-item green-border"><h4>기기 없는 스텝 → "필요한 이유 영상" 먼저</h4><p>찜질이 왜 중요한지 영상 → "WS-200은 이걸 가능하게 한 기기" → 자연스러운 구매 유도</p></div><div class="t1-change-item green-border"><h4>모든 여백·간격 1.5배 확대</h4><p>카드 패딩, 텍스트 간격, 버튼 크기 전부 4050 기준으로 확대</p></div></div></div></div>
+      <div class="section"><div class="section-title-bar">기기 없는 스텝 UX — 자연 구매 유도 로직 <span class="t1-badge-new">NEW</span></div><div class="t1-device-ux-grid"><div class="t1-device-ux-card"><div class="t1-device-ux-header green">🌡️ WS-200 없을 때</div><div class="t1-device-ux-body"><div class="t1-device-ux-step"><div class="t1-device-ux-step-label">1. 영상 먼저</div><div class="t1-device-ux-step-text">"근육을 먼저 이완해야 교정 효과가 2배예요."<br>→ 수건 찜질 방법 설명 영상</div></div><div class="t1-device-ux-step"><div class="t1-device-ux-step-label">2. 자연스러운 소개</div><div class="t1-device-ux-step-text">"WS-200은 이 찜질을 어디서나 편하게 할 수 있도록 만든 기기예요."</div></div></div></div><div class="t1-device-ux-card"><div class="t1-device-ux-header blue">⚡ ES-808 없을 때</div><div class="t1-device-ux-body"><div class="t1-device-ux-step"><div class="t1-device-ux-step-label">1. 영상 먼저</div><div class="t1-device-ux-step-text">"정확한 부위에 전기 자극을 주면 디스크 회복이 빨라져요."<br>→ EMS/TENS 원리 설명 영상</div></div><div class="t1-device-ux-step"><div class="t1-device-ux-step-label">2. 자연스러운 소개</div><div class="t1-device-ux-step-text">"ES-808은 5가지 모드로 정확한 부위만 자극하는 기기예요."</div></div></div></div><div class="t1-device-ux-card"><div class="t1-device-ux-header orange">🩺 CS-25 없을 때</div><div class="t1-device-ux-body"><div class="t1-device-ux-step"><div class="t1-device-ux-step-label">1. 영상 먼저</div><div class="t1-device-ux-step-text">"붙어있는 디스크를 떼어주는 교정이 핵심이에요."<br>→ 병원 견인 vs CS-25 비교 영상</div></div><div class="t1-device-ux-step"><div class="t1-device-ux-step-label">2. 자연스러운 소개</div><div class="t1-device-ux-step-text">"CS-25는 병원 전용 기술을 가정용으로 구현한 유일한 기기예요."</div></div></div></div></div><div class="note-box"><strong>핵심 원칙</strong>: 구매 버튼 바로 X → 영상으로 "왜 필요한지" 이해 → 제품 소개는 루틴의 연장선 → 자연스러운 구매 결정</div></div>
+      <div class="section"><div class="section-title-bar">루틴 추천 로직 (통증 점수별)</div><div style="overflow-x:auto"><table class="t1-pain-table"><thead><tr><th>통증 점수</th><th>전략</th><th>🏃 운동</th><th>♻️ 회복</th><th>🦴 교정</th><th>AI 멘트</th></tr></thead><tbody><tr><td><span class="t1-tag-red">8~10점</span></td><td><strong>회복 최우선</strong></td><td>가벼운 이완 2~3분</td><td>WS-200 20분 → ES-808 약 10분</td><td>생략 or CS-25 1단계 5분</td><td>"통증이 심해요. 충분히 쉬어드릴게요."</td></tr><tr><td><span class="t1-tag-orange">5~7점</span></td><td><strong>회복 → 교정</strong></td><td>기본 스트레칭 5분</td><td>WS-200 15분 → ES-808 10분</td><td>CS-25 1~2단계 10분</td><td>"회복 먼저, 가볍게 교정을 시작해요."</td></tr><tr><td><span class="t1-tag-green">1~4점</span></td><td><strong>풀 루틴</strong></td><td>1분도수 루틴 5~10분</td><td>WS-200 10분 → ES-808 10분</td><td>CS-25 2~3단계 15분</td><td>"컨디션 좋아요! 루틴 완성해봐요."</td></tr></tbody></table></div><div class="note-box"><strong>고정 순서</strong>: 깊은 이완 (WS-200) → 전기자극 (ES-808) → 디스크 교정 (CS-25)<br><strong>기기 없으면</strong>: 영상 + 제품 소개로 자동 대체</div></div>
+      <div class="section"><div class="section-title-bar">푸시 알림 (3회/일)</div><div class="t1-push-card orange"><div class="t1-push-time">아침 7:00 — 각성</div><div class="t1-push-title">오늘 루틴 시작할 시간이에요</div><div class="t1-push-body">"목과 어깨를 깨워드릴게요. 지금 바로 1분만요"</div></div><div class="t1-push-card"><div class="t1-push-time">저녁 7:00 — 회복</div><div class="t1-push-title">하루 피로를 풀어드릴게요</div><div class="t1-push-body">"오늘 하루 고생하셨어요. 회복 루틴으로 뭉친 근육 풀어드릴게요"</div></div><div class="t1-push-card purple"><div class="t1-push-time">밤 10:00 — 데이터 수집</div><div class="t1-push-title">오늘 통증 점수를 기록해주세요</div><div class="t1-push-body">"점수 기록이 내일 루틴을 더 정확하게 만들어줘요"</div></div></div>
+      <div class="section"><div class="section-title-bar">개발 타임라인 (7일)</div><div class="grid-2"><div class="t1-timeline"><div class="t1-tl-item"><div class="t1-tl-dot"></div><div class="t1-tl-day">Day 1 — 프로젝트 세팅</div><ul class="t1-tl-tasks"><li>Expo + TypeScript 초기화</li><li>Supabase + DB 테이블 생성</li><li>카카오 로그인 연동</li><li>3탭 네비게이션</li></ul></div><div class="t1-tl-item"><div class="t1-tl-dot"></div><div class="t1-tl-day">Day 2 — 온보딩</div><ul class="t1-tl-tasks"><li>3단계 온보딩</li><li>프로필 Supabase 저장</li></ul></div><div class="t1-tl-item"><div class="t1-tl-dot"></div><div class="t1-tl-day">Day 3 — 홈 탭 (핵심)</div><ul class="t1-tl-tasks"><li>통증 점수 입력 UI</li><li>루틴 추천 로직</li><li>기기 없을 때 영상+제품 소개</li><li>AI 코치 멘트</li></ul></div><div class="t1-tl-item"><div class="t1-tl-dot"></div><div class="t1-tl-day">Day 4 — 회복 기록 탭</div><ul class="t1-tl-tasks"><li>통증 히스토리 그래프</li><li>주간 달성 달력</li><li>연속 달성 카운터</li></ul></div></div><div class="t1-timeline"><div class="t1-tl-item"><div class="t1-tl-dot"></div><div class="t1-tl-day">Day 5 — 마이 탭 + 푸시</div><ul class="t1-tl-tasks"><li>프로필 + 기기 설정</li><li>스토어 링크</li><li>푸시 알림</li></ul></div><div class="t1-tl-item"><div class="t1-tl-dot"></div><div class="t1-tl-day">Day 6 — QA + 버그 픽스</div><ul class="t1-tl-tasks"><li>전체 플로우 QA</li><li>iOS/Android 확인</li></ul></div><div class="t1-tl-item"><div class="t1-tl-dot"></div><div class="t1-tl-day">Day 7 — 빌드 + 배포</div><ul class="t1-tl-tasks"><li>EAS Build 제출</li><li>TestFlight 테스트</li><li>피드백 수집</li></ul></div></div></div></div>
+    </div>
+  </div>
+
+  <div class="sub-section">
+    <div class="sub-section-header" onclick="toggleSub(this)"><span class="arrow">&#9654;</span> 키네메디칼 앱 기획서 & 마일스톤</div>
+    <div class="sub-section-body">
+      <div class="hero"><div class="hero-label">KINEMEDICAL · APP PLAN</div><h1>키네메디칼 앱 기획서 &amp; 마일스톤</h1><p>기기를 팔고 끝나는 게 아니라, 매일 쓰게 만드는 데이터 플랫폼</p><div class="hero-badges"><span class="hero-badge">회복 OS</span><span class="hero-badge">목 → 전신 → 한국 → 미국</span></div></div>
+      <div class="section"><div class="section-title-bar">PRODUCT VISION</div><div class="grid-2"><div class="t1-vision-card"><div class="t1-vision-icon">🎯</div><h3>단 하나의 가치</h3><p>구매자의 80%가 기기를 방치한다. 앱은 그 80%를 매일 쓰게 만드는 유일한 수단.</p></div><div class="t1-vision-card"><div class="t1-vision-icon">🧠</div><h3>AI 해자</h3><p>사용할수록 내 몸을 아는 AI. 3개월 데이터가 쌓이면 어떤 경쟁사도 복제할 수 없는 개인화.</p></div><div class="t1-vision-card"><div class="t1-vision-icon">📊</div><h3>데이터가 곧 자산</h3><p>통증 추이 + 루틴 완료율 데이터는 병원 B2B, 보험사, 신제품 개발의 근거가 된다.</p></div><div class="t1-vision-card"><div class="t1-vision-icon">🔄</div><h3>이탈 방지 엔진</h3><p>3일 연속 미사용 → 자동 넛지. 통증 증가 감지 → 루틴 재조정. 이탈률 70% → 30%.</p></div></div></div>
+      <div class="section"><div class="section-title-bar">CORE LOOP</div><div class="t1-loop-container"><div class="t1-loop-step"><div class="step-icon">😣</div><div class="step-num">STEP 1</div><div class="step-title">통증 체크인</div><div class="step-desc">오늘 통증 점수 1~10 입력</div></div><div class="t1-loop-arrow">→</div><div class="t1-loop-step"><div class="step-icon">🤖</div><div class="step-num">STEP 2</div><div class="step-title">AI 루틴 생성</div><div class="step-desc">보유 기기 + 통증에 맞춤</div></div><div class="t1-loop-arrow">→</div><div class="t1-loop-step"><div class="step-icon">▶️</div><div class="step-num">STEP 3</div><div class="step-title">루틴 실행</div><div class="step-desc">기기 사용 + 1분도수 영상</div></div><div class="t1-loop-arrow">→</div><div class="t1-loop-step"><div class="step-icon">✅</div><div class="step-num">STEP 4</div><div class="step-title">완료 기록</div><div class="step-desc">루틴 완료 체크 + 사후 통증</div></div><div class="t1-loop-arrow">→</div><div class="t1-loop-step"><div class="step-icon">📈</div><div class="step-num">STEP 5</div><div class="step-title">회복 추이 확인</div><div class="step-desc">통증 그래프 주간 리포트</div></div></div><div class="t1-loop-return">↩️ 매일 반복 — 데이터가 쌓일수록 AI 정확도 상승</div></div>
+      <div class="section"><div class="section-title-bar">SCREEN ARCHITECTURE (MVP)</div><div class="t1-screen-grid"><div class="t1-screen-card"><div class="t1-screen-header">온보딩</div><div class="t1-screen-item">카카오 로그인</div><div class="t1-screen-item">통증 부위 선택</div><div class="t1-screen-item">보유 기기 선택</div><div class="t1-screen-item">목표 설정</div></div><div class="t1-screen-card"><div class="t1-screen-header">홈</div><div class="t1-screen-item">오늘 통증 체크인</div><div class="t1-screen-item">AI 루틴 카드</div><div class="t1-screen-item">연속 수행 스트릭</div><div class="t1-screen-item phase2">회복 예측 배지</div></div><div class="t1-screen-card"><div class="t1-screen-header">루틴 실행</div><div class="t1-screen-item">단계별 타이머</div><div class="t1-screen-item">1분도수 영상</div><div class="t1-screen-item">기기 설정 가이드</div><div class="t1-screen-item">완료 체크</div></div><div class="t1-screen-card"><div class="t1-screen-header">리포트</div><div class="t1-screen-item">통증 추이 그래프</div><div class="t1-screen-item">주간 완료율</div><div class="t1-screen-item phase2">AI 인사이트</div><div class="t1-screen-item phase2">월간 리포트</div></div></div><div class="t1-screen-hint">흐린 항목 = Phase 2 이후</div></div>
+      <div class="section"><div class="section-title-bar">TECH STACK</div><div class="t1-tech-grid"><div class="t1-tech-card"><div class="t1-tech-icon">📱</div><div class="t1-tech-title">Mobile App</div><span class="t1-tech-tag">React Native</span><span class="t1-tech-tag">Expo SDK 55</span><span class="t1-tech-tag">expo-router</span><span class="t1-tech-tag">Reanimated 4</span></div><div class="t1-tech-card"><div class="t1-tech-icon">🗄️</div><div class="t1-tech-title">Backend / DB</div><span class="t1-tech-tag">Supabase</span><span class="t1-tech-tag">PostgreSQL</span><span class="t1-tech-tag">Row Level Security</span><span class="t1-tech-tag">Edge Functions</span></div><div class="t1-tech-card"><div class="t1-tech-icon">🤖</div><div class="t1-tech-title">AI / ML</div><span class="t1-tech-tag">GPT-4o</span><span class="t1-tech-tag">Rule Engine (MVP)</span><span class="t1-tech-tag">Python ML (P2)</span></div><div class="t1-tech-card"><div class="t1-tech-icon">🔔</div><div class="t1-tech-title">Push / CRM</div><span class="t1-tech-tag">expo-notifications</span><span class="t1-tech-tag">Datarize</span><span class="t1-tech-tag">카카오 알림톡</span></div><div class="t1-tech-card"><div class="t1-tech-icon">📊</div><div class="t1-tech-title">Analytics</div><span class="t1-tech-tag">Mixpanel</span><span class="t1-tech-tag">Supabase Analytics</span></div><div class="t1-tech-card"><div class="t1-tech-icon">🚀</div><div class="t1-tech-title">Deploy</div><span class="t1-tech-tag">EAS Build</span><span class="t1-tech-tag">Vercel (Web)</span><span class="t1-tech-tag">App Store / Google Play</span></div></div></div>
+      <div class="section"><div class="section-title-bar">DEVELOPMENT ROADMAP</div><div class="t1-roadmap"><div class="t1-phase-card phase-1"><div class="t1-phase-header"><div class="t1-phase-label">PHASE 1 · MVP</div><div class="t1-phase-name">Core Loop</div></div><div class="t1-phase-body"><div class="t1-phase-item">카카오 로그인</div><div class="t1-phase-item">AI 루틴 생성 (Rule-based)</div><div class="t1-phase-item">푸시 알림</div><div class="t1-phase-kpi"><div class="t1-phase-kpi-item"><strong>100명</strong> 베타</div><div class="t1-phase-kpi-item"><strong>40%</strong> 7일 리텐션</div></div></div></div><div class="t1-phase-card phase-2"><div class="t1-phase-header"><div class="t1-phase-label">PHASE 2 · ML</div><div class="t1-phase-name">Personalization</div></div><div class="t1-phase-body"><div class="t1-phase-item">AI 루틴 개인화</div><div class="t1-phase-item">이탈 예측 모델</div><div class="t1-phase-kpi"><div class="t1-phase-kpi-item"><strong>1,000명</strong> MAU</div><div class="t1-phase-kpi-item"><strong>60%</strong> 30일 리텐션</div></div></div></div><div class="t1-phase-card phase-3"><div class="t1-phase-header"><div class="t1-phase-label">PHASE 3 · B2B</div><div class="t1-phase-name">Hospital Connect</div></div><div class="t1-phase-body"><div class="t1-phase-item">의사/치료사 대시보드</div><div class="t1-phase-item">RAG 기반 Q&amp;A</div><div class="t1-phase-kpi"><div class="t1-phase-kpi-item"><strong>10,000명</strong> MAU</div><div class="t1-phase-kpi-item"><strong>50개</strong> 제휴 병원</div></div></div></div><div class="t1-phase-card phase-4"><div class="t1-phase-header"><div class="t1-phase-label">PHASE 4 · GLOBAL</div><div class="t1-phase-name">US Expansion</div></div><div class="t1-phase-body"><div class="t1-phase-item">영어 현지화</div><div class="t1-phase-item">FDA SaMD 준비</div><div class="t1-phase-kpi"><div class="t1-phase-kpi-item"><strong>100K</strong> 글로벌 MAU</div><div class="t1-phase-kpi-item"><strong>2,000억+</strong> 기업가치</div></div></div></div></div></div>
+      <div class="t1-final-vision"><h2>집이 병원이 되는 날까지</h2><p>키네메디칼 앱은 단순한 헬스케어 앱이 아니다.<br>기기 + AI + 콘텐츠를 하나로 연결하는 회복 OS다.<br>목에서 시작해, 전신으로. 한국에서 시작해, 미국으로.</p><div class="t1-final-kpi-grid"><div><div class="t1-final-kpi-val">100만명</div><div class="t1-final-kpi-label">회복 데이터 축적</div></div><div><div class="t1-final-kpi-val">4단계</div><div class="t1-final-kpi-label">운동-회복-교정-고정</div></div><div><div class="t1-final-kpi-val">1조+</div><div class="t1-final-kpi-label">기업가치 목표</div></div></div></div>
+    </div>
+  </div>
+
+  <div class="sub-section">
+    <div class="sub-section-header" onclick="toggleSub(this)"><span class="arrow">&#9654;</span> ver4 화면 설계 (14개 화면 플로우)</div>
+    <div class="sub-section-body">
+      <div class="hero"><div class="hero-label">1분도수 ver4 · 전체 화면 플로우</div><h1>ver4 화면 설계</h1><p>총 14개 화면 · 2026.03.03</p></div>
+      <p style="text-align:center;color:#8b949e;font-size:13px">스플래시 → 로그인 → 온보딩(3단계) → 홈 탭 → 루틴 완료 → 회복기록 → 마이 탭 → 푸시 알림 → 통증 기록 모달</p>
+      <div class="grid-2" style="margin-top:24px"><div class="card"><h4>1. 최초 진입 플로우</h4><p>스플래시 → 카카오 로그인 → 온보딩 1/3 (통증 부위) → 2/3 (통증 강도) → 3/3 (보유 기기)</p></div><div class="card"><h4>2. 홈 탭 — 매일 루틴</h4><p>AI 코치 멘트 + 통증 점수 + 오늘 루틴 카드 (기기 없으면 영상+제품소개 대체)</p></div><div class="card"><h4>3. 회복 기록 탭</h4><p>2주 통증 변화 그래프 + 주간 달성 달력 + 연속일수/완료율</p></div><div class="card"><h4>4. 마이 탭 + 알림</h4><p>내 기기 관리 + 스토어 링크 + 알림 설정 + 밤 10시 통증 기록 모달</p></div></div>
+    </div>
+  </div>
+
 </div>
-<div id="tab-tech" class="tab-pane">
-  <iframe class="embed-frame" src="app-tech-spec.html" loading="lazy"></iframe>
-</div>
-<div id="tab-journey" class="tab-pane">
-  <iframe class="embed-frame" src="app-journey-plan.html" loading="lazy"></iframe>
-</div>
-<div id="tab-kine" class="tab-pane">
-  <iframe class="embed-frame" src="kinemedical-app.html" loading="lazy"></iframe>
+<footer class="page-footer">1분도수 앱 개요 · 키네메디칼 앱 기획서 통합</footer>
 </div>
 
-<div class="badge">
-  <span>작성</span> 2026-03 &nbsp;|&nbsp; <span>수정</span> 2026-03-31 &nbsp;|&nbsp; 통합 문서
+<!-- ================================================================== -->
+<!-- TAB 2: 기술 스펙 -->
+<!-- ================================================================== -->
+<div id="main-tab-2" class="main-tab-pane">
+<div class="page">
+  <div class="hero"><div class="hero-label">TECHNOLOGY SPECIFICATION</div><h1>1분도수 앱 — 기술 스펙 & AI 해자 전략</h1><p>키네메디칼 × 1분도수 — 대표 검토용 기술 기획서</p><div class="hero-badges"><span class="hero-badge">MVP → AI 플랫폼</span><span class="hero-badge">React Native</span><span class="hero-badge">RAG Pipeline</span><span class="hero-badge">데이터 해자</span></div></div>
+
+  <div class="section"><div class="t2-section-header"><div class="t2-section-num">1</div><div><div class="t2-section-title">앱 기술 스펙</div><div class="t2-section-sub">기술 스택 · 아키텍처 · DB 스키마 · API · 인프라 · 일정</div></div></div>
+    <div class="card"><div class="t2-card-title">📦 기술 스택 추천</div><div class="grid-2"><div><div class="t2-stack-group"><div class="t2-stack-label">📱 모바일 앱</div><div class="t2-pills"><span class="t2-pill t2-pill-navy">React Native</span><span class="t2-pill t2-pill-blue">Expo</span><span class="t2-pill t2-pill-blue">TypeScript</span></div></div><div class="t2-stack-group"><div class="t2-stack-label">🎨 UI / State</div><div class="t2-pills"><span class="t2-pill t2-pill-blue">NativeWind</span><span class="t2-pill t2-pill-blue">Zustand</span><span class="t2-pill t2-pill-blue">React Query</span></div></div><div class="t2-stack-group"><div class="t2-stack-label">🎬 영상</div><div class="t2-pills"><span class="t2-pill t2-pill-gold">expo-av</span><span class="t2-pill t2-pill-gold">react-native-video</span></div></div></div><div><div class="t2-stack-group"><div class="t2-stack-label">⚙️ 백엔드</div><div class="t2-pills"><span class="t2-pill t2-pill-navy">Supabase</span><span class="t2-pill t2-pill-blue">Edge Functions</span><span class="t2-pill t2-pill-blue">PostgREST</span></div></div><div class="t2-stack-group"><div class="t2-stack-label">🧠 AI / RAG</div><div class="t2-pills"><span class="t2-pill t2-pill-gold">OpenAI GPT-4o</span><span class="t2-pill t2-pill-gold">pgvector</span><span class="t2-pill t2-pill-gold">LangChain</span></div></div><div class="t2-stack-group"><div class="t2-stack-label">📊 분석</div><div class="t2-pills"><span class="t2-pill t2-pill-gray">Mixpanel</span><span class="t2-pill t2-pill-gray">Expo Push</span><span class="t2-pill t2-pill-gray">Sentry</span></div></div></div></div><div class="t2-info-box"><strong>React Native + Expo:</strong> iOS/Android 동시 개발 → 비용 50% 절감. OTA 업데이트 가능. Supabase = PostgreSQL + pgvector → RAG까지 한 인프라에서 해결.</div></div>
+    <div class="card"><div class="t2-card-title">🏛️ 시스템 아키텍처</div><div class="t2-arch-wrap"><svg class="t2-arch" viewBox="0 0 720 460" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="8" y="8" width="704" height="444" rx="16" fill="#161b22" stroke="#21262d" stroke-width="1.5"/><rect x="24" y="24" width="190" height="200" rx="10" fill="#0d2137" stroke="#58a6ff" stroke-width="1.5" stroke-dasharray="4 2"/><text x="119" y="44" font-size="11" fill="#58a6ff" font-weight="700" text-anchor="middle">📱 React Native App</text><rect x="34" y="54" width="170" height="36" rx="8" fill="#0d2137"/><text x="119" y="68" font-size="10" fill="#e6edf3" font-weight="600" text-anchor="middle">온보딩 / 처방 알고리즘</text><text x="119" y="81" font-size="9" fill="#8b949e" text-anchor="middle">기기보유 → 시기 → VAS → 처방</text><rect x="34" y="96" width="80" height="32" rx="8" fill="#58a6ff"/><text x="74" y="113" font-size="9" fill="#0d1117" font-weight="600" text-anchor="middle">운동 숏폼</text><rect x="124" y="96" width="80" height="32" rx="8" fill="#58a6ff"/><text x="164" y="113" font-size="9" fill="#0d1117" font-weight="600" text-anchor="middle">AI 코치</text><rect x="34" y="136" width="80" height="32" rx="8" fill="#1d4ed8"/><text x="74" y="153" font-size="9" fill="white" font-weight="600" text-anchor="middle">VAS 트래킹</text><rect x="124" y="136" width="80" height="32" rx="8" fill="#1d4ed8"/><text x="164" y="153" font-size="9" fill="white" font-weight="600" text-anchor="middle">기기 연동</text><rect x="34" y="176" width="170" height="36" rx="8" fill="#21262d"/><text x="119" y="193" font-size="9" fill="#8b949e" font-weight="600" text-anchor="middle">Zustand · React Query · expo-av</text><line x1="214" y1="124" x2="256" y2="124" stroke="#58a6ff" stroke-width="2" marker-end="url(#t2a)"/><rect x="256" y="60" width="180" height="128" rx="10" fill="#0d2137" stroke="#1d4ed8" stroke-width="1.5" stroke-dasharray="4 2"/><text x="346" y="80" font-size="11" fill="#58a6ff" font-weight="700" text-anchor="middle">⚡ Supabase Edge Fn</text><rect x="266" y="88" width="160" height="28" rx="7" fill="#1f2937"/><text x="346" y="105" font-size="9" fill="#e6edf3" font-weight="600" text-anchor="middle">Auth · PostgREST · Realtime</text><rect x="266" y="122" width="74" height="28" rx="7" fill="#58a6ff"/><text x="303" y="139" font-size="9" fill="#0d1117" font-weight="600" text-anchor="middle">/prescribe</text><rect x="348" y="122" width="78" height="28" rx="7" fill="#58a6ff"/><text x="387" y="139" font-size="9" fill="#0d1117" font-weight="600" text-anchor="middle">/ai/coach</text><line x1="436" y1="124" x2="474" y2="124" stroke="#58a6ff" stroke-width="2" marker-end="url(#t2a)"/><rect x="474" y="24" width="228" height="200" rx="10" fill="#0d2137" stroke="#21262d" stroke-width="1.5" stroke-dasharray="4 2"/><text x="588" y="44" font-size="11" fill="#58a6ff" font-weight="700" text-anchor="middle">🗄️ Supabase PostgreSQL</text><rect x="484" y="54" width="100" height="32" rx="8" fill="#1f2937"/><text x="534" y="72" font-size="9" fill="#e6edf3" font-weight="600" text-anchor="middle">관계형 DB</text><rect x="592" y="54" width="100" height="32" rx="8" fill="#6b21a8"/><text x="642" y="72" font-size="9" fill="white" font-weight="600" text-anchor="middle">벡터 DB</text><rect x="484" y="94" width="208" height="32" rx="8" fill="#0d2b1a"/><text x="588" y="112" font-size="9" fill="#3fb950" font-weight="600" text-anchor="middle">시계열: VAS 추이 / 운동 패턴</text><rect x="484" y="134" width="208" height="32" rx="8" fill="#2b0d0d"/><text x="588" y="152" font-size="9" fill="#f85149" font-weight="600" text-anchor="middle">Supabase Storage</text><rect x="484" y="174" width="208" height="40" rx="8" fill="#1f2937"/><text x="588" y="195" font-size="9" fill="#e6edf3" font-weight="600" text-anchor="middle">RLS · GDPR · Backups</text><rect x="256" y="240" width="448" height="120" rx="10" fill="rgba(43,31,0,0.3)" stroke="#d29922" stroke-width="1.5" stroke-dasharray="4 2"/><text x="480" y="260" font-size="11" fill="#d29922" font-weight="700" text-anchor="middle">🧠 AI / RAG 레이어</text><rect x="266" y="268" width="120" height="36" rx="8" fill="#6b21a8"/><text x="326" y="289" font-size="9" fill="white" font-weight="600" text-anchor="middle">OpenAI GPT-4o</text><rect x="396" y="268" width="120" height="36" rx="8" fill="#0891b2"/><text x="456" y="289" font-size="9" fill="white" font-weight="600" text-anchor="middle">LangChain RAG</text><rect x="526" y="268" width="120" height="36" rx="8" fill="#059669"/><text x="586" y="289" font-size="9" fill="white" font-weight="600" text-anchor="middle">임베딩 파이프</text><rect x="266" y="312" width="380" height="36" rx="8" fill="#1f2937"/><text x="456" y="333" font-size="9" fill="#e6edf3" font-weight="600" text-anchor="middle">지식베이스: 도수치료 프로토콜 + 운동 가이드 + FAQ</text><rect x="24" y="388" width="680" height="48" rx="8" fill="#161b22" stroke="#21262d" stroke-width="1"/><text x="364" y="414" font-size="9" fill="#8b949e" text-anchor="middle" font-weight="600">CDN (Cloudflare) → Supabase Edge → PostgreSQL + pgvector + Storage | ~$100-150/월</text><defs><marker id="t2a" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3 z" fill="#58a6ff"/></marker></defs></svg></div></div>
+    <div class="card"><div class="t2-card-title">☁️ 인프라 구성</div><div class="t2-infra-grid"><div class="t2-infra-item"><div class="t2-infra-icon">🟢</div><div class="t2-infra-name">Supabase Pro</div><div class="t2-infra-desc">DB + Auth + Storage + Edge Functions + pgvector</div><span class="t2-infra-badge t2-ib-primary">핵심 인프라</span></div><div class="t2-infra-item"><div class="t2-infra-icon">🟠</div><div class="t2-infra-name">Expo (EAS)</div><div class="t2-infra-desc">OTA 업데이트 + 빌드 + 배포 자동화</div><span class="t2-infra-badge t2-ib-primary">앱 배포</span></div><div class="t2-infra-item"><div class="t2-infra-icon">🟣</div><div class="t2-infra-name">OpenAI API</div><div class="t2-infra-desc">GPT-4o + text-embedding-3</div><span class="t2-infra-badge t2-ib-primary">AI 엔진</span></div><div class="t2-infra-item"><div class="t2-infra-icon">🔵</div><div class="t2-infra-name">Cloudflare</div><div class="t2-infra-desc">CDN + WAF + DDoS 보호</div><span class="t2-infra-badge t2-ib-alt">보안</span></div><div class="t2-infra-item"><div class="t2-infra-icon">📊</div><div class="t2-infra-name">Mixpanel</div><div class="t2-infra-desc">사용자 행동 분석</div><span class="t2-infra-badge t2-ib-alt">분석</span></div><div class="t2-infra-item"><div class="t2-infra-icon">🚨</div><div class="t2-infra-name">Sentry</div><div class="t2-infra-desc">에러 트래킹 + 크래시 감지</div><span class="t2-infra-badge t2-ib-alt">모니터링</span></div></div><div class="t2-info-box" style="margin-top:16px"><strong>MVP 월 비용:</strong> Supabase $25 + OpenAI ~$50 + Expo $29 + Mixpanel Free + Cloudflare Free = <strong>~$100-150/월</strong></div></div>
+  </div>
+
+  <div class="section"><div class="t2-section-header"><div class="t2-section-num">2</div><div><div class="t2-section-title">RAG 파이프라인 & 푸시 시스템</div><div class="t2-section-sub">FCM + Supabase Edge Functions + RAG + 데이터 전략</div></div></div>
+    <div class="card"><div class="t2-card-title">🔄 RAG 파이프라인</div><div style="margin-bottom:20px"><div style="font-size:13px;font-weight:700;color:#e6edf3;margin-bottom:12px">📥 지식 주입 (오프라인)</div><div class="t2-flow"><div class="t2-flow-step"><div class="t2-flow-box"><div class="t2-flow-icon">📄</div><div class="t2-flow-name">원본 문서</div><div class="t2-flow-desc">논문·가이드·FAQ</div></div></div><div class="t2-flow-arrow">→</div><div class="t2-flow-step"><div class="t2-flow-box"><div class="t2-flow-icon">✂️</div><div class="t2-flow-name">청킹</div><div class="t2-flow-desc">512 token 분할</div></div></div><div class="t2-flow-arrow">→</div><div class="t2-flow-step"><div class="t2-flow-box"><div class="t2-flow-icon">🔢</div><div class="t2-flow-name">임베딩</div><div class="t2-flow-desc">1536차원 벡터</div></div></div><div class="t2-flow-arrow">→</div><div class="t2-flow-step"><div class="t2-flow-box"><div class="t2-flow-icon">🗄️</div><div class="t2-flow-name">pgvector</div><div class="t2-flow-desc">HNSW 인덱스</div></div></div></div></div><div><div style="font-size:13px;font-weight:700;color:#e6edf3;margin-bottom:12px">🤖 실시간 추론 (온라인)</div><div class="t2-flow"><div class="t2-flow-step"><div class="t2-flow-box"><div class="t2-flow-icon">💬</div><div class="t2-flow-name">사용자 질문</div></div></div><div class="t2-flow-arrow">→</div><div class="t2-flow-step"><div class="t2-flow-box"><div class="t2-flow-icon">🔍</div><div class="t2-flow-name">컨텍스트</div><div class="t2-flow-desc">처방+VAS+기기</div></div></div><div class="t2-flow-arrow">→</div><div class="t2-flow-step"><div class="t2-flow-box"><div class="t2-flow-icon">🎯</div><div class="t2-flow-name">벡터 검색</div><div class="t2-flow-desc">Top-5</div></div></div><div class="t2-flow-arrow">→</div><div class="t2-flow-step"><div class="t2-flow-box"><div class="t2-flow-icon">📝</div><div class="t2-flow-name">프롬프트</div></div></div><div class="t2-flow-arrow">→</div><div class="t2-flow-step"><div class="t2-flow-box"><div class="t2-flow-icon">🧠</div><div class="t2-flow-name">GPT-4o</div><div class="t2-flow-desc">개인화 코칭</div></div></div></div></div><div class="t2-info-box" style="margin-top:20px"><strong>개인화 핵심:</strong> 프롬프트 = [시스템 역할] + [사용자 상태: VAS/처방/기기] + [RAG 지식 Top-5] + [대화 히스토리 5턴] + [질문]</div></div>
+    <div class="card"><div class="t2-card-title">🎓 AI 학습 전략 3단계</div><div class="t2-phase-grid"><div class="t2-phase-card t2-phase-1"><div class="t2-phase-label">Phase 1 (0~6개월)</div><div class="t2-phase-name">규칙 기반 + RAG</div><ul class="t2-phase-list"><li>6가지 처방 알고리즘</li><li>RAG FAQ/상담 응답</li><li>데이터 수집 파이프라인</li><li>목표: 1만 세션 축적</li></ul></div><div class="t2-phase-card t2-phase-2"><div class="t2-phase-label">Phase 2 (6~18개월)</div><div class="t2-phase-name">협업 필터링</div><ul class="t2-phase-list"><li>"비슷한 증상 유저의 최적 루틴"</li><li>User/Item-Based CF</li><li>처방 자동 강등/승급</li><li>목표: VAS 개선율 20%↑</li></ul></div><div class="t2-phase-card t2-phase-3"><div class="t2-phase-label">Phase 3 (18개월+)</div><div class="t2-phase-name">강화학습 최적화</div><ul class="t2-phase-list"><li>보상: VAS 감소 + 리텐션</li><li>RL 처방 순서 최적화</li><li>미국 시장 적용</li><li>목표: 경쟁사 2배 회복</li></ul></div></div></div>
+  </div>
+
+  <div class="section"><div class="t2-section-header"><div class="t2-section-num">3</div><div><div class="t2-section-title">AI 해자 전략</div><div class="t2-section-sub">경쟁자가 복제 불가능한 데이터 · 네트워크 · 기기 해자</div></div></div>
+    <div class="card"><div class="t2-card-title">🏰 5가지 해자 구조</div><div class="t2-moat-item"><div class="t2-moat-icon-wrap">📊</div><div class="t2-moat-content"><h4>1. 데이터 해자</h4><p>"증상 × 처방 × 회복 결과" 데이터셋. 10만 사용자 1년 = 경쟁자 수년 격차.</p></div></div><div class="t2-moat-item"><div class="t2-moat-icon-wrap">🔄</div><div class="t2-moat-content"><h4>2. 네트워크 효과</h4><p>사용자↑ → 데이터↑ → 정확도↑ → 회복↑ → 입소문↑ → 사용자↑</p></div></div><div class="t2-moat-item"><div class="t2-moat-icon-wrap">🧑‍⚕️</div><div class="t2-moat-content"><h4>3. 전문가 지식 해자</h4><p>인규 선생님 20년 임상 경험 → 구조화된 프로토콜. 다른 앱이 가질 수 없음.</p></div></div><div class="t2-moat-item"><div class="t2-moat-icon-wrap">⚙️</div><div class="t2-moat-content"><h4>4. 기기 연동 해자</h4><p>CS-25/ES-808/WS-200 사용 데이터 통합. 타사 앱은 기기 데이터 자체가 없음.</p></div></div><div class="t2-moat-item"><div class="t2-moat-icon-wrap">🌍</div><div class="t2-moat-content"><h4>5. 글로벌 확장 해자</h4><p>한국 검증 AI → 미국 직적용. 진입 시 이미 수만 명 학습 데이터 보유.</p></div></div></div>
+    <div class="card"><div class="t2-card-title">⏳ 해자 깊이 타임라인</div><div class="t2-moat-timeline-grid"><div class="t2-moat-card t2-moat-now"><div class="t2-moat-period" style="color:#58a6ff">지금</div><div class="t2-moat-depth" style="color:#58a6ff">🌱</div><div class="t2-moat-title">씨앗 단계</div><ul class="t2-moat-list"><li>인규 프로토콜 디지털화</li><li>6가지 처방 알고리즘</li><li>데이터 수집 파이프라인</li></ul></div><div class="t2-moat-card t2-moat-6m"><div class="t2-moat-period" style="color:#3fb950">6개월</div><div class="t2-moat-depth" style="color:#3fb950">🌿</div><div class="t2-moat-title">데이터 축적</div><ul class="t2-moat-list"><li>DAU 3,000+ / 세션 50만+</li><li>VAS 10만 건</li><li>RAG 코치 베타</li></ul></div><div class="t2-moat-card t2-moat-1y"><div class="t2-moat-period" style="color:#d29922">1년</div><div class="t2-moat-depth" style="color:#d29922">🌳</div><div class="t2-moat-title">개인화 AI</div><ul class="t2-moat-list"><li>DAU 10,000+</li><li>협업 필터링 가동</li><li>경쟁사 2년 격차</li></ul></div><div class="t2-moat-card t2-moat-2y"><div class="t2-moat-period" style="color:#f85149">2년</div><div class="t2-moat-depth" style="color:#f85149">🏔️</div><div class="t2-moat-title">난공불락</div><ul class="t2-moat-list"><li>DAU 50,000+ · 글로벌</li><li>강화학습 가동</li><li>추격 사실상 불가</li></ul></div></div></div>
+    <div class="t2-highlight"><h3>결론: 1분도수 앱이 AI 기업이 되는 이유</h3><p>단순한 운동 앱이 아닌, "근골격계 회복 데이터 플랫폼"이다. 인규의 암묵지 + 사용자 회복 데이터 + 기기 사용 패턴이 결합되면 — 전 세계 어떤 경쟁자도 가질 수 없는 "목디스크 회복 AI"가 탄생한다.</p></div>
+  </div>
 </div>
+<footer class="page-footer">작성: 카리나 | 2026-03-25 | 대표 검토용 기술 기획서 v1.0</footer>
+</div>
+
+<!-- ================================================================== -->
+<!-- TAB 3: 여정 계획 -->
+<!-- ================================================================== -->
+<div id="main-tab-3" class="main-tab-pane">
+<div class="page">
+  <div class="hero"><div class="hero-label">키네메디칼 앱 기획안</div><h1>📱 고객 여정 & 메인 화면 통합 기획안 (최종본)</h1><p>1분도수 앱 · 맞춤 처방 알고리즘 · 리텐션 설계 · 데이터 수집 구조</p></div>
+
+  <div class="section"><div class="t3-section-label"><span class="t3-step-badge">STEP 1</span><span class="t3-section-title">앱 진입 & 온보딩 문진</span></div><div class="card"><div class="t3-q-block" style="border:1.5px dashed #30363d;background:#0d1117"><div class="t3-q-label">Q0 · 확장 예약 (향후)</div><div class="t3-q-text">어느 부위를 케어하고 싶으신가요?</div><div class="t3-chips"><span class="t3-chip" style="background:#161b22;color:#484f58">목 (MVP)</span><span class="t3-chip" style="background:#161b22;color:#484f58">어깨 (예정)</span><span class="t3-chip" style="background:#161b22;color:#484f58">허리 (예정)</span></div></div><div class="t3-q-block"><div class="t3-q-label">Q1 · 기기 보유 확인</div><div class="t3-q-text">보유하신 기기를 선택해주세요</div><div class="t3-chips"><span class="t3-chip device">ES-808</span><span class="t3-chip device">WS-200</span><span class="t3-chip device">CS-25</span><span class="t3-chip" style="color:#484f58">아직 없어요</span></div></div><div class="t3-q-block"><div class="t3-q-label">Q2 · 현재 시기</div><div class="t3-q-text">증상이 시작된 지 얼마나 됐나요?</div><div class="t3-chips"><span class="t3-chip time">급성기 (0~1주) 🔴</span><span class="t3-chip time">아급성기 (2~3주) 🟠</span><span class="t3-chip time">만성기 (1달+) 🟢</span></div></div><div class="t3-vas-section"><div class="t3-vas-title">📅 매일 VAS 통증 슬라이더 (1~10)</div><div class="t3-vas-bar"><div class="t3-vas-seg t3-vas-1-3">🟢 1~3</div><div class="t3-vas-seg t3-vas-4-5">🟡 4~5</div><div class="t3-vas-seg t3-vas-6-7">🟠 6~7</div><div class="t3-vas-seg t3-vas-8-10">🔴 8~10</div></div><div class="t3-vas-labels"><div class="t3-vas-label-item"><div class="t3-vas-dot" style="background:#166534"></div><div>약간 뻐근 · <strong>정상 진도</strong></div></div><div class="t3-vas-label-item"><div class="t3-vas-dot" style="background:#854d0e"></div><div>오래 앉으면 불편 · <strong>정상</strong></div></div><div class="t3-vas-label-item"><div class="t3-vas-dot" style="background:#9a3412"></div><div>가만히 있어도 아픔 · <strong>안전 강등</strong></div></div><div class="t3-vas-label-item"><div class="t3-vas-dot" style="background:#991b1b"></div><div>잠 설침 · <strong>안전 강등</strong></div></div></div></div></div></div>
+
+  <div class="section"><div class="t3-section-label"><span class="t3-step-badge">STEP 2</span><span class="t3-section-title">6가지 맞춤 처방 알고리즘</span></div><div class="card" style="padding:0;overflow:hidden"><div style="padding:16px 20px 12px;border-bottom:1px solid #21262d"><div style="display:flex;gap:12px;flex-wrap:wrap"><div style="display:flex;align-items:center;gap:6px;font-size:12px"><div style="width:12px;height:12px;border-radius:2px;background:#58a6ff"></div><strong>그룹 A</strong> — 안전 최우선</div><div style="display:flex;align-items:center;gap:6px;font-size:12px"><div style="width:12px;height:12px;border-radius:2px;background:#3fb950"></div><strong>그룹 B</strong> — 회복/강화</div></div></div><div style="overflow-x:auto"><table class="t3-algo-table"><thead><tr><th style="width:40px">#</th><th>조건</th><th>처방 운동</th><th style="width:80px">상태</th></tr></thead><tbody><tr><td class="t3-group-a"><span class="t3-badge-num">1</span></td><td><span class="t3-group-badge t3-group-badge-a">A</span> 급성 + VAS 6↑</td><td>ES-808 진통 + 깃털마사지 + 초미세 도리도리</td><td><span class="t3-tag t3-tag-danger">고위험</span></td></tr><tr><td class="t3-group-a"><span class="t3-badge-num">2</span></td><td><span class="t3-group-badge t3-group-badge-a">A</span> 급성 + VAS 5↓</td><td>수건 받치고 정수리 빼기 + 횡격막 호흡</td><td><span class="t3-tag t3-tag-warn">주의</span></td></tr><tr><td class="t3-group-a"><span class="t3-badge-num">3</span></td><td><span class="t3-group-badge t3-group-badge-a">A</span> 아급성 + VAS 6↑</td><td>→ 2번 강등 <span class="t3-demotion-tag">⬇️</span></td><td><span class="t3-tag t3-tag-danger">강등</span></td></tr><tr><td class="t3-group-b"><span class="t3-badge-num">4</span></td><td><span class="t3-group-badge t3-group-badge-b">B</span> 아급성 + VAS 5↓</td><td>네발기기, W-I 운동 등 가동성</td><td><span class="t3-tag t3-tag-normal">회복중</span></td></tr><tr><td class="t3-group-b"><span class="t3-badge-num">5</span></td><td><span class="t3-group-badge t3-group-badge-b">B</span> 만성 + VAS 6↑</td><td>→ 4번 강등 <span class="t3-demotion-tag">⬇️</span></td><td><span class="t3-tag t3-tag-danger">강등</span></td></tr><tr><td class="t3-group-b"><span class="t3-badge-num">6</span></td><td><span class="t3-group-badge t3-group-badge-b">B</span> 만성 + VAS 5↓</td><td>벽스쿼트, 런지, Y자만세 — 전신 사슬</td><td><span class="t3-tag t3-tag-normal">강화기</span></td></tr></tbody></table></div></div></div>
+
+  <div class="section"><div class="t3-section-label"><span class="t3-step-badge">STEP 3</span><span class="t3-section-title">메인 화면 1자형 UI</span></div><div class="grid-2"><div class="t3-phone-wrap" style="align-items:flex-start;padding-top:0"><div class="t3-phone"><div class="t3-phone-screen"><div class="t3-phone-topbar">🏃 오늘의 1분도수</div><div class="t3-phone-section"><div class="t3-phone-section-title">1. 운동 전 케어</div><div class="t3-phone-card highlight">📟 ES-808으로 5분 진통</div><div class="t3-phone-card cross-sell">🛒 ES-808 없으신가요?</div></div><div class="t3-phone-section"><div class="t3-phone-section-title">2. 본 운동</div><div class="t3-phone-card" style="background:#0d2137;border-color:#1d4ed8">▶️ 1분도수 숏폼 연속 재생</div><div class="t3-emergency-btn">🚨 통증 응급버튼</div></div><div class="t3-phone-section"><div class="t3-phone-section-title">3. 운동 후 케어</div><div class="t3-phone-card" style="background:#0d2b1a;border-color:#3fb950">🛏 CS-25 견인 케어 10분</div><div class="t3-phone-card cross-sell">🛒 CS-25 없으신가요?</div></div></div></div></div><div><div class="card"><h4>UI 설계 원칙</h4><p>1. <strong>운동 전 케어</strong>: ES-808·WS-200 기기 사용 유도 + 크로스셀링<br>2. <strong>본 운동</strong>: 1분도수 숏폼 연속 재생 + 통증 응급버튼<br>3. <strong>운동 후 케어</strong>: CS-25 취침 전 견인 + 크로스셀링</p></div><div class="t3-popup-card"><div class="t3-popup-tag">🛏 CS-25 취침 전 견인 케어</div><div class="t3-popup-text">낮에 펴놓은 척추가 밤사이 눌리지 않도록, 자기 전 딱 10분!<br><strong>CS-25로 디스크 간격을 부드럽게 벌려주세요.</strong></div><div class="t3-popup-cta"><button class="t3-btn-primary">CS-25 알아보기</button><button class="t3-btn-secondary">나중에</button></div></div></div></div></div>
+
+  <div class="section"><div class="t3-section-label"><span class="t3-step-badge">STEP 4</span><span class="t3-section-title">응급 대처 로직</span></div><div class="card"><div class="t3-flow-dark"><div class="t3-flow-node red">🚨 통증 응급버튼 탭</div><div class="t3-flow-arrow">↓</div><div class="t3-flow-node" style="background:#2b1f00;border-color:#d29922;color:#d29922">👨‍⚕️ 1분도수님 긴급 팝업 영상</div><div class="t3-flow-arrow">↓</div><div class="t3-flow-branch"><div class="t3-flow-node green">✂️ 범위 줄여서 계속</div><div class="t3-flow-node orange">🔄 기초 운동으로 변경</div></div><div class="t3-flow-arrow">↓</div><div class="t3-flow-node" style="border-color:#484f58;color:#484f58">📊 응급 이벤트 로그 저장</div></div></div></div>
+
+  <div class="section"><div class="t3-section-label"><span class="t3-step-badge" style="background:#58a6ff">데이터</span><span class="t3-section-title">4축 데이터 수집 설계</span></div><div class="t3-data-grid"><div class="t3-data-card" style="border-top-color:#f85149"><div class="t3-data-card-icon">📈</div><div class="t3-data-card-title">Axis 1. VAS 추이</div><ul class="t3-data-card-items"><li>일별 VAS 점수 기록</li><li>7일 이동평균 그래프</li><li>회복 속도 세그먼트</li><li>악화/개선 패턴 감지</li></ul></div><div class="t3-data-card" style="border-top-color:#3fb950"><div class="t3-data-card-icon">✅</div><div class="t3-data-card-title">Axis 2. 운동 완료율</div><ul class="t3-data-card-items"><li>숏폼별 완료/이탈</li><li>3개 중 몇 개 완료</li><li>주차별 완료율 트렌드</li><li>운동 시간대 분포</li></ul></div><div class="t3-data-card" style="border-top-color:#d29922"><div class="t3-data-card-icon">🚪</div><div class="t3-data-card-title">Axis 3. 이탈 지점</div><ul class="t3-data-card-items"><li>어느 운동에서 이탈</li><li>응급버튼 탭 지점</li><li>전/본/후 각 이탈률</li><li>재진입 패턴</li></ul></div><div class="t3-data-card" style="border-top-color:#58a6ff"><div class="t3-data-card-icon">📟</div><div class="t3-data-card-title">Axis 4. 기기 세그먼트</div><ul class="t3-data-card-items"><li>보유 vs 미보유 회복 비교</li><li>크로스셀링 전환율</li><li>기기별 VAS 개선 차이</li><li>"2주 빠른 회복" 실증</li></ul></div></div></div>
+
+  <div class="section"><div class="t3-section-label"><span class="t3-step-badge" style="background:#3fb950">리텐션</span><span class="t3-section-title">리텐션 설계 3종</span></div><div class="t3-retention-grid"><div class="t3-ret-card"><div class="t3-ret-icon">🔔</div><div class="t3-ret-title">푸시 알림</div><div class="t3-ret-desc">매일 최적 시간대 운동 알림. VAS 미입력 시 리마인더</div></div><div class="t3-ret-card"><div class="t3-ret-icon">🔥</div><div class="t3-ret-title">연속 출석 스트릭</div><div class="t3-ret-desc">연속 출석 일수 + 뱃지. 7/14/30일 달성 시 특별 메시지</div></div><div class="t3-ret-card"><div class="t3-ret-icon">📋</div><div class="t3-ret-title">주간 리포트</div><div class="t3-ret-desc">VAS 변화 그래프 + 완료일 + 1분도수님 한마디. 매주 일요일</div></div></div><div style="margin-top:16px"><div class="t3-popup-card"><div class="t3-popup-tag">운동 완료 후 전환 팝업</div><div class="t3-popup-text"><strong>오늘 운동 완료!</strong><br><strong>기기 유저는 평균 2주 더 빨리 회복</strong>합니다!</div><div style="background:#0d2137;border-radius:8px;padding:12px;margin-top:12px"><div style="display:flex;gap:16px;justify-content:center;font-size:12px;text-align:center"><div><div style="font-size:22px;font-weight:800;color:#484f58">6.2주</div><div style="color:#484f58">앱만</div></div><div style="display:flex;align-items:center;font-size:20px;color:#58a6ff">→</div><div><div style="font-size:22px;font-weight:800;color:#58a6ff">4.1주</div><div style="color:#58a6ff;font-weight:600">기기 병행</div></div></div></div><div class="t3-popup-cta"><button class="t3-btn-primary">ES-808 알아보기</button><button class="t3-btn-secondary">괜찮아요</button></div></div></div></div>
+
+  <div class="section"><div class="t3-section-label"><span class="t3-step-badge" style="background:#0891b2">회복 여정</span><span class="t3-section-title">나의 회복 여정 페이지</span></div><div class="t3-journey-card"><div class="t3-journey-title">🌱 나의 회복 여정</div><div class="t3-journey-sub">지난 14일간 VAS 추이</div><div class="t3-vas-graph"><svg viewBox="0 0 300 60" preserveAspectRatio="none"><polyline points="0,50 20,48 40,45 60,42 80,38 100,35 120,30 140,28 160,25 180,22 200,20 220,18 240,16 260,15 280,14 300,12" fill="none" stroke="rgba(88,166,255,0.3)" stroke-width="1.5"/><polyline points="0,50 20,48 40,45 60,42 80,38 100,35 120,30 140,28 160,25 180,22 200,20 220,18 240,16 260,15 280,14 300,12" fill="none" stroke="#58a6ff" stroke-width="2.5" stroke-linecap="round"/><circle cx="0" cy="50" r="3" fill="#f85149"/><circle cx="300" cy="12" r="3" fill="#3fb950"/></svg></div><div class="t3-journey-stats"><div class="t3-journey-stat"><div class="t3-journey-stat-num">14</div><div class="t3-journey-stat-label">연속 운동일</div></div><div class="t3-journey-stat"><div class="t3-journey-stat-num">8→3</div><div class="t3-journey-stat-label">VAS 변화</div></div><div class="t3-journey-stat"><div class="t3-journey-stat-num">92%</div><div class="t3-journey-stat-label">완료율</div></div></div><div style="background:rgba(255,255,255,0.05);border-radius:8px;padding:12px;margin-top:12px;font-size:12px;line-height:1.6;font-style:italic;color:#8b949e">👨‍⚕️ "2주 만에 VAS 8에서 3으로! 정말 열심히 하셨어요."<br><span style="font-size:10px;opacity:0.6">— 1분도수님의 한마디</span></div></div></div>
+
+  <div class="section"><div class="t3-section-label"><span class="t3-step-badge" style="background:#3fb950">확정</span><span class="t3-section-title">수정 반영 사항 (8건)</span></div><div class="card"><ul class="t3-changes-list"><li><div class="t3-change-num">1</div><div class="t3-change-content"><strong>데이터 수집 설계 추가</strong><span>4축 설계 포함</span></div></li><li><div class="t3-change-num">2</div><div class="t3-change-content"><strong>MVP = 1주차만</strong><span>기존 숏폼 재활용 + 신규 촬영</span></div></li><li><div class="t3-change-num">3</div><div class="t3-change-content"><strong>Q0 부위 선택 자리 확보</strong><span>목→어깨→허리 순 확장</span></div></li><li><div class="t3-change-num">4</div><div class="t3-change-content"><strong>무료 유저 전환 팝업</strong><span>"기기 유저 2주 더 빠른 회복" 비교 그래프</span></div></li><li><div class="t3-change-num">5</div><div class="t3-change-content"><strong>"나의 회복 여정" 페이지</strong><span>VAS 추이 + 운동 일수 + 격려 한마디</span></div></li><li><div class="t3-change-num">6</div><div class="t3-change-content"><strong>CS-25 크로스셀링 수정</strong><span>"취침 전 견인 케어"로 명확화</span></div></li><li><div class="t3-change-num">7</div><div class="t3-change-content"><strong>리텐션 장치 3종</strong><span>푸시 + 출석 + 주간 리포트</span></div></li><li><div class="t3-change-num">8</div><div class="t3-change-content"><strong>강등 UX 메시지 확정</strong><span>"오늘은 몸이 힘든 날이에요" 팝업</span></div></li></ul></div></div>
+</div>
+<footer class="page-footer"><strong>최종 확정: 2026-03-25</strong> | 작성: 인규 | 검토: 카리나, 콘실장</footer>
+</div>
+
+<!-- ================================================================== -->
+<!-- TAB 4: 상세 기능 -->
+<!-- ================================================================== -->
+<div id="main-tab-4" class="main-tab-pane">
+<div class="page">
+
+  <div class="sub-section"><div class="sub-section-header open" onclick="toggleSub(this)"><span class="arrow">&#9654;</span> AI 회복 코치 데모 (키네메디칼)</div><div class="sub-section-body open">
+    <div class="hero"><div class="hero-label">KINEMEDICAL · APP DEMO</div><h1>KINEMEDICAL AI 회복 코치 데모</h1><p>통증 부위 선택 → AI 루틴 생성 → 회복까지</p><div class="hero-badges"><span class="hero-badge">React Native · Expo</span><span class="hero-badge">RAG + ML Pipeline</span><span class="hero-badge">GPT-4 Powered</span></div></div>
+    <div class="section"><div class="section-title-bar">APP DEMO · UX FLOW</div><div class="t4-demo-showcase"><div class="t4-ob-device"><div class="t4-ob-device-top"><div class="t4-ob-brand"><span>KINE</span>MEDICAL</div><div class="t4-ob-brand-sub">AI RECOVERY COACH</div></div><div class="t4-p-step"><div class="t4-p-step-label">STEP 1</div><div class="t4-p-step-title">어디가 아프세요?</div><div class="t4-p-btn-grid"><div class="t4-p-btn active">🦴 목</div><div class="t4-p-btn">💪 어깨</div><div class="t4-p-btn">🔙 허리</div><div class="t4-p-btn">🤚 손목</div></div></div><div class="t4-p-step"><div class="t4-p-step-label">STEP 2</div><div class="t4-p-step-title">통증 강도</div><div class="t4-p-slider-wrap"><div class="t4-p-slider-labels"><span>약한 통증</span><span>심한 통증</span></div><div class="t4-p-slider-val">5 <span style="font-size:10px;color:#484f58">/ 10</span></div><div class="t4-p-slider-bar"><div class="t4-p-slider-fill"></div><div class="t4-p-slider-dot"></div></div></div></div><div class="t4-p-step"><div class="t4-p-step-label">STEP 3</div><div class="t4-p-step-title">보유 기기</div><div class="t4-p-device-list"><div class="t4-p-device-item"><div class="t4-p-device-check on"></div><div><div class="t4-p-device-name">CS-25</div><div class="t4-p-device-sub">자동 경추 마사지기</div></div></div><div class="t4-p-device-item"><div class="t4-p-device-check on"></div><div><div class="t4-p-device-name">ES-808</div><div class="t4-p-device-sub">타겟형 저주파</div></div></div><div class="t4-p-device-item"><div class="t4-p-device-check"></div><div><div class="t4-p-device-name">WS-200</div><div class="t4-p-device-sub">근적외선 찜질기</div></div></div></div></div><div class="t4-p-cta">AI 회복 루틴 생성하기</div></div><div><h3 style="color:#e6edf3;font-size:16px;margin-bottom:8px">3단계 입력 → AI 즉시 루틴 생성</h3><p>통증 정보 입력 → RAG + ML 파이프라인이 최적 회복 루틴을 실시간 조합.</p><div style="display:flex;flex-direction:column;gap:8px"><div class="t4-flow-step-item"><div class="t4-flow-step-num">1</div><div class="t4-flow-step-body"><h4>통증 부위 선택</h4><p>목/어깨/허리/손목 → 전용 루틴 DB 매핑</p></div></div><div class="t4-flow-step-item"><div class="t4-flow-step-num">2</div><div class="t4-flow-step-body"><h4>통증 강도 (1~10)</h4><p>강도에 따라 기기 세기/시간/난이도 자동 조절</p></div></div><div class="t4-flow-step-item"><div class="t4-flow-step-num">3</div><div class="t4-flow-step-body"><h4>보유 기기 선택</h4><p>기기 조합에 맞게 루틴 최적화</p></div></div><div class="t4-flow-step-item"><div class="t4-flow-step-num">4</div><div class="t4-flow-step-body"><h4>AI 루틴 생성</h4><p>200건 RAG 검색 + 통증 분석 → 3단계 루틴 + 예측</p></div></div></div></div></div></div>
+    <div class="section"><div class="section-title-bar">AI PROCESSING & RESULT</div><div class="t4-ai-processing-grid"><div class="t4-ai-processing-box"><div class="t4-ai-label">AI PROCESSING</div><div class="t4-ai-processing-title">AI가 최적 루틴을 분석하고 있습니다</div><div class="t4-ai-step"><span class="t4-ai-step-check">✓</span><span class="t4-ai-step-text">전문가 콘텐츠 200건 검색 중...</span></div><div class="t4-ai-step"><span class="t4-ai-step-check">✓</span><span class="t4-ai-step-text">통증 패턴 분석 중...</span></div><div class="t4-ai-badge">RAG + ML Pipeline powered by GPT-4</div></div><div class="t4-result-box"><div class="t4-result-title">오늘의 회복 루틴</div><div class="t4-result-sub">목 | 통증 5/10 기준</div><div class="t4-routine-card"><span class="t4-routine-stage t4-stage-recovery">회복</span><div class="t4-routine-title">ES-808 저주파 자극 15분</div><div class="t4-routine-desc">목 중심부 + 승모근 집중</div></div><div class="t4-routine-card"><span class="t4-routine-stage t4-stage-correction">교정</span><div class="t4-routine-title">CS-25 경추 견인 20분</div><div class="t4-routine-desc">견인 강도 3단계 (체중 12%)</div></div><div class="t4-routine-card"><span class="t4-routine-stage t4-stage-exercise">운동</span><div class="t4-routine-title">1분도수 "목 스트레칭 루틴"</div><div class="t4-routine-desc">물리치료사 감수 영상 가이드</div><div class="t4-routine-link">1분도수 유튜브 채널 →</div></div><div class="t4-ai-prediction"><div class="t4-ai-pred-label">AI PREDICTION</div><div class="t4-ai-pred-value">2일 연속 수행 시 통증 30% 감소 예상</div></div></div></div></div>
+    <div class="section"><div class="section-title-bar">KEY FEATURES</div><div class="t4-features-grid"><div class="t4-feature-card"><div class="t4-feature-icon">🎯</div><div class="t4-feature-title">보유 기기 맞춤 루틴</div><div class="t4-feature-desc">기기 조합에 따라 완전히 다른 루틴 생성.</div></div><div class="t4-feature-card"><div class="t4-feature-icon">📊</div><div class="t4-feature-title">통증 강도 반응형</div><div class="t4-feature-desc">슬라이더에 따라 세기/시간/난이도 자동 조정.</div></div><div class="t4-feature-card"><div class="t4-feature-icon">🤖</div><div class="t4-feature-title">RAG 전문가 콘텐츠</div><div class="t4-feature-desc">200건+ 영상 DB에서 자동 매핑.</div></div><div class="t4-feature-card"><div class="t4-feature-icon">📈</div><div class="t4-feature-title">AI 회복 예측</div><div class="t4-feature-desc">통증 감소 예상치로 동기 부여.</div></div><div class="t4-feature-card"><div class="t4-feature-icon">🔄</div><div class="t4-feature-title">전신 확장 구조</div><div class="t4-feature-desc">목→어깨→허리→손목 Phase 2 확장.</div></div><div class="t4-feature-card"><div class="t4-feature-icon">💡</div><div class="t4-feature-title">운동-회복-교정 3단계</div><div class="t4-feature-desc">4단계 솔루션을 앱으로 자연스럽게 구현.</div></div></div></div>
+    <div class="section"><div class="section-title-bar">VALUE PROPOSITION</div><div class="t4-value-grid"><div class="t4-value-card"><div class="t4-value-num">80%</div><div class="t4-value-label">기기 방치율</div><div class="t4-value-desc">구매자 10명 중 8명이 기기를 방치. 앱이 매일 쓰게 만드는 유일한 수단.</div></div><div class="t4-value-card"><div class="t4-value-num">30%</div><div class="t4-value-label">2일 연속 시 통증 감소</div><div class="t4-value-desc">AI 즉각적 피드백이 이탈률을 낮추고 루틴 지속을 유도.</div></div><div class="t4-value-card"><div class="t4-value-num">3개월</div><div class="t4-value-label">ML 해자 형성</div><div class="t4-value-desc">3개월 개인 데이터 = 복제 불가능 개인화.</div></div><div class="t4-value-card"><div class="t4-value-num">200건</div><div class="t4-value-label">RAG 콘텐츠 DB</div><div class="t4-value-desc">1분도수 영상을 AI가 실시간 검색해 루틴에 삽입.</div></div></div><a href="https://tenex-app-demo.vercel.app/" class="t4-source-link" target="_blank">🔗 라이브 데모: tenex-app-demo.vercel.app</a></div>
+  </div></div>
+
+  <div class="sub-section"><div class="sub-section-header" onclick="toggleSub(this)"><span class="arrow">&#9654;</span> v4 기능 스펙 상세 (운동 영상 + DB 구조)</div><div class="sub-section-body">
+    <div class="section"><div class="section-title-bar">초기 운동 영상 데이터</div><div class="note-box" style="margin-bottom:16px"><strong>관리 방법</strong>: Supabase <code>exercises</code> 테이블에서 youtube_url 직접 수정 → 앱 즉시 반영</div><div class="grid-2"><div><div class="t1-video-section-title">🎬 쇼츠 운동 영상 (5개)</div><div class="t1-video-item"><div class="t1-video-thumb">▶</div><div class="t1-video-info"><div class="t1-video-id">InieLaiFSaI</div><div class="t1-video-desc">통증 높음 · 가벼운 이완</div></div></div><div class="t1-video-item"><div class="t1-video-thumb">▶</div><div class="t1-video-info"><div class="t1-video-id">p8r1XP7DJjg</div><div class="t1-video-desc">통증 중간 · 목 스트레칭</div></div></div><div class="t1-video-item"><div class="t1-video-thumb">▶</div><div class="t1-video-info"><div class="t1-video-id">fmDTAOiB9dE</div><div class="t1-video-desc">통증 낮음 · 1분 운동</div></div></div><div class="t1-video-item"><div class="t1-video-thumb">▶</div><div class="t1-video-info"><div class="t1-video-id">7aNYF0CGrU0</div><div class="t1-video-desc">마무리 스트레칭</div></div></div><div class="t1-video-item"><div class="t1-video-thumb">▶</div><div class="t1-video-info"><div class="t1-video-id">EDETj1tewvM</div><div class="t1-video-desc">추가 운동</div></div></div></div><div><div class="t1-video-section-title">📋 제품 가이드 + 구매 링크</div><div class="t1-video-item"><div class="t1-video-info"><h4>CS-25 사용법</h4><div class="t1-video-desc">PLe1SWUM0mFecCsVoI_8CFYsDJGFnwjAxk</div></div></div><div class="t1-video-item"><div class="t1-video-info"><h4>ES-808 사용법</h4><div class="t1-video-desc">PLe1SWUM0mFec9un9IeSV6NScxPK_DNFbr</div></div></div><div class="t1-video-item"><div class="t1-video-info"><h4>CS-25</h4><div class="t1-video-url">korea.kinemedical.co.kr/6rx7Px</div></div></div><div class="t1-video-item"><div class="t1-video-info"><h4>ES-808</h4><div class="t1-video-url">korea.kinemedical.co.kr/ys0uWI</div></div></div><div class="t1-video-item"><div class="t1-video-info"><h4>WS-200</h4><div class="t1-video-url">korea.kinemedical.co.kr/A7AeD9</div></div></div><div class="t1-video-item"><div class="t1-video-info"><h4>스토어 전체</h4><div class="t1-video-url">kinemedical.co.kr/product/list.html?cate_no=74</div></div></div></div></div></div>
+    <div class="section"><div class="section-title-bar">Supabase DB 구조</div><div class="t1-db-grid"><div><div class="t1-db-table-card"><div class="t1-db-table-header">📹 exercises</div><table class="t1-db-table"><thead><tr><th>컬럼</th><th>타입</th><th>설명</th></tr></thead><tbody><tr><td>id</td><td class="t1-col-t">uuid</td><td>고유값</td></tr><tr><td>title</td><td class="t1-col-t">text</td><td>운동 제목</td></tr><tr><td>youtube_url</td><td class="t1-col-t">text</td><td>유튜브 링크</td></tr><tr><td>pain_area</td><td class="t1-col-t">text[]</td><td>목/어깨/허리</td></tr><tr><td>pain_score_min/max</td><td class="t1-col-t">int</td><td>적용 통증 범위</td></tr><tr><td>order_num</td><td class="t1-col-t">int</td><td>노출 순서</td></tr><tr><td>is_active</td><td class="t1-col-t">bool</td><td>활성/비활성</td></tr></tbody></table></div><div class="t1-db-table-card"><div class="t1-db-table-header">📊 pain_logs</div><table class="t1-db-table"><thead><tr><th>컬럼</th><th>타입</th><th>설명</th></tr></thead><tbody><tr><td>id</td><td class="t1-col-t">uuid</td><td></td></tr><tr><td>user_id</td><td class="t1-col-t">uuid</td><td>FK → users</td></tr><tr><td>score</td><td class="t1-col-t">int</td><td>1~10</td></tr><tr><td>pain_area</td><td class="t1-col-t">text</td><td>부위</td></tr><tr><td>logged_at</td><td class="t1-col-t">timestamp</td><td></td></tr></tbody></table></div></div><div><div class="t1-db-table-card"><div class="t1-db-table-header">✅ routine_logs</div><table class="t1-db-table"><thead><tr><th>컬럼</th><th>타입</th><th>설명</th></tr></thead><tbody><tr><td>id</td><td class="t1-col-t">uuid</td><td></td></tr><tr><td>user_id</td><td class="t1-col-t">uuid</td><td>FK → users</td></tr><tr><td>completed_steps</td><td class="t1-col-t">jsonb</td><td>완료한 스텝</td></tr><tr><td>pain_score</td><td class="t1-col-t">int</td><td>그날 통증</td></tr><tr><td>completed_at</td><td class="t1-col-t">timestamp</td><td></td></tr></tbody></table></div><div class="t1-db-table-card"><div class="t1-db-table-header">👤 users</div><table class="t1-db-table"><thead><tr><th>컬럼</th><th>타입</th><th>설명</th></tr></thead><tbody><tr><td>id</td><td class="t1-col-t">uuid</td><td>Supabase Auth UID</td></tr><tr><td>nickname</td><td class="t1-col-t">text</td><td>카카오 닉네임</td></tr><tr><td>pain_area</td><td class="t1-col-t">text</td><td>주 통증 부위</td></tr><tr><td>owned_devices</td><td class="t1-col-t">text[]</td><td>보유 기기</td></tr><tr><td>onboarded_at</td><td class="t1-col-t">timestamp</td><td></td></tr></tbody></table></div></div></div></div>
+  </div></div>
+
+</div>
+<footer class="page-footer">키네메디칼 AI 데모 + 1분도수 v4 기능 스펙 통합</footer>
+</div>
+
+<div class="bottom-badge">작성 2026-03 | 수정 2026-03-31 | 통합 문서</div>
 
 <script>
-function showTab(id, btn) {
-  document.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));
-  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-  document.getElementById('tab-' + id).classList.add('active');
+function switchMainTab(n, btn) {
+  document.querySelectorAll('.main-tab-pane').forEach(function(el){ el.classList.remove('active'); });
+  document.querySelectorAll('.main-tab-btn').forEach(function(el){ el.classList.remove('active'); });
+  document.getElementById('main-tab-' + n).classList.add('active');
   btn.classList.add('active');
+  window.scrollTo(0, 0);
+}
+function toggleSub(header) {
+  header.classList.toggle('open');
+  header.nextElementSibling.classList.toggle('open');
 }
 </script>
 </body>
