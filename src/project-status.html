@@ -80,8 +80,11 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 
 <script>
 const STORAGE_KEY = 'tenex-project-status-v1';
+const API_READ = '/api/tasks/read';
+const API_UPDATE = '/api/tasks/update';
 
-const DEFAULT_AGENTS = [
+// ── 폴백 데이터 (API 실패 시) ──
+const FALLBACK_AGENTS = [
   {id:'개실장', icon:'🔧', name:'개실장', role:'개발실 총괄', tasks:[
     {id:'a1', name:'모사모 강의 통합', status:'done'},
     {id:'a2', name:'앱 탭 UI 통합', status:'doing'},
@@ -104,7 +107,7 @@ const DEFAULT_AGENTS = [
   ]},
 ];
 
-const DEFAULT_ACTIONS = [
+const FALLBACK_ACTIONS = [
   {id:'t1', num:1, text:'리포트 UI 크롱 스타일 전환', status:'done'},
   {id:'t2', num:2, text:'지메일 연동', status:'waiting'},
   {id:'t3', num:3, text:'알림톡 CRM (알마니 대표 소개 후)', status:'waiting'},
@@ -117,32 +120,88 @@ const DEFAULT_ACTIONS = [
   {id:'t10', num:10, text:'해외진출 1차 리서치', status:'waiting'},
 ];
 
-const STATUS_EMOJI = {done:'✅', doing:'🔧', delay:'🔴', waiting:'⏳'};
+const STATUS_EMOJI = {done:'✅', doing:'🔧', delay:'🔴', waiting:'⏳', pending:'⏳'};
 const STATUS_CYCLE = ['doing','done','delay','waiting'];
 
-function loadData() {
+let agents = [];
+let actions = [];
+let dataSource = 'loading'; // 'api' | 'local' | 'fallback'
+
+// ── 데이터 로드 (API → localStorage → 폴백) ──
+async function loadData() {
+  try {
+    const resp = await fetch(API_READ);
+    if (resp.ok) {
+      const data = await resp.json();
+      if (data.agents && data.agents.length > 0) {
+        agents = data.agents;
+        // tasks → actions (태훈 액션 아이템은 DB의 tasks 중 assignee='태훈')
+        actions = FALLBACK_ACTIONS; // 액션 아이템은 별도 관리 유지
+        dataSource = 'api';
+        console.log('✅ Supabase에서 로드:', agents.length, 'agents');
+        return;
+      }
+    }
+  } catch (e) {
+    console.warn('API 로드 실패, 로컬 폴백:', e);
+  }
+
+  // localStorage 폴백
   try {
     const saved = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
-    return {
-      agents: DEFAULT_AGENTS.map(a => ({
+    if (saved.agents) {
+      agents = FALLBACK_AGENTS.map(a => ({
         ...a,
         tasks: a.tasks.map(t => ({...t, status: saved.tasks?.[t.id] || t.status}))
-      })),
-      actions: DEFAULT_ACTIONS.map(a => ({...a, status: saved.actions?.[a.id] || a.status}))
-    };
-  } catch { return {agents: DEFAULT_AGENTS, actions: DEFAULT_ACTIONS}; }
+      }));
+      actions = FALLBACK_ACTIONS.map(a => ({...a, status: saved.actions?.[a.id] || a.status}));
+      dataSource = 'local';
+      return;
+    }
+  } catch {}
+
+  agents = FALLBACK_AGENTS;
+  actions = FALLBACK_ACTIONS;
+  dataSource = 'fallback';
 }
 
-function saveData(agents, actions) {
-  const tasks = {};
-  agents.forEach(a => a.tasks.forEach(t => { tasks[t.id] = t.status; }));
-  const acts = {};
-  actions.forEach(a => { acts[a.id] = a.status; });
-  localStorage.setItem(STORAGE_KEY, JSON.stringify({tasks, actions: acts}));
-  document.getElementById('lastSaved').textContent = '마지막 저장: ' + new Date().toLocaleString('ko-KR');
+// ── 저장 (API + localStorage) ──
+let saveTimer = null;
+function saveData() {
+  // localStorage에 즉시 저장 (오프라인 대비)
+  const taskMap = {};
+  agents.forEach(a => a.tasks.forEach(t => { taskMap[t.id] = t.status; }));
+  const actMap = {};
+  actions.forEach(a => { actMap[a.id] = a.status; });
+  localStorage.setItem(STORAGE_KEY, JSON.stringify({tasks: taskMap, actions: actMap, agents}));
+
+  // API 저장은 디바운스 (300ms)
+  if (saveTimer) clearTimeout(saveTimer);
+  saveTimer = setTimeout(async () => {
+    try {
+      const resp = await fetch(API_UPDATE, {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        credentials: 'include',
+        body: JSON.stringify({tasks: [], agents})
+      });
+      if (resp.ok) {
+        updateSaveStatus('DB 저장 완료');
+      } else {
+        updateSaveStatus('DB 저장 실패 (로컬에 저장됨)');
+      }
+    } catch {
+      updateSaveStatus('오프라인 — 로컬에 저장됨');
+    }
+  }, 300);
+
+  updateSaveStatus('저장 중...');
 }
 
-let {agents, actions} = loadData();
+function updateSaveStatus(msg) {
+  const el = document.getElementById('lastSaved');
+  el.textContent = msg + ' · ' + new Date().toLocaleString('ko-KR');
+}
 
 function cycleStatus(current) {
   const idx = STATUS_CYCLE.indexOf(current);
@@ -164,7 +223,7 @@ function renderAgents() {
         ${agent.tasks.map(task => `
           <div class="task-item ${task.status === 'done' ? 'done' : task.status === 'delay' ? 'delay' : ''}"
                onclick="toggleTask('${agent.id}','${task.id}')" title="클릭하여 상태 변경">
-            <span class="task-status">${STATUS_EMOJI[task.status]}</span>
+            <span class="task-status">${STATUS_EMOJI[task.status] || '⏳'}</span>
             <span class="task-name">${task.name}</span>
           </div>
         `).join('')}
@@ -179,7 +238,7 @@ function renderActions() {
     <div class="action-item ${a.status === 'done' ? 'done' : a.status === 'delay' ? 'delay' : ''}"
          onclick="toggleAction('${a.id}')" title="클릭하여 상태 변경">
       <span class="action-num">${a.num}</span>
-      <span class="action-status">${STATUS_EMOJI[a.status]}</span>
+      <span class="action-status">${STATUS_EMOJI[a.status] || '⏳'}</span>
       <span class="action-text">${a.text}</span>
     </div>
   `).join('');
@@ -190,23 +249,24 @@ function toggleTask(agentId, taskId) {
     ...a,
     tasks: a.tasks.map(t => t.id === taskId ? {...t, status: cycleStatus(t.status)} : t)
   } : a);
-  saveData(agents, actions);
+  saveData();
   renderAgents();
 }
 
 function toggleAction(actionId) {
   actions = actions.map(a => a.id === actionId ? {...a, status: cycleStatus(a.status)} : a);
-  saveData(agents, actions);
+  saveData();
   renderActions();
 }
 
-// Init
-renderAgents();
-renderActions();
-const saved = localStorage.getItem(STORAGE_KEY);
-if (saved) {
-  document.getElementById('lastSaved').textContent = '마지막 저장: ' + new Date().toLocaleString('ko-KR');
-}
+// ── 초기화 ──
+(async () => {
+  await loadData();
+  renderAgents();
+  renderActions();
+  const badge = dataSource === 'api' ? '🟢 DB' : dataSource === 'local' ? '🟡 로컬' : '🔴 폴백';
+  document.getElementById('lastSaved').textContent = `데이터 소스: ${badge}`;
+})();
 </script>
 </body>
 </html>
