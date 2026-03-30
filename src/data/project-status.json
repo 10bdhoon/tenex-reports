@@ -1,421 +1,116 @@
 {
-  "lastUpdated": "2026-03-30T14:15:00+09:00",
+  "updated": "2026-03-30T14:16",
   "tasks": [
     {
-      "id": "t01",
-      "title": "리포트 UI 크롱 스타일 전환",
-      "cat": "I",
-      "urgency": "green",
-      "importance": "상",
-      "status": "done",
-      "assignee": "개실장",
-      "created": "2026-03-27",
-      "dueDate": null,
-      "note": "",
-      "checklist": []
+      "id": "t01", "title": "캘린더 연동", "status": "done", "cat": "I",
+      "assignee": "카리나", "dueDate": "2026-03-27",
+      "note": "구글 캘린더 API 연동 완료"
     },
     {
-      "id": "t02",
-      "title": "정품등록 + 메타픽셀",
-      "cat": "D",
-      "urgency": "yellow",
-      "importance": "상",
-      "status": "blocked",
-      "assignee": "개실장",
-      "created": "2026-03-27",
-      "dueDate": "2026-04-05",
-      "note": "Google Sheets API 활성화 필요 (태훈 수동 3분)",
+      "id": "t02", "title": "지메일 연동", "status": "pending", "cat": "I",
+      "assignee": "카리나", "dueDate": null,
+      "note": "법인 메일 만든 후 진행"
+    },
+    {
+      "id": "t03", "title": "리포트 UI (크롱 스타일)", "status": "in_progress", "cat": "E",
+      "assignee": "개실장", "dueDate": "2026-04-04",
+      "note": "SPA/업무보드/앱통합",
       "checklist": [
-        {
-          "text": "메타 픽셀 설치",
-          "done": true
-        },
-        {
-          "text": "Sheets API 연동",
-          "done": false
-        },
-        {
-          "text": "Vercel 환경변수 설정",
-          "done": false
-        }
+        {"text": "SPA 시스템 페이지 전환", "done": true},
+        {"text": "앱 문서 탭 통합 (5→1)", "done": true},
+        {"text": "업무보드 드래그 버그 수정", "done": false},
+        {"text": "업무보드 JSON fetch 연동", "done": false},
+        {"text": "업무보드 상세 패널", "done": false},
+        {"text": "체크박스 양방향 연동", "done": false},
+        {"text": "간트차트 탭", "done": false},
+        {"text": "문서 카드 새 탭 열기 아이콘", "done": false},
+        {"text": "mosamo 74개 통합", "done": false},
+        {"text": "mosamo 레이아웃 수정", "done": false}
       ]
     },
     {
-      "id": "t03",
-      "title": "앱 탭 UI 통합",
-      "cat": "E",
-      "urgency": "yellow",
-      "importance": "상",
-      "status": "done",
-      "assignee": "개실장",
-      "created": "2026-03-27",
-      "dueDate": "2026-04-07",
-      "note": "iframe lazy-load로 4개→1개 통합 (31c267c)",
+      "id": "t04", "title": "CRM 셋팅 (알마니 이관)", "status": "in_progress", "cat": "D",
+      "assignee": "알마니", "dueDate": null,
+      "note": "데이터라이즈 안 함. 알마니가 직접 셋팅"
+    },
+    {
+      "id": "t05", "title": "정품등록 + 메타픽셀", "status": "done", "cat": "D",
+      "assignee": "개실장", "dueDate": "2026-03-27",
+      "note": "kinemedical-register.vercel.app 배포 완료"
+    },
+    {
+      "id": "t06", "title": "FAQ + CS 최적화", "status": "in_progress", "cat": "K",
+      "assignee": "고실장", "dueDate": "2026-04-04",
       "checklist": [
-        {
-          "text": "탭 구조 통합 (iframe lazy-load)",
-          "done": true
-        },
-        {
-          "text": "index.html 링크 통일",
-          "done": true
-        }
+        {"text": "CS 기획안 v2.0", "done": true},
+        {"text": "외주 CS 가이드", "done": true},
+        {"text": "FAQ 사이트 설계", "done": false},
+        {"text": "CS Q&A 미답변 4건 처리", "done": false}
       ]
     },
     {
-      "id": "t04",
-      "title": "SPA 카테고리 구조 개편",
-      "cat": "I",
-      "urgency": "green",
-      "importance": "중",
-      "status": "done",
-      "assignee": "개실장",
-      "created": "2026-03-27",
-      "dueDate": null,
-      "note": "",
-      "checklist": []
+      "id": "t07", "title": "SNS 일별 조회수 트래킹", "status": "in_progress", "cat": "B",
+      "assignee": "콘실장", "dueDate": "2026-04-04",
+      "note": "콘실장 시스템 구축 중"
     },
     {
-      "id": "t05",
-      "title": "Mixpanel 시각화 대시보드",
-      "cat": "D",
-      "urgency": "yellow",
-      "importance": "상",
-      "status": "doing",
-      "assignee": "마실장",
-      "created": "2026-03-28",
-      "dueDate": "2026-04-04",
-      "note": "",
+      "id": "t08", "title": "AI 바이럴 자동화", "status": "pending", "cat": "I",
+      "assignee": "카리나", "dueDate": null,
+      "note": "유범님 순환 루프 참고"
+    },
+    {
+      "id": "t09", "title": "소비자 리뷰 → 광고 카피", "status": "done", "cat": "D",
+      "assignee": "마실장", "dueDate": "2026-03-30",
       "checklist": [
-        {
-          "text": "퍼널 차트",
-          "done": true
-        },
-        {
-          "text": "코호트 분석",
-          "done": false
-        },
-        {
-          "text": "리텐션 그래프",
-          "done": false
-        }
+        {"text": "카피 15개 작성", "done": true},
+        {"text": "의료기기 인증 표현 확인", "done": false}
       ]
     },
     {
-      "id": "t06",
-      "title": "알림톡 CRM 자동화",
-      "cat": "D",
-      "urgency": "green",
-      "importance": "상",
-      "status": "waiting",
-      "assignee": "마실장",
-      "created": "2026-03-28",
-      "dueDate": "2026-04-14",
-      "note": "알마니 대표 소개 후",
-      "checklist": []
+      "id": "t10", "title": "커뮤니티 구축 (톰 레퍼런스)", "status": "pending", "cat": "B",
+      "assignee": null, "dueDate": null,
+      "note": "https://cafe.naver.com/clickg/22621"
     },
     {
-      "id": "t07",
-      "title": "앱 MVP 개발 착수",
-      "cat": "E",
-      "urgency": "red",
-      "importance": "상",
-      "status": "waiting",
-      "assignee": "개실장",
-      "created": "2026-03-28",
-      "dueDate": "2026-04-21",
-      "note": "기술 스펙 확정 후",
+      "id": "t11", "title": "카페24 스코프 추가 + 토큰 재발급", "status": "done", "cat": "H",
+      "assignee": "카리나", "dueDate": "2026-03-30",
+      "note": "15개 스코프, mall.read_product+community 포함"
+    },
+    {
+      "id": "t12", "title": "굿플 연락 (제품 개선)", "status": "pending", "cat": "A",
+      "assignee": "태훈", "dueDate": "2026-04-01",
+      "note": "내일 스미스 팁스 확인 후 연락"
+    },
+    {
+      "id": "t13", "title": "제형 온보딩", "status": "in_progress", "cat": "G",
+      "assignee": "태훈", "dueDate": null,
+      "note": "G-채용 채널에서 진행중"
+    },
+    {
+      "id": "t14", "title": "통증크림 디자인", "status": "pending", "cat": "A",
+      "assignee": "태훈", "dueDate": "2026-04-15",
+      "note": "4월 중순 목표"
+    },
+    {
+      "id": "t15", "title": "댓글 자동화 (YouTube)", "status": "blocked", "cat": "B",
+      "assignee": "콘실장", "dueDate": null,
+      "note": "YouTube OAuth 필요 — 태훈 로그인 필요"
+    },
+    {
+      "id": "t16", "title": "에이전트 팀 Phase 3 마무리", "status": "in_progress", "cat": "I",
+      "assignee": "카리나",
       "checklist": [
-        {
-          "text": "기술 스펙 문서",
-          "done": true
-        },
-        {
-          "text": "UI/UX 와이어프레임",
-          "done": false
-        },
-        {
-          "text": "백엔드 API 설계",
-          "done": false
-        },
-        {
-          "text": "프론트 보일러플레이트",
-          "done": false
-        }
+        {"text": "4실장 하트비트 루프", "done": true},
+        {"text": "슬랙 스레드 규칙", "done": true},
+        {"text": "project-status.json 자동 업데이트", "done": true},
+        {"text": "댓글 자동화", "done": false},
+        {"text": "실장 간 업무 조율 테스트", "done": false}
       ]
     },
     {
-      "id": "t08",
-      "title": "CS-25 리뷰 체험단 세팅",
-      "cat": "K",
-      "urgency": "green",
-      "importance": "중",
-      "status": "waiting",
-      "assignee": "고실장",
-      "created": "2026-03-28",
-      "dueDate": "2026-04-10",
-      "note": "",
-      "checklist": []
-    },
-    {
-      "id": "t09",
-      "title": "유튜브 콘텐츠 캘린더",
-      "cat": "B",
-      "urgency": "green",
-      "importance": "중",
-      "status": "waiting",
-      "assignee": "콘실장",
-      "created": "2026-03-29",
-      "dueDate": "2026-04-07",
-      "note": "",
-      "checklist": []
-    },
-    {
-      "id": "t10",
-      "title": "팀 채용 JD 작성",
-      "cat": "G",
-      "urgency": "yellow",
-      "importance": "상",
-      "status": "waiting",
-      "assignee": "태훈",
-      "created": "2026-03-29",
-      "dueDate": "2026-04-04",
-      "note": "",
-      "checklist": []
-    },
-    {
-      "id": "t11",
-      "title": "해외진출 1차 리서치",
-      "cat": "J",
-      "urgency": "green",
-      "importance": "중",
-      "status": "waiting",
-      "assignee": "",
-      "created": "2026-03-29",
-      "dueDate": "2026-04-18",
-      "note": "",
-      "checklist": []
-    },
-    {
-      "id": "t12",
-      "title": "지메일 연동 자동화",
-      "cat": "H",
-      "urgency": "green",
-      "importance": "중",
-      "status": "waiting",
-      "assignee": "개실장",
-      "created": "2026-03-29",
-      "dueDate": null,
-      "note": "",
-      "checklist": []
-    },
-    {
-      "id": "t13",
-      "title": "모사모 강의 통합 완료",
-      "cat": "Z",
-      "urgency": "green",
-      "importance": "하",
-      "status": "done",
-      "assignee": "개실장",
-      "created": "2026-03-27",
-      "dueDate": null,
-      "note": "74강 완료",
-      "checklist": []
-    },
-    {
-      "id": "t14",
-      "title": "수익 시뮬레이션 업데이트",
-      "cat": "F",
-      "urgency": "yellow",
-      "importance": "상",
-      "status": "doing",
-      "assignee": "",
-      "created": "2026-03-30",
-      "dueDate": "2026-04-05",
-      "note": "",
-      "checklist": []
-    },
-    {
-      "id": "t15",
-      "title": "보안 대시보드 점검",
-      "cat": "I",
-      "urgency": "red",
-      "importance": "상",
-      "status": "done",
-      "assignee": "개실장",
-      "created": "2026-03-30",
-      "dueDate": "2026-04-02",
-      "note": "6/7 정상, Notion DB 공유 필요 (태훈 수동)",
-      "checklist": [
-        {
-          "text": "7개 API 라이브 체크",
-          "done": true
-        },
-        {
-          "text": "크론잡 상태 섹션 추가",
-          "done": true
-        },
-        {
-          "text": "Notion 이슈 보고",
-          "done": true
-        }
-      ]
-    },
-    {
-      "id": "t16",
-      "title": "업무보드 SPA 구현",
-      "cat": "E",
-      "urgency": "red",
-      "importance": "상",
-      "status": "done",
-      "assignee": "개실장",
-      "created": "2026-03-30",
-      "dueDate": "2026-03-30",
-      "note": "간트차트+상세패널+드래그",
-      "checklist": [
-        {
-          "text": "카드 그리드",
-          "done": true
-        },
-        {
-          "text": "간트차트",
-          "done": true
-        },
-        {
-          "text": "상세 패널",
-          "done": true
-        },
-        {
-          "text": "드래그앤드롭",
-          "done": true
-        },
-        {
-          "text": "JSON 데이터 소스",
-          "done": true
-        }
-      ]
-    },
-    {
-      "id": "t17",
-      "title": "메타 광고 성과 리포트",
-      "cat": "D",
-      "urgency": "yellow",
-      "importance": "상",
-      "status": "doing",
-      "assignee": "마실장",
-      "created": "2026-03-30",
-      "dueDate": "2026-04-07",
-      "note": "",
-      "checklist": []
-    }
-  ],
-  "agents": [
-    {
-      "id": "개실장",
-      "icon": "🔧",
-      "name": "개실장",
-      "role": "개발실 총괄",
-      "tasks": [
-        {
-          "id": "g1",
-          "name": "업무보드 SPA 구현",
-          "status": "doing"
-        },
-        {
-          "id": "g2",
-          "name": "almani 계정 + 어드민 페이지",
-          "status": "done"
-        },
-        {
-          "id": "g3",
-          "name": "tenex-reports UI 리뉴얼",
-          "status": "done"
-        },
-        {
-          "id": "g4",
-          "name": "정품등록 시스템",
-          "status": "doing"
-        },
-        {
-          "id": "g5",
-          "name": "앱 MVP 기술 스펙",
-          "status": "doing"
-        }
-      ]
-    },
-    {
-      "id": "마실장",
-      "icon": "📣",
-      "name": "마실장",
-      "role": "마케팅실 총괄",
-      "tasks": [
-        {
-          "id": "m1",
-          "name": "Mixpanel 시각화 대시보드",
-          "status": "doing"
-        },
-        {
-          "id": "m2",
-          "name": "메타 광고 성과 리포트",
-          "status": "doing"
-        },
-        {
-          "id": "m3",
-          "name": "CRM 알림톡 자동화",
-          "status": "waiting"
-        },
-        {
-          "id": "m4",
-          "name": "인플루언서 아웃리치",
-          "status": "waiting"
-        }
-      ]
-    },
-    {
-      "id": "고실장",
-      "icon": "🎯",
-      "name": "고실장",
-      "role": "고객성공 총괄",
-      "tasks": [
-        {
-          "id": "k1",
-          "name": "CS 운영 기획안",
-          "status": "delay"
-        },
-        {
-          "id": "k2",
-          "name": "VOC 분석 리포트",
-          "status": "doing"
-        },
-        {
-          "id": "k3",
-          "name": "체험단 리뷰 관리",
-          "status": "waiting"
-        }
-      ]
-    },
-    {
-      "id": "콘실장",
-      "icon": "🎬",
-      "name": "콘실장",
-      "role": "콘텐츠 총괄",
-      "tasks": [
-        {
-          "id": "c1",
-          "name": "YouTube 댓글 자동화",
-          "status": "doing"
-        },
-        {
-          "id": "c2",
-          "name": "콘텐츠 캘린더 수립",
-          "status": "doing"
-        },
-        {
-          "id": "c3",
-          "name": "썸네일 A/B 테스트",
-          "status": "waiting"
-        }
-      ]
+      "id": "t17", "title": "운동 앱", "status": "in_progress", "cat": "E",
+      "assignee": "인규", "dueDate": null,
+      "note": "인규 진행중"
     }
   ]
 }
