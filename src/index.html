@@ -123,6 +123,10 @@ body.sidebar-collapsed .header-toggle{display:flex}
 .report-card{background:var(--bg-card);border:1px solid var(--border);border-radius:10px;padding:12px 18px;margin-bottom:7px;display:flex;align-items:center;transition:all .2s;gap:10px;box-shadow:var(--shadow);text-decoration:none;color:inherit;cursor:grab}
 .report-card:hover{transform:translateY(-1px);box-shadow:var(--shadow-lg);border-color:var(--accent)}
 .report-card.dragging{opacity:.4;transform:scale(.96)}
+.report-card{position:relative}
+.card-new-tab{position:absolute;right:10px;top:50%;transform:translateY(-50%);width:26px;height:26px;border-radius:6px;border:1px solid var(--border);background:var(--bg-card);color:var(--text-secondary);display:flex;align-items:center;justify-content:center;font-size:13px;cursor:pointer;opacity:0;transition:opacity .15s,background .15s;z-index:2;text-decoration:none}
+.report-card:hover .card-new-tab{opacity:.6}
+.card-new-tab:hover{opacity:1!important;background:var(--accent-light);color:var(--accent)}
 .card-num{font-size:12px;font-weight:700;color:var(--text-secondary);min-width:28px;text-align:center}
 .card-icon{font-size:17px;min-width:22px;text-align:center}
 .card-info{flex:1;min-width:0}
@@ -926,7 +930,7 @@ function renderReports(){
       subItems.forEach(r=>{
         num++;
         const c=catMap[r.cat];const badge=c?c.icon+' '+c.label:r.cat;
-        html+='<a href="'+r.href+'" class="report-card" draggable="true" data-href="'+r.href+'"><span class="card-num">'+num+'</span><span class="card-icon">'+r.icon+'</span><div class="card-info"><h3>'+r.title+'</h3>'+(r.desc?'<div class="desc">'+r.desc+'</div>':'')+'<div class="meta"><span class="badge" style="background:rgba(0,40,85,0.08);color:#002855">'+badge+'</span><span>'+r.date+'</span></div></div></a>';
+        html+='<a href="'+r.href+'" class="report-card" draggable="true" data-href="'+r.href+'"><span class="card-num">'+num+'</span><span class="card-icon">'+r.icon+'</span><div class="card-info"><h3>'+r.title+'</h3>'+(r.desc?'<div class="desc">'+r.desc+'</div>':'')+'<div class="meta"><span class="badge" style="background:rgba(0,40,85,0.08);color:#002855">'+badge+'</span><span>'+r.date+'</span></div></div><span class="card-new-tab" title="새 탭에서 열기">↗</span></a>';
       });
     });
     const noSub=filtered.filter(r=>!r.sub);
@@ -935,14 +939,14 @@ function renderReports(){
       noSub.forEach(r=>{
         num++;
         const c=catMap[r.cat];const badge=c?c.icon+' '+c.label:r.cat;
-        html+='<a href="'+r.href+'" class="report-card" draggable="true" data-href="'+r.href+'"><span class="card-num">'+num+'</span><span class="card-icon">'+r.icon+'</span><div class="card-info"><h3>'+r.title+'</h3>'+(r.desc?'<div class="desc">'+r.desc+'</div>':'')+'<div class="meta"><span class="badge" style="background:rgba(0,40,85,0.08);color:#002855">'+badge+'</span><span>'+r.date+'</span></div></div></a>';
+        html+='<a href="'+r.href+'" class="report-card" draggable="true" data-href="'+r.href+'"><span class="card-num">'+num+'</span><span class="card-icon">'+r.icon+'</span><div class="card-info"><h3>'+r.title+'</h3>'+(r.desc?'<div class="desc">'+r.desc+'</div>':'')+'<div class="meta"><span class="badge" style="background:rgba(0,40,85,0.08);color:#002855">'+badge+'</span><span>'+r.date+'</span></div></div><span class="card-new-tab" title="새 탭에서 열기">↗</span></a>';
       });
     }
   } else {
     filtered.forEach(r=>{
       num++;
       const c=catMap[r.cat];const badge=c?c.icon+' '+c.label:r.cat;
-      html+='<a href="'+r.href+'" class="report-card" draggable="true" data-href="'+r.href+'"><span class="card-num">'+num+'</span><span class="card-icon">'+r.icon+'</span><div class="card-info"><h3>'+r.title+'</h3>'+(r.desc?'<div class="desc">'+r.desc+'</div>':'')+'<div class="meta"><span class="badge" style="background:rgba(0,40,85,0.08);color:#002855">'+badge+'</span><span>'+r.date+'</span></div></div></a>';
+      html+='<a href="'+r.href+'" class="report-card" draggable="true" data-href="'+r.href+'"><span class="card-num">'+num+'</span><span class="card-icon">'+r.icon+'</span><div class="card-info"><h3>'+r.title+'</h3>'+(r.desc?'<div class="desc">'+r.desc+'</div>':'')+'<div class="meta"><span class="badge" style="background:rgba(0,40,85,0.08);color:#002855">'+badge+'</span><span>'+r.date+'</span></div></div><span class="card-new-tab" title="새 탭에서 열기">↗</span></a>';
     });
   }
   list.innerHTML=html;
@@ -956,6 +960,9 @@ function renderReports(){
       const title=card.querySelector('h3')?.textContent||'';
       openSystemPage(href,title);
     });
+  });
+  list.querySelectorAll('.card-new-tab').forEach(btn=>{
+    btn.addEventListener('click',e=>{e.preventDefault();e.stopPropagation();window.open(btn.closest('.report-card').dataset.href,'_blank')});
   });
 }
 function renderGlossary(q){
@@ -1296,10 +1303,10 @@ function renderTbTasks(){
   // ── Priority List Drag & Drop ──
   let plDragTid=null;
   function removePriorityIndicators(){list.querySelectorAll('.tb-priority-drop-indicator').forEach(el=>el.remove());list.querySelectorAll('.tb-priority-item.dragging').forEach(el=>el.classList.remove('dragging'))}
-  list.querySelectorAll('.tb-priority-item[draggable="true"]').forEach(item=>{
+  list.querySelectorAll('.tb-priority-item').forEach(item=>{
+    item.setAttribute('draggable','false');
+    item.querySelector('.tb-priority-drag-handle')?.addEventListener('mousedown',()=>{item.setAttribute('draggable','true')});
     item.addEventListener('dragstart',e=>{
-      // Only allow drag from handle
-      if(!e.target.closest('.tb-priority-drag-handle')){e.preventDefault();return}
       plDragTid=item.dataset.tid;
       e.dataTransfer.effectAllowed='move';
       e.dataTransfer.setData('text/plain',plDragTid);
@@ -1307,6 +1314,7 @@ function renderTbTasks(){
     });
     item.addEventListener('dragend',()=>{
       item.classList.remove('dragging');
+      item.setAttribute('draggable','false');
       plDragTid=null;
       removePriorityIndicators();
     });
