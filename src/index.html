@@ -208,7 +208,9 @@ body.sidebar-collapsed .header-toggle{display:flex}
 .system-view{display:none;flex-direction:column}
 .system-view.active{display:flex}
 .system-view-header{display:flex;align-items:center;gap:12px;padding:0 0 16px}
-.system-view-header h2{font-size:18px;font-weight:700;color:var(--text);display:flex;align-items:center;gap:8px}
+.system-view-header h2{font-size:18px;font-weight:700;color:var(--text);display:flex;align-items:center;gap:8px;flex:1}
+.system-newtab-btn{background:none;border:1px solid var(--border);color:var(--text-secondary);padding:5px 12px;border-radius:6px;font-size:12px;font-weight:600;cursor:pointer;transition:all .15s;white-space:nowrap;flex-shrink:0}
+.system-newtab-btn:hover{border-color:var(--accent);color:var(--accent);background:var(--accent-light)}
 .system-back-btn{background:none;border:1px solid var(--border);color:var(--text-secondary);padding:6px 14px;border-radius:8px;cursor:pointer;font-size:13px;font-weight:500;transition:all .2s;white-space:nowrap}
 .system-back-btn:hover{border-color:var(--accent);color:var(--text);background:var(--accent-light)}
 .system-iframe-wrap{flex:1;position:relative;border-radius:10px;overflow:hidden;border:1px solid var(--border);background:var(--bg-card)}
@@ -736,6 +738,7 @@ body.sidebar-collapsed .header-toggle{display:flex}
       <div class="system-view-header">
         <button class="system-back-btn" id="systemBackBtn">← 뒤로가기</button>
         <h2 id="systemViewTitle"></h2>
+        <button class="system-newtab-btn" id="systemNewTabBtn" title="새 탭에서 열기" style="display:none">↗ 새 탭</button>
       </div>
       <div id="systemContent" class="system-content"></div>
       <div class="system-iframe-wrap" id="systemIframeWrap" style="display:none">
@@ -1676,15 +1679,20 @@ function switchView(view){
     document.querySelectorAll('.nav-item').forEach(el=>el.classList.toggle('active',el.dataset.cat===currentCat&&!currentSub));
   }
 }
+let currentSystemHref=null;
 function openSystemPage(href,title){
   switchView('system');
+  currentSystemHref=href;
   const iframeWrap=document.getElementById('systemIframeWrap');
   const contentEl=document.getElementById('systemContent');
   const iframe=document.getElementById('systemIframe');
   const loading=document.getElementById('systemLoading');
+  const newTabBtn=document.getElementById('systemNewTabBtn');
   contentEl.innerHTML='';
   iframeWrap.style.display='';
   document.getElementById('systemViewTitle').textContent=title||'';
+  newTabBtn.style.display='';
+  newTabBtn.onclick=()=>window.open(currentSystemHref,'_blank');
   loading.classList.remove('hidden');
   iframe.src=href;
   iframe.onload=()=>loading.classList.add('hidden');
