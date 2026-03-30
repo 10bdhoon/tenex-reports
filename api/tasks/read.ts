@@ -53,15 +53,8 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
     return res.json({ updated: new Date().toISOString(), tasks, agents });
   } catch (err) {
-    console.error("Supabase read failed, falling back to JSON:", err);
-    try {
-      const fs = await import("fs");
-      const path = await import("path");
-      const jsonPath = path.join(process.cwd(), "src", "data", "project-status.json");
-      const raw = fs.readFileSync(jsonPath, "utf-8");
-      return res.json(JSON.parse(raw));
-    } catch (fallbackErr) {
-      return res.status(500).json({ error: "Failed to read tasks", detail: String(fallbackErr) });
-    }
+    const message = err instanceof Error ? err.message : String(err);
+    console.error("Supabase read failed:", message);
+    return res.status(500).json({ error: "Failed to read tasks from DB", detail: message });
   }
 }

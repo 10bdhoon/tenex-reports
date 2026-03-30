@@ -183,7 +183,7 @@ function saveData() {
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
         credentials: 'include',
-        body: JSON.stringify({tasks: [], agents})
+        body: JSON.stringify({agents})
       });
       if (resp.ok) {
         updateSaveStatus('DB 저장 완료');

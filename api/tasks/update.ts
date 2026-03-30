@@ -67,30 +67,30 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   }
 
   const { tasks, agents } = req.body || {};
-  if (!tasks || !Array.isArray(tasks)) {
-    return res.status(400).json({ error: "tasks array required" });
-  }
 
   try {
-    const dbTasks = tasks.map((t: Record<string, unknown>) => ({
-      id: t.id,
-      title: t.title,
-      cat: t.cat,
-      urgency: t.urgency || "green",
-      importance: t.importance || "중",
-      status: t.status,
-      assignee: t.assignee || "",
-      due_date: t.due || null,
-      note: t.desc || "",
-      checklist: t.checklist || [],
-      sort_order: t.sortOrder || 0,
-      priority_order: t.priorityOrder || 0,
-      updated_at: new Date().toISOString(),
-    }));
+    // tasks 업데이트 (비어있으면 스킵 — 전체 삭제 방지)
+    if (tasks && Array.isArray(tasks) && tasks.length > 0) {
+      const dbTasks = tasks.map((t: Record<string, unknown>) => ({
+        id: t.id,
+        title: t.title,
+        cat: t.cat,
+        urgency: t.urgency || "green",
+        importance: t.importance || "중",
+        status: t.status,
+        assignee: t.assignee || "",
+        due_date: t.due || null,
+        note: t.desc || "",
+        checklist: t.checklist || [],
+        sort_order: t.sortOrder || 0,
+        priority_order: t.priorityOrder || 0,
+        updated_at: new Date().toISOString(),
+      }));
 
-    await supaPost("tasks", dbTasks);
-    const taskIds = dbTasks.map((t: Record<string, unknown>) => String(t.id));
-    await supaDelete("tasks", taskIds);
+      await supaPost("tasks", dbTasks);
+      const taskIds = dbTasks.map((t: Record<string, unknown>) => String(t.id));
+      await supaDelete("tasks", taskIds);
+    }
 
     if (agents && Array.isArray(agents)) {
       const dbAgents = agents.map((a: Record<string, unknown>) => ({
