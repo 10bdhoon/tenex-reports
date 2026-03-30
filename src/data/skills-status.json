@@ -1,0 +1,14 @@
+{
+  "updatedAt": "2026-03-30",
+  "skills": [
+    {"name":"coding-agent","icon":"🧩","desc":"코딩 에이전트 위임","active":true,"type":"builtin","lastUsed":"2026-03-30"},
+    {"name":"weather","icon":"🌤️","desc":"날씨 조회","active":true,"type":"builtin","lastUsed":"2026-03-29"},
+    {"name":"slack","icon":"💬","desc":"슬랙 메시지/리액션","active":true,"type":"builtin","lastUsed":"2026-03-30"},
+    {"name":"tmux","icon":"🖥️","desc":"tmux 세션 제어","active":true,"type":"builtin","lastUsed":"2026-03-28"},
+    {"name":"video-frames","icon":"🎬","desc":"비디오 프레임 추출","active":true,"type":"builtin","lastUsed":"2026-03-25"},
+    {"name":"openai-whisper","icon":"🎙️","desc":"로컬 음성→텍스트","active":true,"type":"builtin","lastUsed":"2026-03-27"},
+    {"name":"gemini","icon":"💎","desc":"Gemini CLI Q&A","active":true,"type":"builtin","lastUsed":"2026-03-29"},
+    {"name":"skill-creator","icon":"🛠️","desc":"스킬 생성/편집","active":true,"type":"builtin","lastUsed":"2026-03-26"},
+    {"name":"healthcheck","icon":"🔒","desc":"보안 점검","active":true,"type":"builtin","lastUsed":"2026-03-28"}
+  ]
+}

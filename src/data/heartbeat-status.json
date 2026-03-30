@@ -1,0 +1,10 @@
+{
+  "updatedAt": "2026-03-30 17:00",
+  "agents": [
+    {"name":"개실장","icon":"🔧","role":"개발실 총괄","status":"active","lastCheck":"17:00","interval":"2시간","checks":["크론잡 상태","서비스 헬스체크","디스크/리소스"],"lessons":["deploy 스크립트에서 index.html 덮어쓰기 사고","browser.headless false 설정 사고"]},
+    {"name":"마실장","icon":"📣","role":"마케팅실 총괄","status":"active","lastCheck":"16:30","interval":"3시간","checks":["광고 성과","CRM 알림톡"],"lessons":[]},
+    {"name":"고실장","icon":"🎯","role":"고객성공 총괄","status":"active","lastCheck":"15:00","interval":"4시간","checks":["CS 응답","VOC 분석"],"lessons":[]},
+    {"name":"콘실장","icon":"🎬","role":"콘텐츠 총괄","status":"active","lastCheck":"16:00","interval":"3시간","checks":["YouTube 트래킹","콘텐츠 캘린더"],"lessons":[]},
+    {"name":"카리나","icon":"🤖","role":"총괄 비서","status":"active","lastCheck":"17:05","interval":"상시","checks":["실장 관리","업무 분배","태훈 소통"],"lessons":["project-status.json은 카리나만 수정"]}
+  ]
+}
