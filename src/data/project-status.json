@@ -1,5 +1,5 @@
 {
-  "updated": "2026-03-30T08:00:38.525Z",
+  "updated": "2026-03-30T08:01:42.976Z",
   "tasks": [
     {
       "id": "t01",
@@ -266,7 +266,7 @@
       "cat": "G",
       "urgency": "yellow",
       "importance": "중",
-      "status": "done",
+      "status": "doing",
       "assignee": "태훈",
       "due": null,
       "desc": "G-채용 채널에서 진행중",
@@ -298,7 +298,7 @@
       "cat": "B",
       "urgency": "red",
       "importance": "중",
-      "status": "waiting",
+      "status": "delay",
       "assignee": "콘실장",
       "due": null,
       "desc": "YouTube OAuth 필요 — 태훈 로그인 필요",
