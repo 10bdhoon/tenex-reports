@@ -16,7 +16,7 @@
     {"id":"t13","title":"모사모 강의 통합 완료","cat":"Z","urgency":"green","importance":"하","status":"done","assignee":"개실장","created":"2026-03-27","dueDate":null,"note":"74강 완료","checklist":[]},
     {"id":"t14","title":"수익 시뮬레이션 업데이트","cat":"F","urgency":"yellow","importance":"상","status":"doing","assignee":"","created":"2026-03-30","dueDate":"2026-04-05","note":"","checklist":[]},
     {"id":"t15","title":"보안 대시보드 점검","cat":"I","urgency":"red","importance":"상","status":"doing","assignee":"개실장","created":"2026-03-30","dueDate":"2026-04-02","note":"","checklist":[]},
-    {"id":"t16","title":"업무보드 SPA 구현","cat":"E","urgency":"red","importance":"상","status":"doing","assignee":"개실장","created":"2026-03-30","dueDate":"2026-03-30","note":"간트차트+상세패널+드래그","checklist":[{"text":"카드 그리드","done":true},{"text":"간트차트","done":true},{"text":"상세 패널","done":true},{"text":"드래그앤드롭","done":true},{"text":"JSON 데이터 소스","done":false}]},
+    {"id":"t16","title":"업무보드 SPA 구현","cat":"E","urgency":"red","importance":"상","status":"doing","assignee":"개실장","created":"2026-03-30","dueDate":"2026-03-30","note":"간트차트+상세패널+드래그","checklist":[{"text":"카드 그리드","done":true},{"text":"간트차트","done":true},{"text":"상세 패널","done":true},{"text":"드래그앤드롭","done":true},{"text":"JSON 데이터 소스","done":true}]},
     {"id":"t17","title":"메타 광고 성과 리포트","cat":"D","urgency":"yellow","importance":"상","status":"doing","assignee":"마실장","created":"2026-03-30","dueDate":"2026-04-07","note":"","checklist":[]}
   ],
   "agents": [
