@@ -892,6 +892,7 @@ function switchView(view){
 
 function initTaskBoard(){
   loadTasks();
+  loadAgentData();
   // Sidebar nav click
   document.getElementById('navTaskboard').onclick=()=>{
     switchView('taskboard');closeMobile();
@@ -913,6 +914,8 @@ function initTaskBoard(){
   };
   document.getElementById('tbSaveBtn').onclick=addTask;
   document.getElementById('tbNewTitle').onkeydown=e=>{if(e.key==='Enter')addTask()};
+  // Init tabs
+  initTabs();
 }
 
 function addTask(){
@@ -935,6 +938,135 @@ function addTask(){
   document.getElementById('tbAddForm').classList.remove('open');
   renderTbAll();
 }
+
+/* ═══════ Tab Switching ═══════ */
+const TB_TAB_STORAGE='tenex-taskboard-tab';
+function initTabs(){
+  const saved=localStorage.getItem(TB_TAB_STORAGE)||'my';
+  switchTab(saved);
+  document.querySelectorAll('.tb-tab').forEach(tab=>{
+    tab.onclick=()=>switchTab(tab.dataset.tab);
+  });
+}
+function switchTab(tabId){
+  document.querySelectorAll('.tb-tab').forEach(t=>t.classList.toggle('active',t.dataset.tab===tabId));
+  document.querySelectorAll('.tb-tab-panel').forEach(p=>p.classList.remove('active'));
+  const panel=document.getElementById(tabId==='my'?'tabMy':'tabAgents');
+  if(panel)panel.classList.add('active');
+  localStorage.setItem(TB_TAB_STORAGE,tabId);
+  if(tabId==='agents')renderAgentBoard();
+}
+
+/* ═══════ Agent Board Logic ═══════ */
+const AB_STORAGE='tenex-agent-board-v1';
+const AB_STATUS_EMOJI={doing:'🔧',done:'✅',delay:'🔴',waiting:'⏳'};
+const AB_STATUS_CYCLE=['doing','done','delay','waiting'];
+const DEFAULT_AGENT_TASKS=[
+  {id:'개실장',icon:'🔧',name:'개실장',role:'개발실 총괄',tasks:[
+    {id:'g1',name:'업무보드 SPA 구현',status:'doing'},
+    {id:'g2',name:'almani 계정 + 어드민 페이지',status:'done'},
+    {id:'g3',name:'tenex-reports UI 리뉴얼',status:'done'},
+    {id:'g4',name:'정품등록 시스템',status:'doing'},
+    {id:'g5',name:'앱 MVP 기술 스펙',status:'doing'},
+  ]},
+  {id:'마실장',icon:'📣',name:'마실장',role:'마케팅실 총괄',tasks:[
+    {id:'m1',name:'Mixpanel 시각화 대시보드',status:'doing'},
+    {id:'m2',name:'메타 광고 성과 리포트',status:'doing'},
+    {id:'m3',name:'CRM 알림톡 자동화',status:'waiting'},
+    {id:'m4',name:'인플루언서 아웃리치',status:'waiting'},
+  ]},
+  {id:'고실장',icon:'🎯',name:'고실장',role:'고객성공 총괄',tasks:[
+    {id:'k1',name:'CS 운영 기획안',status:'delay'},
+    {id:'k2',name:'VOC 분석 리포트',status:'doing'},
+    {id:'k3',name:'체험단 리뷰 관리',status:'waiting'},
+  ]},
+  {id:'콘실장',icon:'🎬',name:'콘실장',role:'콘텐츠 총괄',tasks:[
+    {id:'c1',name:'YouTube 댓글 자동화',status:'doing'},
+    {id:'c2',name:'콘텐츠 캘린더 수립',status:'doing'},
+    {id:'c3',name:'썸네일 A/B 테스트',status:'waiting'},
+  ]},
+];
+
+let agentData=[];
+function loadAgentData(){
+  try{
+    const saved=localStorage.getItem(AB_STORAGE);
+    if(saved){agentData=JSON.parse(saved);return}
+  }catch(e){}
+  agentData=DEFAULT_AGENT_TASKS.map(a=>({...a,tasks:a.tasks.map(t=>({...t}))}));
+  saveAgentData();
+}
+function saveAgentData(){localStorage.setItem(AB_STORAGE,JSON.stringify(agentData))}
+
+function renderAgentBoard(){
+  const grid=document.getElementById('agentGrid');
+  grid.innerHTML=agentData.map(agent=>{
+    const doing=agent.tasks.filter(t=>t.status==='doing').length;
+    const done=agent.tasks.filter(t=>t.status==='done').length;
+    const delay=agent.tasks.filter(t=>t.status==='delay').length;
+    const taskHtml=agent.tasks.map(t=>{
+      const cls=t.status==='done'?' done':t.status==='delay'?' delay':'';
+      return '<li class="agent-task-item'+cls+'">'+
+        '<span class="agent-task-status" data-agent="'+agent.id+'" data-task="'+t.id+'">'+AB_STATUS_EMOJI[t.status]+'</span>'+
+        '<span class="agent-task-name">'+escapeHtml(t.name)+'</span>'+
+        '<button class="tc-delete" data-agent="'+agent.id+'" data-task="'+t.id+'" title="삭제" style="opacity:0;border:none;background:none;color:var(--text-secondary);cursor:pointer;font-size:12px;padding:2px 4px;border-radius:4px;transition:all .15s">✕</button>'+
+      '</li>';
+    }).join('');
+    return '<div class="agent-card">'+
+      '<div class="agent-card-header">'+
+        '<span class="agent-card-icon">'+agent.icon+'</span>'+
+        '<div class="agent-card-info"><h3>'+agent.name+'</h3><span class="agent-role">'+agent.role+'</span></div>'+
+        '<div class="agent-card-stats">'+
+          (doing?'<span style="background:rgba(234,179,8,0.15);color:#b45309">🔧'+doing+'</span>':'')+
+          (done?'<span style="background:rgba(34,197,94,0.15);color:#15803d">✅'+done+'</span>':'')+
+          (delay?'<span style="background:rgba(239,68,68,0.15);color:#dc2626">🔴'+delay+'</span>':'')+
+        '</div>'+
+      '</div>'+
+      '<ul class="agent-task-list">'+taskHtml+'</ul>'+
+      '<div class="agent-add-wrap">'+
+        '<input class="agent-add-input" type="text" placeholder="새 업무 추가..." data-agent="'+agent.id+'">'+
+        '<button class="agent-add-btn" data-agent="'+agent.id+'">+ 추가</button>'+
+      '</div>'+
+    '</div>';
+  }).join('');
+  // Status toggle
+  grid.querySelectorAll('.agent-task-status').forEach(el=>el.onclick=()=>{
+    const agent=agentData.find(a=>a.id===el.dataset.agent);
+    if(!agent)return;
+    const task=agent.tasks.find(t=>t.id===el.dataset.task);
+    if(!task)return;
+    const idx=AB_STATUS_CYCLE.indexOf(task.status);
+    task.status=AB_STATUS_CYCLE[(idx+1)%AB_STATUS_CYCLE.length];
+    saveAgentData();renderAgentBoard();
+  });
+  // Delete
+  grid.querySelectorAll('.tc-delete[data-agent]').forEach(el=>{
+    el.parentElement.onmouseenter=()=>el.style.opacity='.6';
+    el.parentElement.onmouseleave=()=>el.style.opacity='0';
+    el.onclick=e=>{
+      e.stopPropagation();
+      const agent=agentData.find(a=>a.id===el.dataset.agent);
+      if(!agent)return;
+      agent.tasks=agent.tasks.filter(t=>t.id!==el.dataset.task);
+      saveAgentData();renderAgentBoard();
+    };
+  });
+  // Add task
+  grid.querySelectorAll('.agent-add-btn').forEach(btn=>{
+    const input=grid.querySelector('.agent-add-input[data-agent="'+btn.dataset.agent+'"]');
+    const doAdd=()=>{
+      const name=input.value.trim();
+      if(!name)return;
+      const agent=agentData.find(a=>a.id===btn.dataset.agent);
+      if(!agent)return;
+      agent.tasks.push({id:'a'+Date.now(),name:name,status:'doing'});
+      saveAgentData();renderAgentBoard();
+    };
+    btn.onclick=doAdd;
+    input.onkeydown=e=>{if(e.key==='Enter')doAdd()};
+  });
+}
+
 </script>
 </body>
 </html>
