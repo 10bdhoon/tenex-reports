@@ -3073,16 +3073,22 @@ function renderAgentBoard(){
 
 // ── Server Sync ──
 let _syncTimer=null;
+let _syncInFlight=false;
+let _syncQueued=false;
 function debouncedSync(){
   if(_syncTimer)clearTimeout(_syncTimer);
-  _syncTimer=setTimeout(syncToServer,500);
+  _syncTimer=setTimeout(()=>{
+    if(_syncInFlight){_syncQueued=true;return}
+    syncToServer();
+  },500);
 }
 function showSyncToast(msg,type){
   const t=document.getElementById('syncToast');
   t.textContent=msg;t.className='sync-toast '+type+' show';
   setTimeout(()=>{t.classList.remove('show')},2000);
 }
-async function syncToServer(){
+async function syncToServer(retries=2){
+  _syncInFlight=true;
   try{
     const res=await fetch('/api/tasks/update',{
       method:'POST',
@@ -3090,10 +3096,23 @@ async function syncToServer(){
       credentials:'same-origin',
       body:JSON.stringify({tasks:tbTasks,agents:agentData,lastUpdated:new Date().toISOString()})
     });
-    if(!res.ok){showSyncToast('저장 실패','error');return}
+    if(!res.ok){
+      if(retries>0&&res.status>=500){
+        await new Promise(r=>setTimeout(r,1000));
+        return syncToServer(retries-1);
+      }
+      showSyncToast('저장 실패 ('+res.status+')','error');return;
+    }
     showSyncToast('저장됨','success');
   }catch(e){
-    showSyncToast('저장 실패','error');
+    if(retries>0){
+      await new Promise(r=>setTimeout(r,1000));
+      return syncToServer(retries-1);
+    }
+    showSyncToast('네트워크 오류 — 로컬에 저장됨','error');
+  }finally{
+    _syncInFlight=false;
+    if(_syncQueued){_syncQueued=false;debouncedSync();}
   }
 }
 
