@@ -1295,15 +1295,11 @@ function renderTbTasks(){
 
   // ── Priority List Drag & Drop ──
   let plDragTid=null;
-  let plDragFromHandle=false;
   function removePriorityIndicators(){list.querySelectorAll('.tb-priority-drop-indicator').forEach(el=>el.remove());list.querySelectorAll('.tb-priority-item.dragging').forEach(el=>el.classList.remove('dragging'))}
   list.querySelectorAll('.tb-priority-item[draggable="true"]').forEach(item=>{
-    item.addEventListener('mousedown',e=>{
-      plDragFromHandle=!!e.target.closest('.tb-priority-drag-handle');
-    });
     item.addEventListener('dragstart',e=>{
-      // Only allow drag from handle (checked via mousedown)
-      if(!plDragFromHandle){e.preventDefault();return}
+      // Only allow drag from handle
+      if(!e.target.closest('.tb-priority-drag-handle')){e.preventDefault();return}
       plDragTid=item.dataset.tid;
       e.dataTransfer.effectAllowed='move';
       e.dataTransfer.setData('text/plain',plDragTid);
