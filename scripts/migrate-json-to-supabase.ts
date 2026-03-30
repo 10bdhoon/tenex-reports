@@ -1,7 +1,7 @@
 /**
  * JSON → Supabase 마이그레이션 스크립트
  * 실행: npx tsx scripts/migrate-json-to-supabase.ts
- * 
+ *
  * 환경변수 필요:
  *   SUPABASE_URL, SUPABASE_SERVICE_KEY
  */
@@ -29,13 +29,13 @@ interface JsonTask {
   status: string;
   assignee: string;
   due: string | null;
+  dueDate?: string;
   desc: string;
   checklist: { text: string; done: boolean }[];
   memo: string;
   note?: string;
   sortOrder?: number;
   priorityOrder?: number;
-  dueDate?: string;
 }
 
 async function migrate() {
@@ -46,7 +46,7 @@ async function migrate() {
 
   console.log(`📄 JSON 로드: ${data.tasks.length}개 태스크`);
 
-  // 2. tasks 마이그레이션
+  // 2. tasks 마이그레이션 (checklist 제외)
   const dbTasks = data.tasks.map((t: JsonTask) => ({
     id: t.id,
     title: t.title,
@@ -57,7 +57,6 @@ async function migrate() {
     assignee: t.assignee || "",
     due_date: t.due || t.dueDate || null,
     note: t.desc || t.note || "",
-    checklist: t.checklist || [],
     sort_order: t.sortOrder ?? 0,
     priority_order: t.priorityOrder ?? 0,
   }));
@@ -72,7 +71,28 @@ async function migrate() {
   }
   console.log(`✅ tasks: ${dbTasks.length}개 upsert 완료`);
 
-  // 3. agents 마이그레이션 (project-status.html의 하드코딩 데이터)
+  // 3. checklists 마이그레이션 (별도 테이블)
+  let checklistCount = 0;
+  for (const t of data.tasks as JsonTask[]) {
+    if (!t.checklist || t.checklist.length === 0) continue;
+
+    const rows = t.checklist.map((c, idx) => ({
+      task_id: t.id,
+      text: c.text,
+      done: c.done,
+      sort_order: idx,
+    }));
+
+    const { error } = await supabase.from("checklists").insert(rows);
+    if (error) {
+      console.error(`❌ checklists insert 실패 (${t.id}):`, error);
+      process.exit(1);
+    }
+    checklistCount += rows.length;
+  }
+  console.log(`✅ checklists: ${checklistCount}개 insert 완료`);
+
+  // 4. agents 마이그레이션
   const agents = [
     {
       id: "개실장",
@@ -130,20 +150,17 @@ async function migrate() {
   }
   console.log(`✅ agents: ${agents.length}개 upsert 완료`);
 
-  // 4. 검증
-  const { data: verifyTasks } = await supabase
-    .from("tasks")
-    .select("id")
-    .order("sort_order");
-  const { data: verifyAgents } = await supabase
-    .from("agents")
-    .select("id");
+  // 5. 검증
+  const { data: vTasks } = await supabase.from("tasks").select("id");
+  const { data: vChecks } = await supabase.from("checklists").select("id");
+  const { data: vAgents } = await supabase.from("agents").select("id");
 
   console.log(`\n🔍 검증:`);
-  console.log(`   tasks: ${verifyTasks?.length}개 (원본: ${data.tasks.length}개)`);
-  console.log(`   agents: ${verifyAgents?.length}개 (원본: ${agents.length}개)`);
+  console.log(`   tasks: ${vTasks?.length}개 (원본: ${data.tasks.length}개)`);
+  console.log(`   checklists: ${vChecks?.length}개 (원본: ${checklistCount}개)`);
+  console.log(`   agents: ${vAgents?.length}개 (원본: ${agents.length}개)`);
 
-  if (verifyTasks?.length === data.tasks.length) {
+  if (vTasks?.length === data.tasks.length && vChecks?.length === checklistCount) {
     console.log(`\n✅ 마이그레이션 완료!`);
   } else {
     console.log(`\n⚠️ 개수 불일치 — 확인 필요`);

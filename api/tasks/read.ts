@@ -9,10 +9,10 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   try {
     const supabase = getSupabaseClient();
 
-    // tasks 조회
+    // tasks + checklists JOIN 조회
     const { data: tasksRaw, error: tasksError } = await supabase
       .from("tasks")
-      .select("*")
+      .select("*, checklists(id, text, done, sort_order)")
       .order("sort_order", { ascending: true });
 
     if (tasksError) throw tasksError;
@@ -25,7 +25,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     if (agentsError) throw agentsError;
 
     // DB 컬럼명 → 프론트엔드 필드명 매핑
-    const tasks = (tasksRaw || []).map((t) => ({
+    const tasks = (tasksRaw || []).map((t: Record<string, unknown>) => ({
       id: t.id,
       title: t.title,
       cat: t.cat,
@@ -33,17 +33,18 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       importance: t.importance,
       status: t.status,
       assignee: t.assignee,
-      created: t.created,
       due: t.due_date,
       desc: t.note,
-      checklist: t.checklist,
+      checklist: ((t.checklists as Array<Record<string, unknown>>) || [])
+        .sort((a, b) => ((a.sort_order as number) || 0) - ((b.sort_order as number) || 0))
+        .map((c) => ({ id: c.id, text: c.text, done: c.done })),
       memo: "",
-      _source: "json",
+      _source: "supabase",
       sortOrder: t.sort_order,
       priorityOrder: t.priority_order,
     }));
 
-    const agents = (agentsRaw || []).map((a) => ({
+    const agents = (agentsRaw || []).map((a: Record<string, unknown>) => ({
       id: a.id,
       icon: a.icon,
       name: a.name,

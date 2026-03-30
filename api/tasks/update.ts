@@ -19,6 +19,28 @@ function parseCookies(cookieHeader: string): Record<string, string> {
   return cookies;
 }
 
+interface ChecklistItem {
+  id?: string;
+  text: string;
+  done: boolean;
+  sort_order?: number;
+}
+
+interface TaskInput {
+  id: string;
+  title: string;
+  cat: string;
+  urgency: string;
+  importance: string;
+  status: string;
+  assignee?: string;
+  due?: string | null;
+  desc?: string;
+  checklist?: ChecklistItem[];
+  sortOrder?: number;
+  priorityOrder?: number;
+}
+
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   if (req.method !== "POST") {
     return res.status(405).json({ error: "Method not allowed" });
@@ -49,8 +71,8 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   try {
     const supabase = getSupabaseAdmin();
 
-    // 프론트엔드 필드명 → DB 컬럼명 매핑 후 upsert
-    const dbTasks = tasks.map((t: Record<string, unknown>) => ({
+    // tasks upsert (checklist 제외)
+    const dbTasks = tasks.map((t: TaskInput) => ({
       id: t.id,
       title: t.title,
       cat: t.cat,
@@ -58,10 +80,8 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       importance: t.importance,
       status: t.status,
       assignee: t.assignee || "",
-      created: t.created || null,
       due_date: t.due || null,
       note: t.desc || "",
-      checklist: t.checklist || [],
       sort_order: t.sortOrder || 0,
       priority_order: t.priorityOrder || 0,
       updated_at: new Date().toISOString(),
@@ -73,14 +93,43 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
     if (tasksError) throw tasksError;
 
-    // DB에 없는 task 삭제 (프론트에서 삭제된 task 동기화)
-    const taskIds = dbTasks.map((t: { id: string }) => t.id);
+    // DB에 없는 task 삭제
+    const taskIds = dbTasks.map((t) => t.id);
     const { error: deleteError } = await supabase
       .from("tasks")
       .delete()
       .not("id", "in", `(${taskIds.join(",")})`);
 
     if (deleteError) throw deleteError;
+
+    // checklists 동기화 (task별로 delete → insert)
+    for (const t of tasks as TaskInput[]) {
+      if (!t.checklist) continue;
+
+      // 기존 체크리스트 삭제
+      const { error: delCheckErr } = await supabase
+        .from("checklists")
+        .delete()
+        .eq("task_id", t.id);
+
+      if (delCheckErr) throw delCheckErr;
+
+      // 새 체크리스트 삽입
+      if (t.checklist.length > 0) {
+        const checklistRows = t.checklist.map((c, idx) => ({
+          task_id: t.id,
+          text: c.text,
+          done: c.done || false,
+          sort_order: c.sort_order ?? idx,
+        }));
+
+        const { error: insCheckErr } = await supabase
+          .from("checklists")
+          .insert(checklistRows);
+
+        if (insCheckErr) throw insCheckErr;
+      }
+    }
 
     // agents upsert
     if (agents && Array.isArray(agents)) {
@@ -99,8 +148,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
       if (agentsError) throw agentsError;
 
-      // DB에 없는 agent 삭제
-      const agentIds = dbAgents.map((a: { id: string }) => a.id);
+      const agentIds = dbAgents.map((a) => a.id as string);
       const { error: agentDeleteError } = await supabase
         .from("agents")
         .delete()
