@@ -47,11 +47,18 @@ body.sidebar-collapsed .header-toggle{display:flex}
 .nav-item .expand-arrow.open{transform:rotate(90deg)}
 .nav-item.drop-target{background:rgba(0,100,200,0.3)!important;color:#fff!important;outline:2px dashed rgba(100,180,255,0.6)}
 /* ★ Pinned category special style */
-.nav-item-pinned{background:rgba(255,215,0,0.07)!important;border-left:3px solid #c9a400!important;padding-left:9px!important;color:#f0d060!important}
+.nav-item-pinned{background:rgba(255,215,0,0.07)!important;border-left:3px solid #c9a400!important;padding-left:9px!important;color:#f0d060!important;font-weight:600}
 .nav-item-pinned:hover{background:rgba(255,215,0,0.13)!important;color:#ffe066!important}
 .nav-item-pinned.active{background:rgba(255,215,0,0.15)!important;color:#ffe066!important}
 .nav-item-pinned.active::before{background:#c9a400!important}
 .nav-item-pinned .count{background:rgba(255,215,0,0.15)!important;color:#c9a400!important}
+/* Archive toggle */
+.nav-archive-toggle{cursor:pointer;display:flex;align-items:center;gap:6px;user-select:none}
+.nav-archive-toggle:hover{color:var(--text-sidebar)!important}
+.nav-archive-toggle .expand-arrow{font-size:10px;transition:transform .2s;margin-left:auto}
+.nav-archive-toggle .expand-arrow.open{transform:rotate(90deg)}
+.nav-section-title.pinned-title{color:#f0d060!important;font-weight:800!important;font-size:11px!important}
+.nav-item .external-icon{font-size:10px;opacity:.5;margin-left:auto;flex-shrink:0}
 /* 📌 핵심전략 sub item */
 .nav-sub-pinned{color:#f0d060!important;font-weight:700!important}
 .nav-sub-pinned:hover{background:rgba(255,215,0,0.08)!important;color:#ffe066!important}
@@ -987,23 +994,110 @@ body.sidebar-collapsed .header-toggle{display:flex}
         <span class="icon">📊</span><span class="label">전체</span><span class="count" id="cnt-all">0</span>
       </div>
     </div>
-    <div class="nav-section" id="catSection">
-      <div class="nav-section-title">업무 카테고리 (A~Z)</div>
-    </div>
-    <div class="nav-section" style="padding:0 12px;margin-top:4px;margin-bottom:4px">
-      <div class="nav-item" id="navTaskboard" data-view="taskboard">
+
+    <!-- 📌 매일 보는 것 -->
+    <div class="nav-section" id="pinnedSection">
+      <div class="nav-section-title pinned-title">📌 매일 보는 것</div>
+      <div class="nav-item nav-item-pinned" id="navTaskboard" data-view="taskboard">
         <span class="icon">📋</span><span class="label">업무보드</span>
       </div>
+      <a class="nav-item nav-item-pinned" href="https://tenex-dashboard.vercel.app" target="_blank" rel="noopener">
+        <span class="icon">📊</span><span class="label">CEO 대시보드</span><span class="external-icon">↗</span>
+      </a>
+      <div class="nav-item nav-item-pinned" data-nav-href="/meta-weekly-2026-03-30.html" data-nav-title="메타 광고 주간 리포트">
+        <span class="icon">📣</span><span class="label">광고 리포트</span>
+      </div>
+      <div class="nav-item nav-item-pinned" data-nav-href="/cs-guide-external.html" data-nav-title="외주 CS 응대 가이드">
+        <span class="icon">🎧</span><span class="label">CS 현황</span>
+      </div>
+      <div class="nav-item nav-item-pinned" data-nav-href="/sns-tracker.html" data-nav-title="SNS 트래커">
+        <span class="icon">📱</span><span class="label">SNS 트래커</span>
+      </div>
     </div>
+
+    <!-- 📋 전략/기획 문서 -->
+    <div class="nav-section" id="strategySection">
+      <div class="nav-section-title">📋 전략/기획 문서</div>
+      <div class="nav-item" data-nav-href="/crm.html" data-nav-title="CRM 전략 v2">
+        <span class="icon">📊</span><span class="label">CRM 전략</span>
+      </div>
+      <div class="nav-item" data-nav-href="/product-roadmap.html" data-nav-title="제품 로드맵">
+        <span class="icon">🗓️</span><span class="label">제품 로드맵</span>
+      </div>
+      <div class="nav-item" data-nav-href="/brand-design-system.html" data-nav-title="키네메디칼 디자인 시스템">
+        <span class="icon">🎨</span><span class="label">브랜드 디자인</span>
+      </div>
+      <div class="nav-item" data-nav-href="/global-strategy.html" data-nav-title="글로벌 진출 전략">
+        <span class="icon">🌏</span><span class="label">해외전략</span>
+      </div>
+      <div class="nav-item" data-nav-href="/profit-simulation.html" data-nav-title="수익 시뮬레이션">
+        <span class="icon">💹</span><span class="label">수익 시뮬레이션</span>
+      </div>
+      <div class="nav-item" data-nav-href="/funding.html" data-nav-title="자금조달">
+        <span class="icon">💰</span><span class="label">자금조달</span>
+      </div>
+      <div class="nav-item" data-nav-href="/membership.html" data-nav-title="멤버십">
+        <span class="icon">💎</span><span class="label">멤버십</span>
+      </div>
+      <div class="nav-item" data-nav-href="/media-mix-strategy.html" data-nav-title="미디어 전략">
+        <span class="icon">📺</span><span class="label">미디어 전략</span>
+      </div>
+      <div class="nav-item" data-nav-href="/app-overview.html" data-nav-title="앱 종합">
+        <span class="icon">📱</span><span class="label">앱 종합</span>
+      </div>
+    </div>
+
+    <!-- 📁 아카이브/참고 -->
+    <div class="nav-section" id="archiveSection">
+      <div class="nav-section-title nav-archive-toggle" id="archiveToggle">📁 아카이브/참고 <span class="expand-arrow" id="archiveArrow">▶</span></div>
+      <div class="nav-sub-list" id="archiveList">
+        <div class="nav-sub-item" data-nav-href="/mosamo-lectures.html" data-nav-title="모사모 강의">
+          <span>📝 전사본/강의</span>
+        </div>
+        <div class="nav-sub-item" data-nav-href="/archive/weekly-mixpanel-2026-03-29.html" data-nav-title="주간 Mixpanel (3/29)">
+          <span>📈 과거 Mixpanel</span>
+        </div>
+        <div class="nav-sub-item" data-nav-href="/archive/leaders-meeting-2026-03-24.html" data-nav-title="리더 회의 (3/24)">
+          <span>📋 과거 회의록</span>
+        </div>
+        <div class="nav-sub-item" data-nav-href="/1min-dosu-app.html" data-nav-title="1분도수 앱 (통합)">
+          <span>📱 앱 통합</span>
+        </div>
+        <div class="nav-sub-item" data-nav-href="/onboarding-guide.html" data-nav-title="온보딩 가이드">
+          <span>📖 온보딩</span>
+        </div>
+        <div class="nav-sub-item" data-nav-href="/faq.html" data-nav-title="FAQ">
+          <span>❓ FAQ</span>
+        </div>
+        <div class="nav-sub-item" data-nav-href="/tenex-culture.html" data-nav-title="테넥스 문화">
+          <span>🏠 문화</span>
+        </div>
+        <div class="nav-sub-item" data-nav-href="/2026-team-structure.html" data-nav-title="팀 구조 & 채용 로드맵">
+          <span>👥 팀구조</span>
+        </div>
+        <div class="nav-sub-item" data-nav-href="/apr-hiring-analysis.html" data-nav-title="APR 채용 공고 분석">
+          <span>📋 채용분석</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 시스템 -->
     <div class="sidebar-system" id="sidebarSystem">
-      <div class="nav-section-title" style="padding:6px 8px 5px">시스템</div>
-      <div class="nav-item" data-system-page="cron"><span class="icon">🔄</span><span class="label">크론</span></div>
-      <div class="nav-item" data-system-page="deploy"><span class="icon">🚀</span><span class="label">배포</span></div>
-      <div class="nav-item" data-system-page="system"><span class="icon">🖥️</span><span class="label">시스템 현황</span></div>
-      <div class="nav-item" data-system-page="heartbeat"><span class="icon">💓</span><span class="label">하트비트</span></div>
-      <div class="nav-item" data-system-page="skills"><span class="icon">🧩</span><span class="label">스킬</span></div>
-      <div class="nav-item" data-system-page="security"><span class="icon">🔒</span><span class="label">보안</span></div>
-      <div class="nav-item" data-system-page="pipeline"><span class="icon">🔗</span><span class="label">파이프라인</span></div>
+      <div class="nav-section-title nav-archive-toggle" id="systemToggle" style="padding:6px 8px 5px">⚙️ 시스템 <span class="expand-arrow" id="systemArrow">▶</span></div>
+      <div class="nav-sub-list" id="systemList">
+        <div class="nav-sub-item" data-system-page="system"><span>🖥️ 시스템 현황</span></div>
+        <div class="nav-sub-item" data-system-page="cron"><span>🔄 크론</span></div>
+        <div class="nav-sub-item" data-system-page="deploy"><span>🚀 배포</span></div>
+        <div class="nav-sub-item" data-system-page="security"><span>🔒 보안</span></div>
+        <div class="nav-sub-item" data-system-page="skills"><span>🧩 스킬</span></div>
+        <div class="nav-sub-item" data-system-page="heartbeat"><span>💓 하트비트</span></div>
+        <div class="nav-sub-item" data-system-page="pipeline"><span>🔗 파이프라인</span></div>
+      </div>
+    </div>
+
+    <!-- Hidden catSection for legacy compatibility -->
+    <div class="nav-section" id="catSection" style="display:none">
+      <div class="nav-section-title">업무 카테고리 (A~Z)</div>
     </div>
   </nav>
   <div class="sidebar-footer">
@@ -1408,7 +1502,7 @@ document.addEventListener('DOMContentLoaded',()=>{
   document.getElementById('mobileMenuBtn').onclick=()=>{document.getElementById('sidebar').classList.add('open');document.getElementById('sidebarOverlay').classList.add('show')};
   document.getElementById('sidebarOverlay').onclick=closeMobile;
   document.querySelector('.nav-item[data-cat="all"]').onclick=()=>{currentSub=null;setCategory('all')};
-  document.getElementById('sidebarSearchInput').oninput=e=>{const q=e.target.value.toLowerCase();document.querySelectorAll('#catSection .nav-item, #catSection .nav-sub-item').forEach(el=>{const l=(el.querySelector('.label')||el).textContent.toLowerCase();el.style.display=(!q||l.includes(q))?'':'none'})};
+  document.getElementById('sidebarSearchInput').oninput=e=>{const q=e.target.value.toLowerCase();document.querySelectorAll('#pinnedSection .nav-item, #strategySection .nav-item, #archiveList .nav-sub-item, #systemList .nav-sub-item').forEach(el=>{const l=(el.querySelector('.label')||el).textContent.toLowerCase();el.style.display=(!q||l.includes(q))?'':'none';if(q&&l.includes(q)){const subList=el.closest('.nav-sub-list');if(subList&&!subList.classList.contains('open'))subList.classList.add('open')}})};
   const globalSearchEl=document.getElementById('globalSearch');
   globalSearchEl.oninput=e=>{searchQuery=e.target.value;renderReports()};
   document.getElementById('searchClear').onclick=()=>{globalSearchEl.value='';searchQuery='';renderReports();globalSearchEl.focus()};
@@ -1418,9 +1512,36 @@ document.addEventListener('DOMContentLoaded',()=>{
   document.getElementById('glossaryClose').onclick=()=>{document.getElementById('glossaryPanel').classList.remove('open');document.getElementById('glossaryOverlay').classList.remove('show')};
   document.getElementById('glossaryOverlay').onclick=()=>{document.getElementById('glossaryPanel').classList.remove('open');document.getElementById('glossaryOverlay').classList.remove('show')};
   document.getElementById('glossarySearch').oninput=e=>renderGlossary(e.target.value.toLowerCase());
+  // ── New sidebar nav: data-nav-href items ──
+  document.querySelectorAll('[data-nav-href]').forEach(el=>{
+    el.onclick=()=>{
+      openSystemPage(el.dataset.navHref,el.dataset.navTitle||'');
+      // highlight active
+      document.querySelectorAll('[data-nav-href]').forEach(n=>n.classList.remove('active'));
+      el.classList.add('active');
+      closeMobile();
+    };
+  });
+  // ── Archive toggle ──
+  document.getElementById('archiveToggle').onclick=()=>{
+    const list=document.getElementById('archiveList');
+    const arrow=document.getElementById('archiveArrow');
+    list.classList.toggle('open');
+    arrow.classList.toggle('open');
+  };
+  // ── System toggle ──
+  document.getElementById('systemToggle').onclick=()=>{
+    const list=document.getElementById('systemList');
+    const arrow=document.getElementById('systemArrow');
+    list.classList.toggle('open');
+    arrow.classList.toggle('open');
+  };
   // ── System View ──
-  document.querySelectorAll('#sidebarSystem .nav-item[data-system-page]').forEach(el=>{
-    el.onclick=()=>openSystemDashboard(el.dataset.systemPage,el.querySelector('.label').textContent);
+  document.querySelectorAll('#sidebarSystem [data-system-page]').forEach(el=>{
+    el.onclick=()=>{
+      const label=el.textContent.trim();
+      openSystemDashboard(el.dataset.systemPage,label);
+    };
   });
   document.getElementById('systemBackBtn').onclick=()=>{
     document.getElementById('systemIframe').src='about:blank';
@@ -2046,15 +2167,15 @@ function switchView(view){
   sv.classList.remove('active');
   navTb.classList.remove('active');
   // Clear system nav active
-  document.querySelectorAll('#sidebarSystem .nav-item').forEach(el=>el.classList.remove('active'));
+  document.querySelectorAll('#sidebarSystem [data-system-page]').forEach(el=>el.classList.remove('active'));
   if(view==='taskboard'){
     tv.classList.add('active');
     navTb.classList.add('active');
-    document.querySelectorAll('#catSection .nav-item, .nav-item[data-cat="all"]').forEach(el=>el.classList.remove('active'));
+    document.querySelectorAll('.nav-item[data-cat="all"]').forEach(el=>el.classList.remove('active'));
     renderTbAll();
   } else if(view==='system'){
     sv.classList.add('active');
-    document.querySelectorAll('#catSection .nav-item, .nav-item[data-cat="all"]').forEach(el=>el.classList.remove('active'));
+    document.querySelectorAll('.nav-item[data-cat="all"]').forEach(el=>el.classList.remove('active'));
   } else {
     rv.classList.remove('hidden');
     // Re-activate current category nav
@@ -2078,7 +2199,7 @@ function openSystemPage(href,title){
   loading.classList.remove('hidden');
   iframe.src=href;
   iframe.onload=()=>loading.classList.add('hidden');
-  document.querySelectorAll('#sidebarSystem .nav-item').forEach(el=>el.classList.remove('active'));
+  document.querySelectorAll('#sidebarSystem [data-system-page]').forEach(el=>el.classList.remove('active'));
   closeMobile();
 }
 
@@ -2105,7 +2226,7 @@ function openSystemDashboard(page,label){
     contentEl.innerHTML=renderer?renderer():'';
   }
   // Highlight sidebar
-  document.querySelectorAll('#sidebarSystem .nav-item').forEach(el=>{
+  document.querySelectorAll('#sidebarSystem [data-system-page]').forEach(el=>{
     el.classList.toggle('active',el.dataset.systemPage===page);
   });
   closeMobile();

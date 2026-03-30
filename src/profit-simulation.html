@@ -135,10 +135,10 @@
     <h1>테넥스 재무 시뮬레이션 2026–2028</h1>
     <div class="hero-sub">2026년 3월 26일 기준 · 실데이터 반영 · 스케일업 이벤트 모델</div>
     <div class="hero-kpi">
-      <div class="kpi"><div class="kpi-num">1.3억</div><div class="kpi-label">현재 월 전채널 매출</div></div>
+      <div class="kpi"><div class="kpi-num">1.4억</div><div class="kpi-label">최근 3개월 평균 월매출</div></div>
       <div class="kpi"><div class="kpi-num">75.3%</div><div class="kpi-label">공헌이익률</div></div>
-      <div class="kpi"><div class="kpi-num">7,800만</div><div class="kpi-label">월 영업이익</div></div>
-      <div class="kpi"><div class="kpi-num">60%</div><div class="kpi-label">영업이익률</div></div>
+      <div class="kpi"><div class="kpi-num">7,600만</div><div class="kpi-label">월 영업이익</div></div>
+      <div class="kpi"><div class="kpi-num">53%</div><div class="kpi-label">영업이익률</div></div>
       <div class="kpi"><div class="kpi-num">200억</div><div class="kpi-label">목표 연매출</div></div>
     </div>
   </div>
@@ -364,9 +364,9 @@ EVENTS.forEach(e => { eventEnabled[e.id] = true; });
 
 // Scenario parameters
 const SCENARIOS = {
-  conservative: { name:'보수적', color:'#79c0ff', naturalGrowth:0.08, eventSuccess:0.50, cm:0.70, adRatio:0.22 },
-  base:         { name:'기본',   color:'#3fb950', naturalGrowth:0.10, eventSuccess:0.80, cm:0.75, adRatio:0.18 },
-  aggressive:   { name:'공격적', color:'#f85149', naturalGrowth:0.15, eventSuccess:1.00, cm:0.80, adRatio:0.14, extraBonus:0.05 }
+  conservative: { name:'보수적', color:'#79c0ff', naturalGrowth:0.04, eventSuccess:0.50, cm:0.70, adRatio:0.22 },
+  base:         { name:'기본',   color:'#3fb950', naturalGrowth:0.06, eventSuccess:0.80, cm:0.75, adRatio:0.18 },
+  aggressive:   { name:'공격적', color:'#f85149', naturalGrowth:0.10, eventSuccess:1.00, cm:0.80, adRatio:0.14, extraBonus:0.05 }
 };
 
 function buildRevData(sc) {
@@ -587,12 +587,12 @@ function renderProfit() {
   // ---- CHART: Cost structure ----
   const adRatioData = revData.map((_,i)=>{
     const progress = i/MONTHS.length;
-    return parseFloat(((0.242 - (0.242-p.adRatio)*progress)*100).toFixed(1));
+    return parseFloat(((0.30 - (0.30-p.adRatio)*progress)*100).toFixed(1));
   });
   const fixedRatioData = revData.map(r=>parseFloat((FIXED_COST/r*100).toFixed(1)));
   const cmData = revData.map((_,i)=>{
     const progress = i/MONTHS.length;
-    return parseFloat(((0.517 + (p.cm-0.517)*progress)*100).toFixed(1));
+    return parseFloat(((0.753 + (p.cm-0.753)*progress)*100).toFixed(1));
   });
   destroyChart('chart-cost');
   charts['chart-cost'] = new Chart(document.getElementById('chart-cost'), {
@@ -718,7 +718,7 @@ function renderBEP(revData, profitData) {
 function renderSensitivity() {
   const revenues = [1.5, 3, 5, 10, 16.7];
   const organics = [0.30, 0.40, 0.50, 0.60, 0.70];
-  const adBaseRatio = 0.242;
+  const adBaseRatio = 0.30;
   const CM = 0.75;
   
   let html = '<div class="sens-grid">';
@@ -760,7 +760,7 @@ function calcInterest(fp) {
 
 function buildFundRevData(fundKey) {
   const fp = FUNDING_PARAMS[fundKey];
-  const baseGrowth = 0.10; // base natural growth
+  const baseGrowth = 0.06; // base natural growth
   const growth = baseGrowth + fp.growthBoost;
   let rev = BASE_REV;
   return MONTHS.map((m, i) => {
@@ -810,7 +810,7 @@ function renderFunding() {
     <div class="sum-card ${fp.growthBoost>0?'green':'red'}">
       <div class="sum-val">+${(fp.growthBoost*100).toFixed(0)}%p</div>
       <div class="sum-label">성장률 추가 부스트</div>
-      <div class="sum-sub">기본 10%/월 → ${(10+fp.growthBoost*100).toFixed(0)}%/월</div>
+      <div class="sum-sub">기본 6%/월 → ${(6+fp.growthBoost*100).toFixed(0)}%/월</div>
     </div>
     <div class="sum-card yellow">
       <div class="sum-val">${interest.total.toFixed(0)}만원</div>
@@ -942,9 +942,9 @@ function renderInterestCards(interest) {
       <div class="sum-sub">매출 대비 ${(interest.total/(BASE_REV*10000)*100).toFixed(2)}% 수준</div>
     </div>
     <div class="sum-card green">
-      <div class="sum-val">${(interest.total/7800*100).toFixed(1)}%</div>
+      <div class="sum-val">${(interest.total/7600*100).toFixed(1)}%</div>
       <div class="sum-label">현재 영업이익 대비 이자</div>
-      <div class="sum-sub">7,800만 영업이익 기준 · 충분히 감당 가능</div>
+      <div class="sum-sub">7,600만 영업이익 기준 · 충분히 감당 가능</div>
     </div>
   `;
 }

@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>앱 통합 문서 — 키네메디칼 × 1분도수</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#0d1117;color:#e0e0e0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans KR",sans-serif;min-height:100vh;display:flex;flex-direction:column}
+
+/* 상단 헤더 */
+.top-bar{background:#161b22;border-bottom:1px solid #21262d;padding:12px 24px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px}
+.back-link{color:#58a6ff;font-size:13px;text-decoration:none;display:flex;align-items:center;gap:6px;font-weight:500}
+.back-link:hover{text-decoration:underline}
+.top-title{font-size:14px;font-weight:600;color:#e0e0e0;letter-spacing:.5px}
+.top-meta{font-size:11px;color:#484f58}
+
+/* 탭 네비게이션 */
+.tab-nav{position:sticky;top:0;z-index:100;background:#0d1117;border-bottom:2px solid #21262d;display:flex;overflow-x:auto;padding:0 16px}
+.tab-btn{background:none;border:none;border-bottom:3px solid transparent;color:#8b949e;padding:14px 20px;font-size:14px;font-weight:600;cursor:pointer;white-space:nowrap;transition:color .2s,border-color .2s,background .2s;letter-spacing:.3px}
+.tab-btn:hover{color:#e0e0e0;background:rgba(88,166,255,.06)}
+.tab-btn.active{color:#e0e0e0;border-bottom-color:#002855;background:rgba(0,40,85,.15)}
+@media(max-width:600px){.tab-btn{padding:12px 14px;font-size:13px}}
+
+/* 탭 콘텐츠 */
+.tab-pane{display:none;flex:1}
+.tab-pane.active{display:flex;flex-direction:column;flex:1}
+.tab-pane iframe{flex:1;width:100%;border:none;min-height:calc(100vh - 110px)}
+
+/* 로딩 상태 */
+.loading-placeholder{flex:1;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:12px;color:#484f58;font-size:14px;min-height:400px}
+.loading-placeholder .spinner{width:32px;height:32px;border:3px solid #21262d;border-top-color:#002855;border-radius:50%;animation:spin .8s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* 푸터 */
+.footer{text-align:center;padding:16px;font-size:11px;color:#484f58;border-top:1px solid #21262d;background:#0d1117}
+</style>
+</head>
+<body>
+
+<!-- 상단 바 -->
+<div class="top-bar">
+  <a href="index.html" class="back-link">&larr; 허브로 돌아가기</a>
+  <div class="top-title">앱 통합 문서</div>
+  <div class="top-meta">키네메디칼 &times; 1분도수</div>
+</div>
+
+<!-- 탭 네비 -->
+<nav class="tab-nav">
+  <button class="tab-btn active" data-tab="1">&#x1F3C3; 1분도수 앱</button>
+  <button class="tab-btn" data-tab="2">&#x1F3E5; 키네메디칼 앱</button>
+  <button class="tab-btn" data-tab="3">&#x2699;&#xFE0F; 기술 스펙</button>
+  <button class="tab-btn" data-tab="4">&#x1F5FA;&#xFE0F; 사용자 여정</button>
+</nav>
+
+<!-- 탭 1: 1분도수 앱 -->
+<div id="tab-1" class="tab-pane active">
+  <div class="loading-placeholder" id="loader-1"><div class="spinner"></div>1분도수 앱 문서 로딩 중...</div>
+</div>
+
+<!-- 탭 2: 키네메디칼 앱 -->
+<div id="tab-2" class="tab-pane">
+  <div class="loading-placeholder" id="loader-2"><div class="spinner"></div>키네메디칼 앱 문서 로딩 중...</div>
+</div>
+
+<!-- 탭 3: 기술 스펙 -->
+<div id="tab-3" class="tab-pane">
+  <div class="loading-placeholder" id="loader-3"><div class="spinner"></div>기술 스펙 문서 로딩 중...</div>
+</div>
+
+<!-- 탭 4: 사용자 여정 -->
+<div id="tab-4" class="tab-pane">
+  <div class="loading-placeholder" id="loader-4"><div class="spinner"></div>사용자 여정 문서 로딩 중...</div>
+</div>
+
+<div class="footer">앱 통합 문서 &mdash; 키네메디칼 &times; 1분도수 &middot; tenex-reports</div>
+
+<script>
+(function(){
+  var sources = {
+    '1': '1min-dosu-app.html',
+    '2': 'kinemedical-app.html',
+    '3': 'app-tech-spec.html',
+    '4': 'app-journey-plan.html'
+  };
+  var loaded = {};
+
+  function loadTab(n) {
+    if (loaded[n]) return;
+    loaded[n] = true;
+    var pane = document.getElementById('tab-' + n);
+    var loader = document.getElementById('loader-' + n);
+    var iframe = document.createElement('iframe');
+    iframe.src = sources[n];
+    iframe.title = sources[n];
+    iframe.onload = function(){ if(loader) loader.style.display = 'none'; };
+    pane.appendChild(iframe);
+  }
+
+  // 첫 탭 즉시 로드
+  loadTab('1');
+
+  // 탭 전환
+  document.querySelectorAll('.tab-btn').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      var t = this.getAttribute('data-tab');
+      document.querySelectorAll('.tab-pane').forEach(function(p){ p.classList.remove('active'); });
+      document.querySelectorAll('.tab-btn').forEach(function(b){ b.classList.remove('active'); });
+      document.getElementById('tab-' + t).classList.add('active');
+      this.classList.add('active');
+      loadTab(t);
+    });
+  });
+})();
+</script>
+</body>
+</html>
