@@ -1,128 +1,2161 @@
 <!DOCTYPE html>
-<html lang="ko">
-<head><script src="auth.js"></script>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>스킬 목록 — Tenex</title>
-<style>
-*{margin:0;padding:0;box-sizing:border-box}
-body{font-family:-apple-system,BlinkMacSystemFont,sans-serif;background:#0f172a;color:#e2e8f0}
-.header{background:#1a1a2e;color:#fff;padding:24px 32px;display:flex;align-items:center;gap:16px}
-.header h1{font-size:24px;font-weight:700}
-.header a{color:#8b8ba7;font-size:13px;text-decoration:none}
-.header a:hover{color:#fff}
-.content{max-width:1100px;margin:24px auto;padding:0 16px}
+<html lang="ko" data-theme="dark">
+<head>
+  <script src="auth.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>스킬 대시보드 — Tenex</title>
+  <style>
+    /* ===== CSS Variables ===== */
+    :root {
+      --accent: #7C3AED;
+      --accent-light: #9F67FF;
+      --accent-dim: rgba(124, 58, 237, 0.15);
+      --builtin-color: #7C3AED;
+      --builtin-bg: rgba(124, 58, 237, 0.15);
+      --custom-color: #10B981;
+      --custom-bg: rgba(16, 185, 129, 0.15);
+      --active-color: #10B981;
+      --inactive-color: #64748B;
+      --radius-sm: 8px;
+      --radius-md: 12px;
+      --radius-lg: 14px;
+      --radius-xl: 20px;
+      --transition: 0.22s cubic-bezier(0.4, 0, 0.2, 1);
+    }
 
-.summary{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:12px;margin-bottom:32px}
-.sum-card{background:#1e293b;border:1px solid #334155;border-radius:10px;padding:16px;text-align:center}
-.sum-card .num{font-size:28px;font-weight:800}
-.sum-card .num.navy{color:#60a5fa}
-.sum-card .label{font-size:12px;color:#94a3b8;margin-top:4px}
+    [data-theme="dark"] {
+      --bg-base: #0B0F1A;
+      --bg-surface: #131929;
+      --bg-card: #1A2235;
+      --bg-card-hover: #1F2A40;
+      --bg-overlay: rgba(11, 15, 26, 0.95);
+      --border: #243049;
+      --border-active: #7C3AED;
+      --text-primary: #F1F5F9;
+      --text-secondary: #94A3B8;
+      --text-muted: #475569;
+      --shadow: 0 4px 24px rgba(0,0,0,0.4);
+      --shadow-card: 0 2px 12px rgba(0,0,0,0.3);
+      --chip-bg: #1E293B;
+      --chip-active-bg: rgba(124, 58, 237, 0.25);
+      --search-bg: #1A2235;
+      --header-bg: linear-gradient(135deg, #0F1623 0%, #131929 100%);
+    }
 
-h2{color:#5b9bd5;font-size:18px;margin:32px 0 16px;font-weight:700}
+    [data-theme="light"] {
+      --bg-base: #F0F4FF;
+      --bg-surface: #FAFBFF;
+      --bg-card: #FFFFFF;
+      --bg-card-hover: #F5F3FF;
+      --bg-overlay: rgba(240, 244, 255, 0.98);
+      --border: #E2E8F0;
+      --border-active: #7C3AED;
+      --text-primary: #1E293B;
+      --text-secondary: #475569;
+      --text-muted: #94A3B8;
+      --shadow: 0 4px 24px rgba(0,0,0,0.08);
+      --shadow-card: 0 2px 12px rgba(0,0,0,0.06);
+      --chip-bg: #EEF2FF;
+      --chip-active-bg: rgba(124, 58, 237, 0.12);
+      --search-bg: #FFFFFF;
+      --header-bg: linear-gradient(135deg, #1a0a3e 0%, #2d1563 100%);
+    }
 
-.skill-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:16px;margin-bottom:32px}
-.skill-card{background:#1e293b;border:1px solid #334155;border-radius:12px;padding:20px;transition:border-color .2s}
-.skill-card:hover{border-color:#002855}
-.skill-card .card-top{display:flex;align-items:center;gap:12px;margin-bottom:10px}
-.skill-card .skill-icon{width:40px;height:40px;border-radius:10px;background:#002855;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
-.skill-card .skill-name{font-size:15px;font-weight:700;color:#f1f5f9;font-family:monospace}
-.skill-card .skill-desc{font-size:13px;color:#94a3b8;line-height:1.5}
+    /* ===== Reset & Base ===== */
+    *, *::before, *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
-@media(max-width:640px){
-  .header{padding:16px;flex-wrap:wrap}
-  .content{padding:0 8px}
-  .skill-grid{grid-template-columns:1fr}
-}
-</style>
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans KR', sans-serif;
+      background: var(--bg-base);
+      color: var(--text-primary);
+      min-height: 100vh;
+      transition: background var(--transition), color var(--transition);
+      overflow-x: hidden;
+    }
+
+    /* ===== Header ===== */
+    .header {
+      background: var(--header-bg);
+      padding: 20px 32px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      border-bottom: 1px solid rgba(124, 58, 237, 0.3);
+      box-shadow: 0 4px 32px rgba(0,0,0,0.3);
+      backdrop-filter: blur(12px);
+    }
+
+    .header-left {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .header-title {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .header-icon {
+      width: 36px;
+      height: 36px;
+      background: var(--accent-dim);
+      border: 1px solid rgba(124, 58, 237, 0.4);
+      border-radius: var(--radius-sm);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+    }
+
+    .header-title h1 {
+      font-size: 20px;
+      font-weight: 800;
+      color: #FFFFFF;
+      letter-spacing: -0.3px;
+    }
+
+    .header-subtitle {
+      font-size: 12px;
+      color: rgba(255,255,255,0.5);
+      margin-top: 1px;
+    }
+
+    .breadcrumb {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .breadcrumb a {
+      color: rgba(255,255,255,0.45);
+      font-size: 13px;
+      text-decoration: none;
+      transition: color var(--transition);
+    }
+
+    .breadcrumb a:hover {
+      color: rgba(255,255,255,0.9);
+    }
+
+    .breadcrumb span {
+      color: rgba(255,255,255,0.25);
+      font-size: 12px;
+    }
+
+    .header-right {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .header-badge {
+      background: rgba(124, 58, 237, 0.3);
+      border: 1px solid rgba(124, 58, 237, 0.5);
+      border-radius: 20px;
+      padding: 4px 12px;
+      font-size: 12px;
+      color: #C4B5FD;
+      font-weight: 600;
+      white-space: nowrap;
+    }
+
+    .theme-toggle {
+      width: 40px;
+      height: 40px;
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      transition: all var(--transition);
+      color: #fff;
+    }
+
+    .theme-toggle:hover {
+      background: rgba(255,255,255,0.16);
+      transform: scale(1.05);
+    }
+
+    /* ===== Layout ===== */
+    .content {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 28px 24px 60px;
+    }
+
+    /* ===== Summary Cards ===== */
+    .summary-section {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 14px;
+      margin-bottom: 28px;
+    }
+
+    .sum-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      position: relative;
+      overflow: hidden;
+      transition: transform var(--transition), box-shadow var(--transition), border-color var(--transition);
+      cursor: default;
+    }
+
+    .sum-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      border-radius: 14px 14px 0 0;
+    }
+
+    .sum-card.total::before { background: linear-gradient(90deg, #7C3AED, #A78BFA); }
+    .sum-card.active::before { background: linear-gradient(90deg, #10B981, #34D399); }
+    .sum-card.inactive::before { background: linear-gradient(90deg, #64748B, #94A3B8); }
+    .sum-card.builtin::before { background: linear-gradient(90deg, #EC4899, #F472B6); }
+
+    .sum-card:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow);
+      border-color: var(--border-active);
+    }
+
+    .sum-card-icon {
+      font-size: 22px;
+      margin-bottom: 4px;
+    }
+
+    .sum-card-num {
+      font-size: 36px;
+      font-weight: 900;
+      letter-spacing: -1px;
+      line-height: 1;
+    }
+
+    .sum-card.total .sum-card-num { color: #A78BFA; }
+    .sum-card.active .sum-card-num { color: #34D399; }
+    .sum-card.inactive .sum-card-num { color: #94A3B8; }
+    .sum-card.builtin .sum-card-num { color: #F472B6; }
+
+    .sum-card-label {
+      font-size: 12px;
+      color: var(--text-muted);
+      font-weight: 500;
+      letter-spacing: 0.2px;
+    }
+
+    .sum-card-sub {
+      font-size: 11px;
+      color: var(--text-muted);
+      opacity: 0.7;
+    }
+
+    /* ===== Toolbar ===== */
+    .toolbar {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+    }
+
+    .search-wrap {
+      position: relative;
+      flex: 1;
+      min-width: 220px;
+      max-width: 400px;
+    }
+
+    .search-icon {
+      position: absolute;
+      left: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 15px;
+      color: var(--text-muted);
+      pointer-events: none;
+    }
+
+    .search-input {
+      width: 100%;
+      background: var(--search-bg);
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 10px 36px 10px 38px;
+      font-size: 14px;
+      color: var(--text-primary);
+      outline: none;
+      transition: border-color var(--transition), box-shadow var(--transition);
+    }
+
+    .search-input::placeholder {
+      color: var(--text-muted);
+    }
+
+    .search-input:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px var(--accent-dim);
+    }
+
+    .search-shortcut {
+      position: absolute;
+      right: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: var(--border);
+      border-radius: 4px;
+      padding: 2px 6px;
+      font-size: 10px;
+      color: var(--text-muted);
+      font-family: monospace;
+      pointer-events: none;
+    }
+
+    .filter-chips {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+
+    .filter-group {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 30px;
+      padding: 4px;
+    }
+
+    .chip {
+      padding: 5px 14px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all var(--transition);
+      border: none;
+      background: transparent;
+      color: var(--text-secondary);
+      white-space: nowrap;
+    }
+
+    .chip:hover {
+      background: var(--chip-bg);
+      color: var(--text-primary);
+    }
+
+    .chip.active {
+      background: var(--chip-active-bg);
+      color: var(--accent-light);
+      border: 1px solid rgba(124, 58, 237, 0.3);
+    }
+
+    .view-toggle {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 4px;
+      margin-left: auto;
+    }
+
+    .view-btn {
+      width: 32px;
+      height: 32px;
+      border: none;
+      background: transparent;
+      color: var(--text-muted);
+      cursor: pointer;
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+      transition: all var(--transition);
+    }
+
+    .view-btn.active {
+      background: var(--chip-active-bg);
+      color: var(--accent-light);
+    }
+
+    .view-btn:hover:not(.active) {
+      background: var(--chip-bg);
+      color: var(--text-primary);
+    }
+
+    /* ===== Category Section ===== */
+    .section {
+      margin-bottom: 36px;
+    }
+
+    .section-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 16px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .section-icon {
+      width: 30px;
+      height: 30px;
+      border-radius: var(--radius-sm);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+    }
+
+    .section-icon.cat-ai { background: rgba(139, 92, 246, 0.2); }
+    .section-icon.cat-system { background: rgba(59, 130, 246, 0.2); }
+    .section-icon.cat-communication { background: rgba(16, 185, 129, 0.2); }
+    .section-icon.cat-media { background: rgba(245, 158, 11, 0.2); }
+    .section-icon.cat-dev { background: rgba(239, 68, 68, 0.2); }
+    .section-icon.cat-inactive { background: rgba(100, 116, 139, 0.2); }
+
+    .section-title {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--text-primary);
+    }
+
+    .section-count {
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 2px 8px;
+      font-size: 11px;
+      color: var(--text-muted);
+      font-weight: 600;
+    }
+
+    .section-line {
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+
+    /* ===== Skill Grid ===== */
+    .skill-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+    }
+
+    .skill-grid.list-view {
+      grid-template-columns: 1fr;
+    }
+
+    /* ===== Skill Card ===== */
+    .skill-card {
+      background: var(--bg-card);
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 18px;
+      cursor: pointer;
+      transition: transform var(--transition), box-shadow var(--transition), border-color var(--transition), background var(--transition);
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .skill-card::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      background: linear-gradient(135deg, var(--accent-dim), transparent);
+      transition: opacity var(--transition);
+      pointer-events: none;
+      border-radius: var(--radius-lg);
+    }
+
+    .skill-card:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow);
+      border-color: var(--accent);
+    }
+
+    .skill-card:hover::after {
+      opacity: 1;
+    }
+
+    .skill-card.inactive {
+      opacity: 0.65;
+    }
+
+    .skill-card.inactive:hover {
+      opacity: 0.85;
+    }
+
+    .skill-card.expanded {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 2px var(--accent-dim), var(--shadow);
+    }
+
+    .card-top {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+    }
+
+    .skill-icon {
+      width: 44px;
+      height: 44px;
+      border-radius: var(--radius-md);
+      background: var(--accent-dim);
+      border: 1px solid rgba(124, 58, 237, 0.25);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      flex-shrink: 0;
+      transition: transform var(--transition);
+    }
+
+    .skill-card:hover .skill-icon {
+      transform: scale(1.05);
+    }
+
+    .card-meta {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .card-name-row {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex-wrap: wrap;
+      margin-bottom: 5px;
+    }
+
+    .skill-name {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--text-primary);
+      font-family: 'SF Mono', 'Fira Code', monospace;
+      letter-spacing: -0.2px;
+    }
+
+    .source-badge {
+      font-size: 10px;
+      font-weight: 700;
+      padding: 2px 7px;
+      border-radius: 6px;
+      letter-spacing: 0.3px;
+      text-transform: uppercase;
+    }
+
+    .source-badge.builtin {
+      background: var(--builtin-bg);
+      color: var(--builtin-color);
+      border: 1px solid rgba(124, 58, 237, 0.3);
+    }
+
+    .source-badge.custom {
+      background: var(--custom-bg);
+      color: var(--custom-color);
+      border: 1px solid rgba(16, 185, 129, 0.3);
+    }
+
+    .status-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      margin-left: auto;
+      flex-shrink: 0;
+    }
+
+    .status-dot.active {
+      background: #10B981;
+      box-shadow: 0 0 6px rgba(16, 185, 129, 0.6);
+      animation: pulse-dot 2s ease-in-out infinite;
+    }
+
+    .status-dot.inactive {
+      background: #475569;
+    }
+
+    @keyframes pulse-dot {
+      0%, 100% { box-shadow: 0 0 6px rgba(16, 185, 129, 0.6); }
+      50% { box-shadow: 0 0 10px rgba(16, 185, 129, 0.9); }
+    }
+
+    .skill-category-tag {
+      font-size: 10px;
+      color: var(--text-muted);
+      background: var(--bg-surface);
+      border-radius: 4px;
+      padding: 1px 6px;
+    }
+
+    .skill-desc {
+      font-size: 12.5px;
+      color: var(--text-secondary);
+      line-height: 1.6;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    .card-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-top: 10px;
+      border-top: 1px solid var(--border);
+      gap: 8px;
+    }
+
+    .status-pill {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 11px;
+      font-weight: 600;
+      padding: 3px 10px;
+      border-radius: 12px;
+    }
+
+    .status-pill.active {
+      background: rgba(16, 185, 129, 0.12);
+      color: #10B981;
+      border: 1px solid rgba(16, 185, 129, 0.25);
+    }
+
+    .status-pill.inactive {
+      background: rgba(100, 116, 139, 0.12);
+      color: #94A3B8;
+      border: 1px solid rgba(100, 116, 139, 0.2);
+    }
+
+    .card-expand-btn {
+      width: 26px;
+      height: 26px;
+      border-radius: 6px;
+      border: 1px solid var(--border);
+      background: transparent;
+      color: var(--text-muted);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+      transition: all var(--transition);
+    }
+
+    .card-expand-btn:hover {
+      background: var(--chip-bg);
+      border-color: var(--accent);
+      color: var(--accent-light);
+    }
+
+    /* ===== Expand Panel (Accordion) ===== */
+    .card-detail {
+      display: none;
+      padding-top: 14px;
+      border-top: 1px solid var(--border);
+      animation: slideDown 0.25s ease;
+    }
+
+    .skill-card.expanded .card-detail {
+      display: block;
+    }
+
+    @keyframes slideDown {
+      from { opacity: 0; transform: translateY(-8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .detail-section {
+      margin-bottom: 14px;
+    }
+
+    .detail-title {
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      margin-bottom: 8px;
+    }
+
+    .detail-desc {
+      font-size: 13px;
+      color: var(--text-secondary);
+      line-height: 1.7;
+    }
+
+    .feature-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+
+    .feature-list li {
+      font-size: 12.5px;
+      color: var(--text-secondary);
+      display: flex;
+      align-items: flex-start;
+      gap: 7px;
+      line-height: 1.5;
+    }
+
+    .feature-list li::before {
+      content: '›';
+      color: var(--accent-light);
+      font-weight: 700;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+
+    .example-box {
+      background: var(--bg-base);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 10px 12px;
+      font-family: 'SF Mono', 'Fira Code', monospace;
+      font-size: 12px;
+      color: #A78BFA;
+      line-height: 1.7;
+    }
+
+    /* ===== Chart Section ===== */
+    .chart-section {
+      background: var(--bg-card);
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 24px;
+      margin-bottom: 32px;
+    }
+
+    .chart-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .chart-title {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--text-primary);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .chart-subtitle {
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+
+    .chart-legend {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+
+    .legend-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 2px;
+    }
+
+    .chart-bars {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .bar-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .bar-label {
+      width: 130px;
+      font-size: 12px;
+      color: var(--text-secondary);
+      font-family: monospace;
+      text-align: right;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      flex-shrink: 0;
+    }
+
+    .bar-track {
+      flex: 1;
+      height: 26px;
+      background: var(--bg-surface);
+      border-radius: 6px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .bar-fill {
+      height: 100%;
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      padding-left: 10px;
+      transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+      min-width: 36px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .bar-fill::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(90deg, transparent 60%, rgba(255,255,255,0.08));
+    }
+
+    .bar-count {
+      font-size: 11px;
+      font-weight: 700;
+      color: rgba(255,255,255,0.9);
+      position: relative;
+      z-index: 1;
+    }
+
+    .bar-extra {
+      font-size: 11px;
+      color: var(--text-muted);
+      white-space: nowrap;
+      flex-shrink: 0;
+      width: 60px;
+    }
+
+    /* ===== Inactive Section Toggle ===== */
+    .inactive-toggle {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      cursor: pointer;
+      user-select: none;
+      color: var(--text-muted);
+      font-size: 13px;
+      font-weight: 600;
+      padding: 10px 0;
+    }
+
+    .inactive-toggle:hover {
+      color: var(--text-primary);
+    }
+
+    .toggle-arrow {
+      transition: transform var(--transition);
+      font-size: 10px;
+    }
+
+    .toggle-arrow.open {
+      transform: rotate(90deg);
+    }
+
+    /* ===== Inactive Grid ===== */
+    .inactive-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 8px;
+      margin-top: 12px;
+    }
+
+    .inactive-chip {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 10px 14px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 12.5px;
+      color: var(--text-muted);
+      font-family: monospace;
+      transition: all var(--transition);
+      cursor: default;
+    }
+
+    .inactive-chip:hover {
+      border-color: var(--accent);
+      color: var(--text-primary);
+      background: var(--bg-card-hover);
+    }
+
+    .inactive-chip .chip-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: #334155;
+      flex-shrink: 0;
+    }
+
+    /* ===== Empty State ===== */
+    .empty-state {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 60px 20px;
+      color: var(--text-muted);
+      gap: 12px;
+    }
+
+    .empty-state.visible {
+      display: flex;
+    }
+
+    .empty-icon {
+      font-size: 48px;
+      opacity: 0.4;
+    }
+
+    .empty-text {
+      font-size: 15px;
+      color: var(--text-muted);
+    }
+
+    /* ===== Footer ===== */
+    .footer {
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 12px;
+      padding: 20px;
+      border-top: 1px solid var(--border);
+      margin-top: 16px;
+    }
+
+    .footer a {
+      color: var(--accent-light);
+      text-decoration: none;
+    }
+
+    /* ===== Scrollbar ===== */
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: var(--bg-base); }
+    ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+    ::-webkit-scrollbar-thumb:hover { background: var(--accent); }
+
+    /* ===== Responsive ===== */
+    @media (max-width: 1024px) {
+      .skill-grid { grid-template-columns: repeat(2, 1fr); }
+      .summary-section { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    @media (max-width: 768px) {
+      .header { padding: 14px 16px; }
+      .header-title h1 { font-size: 17px; }
+      .header-badge { display: none; }
+      .content { padding: 16px 12px 40px; }
+      .summary-section { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+      .skill-grid { grid-template-columns: 1fr; }
+      .toolbar { gap: 8px; }
+      .search-wrap { max-width: 100%; }
+      .chart-section { padding: 16px; }
+      .bar-label { width: 90px; font-size: 11px; }
+      .inactive-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    @media (max-width: 480px) {
+      .summary-section { grid-template-columns: 1fr 1fr; }
+      .sum-card-num { font-size: 28px; }
+      .inactive-grid { grid-template-columns: 1fr; }
+    }
+
+    /* ===== List View ===== */
+    .skill-grid.list-view .skill-card {
+      flex-direction: row;
+      align-items: flex-start;
+      flex-wrap: wrap;
+    }
+
+    .skill-grid.list-view .card-top {
+      flex: 0 0 auto;
+      align-items: center;
+    }
+
+    .skill-grid.list-view .skill-desc {
+      flex: 1;
+      min-width: 200px;
+    }
+
+    /* ===== Highlight on search ===== */
+    mark {
+      background: rgba(124, 58, 237, 0.3);
+      color: var(--text-primary);
+      border-radius: 2px;
+      padding: 0 1px;
+    }
+
+    /* ===== Stats bar ===== */
+    .stats-bar {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 12px 16px;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+    }
+
+    .stat-item {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+
+    .stat-item strong {
+      color: var(--text-primary);
+      font-weight: 700;
+    }
+
+    .stat-divider {
+      width: 1px;
+      height: 16px;
+      background: var(--border);
+    }
+
+    /* ===== Loading animation ===== */
+    @keyframes shimmer {
+      0% { background-position: -1000px 0; }
+      100% { background-position: 1000px 0; }
+    }
+
+    /* ===== Tooltip ===== */
+    [data-tooltip] {
+      position: relative;
+    }
+
+    [data-tooltip]::before {
+      content: attr(data-tooltip);
+      position: absolute;
+      bottom: calc(100% + 8px);
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      color: var(--text-primary);
+      font-size: 11px;
+      padding: 5px 10px;
+      border-radius: 6px;
+      white-space: nowrap;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.15s;
+      z-index: 999;
+      box-shadow: var(--shadow-card);
+    }
+
+    [data-tooltip]:hover::before {
+      opacity: 1;
+    }
+
+    /* ===== Active result count ===== */
+    #result-count {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-left: auto;
+      white-space: nowrap;
+    }
+  </style>
 </head>
 <body>
-<div class="header"><h1>🧩 OpenClaw 스킬</h1><a href="index.html">← 보고서 목록</a></div>
 
-<div class="content">
-
-<div class="summary">
-  <div class="sum-card"><div class="num navy">9</div><div class="label">등록 스킬</div></div>
-</div>
-
-<h2>📦 스킬 목록</h2>
-<div class="skill-grid">
-
-  <div class="skill-card">
-    <div class="card-top">
-      <div class="skill-icon">💻</div>
-      <div class="skill-name">coding-agent</div>
+<!-- ===== HEADER ===== -->
+<header class="header">
+  <div class="header-left">
+    <div class="breadcrumb">
+      <a href="index.html">🏠 홈</a>
+      <span>›</span>
+      <span style="color:rgba(255,255,255,0.6)">스킬 대시보드</span>
     </div>
-    <div class="skill-desc">Codex/Claude Code 코딩 에이전트 위임</div>
+  </div>
+  <div class="header-right">
+    <div class="header-title">
+      <div class="header-icon">🧩</div>
+      <div>
+        <h1>스킬 대시보드</h1>
+        <div class="header-subtitle">OpenClaw Skills Management</div>
+      </div>
+    </div>
+    <div class="header-badge" id="header-badge">10 Active</div>
+    <button class="theme-toggle" id="theme-toggle" data-tooltip="테마 전환" onclick="toggleTheme()">🌙</button>
+  </div>
+</header>
+
+<!-- ===== MAIN CONTENT ===== -->
+<main class="content">
+
+  <!-- Summary Cards -->
+  <div class="summary-section" id="summary-section">
+    <div class="sum-card total">
+      <div class="sum-card-icon">🧩</div>
+      <div class="sum-card-num" id="count-total">51</div>
+      <div class="sum-card-label">전체 스킬</div>
+      <div class="sum-card-sub">등록된 모든 스킬</div>
+    </div>
+    <div class="sum-card active">
+      <div class="sum-card-icon">✅</div>
+      <div class="sum-card-num" id="count-active">10</div>
+      <div class="sum-card-label">활성 스킬</div>
+      <div class="sum-card-sub">현재 사용 가능</div>
+    </div>
+    <div class="sum-card inactive">
+      <div class="sum-card-icon">💤</div>
+      <div class="sum-card-num" id="count-inactive">41</div>
+      <div class="sum-card-label">비활성 스킬</div>
+      <div class="sum-card-sub">설치만 된 상태</div>
+    </div>
+    <div class="sum-card builtin">
+      <div class="sum-card-icon">⚡</div>
+      <div class="sum-card-num" id="count-builtin">10</div>
+      <div class="sum-card-label">빌트인</div>
+      <div class="sum-card-sub">OpenClaw 기본 제공</div>
+    </div>
   </div>
 
-  <div class="skill-card">
-    <div class="card-top">
-      <div class="skill-icon">✨</div>
-      <div class="skill-name">gemini</div>
+  <!-- Stats Bar -->
+  <div class="stats-bar">
+    <div class="stat-item">
+      <span>📊</span>
+      <span>활성률 <strong id="active-rate">19.6%</strong></span>
     </div>
-    <div class="skill-desc">Gemini CLI 활용</div>
+    <div class="stat-divider"></div>
+    <div class="stat-item">
+      <span>🏷️</span>
+      <span>카테고리 <strong>5개</strong></span>
+    </div>
+    <div class="stat-divider"></div>
+    <div class="stat-item">
+      <span>⚡</span>
+      <span>빌트인 활성률 <strong>100%</strong></span>
+    </div>
+    <div class="stat-divider"></div>
+    <div class="stat-item">
+      <span>🕐</span>
+      <span>업데이트 <strong>2026-03-30</strong></span>
+    </div>
+    <div class="stat-item" style="margin-left:auto">
+      <span id="result-count">표시: 10개</span>
+    </div>
   </div>
 
-  <div class="skill-card">
-    <div class="card-top">
-      <div class="skill-icon">🛡️</div>
-      <div class="skill-name">healthcheck</div>
+  <!-- Toolbar: Search + Filters -->
+  <div class="toolbar">
+    <div class="search-wrap">
+      <span class="search-icon">🔍</span>
+      <input
+        type="text"
+        class="search-input"
+        id="search-input"
+        placeholder="스킬 이름 또는 설명 검색..."
+        autocomplete="off"
+        spellcheck="false"
+      >
+      <span class="search-shortcut">/</span>
     </div>
-    <div class="skill-desc">보안 점검</div>
+
+    <div class="filter-group" id="status-filter">
+      <button class="chip active" data-filter="status" data-value="all">전체</button>
+      <button class="chip" data-filter="status" data-value="active">활성</button>
+      <button class="chip" data-filter="status" data-value="inactive">비활성</button>
+    </div>
+
+    <div class="filter-group" id="source-filter">
+      <button class="chip active" data-filter="source" data-value="all">모두</button>
+      <button class="chip" data-filter="source" data-value="builtin">빌트인</button>
+      <button class="chip" data-filter="source" data-value="custom">커스텀</button>
+    </div>
+
+    <div class="view-toggle">
+      <button class="view-btn active" id="btn-grid" onclick="setView('grid')" data-tooltip="그리드">⊞</button>
+      <button class="view-btn" id="btn-list" onclick="setView('list')" data-tooltip="리스트">☰</button>
+    </div>
   </div>
 
-  <div class="skill-card">
-    <div class="card-top">
-      <div class="skill-icon">🎙️</div>
-      <div class="skill-name">openai-whisper</div>
+  <!-- Usage Frequency Chart -->
+  <div class="chart-section" id="chart-section">
+    <div class="chart-header">
+      <div>
+        <div class="chart-title">📈 스킬 사용 빈도 (30일)</div>
+        <div class="chart-subtitle">모의 데이터 기반 시각화</div>
+      </div>
+      <div class="chart-legend">
+        <div class="legend-item">
+          <div class="legend-dot" style="background:#7C3AED"></div>
+          <span>빌트인</span>
+        </div>
+        <div class="legend-item">
+          <div class="legend-dot" style="background:#10B981"></div>
+          <span>커스텀</span>
+        </div>
+      </div>
     </div>
-    <div class="skill-desc">로컬 음성→텍스트</div>
+    <div class="chart-bars" id="chart-bars">
+      <!-- Generated by JS -->
+    </div>
   </div>
 
-  <div class="skill-card">
-    <div class="card-top">
-      <div class="skill-icon">🔧</div>
-      <div class="skill-name">skill-creator</div>
+  <!-- ===== ACTIVE SKILLS by Category ===== -->
+  <div id="skills-container">
+
+    <!-- AI 카테고리 -->
+    <div class="section" data-category="ai">
+      <div class="section-header">
+        <div class="section-icon cat-ai">🤖</div>
+        <span class="section-title">AI / 언어 모델</span>
+        <span class="section-count" id="count-cat-ai">3</span>
+        <div class="section-line"></div>
+      </div>
+      <div class="skill-grid" id="grid-ai">
+
+        <!-- gemini -->
+        <div class="skill-card"
+          data-name="gemini"
+          data-status="active"
+          data-source="builtin"
+          data-category="ai"
+          onclick="toggleCard(this)">
+          <div class="card-top">
+            <div class="skill-icon">✨</div>
+            <div class="card-meta">
+              <div class="card-name-row">
+                <span class="skill-name">gemini</span>
+                <span class="source-badge builtin">빌트인</span>
+                <div class="status-dot active"></div>
+              </div>
+              <span class="skill-category-tag">AI</span>
+            </div>
+          </div>
+          <div class="skill-desc">Gemini CLI one-shot Q&amp;A, 요약, 생성. 빠른 질문 답변과 문서 요약에 최적화된 Google AI 연동 스킬.</div>
+          <div class="card-footer">
+            <span class="status-pill active">● 활성</span>
+            <button class="card-expand-btn" onclick="event.stopPropagation(); toggleCard(this.closest('.skill-card'))">▼</button>
+          </div>
+          <div class="card-detail">
+            <div class="detail-section">
+              <div class="detail-title">📋 상세 설명</div>
+              <div class="detail-desc">Gemini CLI를 통해 Google의 Gemini 모델에 직접 접근합니다. 빠른 one-shot 응답이 필요한 Q&amp;A, 긴 문서 요약, 텍스트 생성 등에 활용하세요. API 키 필요.</div>
+            </div>
+            <div class="detail-section">
+              <div class="detail-title">⚙️ 기능 목록</div>
+              <ul class="feature-list">
+                <li>One-shot 질의응답</li>
+                <li>문서/텍스트 요약</li>
+                <li>텍스트 생성 및 번역</li>
+                <li>코드 분석 및 설명</li>
+              </ul>
+            </div>
+            <div class="detail-section">
+              <div class="detail-title">💡 사용 예시</div>
+              <div class="example-box">
+                "이 문서 3줄로 요약해줘"<br>
+                "Python 코드 리뷰해줘"<br>
+                "Gemini로 블로그 초안 작성해줘"
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- openai-whisper -->
+        <div class="skill-card"
+          data-name="openai-whisper"
+          data-status="active"
+          data-source="builtin"
+          data-category="ai"
+          onclick="toggleCard(this)">
+          <div class="card-top">
+            <div class="skill-icon">🎙️</div>
+            <div class="card-meta">
+              <div class="card-name-row">
+                <span class="skill-name">openai-whisper</span>
+                <span class="source-badge builtin">빌트인</span>
+                <div class="status-dot active"></div>
+              </div>
+              <span class="skill-category-tag">AI</span>
+            </div>
+          </div>
+          <div class="skill-desc">로컬 음성→텍스트 변환 (Whisper CLI, API키 불필요). 오디오 파일을 완전 로컬에서 텍스트로 변환합니다.</div>
+          <div class="card-footer">
+            <span class="status-pill active">● 활성</span>
+            <button class="card-expand-btn" onclick="event.stopPropagation(); toggleCard(this.closest('.skill-card'))">▼</button>
+          </div>
+          <div class="card-detail">
+            <div class="detail-section">
+              <div class="detail-title">📋 상세 설명</div>
+              <div class="detail-desc">OpenAI Whisper를 로컬에서 실행하여 음성 파일을 텍스트로 변환합니다. API 키 없이 완전 로컬 처리로 개인정보 보호에 최적입니다.</div>
+            </div>
+            <div class="detail-section">
+              <div class="detail-title">⚙️ 기능 목록</div>
+              <ul class="feature-list">
+                <li>WAV/MP3/M4A 등 다양한 형식 지원</li>
+                <li>다국어 자동 인식</li>
+                <li>완전 오프라인 처리</li>
+                <li>타임스탬프 포함 변환</li>
+              </ul>
+            </div>
+            <div class="detail-section">
+              <div class="detail-title">💡 사용 예시</div>
+              <div class="example-box">
+                "이 음성파일 텍스트로 변환해줘"<br>
+                "회의 녹음 파일 받아써줘"<br>
+                "podcast.mp3 자막 만들어줘"
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- weather -->
+        <div class="skill-card"
+          data-name="weather"
+          data-status="active"
+          data-source="builtin"
+          data-category="ai"
+          onclick="toggleCard(this)">
+          <div class="card-top">
+            <div class="skill-icon">🌤️</div>
+            <div class="card-meta">
+              <div class="card-name-row">
+                <span class="skill-name">weather</span>
+                <span class="source-badge builtin">빌트인</span>
+                <div class="status-dot active"></div>
+              </div>
+              <span class="skill-category-tag">AI</span>
+            </div>
+          </div>
+          <div class="skill-desc">wttr.in/Open-Meteo 날씨 조회. API키 불필요. 전 세계 어디든 현재 날씨와 예보를 즉시 조회합니다.</div>
+          <div class="card-footer">
+            <span class="status-pill active">● 활성</span>
+            <button class="card-expand-btn" onclick="event.stopPropagation(); toggleCard(this.closest('.skill-card'))">▼</button>
+          </div>
+          <div class="card-detail">
+            <div class="detail-section">
+              <div class="detail-title">📋 상세 설명</div>
+              <div class="detail-desc">wttr.in과 Open-Meteo API를 통해 무료로 날씨 정보를 제공합니다. API 키 없이 도시명 또는 좌표로 조회 가능합니다.</div>
+            </div>
+            <div class="detail-section">
+              <div class="detail-title">⚙️ 기능 목록</div>
+              <ul class="feature-list">
+                <li>현재 날씨 조회</li>
+                <li>3일 예보</li>
+                <li>강수확률, 습도, 체감온도</li>
+                <li>한국어 응답 지원</li>
+              </ul>
+            </div>
+            <div class="detail-section">
+              <div class="detail-title">💡 사용 예시</div>
+              <div class="example-box">
+                "서울 날씨 알려줘"<br>
+                "내일 도쿄 비 와?"<br>
+                "이번 주 제주도 날씨 예보"
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
     </div>
-    <div class="skill-desc">스킬 생성/관리</div>
+
+    <!-- 시스템 카테고리 -->
+    <div class="section" data-category="system">
+      <div class="section-header">
+        <div class="section-icon cat-system">⚙️</div>
+        <span class="section-title">시스템 / 인프라</span>
+        <span class="section-count" id="count-cat-system">3</span>
+        <div class="section-line"></div>
+      </div>
+      <div class="skill-grid" id="grid-system">
+
+        <!-- healthcheck -->
+        <div class="skill-card"
+          data-name="healthcheck"
+          data-status="active"
+          data-source="builtin"
+          data-category="system"
+          onclick="toggleCard(this)">
+          <div class="card-top">
+            <div class="skill-icon">🛡️</div>
+            <div class="card-meta">
+              <div class="card-name-row">
+                <span class="skill-name">healthcheck</span>
+                <span class="source-badge builtin">빌트인</span>
+                <div class="status-dot active"></div>
+              </div>
+              <span class="skill-category-tag">시스템</span>
+            </div>
+          </div>
+          <div class="skill-desc">호스트 보안 점검/강화. 방화벽/SSH/업데이트 감사. OpenClaw 배포 환경의 보안 상태를 진단합니다.</div>
+          <div class="card-footer">
+            <span class="status-pill active">● 활성</span>
+            <button class="card-expand-btn" onclick="event.stopPropagation(); toggleCard(this.closest('.skill-card'))">▼</button>
+          </div>
+          <div class="card-detail">
+            <div class="detail-section">
+              <div class="detail-title">📋 상세 설명</div>
+              <div class="detail-desc">호스트 보안 강화 및 위험 허용치 설정을 위한 스킬. 보안 감사, 방화벽/SSH/업데이트 강화, 위험 노출 검토, OpenClaw 크론 스케줄링 등에 활용합니다.</div>
+            </div>
+            <div class="detail-section">
+              <div class="detail-title">⚙️ 기능 목록</div>
+              <ul class="feature-list">
+                <li>방화벽 규칙 점검</li>
+                <li>SSH 설정 감사</li>
+                <li>시스템 업데이트 상태 확인</li>
+                <li>포트 노출 분석</li>
+                <li>보안 위험도 리포트</li>
+              </ul>
+            </div>
+            <div class="detail-section">
+              <div class="detail-title">💡 사용 예시</div>
+              <div class="example-box">
+                "서버 보안 점검해줘"<br>
+                "SSH 설정 강화해줘"<br>
+                "방화벽 현황 분석해줘"
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- node-connect -->
+        <div class="skill-card"
+          data-name="node-connect"
+          data-status="active"
+          data-source="builtin"
+          data-category="system"
+          onclick="toggleCard(this)">
+          <div class="card-top">
+            <div class="skill-icon">🔗</div>
+            <div class="card-meta">
+              <div class="card-name-row">
+                <span class="skill-name">node-connect</span>
+                <span class="source-badge builtin">빌트인</span>
+                <div class="status-dot active"></div>
+              </div>
+              <span class="skill-category-tag">시스템</span>
+            </div>
+          </div>
+          <div class="skill-desc">OpenClaw 노드 연결/페어링 진단. iOS/Android/macOS 앱 연결 이슈를 해결하는 전문 진단 스킬.</div>
+          <div class="card-footer">
+            <span class="status-pill active">● 활성</span>
+            <button class="card-expand-btn" onclick="event.stopPropagation(); toggleCard(this.closest('.skill-card'))">▼</button>
+          </div>
+          <div class="card-detail">
+            <div class="detail-section">
+              <div class="detail-title">📋 상세 설명</div>
+              <div class="detail-desc">QR/설정코드/수동 연결 실패, 로컬 Wi-Fi 작동하지만 VPS/tailnet 미작동, pairing required 오류, gateway.bind, bootstrap token 만료 등 다양한 연결 이슈를 진단합니다.</div>
+            </div>
+            <div class="detail-section">
+              <div class="detail-title">⚙️ 기능 목록</div>
+              <ul class="feature-list">
+                <li>QR 코드 연결 진단</li>
+                <li>Tailscale 연결 문제 해결</li>
+                <li>Bootstrap token 갱신</li>
+                <li>iOS/Android/macOS 앱 페어링</li>
+                <li>Gateway URL 설정 가이드</li>
+              </ul>
+            </div>
+            <div class="detail-section">
+              <div class="detail-title">💡 사용 예시</div>
+              <div class="example-box">
+                "iPhone 연결이 안 돼"<br>
+                "QR 스캔해도 페어링 실패해"<br>
+                "bootstrap token expired 오류"
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- tmux -->
+        <div class="skill-card"
+          data-name="tmux"
+          data-status="active"
+          data-source="builtin"
+          data-category="system"
+          onclick="toggleCard(this)">
+          <div class="card-top">
+            <div class="skill-icon">🖥️</div>
+            <div class="card-meta">
+              <div class="card-name-row">
+                <span class="skill-name">tmux</span>
+                <span class="source-badge builtin">빌트인</span>
+                <div class="status-dot active"></div>
+              </div>
+              <span class="skill-category-tag">시스템</span>
+            </div>
+          </div>
+          <div class="skill-desc">tmux 세션 원격 제어. 키 전송, 패널 출력 캡처. 인터랙티브 CLI를 제어하기 위한 tmux 세션 관리 스킬.</div>
+          <div class="card-footer">
+            <span class="status-pill active">● 활성</span>
+            <button class="card-expand-btn" onclick="event.stopPropagation(); toggleCard(this.closest('.skill-card'))">▼</button>
+          </div>
+          <div class="card-detail">
+            <div class="detail-section">
+              <div class="detail-title">📋 상세 설명</div>
+              <div class="detail-desc">tmux 세션을 원격 제어합니다. 키 입력 전송과 패널 출력 캡처를 통해 인터랙티브 CLI 도구를 자동화할 수 있습니다.</div>
+            </div>
+            <div class="detail-section">
+              <div class="detail-title">⚙️ 기능 목록</div>
+              <ul class="feature-list">
+                <li>tmux 세션 생성/연결</li>
+                <li>키스트로크 전송</li>
+                <li>패널 출력 캡처/스크레이핑</li>
+                <li>다중 패널 제어</li>
+              </ul>
+            </div>
+            <div class="detail-section">
+              <div class="detail-title">💡 사용 예시</div>
+              <div class="example-box">
+                "tmux dev 세션에 명령 실행해줘"<br>
+                "서버 로그 실시간으로 봐줘"<br>
+                "대화형 CLI 자동화해줘"
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- 커뮤니케이션 카테고리 -->
+    <div class="section" data-category="communication">
+      <div class="section-header">
+        <div class="section-icon cat-communication">💬</div>
+        <span class="section-title">커뮤니케이션</span>
+        <span class="section-count" id="count-cat-comm">1</span>
+        <div class="section-line"></div>
+      </div>
+      <div class="skill-grid" id="grid-communication">
+
+        <!-- slack -->
+        <div class="skill-card"
+          data-name="slack"
+          data-status="active"
+          data-source="builtin"
+          data-category="communication"
+          onclick="toggleCard(this)">
+          <div class="card-top">
+            <div class="skill-icon">💬</div>
+            <div class="card-meta">
+              <div class="card-name-row">
+                <span class="skill-name">slack</span>
+                <span class="source-badge builtin">빌트인</span>
+                <div class="status-dot active"></div>
+              </div>
+              <span class="skill-category-tag">커뮤니케이션</span>
+            </div>
+          </div>
+          <div class="skill-desc">슬랙 제어. 리액션, 핀/언핀, 메시지 전송. OpenClaw에서 Slack 채널과 DM을 직접 제어하는 통합 스킬.</div>
+          <div class="card-footer">
+            <span class="status-pill active">● 활성</span>
+            <button class="card-expand-btn" onclick="event.stopPropagation(); toggleCard(this.closest('.skill-card'))">▼</button>
+          </div>
+          <div class="card-detail">
+            <div class="detail-section">
+              <div class="detail-title">📋 상세 설명</div>
+              <div class="detail-desc">Slack 메시지 전송, 이모지 리액션, 메시지 핀/언핀, 채널 관리 등 Slack의 주요 기능을 OpenClaw에서 직접 제어합니다.</div>
+            </div>
+            <div class="detail-section">
+              <div class="detail-title">⚙️ 기능 목록</div>
+              <ul class="feature-list">
+                <li>메시지 전송/수정/삭제</li>
+                <li>이모지 리액션 추가</li>
+                <li>메시지 핀 고정/해제</li>
+                <li>채널 멤버 조회</li>
+                <li>파일 업로드</li>
+              </ul>
+            </div>
+            <div class="detail-section">
+              <div class="detail-title">💡 사용 예시</div>
+              <div class="example-box">
+                "#general에 공지 보내줘"<br>
+                "이 메시지에 👍 리액션 달아줘"<br>
+                "중요 메시지 핀 고정해줘"
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- 미디어 카테고리 -->
+    <div class="section" data-category="media">
+      <div class="section-header">
+        <div class="section-icon cat-media">🎬</div>
+        <span class="section-title">미디어 / 콘텐츠</span>
+        <span class="section-count" id="count-cat-media">1</span>
+        <div class="section-line"></div>
+      </div>
+      <div class="skill-grid" id="grid-media">
+
+        <!-- video-frames -->
+        <div class="skill-card"
+          data-name="video-frames"
+          data-status="active"
+          data-source="builtin"
+          data-category="media"
+          onclick="toggleCard(this)">
+          <div class="card-top">
+            <div class="skill-icon">🎞️</div>
+            <div class="card-meta">
+              <div class="card-name-row">
+                <span class="skill-name">video-frames</span>
+                <span class="source-badge builtin">빌트인</span>
+                <div class="status-dot active"></div>
+              </div>
+              <span class="skill-category-tag">미디어</span>
+            </div>
+          </div>
+          <div class="skill-desc">ffmpeg로 영상 프레임/클립 추출. 동영상에서 특정 구간을 클립으로 추출하거나 프레임 이미지로 저장합니다.</div>
+          <div class="card-footer">
+            <span class="status-pill active">● 활성</span>
+            <button class="card-expand-btn" onclick="event.stopPropagation(); toggleCard(this.closest('.skill-card'))">▼</button>
+          </div>
+          <div class="card-detail">
+            <div class="detail-section">
+              <div class="detail-title">📋 상세 설명</div>
+              <div class="detail-desc">ffmpeg를 활용해 동영상에서 특정 구간을 클립으로 자르거나, 원하는 타임스탬프의 프레임을 이미지로 추출합니다. AI 분석용 프레임 추출에 특히 유용합니다.</div>
+            </div>
+            <div class="detail-section">
+              <div class="detail-title">⚙️ 기능 목록</div>
+              <ul class="feature-list">
+                <li>동영상 특정 구간 클립 추출</li>
+                <li>타임스탬프 기반 프레임 캡처</li>
+                <li>MP4/MOV/AVI 등 다양한 형식</li>
+                <li>GIF 변환 지원</li>
+                <li>해상도/품질 조절</li>
+              </ul>
+            </div>
+            <div class="detail-section">
+              <div class="detail-title">💡 사용 예시</div>
+              <div class="example-box">
+                "영상 1:30~2:00 구간 추출해줘"<br>
+                "3분30초 프레임 캡처해줘"<br>
+                "영상 썸네일 만들어줘"
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- 개발 카테고리 -->
+    <div class="section" data-category="dev">
+      <div class="section-header">
+        <div class="section-icon cat-dev">👨‍💻</div>
+        <span class="section-title">개발 / 자동화</span>
+        <span class="section-count" id="count-cat-dev">2</span>
+        <div class="section-line"></div>
+      </div>
+      <div class="skill-grid" id="grid-dev">
+
+        <!-- coding-agent -->
+        <div class="skill-card"
+          data-name="coding-agent"
+          data-status="active"
+          data-source="builtin"
+          data-category="dev"
+          onclick="toggleCard(this)">
+          <div class="card-top">
+            <div class="skill-icon">💻</div>
+            <div class="card-meta">
+              <div class="card-name-row">
+                <span class="skill-name">coding-agent</span>
+                <span class="source-badge builtin">빌트인</span>
+                <div class="status-dot active"></div>
+              </div>
+              <span class="skill-category-tag">개발</span>
+            </div>
+          </div>
+          <div class="skill-desc">Codex/Claude Code/Pi 코딩 에이전트 위임. 빌드/리팩토링/PR리뷰 등 복잡한 코딩 작업을 서브에이전트에게 위임합니다.</div>
+          <div class="card-footer">
+            <span class="status-pill active">● 활성</span>
+            <button class="card-expand-btn" onclick="event.stopPropagation(); toggleCard(this.closest('.skill-card'))">▼</button>
+          </div>
+          <div class="card-detail">
+            <div class="detail-section">
+              <div class="detail-title">📋 상세 설명</div>
+              <div class="detail-desc">Codex, Claude Code, Pi 에이전트를 통해 복잡한 코딩 작업을 위임합니다. 새 기능 구현, 리팩토링, PR 리뷰, 반복 코딩 등 파일 탐색이 필요한 작업에 최적화. 단순 one-liner 수정은 직접 편집을 권장합니다.</div>
+            </div>
+            <div class="detail-section">
+              <div class="detail-title">⚙️ 기능 목록</div>
+              <ul class="feature-list">
+                <li>새 기능/앱 빌드 위임</li>
+                <li>PR 리뷰 (임시 디렉토리에서 실행)</li>
+                <li>대규모 코드베이스 리팩토링</li>
+                <li>반복 코딩 이터레이션</li>
+                <li>Claude Code/Codex/Pi 에이전트 선택</li>
+              </ul>
+            </div>
+            <div class="detail-section">
+              <div class="detail-title">💡 사용 예시</div>
+              <div class="example-box">
+                "이 PR 리뷰해줘"<br>
+                "React 대시보드 컴포넌트 만들어줘"<br>
+                "레거시 코드 리팩토링해줘"
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- skill-creator -->
+        <div class="skill-card"
+          data-name="skill-creator"
+          data-status="active"
+          data-source="builtin"
+          data-category="dev"
+          onclick="toggleCard(this)">
+          <div class="card-top">
+            <div class="skill-icon">🔧</div>
+            <div class="card-meta">
+              <div class="card-name-row">
+                <span class="skill-name">skill-creator</span>
+                <span class="source-badge builtin">빌트인</span>
+                <div class="status-dot active"></div>
+              </div>
+              <span class="skill-category-tag">개발</span>
+            </div>
+          </div>
+          <div class="skill-desc">스킬 생성/편집/감사. SKILL.md 관리. 새 스킬 설계부터 기존 스킬 개선, 디렉토리 구조 최적화까지 담당합니다.</div>
+          <div class="card-footer">
+            <span class="status-pill active">● 활성</span>
+            <button class="card-expand-btn" onclick="event.stopPropagation(); toggleCard(this.closest('.skill-card'))">▼</button>
+          </div>
+          <div class="card-detail">
+            <div class="detail-section">
+              <div class="detail-title">📋 상세 설명</div>
+              <div class="detail-desc">AgentSkill을 생성, 편집, 개선, 감사합니다. "스킬 만들어줘", "스킬 개선해줘", "SKILL.md 정리해줘" 같은 요청에 트리거됩니다. 스킬 디렉토리 구조 재편, 오래된 내용 제거, AgentSkills 명세 검증까지 수행합니다.</div>
+            </div>
+            <div class="detail-section">
+              <div class="detail-title">⚙️ 기능 목록</div>
+              <ul class="feature-list">
+                <li>새 스킬 SKILL.md 생성</li>
+                <li>기존 스킬 개선/리뷰</li>
+                <li>스킬 디렉토리 구조 최적화</li>
+                <li>AgentSkills 명세 검증</li>
+                <li>참조 파일/스크립트 관리</li>
+              </ul>
+            </div>
+            <div class="detail-section">
+              <div class="detail-title">💡 사용 예시</div>
+              <div class="example-box">
+                "새 스킬 만들어줘"<br>
+                "weather 스킬 개선해줘"<br>
+                "SKILL.md 감사해줘"
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- 비활성 스킬 섹션 -->
+    <div class="section" id="inactive-section">
+      <div class="section-header">
+        <div class="section-icon cat-inactive">💤</div>
+        <span class="section-title">비활성 / 미설치 스킬</span>
+        <span class="section-count">41</span>
+        <div class="section-line"></div>
+        <div class="inactive-toggle" onclick="toggleInactive()" id="inactive-toggle">
+          <span class="toggle-arrow" id="inactive-arrow">▶</span>
+          <span id="inactive-label">펼치기</span>
+        </div>
+      </div>
+      <div id="inactive-grid-wrap" style="display:none">
+        <div class="inactive-grid" id="inactive-grid">
+          <!-- Generated by JS -->
+        </div>
+      </div>
+    </div>
+
+  </div><!-- end skills-container -->
+
+  <!-- Empty State -->
+  <div class="empty-state" id="empty-state">
+    <div class="empty-icon">🔍</div>
+    <div class="empty-text">검색 결과가 없습니다</div>
+    <div style="font-size:12px;color:var(--text-muted)">다른 키워드로 검색해보세요</div>
   </div>
 
-  <div class="skill-card">
-    <div class="card-top">
-      <div class="skill-icon">💬</div>
-      <div class="skill-name">slack</div>
-    </div>
-    <div class="skill-desc">슬랙 제어</div>
+  <!-- Footer -->
+  <div class="footer">
+    최종 업데이트: 2026-03-30 &nbsp;|&nbsp;
+    데이터 소스: OpenClaw Skill Registry &nbsp;|&nbsp;
+    <a href="index.html">보고서 목록으로</a>
   </div>
 
-  <div class="skill-card">
-    <div class="card-top">
-      <div class="skill-icon">🖥️</div>
-      <div class="skill-name">tmux</div>
+</main>
+
+<script>
+// ===== DATA =====
+const INACTIVE_SKILLS = [
+  { name: '1password', icon: '🔑', category: '시스템' },
+  { name: 'apple-notes', icon: '📝', category: '생산성' },
+  { name: 'apple-reminders', icon: '⏰', category: '생산성' },
+  { name: 'bear-notes', icon: '🐻', category: '생산성' },
+  { name: 'blogwatcher', icon: '📰', category: '개발' },
+  { name: 'blucli', icon: '🔵', category: '커뮤니케이션' },
+  { name: 'bluebubbles', icon: '💙', category: '커뮤니케이션' },
+  { name: 'camsnap', icon: '📷', category: '미디어' },
+  { name: 'canvas', icon: '🎨', category: '미디어' },
+  { name: 'clawhub', icon: '🦞', category: '개발' },
+  { name: 'discord', icon: '🎮', category: '커뮤니케이션' },
+  { name: 'eightctl', icon: '8️⃣', category: '시스템' },
+  { name: 'gh-issues', icon: '🐛', category: '개발' },
+  { name: 'gifgrep', icon: '🎬', category: '미디어' },
+  { name: 'github', icon: '🐙', category: '개발' },
+  { name: 'gog', icon: '🎲', category: '개발' },
+  { name: 'goplaces', icon: '📍', category: '생산성' },
+  { name: 'himalaya', icon: '📧', category: '커뮤니케이션' },
+  { name: 'imsg', icon: '💬', category: '커뮤니케이션' },
+  { name: 'mcporter', icon: '🚢', category: '개발' },
+  { name: 'model-usage', icon: '📊', category: 'AI' },
+  { name: 'nano-pdf', icon: '📄', category: '개발' },
+  { name: 'notion', icon: '📒', category: '생산성' },
+  { name: 'obsidian', icon: '💎', category: '생산성' },
+  { name: 'openai-whisper-api', icon: '🎙️', category: 'AI' },
+  { name: 'openhue', icon: '💡', category: '미디어' },
+  { name: 'oracle', icon: '🔮', category: '개발' },
+  { name: 'ordercli', icon: '🛒', category: '개발' },
+  { name: 'peekaboo', icon: '👀', category: '시스템' },
+  { name: 'sag', icon: '🤖', category: 'AI' },
+  { name: 'session-logs', icon: '📋', category: '시스템' },
+  { name: 'sherpa-onnx-tts', icon: '🔊', category: 'AI' },
+  { name: 'songsee', icon: '🎵', category: '미디어' },
+  { name: 'sonoscli', icon: '🔈', category: '미디어' },
+  { name: 'spotify-player', icon: '🎧', category: '미디어' },
+  { name: 'summarize', icon: '📝', category: 'AI' },
+  { name: 'things-mac', icon: '✅', category: '생산성' },
+  { name: 'trello', icon: '📌', category: '생산성' },
+  { name: 'voice-call', icon: '📞', category: '커뮤니케이션' },
+  { name: 'wacli', icon: '💚', category: '커뮤니케이션' },
+  { name: 'xurl', icon: '🔗', category: '개발' },
+];
+
+const USAGE_DATA = [
+  { name: 'coding-agent', count: 142, color: '#7C3AED' },
+  { name: 'slack',        count: 128, color: '#7C3AED' },
+  { name: 'gemini',       count: 97,  color: '#7C3AED' },
+  { name: 'tmux',         count: 84,  color: '#7C3AED' },
+  { name: 'weather',      count: 71,  color: '#7C3AED' },
+  { name: 'healthcheck',  count: 58,  color: '#7C3AED' },
+  { name: 'openai-whisper', count: 53, color: '#7C3AED' },
+  { name: 'skill-creator', count: 47, color: '#7C3AED' },
+  { name: 'video-frames', count: 39,  color: '#7C3AED' },
+  { name: 'node-connect', count: 28,  color: '#7C3AED' },
+];
+
+// ===== STATE =====
+let state = {
+  search: '',
+  statusFilter: 'all',
+  sourceFilter: 'all',
+  view: 'grid',
+  inactiveOpen: false,
+  theme: 'dark',
+};
+
+// ===== INIT =====
+document.addEventListener('DOMContentLoaded', () => {
+  renderInactiveGrid();
+  renderChart();
+  setupSearch();
+  setupFilterChips();
+  loadTheme();
+  updateResultCount();
+});
+
+// ===== THEME =====
+function toggleTheme() {
+  state.theme = state.theme === 'dark' ? 'light' : 'dark';
+  document.documentElement.setAttribute('data-theme', state.theme);
+  document.getElementById('theme-toggle').textContent = state.theme === 'dark' ? '🌙' : '☀️';
+  localStorage.setItem('theme', state.theme);
+}
+
+function loadTheme() {
+  const saved = localStorage.getItem('theme');
+  if (saved) {
+    state.theme = saved;
+    document.documentElement.setAttribute('data-theme', state.theme);
+    document.getElementById('theme-toggle').textContent = state.theme === 'dark' ? '🌙' : '☀️';
+  }
+}
+
+// ===== CARD TOGGLE =====
+function toggleCard(card) {
+  const wasExpanded = card.classList.contains('expanded');
+  // Close all
+  document.querySelectorAll('.skill-card.expanded').forEach(c => {
+    c.classList.remove('expanded');
+    const btn = c.querySelector('.card-expand-btn');
+    if (btn) btn.textContent = '▼';
+  });
+  if (!wasExpanded) {
+    card.classList.add('expanded');
+    const btn = card.querySelector('.card-expand-btn');
+    if (btn) btn.textContent = '▲';
+    setTimeout(() => {
+      card.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }, 50);
+  }
+}
+
+// ===== VIEW TOGGLE =====
+function setView(v) {
+  state.view = v;
+  document.querySelectorAll('.skill-grid').forEach(g => {
+    g.classList.toggle('list-view', v === 'list');
+  });
+  document.getElementById('btn-grid').classList.toggle('active', v === 'grid');
+  document.getElementById('btn-list').classList.toggle('active', v === 'list');
+}
+
+// ===== SEARCH =====
+function setupSearch() {
+  const input = document.getElementById('search-input');
+  input.addEventListener('input', (e) => {
+    state.search = e.target.value.toLowerCase().trim();
+    applyFilters();
+  });
+
+  // `/` shortcut
+  document.addEventListener('keydown', (e) => {
+    if (e.key === '/' && document.activeElement !== input) {
+      e.preventDefault();
+      input.focus();
+      input.select();
+    }
+    if (e.key === 'Escape' && document.activeElement === input) {
+      input.blur();
+      input.value = '';
+      state.search = '';
+      applyFilters();
+    }
+  });
+}
+
+// ===== FILTER CHIPS =====
+function setupFilterChips() {
+  document.querySelectorAll('.chip').forEach(chip => {
+    chip.addEventListener('click', () => {
+      const filterType = chip.getAttribute('data-filter');
+      const value = chip.getAttribute('data-value');
+
+      // Update state
+      if (filterType === 'status') state.statusFilter = value;
+      if (filterType === 'source') state.sourceFilter = value;
+
+      // Update UI
+      const group = chip.closest('.filter-group');
+      group.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
+      chip.classList.add('active');
+
+      applyFilters();
+    });
+  });
+}
+
+// ===== APPLY FILTERS =====
+function applyFilters() {
+  const cards = document.querySelectorAll('.skill-card[data-name]');
+  let visibleCount = 0;
+
+  cards.forEach(card => {
+    const name = card.getAttribute('data-name') || '';
+    const status = card.getAttribute('data-status') || '';
+    const source = card.getAttribute('data-source') || '';
+    const desc = card.querySelector('.skill-desc')?.textContent.toLowerCase() || '';
+
+    let show = true;
+
+    // Search filter
+    if (state.search) {
+      show = name.includes(state.search) || desc.includes(state.search);
+    }
+
+    // Status filter
+    if (show && state.statusFilter !== 'all') {
+      show = status === state.statusFilter;
+    }
+
+    // Source filter
+    if (show && state.sourceFilter !== 'all') {
+      show = source === state.sourceFilter;
+    }
+
+    card.style.display = show ? '' : 'none';
+    if (show) visibleCount++;
+  });
+
+  // Hide empty sections
+  document.querySelectorAll('.section[data-category]').forEach(section => {
+    const visibleCards = section.querySelectorAll('.skill-card[data-name]:not([style*="display: none"])');
+    section.style.display = visibleCards.length > 0 ? '' : 'none';
+  });
+
+  // Empty state
+  const emptyState = document.getElementById('empty-state');
+  emptyState.classList.toggle('visible', visibleCount === 0);
+
+  // Result count
+  updateResultCount(visibleCount);
+
+  // Hide inactive section if status filter is active
+  const inactiveSection = document.getElementById('inactive-section');
+  if (state.statusFilter === 'active') {
+    inactiveSection.style.display = 'none';
+  } else {
+    inactiveSection.style.display = '';
+  }
+}
+
+function updateResultCount(count) {
+  const el = document.getElementById('result-count');
+  if (el) {
+    const total = count !== undefined ? count : document.querySelectorAll('.skill-card[data-name]').length;
+    el.textContent = `표시: ${total}개`;
+  }
+}
+
+// ===== INACTIVE GRID =====
+function renderInactiveGrid() {
+  const grid = document.getElementById('inactive-grid');
+  if (!grid) return;
+
+  grid.innerHTML = INACTIVE_SKILLS.map(s => `
+    <div class="inactive-chip" title="${s.name} (${s.category})">
+      <div class="chip-dot"></div>
+      <span>${s.icon}</span>
+      <span>${s.name}</span>
     </div>
-    <div class="skill-desc">tmux 세션 원격 제어</div>
-  </div>
+  `).join('');
+}
 
-  <div class="skill-card">
-    <div class="card-top">
-      <div class="skill-icon">🎞️</div>
-      <div class="skill-name">video-frames</div>
-    </div>
-    <div class="skill-desc">영상 프레임 추출</div>
-  </div>
+function toggleInactive() {
+  state.inactiveOpen = !state.inactiveOpen;
+  const wrap = document.getElementById('inactive-grid-wrap');
+  const arrow = document.getElementById('inactive-arrow');
+  const label = document.getElementById('inactive-label');
 
-  <div class="skill-card">
-    <div class="card-top">
-      <div class="skill-icon">🌤️</div>
-      <div class="skill-name">weather</div>
-    </div>
-    <div class="skill-desc">날씨 조회</div>
-  </div>
+  wrap.style.display = state.inactiveOpen ? '' : 'none';
+  arrow.classList.toggle('open', state.inactiveOpen);
+  label.textContent = state.inactiveOpen ? '접기' : '펼치기';
+}
 
-</div>
+// ===== CHART =====
+function renderChart() {
+  const container = document.getElementById('chart-bars');
+  if (!container) return;
 
-<p style="text-align:center;color:#64748b;font-size:12px;margin:40px 0 20px">최종 업데이트: 2026-03-27 | 데이터 소스: openclaw skill list</p>
-</div>
+  const maxCount = Math.max(...USAGE_DATA.map(d => d.count));
+
+  container.innerHTML = USAGE_DATA.map(d => {
+    const pct = Math.round((d.count / maxCount) * 100);
+    const gradient = d.name === 'coding-agent' || d.name === 'slack'
+      ? 'linear-gradient(90deg, #7C3AED, #A78BFA)'
+      : d.name === 'gemini' || d.name === 'openai-whisper'
+      ? 'linear-gradient(90deg, #5B21B6, #7C3AED)'
+      : 'linear-gradient(90deg, #6D28D9, #8B5CF6)';
+
+    return `
+      <div class="bar-row">
+        <div class="bar-label">${d.name}</div>
+        <div class="bar-track">
+          <div class="bar-fill" style="width: ${pct}%; background: ${gradient};">
+            <span class="bar-count">${d.count}</span>
+          </div>
+        </div>
+        <div class="bar-extra">${pct}%</div>
+      </div>
+    `;
+  }).join('');
+
+  // Animate bars in on load
+  setTimeout(() => {
+    const fills = container.querySelectorAll('.bar-fill');
+    fills.forEach((fill, i) => {
+      const w = fill.style.width;
+      fill.style.width = '0%';
+      setTimeout(() => {
+        fill.style.width = w;
+      }, i * 60 + 100);
+    });
+  }, 200);
+}
+
+// ===== KEYBOARD SHORTCUTS INFO =====
+// / = focus search
+// ESC = clear search
+// Theme toggle available via button
+
+// ===== ACCESSIBILITY =====
+document.querySelectorAll('.skill-card').forEach(card => {
+  card.setAttribute('tabindex', '0');
+  card.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      toggleCard(card);
+    }
+  });
+});
+</script>
 </body>
 </html>
