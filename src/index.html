@@ -399,13 +399,13 @@ body.sidebar-collapsed .header-toggle{display:flex}
         <span class="icon">📋</span><span class="label">업무보드</span>
       </div>
     </div>
-    <div class="sidebar-system">
+    <div class="sidebar-system" id="sidebarSystem">
       <div class="nav-section-title" style="padding:6px 8px 5px">시스템</div>
-      <a href="/cron-dashboard.html" class="nav-item"><span class="icon">🔄</span><span class="label">크론</span></a>
-      <a href="/deploy-dashboard.html" class="nav-item"><span class="icon">🚀</span><span class="label">배포</span></a>
-      <a href="/system-status.html" class="nav-item"><span class="icon">🖥️</span><span class="label">시스템 현황</span></a>
-      <a href="/heartbeat-dashboard.html" class="nav-item"><span class="icon">💓</span><span class="label">하트비트</span></a>
-      <a href="/security-dashboard.html" class="nav-item"><span class="icon">🔒</span><span class="label">보안</span></a>
+      <div class="nav-item" data-system-href="/cron-dashboard.html"><span class="icon">🔄</span><span class="label">크론</span></div>
+      <div class="nav-item" data-system-href="/deploy-dashboard.html"><span class="icon">🚀</span><span class="label">배포</span></div>
+      <div class="nav-item" data-system-href="/system-status.html"><span class="icon">🖥️</span><span class="label">시스템 현황</span></div>
+      <div class="nav-item" data-system-href="/heartbeat-dashboard.html"><span class="icon">💓</span><span class="label">하트비트</span></div>
+      <div class="nav-item" data-system-href="/security-dashboard.html"><span class="icon">🔒</span><span class="label">보안</span></div>
     </div>
   </nav>
   <div class="sidebar-footer">
@@ -489,6 +489,17 @@ body.sidebar-collapsed .header-toggle{display:flex}
       <!-- Tab 2: 실장 현황 -->
       <div class="tb-tab-panel" id="tabAgents">
         <div id="agentGrid" class="agent-grid"></div>
+      </div>
+    </div>
+    <!-- System View (iframe) -->
+    <div class="system-view" id="systemView">
+      <div class="system-view-header">
+        <button class="system-back-btn" id="systemBackBtn">← 뒤로가기</button>
+        <h2 id="systemViewTitle"></h2>
+      </div>
+      <div class="system-iframe-wrap">
+        <div class="system-iframe-loading" id="systemLoading">로드 중...</div>
+        <iframe id="systemIframe" src="about:blank"></iframe>
       </div>
     </div>
   </div>
@@ -646,10 +657,10 @@ function renderSidebarCats(){
         const docList=document.createElement('div');
         docList.className='nav-sub-list'+(isExpanded?' open':'');
         catDocs.forEach(r=>{
-          const docA=document.createElement('a');
-          docA.href=r.href;
-          docA.className='nav-sub-item'+(window.location.pathname===r.href?' active':'');
+          const docA=document.createElement('div');
+          docA.className='nav-sub-item';
           docA.innerHTML='<span style="opacity:.6">'+r.icon+'</span><span style="flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">'+r.title+'</span>';
+          docA.onclick=(e)=>{e.stopPropagation();openSystemPage(r.href,r.title)};
           docList.appendChild(docA);
         });
         sec.appendChild(docList);
@@ -742,6 +753,13 @@ function renderReports(){
   list.querySelectorAll('.report-card').forEach(card=>{
     card.addEventListener('dragstart',e=>{e.dataTransfer.setData('text/plain',card.dataset.href);card.classList.add('dragging')});
     card.addEventListener('dragend',()=>card.classList.remove('dragging'));
+    card.addEventListener('click',e=>{
+      if(card.classList.contains('dragging'))return;
+      e.preventDefault();
+      const href=card.dataset.href;
+      const title=card.querySelector('h3')?.textContent||'';
+      openSystemPage(href,title);
+    });
   });
 }
 function renderGlossary(q){
@@ -751,7 +769,7 @@ function renderGlossary(q){
 }
 function renderAll(){renderSidebarCats();renderOverview();renderReports()}
 function setCategory(cat){
-  if(currentView==='taskboard')switchView('reports');
+  if(currentView!=='reports')switchView('reports');
   currentCat=cat;
   document.querySelectorAll('.nav-item').forEach(el=>el.classList.toggle('active',el.dataset.cat===cat&&!currentSub));
   const c=CATEGORIES.find(x=>x.key===cat);
@@ -782,6 +800,14 @@ document.addEventListener('DOMContentLoaded',()=>{
   document.getElementById('glossaryClose').onclick=()=>{document.getElementById('glossaryPanel').classList.remove('open');document.getElementById('glossaryOverlay').classList.remove('show')};
   document.getElementById('glossaryOverlay').onclick=()=>{document.getElementById('glossaryPanel').classList.remove('open');document.getElementById('glossaryOverlay').classList.remove('show')};
   document.getElementById('glossarySearch').oninput=e=>renderGlossary(e.target.value.toLowerCase());
+  // ── System View ──
+  document.querySelectorAll('#sidebarSystem .nav-item[data-system-href]').forEach(el=>{
+    el.onclick=()=>openSystemPage(el.dataset.systemHref,el.querySelector('.label').textContent);
+  });
+  document.getElementById('systemBackBtn').onclick=()=>{
+    document.getElementById('systemIframe').src='about:blank';
+    switchView('reports');
+  };
   // ── Task Board ──
   initTaskBoard();
 });
@@ -1168,20 +1194,42 @@ function switchView(view){
   currentView=view;
   const rv=document.getElementById('reportsView');
   const tv=document.getElementById('taskboardView');
+  const sv=document.getElementById('systemView');
   const navTb=document.getElementById('navTaskboard');
+  // Hide all views first
+  rv.classList.add('hidden');
+  tv.classList.remove('active');
+  sv.classList.remove('active');
+  navTb.classList.remove('active');
+  // Clear system nav active
+  document.querySelectorAll('#sidebarSystem .nav-item').forEach(el=>el.classList.remove('active'));
   if(view==='taskboard'){
-    rv.classList.add('hidden');
     tv.classList.add('active');
     navTb.classList.add('active');
     document.querySelectorAll('#catSection .nav-item, .nav-item[data-cat="all"]').forEach(el=>el.classList.remove('active'));
     renderTbAll();
+  } else if(view==='system'){
+    sv.classList.add('active');
+    document.querySelectorAll('#catSection .nav-item, .nav-item[data-cat="all"]').forEach(el=>el.classList.remove('active'));
   } else {
     rv.classList.remove('hidden');
-    tv.classList.remove('active');
-    navTb.classList.remove('active');
     // Re-activate current category nav
     document.querySelectorAll('.nav-item').forEach(el=>el.classList.toggle('active',el.dataset.cat===currentCat&&!currentSub));
   }
+}
+function openSystemPage(href,title){
+  switchView('system');
+  const iframe=document.getElementById('systemIframe');
+  const loading=document.getElementById('systemLoading');
+  document.getElementById('systemViewTitle').textContent=title||'';
+  loading.classList.remove('hidden');
+  iframe.src=href;
+  iframe.onload=()=>loading.classList.add('hidden');
+  // Highlight matching sidebar system nav
+  document.querySelectorAll('#sidebarSystem .nav-item').forEach(el=>{
+    el.classList.toggle('active',el.dataset.systemHref===href);
+  });
+  closeMobile();
 }
 
 function initTaskBoard(){
