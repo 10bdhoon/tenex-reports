@@ -190,6 +190,24 @@ tr.selected{background:#1c2333;border-left:3px solid #58a6ff}
     <canvas id="follower-chart"></canvas>
   </div>
 
+  <!-- YouTube 최근 영상별 조회수 -->
+  <div class="section-title"><span class="icon">🎬</span> YouTube 최근 영상별 조회수</div>
+  <div class="table-wrap" id="video-table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th style="width:40px">#</th>
+          <th>영상 제목</th>
+          <th class="num">조회수</th>
+          <th class="num">좋아요</th>
+          <th class="num">댓글</th>
+          <th>게시일</th>
+        </tr>
+      </thead>
+      <tbody id="video-tbody"></tbody>
+    </table>
+  </div>
+
   <!-- 추이 테이블 -->
   <div class="section-title"><span class="icon">📋</span> 일별 추이 <span style="font-size:12px;color:#484f58;font-weight:400">(행 클릭 시 상세 보기)</span></div>
   <div class="table-wrap">
@@ -226,7 +244,7 @@ tr.selected{background:#1c2333;border-left:3px solid #58a6ff}
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4/dist/chart.umd.min.js"></script>
 <script>
-const SNS_DATA = [{"date": "2026-03-30", "youtube": {"total_views": 20517655, "subscribers": 113000, "video_count": 232}, "instagram": {"followers": 52941, "post_count": 51}, "tiktok": {"followers": 29600, "total_likes": 305400, "video_count": 161}}];
+const SNS_DATA = [{"date": "2026-03-30", "youtube": {"total_views": 20517655, "subscribers": 113000, "video_count": 232}, "instagram": {"followers": 52951, "post_count": 51}, "tiktok": {"followers": 29600, "total_likes": 305400, "video_count": 161}}];
 
 const ALL_DATA = SNS_DATA.slice().sort((a,b) => a.date.localeCompare(b.date));
 
@@ -399,6 +417,26 @@ function render(data){
       }
     }
   });
+
+  // YouTube 영상별 조회수 테이블
+  const videos = latest.youtube?.recent_videos || [];
+  let vrows = '';
+  if(videos.length){
+    videos.sort((a,b) => b.views - a.views);
+    videos.forEach((v, i) => {
+      vrows += `<tr>
+        <td style="color:#484f58;font-weight:700">${i+1}</td>
+        <td><a href="https://youtube.com/watch?v=${v.id}" target="_blank" style="color:#58a6ff;text-decoration:none">${v.title.length > 50 ? v.title.slice(0,50)+'…' : v.title}</a></td>
+        <td class="num" style="font-weight:700">${fmt(v.views)}</td>
+        <td class="num">${fmt(v.likes)}</td>
+        <td class="num">${fmt(v.comments)}</td>
+        <td style="color:#6e7681">${v.published}</td>
+      </tr>`;
+    });
+  } else {
+    vrows = '<tr><td colspan="6" style="text-align:center;color:#484f58;padding:20px">영상별 데이터 없음 (다음 수집 시 포함)</td></tr>';
+  }
+  document.getElementById('video-tbody').innerHTML = vrows;
 
   document.getElementById('updated-at').textContent = `마지막 업데이트: ${latest.date} · 매일 06:00 자동 수집`;
 
