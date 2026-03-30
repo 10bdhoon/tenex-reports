@@ -200,6 +200,18 @@ body.sidebar-collapsed .header-toggle{display:flex}
   .overview-grid{grid-template-columns:1fr}
 }
 
+/* ── System View (iframe) ── */
+.system-view{display:none;flex-direction:column;height:calc(100vh - 52px)}
+.system-view.active{display:flex}
+.system-view-header{display:flex;align-items:center;gap:12px;padding:0 0 16px}
+.system-view-header h2{font-size:18px;font-weight:700;color:var(--text);display:flex;align-items:center;gap:8px}
+.system-back-btn{background:none;border:1px solid var(--border);color:var(--text-secondary);padding:6px 14px;border-radius:8px;cursor:pointer;font-size:13px;font-weight:500;transition:all .2s;white-space:nowrap}
+.system-back-btn:hover{border-color:var(--accent);color:var(--text);background:var(--accent-light)}
+.system-iframe-wrap{flex:1;position:relative;border-radius:10px;overflow:hidden;border:1px solid var(--border);background:var(--bg-card)}
+.system-iframe-wrap iframe{width:100%;height:100%;border:none;display:block}
+.system-iframe-loading{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:var(--bg-card);color:var(--text-secondary);font-size:14px;transition:opacity .3s}
+.system-iframe-loading.hidden{opacity:0;pointer-events:none}
+
 /* ── Task Board ── */
 .taskboard-view{display:none}
 .taskboard-view.active{display:block}
