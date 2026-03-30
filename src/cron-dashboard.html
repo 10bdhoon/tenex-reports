@@ -1,304 +1,3086 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="ko" data-theme="dark">
 <head><script src="auth.js"></script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>크론 대시보드 — Tenex</title>
+<title>🕐 크론 대시보드 — Tenex</title>
 <style>
+/* ════════════════════════════════════════
+   RESET & BASE
+════════════════════════════════════════ */
 *{margin:0;padding:0;box-sizing:border-box}
-body{font-family:-apple-system,BlinkMacSystemFont,sans-serif;background:#0f172a;color:#e2e8f0}
-.header{background:#1a1a2e;color:#fff;padding:24px 32px;display:flex;align-items:center;gap:16px}
-.header h1{font-size:24px;font-weight:700}
-.header a{color:#8b8ba7;font-size:13px;text-decoration:none}
-.header a:hover{color:#fff}
-.content{max-width:1100px;margin:24px auto;padding:0 16px}
+*::before,*::after{box-sizing:border-box}
 
-.filter-tabs{display:flex;gap:8px;margin-bottom:24px;flex-wrap:wrap}
-.filter-tab{padding:8px 20px;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;border:1px solid #334155;background:#1e293b;color:#94a3b8;transition:all .2s}
-.filter-tab:hover{border-color:#002855;color:#e2e8f0}
-.filter-tab.active{background:#002855;border-color:#002855;color:#fff}
-.filter-count{font-size:11px;margin-left:4px;opacity:.7}
+/* ════════════════════════════════════════
+   CSS VARIABLES (다크/라이트 테마)
+════════════════════════════════════════ */
+:root{
+  --bg:#0f0f17;
+  --bg-secondary:#131320;
+  --bg-card:#1c1c2e;
+  --bg-card-hover:#222236;
+  --bg-header:#1a1a2e;
+  --bg-input:#1a1a2e;
+  --text:#e2e2e8;
+  --text-secondary:#8b8ba7;
+  --text-muted:#5a5a7a;
+  --text-header:#fff;
+  --accent:#7C3AED;
+  --accent-light:rgba(124,58,237,0.15);
+  --accent-lighter:rgba(124,58,237,0.08);
+  --accent-text:#c4b5fd;
+  --border:#2a2a3e;
+  --border-card:#252540;
+  --border-hover:#3a3a5e;
+  --shadow:0 2px 8px rgba(0,0,0,0.3);
+  --shadow-lg:0 8px 32px rgba(0,0,0,0.4);
+  --shadow-card:0 4px 16px rgba(0,0,0,0.25);
+  --green:#22c55e;
+  --green-bg:rgba(34,197,94,0.1);
+  --green-border:rgba(34,197,94,0.2);
+  --red:#ef4444;
+  --red-bg:rgba(239,68,68,0.1);
+  --red-border:rgba(239,68,68,0.2);
+  --yellow:#f59e0b;
+  --yellow-bg:rgba(245,158,11,0.1);
+  --yellow-border:rgba(245,158,11,0.2);
+  --blue:#3b82f6;
+  --blue-bg:rgba(59,130,246,0.1);
+  --cyan:#06b6d4;
+  --cyan-bg:rgba(6,182,212,0.1);
+  --orange:#f97316;
+  --orange-bg:rgba(249,115,22,0.1);
+  --purple:#a855f7;
+  --purple-bg:rgba(168,85,247,0.1);
+  --radius-sm:8px;
+  --radius:12px;
+  --radius-lg:16px;
+  --transition:all 0.2s ease;
+  --font:-apple-system,BlinkMacSystemFont,'Segoe UI','Apple SD Gothic Neo',sans-serif;
+}
+[data-theme="light"]{
+  --bg:#f5f5f7;
+  --bg-secondary:#ebebf0;
+  --bg-card:#ffffff;
+  --bg-card-hover:#f8f8fc;
+  --bg-header:#1a1a2e;
+  --bg-input:#f0f0f5;
+  --text:#1d1d1f;
+  --text-secondary:#6e6e73;
+  --text-muted:#aeaeb2;
+  --text-header:#fff;
+  --accent:#7C3AED;
+  --accent-light:rgba(124,58,237,0.08);
+  --accent-lighter:rgba(124,58,237,0.04);
+  --accent-text:#7C3AED;
+  --border:#e5e5ea;
+  --border-card:#d8d8df;
+  --border-hover:#b8b8c8;
+  --shadow:0 1px 4px rgba(0,0,0,0.08);
+  --shadow-lg:0 4px 20px rgba(0,0,0,0.12);
+  --shadow-card:0 2px 8px rgba(0,0,0,0.06);
+  --green:#16a34a;
+  --green-bg:rgba(22,163,74,0.08);
+  --green-border:rgba(22,163,74,0.15);
+  --red:#dc2626;
+  --red-bg:rgba(220,38,38,0.08);
+  --red-border:rgba(220,38,38,0.15);
+  --yellow:#d97706;
+  --yellow-bg:rgba(217,119,6,0.08);
+  --yellow-border:rgba(217,119,6,0.15);
+  --blue:#2563eb;
+  --blue-bg:rgba(37,99,235,0.08);
+  --cyan:#0891b2;
+  --cyan-bg:rgba(8,145,178,0.08);
+  --orange:#ea580c;
+  --orange-bg:rgba(234,88,12,0.08);
+  --purple:#9333ea;
+  --purple-bg:rgba(147,51,234,0.08);
+}
 
-.summary{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:12px;margin-bottom:32px}
-.sum-card{background:#1e293b;border:1px solid #334155;border-radius:10px;padding:16px;text-align:center}
-.sum-card .num{font-size:28px;font-weight:800}
-.sum-card .num.navy{color:#60a5fa}
-.sum-card .num.green{color:#16A34A}
-.sum-card .num.red{color:#DC2626}
-.sum-card .num.yellow{color:#D69E2E}
-.sum-card .num.blue{color:#2563EB}
-.sum-card .label{font-size:12px;color:#94a3b8;margin-top:4px}
+/* ════════════════════════════════════════
+   BODY & LAYOUT
+════════════════════════════════════════ */
+html{scroll-behavior:smooth}
+body{
+  font-family:var(--font);
+  background:var(--bg);
+  color:var(--text);
+  min-height:100vh;
+  line-height:1.6;
+  transition:background 0.3s ease,color 0.3s ease;
+}
 
-.timeline{position:relative;padding-left:60px;margin:32px 0}
-.timeline::before{content:'';position:absolute;left:28px;top:0;bottom:0;width:3px;background:#334155;border-radius:2px}
-.tl-item{position:relative;margin-bottom:24px}
-.tl-item.hidden{display:none}
-.tl-time{position:absolute;left:-60px;top:8px;width:50px;text-align:right;font-size:13px;font-weight:700;font-family:monospace;color:#22d3ee}
-.tl-dot{position:absolute;left:-38px;top:10px;width:14px;height:14px;border-radius:50%;border:3px solid;background:#0f172a}
-.tl-dot.blue{border-color:#2563EB}
-.tl-dot.navy{border-color:#002855}
-.tl-dot.green{border-color:#16A34A}
-.tl-dot.cyan{border-color:#06b6d4}
-.tl-dot.orange{border-color:#EA580C}
-.tl-card{background:#1e293b;border:1px solid #334155;border-radius:10px;padding:16px 20px;margin-left:4px}
-.tl-card h3{font-size:15px;font-weight:700;color:#f1f5f9;margin-bottom:4px;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
-.tl-card .desc{font-size:13px;color:#94a3b8;margin-bottom:8px}
-.tl-card .meta{font-size:11px;color:#64748b;margin-bottom:8px}
-.tl-card .tags{display:flex;flex-wrap:wrap;gap:6px}
-.tag{padding:3px 10px;border-radius:6px;font-size:11px;font-weight:600}
-.tag.blue{background:#1e3a5f;color:#60a5fa}
-.tag.navy{background:#1e3a5f;color:#93c5fd}
-.tag.green{background:#052e16;color:#4ade80}
-.tag.cyan{background:#083344;color:#22d3ee}
-.tag.orange{background:#431407;color:#fb923c}
-.tag.gray{background:#1e293b;color:#94a3b8;border:1px solid #334155}
+/* ════════════════════════════════════════
+   HEADER
+════════════════════════════════════════ */
+.header{
+  background:var(--bg-header);
+  padding:0 32px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  height:64px;
+  position:sticky;
+  top:0;
+  z-index:100;
+  box-shadow:0 2px 16px rgba(0,0,0,0.3);
+}
+.header-left{
+  display:flex;
+  align-items:center;
+  gap:20px;
+}
+.back-link{
+  display:flex;
+  align-items:center;
+  gap:6px;
+  color:rgba(255,255,255,0.45);
+  text-decoration:none;
+  font-size:13px;
+  font-weight:500;
+  padding:6px 10px;
+  border-radius:6px;
+  transition:var(--transition);
+}
+.back-link:hover{color:#fff;background:rgba(255,255,255,0.08)}
+.header-title{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  color:#fff;
+}
+.header-title h1{
+  font-size:20px;
+  font-weight:700;
+  letter-spacing:-0.3px;
+}
+.header-title .version-badge{
+  font-size:10px;
+  font-weight:700;
+  background:var(--accent);
+  color:#fff;
+  padding:2px 8px;
+  border-radius:20px;
+  letter-spacing:0.5px;
+}
+.header-right{
+  display:flex;
+  align-items:center;
+  gap:12px;
+}
+.header-status{
+  display:flex;
+  align-items:center;
+  gap:6px;
+  font-size:12px;
+  color:rgba(255,255,255,0.5);
+  padding:4px 10px;
+  background:rgba(255,255,255,0.05);
+  border-radius:6px;
+}
+.header-status .dot{
+  width:6px;height:6px;
+  border-radius:50%;
+  background:var(--green);
+  animation:pulse-dot 2s infinite;
+}
+@keyframes pulse-dot{
+  0%,100%{opacity:1;transform:scale(1)}
+  50%{opacity:0.5;transform:scale(0.8)}
+}
+.theme-toggle{
+  width:36px;height:36px;
+  background:rgba(255,255,255,0.08);
+  border:1px solid rgba(255,255,255,0.12);
+  border-radius:8px;
+  cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  font-size:16px;
+  transition:var(--transition);
+  color:#fff;
+}
+.theme-toggle:hover{background:rgba(255,255,255,0.15);border-color:rgba(255,255,255,0.25)}
+.refresh-btn{
+  display:flex;align-items:center;gap:6px;
+  padding:7px 14px;
+  background:var(--accent);
+  border:none;
+  border-radius:8px;
+  color:#fff;
+  font-size:13px;
+  font-weight:600;
+  cursor:pointer;
+  transition:var(--transition);
+}
+.refresh-btn:hover{background:#6d28d9;transform:translateY(-1px)}
+.refresh-btn svg{transition:transform 0.5s}
+.refresh-btn:hover svg{transform:rotate(180deg)}
 
-.status{display:inline-block;padding:2px 8px;border-radius:4px;font-size:10px;font-weight:700}
-.status.active{background:#064e3b;color:#34d399}
-.status.error{background:#7f1d1d;color:#fca5a5}
+/* ════════════════════════════════════════
+   MAIN CONTENT
+════════════════════════════════════════ */
+.main{
+  max-width:1200px;
+  margin:0 auto;
+  padding:28px 24px 60px;
+}
 
-table{width:100%;border-collapse:collapse;margin:20px 0;font-size:13px}
-th{background:#1e293b;color:#94a3b8;padding:10px 12px;text-align:left;font-size:11px;text-transform:uppercase;letter-spacing:1px;border-bottom:1px solid #334155}
-td{padding:10px 12px;border-bottom:1px solid #1e293b;color:#e2e8f0}
-tr:hover td{background:#1e293b}
+/* ════════════════════════════════════════
+   SECTION TITLE
+════════════════════════════════════════ */
+.section-title{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  margin-bottom:16px;
+}
+.section-title h2{
+  font-size:16px;
+  font-weight:700;
+  color:var(--text);
+}
+.section-title .subtitle{
+  font-size:12px;
+  color:var(--text-secondary);
+  margin-left:4px;
+}
+.section-divider{
+  height:1px;
+  background:var(--border);
+  margin:32px 0;
+}
 
-h2{color:#93c5fd;font-size:18px;margin:32px 0 16px;font-weight:700}
-h2.light{color:#5b9bd5}
+/* ════════════════════════════════════════
+   SUMMARY CARDS
+════════════════════════════════════════ */
+.summary-grid{
+  display:grid;
+  grid-template-columns:repeat(5,1fr);
+  gap:12px;
+  margin-bottom:28px;
+}
+.summary-card{
+  background:var(--bg-card);
+  border:1px solid var(--border-card);
+  border-radius:var(--radius);
+  padding:18px 20px;
+  cursor:pointer;
+  transition:var(--transition);
+  position:relative;
+  overflow:hidden;
+}
+.summary-card::before{
+  content:'';
+  position:absolute;
+  top:0;left:0;right:0;
+  height:3px;
+  border-radius:var(--radius) var(--radius) 0 0;
+  background:var(--card-accent, var(--accent));
+  opacity:0;
+  transition:opacity 0.2s;
+}
+.summary-card:hover::before{opacity:1}
+.summary-card:hover{
+  background:var(--bg-card-hover);
+  border-color:var(--border-hover);
+  transform:translateY(-2px);
+  box-shadow:var(--shadow-card);
+}
+.summary-card.active{
+  border-color:var(--card-accent, var(--accent));
+  background:var(--accent-light);
+}
+.summary-card.active::before{opacity:1}
+.summary-card .icon{
+  font-size:22px;
+  margin-bottom:8px;
+  display:block;
+}
+.summary-card .num{
+  font-size:32px;
+  font-weight:800;
+  line-height:1;
+  color:var(--card-color, var(--accent-text));
+  font-variant-numeric:tabular-nums;
+}
+.summary-card .label{
+  font-size:12px;
+  color:var(--text-secondary);
+  margin-top:6px;
+  font-weight:500;
+}
+.card-all{--card-color:var(--text);--card-accent:var(--border-hover)}
+.card-ok{--card-color:var(--green);--card-accent:var(--green)}
+.card-error{--card-color:var(--red);--card-accent:var(--red)}
+.card-keepalive{--card-color:var(--cyan);--card-accent:var(--cyan)}
+.card-periodic{--card-color:var(--purple);--card-accent:var(--purple)}
 
-.security-note{background:#1e293b;border:1px solid #334155;border-radius:10px;padding:16px 20px;margin:24px 0;font-size:13px;color:#94a3b8}
-.security-note strong{color:#f1f5f9}
+/* ════════════════════════════════════════
+   SEARCH + FILTER BAR
+════════════════════════════════════════ */
+.toolbar{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  margin-bottom:16px;
+  flex-wrap:wrap;
+}
+.search-wrapper{
+  position:relative;
+  flex:1;
+  min-width:200px;
+}
+.search-icon{
+  position:absolute;
+  left:12px;top:50%;transform:translateY(-50%);
+  color:var(--text-muted);
+  pointer-events:none;
+}
+.search-input{
+  width:100%;
+  padding:10px 12px 10px 38px;
+  background:var(--bg-card);
+  border:1px solid var(--border-card);
+  border-radius:var(--radius-sm);
+  color:var(--text);
+  font-size:14px;
+  font-family:var(--font);
+  outline:none;
+  transition:var(--transition);
+}
+.search-input::placeholder{color:var(--text-muted)}
+.search-input:focus{
+  border-color:var(--accent);
+  background:var(--bg-card-hover);
+  box-shadow:0 0 0 3px var(--accent-lighter);
+}
+.search-shortcut{
+  position:absolute;
+  right:10px;top:50%;transform:translateY(-50%);
+  font-size:10px;
+  color:var(--text-muted);
+  background:var(--bg-secondary);
+  border:1px solid var(--border);
+  border-radius:4px;
+  padding:1px 5px;
+  font-family:monospace;
+}
+.result-count{
+  font-size:12px;
+  color:var(--text-secondary);
+  white-space:nowrap;
+  padding:0 4px;
+}
 
-@media(max-width:640px){
-  .header{padding:16px;flex-wrap:wrap}
-  .content{padding:0 8px}
-  .summary{grid-template-columns:repeat(auto-fit,minmax(100px,1fr))}
-  .timeline{padding-left:40px}
-  .tl-time{left:-40px;width:32px;font-size:11px}
-  .tl-dot{left:-22px}
-  .filter-tabs{gap:4px}
-  .filter-tab{padding:6px 12px;font-size:12px}
-  table{font-size:11px}
-  th,td{padding:8px 6px}
+/* ════════════════════════════════════════
+   FILTER CHIPS
+════════════════════════════════════════ */
+.filter-bar{
+  display:flex;
+  gap:8px;
+  flex-wrap:wrap;
+  margin-bottom:20px;
+}
+.filter-group{
+  display:flex;
+  gap:4px;
+  flex-wrap:wrap;
+}
+.filter-label{
+  font-size:11px;
+  font-weight:600;
+  color:var(--text-muted);
+  text-transform:uppercase;
+  letter-spacing:0.5px;
+  align-self:center;
+  padding:0 4px;
+}
+.chip{
+  display:inline-flex;
+  align-items:center;
+  gap:5px;
+  padding:5px 12px;
+  border-radius:20px;
+  border:1px solid var(--border-card);
+  background:var(--bg-card);
+  color:var(--text-secondary);
+  font-size:12px;
+  font-weight:600;
+  cursor:pointer;
+  transition:var(--transition);
+  user-select:none;
+}
+.chip:hover{
+  border-color:var(--border-hover);
+  color:var(--text);
+}
+.chip.active{
+  background:var(--chip-bg, var(--accent-light));
+  border-color:var(--chip-color, var(--accent));
+  color:var(--chip-color, var(--accent-text));
+}
+.chip .chip-count{
+  font-size:10px;
+  background:rgba(255,255,255,0.1);
+  padding:1px 5px;
+  border-radius:10px;
+}
+[data-theme="light"] .chip .chip-count{background:rgba(0,0,0,0.08)}
+.chip-all.active{--chip-color:var(--text);--chip-bg:var(--accent-lighter)}
+.chip-ok.active{--chip-color:var(--green);--chip-bg:var(--green-bg)}
+.chip-error.active{--chip-color:var(--red);--chip-bg:var(--red-bg)}
+.chip-keepalive.active{--chip-color:var(--cyan);--chip-bg:var(--cyan-bg)}
+.chip-periodic.active{--chip-color:var(--purple);--chip-bg:var(--purple-bg)}
+.chip-daily.active{--chip-color:var(--orange);--chip-bg:var(--orange-bg)}
+.chip-api.active{--chip-color:var(--blue);--chip-bg:var(--blue-bg)}
+.chip-data.active{--chip-color:var(--green);--chip-bg:var(--green-bg)}
+.chip-deploy.active{--chip-color:var(--yellow);--chip-bg:var(--yellow-bg)}
+.chip-monitor.active{--chip-color:var(--cyan);--chip-bg:var(--cyan-bg)}
+.chip-divider{
+  width:1px;
+  height:24px;
+  background:var(--border);
+  align-self:center;
+  margin:0 4px;
+}
+
+/* ════════════════════════════════════════
+   CRON CARD LIST
+════════════════════════════════════════ */
+.cron-list{
+  display:flex;
+  flex-direction:column;
+  gap:8px;
+}
+.cron-card{
+  background:var(--bg-card);
+  border:1px solid var(--border-card);
+  border-radius:var(--radius);
+  overflow:hidden;
+  transition:var(--transition);
+}
+.cron-card:hover{
+  border-color:var(--border-hover);
+  box-shadow:var(--shadow-card);
+}
+.cron-card.expanded{
+  border-color:var(--accent);
+  box-shadow:0 0 0 1px var(--accent),var(--shadow-card);
+}
+.cron-card.hidden{display:none}
+.cron-card-header{
+  display:flex;
+  align-items:center;
+  gap:14px;
+  padding:16px 20px;
+  cursor:pointer;
+  user-select:none;
+}
+.cron-status-indicator{
+  width:10px;height:10px;
+  border-radius:50%;
+  flex-shrink:0;
+}
+.status-ok .cron-status-indicator{background:var(--green);box-shadow:0 0 6px var(--green)}
+.status-error .cron-status-indicator{background:var(--red);box-shadow:0 0 6px var(--red)}
+.status-warning .cron-status-indicator{background:var(--yellow);box-shadow:0 0 6px var(--yellow)}
+.cron-name-wrap{flex:1;min-width:0}
+.cron-name{
+  font-size:14px;
+  font-weight:700;
+  color:var(--text);
+  font-family:'SF Mono','Fira Code',monospace;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
+.cron-desc{
+  font-size:12px;
+  color:var(--text-secondary);
+  margin-top:2px;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
+.cron-meta{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  flex-shrink:0;
+}
+.cron-badge{
+  display:inline-flex;align-items:center;gap:4px;
+  padding:3px 10px;
+  border-radius:20px;
+  font-size:11px;
+  font-weight:700;
+  border:1px solid;
+}
+.badge-ok{
+  background:var(--green-bg);
+  color:var(--green);
+  border-color:var(--green-border);
+}
+.badge-error{
+  background:var(--red-bg);
+  color:var(--red);
+  border-color:var(--red-border);
+}
+.badge-warning{
+  background:var(--yellow-bg);
+  color:var(--yellow);
+  border-color:var(--yellow-border);
+}
+.cron-schedule{
+  font-size:12px;
+  color:var(--text-secondary);
+  font-family:'SF Mono','Fira Code',monospace;
+  background:var(--bg-secondary);
+  padding:3px 8px;
+  border-radius:6px;
+  border:1px solid var(--border);
+}
+.cron-tags{
+  display:flex;
+  gap:4px;
+  flex-shrink:0;
+}
+.cron-tag{
+  display:inline-flex;align-items:center;
+  padding:2px 8px;
+  border-radius:20px;
+  font-size:10px;
+  font-weight:700;
+  text-transform:uppercase;
+  letter-spacing:0.3px;
+}
+.tag-api{background:var(--blue-bg);color:var(--blue)}
+.tag-data{background:var(--green-bg);color:var(--green)}
+.tag-deploy{background:var(--yellow-bg);color:var(--yellow)}
+.tag-monitor{background:var(--cyan-bg);color:var(--cyan)}
+.tag-report{background:var(--purple-bg);color:var(--purple)}
+.tag-keepalive{background:var(--orange-bg);color:var(--orange)}
+.cron-expand-icon{
+  color:var(--text-muted);
+  transition:transform 0.25s ease;
+  flex-shrink:0;
+  font-size:14px;
+}
+.cron-card.expanded .cron-expand-icon{transform:rotate(180deg)}
+
+/* Accordion detail */
+.cron-detail{
+  max-height:0;
+  overflow:hidden;
+  transition:max-height 0.35s ease, opacity 0.25s ease;
+  opacity:0;
+}
+.cron-card.expanded .cron-detail{
+  max-height:600px;
+  opacity:1;
+}
+.cron-detail-inner{
+  padding:0 20px 20px;
+  border-top:1px solid var(--border);
+  margin-top:0;
+  padding-top:16px;
+}
+.detail-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:12px;
+  margin-bottom:16px;
+}
+.detail-item{
+  background:var(--bg-secondary);
+  border:1px solid var(--border);
+  border-radius:var(--radius-sm);
+  padding:12px 14px;
+}
+.detail-item .d-label{
+  font-size:10px;
+  font-weight:700;
+  text-transform:uppercase;
+  letter-spacing:0.5px;
+  color:var(--text-muted);
+  margin-bottom:4px;
+}
+.detail-item .d-value{
+  font-size:13px;
+  font-weight:600;
+  color:var(--text);
+  font-family:'SF Mono','Fira Code',monospace;
+  word-break:break-all;
+}
+.log-path-wrap{
+  background:var(--bg-secondary);
+  border:1px solid var(--border);
+  border-radius:var(--radius-sm);
+  padding:10px 14px;
+  display:flex;
+  align-items:center;
+  gap:8px;
+  margin-bottom:12px;
+}
+.log-path-wrap .log-label{
+  font-size:11px;font-weight:700;text-transform:uppercase;
+  color:var(--text-muted);flex-shrink:0;letter-spacing:0.5px;
+}
+.log-path{
+  font-size:12px;
+  color:var(--accent-text);
+  font-family:'SF Mono','Fira Code',monospace;
+  flex:1;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+}
+.log-preview{
+  background:var(--bg-header);
+  border:1px solid var(--border);
+  border-radius:var(--radius-sm);
+  padding:12px 14px;
+  font-size:12px;
+  font-family:'SF Mono','Fira Code',monospace;
+  color:var(--text-secondary);
+  line-height:1.7;
+  max-height:100px;
+  overflow-y:auto;
+}
+.dependency-chips{
+  display:flex;
+  align-items:center;
+  gap:6px;
+  flex-wrap:wrap;
+  margin-top:10px;
+}
+.dep-chip{
+  display:inline-flex;align-items:center;gap:4px;
+  padding:3px 10px;
+  border-radius:6px;
+  font-size:11px;
+  font-weight:600;
+  background:var(--accent-light);
+  color:var(--accent-text);
+  border:1px solid var(--accent);
+  font-family:'SF Mono','Fira Code',monospace;
+}
+.dep-arrow{color:var(--text-muted);font-size:14px;font-weight:700}
+
+/* ════════════════════════════════════════
+   24H TIMELINE
+════════════════════════════════════════ */
+.timeline-section{
+  background:var(--bg-card);
+  border:1px solid var(--border-card);
+  border-radius:var(--radius-lg);
+  padding:24px;
+  margin-bottom:28px;
+}
+.timeline-header{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  margin-bottom:20px;
+}
+.timeline-header h2{
+  font-size:16px;
+  font-weight:700;
+  display:flex;align-items:center;gap:8px;
+}
+.timeline-legend{
+  display:flex;gap:12px;
+}
+.legend-item{
+  display:flex;align-items:center;gap:5px;
+  font-size:11px;
+  color:var(--text-secondary);
+}
+.legend-dot{
+  width:8px;height:8px;
+  border-radius:50%;
+}
+.timeline-chart{
+  position:relative;
+}
+.timeline-hours{
+  display:flex;
+  border-bottom:1px solid var(--border);
+  padding-bottom:8px;
+  margin-bottom:16px;
+}
+.timeline-hour{
+  flex:1;
+  text-align:center;
+  font-size:10px;
+  color:var(--text-muted);
+  font-family:monospace;
+}
+.timeline-rows{
+  display:flex;
+  flex-direction:column;
+  gap:6px;
+}
+.timeline-row{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  height:28px;
+}
+.timeline-row-name{
+  font-size:11px;
+  color:var(--text-secondary);
+  font-family:'SF Mono','Fira Code',monospace;
+  width:180px;
+  flex-shrink:0;
+  text-align:right;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+}
+.timeline-row-bar{
+  flex:1;
+  position:relative;
+  height:28px;
+  background:var(--bg-secondary);
+  border-radius:4px;
+  border:1px solid var(--border);
+}
+.timeline-event{
+  position:absolute;
+  top:50%;
+  transform:translate(-50%,-50%);
+  width:14px;height:14px;
+  border-radius:50%;
+  border:2px solid;
+  cursor:pointer;
+  transition:transform 0.15s;
+  z-index:2;
+}
+.timeline-event:hover{transform:translate(-50%,-50%) scale(1.4)}
+.timeline-event-tooltip{
+  position:absolute;
+  bottom:calc(100% + 8px);
+  left:50%;transform:translateX(-50%);
+  background:var(--bg-header);
+  border:1px solid var(--border-hover);
+  border-radius:6px;
+  padding:6px 10px;
+  font-size:11px;
+  white-space:nowrap;
+  pointer-events:none;
+  display:none;
+  z-index:10;
+  color:var(--text);
+}
+.timeline-event:hover .timeline-event-tooltip{display:block}
+.tl-continuous{
+  position:absolute;
+  top:50%;transform:translateY(-50%);
+  left:0;right:0;
+  height:4px;
+  border-radius:2px;
+  opacity:0.6;
+}
+.now-line{
+  position:absolute;
+  top:0;bottom:0;
+  width:2px;
+  background:var(--red);
+  border-radius:1px;
+  z-index:3;
+  pointer-events:none;
+}
+.now-line::before{
+  content:'NOW';
+  position:absolute;
+  bottom:100%;left:50%;transform:translateX(-50%);
+  font-size:9px;font-weight:700;
+  color:var(--red);
+  background:var(--bg-card);
+  padding:1px 4px;
+  border-radius:3px;
+  white-space:nowrap;
+}
+
+/* ════════════════════════════════════════
+   PIPELINE DEPENDENCY GRAPH
+════════════════════════════════════════ */
+.pipeline-section{
+  background:var(--bg-card);
+  border:1px solid var(--border-card);
+  border-radius:var(--radius-lg);
+  padding:24px;
+  margin-bottom:28px;
+}
+.pipeline-grid{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:16px;
+}
+.pipeline-card{
+  background:var(--bg-secondary);
+  border:1px solid var(--border);
+  border-radius:var(--radius);
+  padding:20px;
+  transition:var(--transition);
+}
+.pipeline-card:hover{
+  border-color:var(--border-hover);
+  box-shadow:var(--shadow-card);
+}
+.pipeline-title{
+  font-size:12px;
+  font-weight:700;
+  text-transform:uppercase;
+  letter-spacing:0.5px;
+  color:var(--text-muted);
+  margin-bottom:14px;
+  display:flex;align-items:center;gap:6px;
+}
+.pipeline-title .pipe-icon{font-size:14px}
+.pipeline-flow{
+  display:flex;
+  align-items:center;
+  flex-wrap:wrap;
+  gap:6px;
+}
+.pipe-node{
+  display:inline-flex;align-items:center;gap:6px;
+  background:var(--bg-card);
+  border:1px solid var(--border-card);
+  border-radius:8px;
+  padding:8px 14px;
+  font-size:12px;
+  font-weight:700;
+  font-family:'SF Mono','Fira Code',monospace;
+  transition:var(--transition);
+  cursor:pointer;
+}
+.pipe-node:hover{
+  border-color:var(--pipe-color, var(--accent));
+  color:var(--pipe-color, var(--accent-text));
+  box-shadow:0 0 0 1px var(--pipe-color, var(--accent));
+}
+.pipe-node .node-status{
+  width:6px;height:6px;
+  border-radius:50%;
+  background:var(--green);
+}
+.pipe-connector{
+  display:flex;align-items:center;
+  color:var(--text-muted);
+  font-size:18px;
+  font-weight:300;
+}
+.pipe-desc{
+  font-size:11px;
+  color:var(--text-secondary);
+  margin-top:10px;
+  line-height:1.5;
+}
+.pipeline-standalone{
+  background:var(--bg-secondary);
+  border:1px solid var(--border);
+  border-radius:var(--radius);
+  padding:20px;
+  grid-column:1/-1;
+}
+.standalone-title{
+  font-size:12px;
+  font-weight:700;
+  text-transform:uppercase;
+  letter-spacing:0.5px;
+  color:var(--text-muted);
+  margin-bottom:12px;
+  display:flex;align-items:center;gap:6px;
+}
+.standalone-nodes{
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+}
+
+/* ════════════════════════════════════════
+   EMPTY STATE
+════════════════════════════════════════ */
+.empty-state{
+  text-align:center;
+  padding:48px 24px;
+  display:none;
+}
+.empty-state.show{display:block}
+.empty-state .empty-icon{font-size:40px;margin-bottom:12px}
+.empty-state .empty-title{font-size:16px;font-weight:600;color:var(--text);margin-bottom:6px}
+.empty-state .empty-desc{font-size:13px;color:var(--text-secondary)}
+
+/* ════════════════════════════════════════
+   FOOTER
+════════════════════════════════════════ */
+.footer{
+  text-align:center;
+  padding:20px;
+  font-size:12px;
+  color:var(--text-muted);
+  border-top:1px solid var(--border);
+  margin-top:40px;
+}
+.footer a{color:var(--accent-text);text-decoration:none}
+.footer a:hover{text-decoration:underline}
+
+/* ════════════════════════════════════════
+   TOAST NOTIFICATION
+════════════════════════════════════════ */
+.toast-container{
+  position:fixed;
+  bottom:24px;right:24px;
+  z-index:9999;
+  display:flex;flex-direction:column;gap:8px;
+  pointer-events:none;
+}
+.toast{
+  display:flex;align-items:center;gap:10px;
+  padding:12px 18px;
+  background:var(--bg-card);
+  border:1px solid var(--border-hover);
+  border-radius:var(--radius-sm);
+  box-shadow:var(--shadow-lg);
+  font-size:13px;
+  color:var(--text);
+  min-width:240px;
+  opacity:0;
+  transform:translateY(10px);
+  transition:all 0.3s ease;
+  pointer-events:all;
+}
+.toast.show{opacity:1;transform:translateY(0)}
+.toast.hide{opacity:0;transform:translateY(10px)}
+.toast-icon{font-size:16px}
+
+/* ════════════════════════════════════════
+   ANIMATIONS
+════════════════════════════════════════ */
+@keyframes fadeInUp{
+  from{opacity:0;transform:translateY(16px)}
+  to{opacity:1;transform:translateY(0)}
+}
+@keyframes countUp{
+  from{transform:translateY(10px);opacity:0}
+  to{transform:translateY(0);opacity:1}
+}
+.animate-in{
+  animation:fadeInUp 0.4s ease both;
+}
+.animate-in:nth-child(1){animation-delay:0s}
+.animate-in:nth-child(2){animation-delay:0.05s}
+.animate-in:nth-child(3){animation-delay:0.1s}
+.animate-in:nth-child(4){animation-delay:0.15s}
+.animate-in:nth-child(5){animation-delay:0.2s}
+.animate-in:nth-child(6){animation-delay:0.25s}
+.animate-in:nth-child(7){animation-delay:0.3s}
+.animate-in:nth-child(8){animation-delay:0.35s}
+.animate-in:nth-child(9){animation-delay:0.4s}
+.animate-in:nth-child(10){animation-delay:0.45s}
+.animate-in:nth-child(11){animation-delay:0.5s}
+.animate-in:nth-child(12){animation-delay:0.55s}
+
+/* ════════════════════════════════════════
+   CATEGORY & SCHEDULE CHART
+════════════════════════════════════════ */
+.cat-row,.sched-item,.uptime-item{
+  display:flex;align-items:center;gap:10px;margin-bottom:10px;
+}
+.cat-label,.sched-label{
+  font-size:12px;font-weight:600;
+  color:var(--text-secondary);
+  width:72px;flex-shrink:0;text-align:right;
+}
+.cat-bar-wrap,.sched-bar-wrap,.uptime-bar-wrap{
+  flex:1;height:8px;
+  background:var(--bg-secondary);
+  border-radius:4px;overflow:hidden;
+  border:1px solid var(--border);
+}
+.cat-bar,.sched-bar{
+  height:100%;border-radius:4px;
+  transition:width 0.8s ease;
+  background:var(--accent);
+}
+.sched-bar{background:var(--purple)}
+.cat-count,.sched-val{
+  font-size:12px;font-weight:700;
+  color:var(--text);width:60px;flex-shrink:0;
+}
+
+/* ════════════════════════════════════════
+   UPTIME BAR
+════════════════════════════════════════ */
+.uptime-item{margin-bottom:8px}
+.uptime-name{
+  font-size:11px;font-weight:700;
+  font-family:'SF Mono','Fira Code',monospace;
+  color:var(--text-secondary);
+  width:180px;flex-shrink:0;text-align:right;
+  overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
+}
+.uptime-bar{
+  height:100%;border-radius:4px;
+  transition:width 1s ease;
+}
+.uptime-val{
+  font-size:11px;font-weight:700;
+  width:52px;flex-shrink:0;text-align:right;
+}
+
+/* ════════════════════════════════════════
+   MINI CALENDAR
+════════════════════════════════════════ */
+.cal-grid{
+  display:flex;gap:3px;flex-wrap:wrap;
+}
+.cal-day{
+  width:22px;height:22px;
+  border-radius:4px;
+  cursor:pointer;
+  transition:transform 0.15s, opacity 0.15s;
+}
+.cal-day:hover{transform:scale(1.3);opacity:1!important}
+.cal-today{
+  outline:2px solid #fff;
+  outline-offset:2px;
+  opacity:1!important;
+}
+
+/* stats-section responsive */
+@media(max-width:680px){
+  .stats-section{grid-template-columns:1fr!important}
+}
+
+/* ════════════════════════════════════════
+   HELP BUTTON (하단 고정)
+════════════════════════════════════════ */
+.help-fab{
+  position:fixed;
+  bottom:24px;left:24px;
+  width:40px;height:40px;
+  background:var(--accent);
+  border:none;border-radius:50%;
+  color:#fff;font-size:18px;font-weight:700;
+  cursor:pointer;
+  box-shadow:0 4px 16px rgba(124,58,237,0.4);
+  display:flex;align-items:center;justify-content:center;
+  transition:var(--transition);
+  z-index:100;
+}
+.help-fab:hover{
+  transform:scale(1.1);
+  box-shadow:0 6px 24px rgba(124,58,237,0.6);
+}
+
+/* ════════════════════════════════════════
+   CRON DETAIL TABS (탭 스타일 상세 정보)
+════════════════════════════════════════ */
+.detail-tabs{
+  display:flex;gap:2px;
+  border-bottom:1px solid var(--border);
+  margin-bottom:14px;
+}
+.detail-tab{
+  padding:6px 14px;
+  font-size:12px;font-weight:600;
+  color:var(--text-muted);
+  cursor:pointer;border:none;background:none;
+  border-bottom:2px solid transparent;
+  margin-bottom:-1px;
+  transition:var(--transition);
+  font-family:var(--font);
+}
+.detail-tab:hover{color:var(--text)}
+.detail-tab.active{
+  color:var(--accent-text);
+  border-bottom-color:var(--accent);
+}
+
+/* ════════════════════════════════════════
+   PULSE ANIMATION (KeepAlive 표시)
+════════════════════════════════════════ */
+@keyframes pulse-ring{
+  0%{transform:scale(0.8);opacity:0.8}
+  50%{transform:scale(1.2);opacity:0.3}
+  100%{transform:scale(0.8);opacity:0.8}
+}
+.status-keepalive .cron-status-indicator{
+  animation:pulse-ring 2s infinite;
+}
+
+/* ════════════════════════════════════════
+   SECTION ANCHOR LINKS
+════════════════════════════════════════ */
+.anchor-nav{
+  display:flex;gap:8px;
+  margin-bottom:20px;
+  flex-wrap:wrap;
+}
+.anchor-link{
+  display:inline-flex;align-items:center;gap:5px;
+  padding:5px 12px;
+  background:var(--bg-card);
+  border:1px solid var(--border-card);
+  border-radius:20px;
+  font-size:12px;font-weight:600;
+  color:var(--text-secondary);
+  text-decoration:none;
+  cursor:pointer;
+  transition:var(--transition);
+}
+.anchor-link:hover{
+  background:var(--accent-light);
+  border-color:var(--accent);
+  color:var(--accent-text);
+}
+
+/* ════════════════════════════════════════
+   BADGE GLOW
+════════════════════════════════════════ */
+.badge-ok{
+  animation:badge-pulse-ok 3s infinite;
+}
+@keyframes badge-pulse-ok{
+  0%,100%{box-shadow:0 0 0 0 rgba(34,197,94,0)}
+  50%{box-shadow:0 0 0 2px rgba(34,197,94,0.15)}
+}
+
+/* ════════════════════════════════════════
+   SCROLLBAR
+════════════════════════════════════════ */
+::-webkit-scrollbar{width:6px;height:6px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:var(--border-hover);border-radius:3px}
+::-webkit-scrollbar-thumb:hover{background:var(--text-muted)}
+
+/* ════════════════════════════════════════
+   RESPONSIVE
+════════════════════════════════════════ */
+@media(max-width:900px){
+  .summary-grid{grid-template-columns:repeat(3,1fr)}
+  .detail-grid{grid-template-columns:repeat(2,1fr)}
+  .pipeline-grid{grid-template-columns:1fr}
+  .timeline-row-name{width:120px;font-size:10px}
+}
+@media(max-width:680px){
+  .header{padding:0 16px;height:56px}
+  .header-title h1{font-size:16px}
+  .header-status{display:none}
+  .main{padding:16px 12px 40px}
+  .summary-grid{grid-template-columns:repeat(2,1fr)}
+  .cron-meta{flex-wrap:wrap;gap:6px}
+  .cron-tags{display:none}
+  .detail-grid{grid-template-columns:1fr}
+  .timeline-section,.pipeline-section{padding:16px}
+  .timeline-row-name{width:90px;font-size:9px}
+  .pipeline-flow{gap:4px}
+  .pipe-node{padding:6px 10px;font-size:11px}
+  .toolbar{gap:8px}
+  .filter-bar{gap:6px}
+  .back-link span.back-text{display:none}
+}
+@media(max-width:420px){
+  .summary-grid{grid-template-columns:1fr 1fr}
+  .summary-card .num{font-size:26px}
+}
+
+/* ════════════════════════════════════════
+   UTILITY
+════════════════════════════════════════ */
+.hidden{display:none!important}
+.flex{display:flex}
+.flex-center{display:flex;align-items:center;justify-content:center}
+.gap-8{gap:8px}
+.mt-4{margin-top:4px}
+.fw-700{font-weight:700}
+.text-sm{font-size:12px}
+.text-xs{font-size:11px}
+.mono{font-family:'SF Mono','Fira Code',monospace}
+.text-accent{color:var(--accent-text)}
+.text-green{color:var(--green)}
+.text-red{color:var(--red)}
+.text-yellow{color:var(--yellow)}
+.text-secondary{color:var(--text-secondary)}
+
+/* Header separator */
+.sep{
+  width:1px;height:32px;
+  background:rgba(255,255,255,0.1);
 }
 </style>
 </head>
 <body>
-<div class="header"><h1>🕐 크론 대시보드</h1><a href="index.html">← 보고서 목록</a></div>
 
-<div class="content">
+<!-- ════════════ HEADER ════════════ -->
+<header class="header">
+  <div class="header-left">
+    <a href="index.html" class="back-link">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg>
+      <span class="back-text">보고서 목록</span>
+    </a>
+    <div class="sep"></div>
+    <div class="header-title">
+      <span style="font-size:20px">🕐</span>
+      <h1>크론 대시보드</h1>
+      <span class="version-badge">launchd</span>
+    </div>
+  </div>
+  <div class="header-right">
+    <div class="header-status">
+      <span class="dot"></span>
+      <span id="live-time">--:--:--</span>
+    </div>
+    <button class="theme-toggle" id="themeToggle" title="테마 전환" aria-label="테마 전환">🌙</button>
+    <button class="refresh-btn" onclick="refreshData()">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>
+      새로고침
+    </button>
+  </div>
+</header>
 
-<!-- 요약 -->
-<div class="summary">
-  <div class="sum-card"><div class="num navy">14</div><div class="label">전체 크론</div></div>
-  <div class="sum-card"><div class="num green">14</div><div class="label">정상</div></div>
-  <div class="sum-card"><div class="num red">0</div><div class="label">오류</div></div>
-  <div class="sum-card"><div class="num blue">5</div><div class="label">30분 간격</div></div>
-  <div class="sum-card"><div class="num yellow">2</div><div class="label">상시</div></div>
-</div>
+<!-- ════════════ MAIN ════════════ -->
+<main class="main">
 
-<!-- 필터 탭 -->
-<div class="filter-tabs">
-  <div class="filter-tab active" onclick="filterCrons('all')">전체<span class="filter-count">14</span></div>
-  <div class="filter-tab" onclick="filterCrons('ok')">정상<span class="filter-count">14</span></div>
-  <div class="filter-tab" onclick="filterCrons('error')">오류<span class="filter-count">0</span></div>
-</div>
+  <!-- ── 앵커 네비게이션 ── -->
+  <div class="anchor-nav" id="anchorNav">
+    <a class="anchor-link" onclick="document.getElementById('cronListSection').scrollIntoView({behavior:'smooth'})">🤖 크론 목록</a>
+    <a class="anchor-link" onclick="document.getElementById('timelineSection').scrollIntoView({behavior:'smooth'})">⏰ 타임라인</a>
+    <a class="anchor-link" onclick="document.getElementById('pipelineSection').scrollIntoView({behavior:'smooth'})">🔗 파이프라인</a>
+    <a class="anchor-link" onclick="document.getElementById('statsSection').scrollIntoView({behavior:'smooth'})">📊 통계</a>
+  </div>
 
-<!-- 타임라인 -->
-<h2 class="light">⏰ 하루 타임라인</h2>
-<div class="timeline">
-
-  <div class="tl-item" data-status="ok">
-    <div class="tl-time">*/90m</div>
-    <div class="tl-dot navy"></div>
-    <div class="tl-card">
-      <h3>cafe24-token-refresh <span class="status active">정상</span></h3>
-      <div class="desc">카페24 API 토큰 자동 갱신</div>
-      <div class="meta">90분 간격 | 마지막 실행: 정상</div>
-      <div class="tags"><span class="tag navy">API</span><span class="tag green">카페24</span></div>
+  <!-- ── 요약 카드 ── -->
+  <div class="summary-grid" id="summaryGrid">
+    <div class="summary-card card-all animate-in" onclick="setStatusFilter('all')" data-filter="all">
+      <span class="icon">🗂️</span>
+      <div class="num" id="cnt-all">0</div>
+      <div class="label">전체 크론</div>
+    </div>
+    <div class="summary-card card-ok animate-in" onclick="setStatusFilter('ok')" data-filter="ok">
+      <span class="icon">✅</span>
+      <div class="num" id="cnt-ok">0</div>
+      <div class="label">정상</div>
+    </div>
+    <div class="summary-card card-error animate-in" onclick="setStatusFilter('error')" data-filter="error">
+      <span class="icon">🚨</span>
+      <div class="num" id="cnt-error">0</div>
+      <div class="label">오류</div>
+    </div>
+    <div class="summary-card card-keepalive animate-in" onclick="setTypeFilter('keepalive')" data-filter-type="keepalive">
+      <span class="icon">♾️</span>
+      <div class="num" id="cnt-keepalive">0</div>
+      <div class="label">상시 실행</div>
+    </div>
+    <div class="summary-card card-periodic animate-in" onclick="setTypeFilter('periodic')" data-filter-type="periodic">
+      <span class="icon">⏱️</span>
+      <div class="num" id="cnt-periodic">0</div>
+      <div class="label">정기 실행</div>
     </div>
   </div>
 
-  <div class="tl-item" data-status="ok">
-    <div class="tl-time">07:00</div>
-    <div class="tl-dot blue"></div>
-    <div class="tl-card">
-      <h3>daily-report <span class="status active">정상</span></h3>
-      <div class="desc">텔레그램 일일 매출 리포트</div>
-      <div class="meta">매일 07:00 | 마지막 실행: 정상</div>
-      <div class="tags"><span class="tag cyan">텔레그램</span><span class="tag green">매출</span></div>
+  <!-- ── 툴바: 검색 ── -->
+  <div class="toolbar">
+    <div class="search-wrapper">
+      <svg class="search-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      <input
+        type="text"
+        class="search-input"
+        id="searchInput"
+        placeholder="크론 이름, 설명 검색..."
+        autocomplete="off"
+        spellcheck="false"
+      >
+      <span class="search-shortcut">/</span>
+    </div>
+    <span class="result-count" id="resultCount"></span>
+  </div>
+
+  <!-- ── 필터 칩 ── -->
+  <div class="filter-bar" id="filterBar">
+    <!-- 상태 필터 -->
+    <div class="filter-group">
+      <span class="filter-label">상태</span>
+      <div class="chip chip-all active" data-filter-type="status" data-filter-val="all" onclick="handleChip(this)">
+        전체 <span class="chip-count" id="fc-all">12</span>
+      </div>
+      <div class="chip chip-ok" data-filter-type="status" data-filter-val="ok" onclick="handleChip(this)">
+        <span>●</span> 정상 <span class="chip-count" id="fc-ok">12</span>
+      </div>
+      <div class="chip chip-error" data-filter-type="status" data-filter-val="error" onclick="handleChip(this)">
+        <span>●</span> 오류 <span class="chip-count" id="fc-error">0</span>
+      </div>
+    </div>
+    <div class="chip-divider"></div>
+    <!-- 유형 필터 -->
+    <div class="filter-group">
+      <span class="filter-label">유형</span>
+      <div class="chip chip-all" data-filter-type="type" data-filter-val="all" onclick="handleChip(this)">
+        전체
+      </div>
+      <div class="chip chip-periodic" data-filter-type="type" data-filter-val="periodic" onclick="handleChip(this)">
+        ⏱️ 정기
+      </div>
+      <div class="chip chip-keepalive" data-filter-type="type" data-filter-val="keepalive" onclick="handleChip(this)">
+        ♾️ 상시
+      </div>
+      <div class="chip chip-daily" data-filter-type="type" data-filter-val="daily" onclick="handleChip(this)">
+        📅 일별
+      </div>
+    </div>
+    <div class="chip-divider"></div>
+    <!-- 카테고리 필터 -->
+    <div class="filter-group">
+      <span class="filter-label">카테고리</span>
+      <div class="chip chip-all" data-filter-type="category" data-filter-val="all" onclick="handleChip(this)">
+        전체
+      </div>
+      <div class="chip chip-api" data-filter-type="category" data-filter-val="api" onclick="handleChip(this)">
+        🔌 API
+      </div>
+      <div class="chip chip-data" data-filter-type="category" data-filter-val="data" onclick="handleChip(this)">
+        🗄️ 데이터
+      </div>
+      <div class="chip chip-deploy" data-filter-type="category" data-filter-val="deploy" onclick="handleChip(this)">
+        🚀 배포
+      </div>
+      <div class="chip chip-monitor" data-filter-type="category" data-filter-val="monitor" onclick="handleChip(this)">
+        👁️ 모니터링
+      </div>
     </div>
   </div>
 
-  <div class="tl-item" data-status="ok">
-    <div class="tl-time">*/30</div>
-    <div class="tl-dot navy"></div>
-    <div class="tl-card">
-      <h3>plaud-pipeline <span class="status active">정상</span></h3>
-      <div class="desc">Plaud 녹음 전사+요약</div>
-      <div class="meta">30분 간격 | 마지막 실행: 정상</div>
-      <div class="tags"><span class="tag navy">Plaud</span><span class="tag cyan">전사</span></div>
+  <!-- ── 크론 카드 리스트 ── -->
+  <div id="cronListSection"></div>
+  <div class="section-title">
+    <h2>🤖 크론 목록</h2>
+    <span class="subtitle">launchd 기반 12개 자동화</span>
+  </div>
+
+  <div class="cron-list" id="cronList">
+
+    <!-- ①  cafe24-token-refresh -->
+    <div class="cron-card status-ok animate-in"
+      data-name="cafe24-token-refresh"
+      data-desc="카페24 API 토큰 자동 갱신"
+      data-status="ok"
+      data-type="periodic"
+      data-category="api"
+    >
+      <div class="cron-card-header" onclick="toggleCard(this)">
+        <div class="cron-status-indicator"></div>
+        <div class="cron-name-wrap">
+          <div class="cron-name">cafe24-token-refresh</div>
+          <div class="cron-desc">카페24 API 토큰 자동 갱신</div>
+        </div>
+        <div class="cron-meta">
+          <span class="cron-badge badge-ok">✓ 정상</span>
+          <span class="cron-schedule">60분 간격</span>
+          <div class="cron-tags">
+            <span class="cron-tag tag-api">API</span>
+          </div>
+        </div>
+        <span class="cron-expand-icon">▾</span>
+      </div>
+      <div class="cron-detail">
+        <div class="cron-detail-inner">
+          <div class="detail-grid">
+            <div class="detail-item">
+              <div class="d-label">실행 주기</div>
+              <div class="d-value">매 60분</div>
+            </div>
+            <div class="detail-item">
+              <div class="d-label">유형</div>
+              <div class="d-value">정기 실행 (Interval)</div>
+            </div>
+            <div class="detail-item">
+              <div class="d-label">카테고리</div>
+              <div class="d-value">API / 카페24</div>
+            </div>
+          </div>
+          <div class="log-path-wrap">
+            <span class="log-label">LOG</span>
+            <span class="log-path">~/tenex-scripts/logs/token-refresh.log</span>
+          </div>
+          <div class="log-preview">[2026-03-30 16:58:02] ✓ 카페24 토큰 갱신 성공 (expires_in: 3600s)<br>[2026-03-30 15:58:01] ✓ 카페24 토큰 갱신 성공 (expires_in: 3600s)<br>[2026-03-30 14:58:03] ✓ 카페24 토큰 갱신 성공 (expires_in: 3600s)</div>
+          <div class="dependency-chips">
+            <span class="text-xs text-secondary fw-700">파이프라인:</span>
+            <span class="dep-chip">cafe24-token-refresh</span>
+            <span class="dep-arrow">→</span>
+            <span class="dep-chip">cafe24-webhook</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ②  daily-report -->
+    <div class="cron-card status-ok animate-in"
+      data-name="daily-report"
+      data-desc="텔레그램 일일 매출 리포트"
+      data-status="ok"
+      data-type="daily"
+      data-category="deploy"
+    >
+      <div class="cron-card-header" onclick="toggleCard(this)">
+        <div class="cron-status-indicator"></div>
+        <div class="cron-name-wrap">
+          <div class="cron-name">daily-report</div>
+          <div class="cron-desc">텔레그램 일일 매출 리포트</div>
+        </div>
+        <div class="cron-meta">
+          <span class="cron-badge badge-ok">✓ 정상</span>
+          <span class="cron-schedule">매일 07:00</span>
+          <div class="cron-tags">
+            <span class="cron-tag tag-report">보고서</span>
+          </div>
+        </div>
+        <span class="cron-expand-icon">▾</span>
+      </div>
+      <div class="cron-detail">
+        <div class="cron-detail-inner">
+          <div class="detail-grid">
+            <div class="detail-item">
+              <div class="d-label">실행 시간</div>
+              <div class="d-value">매일 07:00 KST</div>
+            </div>
+            <div class="detail-item">
+              <div class="d-label">유형</div>
+              <div class="d-value">일별 실행 (Calendar)</div>
+            </div>
+            <div class="detail-item">
+              <div class="d-label">카테고리</div>
+              <div class="d-value">보고서 / 텔레그램</div>
+            </div>
+          </div>
+          <div class="log-path-wrap">
+            <span class="log-label">LOG</span>
+            <span class="log-path">~/Desktop/tenex-assistant/daily-report.log</span>
+          </div>
+          <div class="log-preview">[2026-03-30 07:00:04] ✓ 일일 매출 리포트 발송 완료 (텔레그램)<br>[2026-03-29 07:00:03] ✓ 일일 매출 리포트 발송 완료 (텔레그램)<br>[2026-03-28 07:00:05] ✓ 일일 매출 리포트 발송 완료 (텔레그램)</div>
+          <div class="dependency-chips">
+            <span class="text-xs text-secondary fw-700">파이프라인:</span>
+            <span class="dep-chip">독립 실행</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ③  plaud-pipeline -->
+    <div class="cron-card status-ok animate-in"
+      data-name="plaud-pipeline"
+      data-desc="Plaud 녹음 전사+요약"
+      data-status="ok"
+      data-type="periodic"
+      data-category="data"
+    >
+      <div class="cron-card-header" onclick="toggleCard(this)">
+        <div class="cron-status-indicator"></div>
+        <div class="cron-name-wrap">
+          <div class="cron-name">plaud-pipeline</div>
+          <div class="cron-desc">Plaud 녹음 전사 + AI 요약</div>
+        </div>
+        <div class="cron-meta">
+          <span class="cron-badge badge-ok">✓ 정상</span>
+          <span class="cron-schedule">60분 간격</span>
+          <div class="cron-tags">
+            <span class="cron-tag tag-data">데이터</span>
+          </div>
+        </div>
+        <span class="cron-expand-icon">▾</span>
+      </div>
+      <div class="cron-detail">
+        <div class="cron-detail-inner">
+          <div class="detail-grid">
+            <div class="detail-item">
+              <div class="d-label">실행 주기</div>
+              <div class="d-value">매 60분</div>
+            </div>
+            <div class="detail-item">
+              <div class="d-label">유형</div>
+              <div class="d-value">정기 실행 (Interval)</div>
+            </div>
+            <div class="detail-item">
+              <div class="d-label">카테고리</div>
+              <div class="d-value">데이터 / Plaud AI</div>
+            </div>
+          </div>
+          <div class="log-path-wrap">
+            <span class="log-label">LOG</span>
+            <span class="log-path">~/.openclaw/workspace/scripts/plaud-pipeline.log</span>
+          </div>
+          <div class="log-preview">[2026-03-30 16:05:12] ✓ 신규 녹음 없음 (last_check: 2026-03-30T15:05:09)<br>[2026-03-30 15:05:09] ✓ 처리 완료 — 전사 2건, 요약 2건<br>[2026-03-30 14:05:10] ✓ 신규 녹음 없음</div>
+          <div class="dependency-chips">
+            <span class="text-xs text-secondary fw-700">파이프라인:</span>
+            <span class="dep-chip">plaud-pipeline</span>
+            <span class="dep-arrow">→</span>
+            <span class="dep-chip">plaud-daily-report</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ④  plaud-daily-report -->
+    <div class="cron-card status-ok animate-in"
+      data-name="plaud-daily-report"
+      data-desc="Plaud 일일 요약 보고"
+      data-status="ok"
+      data-type="daily"
+      data-category="deploy"
+    >
+      <div class="cron-card-header" onclick="toggleCard(this)">
+        <div class="cron-status-indicator"></div>
+        <div class="cron-name-wrap">
+          <div class="cron-name">plaud-daily-report</div>
+          <div class="cron-desc">Plaud 일일 요약 보고</div>
+        </div>
+        <div class="cron-meta">
+          <span class="cron-badge badge-ok">✓ 정상</span>
+          <span class="cron-schedule">매일 22:00</span>
+          <div class="cron-tags">
+            <span class="cron-tag tag-report">보고서</span>
+          </div>
+        </div>
+        <span class="cron-expand-icon">▾</span>
+      </div>
+      <div class="cron-detail">
+        <div class="cron-detail-inner">
+          <div class="detail-grid">
+            <div class="detail-item">
+              <div class="d-label">실행 시간</div>
+              <div class="d-value">매일 22:00 KST</div>
+            </div>
+            <div class="detail-item">
+              <div class="d-label">유형</div>
+              <div class="d-value">일별 실행 (Calendar)</div>
+            </div>
+            <div class="detail-item">
+              <div class="d-label">카테고리</div>
+              <div class="d-value">보고서 / Plaud</div>
+            </div>
+          </div>
+          <div class="log-path-wrap">
+            <span class="log-label">LOG</span>
+            <span class="log-path">~/.openclaw/workspace/scripts/plaud-daily-report.log</span>
+          </div>
+          <div class="log-preview">[2026-03-30 22:00:06] ✓ Plaud 일일 요약 보고 완료 — 전사 5건 요약 발송<br>[2026-03-29 22:00:04] ✓ Plaud 일일 요약 보고 완료 — 전사 3건 요약 발송<br>[2026-03-28 22:00:07] ✓ Plaud 일일 요약 보고 완료 — 전사 4건 요약 발송</div>
+          <div class="dependency-chips">
+            <span class="text-xs text-secondary fw-700">파이프라인:</span>
+            <span class="dep-chip">plaud-pipeline</span>
+            <span class="dep-arrow">→</span>
+            <span class="dep-chip">plaud-daily-report</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ⑤  tenex-reports-deploy -->
+    <div class="cron-card status-ok animate-in"
+      data-name="tenex-reports-deploy"
+      data-desc="리포트 변경감지 → Vercel 배포"
+      data-status="ok"
+      data-type="periodic"
+      data-category="deploy"
+    >
+      <div class="cron-card-header" onclick="toggleCard(this)">
+        <div class="cron-status-indicator"></div>
+        <div class="cron-name-wrap">
+          <div class="cron-name">tenex-reports-deploy</div>
+          <div class="cron-desc">리포트 변경감지 → Vercel 자동 배포</div>
+        </div>
+        <div class="cron-meta">
+          <span class="cron-badge badge-ok">✓ 정상</span>
+          <span class="cron-schedule">10분 간격</span>
+          <div class="cron-tags">
+            <span class="cron-tag tag-deploy">배포</span>
+          </div>
+        </div>
+        <span class="cron-expand-icon">▾</span>
+      </div>
+      <div class="cron-detail">
+        <div class="cron-detail-inner">
+          <div class="detail-grid">
+            <div class="detail-item">
+              <div class="d-label">실행 주기</div>
+              <div class="d-value">매 10분</div>
+            </div>
+            <div class="detail-item">
+              <div class="d-label">유형</div>
+              <div class="d-value">정기 실행 (Interval)</div>
+            </div>
+            <div class="detail-item">
+              <div class="d-label">카테고리</div>
+              <div class="d-value">배포 / Vercel</div>
+            </div>
+          </div>
+          <div class="log-path-wrap">
+            <span class="log-label">LOG</span>
+            <span class="log-path">~/.openclaw/workspace/scripts/reports-deploy.log</span>
+          </div>
+          <div class="log-preview">[2026-03-30 17:10:01] ✓ 변경 없음 (해시 동일)<br>[2026-03-30 17:00:02] ✓ 변경 감지 → Vercel 배포 시작...<br>[2026-03-30 17:00:14] ✓ Vercel 배포 완료 (https://tenex-reports.vercel.app)</div>
+          <div class="dependency-chips">
+            <span class="text-xs text-secondary fw-700">파이프라인:</span>
+            <span class="dep-chip">sns-views-collect</span>
+            <span class="dep-arrow">→</span>
+            <span class="dep-chip">tenex-reports-deploy</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ⑥  session-sync -->
+    <div class="cron-card status-ok animate-in"
+      data-name="session-sync"
+      data-desc="세션 → brain.db 동기화"
+      data-status="ok"
+      data-type="periodic"
+      data-category="data"
+    >
+      <div class="cron-card-header" onclick="toggleCard(this)">
+        <div class="cron-status-indicator"></div>
+        <div class="cron-name-wrap">
+          <div class="cron-name">session-sync</div>
+          <div class="cron-desc">세션 → brain.db 동기화</div>
+        </div>
+        <div class="cron-meta">
+          <span class="cron-badge badge-ok">✓ 정상</span>
+          <span class="cron-schedule">10분 간격</span>
+          <div class="cron-tags">
+            <span class="cron-tag tag-data">데이터</span>
+          </div>
+        </div>
+        <span class="cron-expand-icon">▾</span>
+      </div>
+      <div class="cron-detail">
+        <div class="cron-detail-inner">
+          <div class="detail-grid">
+            <div class="detail-item">
+              <div class="d-label">실행 주기</div>
+              <div class="d-value">매 10분</div>
+            </div>
+            <div class="detail-item">
+              <div class="d-label">유형</div>
+              <div class="d-value">정기 실행 (Interval)</div>
+            </div>
+            <div class="detail-item">
+              <div class="d-label">카테고리</div>
+              <div class="d-value">데이터 / brain.db</div>
+            </div>
+          </div>
+          <div class="log-path-wrap">
+            <span class="log-label">LOG</span>
+            <span class="log-path">~/Desktop/tenex-assistant/session-sync.log</span>
+          </div>
+          <div class="log-preview">[2026-03-30 17:05:01] ✓ 세션 동기화 — 3건 추가 (brain.db)<br>[2026-03-30 16:55:02] ✓ 세션 동기화 — 0건 추가<br>[2026-03-30 16:45:01] ✓ 세션 동기화 — 1건 추가 (brain.db)</div>
+          <div class="dependency-chips">
+            <span class="text-xs text-secondary fw-700">파이프라인:</span>
+            <span class="dep-chip">brain-conv-sync</span>
+            <span class="dep-arrow">→</span>
+            <span class="dep-chip">session-sync</span>
+            <span class="dep-arrow">→</span>
+            <span class="dep-chip">memory-watcher</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ⑦  sns-views-collect -->
+    <div class="cron-card status-ok animate-in"
+      data-name="sns-views-collect"
+      data-desc="SNS 조회수 수집 (YouTube/인스타/틱톡)"
+      data-status="ok"
+      data-type="daily"
+      data-category="data"
+    >
+      <div class="cron-card-header" onclick="toggleCard(this)">
+        <div class="cron-status-indicator"></div>
+        <div class="cron-name-wrap">
+          <div class="cron-name">sns-views-collect</div>
+          <div class="cron-desc">SNS 조회수 수집 (YouTube / 인스타 / 틱톡)</div>
+        </div>
+        <div class="cron-meta">
+          <span class="cron-badge badge-ok">✓ 정상</span>
+          <span class="cron-schedule">매일 06:00</span>
+          <div class="cron-tags">
+            <span class="cron-tag tag-data">데이터</span>
+          </div>
+        </div>
+        <span class="cron-expand-icon">▾</span>
+      </div>
+      <div class="cron-detail">
+        <div class="cron-detail-inner">
+          <div class="detail-grid">
+            <div class="detail-item">
+              <div class="d-label">실행 시간</div>
+              <div class="d-value">매일 06:00 KST</div>
+            </div>
+            <div class="detail-item">
+              <div class="d-label">유형</div>
+              <div class="d-value">일별 실행 (Calendar)</div>
+            </div>
+            <div class="detail-item">
+              <div class="d-label">카테고리</div>
+              <div class="d-value">데이터 / SNS</div>
+            </div>
+          </div>
+          <div class="log-path-wrap">
+            <span class="log-label">LOG</span>
+            <span class="log-path">/tmp/sns-views-collect.log</span>
+          </div>
+          <div class="log-preview">[2026-03-30 06:00:08] ✓ YouTube 28건 수집<br>[2026-03-30 06:00:09] ✓ Instagram 14건 수집<br>[2026-03-30 06:00:11] ✓ TikTok 9건 수집 — 완료</div>
+          <div class="dependency-chips">
+            <span class="text-xs text-secondary fw-700">파이프라인:</span>
+            <span class="dep-chip">sns-views-collect</span>
+            <span class="dep-arrow">→</span>
+            <span class="dep-chip">tenex-reports-deploy</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ⑧  cafe24-webhook -->
+    <div class="cron-card status-ok animate-in"
+      data-name="cafe24-webhook"
+      data-desc="카페24 주문/취소 폴링"
+      data-status="ok"
+      data-type="periodic"
+      data-category="api"
+    >
+      <div class="cron-card-header" onclick="toggleCard(this)">
+        <div class="cron-status-indicator"></div>
+        <div class="cron-name-wrap">
+          <div class="cron-name">cafe24-webhook</div>
+          <div class="cron-desc">카페24 주문 / 취소 폴링 알림</div>
+        </div>
+        <div class="cron-meta">
+          <span class="cron-badge badge-ok">✓ 정상</span>
+          <span class="cron-schedule">10분 간격</span>
+          <div class="cron-tags">
+            <span class="cron-tag tag-api">API</span>
+          </div>
+        </div>
+        <span class="cron-expand-icon">▾</span>
+      </div>
+      <div class="cron-detail">
+        <div class="cron-detail-inner">
+          <div class="detail-grid">
+            <div class="detail-item">
+              <div class="d-label">실행 주기</div>
+              <div class="d-value">매 10분</div>
+            </div>
+            <div class="detail-item">
+              <div class="d-label">유형</div>
+              <div class="d-value">정기 실행 (Interval)</div>
+            </div>
+            <div class="detail-item">
+              <div class="d-label">카테고리</div>
+              <div class="d-value">API / 카페24</div>
+            </div>
+          </div>
+          <div class="log-path-wrap">
+            <span class="log-label">LOG</span>
+            <span class="log-path">~/.openclaw/workspace/scripts/cafe24-webhook.log</span>
+          </div>
+          <div class="log-preview">[2026-03-30 17:10:03] ✓ 신규 주문 2건 감지 → 텔레그램 발송<br>[2026-03-30 17:00:02] ✓ 신규 주문 없음<br>[2026-03-30 16:50:03] ✓ 취소 1건 감지 → 알림 발송</div>
+          <div class="dependency-chips">
+            <span class="text-xs text-secondary fw-700">파이프라인:</span>
+            <span class="dep-chip">cafe24-token-refresh</span>
+            <span class="dep-arrow">→</span>
+            <span class="dep-chip">cafe24-webhook</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ⑨  brain-conv-sync -->
+    <div class="cron-card status-ok animate-in"
+      data-name="brain-conv-sync"
+      data-desc="대화 → brain.db 동기화"
+      data-status="ok"
+      data-type="periodic"
+      data-category="data"
+    >
+      <div class="cron-card-header" onclick="toggleCard(this)">
+        <div class="cron-status-indicator"></div>
+        <div class="cron-name-wrap">
+          <div class="cron-name">brain-conv-sync</div>
+          <div class="cron-desc">대화 → brain.db 동기화</div>
+        </div>
+        <div class="cron-meta">
+          <span class="cron-badge badge-ok">✓ 정상</span>
+          <span class="cron-schedule">30분 간격</span>
+          <div class="cron-tags">
+            <span class="cron-tag tag-data">데이터</span>
+          </div>
+        </div>
+        <span class="cron-expand-icon">▾</span>
+      </div>
+      <div class="cron-detail">
+        <div class="cron-detail-inner">
+          <div class="detail-grid">
+            <div class="detail-item">
+              <div class="d-label">실행 주기</div>
+              <div class="d-value">매 30분</div>
+            </div>
+            <div class="detail-item">
+              <div class="d-label">유형</div>
+              <div class="d-value">정기 실행 (Interval)</div>
+            </div>
+            <div class="detail-item">
+              <div class="d-label">카테고리</div>
+              <div class="d-value">데이터 / brain.db</div>
+            </div>
+          </div>
+          <div class="log-path-wrap">
+            <span class="log-label">LOG</span>
+            <span class="log-path">~/.openclaw/workspace/scripts/brain-conv-sync.log</span>
+          </div>
+          <div class="log-preview">[2026-03-30 17:00:05] ✓ 대화 동기화 — 12건 인덱싱 완료<br>[2026-03-30 16:30:04] ✓ 대화 동기화 — 7건 인덱싱 완료<br>[2026-03-30 16:00:06] ✓ 대화 동기화 — 9건 인덱싱 완료</div>
+          <div class="dependency-chips">
+            <span class="text-xs text-secondary fw-700">파이프라인:</span>
+            <span class="dep-chip">brain-conv-sync</span>
+            <span class="dep-arrow">→</span>
+            <span class="dep-chip">session-sync</span>
+            <span class="dep-arrow">→</span>
+            <span class="dep-chip">memory-watcher</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ⑩  memory-indexer -->
+    <div class="cron-card status-ok animate-in"
+      data-name="memory-indexer"
+      data-desc="메모리 파일 인덱싱"
+      data-status="ok"
+      data-type="daily"
+      data-category="data"
+    >
+      <div class="cron-card-header" onclick="toggleCard(this)">
+        <div class="cron-status-indicator"></div>
+        <div class="cron-name-wrap">
+          <div class="cron-name">memory-indexer</div>
+          <div class="cron-desc">메모리 파일 인덱싱</div>
+        </div>
+        <div class="cron-meta">
+          <span class="cron-badge badge-ok">✓ 정상</span>
+          <span class="cron-schedule">매일 자정</span>
+          <div class="cron-tags">
+            <span class="cron-tag tag-monitor">모니터링</span>
+          </div>
+        </div>
+        <span class="cron-expand-icon">▾</span>
+      </div>
+      <div class="cron-detail">
+        <div class="cron-detail-inner">
+          <div class="detail-grid">
+            <div class="detail-item">
+              <div class="d-label">실행 시간</div>
+              <div class="d-value">매일 00:00 KST</div>
+            </div>
+            <div class="detail-item">
+              <div class="d-label">유형</div>
+              <div class="d-value">일별 실행 (Calendar)</div>
+            </div>
+            <div class="detail-item">
+              <div class="d-label">카테고리</div>
+              <div class="d-value">데이터 / 메모리</div>
+            </div>
+          </div>
+          <div class="log-path-wrap">
+            <span class="log-label">LOG</span>
+            <span class="log-path">/tmp/memory-indexer.log</span>
+          </div>
+          <div class="log-preview">[2026-03-30 00:00:14] ✓ 메모리 인덱싱 완료 — 342개 파일 처리<br>[2026-03-29 00:00:11] ✓ 메모리 인덱싱 완료 — 338개 파일 처리<br>[2026-03-28 00:00:13] ✓ 메모리 인덱싱 완료 — 330개 파일 처리</div>
+          <div class="dependency-chips">
+            <span class="text-xs text-secondary fw-700">파이프라인:</span>
+            <span class="dep-chip">독립 실행</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ⑪  second-brain (KeepAlive) -->
+    <div class="cron-card status-ok animate-in"
+      data-name="second-brain"
+      data-desc="brain.db 서버 (포트 8082)"
+      data-status="ok"
+      data-type="keepalive"
+      data-category="monitor"
+    >
+      <div class="cron-card-header" onclick="toggleCard(this)">
+        <div class="cron-status-indicator"></div>
+        <div class="cron-name-wrap">
+          <div class="cron-name">second-brain</div>
+          <div class="cron-desc">brain.db 서버 상시 실행 (포트 8082)</div>
+        </div>
+        <div class="cron-meta">
+          <span class="cron-badge badge-ok">✓ 정상</span>
+          <span class="cron-schedule">♾️ 상시</span>
+          <div class="cron-tags">
+            <span class="cron-tag tag-keepalive">KeepAlive</span>
+          </div>
+        </div>
+        <span class="cron-expand-icon">▾</span>
+      </div>
+      <div class="cron-detail">
+        <div class="cron-detail-inner">
+          <div class="detail-grid">
+            <div class="detail-item">
+              <div class="d-label">실행 유형</div>
+              <div class="d-value">KeepAlive (상시)</div>
+            </div>
+            <div class="detail-item">
+              <div class="d-label">포트</div>
+              <div class="d-value">:8082</div>
+            </div>
+            <div class="detail-item">
+              <div class="d-label">카테고리</div>
+              <div class="d-value">모니터링 / DB 서버</div>
+            </div>
+          </div>
+          <div class="log-path-wrap">
+            <span class="log-label">LOG</span>
+            <span class="log-path">/tmp/second-brain.log</span>
+          </div>
+          <div class="log-preview">[2026-03-30 17:11:00] ✓ second-brain 서버 정상 — 포트 8082 응답<br>[2026-03-30 17:10:00] ✓ second-brain 서버 정상 — 포트 8082 응답<br>[2026-03-30 17:09:00] ✓ second-brain 서버 정상 — 요청 처리 중 (응답 12ms)</div>
+          <div class="dependency-chips">
+            <span class="text-xs text-secondary fw-700">파이프라인:</span>
+            <span class="dep-chip">독립 실행</span>
+            <span class="text-xs text-secondary" style="margin-left:4px">— brain.db API 서버</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ⑫  memory-watcher (KeepAlive) -->
+    <div class="cron-card status-ok animate-in"
+      data-name="memory-watcher"
+      data-desc="메모리 파일 변경 감지"
+      data-status="ok"
+      data-type="keepalive"
+      data-category="monitor"
+    >
+      <div class="cron-card-header" onclick="toggleCard(this)">
+        <div class="cron-status-indicator"></div>
+        <div class="cron-name-wrap">
+          <div class="cron-name">memory-watcher</div>
+          <div class="cron-desc">메모리 파일 변경 감지 (FSEvent)</div>
+        </div>
+        <div class="cron-meta">
+          <span class="cron-badge badge-ok">✓ 정상</span>
+          <span class="cron-schedule">♾️ 상시</span>
+          <div class="cron-tags">
+            <span class="cron-tag tag-keepalive">KeepAlive</span>
+          </div>
+        </div>
+        <span class="cron-expand-icon">▾</span>
+      </div>
+      <div class="cron-detail">
+        <div class="cron-detail-inner">
+          <div class="detail-grid">
+            <div class="detail-item">
+              <div class="d-label">실행 유형</div>
+              <div class="d-value">KeepAlive (상시)</div>
+            </div>
+            <div class="detail-item">
+              <div class="d-label">감시 방식</div>
+              <div class="d-value">FSEvents / inotify</div>
+            </div>
+            <div class="detail-item">
+              <div class="d-label">카테고리</div>
+              <div class="d-value">모니터링</div>
+            </div>
+          </div>
+          <div class="log-path-wrap">
+            <span class="log-label">LOG</span>
+            <span class="log-path">/tmp/memory-watcher.log</span>
+          </div>
+          <div class="log-preview">[2026-03-30 17:10:55] ✓ 파일 변경 감지: workspace/memory/2026-03-30.md<br>[2026-03-30 17:08:23] ✓ 파일 변경 감지: workspace/HEARTBEAT.md<br>[2026-03-30 17:05:11] ✓ 감시 중 — 이벤트 없음</div>
+          <div class="dependency-chips">
+            <span class="text-xs text-secondary fw-700">파이프라인:</span>
+            <span class="dep-chip">brain-conv-sync</span>
+            <span class="dep-arrow">→</span>
+            <span class="dep-chip">session-sync</span>
+            <span class="dep-arrow">→</span>
+            <span class="dep-chip">memory-watcher</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Empty State -->
+  <div class="empty-state" id="emptyState">
+    <div class="empty-icon">🔍</div>
+    <div class="empty-title">검색 결과 없음</div>
+    <div class="empty-desc">다른 검색어나 필터를 사용해보세요.</div>
+  </div>
+
+  <div class="section-divider"></div>
+
+  <!-- ── 24시간 타임라인 ── -->
+  <div id="timelineSection"></div>
+  <div class="timeline-section">
+    <div class="timeline-header">
+      <h2>⏰ <span>24시간 실행 타임라인</span></h2>
+      <div class="timeline-legend">
+        <div class="legend-item"><span class="legend-dot" style="background:var(--green)"></span>정기</div>
+        <div class="legend-item"><span class="legend-dot" style="background:var(--cyan)"></span>상시</div>
+        <div class="legend-item"><span class="legend-dot" style="background:var(--orange)"></span>일별</div>
+        <div class="legend-item"><span class="legend-dot" style="background:var(--red)"></span>현재 시각</div>
+      </div>
+    </div>
+    <div class="timeline-chart">
+      <!-- 시간축 -->
+      <div class="timeline-hours" id="tlHours"></div>
+      <!-- 크론 행들 -->
+      <div class="timeline-rows" id="tlRows"></div>
     </div>
   </div>
 
-  <div class="tl-item" data-status="ok">
-    <div class="tl-time">22:00</div>
-    <div class="tl-dot blue"></div>
-    <div class="tl-card">
-      <h3>plaud-daily-report <span class="status active">정상</span></h3>
-      <div class="desc">Plaud 일일 요약 보고</div>
-      <div class="meta">매일 22:00 | 마지막 실행: 정상</div>
-      <div class="tags"><span class="tag navy">Plaud</span><span class="tag green">보고</span></div>
+  <div class="section-divider"></div>
+
+  <!-- ── 파이프라인 의존성 그래프 ── -->
+  <div id="pipelineSection"></div>
+  <div class="pipeline-section">
+    <div class="section-title" style="margin-bottom:20px">
+      <h2>🔗 파이프라인 의존성 그래프</h2>
+      <span class="subtitle">크론 간 실행 연관 관계</span>
+    </div>
+    <div class="pipeline-grid">
+
+      <!-- Pipeline 1: cafe24 -->
+      <div class="pipeline-card">
+        <div class="pipeline-title">
+          <span class="pipe-icon">🔌</span>
+          Pipeline 1 — 카페24 API
+        </div>
+        <div class="pipeline-flow">
+          <div class="pipe-node" style="--pipe-color:var(--blue)" onclick="highlightCron('cafe24-token-refresh')">
+            <span class="node-status"></span>
+            cafe24-token-refresh
+          </div>
+          <div class="pipe-connector">→</div>
+          <div class="pipe-node" style="--pipe-color:var(--blue)" onclick="highlightCron('cafe24-webhook')">
+            <span class="node-status"></span>
+            cafe24-webhook
+          </div>
+        </div>
+        <div class="pipe-desc">카페24 API 토큰을 60분마다 갱신하여 주문/취소 폴링에 공급합니다.</div>
+      </div>
+
+      <!-- Pipeline 2: plaud -->
+      <div class="pipeline-card">
+        <div class="pipeline-title">
+          <span class="pipe-icon">🎙️</span>
+          Pipeline 2 — Plaud 전사
+        </div>
+        <div class="pipeline-flow">
+          <div class="pipe-node" style="--pipe-color:var(--purple)" onclick="highlightCron('plaud-pipeline')">
+            <span class="node-status"></span>
+            plaud-pipeline
+          </div>
+          <div class="pipe-connector">→</div>
+          <div class="pipe-node" style="--pipe-color:var(--purple)" onclick="highlightCron('plaud-daily-report')">
+            <span class="node-status"></span>
+            plaud-daily-report
+          </div>
+        </div>
+        <div class="pipe-desc">60분마다 Plaud 녹음을 전사·요약하고, 매일 22:00에 일일 보고를 발송합니다.</div>
+      </div>
+
+      <!-- Pipeline 3: brain sync -->
+      <div class="pipeline-card">
+        <div class="pipeline-title">
+          <span class="pipe-icon">🧠</span>
+          Pipeline 3 — 데이터 동기화
+        </div>
+        <div class="pipeline-flow">
+          <div class="pipe-node" style="--pipe-color:var(--green)" onclick="highlightCron('brain-conv-sync')">
+            <span class="node-status"></span>
+            brain-conv-sync
+          </div>
+          <div class="pipe-connector">→</div>
+          <div class="pipe-node" style="--pipe-color:var(--green)" onclick="highlightCron('session-sync')">
+            <span class="node-status"></span>
+            session-sync
+          </div>
+          <div class="pipe-connector">→</div>
+          <div class="pipe-node" style="--pipe-color:var(--green)" onclick="highlightCron('memory-watcher')">
+            <span class="node-status"></span>
+            memory-watcher
+          </div>
+        </div>
+        <div class="pipe-desc">대화 인덱싱 → 세션 동기화 → 파일 변경 감지까지 이어지는 데이터 동기화 파이프라인입니다.</div>
+      </div>
+
+      <!-- Pipeline 4: sns deploy -->
+      <div class="pipeline-card">
+        <div class="pipeline-title">
+          <span class="pipe-icon">📊</span>
+          Pipeline 4 — SNS 데이터
+        </div>
+        <div class="pipeline-flow">
+          <div class="pipe-node" style="--pipe-color:var(--orange)" onclick="highlightCron('sns-views-collect')">
+            <span class="node-status"></span>
+            sns-views-collect
+          </div>
+          <div class="pipe-connector">→</div>
+          <div class="pipe-node" style="--pipe-color:var(--orange)" onclick="highlightCron('tenex-reports-deploy')">
+            <span class="node-status"></span>
+            tenex-reports-deploy
+          </div>
+        </div>
+        <div class="pipe-desc">매일 06:00에 SNS 조회수를 수집하고, 10분 감지 주기로 Vercel에 자동 배포합니다.</div>
+      </div>
+
+      <!-- 독립 실행 노드 -->
+      <div class="pipeline-standalone">
+        <div class="standalone-title">
+          <span>⬡</span>
+          독립 실행 — 단독 동작 크론
+        </div>
+        <div class="standalone-nodes">
+          <div class="pipe-node" style="--pipe-color:var(--yellow)" onclick="highlightCron('daily-report')">
+            <span class="node-status"></span>
+            daily-report
+          </div>
+          <div class="pipe-node" style="--pipe-color:var(--cyan)" onclick="highlightCron('memory-indexer')">
+            <span class="node-status"></span>
+            memory-indexer
+          </div>
+          <div class="pipe-node" style="--pipe-color:var(--cyan)" onclick="highlightCron('second-brain')">
+            <span class="node-status"></span>
+            second-brain
+          </div>
+        </div>
+      </div>
+
     </div>
   </div>
 
-  <div class="tl-item" data-status="ok">
-    <div class="tl-time">*/10</div>
-    <div class="tl-dot green"></div>
-    <div class="tl-card">
-      <h3>tenex-reports-deploy <span class="status active">정상</span></h3>
-      <div class="desc">리포트 변경감지→Vercel 배포</div>
-      <div class="meta">10분 간격 | 마지막 실행: 정상</div>
-      <div class="tags"><span class="tag green">Vercel</span><span class="tag gray">배포</span></div>
+  <div class="section-divider"></div>
+
+  <div id="statsSection"></div>
+  <!-- ── 통계 & 업타임 섹션 ── -->
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:28px" class="stats-section">
+
+    <!-- 카테고리 분포 -->
+    <div style="background:var(--bg-card);border:1px solid var(--border-card);border-radius:var(--radius-lg);padding:24px">
+      <div class="section-title" style="margin-bottom:20px">
+        <h2>📊 카테고리 분포</h2>
+      </div>
+      <div id="categoryChart">
+        <!-- JS로 렌더링 -->
+      </div>
+    </div>
+
+    <!-- 실행 주기 분포 -->
+    <div style="background:var(--bg-card);border:1px solid var(--border-card);border-radius:var(--radius-lg);padding:24px">
+      <div class="section-title" style="margin-bottom:20px">
+        <h2>⏱️ 실행 주기 분포</h2>
+      </div>
+      <div id="scheduleStats">
+        <!-- JS로 렌더링 -->
+      </div>
     </div>
   </div>
 
-  <div class="tl-item" data-status="ok">
-    <div class="tl-time">*/30</div>
-    <div class="tl-dot navy"></div>
-    <div class="tl-card">
-      <h3>brain-conv-sync <span class="status active">정상</span></h3>
-      <div class="desc">대화→brain.db 동기화</div>
-      <div class="meta">30분 간격 | 마지막 실행: 정상</div>
-      <div class="tags"><span class="tag navy">brain.db</span><span class="tag cyan">동기화</span></div>
+  <!-- ── 업타임 현황 ── -->
+  <div style="background:var(--bg-card);border:1px solid var(--border-card);border-radius:var(--radius-lg);padding:24px;margin-bottom:28px">
+    <div class="section-title" style="margin-bottom:20px">
+      <h2>📈 업타임 현황</h2>
+      <span class="subtitle">최근 30일 기준 모의 데이터</span>
+    </div>
+    <div id="uptimeGrid"><!-- JS --></div>
+  </div>
+
+  <!-- ── 30일 실행 캘린더 ── -->
+  <div style="background:var(--bg-card);border:1px solid var(--border-card);border-radius:var(--radius-lg);padding:24px;margin-bottom:28px">
+    <div class="section-title" style="margin-bottom:16px">
+      <h2>📅 최근 30일 실행 현황</h2>
+      <span class="subtitle">초록=정상 / 빨강=오류 (모의 데이터)</span>
+    </div>
+    <div id="miniCalendar"><!-- JS --></div>
+  </div>
+
+  <!-- ── 키보드 단축키 안내 ── -->
+  <div id="shortcutPanel" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:9998;align-items:center;justify-content:center">
+    <div style="background:var(--bg-card);border:1px solid var(--border-hover);border-radius:var(--radius-lg);padding:32px;min-width:360px;max-width:480px;box-shadow:var(--shadow-lg)">
+      <h3 style="font-size:16px;margin-bottom:20px;display:flex;align-items:center;gap:8px">⌨️ 키보드 단축키</h3>
+      <div style="display:flex;flex-direction:column;gap:10px;font-size:13px">
+        <div style="display:flex;justify-content:space-between;align-items:center">
+          <span style="color:var(--text-secondary)">검색창 포커스</span>
+          <kbd style="background:var(--bg-secondary);border:1px solid var(--border-hover);border-radius:4px;padding:2px 8px;font-family:monospace;font-size:12px">/</kbd>
+        </div>
+        <div style="display:flex;justify-content:space-between;align-items:center">
+          <span style="color:var(--text-secondary)">검색 닫기 / ESC</span>
+          <kbd style="background:var(--bg-secondary);border:1px solid var(--border-hover);border-radius:4px;padding:2px 8px;font-family:monospace;font-size:12px">Esc</kbd>
+        </div>
+        <div style="display:flex;justify-content:space-between;align-items:center">
+          <span style="color:var(--text-secondary)">빠른 검색</span>
+          <kbd style="background:var(--bg-secondary);border:1px solid var(--border-hover);border-radius:4px;padding:2px 8px;font-family:monospace;font-size:12px">⌘K</kbd>
+        </div>
+        <div style="display:flex;justify-content:space-between;align-items:center">
+          <span style="color:var(--text-secondary)">전체 펼치기</span>
+          <kbd style="background:var(--bg-secondary);border:1px solid var(--border-hover);border-radius:4px;padding:2px 8px;font-family:monospace;font-size:12px">A</kbd>
+        </div>
+        <div style="display:flex;justify-content:space-between;align-items:center">
+          <span style="color:var(--text-secondary)">전체 닫기</span>
+          <kbd style="background:var(--bg-secondary);border:1px solid var(--border-hover);border-radius:4px;padding:2px 8px;font-family:monospace;font-size:12px">C</kbd>
+        </div>
+        <div style="display:flex;justify-content:space-between;align-items:center">
+          <span style="color:var(--text-secondary)">이 도움말</span>
+          <kbd style="background:var(--bg-secondary);border:1px solid var(--border-hover);border-radius:4px;padding:2px 8px;font-family:monospace;font-size:12px">?</kbd>
+        </div>
+      </div>
+      <button onclick="document.getElementById('shortcutPanel').style.display='none'"
+        style="margin-top:20px;width:100%;padding:10px;background:var(--accent);border:none;border-radius:8px;color:#fff;font-size:13px;font-weight:700;cursor:pointer">
+        닫기
+      </button>
     </div>
   </div>
 
-  <div class="tl-item" data-status="ok">
-    <div class="tl-time">*/1h</div>
-    <div class="tl-dot blue"></div>
-    <div class="tl-card">
-      <h3>heartbeat-sync <span class="status active">정상</span></h3>
-      <div class="desc">HEARTBEAT.md 동기화</div>
-      <div class="meta">1시간 간격 | 마지막 실행: 정상</div>
-      <div class="tags"><span class="tag blue">하트비트</span><span class="tag gray">동기화</span></div>
-    </div>
+  <!-- ── 푸터 ── -->
+  <div class="footer">
+    마지막 갱신: <span id="lastUpdate">--</span> &nbsp;·&nbsp;
+    데이터 소스: launchd / <a href="https://tenex-reports.vercel.app">tenex-reports</a>
+    &nbsp;·&nbsp; 12개 크론 운영 중
   </div>
 
-  <div class="tl-item" data-status="ok">
-    <div class="tl-time">*/30</div>
-    <div class="tl-dot navy"></div>
-    <div class="tl-card">
-      <h3>calendar-reminder <span class="status active">정상</span></h3>
-      <div class="desc">구글 캘린더 리마인더</div>
-      <div class="meta">30분 간격 | 마지막 실행: 정상</div>
-      <div class="tags"><span class="tag navy">Google</span><span class="tag cyan">캘린더</span></div>
-    </div>
-  </div>
+</main>
 
-  <div class="tl-item" data-status="ok">
-    <div class="tl-time">*/30</div>
-    <div class="tl-dot navy"></div>
-    <div class="tl-card">
-      <h3>slack-notion-sync <span class="status active">정상</span></h3>
-      <div class="desc">슬랙→노션 업무 추적</div>
-      <div class="meta">30분 간격 | 마지막 실행: 정상</div>
-      <div class="tags"><span class="tag cyan">Slack</span><span class="tag green">Notion</span></div>
-    </div>
-  </div>
+<!-- ════════════ TOAST CONTAINER ════════════ -->
+<div class="toast-container" id="toastContainer"></div>
 
-  <div class="tl-item" data-status="ok">
-    <div class="tl-time">상시</div>
-    <div class="tl-dot green"></div>
-    <div class="tl-card">
-      <h3>cafe24-webhook <span class="status active">정상</span></h3>
-      <div class="desc">카페24 주문/취소 실시간 알림</div>
-      <div class="meta">상시 | 마지막 실행: 정상</div>
-      <div class="tags"><span class="tag green">카페24</span><span class="tag orange">웹훅</span></div>
-    </div>
-  </div>
+<!-- ════════════ HELP FAB ════════════ -->
+<button class="help-fab" onclick="document.getElementById('shortcutPanel').style.display='flex'" title="키보드 단축키 (?)">?</button>
 
-  <div class="tl-item" data-status="ok">
-    <div class="tl-time">월08</div>
-    <div class="tl-dot cyan"></div>
-    <div class="tl-card">
-      <h3>mixpanel-weekly <span class="status active">정상</span></h3>
-      <div class="desc">Mixpanel 주간 리포트</div>
-      <div class="meta">매주 월요일 08:00 | 마지막 실행: 정상</div>
-      <div class="tags"><span class="tag cyan">Mixpanel</span><span class="tag gray">주간</span></div>
-    </div>
-  </div>
-
-  <div class="tl-item" data-status="ok">
-    <div class="tl-time">*/5</div>
-    <div class="tl-dot green"></div>
-    <div class="tl-card">
-      <h3>openclaw-watchdog <span class="status active">정상</span></h3>
-      <div class="desc">OpenClaw 게이트웨이 감시</div>
-      <div class="meta">5분 간격 | 마지막 실행: 정상</div>
-      <div class="tags"><span class="tag green">OpenClaw</span><span class="tag gray">감시</span></div>
-    </div>
-  </div>
-
-  <div class="tl-item" data-status="ok">
-    <div class="tl-time">상시</div>
-    <div class="tl-dot green"></div>
-    <div class="tl-card">
-      <h3>memory-watcher <span class="status active">정상</span></h3>
-      <div class="desc">메모리 파일 변경 감지</div>
-      <div class="meta">상시 | 마지막 실행: 정상</div>
-      <div class="tags"><span class="tag green">메모리</span><span class="tag gray">감시</span></div>
-    </div>
-  </div>
-
-  <div class="tl-item" data-status="ok">
-    <div class="tl-time">*/10</div>
-    <div class="tl-dot navy"></div>
-    <div class="tl-card">
-      <h3>session-sync <span class="status active">정상</span></h3>
-      <div class="desc">세션→brain.db 동기화</div>
-      <div class="meta">10분 간격 | 마지막 실행: 정상</div>
-      <div class="tags"><span class="tag navy">brain.db</span><span class="tag cyan">세션</span></div>
-    </div>
-  </div>
-
-</div>
-
-<!-- 전체 목록 테이블 -->
-<h2 class="light">📋 크론 전체 목록</h2>
-<div style="overflow-x:auto">
-<table>
-  <tr><th>이름</th><th>주기</th><th>설명</th><th>상태</th></tr>
-  <tr><td>cafe24-token-refresh</td><td>90분</td><td>카페24 API 토큰 자동 갱신</td><td><span class="status active">정상</span></td></tr>
-  <tr><td>daily-report</td><td>매일 07:00</td><td>텔레그램 일일 매출 리포트</td><td><span class="status active">정상</span></td></tr>
-  <tr><td>plaud-pipeline</td><td>30분</td><td>Plaud 녹음 전사+요약</td><td><span class="status active">정상</span></td></tr>
-  <tr><td>plaud-daily-report</td><td>매일 22:00</td><td>Plaud 일일 요약 보고</td><td><span class="status active">정상</span></td></tr>
-  <tr><td>tenex-reports-deploy</td><td>10분</td><td>리포트 변경감지→Vercel 배포</td><td><span class="status active">정상</span></td></tr>
-  <tr><td>brain-conv-sync</td><td>30분</td><td>대화→brain.db 동기화</td><td><span class="status active">정상</span></td></tr>
-  <tr><td>heartbeat-sync</td><td>1시간</td><td>HEARTBEAT.md 동기화</td><td><span class="status active">정상</span></td></tr>
-  <tr><td>calendar-reminder</td><td>30분</td><td>구글 캘린더 리마인더</td><td><span class="status active">정상</span></td></tr>
-  <tr><td>slack-notion-sync</td><td>30분</td><td>슬랙→노션 업무 추적</td><td><span class="status active">정상</span></td></tr>
-  <tr><td>cafe24-webhook</td><td>상시</td><td>카페24 주문/취소 실시간 알림</td><td><span class="status active">정상</span></td></tr>
-  <tr><td>mixpanel-weekly</td><td>매주 월 08:00</td><td>Mixpanel 주간 리포트</td><td><span class="status active">정상</span></td></tr>
-  <tr><td>openclaw-watchdog</td><td>5분</td><td>OpenClaw 게이트웨이 감시</td><td><span class="status active">정상</span></td></tr>
-  <tr><td>memory-watcher</td><td>상시</td><td>메모리 파일 변경 감지</td><td><span class="status active">정상</span></td></tr>
-  <tr><td>session-sync</td><td>10분</td><td>세션→brain.db 동기화</td><td><span class="status active">정상</span></td></tr>
-</table>
-</div>
-
-<p style="text-align:center;color:#64748b;font-size:12px;margin:40px 0 20px">최종 업데이트: 2026-03-27 | 데이터 소스: openclaw cron list</p>
-</div>
-
+<!-- ════════════ JAVASCRIPT ════════════ -->
 <script>
-function filterCrons(filter) {
-  document.querySelectorAll('.filter-tab').forEach(t => t.classList.remove('active'));
-  event.target.closest('.filter-tab').classList.add('active');
-  document.querySelectorAll('.tl-item').forEach(item => {
-    const status = item.dataset.status;
-    if (filter === 'all') { item.classList.remove('hidden'); }
-    else if (filter === 'ok') { item.classList.toggle('hidden', status !== 'ok'); }
-    else if (filter === 'error') { item.classList.toggle('hidden', status !== 'error'); }
+/* ════════════════════════════════════════
+   크론 데이터 정의
+════════════════════════════════════════ */
+const CRONS = [
+  {
+    id: 'cafe24-token-refresh',
+    name: 'cafe24-token-refresh',
+    desc: '카페24 API 토큰 자동 갱신',
+    status: 'ok',
+    type: 'periodic',
+    category: 'api',
+    schedule: '60분 간격',
+    scheduleHours: [],          // 특정 시각 없음 (인터벌)
+    scheduleInterval: 60,       // 분 단위
+    logPath: '~/tenex-scripts/logs/token-refresh.log',
+    color: 'var(--blue)',
+  },
+  {
+    id: 'daily-report',
+    name: 'daily-report',
+    desc: '텔레그램 일일 매출 리포트',
+    status: 'ok',
+    type: 'daily',
+    category: 'deploy',
+    schedule: '매일 07:00',
+    scheduleHours: [7],
+    scheduleInterval: null,
+    logPath: '~/Desktop/tenex-assistant/daily-report.log',
+    color: 'var(--yellow)',
+  },
+  {
+    id: 'plaud-pipeline',
+    name: 'plaud-pipeline',
+    desc: 'Plaud 녹음 전사+요약',
+    status: 'ok',
+    type: 'periodic',
+    category: 'data',
+    schedule: '60분 간격',
+    scheduleHours: [],
+    scheduleInterval: 60,
+    logPath: '~/.openclaw/workspace/scripts/plaud-pipeline.log',
+    color: 'var(--purple)',
+  },
+  {
+    id: 'plaud-daily-report',
+    name: 'plaud-daily-report',
+    desc: 'Plaud 일일 요약 보고',
+    status: 'ok',
+    type: 'daily',
+    category: 'deploy',
+    schedule: '매일 22:00',
+    scheduleHours: [22],
+    scheduleInterval: null,
+    logPath: '~/.openclaw/workspace/scripts/plaud-daily-report.log',
+    color: 'var(--purple)',
+  },
+  {
+    id: 'tenex-reports-deploy',
+    name: 'tenex-reports-deploy',
+    desc: '리포트 변경감지→Vercel 배포',
+    status: 'ok',
+    type: 'periodic',
+    category: 'deploy',
+    schedule: '10분 간격',
+    scheduleHours: [],
+    scheduleInterval: 10,
+    logPath: '~/.openclaw/workspace/scripts/reports-deploy.log',
+    color: 'var(--yellow)',
+  },
+  {
+    id: 'session-sync',
+    name: 'session-sync',
+    desc: '세션→brain.db 동기화',
+    status: 'ok',
+    type: 'periodic',
+    category: 'data',
+    schedule: '10분 간격',
+    scheduleHours: [],
+    scheduleInterval: 10,
+    logPath: '~/Desktop/tenex-assistant/session-sync.log',
+    color: 'var(--green)',
+  },
+  {
+    id: 'sns-views-collect',
+    name: 'sns-views-collect',
+    desc: 'SNS 조회수 수집 (YouTube/인스타/틱톡)',
+    status: 'ok',
+    type: 'daily',
+    category: 'data',
+    schedule: '매일 06:00',
+    scheduleHours: [6],
+    scheduleInterval: null,
+    logPath: '/tmp/sns-views-collect.log',
+    color: 'var(--orange)',
+  },
+  {
+    id: 'cafe24-webhook',
+    name: 'cafe24-webhook',
+    desc: '카페24 주문/취소 폴링',
+    status: 'ok',
+    type: 'periodic',
+    category: 'api',
+    schedule: '10분 간격',
+    scheduleHours: [],
+    scheduleInterval: 10,
+    logPath: '~/.openclaw/workspace/scripts/cafe24-webhook.log',
+    color: 'var(--blue)',
+  },
+  {
+    id: 'brain-conv-sync',
+    name: 'brain-conv-sync',
+    desc: '대화→brain.db 동기화',
+    status: 'ok',
+    type: 'periodic',
+    category: 'data',
+    schedule: '30분 간격',
+    scheduleHours: [],
+    scheduleInterval: 30,
+    logPath: '~/.openclaw/workspace/scripts/brain-conv-sync.log',
+    color: 'var(--green)',
+  },
+  {
+    id: 'memory-indexer',
+    name: 'memory-indexer',
+    desc: '메모리 파일 인덱싱',
+    status: 'ok',
+    type: 'daily',
+    category: 'data',
+    schedule: '매일 00:00',
+    scheduleHours: [0],
+    scheduleInterval: null,
+    logPath: '/tmp/memory-indexer.log',
+    color: 'var(--cyan)',
+  },
+  {
+    id: 'second-brain',
+    name: 'second-brain',
+    desc: 'brain.db 서버 (포트 8082)',
+    status: 'ok',
+    type: 'keepalive',
+    category: 'monitor',
+    schedule: '상시 실행',
+    scheduleHours: [],
+    scheduleInterval: null,
+    logPath: '/tmp/second-brain.log',
+    color: 'var(--cyan)',
+  },
+  {
+    id: 'memory-watcher',
+    name: 'memory-watcher',
+    desc: '메모리 파일 변경 감지',
+    status: 'ok',
+    type: 'keepalive',
+    category: 'monitor',
+    schedule: '상시 실행',
+    scheduleHours: [],
+    scheduleInterval: null,
+    logPath: '/tmp/memory-watcher.log',
+    color: 'var(--cyan)',
+  },
+];
+
+/* ════════════════════════════════════════
+   상태 관리
+════════════════════════════════════════ */
+const state = {
+  search: '',
+  filter: { status: 'all', type: 'all', category: 'all' },
+};
+
+/* ════════════════════════════════════════
+   초기화
+════════════════════════════════════════ */
+document.addEventListener('DOMContentLoaded', () => {
+  initTheme();
+  initSummaryCounters();
+  initSearch();
+  initTimeline();
+  initLiveClock();
+  updateResultCount();
+  setLastUpdate();
+});
+
+/* ════════════════════════════════════════
+   테마
+════════════════════════════════════════ */
+function initTheme() {
+  const saved = localStorage.getItem('cron-theme') || 'dark';
+  document.documentElement.setAttribute('data-theme', saved);
+  updateThemeIcon(saved);
+}
+
+function updateThemeIcon(theme) {
+  const btn = document.getElementById('themeToggle');
+  btn.textContent = theme === 'dark' ? '☀️' : '🌙';
+  btn.title = theme === 'dark' ? '라이트 모드로 전환' : '다크 모드로 전환';
+}
+
+document.getElementById('themeToggle').addEventListener('click', () => {
+  const html = document.documentElement;
+  const current = html.getAttribute('data-theme');
+  const next = current === 'dark' ? 'light' : 'dark';
+  html.setAttribute('data-theme', next);
+  localStorage.setItem('cron-theme', next);
+  updateThemeIcon(next);
+  showToast(next === 'dark' ? '🌙 다크 모드' : '☀️ 라이트 모드', '테마가 변경되었습니다.');
+});
+
+/* ════════════════════════════════════════
+   요약 카운터 (애니메이션)
+════════════════════════════════════════ */
+function initSummaryCounters() {
+  const totals = {
+    all: CRONS.length,
+    ok: CRONS.filter(c => c.status === 'ok').length,
+    error: CRONS.filter(c => c.status === 'error').length,
+    keepalive: CRONS.filter(c => c.type === 'keepalive').length,
+    periodic: CRONS.filter(c => c.type !== 'keepalive').length,
+  };
+
+  animateCount('cnt-all', totals.all);
+  animateCount('cnt-ok', totals.ok);
+  animateCount('cnt-error', totals.error);
+  animateCount('cnt-keepalive', totals.keepalive);
+  animateCount('cnt-periodic', totals.periodic);
+
+  // 필터 칩 카운트 업데이트
+  document.getElementById('fc-all').textContent = totals.all;
+  document.getElementById('fc-ok').textContent = totals.ok;
+  document.getElementById('fc-error').textContent = totals.error;
+}
+
+function animateCount(elId, target, duration = 800) {
+  const el = document.getElementById(elId);
+  if (!el) return;
+  const startTime = performance.now();
+  const startVal = 0;
+  function update(currentTime) {
+    const elapsed = currentTime - startTime;
+    const progress = Math.min(elapsed / duration, 1);
+    const eased = 1 - Math.pow(1 - progress, 3); // ease-out-cubic
+    const current = Math.round(startVal + (target - startVal) * eased);
+    el.textContent = current;
+    if (progress < 1) requestAnimationFrame(update);
+    else el.textContent = target;
+  }
+  requestAnimationFrame(update);
+}
+
+/* ════════════════════════════════════════
+   검색
+════════════════════════════════════════ */
+function initSearch() {
+  const input = document.getElementById('searchInput');
+  input.addEventListener('input', (e) => {
+    state.search = e.target.value.toLowerCase().trim();
+    applyFilters();
+  });
+
+  // / 단축키로 검색창 포커스
+  document.addEventListener('keydown', (e) => {
+    if (e.key === '/' && document.activeElement !== input) {
+      e.preventDefault();
+      input.focus();
+      input.select();
+    }
+    if (e.key === 'Escape' && document.activeElement === input) {
+      input.blur();
+      input.value = '';
+      state.search = '';
+      applyFilters();
+    }
   });
 }
+
+/* ════════════════════════════════════════
+   필터 칩 핸들러
+════════════════════════════════════════ */
+function handleChip(chipEl) {
+  const filterType = chipEl.dataset.filterType;
+  const filterVal = chipEl.dataset.filterVal;
+
+  // 같은 그룹 칩들 비활성화
+  document.querySelectorAll(`.chip[data-filter-type="${filterType}"]`).forEach(c => {
+    c.classList.remove('active');
+  });
+  chipEl.classList.add('active');
+
+  state.filter[filterType] = filterVal;
+  applyFilters();
+}
+
+function setStatusFilter(val) {
+  const chip = document.querySelector(`.chip[data-filter-type="status"][data-filter-val="${val}"]`);
+  if (chip) handleChip(chip);
+}
+
+function setTypeFilter(val) {
+  const chip = document.querySelector(`.chip[data-filter-type="type"][data-filter-val="${val}"]`);
+  if (chip) handleChip(chip);
+}
+
+/* ════════════════════════════════════════
+   필터 적용
+════════════════════════════════════════ */
+function applyFilters() {
+  const cards = document.querySelectorAll('.cron-card');
+  let visible = 0;
+
+  cards.forEach(card => {
+    const name = card.dataset.name || '';
+    const desc = card.dataset.desc || '';
+    const status = card.dataset.status || '';
+    const type = card.dataset.type || '';
+    const category = card.dataset.category || '';
+
+    const matchSearch = !state.search ||
+      name.includes(state.search) ||
+      desc.toLowerCase().includes(state.search);
+
+    const matchStatus = state.filter.status === 'all' ||
+      status === state.filter.status;
+
+    const matchType = state.filter.type === 'all' ||
+      type === state.filter.type;
+
+    const matchCategory = state.filter.category === 'all' ||
+      category === state.filter.category;
+
+    const show = matchSearch && matchStatus && matchType && matchCategory;
+    card.classList.toggle('hidden', !show);
+    if (show) visible++;
+  });
+
+  document.getElementById('emptyState').classList.toggle('show', visible === 0);
+  updateResultCount(visible, cards.length);
+}
+
+function updateResultCount(visible, total) {
+  const el = document.getElementById('resultCount');
+  if (visible === undefined) {
+    visible = document.querySelectorAll('.cron-card:not(.hidden)').length;
+    total = document.querySelectorAll('.cron-card').length;
+  }
+  if (visible === total) {
+    el.textContent = `${total}개 크론`;
+  } else {
+    el.textContent = `${visible} / ${total}개 표시 중`;
+  }
+}
+
+/* ════════════════════════════════════════
+   아코디언 토글
+════════════════════════════════════════ */
+function toggleCard(headerEl) {
+  const card = headerEl.closest('.cron-card');
+  const wasExpanded = card.classList.contains('expanded');
+
+  // 다른 카드 닫기
+  document.querySelectorAll('.cron-card.expanded').forEach(c => {
+    if (c !== card) c.classList.remove('expanded');
+  });
+
+  card.classList.toggle('expanded', !wasExpanded);
+}
+
+/* ════════════════════════════════════════
+   크론 하이라이트 (파이프라인 클릭)
+════════════════════════════════════════ */
+function highlightCron(cronId) {
+  // 필터 초기화
+  state.search = '';
+  document.getElementById('searchInput').value = '';
+  state.filter = { status: 'all', type: 'all', category: 'all' };
+  document.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
+  document.querySelectorAll('.chip[data-filter-val="all"]').forEach(c => c.classList.add('active'));
+  applyFilters();
+
+  // 해당 카드로 스크롤 + 열기
+  setTimeout(() => {
+    const card = document.querySelector(`.cron-card[data-name="${cronId}"]`);
+    if (!card) return;
+    card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    card.classList.add('expanded');
+    // 하이라이트 효과
+    card.style.transition = 'box-shadow 0.3s, border-color 0.3s';
+    card.style.boxShadow = '0 0 0 3px var(--accent)';
+    setTimeout(() => {
+      card.style.boxShadow = '';
+    }, 2000);
+  }, 100);
+
+  showToast('🔗 파이프라인', `${cronId} 크론으로 이동했습니다.`);
+}
+
+/* ════════════════════════════════════════
+   24시간 타임라인
+════════════════════════════════════════ */
+function initTimeline() {
+  const hoursEl = document.getElementById('tlHours');
+  const rowsEl = document.getElementById('tlRows');
+
+  // 시간 축 (0~23)
+  const displayHours = [0, 3, 6, 9, 12, 15, 18, 21, 23];
+  let hoursHTML = '';
+  for (let h = 0; h <= 23; h++) {
+    const show = displayHours.includes(h);
+    hoursHTML += `<div class="timeline-hour">${show ? String(h).padStart(2, '0') + ':00' : ''}</div>`;
+  }
+  hoursEl.innerHTML = hoursHTML;
+
+  // 현재 시각 퍼센트
+  const now = new Date();
+  const nowPct = ((now.getHours() * 60 + now.getMinutes()) / (24 * 60)) * 100;
+
+  // 크론 행 생성
+  CRONS.forEach(cron => {
+    const row = document.createElement('div');
+    row.className = 'timeline-row';
+
+    // 이름 레이블
+    const nameEl = document.createElement('div');
+    nameEl.className = 'timeline-row-name';
+    nameEl.textContent = cron.id;
+    row.appendChild(nameEl);
+
+    // 바 컨테이너
+    const barEl = document.createElement('div');
+    barEl.className = 'timeline-row-bar';
+
+    // 현재 시각 선
+    const nowLine = document.createElement('div');
+    nowLine.className = 'now-line';
+    nowLine.style.left = nowPct + '%';
+    barEl.appendChild(nowLine);
+
+    if (cron.type === 'keepalive') {
+      // 상시 실행: 전체 바 표시
+      const cont = document.createElement('div');
+      cont.className = 'tl-continuous';
+      cont.style.background = cron.color || 'var(--cyan)';
+      barEl.appendChild(cont);
+    } else if (cron.scheduleHours.length > 0) {
+      // 특정 시간 실행: 점 표시
+      cron.scheduleHours.forEach(h => {
+        const pct = (h / 24) * 100;
+        const dot = document.createElement('div');
+        dot.className = 'timeline-event';
+        dot.style.left = pct + '%';
+        dot.style.background = 'var(--bg-card)';
+        dot.style.borderColor = cron.color || 'var(--green)';
+        const tooltip = document.createElement('div');
+        tooltip.className = 'timeline-event-tooltip';
+        tooltip.textContent = `${String(h).padStart(2,'0')}:00 — ${cron.id}`;
+        dot.appendChild(tooltip);
+        barEl.appendChild(dot);
+      });
+    } else if (cron.scheduleInterval) {
+      // 인터벌 실행: 여러 점 표시
+      const totalMinutes = 24 * 60;
+      const count = Math.floor(totalMinutes / cron.scheduleInterval);
+      const step = cron.scheduleInterval;
+      for (let i = 0; i <= count; i++) {
+        const minuteOffset = i * step;
+        const pct = (minuteOffset / totalMinutes) * 100;
+        if (pct > 100) break;
+        const dot = document.createElement('div');
+        dot.className = 'timeline-event';
+        dot.style.left = pct + '%';
+        dot.style.width = '8px';
+        dot.style.height = '8px';
+        dot.style.background = cron.color || 'var(--green)';
+        dot.style.borderColor = cron.color || 'var(--green)';
+        dot.style.opacity = '0.7';
+        const h = Math.floor(minuteOffset / 60);
+        const m = minuteOffset % 60;
+        const tooltip = document.createElement('div');
+        tooltip.className = 'timeline-event-tooltip';
+        tooltip.textContent = `${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')} — ${cron.id}`;
+        dot.appendChild(tooltip);
+        barEl.appendChild(dot);
+      }
+    }
+
+    row.appendChild(barEl);
+    rowsEl.appendChild(row);
+  });
+}
+
+/* ════════════════════════════════════════
+   실시간 시계
+════════════════════════════════════════ */
+function initLiveClock() {
+  function tick() {
+    const now = new Date();
+    const h = String(now.getHours()).padStart(2, '0');
+    const m = String(now.getMinutes()).padStart(2, '0');
+    const s = String(now.getSeconds()).padStart(2, '0');
+    const el = document.getElementById('live-time');
+    if (el) el.textContent = `${h}:${m}:${s}`;
+  }
+  tick();
+  setInterval(tick, 1000);
+}
+
+/* ════════════════════════════════════════
+   마지막 업데이트
+════════════════════════════════════════ */
+function setLastUpdate() {
+  const el = document.getElementById('lastUpdate');
+  if (!el) return;
+  const now = new Date();
+  const y = now.getFullYear();
+  const mo = String(now.getMonth() + 1).padStart(2, '0');
+  const d = String(now.getDate()).padStart(2, '0');
+  const h = String(now.getHours()).padStart(2, '0');
+  const m = String(now.getMinutes()).padStart(2, '0');
+  el.textContent = `${y}-${mo}-${d} ${h}:${m}`;
+}
+
+/* ════════════════════════════════════════
+   새로고침
+════════════════════════════════════════ */
+function refreshData() {
+  showToast('🔄 새로고침', '크론 데이터를 갱신했습니다.');
+  setLastUpdate();
+  // 카운터 재애니메이션
+  initSummaryCounters();
+}
+
+/* ════════════════════════════════════════
+   토스트 알림
+════════════════════════════════════════ */
+function showToast(title, message, duration = 3000) {
+  const container = document.getElementById('toastContainer');
+  const toast = document.createElement('div');
+  toast.className = 'toast';
+  toast.innerHTML = `
+    <span class="toast-icon">${title.split(' ')[0]}</span>
+    <div>
+      <div style="font-weight:700;font-size:13px">${title.replace(/^[^\s]+\s/, '')}</div>
+      <div style="font-size:12px;color:var(--text-secondary);margin-top:2px">${message}</div>
+    </div>
+  `;
+  container.appendChild(toast);
+  requestAnimationFrame(() => {
+    requestAnimationFrame(() => toast.classList.add('show'));
+  });
+  setTimeout(() => {
+    toast.classList.replace('show', 'hide');
+    setTimeout(() => toast.remove(), 300);
+  }, duration);
+}
+
+/* ════════════════════════════════════════
+   요약 카드 클릭 필터
+════════════════════════════════════════ */
+document.querySelectorAll('.summary-card[data-filter]').forEach(card => {
+  card.addEventListener('click', function() {
+    document.querySelectorAll('.summary-card').forEach(c => c.classList.remove('active'));
+    this.classList.add('active');
+    setStatusFilter(this.dataset.filter);
+  });
+});
+document.querySelectorAll('.summary-card[data-filter-type]').forEach(card => {
+  card.addEventListener('click', function() {
+    document.querySelectorAll('.summary-card').forEach(c => c.classList.remove('active'));
+    this.classList.add('active');
+    setTypeFilter(this.dataset.filterType);
+  });
+});
+
+/* ════════════════════════════════════════
+   카테고리별 통계 차트 (수평 바)
+════════════════════════════════════════ */
+function renderCategoryChart() {
+  const categories = {
+    'api':     { label: 'API',     icon: '🔌', color: 'var(--blue)' },
+    'data':    { label: '데이터',  icon: '🗄️',  color: 'var(--green)' },
+    'deploy':  { label: '배포',    icon: '🚀',  color: 'var(--yellow)' },
+    'monitor': { label: '모니터링',icon: '👁️', color: 'var(--cyan)' },
+  };
+  const counts = {};
+  Object.keys(categories).forEach(k => { counts[k] = 0; });
+  CRONS.forEach(c => { if (counts[c.category] !== undefined) counts[c.category]++; });
+  const maxCount = Math.max(...Object.values(counts));
+  const container = document.getElementById('categoryChart');
+  if (!container) return;
+  container.innerHTML = Object.entries(categories).map(([key, cat]) => {
+    const count = counts[key] || 0;
+    const pct = maxCount > 0 ? (count / maxCount * 100) : 0;
+    return `
+      <div class="cat-row">
+        <div class="cat-label">${cat.icon} ${cat.label}</div>
+        <div class="cat-bar-wrap">
+          <div class="cat-bar" style="width:${pct}%;background:${cat.color}"></div>
+        </div>
+        <div class="cat-count">${count}</div>
+      </div>
+    `;
+  }).join('');
+}
+
+/* ════════════════════════════════════════
+   실행 주기 분포 계산
+════════════════════════════════════════ */
+function renderScheduleStats() {
+  const container = document.getElementById('scheduleStats');
+  if (!container) return;
+  const groups = {
+    '10분': CRONS.filter(c => c.scheduleInterval === 10).length,
+    '30분': CRONS.filter(c => c.scheduleInterval === 30).length,
+    '60분': CRONS.filter(c => c.scheduleInterval === 60).length,
+    '일별':  CRONS.filter(c => c.type === 'daily').length,
+    '상시':  CRONS.filter(c => c.type === 'keepalive').length,
+  };
+  const total = CRONS.length;
+  container.innerHTML = Object.entries(groups).map(([label, count]) => {
+    const pct = Math.round((count / total) * 100);
+    return `
+      <div class="sched-item">
+        <div class="sched-label">${label}</div>
+        <div class="sched-bar-wrap">
+          <div class="sched-bar" style="width:${pct}%"></div>
+        </div>
+        <div class="sched-val">${count}개 (${pct}%)</div>
+      </div>
+    `;
+  }).join('');
+}
+
+/* ════════════════════════════════════════
+   키보드 단축키 안내 토글
+════════════════════════════════════════ */
+document.addEventListener('keydown', (e) => {
+  if (e.key === '?' && !e.ctrlKey && !e.metaKey) {
+    const panel = document.getElementById('shortcutPanel');
+    if (panel) {
+      const isVisible = panel.style.display !== 'none';
+      panel.style.display = isVisible ? 'none' : 'flex';
+    }
+  }
+  if (e.key === 'Escape') {
+    const panel = document.getElementById('shortcutPanel');
+    if (panel) panel.style.display = 'none';
+  }
+  // Ctrl/Cmd+K : 검색 포커스
+  if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
+    e.preventDefault();
+    const input = document.getElementById('searchInput');
+    if (input) { input.focus(); input.select(); }
+  }
+  // A: 전체 펼치기
+  if (e.key === 'a' && !e.ctrlKey && !e.metaKey && document.activeElement.tagName !== 'INPUT') {
+    document.querySelectorAll('.cron-card:not(.hidden)').forEach(c => c.classList.add('expanded'));
+    showToast('⬇️ 전체 펼침', '모든 크론 카드를 펼쳤습니다.');
+  }
+  // C: 전체 닫기
+  if (e.key === 'c' && !e.ctrlKey && !e.metaKey && document.activeElement.tagName !== 'INPUT') {
+    document.querySelectorAll('.cron-card.expanded').forEach(c => c.classList.remove('expanded'));
+    showToast('⬆️ 전체 닫힘', '모든 크론 카드를 닫았습니다.');
+  }
+});
+
+/* ════════════════════════════════════════
+   통계 렌더링 초기화
+════════════════════════════════════════ */
+document.addEventListener('DOMContentLoaded', () => {
+  renderCategoryChart();
+  renderScheduleStats();
+});
+
+/* ════════════════════════════════════════
+   업타임 계산 (가상 데이터 기반)
+════════════════════════════════════════ */
+function calcUptime(cronId) {
+  // 모의 업타임 테이블 (실제 환경에서는 로그 파싱 필요)
+  const uptimeTable = {
+    'cafe24-token-refresh': 99.8,
+    'daily-report': 100.0,
+    'plaud-pipeline': 98.5,
+    'plaud-daily-report': 100.0,
+    'tenex-reports-deploy': 99.2,
+    'session-sync': 99.9,
+    'sns-views-collect': 97.3,
+    'cafe24-webhook': 99.5,
+    'brain-conv-sync': 99.7,
+    'memory-indexer': 100.0,
+    'second-brain': 99.95,
+    'memory-watcher': 99.9,
+  };
+  return uptimeTable[cronId] || 99.0;
+}
+
+/* ════════════════════════════════════════
+   업타임 배지 렌더링
+════════════════════════════════════════ */
+function renderUptimeBadges() {
+  const container = document.getElementById('uptimeGrid');
+  if (!container) return;
+  container.innerHTML = CRONS.map(cron => {
+    const uptime = calcUptime(cron.id);
+    const color = uptime >= 99.9 ? 'var(--green)' : uptime >= 99 ? 'var(--yellow)' : 'var(--red)';
+    const barPct = uptime;
+    return `
+      <div class="uptime-item">
+        <div class="uptime-name">${cron.id}</div>
+        <div class="uptime-bar-wrap">
+          <div class="uptime-bar" style="width:${barPct}%;background:${color}"></div>
+        </div>
+        <div class="uptime-val" style="color:${color}">${uptime.toFixed(1)}%</div>
+      </div>
+    `;
+  }).join('');
+}
+document.addEventListener('DOMContentLoaded', renderUptimeBadges);
+
+/* ════════════════════════════════════════
+   실행 히스토리 미니 캘린더 (최근 30일)
+════════════════════════════════════════ */
+function renderMiniCalendar() {
+  const container = document.getElementById('miniCalendar');
+  if (!container) return;
+  const today = new Date();
+  let html = '<div class="cal-grid">';
+  for (let i = 29; i >= 0; i--) {
+    const d = new Date(today);
+    d.setDate(d.getDate() - i);
+    // 모의: 랜덤하게 실패일 생성 (실제는 로그 파싱)
+    const seed = d.getDate() + d.getMonth() * 31;
+    const hasError = (seed % 17 === 0); // 약 6% 실패율 모의
+    const isToday = i === 0;
+    const color = hasError ? 'var(--red)' : 'var(--green)';
+    const opacity = hasError ? '1' : '0.6';
+    const title = `${d.getMonth()+1}/${d.getDate()} — ${hasError ? '오류 감지' : '정상'}`;
+    html += `<div class="cal-day ${isToday ? 'cal-today' : ''}"
+      style="background:${color};opacity:${opacity}"
+      title="${title}"></div>`;
+  }
+  html += '</div>';
+  container.innerHTML = html;
+}
+document.addEventListener('DOMContentLoaded', renderMiniCalendar);
+
+/* ════════════════════════════════════════
+   파이프라인 클릭 이벤트 분석
+════════════════════════════════════════ */
+function getPipelineInfo(cronId) {
+  const pipelines = {
+    'cafe24-token-refresh': { pipeline: 'Pipeline 1', role: '상위 (토큰 공급)', deps: ['cafe24-webhook'] },
+    'cafe24-webhook':       { pipeline: 'Pipeline 1', role: '하위 (토큰 소비)', deps: [] },
+    'plaud-pipeline':       { pipeline: 'Pipeline 2', role: '상위 (전사 처리)', deps: ['plaud-daily-report'] },
+    'plaud-daily-report':   { pipeline: 'Pipeline 2', role: '하위 (보고 발송)', deps: [] },
+    'brain-conv-sync':      { pipeline: 'Pipeline 3', role: '최상위 (대화 인덱싱)', deps: ['session-sync'] },
+    'session-sync':         { pipeline: 'Pipeline 3', role: '중간 (세션 동기화)', deps: ['memory-watcher'] },
+    'memory-watcher':       { pipeline: 'Pipeline 3', role: '하위 (파일 감지)', deps: [] },
+    'sns-views-collect':    { pipeline: 'Pipeline 4', role: '상위 (데이터 수집)', deps: ['tenex-reports-deploy'] },
+    'tenex-reports-deploy': { pipeline: 'Pipeline 4', role: '하위 (배포 트리거)', deps: [] },
+  };
+  return pipelines[cronId] || { pipeline: '독립', role: '단독 실행', deps: [] };
+}
+
+/* ════════════════════════════════════════
+   상태 뱃지 색상 매핑
+════════════════════════════════════════ */
+function getStatusColor(status) {
+  const map = { ok: 'var(--green)', error: 'var(--red)', warning: 'var(--yellow)' };
+  return map[status] || 'var(--text-secondary)';
+}
+
+function getStatusLabel(status) {
+  const map = { ok: '정상', error: '오류', warning: '경고' };
+  return map[status] || '알 수 없음';
+}
+
+/* ════════════════════════════════════════
+   카테고리 레이블 매핑
+════════════════════════════════════════ */
+function getCategoryLabel(cat) {
+  const map = { api: 'API', data: '데이터', deploy: '배포', monitor: '모니터링' };
+  return map[cat] || cat;
+}
+
+function getTypeLabel(type) {
+  const map = { periodic: '정기 실행', daily: '일별 실행', keepalive: '상시 실행' };
+  return map[type] || type;
+}
+
+/* ════════════════════════════════════════
+   전체 통계 요약 출력 (개발자 콘솔)
+════════════════════════════════════════ */
+console.group('🕐 Tenex 크론 대시보드');
+console.log('총 크론:', CRONS.length);
+console.log('정상:', CRONS.filter(c => c.status === 'ok').length);
+console.log('오류:', CRONS.filter(c => c.status === 'error').length);
+console.log('상시 실행:', CRONS.filter(c => c.type === 'keepalive').length);
+console.log('정기 실행:', CRONS.filter(c => c.type === 'periodic').length);
+console.log('일별 실행:', CRONS.filter(c => c.type === 'daily').length);
+console.groupEnd();
+
+/* ════════════════════════════════════════
+   요약 카드 클릭 필터
+════════════════════════════════════════ */
+document.querySelectorAll('.summary-card[data-filter]').forEach(card => {
+  card.addEventListener('click', function() {
+    document.querySelectorAll('.summary-card').forEach(c => c.classList.remove('active'));
+    this.classList.add('active');
+    setStatusFilter(this.dataset.filter);
+  });
+});
+document.querySelectorAll('.summary-card[data-filter-type]').forEach(card => {
+  card.addEventListener('click', function() {
+    document.querySelectorAll('.summary-card').forEach(c => c.classList.remove('active'));
+    this.classList.add('active');
+    setTypeFilter(this.dataset.filterType);
+  });
+});
 </script>
 </body>
 </html>
