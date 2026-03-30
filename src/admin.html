@@ -249,6 +249,10 @@ textarea{resize:vertical;min-height:80px;font-size:12px;font-family:'SF Mono',Co
 <!-- bcryptjs CDN -->
 <script src="https://cdn.jsdelivr.net/npm/bcryptjs@2.4.3/dist/bcrypt.min.js"></script>
 <script>
+// bcryptjs CDN은 dcodeIO.bcrypt로 노출됨
+if(typeof bcrypt==='undefined'&&typeof dcodeIO!=='undefined'&&dcodeIO.bcrypt){var bcrypt=dcodeIO.bcrypt;}
+</script>
+<script>
 // ── State ──
 var localUsers = null; // [{username, role, allowedPaths, passwordHash?}]
 var apiAvailable = false;
