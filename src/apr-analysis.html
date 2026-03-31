@@ -725,6 +725,139 @@ tr:hover td{background:#1e293b80}
   </div>
 </div>
 
+<!-- 실질 마케팅비용 역산 분석 -->
+<div class="section" id="real-marketing-cost">
+  <div class="section-title">🔍 실질 마케팅비용 분석 (Guesstimation)</div>
+  <p style="font-size:13px;color:#94a3b8;margin-bottom:20px">DART 공시 "광고선전비 13.4%"는 빙산의 일각. 판관비 세부를 뜯어 APR의 "찐 마케팅비"를 역산합니다.</p>
+
+  <!-- KPI 3개 -->
+  <div class="cards" style="grid-template-columns:repeat(3,1fr);margin-bottom:24px">
+    <div class="card" style="border-top:3px solid #3b82f6;text-align:center">
+      <div class="label">DART 공시 광고선전비</div>
+      <div class="value" style="color:#3b82f6">13.4%</div>
+      <div class="sub">2,053억 / 매출 15,283억</div>
+    </div>
+    <div class="card" style="border-top:3px solid #f59e0b;text-align:center">
+      <div class="label">실질 마케팅비 (추정)</div>
+      <div class="value" style="color:#f59e0b">~21.5%</div>
+      <div class="sub">~3,287억 (숨겨진 마케팅비 포함)</div>
+    </div>
+    <div class="card" style="border-top:3px solid #ef4444;text-align:center">
+      <div class="label">숨겨진 마케팅비</div>
+      <div class="value" style="color:#ef4444">+8.1%p</div>
+      <div class="sub">~1,234억이 다른 계정에 분산</div>
+    </div>
+  </div>
+
+  <!-- 판관비 항목별 성격 분류 -->
+  <h3 style="font-size:14px;color:#e2e8f0;margin:24px 0 12px">판관비 항목별 마케팅 성격 분류 (2025, 별도)</h3>
+  <div style="overflow-x:auto">
+    <table>
+      <thead><tr><th style="text-align:left">항목</th><th>금액(억)</th><th>매출비</th><th>성격</th><th>마케팅 귀속분(추정)</th></tr></thead>
+      <tbody>
+        <tr style="background:rgba(16,185,129,0.08)"><td style="text-align:left">광고선전비</td><td>2,053</td><td>13.4%</td><td style="color:#10b981">✅ 순수 광고</td><td>2,053 (100%)</td></tr>
+        <tr style="background:rgba(245,158,11,0.08)"><td style="text-align:left">판매수수료</td><td>3,931</td><td>25.7%</td><td style="color:#f59e0b">⚠️ 분해 필요</td><td>~1,000 (~25%)</td></tr>
+        <tr style="background:rgba(245,158,11,0.08)"><td style="text-align:left">지급수수료</td><td>174</td><td>1.1%</td><td style="color:#f59e0b">⚠️ 일부 대행</td><td>~100 (~60%)</td></tr>
+        <tr style="background:rgba(245,158,11,0.08)"><td style="text-align:left">외주용역비</td><td>124</td><td>0.8%</td><td style="color:#f59e0b">⚠️ 일부 콘텐츠</td><td>~60 (~50%)</td></tr>
+        <tr style="background:rgba(16,185,129,0.08)"><td style="text-align:left">견본비</td><td>74</td><td>0.05%</td><td style="color:#10b981">✅ 인플루언서 시딩</td><td>74 (100%)</td></tr>
+        <tr style="background:rgba(100,116,139,0.08)"><td style="text-align:left;color:#64748b">운반비</td><td style="color:#64748b">440</td><td style="color:#64748b">2.9%</td><td style="color:#64748b">❌ 물류</td><td style="color:#64748b">0</td></tr>
+        <tr style="background:rgba(100,116,139,0.08)"><td style="text-align:left;color:#64748b">인건비(급여+퇴직+복리)</td><td style="color:#64748b">619</td><td style="color:#64748b">4.0%</td><td style="color:#64748b">❌ 인건비</td><td style="color:#64748b">0</td></tr>
+        <tr style="background:rgba(100,116,139,0.08)"><td style="text-align:left;color:#64748b">감가상각(유형+사용권)</td><td style="color:#64748b">233</td><td style="color:#64748b">1.5%</td><td style="color:#64748b">❌ 고정비</td><td style="color:#64748b">0</td></tr>
+        <tr style="background:rgba(100,116,139,0.08)"><td style="text-align:left;color:#64748b">기타</td><td style="color:#64748b">344</td><td style="color:#64748b">2.3%</td><td style="color:#64748b">❌ 기타</td><td style="color:#64748b">0</td></tr>
+        <tr style="border-top:2px solid #334155;font-weight:700"><td style="text-align:left">판관비 합계</td><td>7,992</td><td>52.3%</td><td></td><td style="color:#f59e0b">~3,287 (21.5%)</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- 판매수수료 분해 -->
+  <h3 style="font-size:14px;color:#e2e8f0;margin:28px 0 12px">판매수수료 3,931억 채널별 분해 (추정)</h3>
+  <div style="overflow-x:auto">
+    <table>
+      <thead><tr><th style="text-align:left">채널</th><th>추정 매출</th><th>수수료율</th><th>추정 수수료</th><th>마케팅 귀속</th></tr></thead>
+      <tbody>
+        <tr><td style="text-align:left">아마존 (레퍼럴+FBA)</td><td>~3,821억 (25%)</td><td>15%</td><td>~573억</td><td style="color:#64748b">플랫폼 수수료</td></tr>
+        <tr style="background:rgba(245,158,11,0.06)"><td style="text-align:left">아마존 광고 (Sponsored)</td><td>-</td><td>-</td><td>~200억</td><td style="color:#f59e0b">✅ 마케팅</td></tr>
+        <tr><td style="text-align:left">얼타뷰티 (B2B)</td><td>~764억 (5%)</td><td>35~40%</td><td>~290억</td><td style="color:#64748b">유통마진 (일부 마케팅)</td></tr>
+        <tr style="background:rgba(245,158,11,0.06)"><td style="text-align:left">올리브영/오프라인 프로모션</td><td>~1,528억 (10%)</td><td>30%</td><td>~458억</td><td style="color:#f59e0b">~200억 마케팅성</td></tr>
+        <tr><td style="text-align:left">자사몰 PG수수료</td><td>~4,585억 (30%)</td><td>3%</td><td>~138억</td><td style="color:#64748b">순수 PG</td></tr>
+        <tr><td style="text-align:left">쇼피/동남아</td><td>~1,223억 (8%)</td><td>12%</td><td>~147억</td><td style="color:#64748b">플랫폼 수수료</td></tr>
+        <tr><td style="text-align:left">기타 (쿠팡/일본 등)</td><td>~3,362억 (22%)</td><td>20%</td><td>~672억</td><td style="color:#f59e0b">~600억 혼합</td></tr>
+        <tr style="border-top:2px solid #334155;font-weight:700"><td style="text-align:left">합계</td><td>15,283억</td><td>-</td><td>~2,478억 순수 + ~1,000억 마케팅성</td><td style="color:#f59e0b">~1,000억</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div style="font-size:11px;color:#64748b;margin-top:6px">⚠️ DART 주석36 특수관계자 거래: APR US INC 2,860억 매출 (미국 법인 이전가격). 에이피알커뮤니케이션즈는 청소대행업으로 광고 관련 아님.</div>
+
+  <!-- 실질 마케팅비 합산 차트 -->
+  <h3 style="font-size:14px;color:#e2e8f0;margin:28px 0 12px">실질 마케팅비 합산 (워터폴)</h3>
+  <div class="card" style="padding:20px">
+    <div style="position:relative;height:200px"><canvas id="realMktChart"></canvas></div>
+  </div>
+
+  <!-- 키네메디칼 비교 -->
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:24px">
+    <div class="card" style="border-top:3px solid #f59e0b">
+      <h4 style="color:#f59e0b;margin-bottom:12px">APR 실질 마케팅비</h4>
+      <div style="font-size:24px;font-weight:700;color:#e2e8f0;margin-bottom:4px">~21.5%</div>
+      <div style="font-size:12px;color:#94a3b8;margin-bottom:12px">~3,287억 / 매출 15,283억</div>
+      <ul style="font-size:12px;color:#94a3b8;padding-left:16px;line-height:2">
+        <li>광고선전비 2,053억 (13.4%)</li>
+        <li>판매수수료 중 마케팅성 ~1,000억 (6.5%)</li>
+        <li>지급수수료·외주·견본 ~234억 (1.5%)</li>
+        <li>판매수수료 25.7%가 최대 비용 → 플랫폼 의존</li>
+      </ul>
+    </div>
+    <div class="card" style="border-top:3px solid #10b981">
+      <h4 style="color:#10b981;margin-bottom:12px">키네메디칼 현재</h4>
+      <div style="font-size:24px;font-weight:700;color:#e2e8f0;margin-bottom:4px">~22%</div>
+      <div style="font-size:12px;color:#94a3b8;margin-bottom:12px">광고비 ~월 2,800만 / 매출 ~월 1.3억</div>
+      <ul style="font-size:12px;color:#94a3b8;padding-left:16px;line-height:2">
+        <li>D2C 100% → <strong style="color:#10b981">판매수수료 0%</strong></li>
+        <li>PG수수료만 ~3% (카페24)</li>
+        <li>광고비를 순수 퍼포먼스에 집중 가능</li>
+        <li>적정 광고비: <strong style="color:#10b981">매출의 15~20%</strong></li>
+      </ul>
+    </div>
+  </div>
+
+  <div style="background:#1e293b;border:1px solid #334155;border-radius:8px;padding:14px;margin-top:16px;font-size:12px;color:#94a3b8;border-left:3px solid #f59e0b">
+    <strong style="color:#f59e0b">⚠️ Guesstimation 면책</strong><br>
+    본 분석은 DART 감사보고서 주석28(판관비) + 주석36(특수관계자) + 공개 IR자료 + 업계 평균 수수료율 기반 추정입니다. 실제 APR의 내부 비용 구조와 상이할 수 있습니다. 채널별 매출 비중은 미공개이며, 업계 추정치를 적용했습니다.
+  </div>
+</div>
+
+<script>
+(function(){
+  const ctx = document.getElementById('realMktChart');
+  if(!ctx) return;
+  new Chart(ctx, {
+    type:'bar',
+    data:{
+      labels:['①광고선전비','②판매수수료\n(마케팅성)','③지급수수료\n(대행)','④외주용역비\n(콘텐츠)','⑤견본비\n(시딩)','실질 합계'],
+      datasets:[{
+        data:[2053,1000,100,60,74,3287],
+        backgroundColor:['#3b82f6','#f59e0b','#f59e0b','#f59e0b','#10b981','#ef4444'],
+        borderRadius:4,
+        barThickness:36
+      }]
+    },
+    options:{
+      indexAxis:'y',
+      responsive:true,
+      maintainAspectRatio:false,
+      plugins:{
+        legend:{display:false},
+        tooltip:{callbacks:{label:c=>c.raw.toLocaleString()+'억 ('+((c.raw/15283)*100).toFixed(1)+'%)'}}
+      },
+      scales:{
+        x:{ticks:{color:'#94a3b8',callback:v=>v.toLocaleString()+'억'},grid:{color:'#334155'}},
+        y:{ticks:{color:'#e2e8f0',font:{size:11}},grid:{display:false}}
+      }
+    }
+  });
+})();
+</script>
+
 <!-- 9. 키네메디칼 vs APR 비교 -->
 <div class="section" id="compare">
   <div class="section-title">키네메디칼 vs APR 비교</div>
