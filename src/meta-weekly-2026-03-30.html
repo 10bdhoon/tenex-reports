@@ -504,9 +504,18 @@ grid.innerHTML = Object.entries(creativeTypes).map(([type, {desc, ads: group}]) 
   const avgCpa = totalPurchases > 0 ? Math.round(totalSpend / totalPurchases) : null;
   const avgRoas = totalSpend > 0 ? Math.round(totalRevenue / totalSpend * 100) : 0;
   const avgCtr = totalImpressions > 0 ? (totalClicks / totalImpressions * 100).toFixed(2) : 0;
+  const adList = group.map(a => {
+    const pTag = a.purchases > 0 ? `<span style="color:#10b981;font-weight:600">${a.purchases}건</span>` : `<span style="color:#64748b">0건</span>`;
+    return `<div style="display:flex;align-items:center;gap:6px;padding:4px 0;border-bottom:1px solid #1e293b;font-size:.72em">
+      <span style="color:#475569;flex-shrink:0">├</span>
+      <span style="color:#cbd5e1;flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="${a.name}">${shortName(a.name, 35)}</span>
+      <span style="color:#94a3b8;flex-shrink:0">${pTag}</span>
+    </div>`;
+  }).join('');
   return `<div class="insight-card">
     <h4>${type}</h4>
-    <div style="font-size:.72em;color:#64748b;margin-bottom:8px">${desc} (${group.length}개 소재)</div>
+    <div style="font-size:.72em;color:#64748b;margin-bottom:6px">${desc} (${group.length}개 소재)</div>
+    <div style="margin-bottom:10px;border:1px solid #334155;border-radius:6px;padding:8px;background:#0a1628">${adList}</div>
     <div class="metric"><span class="ml">평균 CPA</span><span class="mv">${avgCpa != null ? fmtW(avgCpa) : '-'}</span></div>
     <div class="metric"><span class="ml">ROAS</span><span class="mv">${avgRoas}%</span></div>
     <div class="metric"><span class="ml">CTR</span><span class="mv">${avgCtr}%</span></div>
