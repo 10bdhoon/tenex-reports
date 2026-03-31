@@ -103,6 +103,7 @@ tr:hover td{background:#1e293b80}
   .kpi-row{grid-template-columns:1fr 1fr}
   .card{padding:16px}
   .nav a{padding:10px 12px;font-size:12px}
+  #growth-strategy .chart-box canvas{max-height:280px}
 }
 @media(max-width:480px){
   .info-grid{grid-template-columns:1fr}
@@ -132,6 +133,7 @@ tr:hover td{background:#1e293b80}
     <a href="#overview">회사개요</a>
     <a href="#income">손익요약</a>
     <a href="#sgna">판관비분석</a>
+    <a href="#growth-strategy">성장전략</a>
     <a href="#ratios">비율추이</a>
     <a href="#revenue-mix">매출구성</a>
     <a href="#compare">비교인사이트</a>
@@ -324,6 +326,147 @@ tr:hover td{background:#1e293b80}
       <canvas id="donutChart"></canvas>
     </div>
   </div>
+</div>
+
+<!-- 3.5 연도별 성장 전략 분석 -->
+<div class="section" id="growth-strategy">
+  <div class="section-title">연도별 성장 전략 분석</div>
+  <p style="color:#94a3b8;margin-bottom:24px;font-size:13px">APR 5개년(2021~2025) 핵심 이벤트·전략·키네메디칼 시사점 타임라인</p>
+
+  <!-- 매출 성장 차트 -->
+  <div class="chart-box" style="margin-bottom:32px">
+    <h3 style="font-size:14px;font-weight:600;margin-bottom:12px;color:#f1f5f9">연도별 매출 성장 + 핵심 이벤트</h3>
+    <canvas id="growthStrategyChart"></canvas>
+  </div>
+
+  <!-- Timeline -->
+  <div style="position:relative;padding-left:180px">
+    <!-- vertical line -->
+    <div style="position:absolute;left:168px;top:0;bottom:0;width:3px;background:linear-gradient(to bottom,#3b82f6,#22c55e,#a855f7,#f59e0b,#ef4444);border-radius:2px"></div>
+
+    <!-- 2021 -->
+    <div style="position:relative;margin-bottom:36px">
+      <div style="position:absolute;left:-180px;width:160px;text-align:right;top:0">
+        <div style="font-size:22px;font-weight:700;color:#60a5fa">2021</div>
+        <span style="display:inline-block;background:#3b82f620;color:#60a5fa;border:1px solid #3b82f640;border-radius:6px;padding:3px 10px;font-size:12px;margin-top:4px">매출 2,592억</span><br>
+        <span style="display:inline-block;background:#22c55e20;color:#22c55e;border:1px solid #22c55e40;border-radius:6px;padding:3px 10px;font-size:12px;margin-top:4px">영업이익 143억</span><br>
+        <span style="font-size:11px;color:#94a3b8;margin-top:2px;display:inline-block">이익률 5.5%</span>
+      </div>
+      <!-- dot -->
+      <div style="position:absolute;left:-18px;top:6px;width:14px;height:14px;background:#3b82f6;border-radius:50%;border:3px solid #0f172a"></div>
+      <div style="background:#1e293b;border:1px solid #3b82f6;border-radius:12px;padding:20px;margin-left:20px">
+        <h3 style="font-size:15px;font-weight:600;color:#60a5fa;margin-bottom:10px">디바이스 원년</h3>
+        <ul style="padding-left:18px;margin-bottom:12px;font-size:13px;color:#cbd5e1">
+          <li>3월: 홈 뷰티 디바이스 브랜드 <strong>'메디큐브 에이지알(AGE-R)'</strong> 런칭 → 첫 제품 '더마 EMS샷'</li>
+          <li>해외 매출 <strong>1,000억 돌파</strong> (2019년 진출 후 2년 만에)</li>
+        </ul>
+        <div style="font-size:13px;color:#94a3b8;margin-bottom:10px"><strong>핵심 전략:</strong> 화장품→디바이스 카테고리 확장으로 객단가 상승</div>
+        <div style="background:#22c55e10;border:1px solid #22c55e40;border-radius:8px;padding:12px 16px;font-size:13px;color:#86efac">
+          <strong style="color:#22c55e">키네메디칼 인사이트:</strong> 콘텐츠 채널(유튜브) → 디바이스 전환 성공 사례. 키네메디칼도 동일 경로 (1분도수→ES-808)
+        </div>
+      </div>
+    </div>
+
+    <!-- 2022 -->
+    <div style="position:relative;margin-bottom:36px">
+      <div style="position:absolute;left:-180px;width:160px;text-align:right;top:0">
+        <div style="font-size:22px;font-weight:700;color:#22c55e">2022</div>
+        <span style="display:inline-block;background:#22c55e20;color:#22c55e;border:1px solid #22c55e40;border-radius:6px;padding:3px 10px;font-size:12px;margin-top:4px">매출 3,977억 <span class="positive">+53%</span></span><br>
+        <span style="display:inline-block;background:#22c55e20;color:#22c55e;border:1px solid #22c55e40;border-radius:6px;padding:3px 10px;font-size:12px;margin-top:4px">영업이익 392억</span><br>
+        <span style="font-size:11px;color:#94a3b8;margin-top:2px;display:inline-block">이익률 9.9%</span>
+      </div>
+      <div style="position:absolute;left:-18px;top:6px;width:14px;height:14px;background:#22c55e;border-radius:50%;border:3px solid #0f172a"></div>
+      <div style="background:#1e293b;border:1px solid #22c55e;border-radius:12px;padding:20px;margin-left:20px">
+        <h3 style="font-size:15px;font-weight:600;color:#22c55e;margin-bottom:10px">디바이스 메가히트</h3>
+        <ul style="padding-left:18px;margin-bottom:12px;font-size:13px;color:#cbd5e1">
+          <li>3월: '유쎄라 딥샷' + 'ATS에어샷' 출시 → 라인업 확장</li>
+          <li>7월: <strong>'부스터힐러'</strong> 출시 → 피부 광채 케어 디바이스로 메가히트</li>
+          <li>디바이스 연간 판매 <strong>60만 대</strong>, 매출 ~1,437억 ⚠️</li>
+          <li>올리브영 입점 확대, 틱톡/인스타 숏폼 마케팅 본격화</li>
+        </ul>
+        <div style="font-size:13px;color:#94a3b8;margin-bottom:10px"><strong>핵심 전략:</strong> 다양한 SKU로 라인업 확장 + 오프라인(올리브영) 채널 확보</div>
+        <div style="background:#22c55e10;border:1px solid #22c55e40;border-radius:8px;padding:12px 16px;font-size:13px;color:#86efac">
+          <strong style="color:#22c55e">키네메디칼 인사이트:</strong> 히어로 제품(ES-808) 성공 후 라인업 확장(CS-25, WS-200) 타이밍
+        </div>
+      </div>
+    </div>
+
+    <!-- 2023 -->
+    <div style="position:relative;margin-bottom:36px">
+      <div style="position:absolute;left:-180px;width:160px;text-align:right;top:0">
+        <div style="font-size:22px;font-weight:700;color:#a855f7">2023</div>
+        <span style="display:inline-block;background:#a855f720;color:#c084fc;border:1px solid #a855f740;border-radius:6px;padding:3px 10px;font-size:12px;margin-top:4px">매출 5,238억 <span class="positive">+32%</span></span><br>
+        <span style="display:inline-block;background:#22c55e20;color:#22c55e;border:1px solid #22c55e40;border-radius:6px;padding:3px 10px;font-size:12px;margin-top:4px">영업이익 1,042억</span><br>
+        <span style="font-size:11px;color:#94a3b8;margin-top:2px;display:inline-block">이익률 19.9%</span>
+      </div>
+      <div style="position:absolute;left:-18px;top:6px;width:14px;height:14px;background:#a855f7;border-radius:50%;border:3px solid #0f172a"></div>
+      <div style="background:#1e293b;border:1px solid #a855f7;border-radius:12px;padding:20px;margin-left:20px">
+        <h3 style="font-size:15px;font-weight:600;color:#c084fc;margin-bottom:10px">1,000억 이익 돌파 + IPO 준비</h3>
+        <ul style="padding-left:18px;margin-bottom:12px;font-size:13px;color:#cbd5e1">
+          <li>Pre-IPO: 7,000억 밸류 → CJ온스타일로부터 <strong>1조 밸류</strong> 투자 유치</li>
+          <li>7월: 디바이스 자체 생산 공장(에이피알팩토리 1공장) 준공 → 원가 절감 + 품질 통제</li>
+          <li>10월: <strong>'부스터프로'</strong> 출시 → 6-in-1 차세대 디바이스, 블루투스/앱 연동</li>
+          <li>디바이스 연간 <strong>105만 대</strong> 판매 (+75%), 매출 2,052억</li>
+          <li>해외 매출 비중 39.2%, 미국 매출 679억 (+127%)</li>
+        </ul>
+        <div style="font-size:13px;color:#94a3b8;margin-bottom:10px"><strong>핵심 전략:</strong> 제조 내재화 + 프리미엄 제품(부스터프로) + 해외 가속</div>
+        <div style="background:#22c55e10;border:1px solid #22c55e40;border-radius:8px;padding:12px 16px;font-size:13px;color:#86efac">
+          <strong style="color:#22c55e">키네메디칼 인사이트:</strong> 제조 내재화는 규모가 클 때 효과적. 현 단계는 OEM 유지하되 품질 관리 강화
+        </div>
+      </div>
+    </div>
+
+    <!-- 2024 -->
+    <div style="position:relative;margin-bottom:36px">
+      <div style="position:absolute;left:-180px;width:160px;text-align:right;top:0">
+        <div style="font-size:22px;font-weight:700;color:#f59e0b">2024</div>
+        <span style="display:inline-block;background:#f59e0b20;color:#fbbf24;border:1px solid #f59e0b40;border-radius:6px;padding:3px 10px;font-size:12px;margin-top:4px">매출 7,228억 <span class="positive">+38%</span></span><br>
+        <span style="display:inline-block;background:#22c55e20;color:#22c55e;border:1px solid #22c55e40;border-radius:6px;padding:3px 10px;font-size:12px;margin-top:4px">영업이익 1,227억</span><br>
+        <span style="font-size:11px;color:#94a3b8;margin-top:2px;display:inline-block">이익률 17.0%</span>
+      </div>
+      <div style="position:absolute;left:-18px;top:6px;width:14px;height:14px;background:#f59e0b;border-radius:50%;border:3px solid #0f172a"></div>
+      <div style="background:#1e293b;border:1px solid #f59e0b;border-radius:12px;padding:20px;margin-left:20px">
+        <h3 style="font-size:15px;font-weight:600;color:#fbbf24;margin-bottom:10px">코스피 상장 + 글로벌 폭발</h3>
+        <ul style="padding-left:18px;margin-bottom:12px;font-size:13px;color:#cbd5e1">
+          <li>2월: <strong>코스피 직상장</strong> (설립 10년 미만 스타트업 최초) → 948억 조달</li>
+          <li>5월: 에이피알팩토리 2공장 준공</li>
+          <li>해외 매출 비중 <strong>56%</strong> (미국 22%), 글로벌 디바이스 누적 200만 대+</li>
+          <li>8월: 아모레퍼시픽 제치고 <strong>국내 뷰티 시총 1위</strong> 등극</li>
+        </ul>
+        <div style="font-size:13px;color:#94a3b8;margin-bottom:10px"><strong>핵심 전략:</strong> IPO 자금으로 글로벌 마케팅 + 생산능력 2배 확대</div>
+        <div style="background:#22c55e10;border:1px solid #22c55e40;border-radius:8px;padding:12px 16px;font-size:13px;color:#86efac">
+          <strong style="color:#22c55e">키네메디칼 인사이트:</strong> 상장 전 매출 규모를 키우는 것이 밸류에이션 핵심. 현금흐름 우선
+        </div>
+      </div>
+    </div>
+
+    <!-- 2025 -->
+    <div style="position:relative;margin-bottom:12px">
+      <div style="position:absolute;left:-180px;width:160px;text-align:right;top:0">
+        <div style="font-size:22px;font-weight:700;color:#ef4444">2025</div>
+        <span style="display:inline-block;background:#ef444420;color:#f87171;border:1px solid #ef444440;border-radius:6px;padding:3px 10px;font-size:12px;margin-top:4px">매출 15,273억 <span class="positive">+111%</span></span><br>
+        <span style="display:inline-block;background:#22c55e20;color:#22c55e;border:1px solid #22c55e40;border-radius:6px;padding:3px 10px;font-size:12px;margin-top:4px">영업이익 3,655억</span><br>
+        <span style="font-size:11px;color:#94a3b8;margin-top:2px;display:inline-block">이익률 23.9%</span>
+      </div>
+      <div style="position:absolute;left:-18px;top:6px;width:14px;height:14px;background:#ef4444;border-radius:50%;border:3px solid #0f172a"></div>
+      <div style="background:#1e293b;border:1px solid #ef4444;border-radius:12px;padding:20px;margin-left:20px">
+        <h3 style="font-size:15px;font-weight:600;color:#f87171;margin-bottom:10px">1.5조 달성</h3>
+        <ul style="padding-left:18px;margin-bottom:12px;font-size:13px;color:#cbd5e1">
+          <li>화장품 부문 <strong>1조 돌파</strong> (디바이스 락인 → 화장품 반복구매 효과 작동)</li>
+          <li>디바이스 연간 4,070억 (누적 <strong>500만 대</strong> 돌파)</li>
+          <li>해외 비중 <strong>79%</strong>, 미국 37% (얼타뷰티 B2B 입점)</li>
+          <li>일본 4Q <strong>289% 성장</strong></li>
+          <li>광고선전비/매출 13.4%로 효율화 (전년 17.4%에서 하락)</li>
+          <li>R&D 투자 <strong>240% 증가</strong> (ADC 연구소 확대)</li>
+        </ul>
+        <div style="font-size:13px;color:#94a3b8;margin-bottom:10px"><strong>핵심 전략:</strong> 화장품 락인 + 글로벌 채널 다각화 (아마존+얼타+쇼피) + 브랜드력으로 광고 효율 개선</div>
+        <div style="background:#22c55e10;border:1px solid #22c55e40;border-radius:8px;padding:12px 16px;font-size:13px;color:#86efac">
+          <strong style="color:#22c55e">키네메디칼 인사이트:</strong> 디바이스→소모품(부스터젤) 반복구매 구조 강화 필수. 이게 APR 1.5조의 핵심
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /timeline -->
 </div>
 
 <!-- 4. 핵심 비율 추이 -->
@@ -838,6 +981,88 @@ new Chart(document.getElementById('donutChart'), {
     }
   }
 });
+
+// 3.5 연도별 매출 성장 + 이벤트 마커 차트
+(() => {
+  const gsLabels = ['2021', '2022', '2023', '2024', '2025'];
+  const gsRevenue = [2592, 3977, 5238, 7228, 15273];
+  const gsGrowth = [null, 53, 32, 38, 111];
+  const gsEvents = [
+    'AGE-R 런칭\n해외 1,000억 돌파',
+    '부스터힐러 메가히트\n디바이스 60만대',
+    '1공장 준공\n부스터프로 출시\n105만대 판매',
+    '코스피 직상장\n뷰티 시총 1위',
+    '매출 1.5조\n해외 79%\n누적 500만대'
+  ];
+  const gsColors = ['#3b82f6', '#22c55e', '#a855f7', '#f59e0b', '#ef4444'];
+
+  new Chart(document.getElementById('growthStrategyChart'), {
+    type: 'bar',
+    data: {
+      labels: gsLabels,
+      datasets: [{
+        label: '매출 (억원)',
+        data: gsRevenue,
+        backgroundColor: gsColors.map(c => c + '80'),
+        borderColor: gsColors,
+        borderWidth: 2,
+        borderRadius: 6
+      }]
+    },
+    options: {
+      responsive: true,
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          callbacks: {
+            afterLabel: ctx => {
+              const g = gsGrowth[ctx.dataIndex];
+              return (g !== null ? '성장률: +' + g + '%' : '') + '\n' + gsEvents[ctx.dataIndex];
+            }
+          }
+        },
+        title: { display: true, text: '연도별 매출 성장 (억원)', color: '#f1f5f9', font: { size: 15, weight: '600' } }
+      },
+      scales: {
+        y: {
+          beginAtZero: true,
+          grid: { color: '#334155' },
+          ticks: { color: '#94a3b8', callback: v => v.toLocaleString() }
+        },
+        x: { grid: { display: false }, ticks: { color: '#94a3b8', font: { weight: '600' } } }
+      },
+      animation: {
+        onComplete: function() {
+          const chart = this;
+          const ctx2 = chart.ctx;
+          ctx2.save();
+          chart.data.datasets[0].data.forEach((val, i) => {
+            const meta = chart.getDatasetMeta(0).data[i];
+            const x = meta.x;
+            const y = meta.y - 8;
+            ctx2.fillStyle = '#f1f5f9';
+            ctx2.font = 'bold 12px sans-serif';
+            ctx2.textAlign = 'center';
+            ctx2.fillText(val.toLocaleString(), x, y - 14);
+            if (gsGrowth[i] !== null) {
+              ctx2.fillStyle = '#22c55e';
+              ctx2.font = '11px sans-serif';
+              ctx2.fillText('+' + gsGrowth[i] + '%', x, y);
+            }
+            // event annotation
+            const lines = gsEvents[i].split('\n');
+            ctx2.fillStyle = gsColors[i];
+            ctx2.font = '10px sans-serif';
+            lines.forEach((line, li) => {
+              ctx2.fillText(line, x, meta.y + 16 + li * 13);
+            });
+          });
+          ctx2.restore();
+        }
+      }
+    }
+  });
+})();
 
 // 4. 핵심 비율 라인 차트
 new Chart(document.getElementById('ratioChart'), {
