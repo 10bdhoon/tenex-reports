@@ -796,11 +796,11 @@ body.sidebar-collapsed .header-toggle{display:flex}
 .tb-cat-task.urgency-red{border-left-color:#ef4444}
 .tb-cat-task.urgency-yellow{border-left-color:#eab308}
 .tb-cat-task.urgency-green{border-left-color:#22c55e}
-.tb-cat-drag-handle{cursor:grab;font-size:14px;color:var(--text-secondary);user-select:none;padding:0 2px;flex-shrink:0;transition:color .15s;opacity:.4}
-.tb-cat-drag-handle:hover{opacity:1;color:var(--text)}
-.tb-cat-drag-handle:active{cursor:grabbing}
-.tb-cat-task.dragging{opacity:.4;transform:scale(.97)}
-.tb-cat-card .tb-cat-drop-indicator{height:2px;background:var(--accent);border-radius:2px;margin:1px 8px;pointer-events:none}
+.tb-cat-order-btns{display:flex;flex-direction:column;gap:0;flex-shrink:0}
+.tb-cat-order-btn{border:none;background:none;cursor:pointer;font-size:10px;line-height:1;padding:1px 3px;color:var(--text-secondary);border-radius:3px;transition:all .15s;opacity:.5}
+.tb-cat-order-btn:hover:not(:disabled){opacity:1;color:var(--accent);background:var(--accent-light)}
+.tb-cat-order-btn:disabled{opacity:.15;cursor:default}
+/* (drop indicator removed — arrow buttons used) */
 .tb-cat-task-row{display:flex;align-items:center;gap:8px}
 .tb-cat-task-status{font-size:16px;cursor:pointer;user-select:none;flex-shrink:0;padding:2px;border-radius:4px;transition:background .15s}
 .tb-cat-task-status:hover{background:rgba(0,40,85,0.1)}
@@ -825,11 +825,7 @@ body.sidebar-collapsed .header-toggle{display:flex}
 .tb-progress-bar{flex:1;height:4px;background:var(--border);border-radius:2px;overflow:hidden}
 .tb-progress-fill{height:100%;background:var(--accent);border-radius:2px;transition:width .3s}
 .tb-progress-text{font-size:11px;color:var(--text-secondary);font-weight:600;white-space:nowrap}
-/* ── Drag & Drop ── */
-/* drag handled by .tb-cat-drag-handle + .tb-cat-task.dragging above */
-.tb-cat-card.drag-over{border-color:var(--accent);box-shadow:0 0 0 2px rgba(0,40,85,0.2)}
-[data-theme="dark"] .tb-cat-card.drag-over{box-shadow:0 0 0 2px rgba(100,160,255,0.25)}
-.tb-drop-indicator{height:2px;background:var(--accent);border-radius:2px;margin:2px 10px;pointer-events:none;transition:opacity .15s}
+/* ── (drag styles removed — arrow buttons used instead) ── */
 /* ── Priority List ── */
 .tb-priority-section{margin-top:24px}
 .tb-priority-title{font-size:16px;font-weight:700;margin-bottom:12px;display:flex;align-items:center;gap:8px;padding-left:12px;border-left:3px solid var(--accent);color:var(--text)}
@@ -850,13 +846,11 @@ body.sidebar-collapsed .header-toggle{display:flex}
 .tb-task-checkbox.state-waiting{opacity:.4}
 .tb-task-checkbox.state-doing{opacity:1}
 .tb-task-checkbox.state-done{opacity:1}
-/* ── Priority Drag Handle ── */
-.tb-priority-drag-handle{cursor:grab;font-size:16px;color:var(--text-secondary);user-select:none;padding:0 2px;flex-shrink:0;transition:color .15s}
-.tb-priority-drag-handle:active{cursor:grabbing}
-.tb-priority-drag-handle:hover{color:var(--text)}
-.tb-priority-item[draggable="true"]{cursor:default}
-.tb-priority-item.dragging{opacity:.4;transform:scale(.98)}
-.tb-priority-drop-indicator{height:2px;background:var(--accent);border-radius:2px;margin:2px 0;pointer-events:none}
+/* ── Priority Order Buttons ── */
+.tb-priority-order-btns{display:flex;flex-direction:column;gap:0;flex-shrink:0}
+.tb-priority-order-btn{border:none;background:none;cursor:pointer;font-size:11px;line-height:1;padding:1px 3px;color:var(--text-secondary);border-radius:3px;transition:all .15s;opacity:.5}
+.tb-priority-order-btn:hover:not(:disabled){opacity:1;color:var(--accent);background:var(--accent-light)}
+.tb-priority-order-btn:disabled{opacity:.15;cursor:default}
 /* ── Detail Panel ── */
 .tb-detail-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.3);z-index:390}
 .tb-detail-overlay.show{display:block}
@@ -1762,7 +1756,7 @@ function renderTbTasks(){
         const cbChecked=t.status==='done'?' checked':'';
         html+='<div class="tb-cat-task urgency-'+t.urgency+(isDone?' done-task':'')+'" data-tid="'+t.id+'">';
         html+='<div class="tb-cat-task-row">';
-        html+='<span class="tb-cat-drag-handle" title="드래그하여 순서 변경">≡</span>';
+        html+='<span class="tb-cat-order-btns"><button class="tb-cat-order-btn" data-tid="'+t.id+'" data-cat="'+cat.key+'" data-dir="-1" title="위로 이동">▲</button><button class="tb-cat-order-btn" data-tid="'+t.id+'" data-cat="'+cat.key+'" data-dir="1" title="아래로 이동">▼</button></span>';
         html+='<input type="checkbox" class="'+cbClass+'" data-tid="'+t.id+'"'+cbChecked+' title="'+TB_STATUS_LABEL[t.status]+'">';
         html+='<span class="tb-cat-task-status" data-tid="'+t.id+'" title="클릭하여 상태 변경">'+TB_STATUS_EMOJI[t.status]+'</span>';
         html+='<span class="tb-cat-task-title" data-tid="'+t.id+'" title="'+escapeHtml(t.title)+'">'+escapeHtml(t.title)+'</span>';
@@ -1811,8 +1805,8 @@ function renderTbTasks(){
       const urgDot=t.urgency==='red'?'🔴':t.urgency==='yellow'?'🟡':'🟢';
       const c=catMapPL[t.cat];
       const catLabel=c?c.icon+' '+c.key:'';
-      html+='<div class="tb-priority-item" draggable="true" data-tid="'+t.id+'">';
-      html+='<span class="tb-priority-drag-handle" title="드래그하여 순서 변경">≡</span>';
+      html+='<div class="tb-priority-item" data-tid="'+t.id+'">';
+      html+='<span class="tb-priority-order-btns"><button class="tb-priority-order-btn" data-idx="'+idx+'" data-dir="-1" title="위로 이동">▲</button><button class="tb-priority-order-btn" data-idx="'+idx+'" data-dir="1" title="아래로 이동">▼</button></span>';
       html+='<span class="tb-priority-num">'+(idx+1)+'</span>';
       html+='<span class="tb-priority-urgency">'+urgDot+'</span>';
       html+='<span class="tb-priority-title-text" title="'+escapeHtml(t.title)+'">'+escapeHtml(t.title)+'</span>';
@@ -1882,165 +1876,64 @@ function renderTbTasks(){
     };
   });
 
-  // ── Priority List Drag & Drop ──
-  let plDragTid=null;
-  function removePriorityIndicators(){list.querySelectorAll('.tb-priority-drop-indicator').forEach(el=>el.remove());list.querySelectorAll('.tb-priority-item.dragging').forEach(el=>el.classList.remove('dragging'))}
-  list.querySelectorAll('.tb-priority-item').forEach(item=>{
-    item.setAttribute('draggable','false');
-    const handle=item.querySelector('.tb-priority-drag-handle');
-    if(handle){
-      handle.addEventListener('mousedown',()=>{item.setAttribute('draggable','true')});
-      handle.addEventListener('mouseup',()=>{if(!item.classList.contains('dragging'))item.setAttribute('draggable','false')});
-    }
-    item.addEventListener('dragstart',e=>{
-      plDragTid=item.dataset.tid;
-      e.dataTransfer.effectAllowed='move';
-      e.dataTransfer.setData('text/plain',plDragTid);
-      requestAnimationFrame(()=>item.classList.add('dragging'));
-    });
-    item.addEventListener('dragend',()=>{
-      item.classList.remove('dragging');
-      item.setAttribute('draggable','false');
-      plDragTid=null;
-      removePriorityIndicators();
-    });
-    item.addEventListener('dragover',e=>{
-      if(!plDragTid)return;
-      e.preventDefault();
-      e.dataTransfer.dropEffect='move';
-      removePriorityIndicators();
-      const rect=item.getBoundingClientRect();
-      const midY=rect.top+rect.height/2;
-      const indicator=document.createElement('div');
-      indicator.className='tb-priority-drop-indicator';
-      if(e.clientY<midY){
-        item.parentNode.insertBefore(indicator,item);
-      } else {
-        item.parentNode.insertBefore(indicator,item.nextSibling);
-      }
-    });
-    item.addEventListener('drop',e=>{
-      e.preventDefault();
+  // ── Priority List Arrow Buttons ──
+  list.querySelectorAll('.tb-priority-order-btn').forEach(btn=>{
+    btn.onclick=e=>{
       e.stopPropagation();
-      if(!plDragTid||plDragTid===item.dataset.tid){removePriorityIndicators();return}
-      const dragTask=tbTasks.find(t=>t.id===plDragTid);
-      if(!dragTask){removePriorityIndicators();return}
-      // Get all priority items in current DOM order
-      const plItems=Array.from(list.querySelectorAll('.tb-priority-item[data-tid]'));
-      const plIds=plItems.map(el=>el.dataset.tid).filter(id=>id!==plDragTid);
-      const targetIdx=plIds.indexOf(item.dataset.tid);
-      const rect=item.getBoundingClientRect();
-      const midY=rect.top+rect.height/2;
-      const insertIdx=e.clientY<midY?targetIdx:targetIdx+1;
-      plIds.splice(insertIdx,0,plDragTid);
-      // Update priorityOrder for all tasks in the list
-      plIds.forEach((id,i)=>{
-        const t=tbTasks.find(tk=>tk.id===id);
-        if(t)t.priorityOrder=i+1;
-      });
-      removePriorityIndicators();
+      const idx=parseInt(btn.dataset.idx);
+      const dir=parseInt(btn.dataset.dir);
+      const newIdx=idx+dir;
+      if(newIdx<0||newIdx>=plTasks.length)return;
+      // Swap priorityOrder
+      const a=plTasks[idx],b=plTasks[newIdx];
+      const tmpOrd=a.priorityOrder||idx+1;
+      a.priorityOrder=b.priorityOrder||newIdx+1;
+      b.priorityOrder=tmpOrd;
       saveTasks();renderTbAll();
-    });
+    };
+  });
+  // Disable first ▲ and last ▼
+  const plBtns=list.querySelectorAll('.tb-priority-order-btn');
+  plBtns.forEach(btn=>{
+    const idx=parseInt(btn.dataset.idx);
+    const dir=parseInt(btn.dataset.dir);
+    if(dir===-1&&idx===0)btn.disabled=true;
+    if(dir===1&&idx===plTasks.length-1)btn.disabled=true;
   });
 
-  // ── Drag & Drop ──
-  let dragTid=null;
-  function removeDropIndicators(){list.querySelectorAll('.tb-drop-indicator,.tb-cat-drop-indicator').forEach(el=>el.remove());list.querySelectorAll('.tb-cat-card.drag-over').forEach(el=>el.classList.remove('drag-over'))}
-
-  list.querySelectorAll('.tb-cat-task').forEach(taskEl=>{
-    // Handle-based drag: only allow drag from ≡ handle
-    taskEl.setAttribute('draggable','false');
-    const handle=taskEl.querySelector('.tb-cat-drag-handle');
-    if(handle){
-      handle.addEventListener('mousedown',()=>taskEl.setAttribute('draggable','true'));
-      handle.addEventListener('touchstart',()=>taskEl.setAttribute('draggable','true'),{passive:true});
-    }
-    taskEl.addEventListener('dragstart',e=>{
-      dragTid=taskEl.dataset.tid;
-      e.dataTransfer.effectAllowed='move';
-      e.dataTransfer.setData('text/plain',dragTid);
-      requestAnimationFrame(()=>taskEl.classList.add('dragging'));
-    });
-    taskEl.addEventListener('dragend',()=>{
-      taskEl.classList.remove('dragging');
-      taskEl.setAttribute('draggable','false');
-      dragTid=null;
-      removeDropIndicators();
-    });
-    taskEl.addEventListener('dragover',e=>{
-      e.preventDefault();
-      e.dataTransfer.dropEffect='move';
-      removeDropIndicators();
-      const card=taskEl.closest('.tb-cat-card');
-      if(card)card.classList.add('drag-over');
-      const rect=taskEl.getBoundingClientRect();
-      const midY=rect.top+rect.height/2;
-      const indicator=document.createElement('div');
-      indicator.className='tb-cat-drop-indicator';
-      if(e.clientY<midY){
-        taskEl.parentNode.insertBefore(indicator,taskEl);
-      } else {
-        taskEl.parentNode.insertBefore(indicator,taskEl.nextSibling);
-      }
-    });
-    taskEl.addEventListener('drop',e=>{
-      e.preventDefault();
+  // ── Category Task Arrow Buttons ──
+  list.querySelectorAll('.tb-cat-order-btn').forEach(btn=>{
+    btn.onclick=e=>{
       e.stopPropagation();
-      if(!dragTid||dragTid===taskEl.dataset.tid){removeDropIndicators();return}
-      const targetCat=taskEl.closest('.tb-cat-card-body')?.dataset.cat;
-      if(!targetCat){removeDropIndicators();return}
-      const dragTask=tbTasks.find(t=>t.id===dragTid);
-      if(!dragTask){removeDropIndicators();return}
-      // Change category if needed
-      dragTask.cat=targetCat;
-      // Determine insertion position
-      const rect=taskEl.getBoundingClientRect();
-      const midY=rect.top+rect.height/2;
-      const insertBefore=e.clientY<midY;
-      // Get current category tasks in DOM order, rebuild sortOrder
-      const catTasks=tbTasks.filter(t=>t.cat===targetCat&&t.id!==dragTid);
-      const targetIdx=catTasks.findIndex(t=>t.id===taskEl.dataset.tid);
-      const insertIdx=insertBefore?targetIdx:targetIdx+1;
-      catTasks.splice(insertIdx,0,dragTask);
-      catTasks.forEach((t,i)=>t.sortOrder=i+1);
-      removeDropIndicators();
+      const tid=btn.dataset.tid;
+      const catKey=btn.dataset.cat;
+      const dir=parseInt(btn.dataset.dir);
+      const catTasks=tbTasks.filter(t=>t.cat===catKey).sort((a,b)=>(a.sortOrder||0)-(b.sortOrder||0));
+      const idx=catTasks.findIndex(t=>t.id===tid);
+      if(idx<0)return;
+      const newIdx=idx+dir;
+      if(newIdx<0||newIdx>=catTasks.length)return;
+      // Swap sortOrder
+      const a=catTasks[idx],b=catTasks[newIdx];
+      const tmpOrd=a.sortOrder||idx+1;
+      a.sortOrder=b.sortOrder||newIdx+1;
+      b.sortOrder=tmpOrd;
       saveTasks();renderTbAll();
+    };
+  });
+  // Disable first ▲ and last ▼ per category
+  CATEGORIES.forEach(cat=>{
+    const btns=list.querySelectorAll('.tb-cat-order-btn[data-cat="'+cat.key+'"]');
+    const catTasks=tbTasks.filter(t=>t.cat===cat.key).sort((a,b)=>(a.sortOrder||0)-(b.sortOrder||0));
+    btns.forEach(btn=>{
+      const tid=btn.dataset.tid;
+      const dir=parseInt(btn.dataset.dir);
+      const idx=catTasks.findIndex(t=>t.id===tid);
+      if(dir===-1&&idx===0)btn.disabled=true;
+      if(dir===1&&idx===catTasks.length-1)btn.disabled=true;
     });
   });
-
-  // Allow drop on empty card bodies
-  list.querySelectorAll('.tb-cat-card-body').forEach(body=>{
-    body.addEventListener('dragover',e=>{
-      e.preventDefault();
-      e.dataTransfer.dropEffect='move';
-      const card=body.closest('.tb-cat-card');
-      if(card){removeDropIndicators();card.classList.add('drag-over')}
-    });
-    body.addEventListener('dragleave',e=>{
-      if(!body.contains(e.relatedTarget)){
-        const card=body.closest('.tb-cat-card');
-        if(card)card.classList.remove('drag-over');
-      }
-    });
-    body.addEventListener('drop',e=>{
-      e.preventDefault();
-      if(!dragTid)return;
-      const targetCat=body.dataset.cat;
-      const dragTask=tbTasks.find(t=>t.id===dragTid);
-      if(!dragTask||!targetCat){removeDropIndicators();return}
-      dragTask.cat=targetCat;
-      // Append to end of category
-      const catTasks=tbTasks.filter(t=>t.cat===targetCat);
-      const maxOrder=catTasks.reduce((m,t)=>Math.max(m,t.sortOrder||0),0);
-      dragTask.sortOrder=maxOrder+1;
-      // Reassign all sortOrders for this category
-      const sorted=tbTasks.filter(t=>t.cat===targetCat);
-      sorted.sort((a,b)=>(a.sortOrder||0)-(b.sortOrder||0));
-      sorted.forEach((t,i)=>t.sortOrder=i+1);
-      removeDropIndicators();
-      saveTasks();renderTbAll();
-    });
-  });
+  // (drag & drop removed — arrow buttons handle reordering)
 }
 
 function escapeHtml(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;')}
