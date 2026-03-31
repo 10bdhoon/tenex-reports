@@ -1,5 +1,5 @@
 {
-  "updated": "2026-03-30T17:00",
+  "updated": "2026-03-31T15:55",
   "tasks": [
     {
       "id": "t01",
@@ -398,11 +398,11 @@
       "title": "기보 컨택",
       "cat": "F",
       "urgency": "yellow",
-      "importance": "중",
+      "importance": "상",
       "status": "waiting",
       "assignee": "태훈",
       "due": null,
-      "desc": "기술보증기금",
+      "desc": "현석님 조언: 기보가 신보보다 규모 큼. 기술 있으면 기보 유리. 연대보증 폐지됨. 받을 수 있는 건 전부 받아라.",
       "checklist": [],
       "memo": "",
       "_source": "json",
@@ -414,11 +414,11 @@
       "title": "신보 컨택",
       "cat": "F",
       "urgency": "yellow",
-      "importance": "중",
+      "importance": "상",
       "status": "waiting",
       "assignee": "태훈",
       "due": null,
-      "desc": "신용보증기금",
+      "desc": "현석님 사례: 연매출 15억인데 5억 대출. 금리 1.5% 수준. 기보와 병행 신청.",
       "checklist": [],
       "memo": "",
       "_source": "json",
@@ -465,6 +465,35 @@
           "done": false
         }
       ]
+    },
+    {
+      "id": "t24",
+      "title": "Google Workspace 도입 + 전사 AI 연동",
+      "cat": "I",
+      "urgency": "yellow",
+      "importance": "상",
+      "status": "waiting",
+      "assignee": "태훈",
+      "due": null,
+      "desc": "현석님 모델: 팀원 업무기록→AI 전사맥락 파악. 노션+슬랙 자동캡처로 추가행위 없이. 인규/제형 온보딩 필요.",
+      "checklist": [
+        {
+          "text": "Google Workspace 가입 (법인 메일 겸용)",
+          "done": false
+        },
+        {
+          "text": "인규/제형 슬랙+노션 실사용 온보딩",
+          "done": false
+        },
+        {
+          "text": "AI 전사 맥락 파악 구조 설계",
+          "done": false
+        }
+      ],
+      "memo": "현석님(연매출200억) 인사이트 기반",
+      "_source": "json",
+      "sortOrder": 23,
+      "priorityOrder": 5
     }
   ],
   "agents": [
