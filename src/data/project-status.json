@@ -519,6 +519,31 @@
       "_source": "json",
       "sortOrder": 24,
       "priorityOrder": 2
+    },
+    {
+      "id": "t26",
+      "title": "모사모 복습",
+      "cat": "E",
+      "urgency": "red",
+      "importance": "상",
+      "status": "todo",
+      "assignee": "태훈",
+      "due": "2026-04-01",
+      "desc": "모사모 수업 내용 정리 및 복습.",
+      "checklist": [
+        {
+          "text": "모사모 수업 내용 정리",
+          "done": false
+        },
+        {
+          "text": "핵심 인사이트 도출",
+          "done": false
+        }
+      ],
+      "memo": "",
+      "_source": "json",
+      "sortOrder": 25,
+      "priorityOrder": 2
     }
   ],
   "agents": [
