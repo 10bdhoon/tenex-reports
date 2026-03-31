@@ -1,5 +1,5 @@
 {
-  "updated": "2026-03-31T16:05",
+  "updated": "2026-03-31T16:06",
   "tasks": [
     {
       "id": "t01",
@@ -524,11 +524,11 @@
       "id": "t26",
       "title": "모사모 복습",
       "cat": "E",
-      "urgency": "red",
+      "urgency": "green",
       "importance": "상",
       "status": "todo",
       "assignee": "태훈",
-      "due": "2026-04-01",
+      "due": null,
       "desc": "모사모 수업 내용 정리 및 복습.",
       "checklist": [
         {
