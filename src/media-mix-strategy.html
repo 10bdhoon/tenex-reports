@@ -48,6 +48,12 @@
   .channel-card .ch-name { font-size: 16px; font-weight: 700; color: #fff; }
   .channel-card .ch-sub { font-size: 12px; color: #8b949e; }
   .channel-card .ch-stat { font-size: 13px; color: #d29922; margin-bottom: 10px; font-weight: 600; }
+  .ch-metrics{display:grid;grid-template-columns:1fr 1fr;gap:6px 12px;margin-bottom:12px;padding:10px 12px;background:#0d1117;border:1px solid #21262d;border-radius:8px}
+  .ch-metric{display:flex;justify-content:space-between;align-items:center;font-size:12px;padding:2px 0}
+  .ch-metric .mk{color:#64748b;font-weight:500}
+  .ch-metric .mv{color:#e2e8f0;font-weight:600}
+  .ch-metric .mv.est{color:#d29922;font-style:italic}
+  .ch-metric .mv.na{color:#475569}
   .channel-card .pros-cons { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 10px; }
   .channel-card .pros { font-size: 12px; color: #3fb950; }
   .channel-card .cons { font-size: 12px; color: #f85149; }
@@ -201,7 +207,12 @@
         <div class="ch-sub">현재 주력 채널</div>
       </div>
     </div>
-    <div class="ch-stat">Health &amp; Wellness CPM +38% YoY · CPA $38.55</div>
+    <div class="ch-metrics">
+      <div class="ch-metric"><span class="mk">CPM</span><span class="mv">₩15,800 <small style="color:#f85149">(+38% YoY)</small></span></div>
+      <div class="ch-metric"><span class="mk">CPC</span><span class="mv">₩580</span></div>
+      <div class="ch-metric"><span class="mk">CVR</span><span class="mv">1.8~2.9%</span></div>
+      <div class="ch-metric"><span class="mk">ROAS</span><span class="mv">3.32x (ES-808)</span></div>
+    </div>
     <p style="font-size:13px;color:#8b949e;line-height:1.7;">
       Health &amp; Wellness 카테고리 CPM이 전년 대비 38% 상승(Triple Whale 2025, 35K 브랜드 기준). 현재 테넥스 광고비의 100% 집중. 정밀 타겟팅 및 UGC 소재 최적화 가능하나 오디언스 포화 리스크.
     </p>
@@ -226,7 +237,12 @@
         <div class="ch-sub">브랜드 인지 + 리타겟팅</div>
       </div>
     </div>
-    <div class="ch-stat">CPV $0.02~0.05 · ⚠️ 업계 평균 추정</div>
+    <div class="ch-metrics">
+      <div class="ch-metric"><span class="mk">CPM</span><span class="mv est">₩12,000~18,000 (추정)</span></div>
+      <div class="ch-metric"><span class="mk">CPC</span><span class="mv est">₩300~750 (추정)</span></div>
+      <div class="ch-metric"><span class="mk">CVR</span><span class="mv est">0.5~1.5% (추정)</span></div>
+      <div class="ch-metric"><span class="mk">ROAS</span><span class="mv est">2.0~3.0x (추정)</span></div>
+    </div>
     <p style="font-size:13px;color:#8b949e;line-height:1.7;">
       장편 영상으로 EMS/TENS 원리 교육 콘텐츠 제작 가능. 1분도수 유튜브 채널 보유로 시너지 기대. 쇼핑 태그 연동으로 직접 전환 가능. 초기 학습 비용 및 제작 리소스 투입 필요.
     </p>
@@ -251,7 +267,12 @@
         <div class="ch-sub">숏폼 · 젊은층</div>
       </div>
     </div>
-    <div class="ch-stat">CPC $1.95 · CPM $9.00 · Spark Ads CPC ~$0.40</div>
+    <div class="ch-metrics">
+      <div class="ch-metric"><span class="mk">CPM</span><span class="mv">₩13,000 ($9.00)</span></div>
+      <div class="ch-metric"><span class="mk">CPC</span><span class="mv">₩2,800 ($1.95) / Spark ₩580</span></div>
+      <div class="ch-metric"><span class="mk">CVR</span><span class="mv">~0.6% (낮음)</span></div>
+      <div class="ch-metric"><span class="mk">ROAS</span><span class="mv est">1.5~2.5x (추정)</span></div>
+    </div>
     <p style="font-size:13px;color:#8b949e;line-height:1.7;">
       AdBacklog 2025 기준 Retail CPC $1.95, CPM $9.00. Spark Ads는 CPC ~$0.40로 비용 효율 우수. 저CPM으로 바이럴 도달 가능하나 주요 타겟 연령(40~60대)과의 미스매치 주의.
     </p>
@@ -276,7 +297,12 @@
         <div class="ch-sub">검색의도 기반 · 한국 특화</div>
       </div>
     </div>
-    <div class="ch-stat">쇼핑검색 점유율 72% · CVR 3~5%</div>
+    <div class="ch-metrics">
+      <div class="ch-metric"><span class="mk">CPM</span><span class="mv est">₩8,000~15,000 (추정)</span></div>
+      <div class="ch-metric"><span class="mk">CPC</span><span class="mv est">₩300~1,500 (키워드별)</span></div>
+      <div class="ch-metric"><span class="mk">CVR</span><span class="mv">3~5% (고전환)</span></div>
+      <div class="ch-metric"><span class="mk">ROAS</span><span class="mv est">4.0~6.0x (추정)</span></div>
+    </div>
     <p style="font-size:13px;color:#8b949e;line-height:1.7;">
       국내 쇼핑검색 점유율 72% 보유. 구매 의도가 높은 사용자에게 노출 가능. CVR 3~5%로 메타 대비 전환율 우수. 경추/마사지 카테고리 검색 볼륨 활용. 클릭 비용은 키워드 경쟁에 따라 변동.
     </p>
@@ -301,7 +327,12 @@
         <div class="ch-sub">카톡 DAU 4,700만+</div>
       </div>
     </div>
-    <div class="ch-stat">DAU 4,700만+ · 알림톡 시너지</div>
+    <div class="ch-metrics">
+      <div class="ch-metric"><span class="mk">CPM</span><span class="mv est">₩5,000~12,000 (추정)</span></div>
+      <div class="ch-metric"><span class="mk">CPC</span><span class="mv est">₩200~800 (추정)</span></div>
+      <div class="ch-metric"><span class="mk">CVR</span><span class="mv est">1~3% (추정)</span></div>
+      <div class="ch-metric"><span class="mk">ROAS</span><span class="mv est">3.0~5.0x (추정)</span></div>
+    </div>
     <p style="font-size:13px;color:#8b949e;line-height:1.7;">
       국내 최대 메신저 기반 광고 플랫폼. 카카오톡 알림톡 연계로 CRM 리타겟팅 시너지. 기존 고객 재구매 유도에 효과적. 메시지 광고로 개인화 커뮤니케이션 가능. 타겟팅 정밀도는 메타 대비 낮음.
     </p>
@@ -326,7 +357,12 @@
         <div class="ch-sub">글로벌 · 리타겟팅</div>
       </div>
     </div>
-    <div class="ch-stat">Electronics ROAS ~6.0x (AdBacklog 2025)</div>
+    <div class="ch-metrics">
+      <div class="ch-metric"><span class="mk">CPM</span><span class="mv est">₩3,000~8,000 (추정)</span></div>
+      <div class="ch-metric"><span class="mk">CPC</span><span class="mv est">₩500~2,000 (추정)</span></div>
+      <div class="ch-metric"><span class="mk">CVR</span><span class="mv est">1~3% (추정)</span></div>
+      <div class="ch-metric"><span class="mk">ROAS</span><span class="mv">~6.0x (Electronics)</span></div>
+    </div>
     <p style="font-size:13px;color:#8b949e;line-height:1.7;">
       AdBacklog 2025 기준 Electronics 카테고리 Google Shopping ROAS ~6.0x. 해외 확장(일본, 동남아) 시 필수 채널. 리타겟팅 효율 우수. 국내 쇼핑 검색에서는 네이버 대비 점유율 낮음.
     </p>
