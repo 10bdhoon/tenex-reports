@@ -133,6 +133,7 @@ tr:hover td{background:#1e293b80}
     <a href="#income">손익요약</a>
     <a href="#sgna">판관비분석</a>
     <a href="#ratios">비율추이</a>
+    <a href="#revenue-mix">매출구성</a>
     <a href="#compare">비교인사이트</a>
   </div>
 </nav>
@@ -398,7 +399,188 @@ tr:hover td{background:#1e293b80}
   </div>
 </div>
 
-<!-- 6. 키네메디칼 vs APR 비교 -->
+<!-- 6. 사업부별 매출 구성 -->
+<div class="section" id="revenue-mix">
+  <div class="section-title">사업부별 매출 구성 (연결 기준)</div>
+
+  <div class="kpi-row">
+    <div class="kpi-box blue">
+      <div class="kpi-label">화장품 (2025)</div>
+      <div class="kpi-value">~1.12조</div>
+      <div class="kpi-sub">YoY +250%</div>
+    </div>
+    <div class="kpi-box green">
+      <div class="kpi-label">뷰티 디바이스 (2025)</div>
+      <div class="kpi-value">~4,070억</div>
+      <div class="kpi-sub">YoY +16%</div>
+    </div>
+    <div class="kpi-box orange">
+      <div class="kpi-label">화장품 4Q 단독</div>
+      <div class="kpi-value">4,128억</div>
+      <div class="kpi-sub">연간 1조 돌파</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>사업부별 매출 추이</h3>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>구분</th>
+            <th class="text-right">2024</th>
+            <th class="text-right">2025</th>
+            <th class="text-right">증감</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>화장품</td><td class="text-right">~3,200</td><td class="text-right" style="font-weight:700;color:#60a5fa">~11,200</td><td class="text-right positive">+250%</td></tr>
+          <tr><td>뷰티 디바이스</td><td class="text-right">~3,500</td><td class="text-right">~4,070</td><td class="text-right positive">+16%</td></tr>
+          <tr><td>기타</td><td class="text-right">~500</td><td class="text-right">~3</td><td class="text-right">-</td></tr>
+          <tr class="highlight-row" style="font-weight:700">
+            <td>합계</td>
+            <td class="text-right">7,228</td>
+            <td class="text-right" style="color:#60a5fa">15,273</td>
+            <td class="text-right positive">+111%</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div style="font-size:12px;color:#64748b;margin-top:8px">* 단위: 억원 (연결 기준). ⚠️ 사업부별 수치는 IR 자료 기반 추정</div>
+  </div>
+
+  <div class="chart-box">
+    <canvas id="bizSegChart"></canvas>
+  </div>
+
+  <div class="insight-box">
+    <h4>핵심 시사점</h4>
+    <ul>
+      <li><strong>화장품이 성장 엔진</strong> &mdash; 2025년 매출 비중 73%. 전년 대비 +250% 폭발적 성장, 4Q만 4,128억으로 연간 1조 돌파</li>
+      <li><strong>디바이스는 안정적 캐시카우</strong> &mdash; +16% 꾸준한 성장. 높은 마진으로 수익 기반 역할</li>
+    </ul>
+  </div>
+</div>
+
+<!-- 7. 내수 vs 수출 -->
+<div class="section" id="domestic-export">
+  <div class="section-title">내수 vs 수출 (해외 매출 비중)</div>
+
+  <div class="kpi-row">
+    <div class="kpi-box blue">
+      <div class="kpi-label">해외 매출 비중 (2025)</div>
+      <div class="kpi-value">79%</div>
+      <div class="kpi-sub">2024: 56% &rarr; +23%p</div>
+    </div>
+    <div class="kpi-box green">
+      <div class="kpi-label">미국 매출 비중</div>
+      <div class="kpi-value">37%</div>
+      <div class="kpi-sub">~5,651억 (YoY +255%)</div>
+    </div>
+    <div class="kpi-box orange">
+      <div class="kpi-label">일본 4Q 성장률</div>
+      <div class="kpi-value">+289%</div>
+      <div class="kpi-sub">신규 고성장 시장</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>내수 vs 수출 매출</h3>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>구분</th>
+            <th class="text-right">2024</th>
+            <th class="text-right">비중</th>
+            <th class="text-right">2025</th>
+            <th class="text-right">비중</th>
+            <th class="text-right">증감</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>내수</td><td class="text-right">3,186</td><td class="text-right">44%</td><td class="text-right">3,230</td><td class="text-right">21%</td><td class="text-right positive">+1%</td></tr>
+          <tr><td>해외(수출)</td><td class="text-right">4,042</td><td class="text-right">56%</td><td class="text-right" style="font-weight:700;color:#60a5fa">12,043</td><td class="text-right">79%</td><td class="text-right positive">+198%</td></tr>
+          <tr><td>&nbsp;&nbsp;- 미국</td><td class="text-right">~1,590</td><td class="text-right">22%</td><td class="text-right">~5,651</td><td class="text-right">37%</td><td class="text-right positive">+255%</td></tr>
+          <tr><td>&nbsp;&nbsp;- 일본</td><td class="text-right">-</td><td class="text-right">-</td><td class="text-right" colspan="2">4Q 289% 성장</td><td class="text-right positive">-</td></tr>
+          <tr class="highlight-row" style="font-weight:700">
+            <td>합계</td>
+            <td class="text-right">7,228</td>
+            <td class="text-right">100%</td>
+            <td class="text-right">15,273</td>
+            <td class="text-right">100%</td>
+            <td class="text-right positive">+111%</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div style="font-size:12px;color:#64748b;margin-top:8px">* 단위: 억원 (연결 기준)</div>
+  </div>
+
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px">
+    <div class="chart-box">
+      <h3 style="font-size:14px;font-weight:600;margin-bottom:12px;color:#f1f5f9">2024 내수/수출 비중</h3>
+      <canvas id="domeExpChart2024"></canvas>
+    </div>
+    <div class="chart-box">
+      <h3 style="font-size:14px;font-weight:600;margin-bottom:12px;color:#f1f5f9">2025 내수/수출 비중</h3>
+      <canvas id="domeExpChart2025"></canvas>
+    </div>
+  </div>
+
+  <div class="insight-box">
+    <h4>핵심 시사점</h4>
+    <ul>
+      <li><strong>해외 매출이 성장을 견인</strong> &mdash; 해외 비중 56%→79%로 급증. 해외 매출 +198% 성장이 전체 +111% 성장의 핵심 동력</li>
+      <li><strong>미국이 최대 해외 시장</strong> &mdash; 미국 비중 22%→37%, +255% 성장. 아마존·얼타뷰티 등 멀티채널 전략 효과</li>
+      <li><strong>일본 시장 폭발적 진입</strong> &mdash; 4Q 289% 성장률로 차세대 핵심 시장 부상</li>
+    </ul>
+  </div>
+</div>
+
+<!-- 8. 판매 채널별 매출 (추정) -->
+<div class="section" id="channel-mix">
+  <div class="section-title">판매 채널별 매출 (추정) ⚠️</div>
+
+  <div class="card">
+    <h3>2025 채널별 매출 비중 추정</h3>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>채널</th>
+            <th class="text-right">2025 추정 비중</th>
+            <th>비고</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>자사몰 (medicube.com 등)</td><td class="text-right">약 30%</td><td>D2C, 높은 마진</td></tr>
+          <tr><td>아마존</td><td class="text-right">약 25%</td><td>미국 매출 핵심</td></tr>
+          <tr><td>올리브영/국내 오프라인</td><td class="text-right">약 10%</td><td>국내 유통</td></tr>
+          <tr><td>쇼피/동남아</td><td class="text-right">약 8%</td><td>동남아 확장</td></tr>
+          <tr><td>얼타뷰티 (B2B)</td><td class="text-right">약 5~8%</td><td>4Q에만 160억</td></tr>
+          <tr><td>기타 온라인/B2B</td><td class="text-right">약 22%</td><td>일본, 유럽 등</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div style="font-size:12px;color:#f59e0b;margin-top:8px">⚠️ 정확한 채널별 매출은 미공개. IR 자료 + 공개 정보 기반 추정</div>
+  </div>
+
+  <div class="chart-box">
+    <canvas id="channelChart"></canvas>
+  </div>
+
+  <div class="insight-box">
+    <h4>핵심 시사점</h4>
+    <ul>
+      <li><strong>D2C 자사몰 비중 ~30%</strong> &mdash; 가장 높은 마진 채널. 브랜드 충성도와 데이터 확보의 핵심</li>
+      <li><strong>아마존 ~25%로 2위</strong> &mdash; 미국 시장 공략의 최전선. 검색 노출·리뷰 기반 성장</li>
+      <li><strong>얼타뷰티 B2B 채널 성장 주목</strong> &mdash; 4Q 단독 160억 기록. 오프라인 확장의 신호탄</li>
+    </ul>
+  </div>
+</div>
+
+<!-- 9. 키네메디칼 vs APR 비교 -->
 <div class="section" id="compare">
   <div class="section-title">키네메디칼 vs APR 비교</div>
 
@@ -580,6 +762,100 @@ new Chart(document.getElementById('ratioChart'), {
     scales: {
       y: { grid: { color: gridColor }, ticks: { callback: v => v + '%' }, min: 0, max: 75 },
       x: { grid: { display: false } }
+    }
+  }
+});
+
+// 5. 사업부별 매출 Stacked Bar
+new Chart(document.getElementById('bizSegChart'), {
+  type: 'bar',
+  data: {
+    labels: ['2024', '2025'],
+    datasets: [
+      { label: '화장품', data: [3200, 11200], backgroundColor: '#3b82f6', borderRadius: 4 },
+      { label: '뷰티 디바이스', data: [3500, 4070], backgroundColor: '#22c55e', borderRadius: 4 },
+      { label: '기타', data: [500, 3], backgroundColor: '#64748b', borderRadius: 4 }
+    ]
+  },
+  options: {
+    responsive: true,
+    plugins: {
+      legend: { position: 'top' },
+      title: { display: true, text: '사업부별 매출 구성 (억원, ⚠️ 추정)', color: '#f1f5f9', font: { size: 15, weight: '600' } },
+      tooltip: { callbacks: { label: ctx => ctx.dataset.label + ': ~' + ctx.raw.toLocaleString() + '억원' } }
+    },
+    scales: {
+      x: { stacked: true, grid: { display: false } },
+      y: { stacked: true, grid: { color: gridColor }, ticks: { callback: v => v.toLocaleString() } }
+    }
+  }
+});
+
+// 6. 내수 vs 수출 Doughnut (2024)
+new Chart(document.getElementById('domeExpChart2024'), {
+  type: 'doughnut',
+  data: {
+    labels: ['내수', '미국', '기타 해외'],
+    datasets: [{
+      data: [3186, 1590, 2452],
+      backgroundColor: ['#3b82f6', '#f87171', '#f59e0b'],
+      borderColor: '#0f172a',
+      borderWidth: 2
+    }]
+  },
+  options: {
+    responsive: true,
+    plugins: {
+      legend: { position: 'bottom', labels: { padding: 12, usePointStyle: true } },
+      tooltip: { callbacks: { label: ctx => ctx.label + ': ~' + ctx.raw.toLocaleString() + '억원 (' + (ctx.raw / 7228 * 100).toFixed(1) + '%)' } }
+    }
+  }
+});
+
+// 7. 내수 vs 수출 Doughnut (2025)
+new Chart(document.getElementById('domeExpChart2025'), {
+  type: 'doughnut',
+  data: {
+    labels: ['내수', '미국', '기타 해외'],
+    datasets: [{
+      data: [3230, 5651, 6392],
+      backgroundColor: ['#3b82f6', '#f87171', '#f59e0b'],
+      borderColor: '#0f172a',
+      borderWidth: 2
+    }]
+  },
+  options: {
+    responsive: true,
+    plugins: {
+      legend: { position: 'bottom', labels: { padding: 12, usePointStyle: true } },
+      tooltip: { callbacks: { label: ctx => ctx.label + ': ~' + ctx.raw.toLocaleString() + '억원 (' + (ctx.raw / 15273 * 100).toFixed(1) + '%)' } }
+    }
+  }
+});
+
+// 8. 채널별 비중 Horizontal Bar
+new Chart(document.getElementById('channelChart'), {
+  type: 'bar',
+  data: {
+    labels: ['자사몰 (D2C)', '아마존', '기타 온라인/B2B', '올리브영/국내', '쇼피/동남아', '얼타뷰티'],
+    datasets: [{
+      label: '추정 비중 (%)',
+      data: [30, 25, 22, 10, 8, 6.5],
+      backgroundColor: ['#3b82f6', '#f87171', '#64748b', '#22c55e', '#a78bfa', '#f59e0b'],
+      borderRadius: 4
+    }]
+  },
+  options: {
+    indexAxis: 'y',
+    responsive: true,
+    plugins: {
+      legend: { display: false },
+      title: { display: true, text: '2025 판매 채널별 매출 비중 (⚠️ 추정)', color: '#f1f5f9', font: { size: 15, weight: '600' } },
+      tooltip: { callbacks: { label: ctx => '약 ' + ctx.raw + '%' } }
+    },
+    scales: {
+      x: { grid: { color: gridColor }, ticks: { callback: v => v + '%' }, max: 35 },
+      y: { grid: { display: false } }
     }
   }
 });
