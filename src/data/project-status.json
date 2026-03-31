@@ -1,5 +1,5 @@
 {
-  "updated": "2026-03-31T15:55",
+  "updated": "2026-03-31T16:05",
   "tasks": [
     {
       "id": "t01",
@@ -494,6 +494,31 @@
       "_source": "json",
       "sortOrder": 23,
       "priorityOrder": 5
+    },
+    {
+      "id": "t25",
+      "title": "자사교 스프린트 수업 복습",
+      "cat": "E",
+      "urgency": "red",
+      "importance": "상",
+      "status": "todo",
+      "assignee": "태훈",
+      "due": "2026-04-01",
+      "desc": "자사교 6기 스프린트 관련 수업 내용 정리 및 복습. 내일(4/1) 필수.",
+      "checklist": [
+        {
+          "text": "스프린트 수업 내용 정리",
+          "done": false
+        },
+        {
+          "text": "우리 사업에 적용점 도출",
+          "done": false
+        }
+      ],
+      "memo": "3/31 수업 중 태훈 메모",
+      "_source": "json",
+      "sortOrder": 24,
+      "priorityOrder": 2
     }
   ],
   "agents": [
