@@ -40,6 +40,10 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 .task-order-btn:hover{background:#334155;color:#f1f5f9;border-color:#3b82f6}
 .task-order-btn:active{background:#3b82f6;color:#fff}
 .task-order-btn:disabled{opacity:.2;cursor:default;pointer-events:none}
+.task-order-num{min-width:28px;height:28px;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:#64748b;background:#0f172a;border:1px solid #334155;border-radius:6px;cursor:pointer;transition:all .15s;flex-shrink:0;user-select:none}
+.task-order-num:hover{border-color:#3b82f6;color:#3b82f6;background:#1e293b}
+.task-order-input{width:36px;height:28px;background:#0f172a;border:2px solid #3b82f6;border-radius:6px;color:#f1f5f9;font-size:12px;font-weight:700;text-align:center;outline:none;flex-shrink:0;-moz-appearance:textfield}
+.task-order-input::-webkit-outer-spin-button,.task-order-input::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
 .task-status{font-size:16px;flex-shrink:0;width:22px;text-align:center}
 .task-name{font-size:13px;color:#cbd5e1;flex:1}
 .task-item.done .task-name{text-decoration:line-through;color:#475569}
@@ -382,10 +386,7 @@ function renderAgents() {
       <div class="task-list">
         ${agent.tasks.map((task, idx) => `
           <div class="task-item ${task.status === 'done' ? 'done' : task.status === 'delay' ? 'delay' : ''}">
-            <div class="task-order-btns">
-              <button class="task-order-btn" onclick="event.stopPropagation();moveTask('${agent.id}',${idx},-1)" title="위로 이동" ${idx === 0 ? 'disabled' : ''}>▲</button>
-              <button class="task-order-btn" onclick="event.stopPropagation();moveTask('${agent.id}',${idx},1)" title="아래로 이동" ${idx === agent.tasks.length - 1 ? 'disabled' : ''}>▼</button>
-            </div>
+            <span class="task-order-num" onclick="event.stopPropagation();startOrderEdit(this,'${agent.id}',${idx})" title="클릭하여 순서 변경">${idx + 1}</span>
             <span class="task-status" onclick="toggleTask('${agent.id}','${task.id}')" title="클릭하여 상태 변경">${STATUS_EMOJI[task.status] || '⏳'}</span>
             <span class="task-name" onclick="openPanel('${agent.id}','${task.id}')" title="상세보기">${task.name}</span>
             <button class="task-detail-btn" onclick="openPanel('${agent.id}','${task.id}')" title="상세보기">▶</button>
@@ -409,15 +410,44 @@ function renderActions() {
   `).join('');
 }
 
-function moveTask(agentId, idx, direction) {
+function startOrderEdit(el, agentId, idx) {
   const agent = agents.find(a => a.id === agentId);
   if (!agent) return;
-  const newIdx = idx + direction;
-  if (newIdx < 0 || newIdx >= agent.tasks.length) return;
-  // Swap tasks
-  const temp = agent.tasks[idx];
-  agent.tasks[idx] = agent.tasks[newIdx];
-  agent.tasks[newIdx] = temp;
+  const total = agent.tasks.length;
+  const input = document.createElement('input');
+  input.type = 'number';
+  input.className = 'task-order-input';
+  input.value = idx + 1;
+  input.min = 1;
+  input.max = total;
+  el.replaceWith(input);
+  input.focus();
+  input.select();
+
+  function commit() {
+    let newPos = parseInt(input.value, 10);
+    if (isNaN(newPos) || newPos < 1) newPos = 1;
+    if (newPos > total) newPos = total;
+    const newIdx = newPos - 1;
+    if (newIdx !== idx) {
+      reorderTask(agentId, idx, newIdx);
+    } else {
+      renderAgents();
+    }
+  }
+
+  input.addEventListener('blur', commit);
+  input.addEventListener('keydown', e => {
+    if (e.key === 'Enter') { e.preventDefault(); input.blur(); }
+    if (e.key === 'Escape') { e.preventDefault(); renderAgents(); }
+  });
+}
+
+function reorderTask(agentId, fromIdx, toIdx) {
+  const agent = agents.find(a => a.id === agentId);
+  if (!agent) return;
+  const [task] = agent.tasks.splice(fromIdx, 1);
+  agent.tasks.splice(toIdx, 0, task);
   saveData();
   renderAgents();
 }
