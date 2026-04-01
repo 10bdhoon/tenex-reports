@@ -4,526 +4,411 @@
 <script src="auth.js"></script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>테넥스 OS v1 기획서</title>
+<title>테넥스 OS v2 기획서</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#0f172a;color:#e2e8f0;min-height:100vh}
 .header{background:#1a1a2e;padding:20px 32px;display:flex;align-items:center;gap:16px;border-bottom:1px solid #334155}
 .header h1{font-size:20px;font-weight:700}
 .header .sub{font-size:12px;color:#64748b;margin-left:4px}
+.header .v-badge{background:rgba(59,130,246,0.15);color:#60a5fa;font-size:11px;font-weight:700;padding:2px 8px;border-radius:4px}
 .header a{color:#8b8ba7;font-size:13px;text-decoration:none;margin-left:auto}
 .header a:hover{color:#fff}
 .content{max-width:1000px;margin:0 auto;padding:28px 24px 80px}
-.section{margin-bottom:36px}
+.section{margin-bottom:40px}
 .sec-title{font-size:18px;font-weight:700;color:#f1f5f9;margin-bottom:16px;display:flex;align-items:center;gap:10px}
 .sec-title .emoji{font-size:22px}
 
 /* Vision */
 .vision-card{background:linear-gradient(135deg,#1e293b,#0f172a);border:1px solid #3b82f6;border-radius:16px;padding:32px;text-align:center;position:relative;overflow:hidden}
 .vision-card::before{content:'';position:absolute;top:-50%;left:-50%;width:200%;height:200%;background:radial-gradient(circle,rgba(59,130,246,0.08) 0%,transparent 60%);pointer-events:none}
-.vision-quote{font-size:20px;font-weight:700;color:#f1f5f9;line-height:1.6;margin-bottom:16px;position:relative}
-.vision-sub{font-size:14px;color:#94a3b8;line-height:1.8}
-.vision-sub span{display:block}
+.vision-quote{font-size:19px;font-weight:700;color:#f1f5f9;line-height:1.6;margin-bottom:16px;position:relative}
+.vision-compare{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:20px;position:relative}
+.vision-box{padding:16px;border-radius:10px;font-size:13px;line-height:1.6}
+.vision-box.v1{background:rgba(100,116,139,0.15);border:1px solid #475569;color:#94a3b8}
+.vision-box.v2{background:rgba(59,130,246,0.1);border:1px solid #3b82f6;color:#93c5fd}
+.vision-box strong{display:block;font-size:14px;margin-bottom:6px}
 
 /* Person Cards */
-.person-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:16px}
-.person-card{background:#1e293b;border:1px solid #334155;border-radius:12px;padding:20px;transition:all .2s}
+.person-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:14px}
+.person-card{background:#1e293b;border:1px solid #334155;border-radius:12px;padding:18px;transition:all .2s}
 .person-card:hover{border-color:#3b82f6;box-shadow:0 4px 16px rgba(59,130,246,0.15)}
-.person-icon{font-size:36px;margin-bottom:10px}
-.person-name{font-size:16px;font-weight:700;color:#f1f5f9;margin-bottom:4px}
-.person-role{font-size:12px;color:#64748b;margin-bottom:12px}
-.person-list{list-style:none;display:flex;flex-direction:column;gap:6px}
-.person-list li{font-size:13px;color:#94a3b8;padding-left:6px}
+.person-card.new{border-color:#f59e0b}
+.person-icon{font-size:32px;margin-bottom:8px}
+.person-name{font-size:15px;font-weight:700;color:#f1f5f9;margin-bottom:3px}
+.person-role{font-size:11px;color:#64748b;margin-bottom:10px}
+.person-list{list-style:none;display:flex;flex-direction:column;gap:4px}
+.person-list li{font-size:12px;color:#94a3b8}
+.new-tag{display:inline-block;background:rgba(245,158,11,0.15);color:#fbbf24;font-size:9px;font-weight:700;padding:1px 5px;border-radius:3px;margin-left:4px;vertical-align:middle}
+
+/* Architecture */
+.arch-diagram{display:flex;flex-direction:column;gap:10px;align-items:center}
+.arch-layer{width:100%;background:#1e293b;border:1px solid #334155;border-radius:12px;padding:18px;text-align:center}
+.arch-label{font-size:13px;font-weight:700;margin-bottom:10px}
+.arch-badges{display:flex;flex-wrap:wrap;gap:6px;justify-content:center}
+.arch-badge{padding:3px 10px;border-radius:5px;font-size:11px;font-weight:600;background:#0f172a;border:1px solid #334155;color:#94a3b8}
+.arch-arrow{font-size:18px;color:#475569}
 
 /* Progress Bar */
-.progress-wrap{background:#1e293b;border:1px solid #334155;border-radius:12px;padding:20px;margin-bottom:16px}
-.progress-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
+.progress-wrap{background:#1e293b;border:1px solid #334155;border-radius:12px;padding:18px;margin-bottom:14px}
+.progress-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
 .progress-label{font-size:14px;font-weight:600;color:#f1f5f9}
-.progress-pct{font-size:24px;font-weight:800;color:#10B981}
-.progress-track{height:12px;background:#0f172a;border-radius:6px;overflow:hidden}
-.progress-fill{height:100%;border-radius:6px;background:linear-gradient(90deg,#10B981,#34D399);transition:width .8s ease}
+.progress-pct{font-size:22px;font-weight:800;color:#10B981}
+.progress-track{height:10px;background:#0f172a;border-radius:5px;overflow:hidden}
+.progress-fill{height:100%;border-radius:5px;background:linear-gradient(90deg,#10B981,#34D399);transition:width .8s ease}
 
 /* Table */
 .tbl-wrap{overflow-x:auto}
-table{width:100%;border-collapse:collapse;font-size:13px}
-thead th{background:#1a1a2e;color:#64748b;text-transform:uppercase;font-size:11px;letter-spacing:.5px;padding:10px 12px;text-align:left;border-bottom:1px solid #334155}
-tbody td{padding:10px 12px;border-bottom:1px solid rgba(51,65,85,0.4);color:#cbd5e1}
+table{width:100%;border-collapse:collapse;font-size:12px}
+thead th{background:#1a1a2e;color:#64748b;text-transform:uppercase;font-size:10px;letter-spacing:.5px;padding:8px 10px;text-align:left;border-bottom:1px solid #334155}
+tbody td{padding:8px 10px;border-bottom:1px solid rgba(51,65,85,0.4);color:#cbd5e1}
 tbody tr:hover{background:rgba(30,58,95,0.2)}
-.badge{display:inline-block;padding:2px 8px;border-radius:4px;font-size:11px;font-weight:600}
+.badge{display:inline-block;padding:2px 7px;border-radius:4px;font-size:10px;font-weight:600}
 .badge.ok{background:rgba(16,185,129,0.15);color:#34d399}
 .badge.wip{background:rgba(59,130,246,0.15);color:#60a5fa}
 .badge.todo{background:rgba(100,116,139,0.15);color:#94a3b8}
+.badge.warn{background:rgba(245,158,11,0.15);color:#fbbf24}
 
-/* Architecture */
-.arch-diagram{display:flex;flex-direction:column;gap:12px;align-items:center}
-.arch-layer{width:100%;background:#1e293b;border:1px solid #334155;border-radius:12px;padding:20px;text-align:center;position:relative}
-.arch-layer.frontend{border-color:#3b82f6}
-.arch-layer.brain{border-color:#10B981}
-.arch-layer.ai{border-color:#a855f7}
-.arch-label{font-size:14px;font-weight:700;margin-bottom:12px}
-.arch-layer.frontend .arch-label{color:#60a5fa}
-.arch-layer.brain .arch-label{color:#34d399}
-.arch-layer.ai .arch-label{color:#c084fc}
-.arch-badges{display:flex;flex-wrap:wrap;gap:8px;justify-content:center}
-.arch-badge{padding:4px 12px;border-radius:6px;font-size:12px;font-weight:600;background:#0f172a;border:1px solid #334155;color:#94a3b8}
-.arch-arrow{font-size:20px;color:#475569}
+/* Priority Feature Cards */
+.feat-card{background:#1e293b;border:1px solid #334155;border-radius:12px;padding:20px;margin-bottom:14px}
+.feat-card-header{display:flex;align-items:center;gap:10px;margin-bottom:14px;cursor:pointer}
+.feat-priority{font-size:10px;font-weight:800;padding:3px 8px;border-radius:4px;flex-shrink:0}
+.feat-priority.p1{background:rgba(239,68,68,0.15);color:#f87171}
+.feat-priority.p2{background:rgba(239,68,68,0.15);color:#f87171}
+.feat-priority.p3{background:rgba(245,158,11,0.15);color:#fbbf24}
+.feat-priority.p4{background:rgba(245,158,11,0.15);color:#fbbf24}
+.feat-priority.p5{background:rgba(16,185,129,0.15);color:#34d399}
+.feat-priority.p6{background:rgba(16,185,129,0.15);color:#34d399}
+.feat-title{font-size:15px;font-weight:700;color:#f1f5f9;flex:1}
+.feat-subtitle{font-size:12px;color:#64748b;font-style:italic;margin-bottom:12px}
+.feat-arrow{color:#64748b;font-size:13px;transition:transform .2s}
+.feat-card.open .feat-arrow{transform:rotate(180deg)}
+.feat-body{display:none}
+.feat-card.open .feat-body{display:block}
 
-/* Accordion */
-.accordion{border:1px solid #334155;border-radius:10px;overflow:hidden;margin-bottom:8px}
-.acc-header{display:flex;align-items:center;justify-content:space-between;padding:14px 18px;background:#1e293b;cursor:pointer;user-select:none;transition:background .15s}
-.acc-header:hover{background:#1e3a5f}
-.acc-header-left{display:flex;align-items:center;gap:10px}
-.acc-title{font-size:14px;font-weight:600;color:#f1f5f9}
-.acc-progress{font-size:12px;color:#64748b}
-.acc-arrow{color:#64748b;font-size:14px;transition:transform .2s}
-.accordion.open .acc-arrow{transform:rotate(180deg)}
-.acc-body{display:none;padding:14px 18px;background:#0f172a;border-top:1px solid #334155}
-.accordion.open .acc-body{display:block}
-.check-item{display:flex;align-items:center;gap:10px;padding:6px 0;font-size:13px;color:#cbd5e1}
-.check-box{width:18px;height:18px;border-radius:4px;border:2px solid #334155;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:11px}
-.check-box.done{background:#10B981;border-color:#10B981;color:#fff}
-.check-box.todo{background:transparent;border-color:#475569}
-.check-item.done .check-text{color:#475569;text-decoration:line-through}
-.check-item .new-badge{background:rgba(245,158,11,0.15);color:#fbbf24;font-size:10px;padding:1px 6px;border-radius:3px;margin-left:6px}
+/* AI Rules Table */
+.rule-row{display:grid;grid-template-columns:1fr 1fr 1fr;gap:1px;background:#334155;border-radius:8px;overflow:hidden;margin-bottom:2px;font-size:12px}
+.rule-cell{padding:10px 12px;background:#1e293b}
+.rule-cell.trigger{color:#fbbf24}
+.rule-cell.action{color:#34d399}
 
 /* Timeline */
-.timeline{position:relative;padding-left:32px}
-.timeline::before{content:'';position:absolute;left:11px;top:0;bottom:0;width:2px;background:#334155}
-.tl-item{position:relative;margin-bottom:24px}
-.tl-dot{position:absolute;left:-32px;top:4px;width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:#fff;z-index:1}
-.tl-dot.p1{background:#3b82f6}
-.tl-dot.p2{background:#a855f7}
-.tl-dot.p3{background:#10B981}
-.tl-dot.p4{background:#f59e0b}
-.tl-card{background:#1e293b;border:1px solid #334155;border-radius:10px;padding:16px 20px}
-.tl-phase{font-size:14px;font-weight:700;color:#f1f5f9;margin-bottom:4px}
-.tl-time{font-size:11px;color:#64748b;margin-bottom:10px}
-.tl-list{list-style:none;display:flex;flex-direction:column;gap:4px}
-.tl-list li{font-size:13px;color:#94a3b8;display:flex;align-items:center;gap:8px}
-.tl-list li .done{color:#10B981}
-.tl-list li .todo{color:#475569}
+.timeline{position:relative;padding-left:30px}
+.timeline::before{content:'';position:absolute;left:10px;top:0;bottom:0;width:2px;background:#334155}
+.tl-item{position:relative;margin-bottom:20px}
+.tl-dot{position:absolute;left:-30px;top:4px;width:20px;height:20px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;color:#fff;z-index:1}
+.tl-dot.p1{background:#3b82f6}.tl-dot.p2{background:#a855f7}.tl-dot.p3{background:#10B981}.tl-dot.p4{background:#f59e0b}.tl-dot.p5{background:#ef4444}
+.tl-card{background:#1e293b;border:1px solid #334155;border-radius:10px;padding:14px 18px}
+.tl-phase{font-size:14px;font-weight:700;color:#f1f5f9;margin-bottom:3px}
+.tl-time{font-size:11px;color:#64748b;margin-bottom:8px}
+.tl-list{list-style:none;display:flex;flex-direction:column;gap:3px}
+.tl-list li{font-size:12px;color:#94a3b8;display:flex;align-items:center;gap:7px}
 
 /* KPI Cards */
-.kpi-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:14px}
-.kpi-card{background:#1e293b;border:1px solid #334155;border-radius:12px;padding:18px;text-align:center}
-.kpi-value{font-size:28px;font-weight:800;margin-bottom:6px}
-.kpi-value.green{color:#10B981}
-.kpi-value.blue{color:#3b82f6}
-.kpi-value.yellow{color:#f59e0b}
-.kpi-label{font-size:12px;color:#64748b;line-height:1.4}
+.kpi-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:12px}
+.kpi-card{background:#1e293b;border:1px solid #334155;border-radius:10px;padding:14px;text-align:center}
+.kpi-current{font-size:11px;color:#64748b;margin-bottom:4px}
+.kpi-value{font-size:22px;font-weight:800;margin-bottom:4px}
+.kpi-value.green{color:#10B981}.kpi-value.blue{color:#3b82f6}.kpi-value.yellow{color:#f59e0b}.kpi-value.red{color:#f87171}
+.kpi-label{font-size:11px;color:#64748b;line-height:1.3}
 
-/* Risk Cards */
-.risk-grid{display:flex;flex-direction:column;gap:10px}
-.risk-card{background:#1e293b;border:1px solid #334155;border-left:3px solid #f59e0b;border-radius:8px;padding:14px 18px;display:flex;gap:16px}
-.risk-label{font-size:13px;font-weight:600;color:#fbbf24;min-width:140px}
-.risk-response{font-size:13px;color:#94a3b8;flex:1}
+/* Risk */
+.risk-grid{display:flex;flex-direction:column;gap:8px}
+.risk-card{background:#1e293b;border:1px solid #334155;border-left:3px solid #f59e0b;border-radius:8px;padding:12px 16px;display:flex;gap:14px;font-size:12px}
+.risk-label{font-weight:600;color:#fbbf24;min-width:120px}
+.risk-response{color:#94a3b8;flex:1}
 
-.footer-note{margin-top:40px;padding:16px;background:#1e293b;border:1px solid #334155;border-radius:8px;font-size:12px;color:#64748b;text-align:center;font-style:italic}
+/* V1 vs V2 */
+.diff-table{width:100%;border-collapse:collapse;font-size:12px}
+.diff-table th{background:#1a1a2e;color:#64748b;padding:8px 12px;text-align:left;font-size:10px;text-transform:uppercase;letter-spacing:.5px}
+.diff-table td{padding:8px 12px;border-bottom:1px solid rgba(51,65,85,0.4)}
+.diff-table td:nth-child(2){color:#64748b}
+.diff-table td:nth-child(3){color:#60a5fa;font-weight:600}
+
+.footer-note{margin-top:40px;padding:14px;background:#1e293b;border:1px solid #334155;border-radius:8px;font-size:11px;color:#64748b;text-align:center;font-style:italic}
 </style>
 </head>
 <body>
 <div class="header">
-  <h1>🧠 테넥스 OS v1 기획서</h1>
+  <h1>🧠 테넥스 OS 기획서</h1>
+  <span class="v-badge">v2</span>
   <span class="sub">작성: 카리나 | 2026-04-01</span>
   <a href="/index.html">← 보고서 목록</a>
 </div>
 
 <div class="content">
 
-<!-- ═══ 1. 비전 ═══ -->
+<!-- 1. 비전 -->
 <div class="section">
   <div class="vision-card">
-    <div class="vision-quote">"테넥스의 모든 데이터가 한 곳에 모이고,<br>AI가 그걸 읽고, 사람은 결정만 한다"</div>
-    <div class="vision-sub">
-      <span>🔗 틱틱 + 노션 + 슬랙 + 구글 = 하나로 합친 우리만의 시스템</span>
-      <span>👤 모든 팀원이 각자의 뷰에서 필요한 것만 본다</span>
-      <span>🤖 AI(카리나)가 전체를 보고 최적의 의사결정을 돕는다</span>
+    <div class="vision-quote">"데이터가 모이고 → AI가 이해하고 →<br>알아서 행동하고 → 사람은 결정만 한다"</div>
+    <div class="vision-compare">
+      <div class="vision-box v1"><strong>v1</strong>데이터 수집 + 보여주기</div>
+      <div class="vision-box v2"><strong>v2 ✨</strong>수집 + 이해 + 행동 + 의사결정 지원</div>
     </div>
   </div>
 </div>
 
-<!-- ═══ 2. 사용자 & 뷰 ═══ -->
+<!-- 2. 아키텍처 -->
 <div class="section">
-  <div class="sec-title"><span class="emoji">👥</span> 사용자 & 뷰</div>
-  <div class="person-grid">
-    <div class="person-card">
-      <div class="person-icon">👨‍💼</div>
-      <div class="person-name">태훈</div>
-      <div class="person-role">CEO</div>
-      <ul class="person-list">
-        <li>📋 전체 업무보드</li>
-        <li>💰 매출/광고 실시간 대시보드</li>
-        <li>📅 팀 전체 캘린더</li>
-        <li>📧 주요 메일 요약</li>
-        <li>🎙️ 미팅 녹음 핵심 결정</li>
-        <li>🤖 AI 실장 현황</li>
-        <li>📊 주간/월간 리포트</li>
-      </ul>
-    </div>
-    <div class="person-card">
-      <div class="person-icon">🎬</div>
-      <div class="person-name">인규</div>
-      <div class="person-role">콘텐츠 총괄</div>
-      <ul class="person-list">
-        <li>📋 콘텐츠 업무보드</li>
-        <li>📅 촬영/편집 스케줄</li>
-        <li>💬 댓글 현황 (YT/IG/TT)</li>
-        <li>📊 채널 성과</li>
-        <li>📁 영상 자료 (Drive)</li>
-      </ul>
-    </div>
-    <div class="person-card">
-      <div class="person-icon">🎨</div>
-      <div class="person-name">제형</div>
-      <div class="person-role">디자인/앱</div>
-      <ul class="person-list">
-        <li>📋 디자인/앱 태스크</li>
-        <li>📅 마감일 + 리뷰 일정</li>
-        <li>📁 디자인 파일 (Drive)</li>
-        <li>🔗 피그마/깃허브 연동</li>
-      </ul>
-    </div>
-    <div class="person-card">
-      <div class="person-icon">🤖</div>
-      <div class="person-name">AI 실장</div>
-      <div class="person-role">자동화 에이전트</div>
-      <ul class="person-list">
-        <li>📋 자동 할당 태스크</li>
-        <li>✅ 완료율/응답 시간</li>
-        <li>🔴 에러/에스컬레이션 로그</li>
-      </ul>
-    </div>
-  </div>
-</div>
-
-<!-- ═══ 3. 데이터 소스 연동 ═══ -->
-<div class="section">
-  <div class="sec-title"><span class="emoji">🔌</span> 데이터 소스 연동 상태</div>
-  <div class="progress-wrap">
-    <div class="progress-header">
-      <span class="progress-label">전체 연동 완료율</span>
-      <span class="progress-pct">82%</span>
-    </div>
-    <div class="progress-track">
-      <div class="progress-fill" style="width:82%"></div>
-    </div>
-    <div style="font-size:12px;color:#64748b;margin-top:8px">11개 소스 중 9개 완료 · 2개 진행중</div>
-  </div>
-  <div class="tbl-wrap">
-    <table>
-      <thead><tr><th>소스</th><th>상태</th><th>수집 방식</th><th>brain.db</th></tr></thead>
-      <tbody>
-        <tr><td>텔레그램 대화</td><td><span class="badge ok">✅ 완료</span></td><td>매 대화 자동 저장</td><td><span class="badge ok">✅</span></td></tr>
-        <tr><td>Plaud 녹음</td><td><span class="badge ok">✅ 완료</span></td><td>30분 크론잡</td><td><span class="badge ok">✅</span></td></tr>
-        <tr><td>구글 캘린더</td><td><span class="badge ok">✅ 완료</span></td><td>API (서비스 계정)</td><td><span class="badge todo">추가 필요</span></td></tr>
-        <tr><td>슬랙</td><td><span class="badge ok">✅ 완료</span></td><td>4실장 연동</td><td><span class="badge todo">추가 필요</span></td></tr>
-        <tr><td>노션</td><td><span class="badge ok">✅ 완료</span></td><td>API</td><td><span class="badge todo">추가 필요</span></td></tr>
-        <tr><td>카페24 매출</td><td><span class="badge ok">✅ 완료</span></td><td>API</td><td><span class="badge ok">✅ 리포트</span></td></tr>
-        <tr><td>메타 광고</td><td><span class="badge ok">✅ 완료</span></td><td>API</td><td><span class="badge todo">추가 필요</span></td></tr>
-        <tr><td>Gmail</td><td><span class="badge wip">🔧 진행중</span></td><td>서비스 계정 + 크론</td><td><span class="badge wip">🔧</span></td></tr>
-        <tr><td>Drive</td><td><span class="badge wip">🔧 진행중</span></td><td>서비스 계정 + 크론</td><td><span class="badge wip">🔧</span></td></tr>
-        <tr><td>YouTube 댓글</td><td><span class="badge ok">✅ 완료</span></td><td>OAuth + 크론잡</td><td><span class="badge ok">✅</span></td></tr>
-        <tr><td>SNS 조회수</td><td><span class="badge ok">✅ 완료</span></td><td>스크래핑 크론잡</td><td><span class="badge ok">✅</span></td></tr>
-      </tbody>
-    </table>
-  </div>
-</div>
-
-<!-- ═══ 4. 아키텍처 ═══ -->
-<div class="section">
-  <div class="sec-title"><span class="emoji">🏗️</span> 시스템 아키텍처</div>
+  <div class="sec-title"><span class="emoji">🏗️</span> 시스템 전체 구조</div>
   <div class="arch-diagram">
-    <div class="arch-layer frontend">
-      <div class="arch-label">🖥️ 테넥스 OS — 프론트엔드</div>
+    <div class="arch-layer" style="border-color:#3b82f6">
+      <div class="arch-label" style="color:#60a5fa">🖥️ 테넥스 OS — 프론트엔드</div>
       <div class="arch-badges">
         <span class="arch-badge" style="border-color:#3b82f6">태훈 뷰</span>
         <span class="arch-badge" style="border-color:#3b82f6">인규 뷰</span>
         <span class="arch-badge" style="border-color:#3b82f6">제형 뷰</span>
         <span class="arch-badge" style="border-color:#3b82f6">실장 뷰</span>
+        <span class="arch-badge" style="border-color:#f59e0b;color:#fbbf24">고객 뷰 <small>NEW</small></span>
       </div>
-      <div style="margin-top:10px;font-size:11px;color:#64748b">통합 API 레이어 (Vercel + 맥미니 로컬)</div>
+      <div style="margin-top:8px;font-size:11px;color:#64748b">통합 검색 + AI 어시스턴트</div>
     </div>
     <div class="arch-arrow">▼</div>
-    <div class="arch-layer brain">
-      <div class="arch-label">🧠 brain.db — 중앙 두뇌</div>
+    <div class="arch-layer" style="border-color:#a855f7">
+      <div class="arch-label" style="color:#c084fc">🔄 양방향 API 레이어 (읽기 + 쓰기) <span class="new-tag">NEW</span></div>
       <div class="arch-badges">
-        <span class="arch-badge">텔레그램</span>
-        <span class="arch-badge">Plaud</span>
-        <span class="arch-badge">Gmail</span>
-        <span class="arch-badge">Drive</span>
-        <span class="arch-badge">슬랙</span>
-        <span class="arch-badge">카페24</span>
-        <span class="arch-badge">메타</span>
-        <span class="arch-badge">YouTube</span>
-        <span class="arch-badge">캘린더</span>
-        <span class="arch-badge">노션</span>
+        <span class="arch-badge">태스크→슬랙 지시</span>
+        <span class="arch-badge">캘린더 자동 등록</span>
+        <span class="arch-badge">알림 발송</span>
+        <span class="arch-badge">노션 동기화</span>
       </div>
     </div>
     <div class="arch-arrow">▼</div>
-    <div class="arch-layer ai">
-      <div class="arch-label">🤖 AI 레이어 — 카리나 + 실장</div>
+    <div class="arch-layer" style="border-color:#10B981">
+      <div class="arch-label" style="color:#34d399">🧠 brain.db (날것) + 지식 DB (정제) <span class="new-tag">NEW</span></div>
       <div class="arch-badges">
-        <span class="arch-badge" style="border-color:#a855f7">맥락 검색</span>
-        <span class="arch-badge" style="border-color:#a855f7">자동 요약</span>
-        <span class="arch-badge" style="border-color:#a855f7">의사결정 지원</span>
-        <span class="arch-badge" style="border-color:#a855f7">이상 감지 알림</span>
+        <span class="arch-badge">대화</span><span class="arch-badge">녹음</span><span class="arch-badge">메일</span><span class="arch-badge">문서</span><span class="arch-badge">매출</span><span class="arch-badge">광고</span><span class="arch-badge" style="border-color:#f59e0b;color:#fbbf24">고객</span><span class="arch-badge" style="border-color:#f59e0b;color:#fbbf24">지식</span>
+      </div>
+    </div>
+    <div class="arch-arrow">▼</div>
+    <div class="arch-layer" style="border-color:#ef4444">
+      <div class="arch-label" style="color:#f87171">🤖 AI 자율 행동 엔진 <span class="new-tag">NEW</span></div>
+      <div class="arch-badges">
+        <span class="arch-badge" style="border-color:#ef4444">이상 감지→자동 알림</span>
+        <span class="arch-badge" style="border-color:#ef4444">미답변→리마인드</span>
+        <span class="arch-badge" style="border-color:#ef4444">매출 분석→제안</span>
+        <span class="arch-badge" style="border-color:#ef4444">고객 VOC→분류</span>
       </div>
     </div>
   </div>
 </div>
 
-<!-- ═══ 5. 핵심 기능 ═══ -->
+<!-- 3. 사용자 & 뷰 -->
 <div class="section">
-  <div class="sec-title"><span class="emoji">⚡</span> 핵심 기능</div>
+  <div class="sec-title"><span class="emoji">👥</span> 사용자 & 뷰</div>
+  <div class="person-grid">
+    <div class="person-card"><div class="person-icon">👨‍💼</div><div class="person-name">태훈</div><div class="person-role">CEO</div><ul class="person-list"><li>📋 전체 업무보드</li><li>💰 매출/광고 대시보드</li><li>📅 팀 전체 캘린더</li><li>📧 주요 메일 요약</li><li>🎙️ 미팅 녹음 결정</li><li>👤 고객 통합 뷰<span class="new-tag">NEW</span></li><li>📊 주간/월간 리포트</li></ul></div>
+    <div class="person-card"><div class="person-icon">🎬</div><div class="person-name">인규</div><div class="person-role">콘텐츠 총괄</div><ul class="person-list"><li>📋 콘텐츠 업무보드</li><li>📅 촬영/편집 스케줄</li><li>💬 댓글 현황</li><li>📊 채널 성과</li><li>📁 영상 자료</li></ul></div>
+    <div class="person-card"><div class="person-icon">🎨</div><div class="person-name">제형</div><div class="person-role">디자인/앱</div><ul class="person-list"><li>📋 디자인/앱 태스크</li><li>📅 마감일+리뷰</li><li>📁 디자인 파일</li><li>🔗 피그마/깃허브</li></ul></div>
+    <div class="person-card new"><div class="person-icon">👤</div><div class="person-name">고객 뷰<span class="new-tag">NEW</span></div><div class="person-role">고객 통합 관리</div><ul class="person-list"><li>🔴 이슈 고객 알림</li><li>⭐ VIP 고객 관리</li><li>📊 세그먼트 분석</li><li>💬 자동 CRM</li></ul></div>
+    <div class="person-card"><div class="person-icon">🤖</div><div class="person-name">AI 실장</div><div class="person-role">자동화 에이전트</div><ul class="person-list"><li>📋 자동 할당 태스크</li><li>✅ 완료율/응답 시간</li><li>🔴 에러/에스컬레이션</li></ul></div>
+  </div>
+</div>
 
-  <div class="accordion open" onclick="this.classList.toggle('open')">
-    <div class="acc-header">
-      <div class="acc-header-left">
-        <span class="acc-title">5-1. 업무보드 (기존 확장)</span>
-        <span class="acc-progress">5/8 완료</span>
-      </div>
-      <span class="acc-arrow">▼</span>
+<!-- 4. 데이터 소스 -->
+<div class="section">
+  <div class="sec-title"><span class="emoji">🔌</span> 데이터 소스 연동 상태</div>
+  <div class="progress-wrap">
+    <div class="progress-header">
+      <span class="progress-label">전체 연동 완료율</span>
+      <span class="progress-pct">69%</span>
     </div>
-    <div class="acc-body">
-      <div class="check-item done"><span class="check-box done">✓</span><span class="check-text">태스크 CRUD</span></div>
-      <div class="check-item done"><span class="check-box done">✓</span><span class="check-text">카테고리/우선순위/담당자</span></div>
-      <div class="check-item done"><span class="check-box done">✓</span><span class="check-text">체크리스트</span></div>
-      <div class="check-item done"><span class="check-box done">✓</span><span class="check-text">드래그앤드롭 체크리스트 이동</span></div>
-      <div class="check-item done"><span class="check-box done">✓</span><span class="check-text">순서 번호 직접 입력</span></div>
-      <div class="check-item"><span class="check-box todo"></span><span class="check-text">사람별 필터 뷰</span><span class="new-badge">NEW</span></div>
-      <div class="check-item"><span class="check-box todo"></span><span class="check-text">마감일 알림 (텔레그램/슬랙)</span></div>
-      <div class="check-item"><span class="check-box todo"></span><span class="check-text">반복 태스크</span></div>
+    <div class="progress-track"><div class="progress-fill" style="width:69%"></div></div>
+    <div style="font-size:11px;color:#64748b;margin-top:6px">16개 소스 중 11개 완료 · 2개 진행중 · 3개 미연동</div>
+  </div>
+  <div class="tbl-wrap"><table>
+    <thead><tr><th>소스</th><th>상태</th><th>수집</th><th>brain.db</th><th>양방향</th></tr></thead>
+    <tbody>
+      <tr><td>텔레그램</td><td><span class="badge ok">✅</span></td><td>자동 저장</td><td><span class="badge ok">✅</span></td><td><span class="badge ok">✅ 발송</span></td></tr>
+      <tr><td>Plaud 녹음</td><td><span class="badge ok">✅</span></td><td>30분 크론</td><td><span class="badge ok">✅</span></td><td>—</td></tr>
+      <tr><td>구글 캘린더</td><td><span class="badge ok">✅</span></td><td>서비스 계정</td><td><span class="badge todo">추가필요</span></td><td><span class="badge ok">✅ 생성</span></td></tr>
+      <tr><td>슬랙</td><td><span class="badge ok">✅</span></td><td>4실장 연동</td><td><span class="badge todo">추가필요</span></td><td><span class="badge ok">✅ 발송</span></td></tr>
+      <tr><td>노션</td><td><span class="badge ok">✅</span></td><td>API</td><td><span class="badge todo">추가필요</span></td><td><span class="badge ok">✅ 쓰기</span></td></tr>
+      <tr><td>카페24 매출</td><td><span class="badge ok">✅</span></td><td>API</td><td><span class="badge ok">✅</span></td><td>읽기만</td></tr>
+      <tr><td>카페24 Q&A</td><td><span class="badge warn">⚠️</span></td><td>스코프 추가 필요</td><td><span class="badge todo">❌</span></td><td><span class="badge todo">❌</span></td></tr>
+      <tr><td>메타 광고</td><td><span class="badge ok">✅</span></td><td>API</td><td><span class="badge todo">추가필요</span></td><td>읽기만</td></tr>
+      <tr><td>Gmail</td><td><span class="badge wip">🔧</span></td><td>수집 크론</td><td><span class="badge wip">🔧</span></td><td>읽기만</td></tr>
+      <tr><td>Drive</td><td><span class="badge wip">🔧</span></td><td>수집 크론</td><td><span class="badge wip">🔧</span></td><td>읽기만</td></tr>
+      <tr><td>YouTube 댓글</td><td><span class="badge ok">✅</span></td><td>OAuth+크론</td><td><span class="badge ok">✅</span></td><td><span class="badge ok">✅ 답글</span></td></tr>
+      <tr><td>SNS 조회수</td><td><span class="badge ok">✅</span></td><td>스크래핑</td><td><span class="badge ok">✅</span></td><td>—</td></tr>
+      <tr><td>카카오 알림톡</td><td><span class="badge todo">❌</span></td><td>알마니 이관중</td><td><span class="badge todo">❌</span></td><td><span class="badge todo">❌</span></td></tr>
+      <tr><td>쿠팡/네이버</td><td><span class="badge todo">❌</span></td><td>미연동</td><td><span class="badge todo">❌</span></td><td><span class="badge todo">❌</span></td></tr>
+      <tr><td>전화 CS</td><td><span class="badge todo">❌</span></td><td>미연동</td><td><span class="badge todo">❌</span></td><td><span class="badge todo">❌</span></td></tr>
+    </tbody>
+  </table></div>
+</div>
+
+<!-- 5. 핵심 기능 -->
+<div class="section">
+  <div class="sec-title"><span class="emoji">⚡</span> 핵심 기능 (우선순위 순)</div>
+
+  <div class="feat-card open" onclick="this.classList.toggle('open')">
+    <div class="feat-card-header"><span class="feat-priority p1">P1</span><span class="feat-title">양방향 연동 (업무 흐름 자동화)</span><span class="feat-arrow">▼</span></div>
+    <div class="feat-body">
+      <div class="feat-subtitle">"테넥스 OS에서 행동하면 외부 시스템에 반영"</div>
+      <div class="tbl-wrap"><table><thead><tr><th>기능</th><th>설명</th><th>상태</th></tr></thead><tbody>
+        <tr><td>태스크→슬랙 자동 지시</td><td>업무보드에서 생성→담당 실장 슬랙 알림</td><td><span class="badge todo">❌</span></td></tr>
+        <tr><td>태스크→캘린더 등록</td><td>마감일 있는 태스크→구글 캘린더 자동</td><td><span class="badge todo">❌</span></td></tr>
+        <tr><td>태스크 완료→전체 동기화</td><td>슬랙 완료 보고→업무보드+노션 자동</td><td><span class="badge todo">❌</span></td></tr>
+        <tr><td>메일→태스크 변환</td><td>"이 메일로 태스크 만들어" 클릭 한 번</td><td><span class="badge todo">❌</span></td></tr>
+        <tr><td>녹음→액션아이템 추출</td><td>Plaud 요약에서 TODO 자동 추출</td><td><span class="badge todo">❌</span></td></tr>
+      </tbody></table></div>
     </div>
   </div>
 
-  <div class="accordion" onclick="this.classList.toggle('open')">
-    <div class="acc-header">
-      <div class="acc-header-left">
-        <span class="acc-title">5-2. 캘린더 뷰</span>
-        <span class="acc-progress">0/4 완료</span>
-      </div>
-      <span class="acc-arrow">▼</span>
-    </div>
-    <div class="acc-body">
-      <div class="check-item"><span class="check-box todo"></span><span class="check-text">사람별 캘린더 (태훈/인규/제형)</span></div>
-      <div class="check-item"><span class="check-box todo"></span><span class="check-text">겹치는 일정 자동 감지</span></div>
-      <div class="check-item"><span class="check-box todo"></span><span class="check-text">미팅 → Plaud 녹음 자동 연결</span></div>
-      <div class="check-item"><span class="check-box todo"></span><span class="check-text">구글 캘린더 양방향 동기화</span></div>
+  <div class="feat-card" onclick="this.classList.toggle('open')">
+    <div class="feat-card-header"><span class="feat-priority p2">P2</span><span class="feat-title">지식 베이스 (정제된 회사 DB)</span><span class="feat-arrow">▼</span></div>
+    <div class="feat-body">
+      <div class="feat-subtitle">"brain.db는 날것, 지식DB는 정리된 사전"</div>
+      <div class="tbl-wrap"><table><thead><tr><th>기능</th><th>설명</th><th>상태</th></tr></thead><tbody>
+        <tr><td>제품 DB</td><td>CS-25/ES-808/WS-200 원가, 마진, 스펙, FAQ</td><td><span class="badge todo">❌</span></td></tr>
+        <tr><td>거래처 DB</td><td>굿플/알마니/키다리무역 연락처+히스토리</td><td><span class="badge todo">❌</span></td></tr>
+        <tr><td>의사결정 로그</td><td>"왜 이렇게 결정했는지" 날짜별 기록</td><td><span class="badge warn">⚠️ brain.db 산재</span></td></tr>
+        <tr><td>프로세스 매뉴얼</td><td>배송/CS대응/광고 운영 룰</td><td><span class="badge warn">⚠️ 노션 일부</span></td></tr>
+        <tr><td>회사 수치</td><td>월 매출, 원가율, 광고비, 고정비</td><td><span class="badge warn">⚠️ MEMORY 일부</span></td></tr>
+      </tbody></table></div>
     </div>
   </div>
 
-  <div class="accordion" onclick="this.classList.toggle('open')">
-    <div class="acc-header">
-      <div class="acc-header-left">
-        <span class="acc-title">5-3. 메일 뷰</span>
-        <span class="acc-progress">0/4 완료</span>
-      </div>
-      <span class="acc-arrow">▼</span>
-    </div>
-    <div class="acc-body">
-      <div class="check-item"><span class="check-box todo"></span><span class="check-text">중요 메일 하이라이트 (거래처/고객)</span></div>
-      <div class="check-item"><span class="check-box todo"></span><span class="check-text">AI 자동 요약</span></div>
-      <div class="check-item"><span class="check-box todo"></span><span class="check-text">액션 아이템 추출 → 업무보드 연결</span></div>
-      <div class="check-item"><span class="check-box todo"></span><span class="check-text">미답변 메일 알림</span></div>
+  <div class="feat-card" onclick="this.classList.toggle('open')">
+    <div class="feat-card-header"><span class="feat-priority p3">P3</span><span class="feat-title">고객 통합 뷰</span><span class="feat-arrow">▼</span></div>
+    <div class="feat-body">
+      <div class="feat-subtitle">"고객 한 명 클릭하면 모든 히스토리가 보인다"</div>
+      <div class="tbl-wrap"><table><thead><tr><th>기능</th><th>설명</th><th>상태</th></tr></thead><tbody>
+        <tr><td>고객 프로필 통합</td><td>카페24 주문+CS+리뷰+CRM→1명 단위</td><td><span class="badge todo">❌</span></td></tr>
+        <tr><td>이슈 고객 감지</td><td>반품 2회+/불량/미답변 3일+</td><td><span class="badge todo">❌</span></td></tr>
+        <tr><td>VIP 관리</td><td>재구매/리뷰 작성자/인플루언서</td><td><span class="badge todo">❌</span></td></tr>
+        <tr><td>고객 세그먼트</td><td>제품별/채널별/지역별</td><td><span class="badge todo">❌</span></td></tr>
+        <tr><td>자동 CRM</td><td>구매 후 D+3/D+7/D+14 자동 문자</td><td><span class="badge warn">⚠️ ES-808만</span></td></tr>
+      </tbody></table></div>
     </div>
   </div>
 
-  <div class="accordion" onclick="this.classList.toggle('open')">
-    <div class="acc-header">
-      <div class="acc-header-left">
-        <span class="acc-title">5-4. 파일 뷰 (Drive)</span>
-        <span class="acc-progress">0/4 완료</span>
+  <div class="feat-card" onclick="this.classList.toggle('open')">
+    <div class="feat-card-header"><span class="feat-priority p4">P4</span><span class="feat-title">AI 자율 행동 룰</span><span class="feat-arrow">▼</span></div>
+    <div class="feat-body">
+      <div class="feat-subtitle">"카리나가 시키지 않아도 알아서 한다"</div>
+      <div style="display:flex;flex-direction:column;gap:2px">
+        <div class="rule-row" style="font-weight:700;font-size:11px;color:#64748b"><div class="rule-cell">트리거</div><div class="rule-cell">조건</div><div class="rule-cell">행동</div></div>
+        <div class="rule-row"><div class="rule-cell trigger">매출 이상</div><div class="rule-cell">전일 대비 30%↓</div><div class="rule-cell action">원인 분석+태훈 알림</div></div>
+        <div class="rule-row"><div class="rule-cell trigger">미답변 메일</div><div class="rule-cell">거래처 3일+</div><div class="rule-cell action">태훈 리마인드</div></div>
+        <div class="rule-row"><div class="rule-cell trigger">크론잡 실패</div><div class="rule-cell">3회 연속</div><div class="rule-cell action">자동 재시작+알림</div></div>
+        <div class="rule-row"><div class="rule-cell trigger">광고 효율↓</div><div class="rule-cell">ROAS 200% 이하 3일</div><div class="rule-cell action">소재 분석+교체 제안</div></div>
+        <div class="rule-row"><div class="rule-cell trigger">재고 부족</div><div class="rule-cell">카페24 재고 10개↓</div><div class="rule-cell action">태훈+인규 알림</div></div>
+        <div class="rule-row"><div class="rule-cell trigger">부정 리뷰</div><div class="rule-cell">등록 시</div><div class="rule-cell action">고실장→즉시 대응</div></div>
+        <div class="rule-row"><div class="rule-cell trigger">일일 브리핑</div><div class="rule-cell">매일 07:00</div><div class="rule-cell action">자동 생성+텔레그램</div></div>
+        <div class="rule-row"><div class="rule-cell trigger">주간 회고</div><div class="rule-cell">매주 월 09:00</div><div class="rule-cell action">자동 생성+액션아이템</div></div>
       </div>
-      <span class="acc-arrow">▼</span>
-    </div>
-    <div class="acc-body">
-      <div class="check-item"><span class="check-box todo"></span><span class="check-text">폴더 구조 탐색</span></div>
-      <div class="check-item"><span class="check-box todo"></span><span class="check-text">최근 수정 파일 하이라이트</span></div>
-      <div class="check-item"><span class="check-box todo"></span><span class="check-text">AI 문서 요약</span></div>
-      <div class="check-item"><span class="check-box todo"></span><span class="check-text">파일별 관련 태스크 연결</span></div>
     </div>
   </div>
 
-  <div class="accordion" onclick="this.classList.toggle('open')">
-    <div class="acc-header">
-      <div class="acc-header-left">
-        <span class="acc-title">5-5. 커뮤니케이션 뷰</span>
-        <span class="acc-progress">0/3 완료</span>
-      </div>
-      <span class="acc-arrow">▼</span>
-    </div>
-    <div class="acc-body">
-      <div class="check-item"><span class="check-box todo"></span><span class="check-text">슬랙 채널별 최근 대화 요약</span></div>
-      <div class="check-item"><span class="check-box todo"></span><span class="check-text">Plaud 녹음 → 핵심 결정사항</span></div>
-      <div class="check-item"><span class="check-box todo"></span><span class="check-text">텔레그램 대화 검색</span></div>
-    </div>
-  </div>
-
-  <div class="accordion" onclick="this.classList.toggle('open')">
-    <div class="acc-header">
-      <div class="acc-header-left">
-        <span class="acc-title">5-6. 매출/마케팅 뷰</span>
-        <span class="acc-progress">3/4 완료</span>
-      </div>
-      <span class="acc-arrow">▼</span>
-    </div>
-    <div class="acc-body">
-      <div class="check-item done"><span class="check-box done">✓</span><span class="check-text">카페24 매출 실시간</span></div>
-      <div class="check-item done"><span class="check-box done">✓</span><span class="check-text">메타 광고 성과</span></div>
-      <div class="check-item done"><span class="check-box done">✓</span><span class="check-text">SNS 조회수 추이</span></div>
-      <div class="check-item"><span class="check-box todo"></span><span class="check-text">통합 퍼널 (광고 → 방문 → 구매 → 리뷰)</span></div>
+  <div class="feat-card" onclick="this.classList.toggle('open')">
+    <div class="feat-card-header"><span class="feat-priority p5">P5</span><span class="feat-title">외부 채널 연동</span><span class="feat-arrow">▼</span></div>
+    <div class="feat-body">
+      <div class="tbl-wrap"><table><thead><tr><th>채널</th><th>우선순위</th><th>비고</th></tr></thead><tbody>
+        <tr><td>카카오 알림톡</td><td><span class="badge warn">높음</span></td><td>알마니 CRM 이관 중</td></tr>
+        <tr><td>카페24 Q&A/게시판</td><td><span class="badge warn">높음</span></td><td>스코프 추가하면 됨</td></tr>
+        <tr><td>쿠팡</td><td><span class="badge todo">중간</span></td><td>API 제한적, 스크래핑</td></tr>
+        <tr><td>네이버 스마트스토어</td><td><span class="badge todo">중간</span></td><td>API 있음</td></tr>
+        <tr><td>전화 CS</td><td><span class="badge todo">낮음</span></td><td>Plaud로 커버 가능</td></tr>
+        <tr><td>인스타 DM</td><td><span class="badge todo">낮음</span></td><td>API 제한적</td></tr>
+      </tbody></table></div>
     </div>
   </div>
 
-  <div class="accordion" onclick="this.classList.toggle('open')">
-    <div class="acc-header">
-      <div class="acc-header-left">
-        <span class="acc-title">5-7. AI 어시스턴트</span>
-        <span class="acc-progress">0/4 완료</span>
-      </div>
-      <span class="acc-arrow">▼</span>
-    </div>
-    <div class="acc-body">
-      <div class="check-item"><span class="check-box todo"></span><span class="check-text">통합 검색 ("3월에 굿플이랑 얘기한 원가 건 찾아줘")</span></div>
-      <div class="check-item"><span class="check-box todo"></span><span class="check-text">일일/주간 브리핑 자동 생성</span></div>
-      <div class="check-item"><span class="check-box todo"></span><span class="check-text">이상 감지 ("매출 급락", "크론잡 실패")</span></div>
-      <div class="check-item"><span class="check-box todo"></span><span class="check-text">의사결정 지원 ("이번 달 광고비 적정?")	</span></div>
+  <div class="feat-card" onclick="this.classList.toggle('open')">
+    <div class="feat-card-header"><span class="feat-priority p6">P6</span><span class="feat-title">모바일 & UX</span><span class="feat-arrow">▼</span></div>
+    <div class="feat-body">
+      <div class="tbl-wrap"><table><thead><tr><th>기능</th><th>설명</th></tr></thead><tbody>
+        <tr><td>PWA</td><td>모바일에서 앱처럼 사용</td></tr>
+        <tr><td>푸시 알림</td><td>이상 감지/태스크 알림</td></tr>
+        <tr><td>빠른 액션</td><td>태스크 완료/승인 원터치</td></tr>
+        <tr><td>오프라인</td><td>캐싱으로 기본 뷰 제공</td></tr>
+      </tbody></table></div>
     </div>
   </div>
 </div>
 
-<!-- ═══ 6. 기술 스택 ═══ -->
+<!-- 6. 기술 스택 -->
 <div class="section">
   <div class="sec-title"><span class="emoji">🛠️</span> 기술 스택</div>
+  <div class="tbl-wrap"><table>
+    <thead><tr><th>영역</th><th>기술</th><th>비고</th></tr></thead>
+    <tbody>
+      <tr><td>프론트엔드</td><td>Next.js 14 + TypeScript + Tailwind</td><td>tenex-reports 확장</td></tr>
+      <tr><td>DB (태스크)</td><td>Supabase</td><td>이미 있음</td></tr>
+      <tr><td>DB (검색)</td><td>brain.db (SQLite + 벡터)</td><td>이미 있음</td></tr>
+      <tr><td>DB (지식)</td><td>Supabase or 별도 테이블</td><td><span class="new-tag">NEW</span></td></tr>
+      <tr><td>인증</td><td>기존 계정 + 역할 기반</td><td>확장 필요</td></tr>
+      <tr><td>API</td><td>Vercel + 맥미니 로컬</td><td>하이브리드</td></tr>
+      <tr><td>AI</td><td>OpenClaw (카리나) + brain.db</td><td>기존 인프라</td></tr>
+      <tr><td>배포</td><td>Vercel (자동)</td><td>기존 파이프라인</td></tr>
+    </tbody>
+  </table></div>
+</div>
+
+<!-- 7. 로드맵 -->
+<div class="section">
+  <div class="sec-title"><span class="emoji">🗺️</span> 구현 로드맵</div>
+  <div class="timeline">
+    <div class="tl-item"><div class="tl-dot p1">1</div><div class="tl-card" style="border-left:3px solid #3b82f6"><div class="tl-phase" style="color:#60a5fa">Phase 1: 데이터 완성</div><div class="tl-time">4월 1주 (이번 주)</div><ul class="tl-list"><li><span style="color:#10B981">✅</span> Gmail API 연동</li><li><span style="color:#10B981">✅</span> Drive API 연동</li><li><span style="color:#10B981">✅</span> Gmail/Drive → brain.db 수집 크론잡</li><li><span style="color:#10B981">✅</span> 크론 탭 실시간 연동</li><li><span style="color:#475569">⬜</span> 슬랙 히스토리 → brain.db</li></ul></div></div>
+    <div class="tl-item"><div class="tl-dot p2">2</div><div class="tl-card" style="border-left:3px solid #a855f7"><div class="tl-phase" style="color:#c084fc">Phase 2: 양방향 연동</div><div class="tl-time">4월 2주</div><ul class="tl-list"><li><span style="color:#475569">⬜</span> 태스크→슬랙 자동 지시</li><li><span style="color:#475569">⬜</span> 태스크 완료→업무보드+노션 동기화</li><li><span style="color:#475569">⬜</span> 마감일→캘린더 자동 등록</li><li><span style="color:#475569">⬜</span> 업무보드 사람별 필터</li><li><span style="color:#475569">⬜</span> 캘린더 사람별 뷰</li></ul></div></div>
+    <div class="tl-item"><div class="tl-dot p3">3</div><div class="tl-card" style="border-left:3px solid #10B981"><div class="tl-phase" style="color:#34d399">Phase 3: 지식 베이스 + 고객 뷰</div><div class="tl-time">4월 3~4주</div><ul class="tl-list"><li><span style="color:#475569">⬜</span> 제품/거래처/프로세스 정제 DB</li><li><span style="color:#475569">⬜</span> 통합 검색 UI</li><li><span style="color:#475569">⬜</span> 고객 통합 프로필</li><li><span style="color:#475569">⬜</span> 이슈 고객 자동 감지</li><li><span style="color:#475569">⬜</span> 메일 뷰 (AI 요약)</li></ul></div></div>
+    <div class="tl-item"><div class="tl-dot p4">4</div><div class="tl-card" style="border-left:3px solid #f59e0b"><div class="tl-phase" style="color:#fbbf24">Phase 4: AI 자율 행동</div><div class="tl-time">5월 1~2주</div><ul class="tl-list"><li><span style="color:#475569">⬜</span> 매출 이상 감지→자동 알림</li><li><span style="color:#475569">⬜</span> 미답변 감지→리마인드</li><li><span style="color:#475569">⬜</span> 광고 효율 모니터링</li><li><span style="color:#475569">⬜</span> 브리핑 고도화</li><li><span style="color:#475569">⬜</span> 녹음→액션아이템 추출</li></ul></div></div>
+    <div class="tl-item"><div class="tl-dot p5">5</div><div class="tl-card" style="border-left:3px solid #ef4444"><div class="tl-phase" style="color:#f87171">Phase 5: 외부 채널 + 모바일</div><div class="tl-time">5월 3주~</div><ul class="tl-list"><li><span style="color:#475569">⬜</span> 카카오 알림톡</li><li><span style="color:#475569">⬜</span> 카페24 Q&A/게시판</li><li><span style="color:#475569">⬜</span> 쿠팡/네이버</li><li><span style="color:#475569">⬜</span> PWA + 푸시 알림</li></ul></div></div>
+  </div>
+</div>
+
+<!-- 8. 성공 지표 -->
+<div class="section">
+  <div class="sec-title"><span class="emoji">🎯</span> 성공 지표</div>
+  <div class="kpi-grid">
+    <div class="kpi-card"><div class="kpi-current">현재: —</div><div class="kpi-value green">30%↓</div><div class="kpi-label">의사결정<br>시간 단축</div></div>
+    <div class="kpi-card"><div class="kpi-current">현재: 자주</div><div class="kpi-value blue">0회</div><div class="kpi-label">"어디 있더라?"<br>검색 횟수</div></div>
+    <div class="kpi-card"><div class="kpi-current">현재: 큼</div><div class="kpi-value green">최소화</div><div class="kpi-label">정보<br>비대칭</div></div>
+    <div class="kpi-card"><div class="kpi-current">현재: 수동</div><div class="kpi-value blue">100%</div><div class="kpi-label">크론잡<br>실시간</div></div>
+    <div class="kpi-card"><div class="kpi-current">현재: 모름</div><div class="kpi-value yellow">24h</div><div class="kpi-label">미답변<br>처리 시간</div></div>
+    <div class="kpi-card"><div class="kpi-current">현재: 수동감지</div><div class="kpi-value red">자동</div><div class="kpi-label">고객 이슈<br>감지+알림</div></div>
+    <div class="kpi-card"><div class="kpi-current">현재: 0%</div><div class="kpi-value green">40%+</div><div class="kpi-label">AI 자율<br>처리율</div></div>
+  </div>
+</div>
+
+<!-- 9. 리스크 -->
+<div class="section">
+  <div class="sec-title"><span class="emoji">⚠️</span> 리스크 & 대응</div>
+  <div class="risk-grid">
+    <div class="risk-card"><div class="risk-label">brain.db 용량</div><div class="risk-response">6개월+ 데이터 아카이브</div></div>
+    <div class="risk-card"><div class="risk-label">API 쿼터</div><div class="risk-response">수집 주기 조절 + 캐싱</div></div>
+    <div class="risk-card"><div class="risk-label">UI 복잡도</div><div class="risk-response">사람별 뷰로 단순화</div></div>
+    <div class="risk-card"><div class="risk-label">보안</div><div class="risk-response">readonly 서비스 계정, 로그 기록</div></div>
+    <div class="risk-card"><div class="risk-label">AI 오판</div><div class="risk-response">자율 행동 = 알림만, 실행은 승인 후</div></div>
+    <div class="risk-card"><div class="risk-label">개발 리소스</div><div class="risk-response">제형 UI + 개실장 백엔드 분업</div></div>
+    <div class="risk-card"><div class="risk-label">외부 API 변경</div><div class="risk-response">추상화 레이어로 교체 용이하게</div></div>
+  </div>
+</div>
+
+<!-- 10. v1→v2 변경 -->
+<div class="section">
+  <div class="sec-title"><span class="emoji">📝</span> v1 → v2 변경 요약</div>
   <div class="tbl-wrap">
-    <table>
-      <thead><tr><th>영역</th><th>기술</th><th>비고</th></tr></thead>
+    <table class="diff-table">
+      <thead><tr><th>항목</th><th>v1</th><th>v2</th></tr></thead>
       <tbody>
-        <tr><td>프론트엔드</td><td>Next.js 14 + TypeScript + Tailwind</td><td>tenex-reports 확장</td></tr>
-        <tr><td>DB</td><td>Supabase (태스크) + brain.db (검색)</td><td>이미 구축됨</td></tr>
-        <tr><td>인증</td><td>기존 tenex-reports 계정</td><td>admin / almani / dlsrb</td></tr>
-        <tr><td>API</td><td>Vercel Serverless + 맥미니 로컬</td><td>하이브리드</td></tr>
-        <tr><td>AI</td><td>OpenClaw (카리나) + brain.db 벡터</td><td>기존 인프라</td></tr>
-        <tr><td>배포</td><td>Vercel (자동)</td><td>기존 파이프라인</td></tr>
+        <tr><td>핵심</td><td>데이터 수집 + 보기</td><td>수집 + 이해 + 행동</td></tr>
+        <tr><td>연동 방향</td><td>읽기만</td><td>양방향 (읽기+쓰기)</td></tr>
+        <tr><td>지식</td><td>brain.db 날것</td><td>정제된 지식 DB 추가</td></tr>
+        <tr><td>고객</td><td>없음</td><td>통합 고객 뷰</td></tr>
+        <tr><td>AI 행동</td><td>시켜야 함</td><td>자율 행동 룰</td></tr>
+        <tr><td>외부 채널</td><td>11개</td><td>16개+</td></tr>
+        <tr><td>모바일</td><td>없음</td><td>PWA + 푸시</td></tr>
       </tbody>
     </table>
   </div>
 </div>
 
-<!-- ═══ 7. 로드맵 타임라인 ═══ -->
-<div class="section">
-  <div class="sec-title"><span class="emoji">🗺️</span> 구현 로드맵</div>
-  <div class="timeline">
-    <div class="tl-item">
-      <div class="tl-dot p1">1</div>
-      <div class="tl-card" style="border-left:3px solid #3b82f6">
-        <div class="tl-phase" style="color:#60a5fa">Phase 1: 데이터 완성</div>
-        <div class="tl-time">이번 주 (4월 1주차)</div>
-        <ul class="tl-list">
-          <li><span class="done">✅</span> Gmail API 연동</li>
-          <li><span class="done">✅</span> Drive API 연동</li>
-          <li><span class="done">✅</span> Gmail/Drive → brain.db 수집 크론잡</li>
-          <li><span class="done">✅</span> 크론 탭 실시간 연동</li>
-          <li><span class="todo">⬜</span> 슬랙 히스토리 → brain.db 수집</li>
-        </ul>
-      </div>
-    </div>
-    <div class="tl-item">
-      <div class="tl-dot p2">2</div>
-      <div class="tl-card" style="border-left:3px solid #a855f7">
-        <div class="tl-phase" style="color:#c084fc">Phase 2: 사람별 뷰</div>
-        <div class="tl-time">4월 2주차</div>
-        <ul class="tl-list">
-          <li><span class="todo">⬜</span> 업무보드 사람별 필터</li>
-          <li><span class="todo">⬜</span> 캘린더 사람별 뷰</li>
-          <li><span class="todo">⬜</span> 메일 뷰 (AI 요약)</li>
-          <li><span class="todo">⬜</span> 로그인별 개인화</li>
-        </ul>
-      </div>
-    </div>
-    <div class="tl-item">
-      <div class="tl-dot p3">3</div>
-      <div class="tl-card" style="border-left:3px solid #10B981">
-        <div class="tl-phase" style="color:#34d399">Phase 3: 통합 & AI</div>
-        <div class="tl-time">4월 3~4주차</div>
-        <ul class="tl-list">
-          <li><span class="todo">⬜</span> 통합 검색 UI (brain.db)</li>
-          <li><span class="todo">⬜</span> 일일/주간 브리핑 자동화</li>
-          <li><span class="todo">⬜</span> 이상 감지 알림</li>
-          <li><span class="todo">⬜</span> 파일 뷰 (Drive 탐색)</li>
-        </ul>
-      </div>
-    </div>
-    <div class="tl-item">
-      <div class="tl-dot p4">4</div>
-      <div class="tl-card" style="border-left:3px solid #f59e0b">
-        <div class="tl-phase" style="color:#fbbf24">Phase 4: 고도화</div>
-        <div class="tl-time">5월~</div>
-        <ul class="tl-list">
-          <li><span class="todo">⬜</span> 모바일 최적화 (PWA)</li>
-          <li><span class="todo">⬜</span> 슬랙 뷰 (채널별 요약)</li>
-          <li><span class="todo">⬜</span> 통합 퍼널 (광고→매출)</li>
-          <li><span class="todo">⬜</span> 외부 연동 (피그마, 깃허브)</li>
-        </ul>
-      </div>
-    </div>
-  </div>
-</div>
+<div class="footer-note">📝 이 기획서는 살아있는 문서입니다. 진행하면서 계속 업데이트. — v2 업데이트: 2026-04-01 21:30</div>
 
-<!-- ═══ 8. 성공 지표 ═══ -->
-<div class="section">
-  <div class="sec-title"><span class="emoji">🎯</span> 성공 지표</div>
-  <div class="kpi-grid">
-    <div class="kpi-card">
-      <div class="kpi-value green">30%↓</div>
-      <div class="kpi-label">태훈 일일<br>의사결정 시간 단축</div>
-    </div>
-    <div class="kpi-card">
-      <div class="kpi-value blue">0회</div>
-      <div class="kpi-label">"그거 어디 있더라?"<br>검색 횟수</div>
-    </div>
-    <div class="kpi-card">
-      <div class="kpi-value green">최소화</div>
-      <div class="kpi-label">팀원 간<br>정보 비대칭</div>
-    </div>
-    <div class="kpi-card">
-      <div class="kpi-value blue">100%</div>
-      <div class="kpi-label">크론잡/자동화<br>실시간 모니터링</div>
-    </div>
-    <div class="kpi-card">
-      <div class="kpi-value yellow">24h</div>
-      <div class="kpi-label">미답변 메일/댓글<br>처리 시간</div>
-    </div>
-  </div>
 </div>
-
-<!-- ═══ 9. 리스크 & 대응 ═══ -->
-<div class="section">
-  <div class="sec-title"><span class="emoji">⚠️</span> 리스크 & 대응</div>
-  <div class="risk-grid">
-    <div class="risk-card">
-      <div class="risk-label">brain.db 용량 증가</div>
-      <div class="risk-response">오래된 데이터 아카이브 정책 (6개월+)</div>
-    </div>
-    <div class="risk-card">
-      <div class="risk-label">API 쿼터 한도</div>
-      <div class="risk-response">수집 주기 조절 + 캐싱</div>
-    </div>
-    <div class="risk-card">
-      <div class="risk-label">UI 복잡도</div>
-      <div class="risk-response">사람별 뷰로 단순화, 점진적 확장</div>
-    </div>
-    <div class="risk-card">
-      <div class="risk-label">보안 (메일/문서)</div>
-      <div class="risk-response">서비스 계정 readonly, 로그 기록</div>
-    </div>
-  </div>
-</div>
-
-<div class="footer-note">
-  📝 이 기획서는 살아있는 문서입니다. 진행하면서 계속 업데이트됩니다.
-</div>
-
-</div><!-- /.content -->
 </body>
 </html>
