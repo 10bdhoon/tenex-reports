@@ -54,8 +54,8 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 /* 액션 체크리스트 */
 /* ── 액션 리스트 v3: 그리드 정렬 ── */
 .action-list{display:flex;flex-direction:column;gap:4px}
-.action-header-row{display:grid;grid-template-columns:36px 56px 56px 68px 1fr;gap:8px;align-items:center;padding:6px 16px;font-size:10px;font-weight:700;color:#475569;text-transform:uppercase;letter-spacing:.5px}
-.action-item{display:grid;grid-template-columns:36px 56px 56px 68px 1fr;gap:8px;align-items:center;padding:10px 16px;background:#1e293b;border:1px solid #334155;border-radius:10px;cursor:pointer;transition:all .15s;user-select:none}
+.action-header-row{display:grid;grid-template-columns:36px 58px 58px 82px 1fr;gap:8px;align-items:center;padding:6px 16px;font-size:10px;font-weight:700;color:#475569;text-transform:uppercase;letter-spacing:.5px}
+.action-item{display:grid;grid-template-columns:36px 58px 58px 82px 1fr;gap:8px;align-items:center;padding:10px 16px;background:#1e293b;border:1px solid #334155;border-radius:10px;cursor:pointer;transition:all .15s;user-select:none}
 .action-item:hover{border-color:#002855;background:#1e3a5f}
 .action-num{font-size:13px;font-weight:800;color:#94a3b8;text-align:center;background:#0f172a;border-radius:6px;padding:4px 0;line-height:1}
 /* 업무유형 뱃지 */
@@ -75,13 +75,13 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 .action-status-badge.s-waiting{background:rgba(100,116,139,0.2);color:#94a3b8;border:1px solid rgba(100,116,139,0.3)}
 /* 긴급·중요 셀 */
 .action-urgimp{display:flex;gap:3px;align-items:center}
-.ui-tag{font-size:9px;font-weight:700;padding:2px 5px;border-radius:3px;line-height:1}
-.ui-tag.u-high{background:rgba(239,68,68,0.25);color:#fca5a5}
-.ui-tag.u-mid{background:rgba(245,158,11,0.2);color:#fcd34d}
-.ui-tag.u-low{background:rgba(100,116,139,0.2);color:#64748b}
-.ui-tag.i-high{background:rgba(59,130,246,0.2);color:#93c5fd}
-.ui-tag.i-mid{background:rgba(59,130,246,0.12);color:#64748b}
-.ui-tag.i-low{background:rgba(51,65,85,0.4);color:#475569}
+.ui-tag{font-size:10px;font-weight:700;padding:3px 6px;border-radius:4px;line-height:1}
+.ui-tag.u-high{background:rgba(239,68,68,0.3);color:#fca5a5;border:1px solid rgba(239,68,68,0.4)}
+.ui-tag.u-mid{background:rgba(245,158,11,0.25);color:#fcd34d;border:1px solid rgba(245,158,11,0.35)}
+.ui-tag.u-low{background:rgba(100,116,139,0.2);color:#94a3b8;border:1px solid rgba(100,116,139,0.3)}
+.ui-tag.i-high{background:rgba(59,130,246,0.25);color:#93c5fd;border:1px solid rgba(59,130,246,0.35)}
+.ui-tag.i-mid{background:rgba(59,130,246,0.15);color:#94a3b8;border:1px solid rgba(59,130,246,0.2)}
+.ui-tag.i-low{background:rgba(51,65,85,0.4);color:#64748b;border:1px solid rgba(51,65,85,0.5)}
 /* 업무명 */
 .action-text{font-size:13px;color:#cbd5e1;font-weight:500;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .action-item.done .action-text{text-decoration:line-through;color:#475569}
