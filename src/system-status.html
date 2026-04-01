@@ -1223,10 +1223,16 @@
     </div>
 
     <!-- ══════════════════════════════════════════
-         launchd 크론잡
+         launchd 크론잡 (실시간)
     ══════════════════════════════════════════ -->
-    <div class="fade-in delay-3">
-      <div class="sec-title">⏰ launchd 크론잡 (12개)</div>
+    <div class="fade-in delay-3" id="cronSection">
+      <div class="sec-title" style="display:flex;align-items:center;gap:12px">
+        <span>⏰ launchd 크론잡</span>
+        <span id="cronCount" style="font-size:12px;color:#64748b;font-weight:400"></span>
+        <span id="cronUpdatedAt" style="font-size:11px;color:#475569;margin-left:auto"></span>
+        <button onclick="loadCronStatus()" style="background:#334155;border:none;color:#94a3b8;padding:4px 10px;border-radius:6px;font-size:12px;cursor:pointer;transition:all .15s" onmouseover="this.style.color='#f1f5f9'" onmouseout="this.style.color='#94a3b8'">↻ 새로고침</button>
+      </div>
+      <div id="cronError" style="display:none;background:#1e293b;border:1px solid #ef4444;border-radius:8px;padding:12px 16px;color:#fca5a5;font-size:13px;margin-bottom:12px"></div>
       <div class="tbl-wrap">
         <table>
           <thead>
@@ -1234,108 +1240,13 @@
               <th>#</th>
               <th>잡 이름</th>
               <th>주기 / 스케줄</th>
-              <th>유형</th>
               <th>상태</th>
-              <th>비고</th>
+              <th>PID</th>
+              <th>토글</th>
             </tr>
           </thead>
-          <tbody>
-            <tr>
-              <td><span class="pid-badge">01</span></td>
-              <td><strong>cafe24-token-refresh</strong></td>
-              <td><span class="cron-schedule">60분마다</span></td>
-              <td>주기적</td>
-              <td><span class="badge ok">RUNNING</span></td>
-              <td>access_token 자동 갱신</td>
-            </tr>
-            <tr>
-              <td><span class="pid-badge">02</span></td>
-              <td><strong>daily-report</strong></td>
-              <td><span class="cron-schedule">매일 07:00</span></td>
-              <td>일일</td>
-              <td><span class="badge ok">RUNNING</span></td>
-              <td>일일 보고서 생성 → Slack/Telegram</td>
-            </tr>
-            <tr>
-              <td><span class="pid-badge">03</span></td>
-              <td><strong>memory-watcher</strong></td>
-              <td><span class="cron-schedule">상시 (KeepAlive)</span></td>
-              <td>데몬</td>
-              <td><span class="badge keep-alive">KEEP-ALIVE</span></td>
-              <td>brain.db 메모리 감시</td>
-            </tr>
-            <tr>
-              <td><span class="pid-badge">04</span></td>
-              <td><strong>second-brain</strong></td>
-              <td><span class="cron-schedule">상시 (KeepAlive)</span></td>
-              <td>데몬</td>
-              <td><span class="badge keep-alive">KEEP-ALIVE</span></td>
-              <td>brain.db HTTP 서버 · 포트 8082</td>
-            </tr>
-            <tr>
-              <td><span class="pid-badge">05</span></td>
-              <td><strong>plaud-pipeline</strong></td>
-              <td><span class="cron-schedule">60분마다</span></td>
-              <td>주기적</td>
-              <td><span class="badge ok">RUNNING</span></td>
-              <td>Plaud 녹음 수집 → Gemini 전사 → DB</td>
-            </tr>
-            <tr>
-              <td><span class="pid-badge">06</span></td>
-              <td><strong>plaud-daily-report</strong></td>
-              <td><span class="cron-schedule">매일 22:00</span></td>
-              <td>일일</td>
-              <td><span class="badge ok">RUNNING</span></td>
-              <td>오늘 녹음 최종 수집 + 요약 → Telegram</td>
-            </tr>
-            <tr>
-              <td><span class="pid-badge">07</span></td>
-              <td><strong>session-sync</strong></td>
-              <td><span class="cron-schedule">10분마다</span></td>
-              <td>주기적</td>
-              <td><span class="badge ok">RUNNING</span></td>
-              <td>OpenClaw 세션 상태 동기화</td>
-            </tr>
-            <tr>
-              <td><span class="pid-badge">08</span></td>
-              <td><strong>tenex-reports-deploy</strong></td>
-              <td><span class="cron-schedule">10분마다 (변경감지)</span></td>
-              <td>주기적</td>
-              <td><span class="badge ok">RUNNING</span></td>
-              <td>파일 해시 비교 → 변경 시 Vercel 배포</td>
-            </tr>
-            <tr>
-              <td><span class="pid-badge">09</span></td>
-              <td><strong>sns-views-collect</strong></td>
-              <td><span class="cron-schedule">매일 06:00</span></td>
-              <td>일일</td>
-              <td><span class="badge ok">RUNNING</span></td>
-              <td>SNS 채널 조회수 자동 수집</td>
-            </tr>
-            <tr>
-              <td><span class="pid-badge">10</span></td>
-              <td><strong>cafe24-webhook</strong></td>
-              <td><span class="cron-schedule">10분마다</span></td>
-              <td>주기적</td>
-              <td><span class="badge ok">RUNNING</span></td>
-              <td>카페24 이벤트 웹훅 폴링</td>
-            </tr>
-            <tr>
-              <td><span class="pid-badge">11</span></td>
-              <td><strong>brain-conv-sync</strong></td>
-              <td><span class="cron-schedule">30분마다</span></td>
-              <td>주기적</td>
-              <td><span class="badge ok">RUNNING</span></td>
-              <td>대화 내용 brain.db 동기화</td>
-            </tr>
-            <tr>
-              <td><span class="pid-badge">12</span></td>
-              <td><strong>memory-indexer</strong></td>
-              <td><span class="cron-schedule">매일</span></td>
-              <td>일일</td>
-              <td><span class="badge ok">RUNNING</span></td>
-              <td>brain.db 인덱스 재구성</td>
-            </tr>
+          <tbody id="cronTbody">
+            <tr><td colspan="6" style="text-align:center;color:#64748b;padding:24px">⏳ 로딩 중...</td></tr>
           </tbody>
         </table>
       </div>
@@ -1930,7 +1841,148 @@
     animateGauges();
     animateResponseBars();
     liveCpuFlicker();
+    loadCronStatus();
   });
+
+  /* ─── Cron 실시간 연동 ───────────────────────────── */
+  // 로컬 API 서버 직접 호출 (Vercel 프록시보다 빠름)
+  const CRON_LOCAL_API = 'http://127.0.0.1:9001';
+  const CRON_VERCEL_API = '/api/cron';
+
+  // 크론 이름별 설명 (없으면 이름 그대로 표시)
+  const CRON_LABELS = {
+    'cafe24-token-refresh': '카페24 토큰 갱신',
+    'daily-report': '일일 리포트',
+    'memory-watcher': '메모리 파일 감시',
+    'second-brain': '세컨드 브레인 (8082)',
+    'yt-tracker': 'YouTube 트래킹',
+    'plaud-pipeline': 'Plaud 전사 파이프라인',
+    'plaud-daily-report': 'Plaud 일일 리포트',
+    'session-sync': '세션 동기화',
+    'tenex-reports-deploy': '리포트 자동 배포',
+    'sns-views-collect': 'SNS 조회수 수집',
+    'memory-indexer': '메모리 인덱서',
+    'youtube-comments': 'YouTube 댓글 자동화',
+    'es808-crm': 'ES-808 CRM',
+    'openclaw-watchdog': 'OpenClaw 감시',
+    'group-sync': '그룹 동기화',
+    'group-watchdog': '그룹 감시',
+    'insta-badge-remind': '인스타 뱃지 알림',
+    'datarize-chat': '데이터라이즈 채팅',
+    'pdf-handler': 'PDF 핸들러',
+    'workspace-backup': '워크스페이스 백업',
+    'system-healthcheck': '시스템 헬스체크',
+  };
+
+  async function loadCronStatus() {
+    const tbody = document.getElementById('cronTbody');
+    const errEl = document.getElementById('cronError');
+    const countEl = document.getElementById('cronCount');
+    const updatedEl = document.getElementById('cronUpdatedAt');
+
+    tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;color:#64748b;padding:24px">⏳ 로딩 중...</td></tr>';
+    errEl.style.display = 'none';
+
+    let data = null;
+
+    // 1차: 로컬 API 직접 시도 (같은 맥에서 접근 시)
+    try {
+      const r = await fetch(`${CRON_LOCAL_API}/status`, { signal: AbortSignal.timeout(2000) });
+      if (r.ok) data = await r.json();
+    } catch {}
+
+    // 2차: Vercel 프록시 시도
+    if (!data) {
+      try {
+        const r = await fetch(`${CRON_VERCEL_API}/status`, { signal: AbortSignal.timeout(5000) });
+        if (r.ok) data = await r.json();
+      } catch {}
+    }
+
+    if (!data || !data.crons) {
+      tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;color:#64748b;padding:24px">⚠️ cron-api-server 미응답 — 맥미니 로컬 서버 확인 필요</td></tr>';
+      errEl.textContent = '🔴 cron-api-server (포트 9001) 가 응답하지 않습니다. 맥미니에서 실행 중인지 확인하세요.';
+      errEl.style.display = 'block';
+      return;
+    }
+
+    const crons = data.crons;
+    countEl.textContent = `(${crons.length}개)`;
+    if (data.updatedAt) {
+      const d = new Date(data.updatedAt);
+      updatedEl.textContent = '마지막 조회: ' + d.toLocaleTimeString('ko-KR');
+    }
+
+    tbody.innerHTML = crons.map((c, i) => {
+      const label = CRON_LABELS[c.name] || c.name;
+      const statusBadge = c.running
+        ? `<span class="badge ok">RUNNING <small style="opacity:.7">(pid ${c.pid})</small></span>`
+        : c.scheduleLabel && c.scheduleLabel.includes('KeepAlive')
+          ? `<span class="badge error">DOWN</span>`
+          : `<span class="badge ok" style="opacity:.65">LOADED</span>`;
+      const badgeColor = c.running ? '#22c55e' : (c.exitCode !== 0 ? '#ef4444' : '#3b82f6');
+      const toggleChecked = c.loaded ? 'checked' : '';
+      const toggleTitle = c.loaded ? 'unload (비활성화)' : 'load (활성화)';
+      return `<tr>
+        <td><span class="pid-badge">${String(i+1).padStart(2,'0')}</span></td>
+        <td>
+          <strong>${c.name}</strong>
+          <div style="font-size:11px;color:#64748b;margin-top:2px">${label}</div>
+        </td>
+        <td><span class="cron-schedule">${c.scheduleLabel || '-'}</span></td>
+        <td>${statusBadge}</td>
+        <td style="font-family:monospace;font-size:12px;color:#94a3b8">${c.pid || '-'}</td>
+        <td>
+          <label style="display:flex;align-items:center;gap:6px;cursor:pointer" title="${toggleTitle}">
+            <input type="checkbox" ${toggleChecked} onchange="toggleCron('${c.label}', this.checked)"
+              style="accent-color:#3b82f6;width:16px;height:16px;cursor:pointer">
+            <span style="font-size:11px;color:#64748b">${c.loaded ? 'ON' : 'OFF'}</span>
+          </label>
+        </td>
+      </tr>`;
+    }).join('');
+  }
+
+  async function toggleCron(label, turnOn) {
+    const action = turnOn ? 'load' : 'unload';
+    let result = null;
+
+    // 1차: 로컬 API
+    try {
+      const r = await fetch(`${CRON_LOCAL_API}/toggle`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ label, action }),
+        signal: AbortSignal.timeout(5000),
+      });
+      if (r.ok) result = await r.json();
+    } catch {}
+
+    // 2차: Vercel 프록시
+    if (!result) {
+      try {
+        const r = await fetch(`${CRON_VERCEL_API}/toggle`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ label, action }),
+          signal: AbortSignal.timeout(8000),
+        });
+        result = await r.json();
+      } catch {}
+    }
+
+    if (result && result.ok) {
+      // 0.5초 후 상태 새로고침
+      setTimeout(loadCronStatus, 500);
+    } else {
+      alert(`토글 실패: ${result?.error || 'cron-api-server 미응답'}`);
+      // 체크박스 원상복구
+      loadCronStatus();
+    }
+  }
+
+  // 30초마다 자동 새로고침
+  setInterval(loadCronStatus, 30000);
 </script>
 
 </body>
