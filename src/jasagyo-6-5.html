@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>자사교 6기 5회차 — 2026.03.31</title>
+<style>
+  :root {
+    --navy: #002855;
+    --navy-light: #003875;
+    --navy-dark: #001a3a;
+    --accent: #4a9eff;
+    --accent2: #00c4a1;
+    --sidebar-w: 280px;
+    --bg: #f8f9fc;
+    --card: #ffffff;
+    --text: #1a1d2e;
+    --muted: #6b7280;
+    --border: #e5e7ef;
+    --tag-bg: #eef3ff;
+    --tag-text: #3b5bdb;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    background: var(--bg); color: var(--text); display: flex; min-height: 100vh; }
+
+  /* Sidebar */
+  #sidebar {
+    width: var(--sidebar-w); min-height: 100vh; background: var(--navy);
+    color: #fff; position: fixed; top: 0; left: 0; display: flex; flex-direction: column;
+    z-index: 100; transition: transform 0.3s;
+  }
+  .sidebar-header { padding: 24px 20px 16px; border-bottom: 1px solid rgba(255,255,255,0.1); }
+  .sidebar-header .back-link { color: rgba(255,255,255,0.5); text-decoration: none; font-size: 12px;
+    display: block; margin-bottom: 12px; transition: color 0.2s; }
+  .sidebar-header .back-link:hover { color: #fff; }
+  .sidebar-header h2 { font-size: 14px; font-weight: 700; color: #fff; line-height: 1.4; }
+  .sidebar-header p { font-size: 11px; color: rgba(255,255,255,0.5); margin-top: 4px; }
+  .sidebar-search { padding: 12px 16px; border-bottom: 1px solid rgba(255,255,255,0.1); }
+  .sidebar-search input {
+    width: 100%; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2);
+    border-radius: 8px; padding: 8px 12px; color: #fff; font-size: 13px; outline: none;
+  }
+  .sidebar-search input::placeholder { color: rgba(255,255,255,0.4); }
+  .sidebar-search input:focus { background: rgba(255,255,255,0.15); border-color: var(--accent); }
+  .sidebar-nav { flex: 1; overflow-y: auto; padding: 12px 0; }
+  .nav-item { display: flex; align-items: flex-start; gap: 12px; padding: 10px 16px;
+    cursor: pointer; transition: background 0.15s; border-radius: 0; text-decoration: none; }
+  .nav-item:hover { background: rgba(255,255,255,0.07); }
+  .nav-item.active { background: rgba(74,158,255,0.15); border-left: 3px solid var(--accent); }
+  .nav-time { font-size: 11px; color: var(--accent); font-weight: 600;
+    min-width: 36px; padding-top: 2px; }
+  .nav-info {}
+  .nav-title { font-size: 13px; font-weight: 600; color: #fff; }
+  .nav-sub { font-size: 11px; color: rgba(255,255,255,0.45); margin-top: 2px; }
+
+  /* Main */
+  #main { margin-left: var(--sidebar-w); flex: 1; min-height: 100vh; }
+  .main-header { background: var(--navy); color: #fff; padding: 32px 40px 28px; }
+  .main-header .breadcrumb { font-size: 12px; color: rgba(255,255,255,0.5); margin-bottom: 12px; }
+  .main-header h1 { font-size: 26px; font-weight: 800; margin-bottom: 8px; }
+  .main-header .meta { display: flex; gap: 16px; flex-wrap: wrap; }
+  .badge { background: rgba(255,255,255,0.12); border-radius: 20px; padding: 4px 12px;
+    font-size: 12px; color: rgba(255,255,255,0.8); }
+  .badge.accent { background: var(--accent); color: #fff; }
+
+  /* Session Cards */
+  #content { padding: 32px 40px; max-width: 1000px; }
+  .session { margin-bottom: 48px; scroll-margin-top: 80px; }
+  .session-header { display: flex; align-items: center; gap: 16px; margin-bottom: 20px;
+    padding: 20px 24px; background: var(--card); border-radius: 12px;
+    border-left: 4px solid var(--navy); box-shadow: 0 1px 4px rgba(0,0,0,0.06); }
+  .session-time { background: var(--navy); color: #fff; padding: 6px 14px; border-radius: 8px;
+    font-size: 14px; font-weight: 700; white-space: nowrap; }
+  .session-title-block {}
+  .session-title { font-size: 18px; font-weight: 700; color: var(--navy); }
+  .session-subtitle { font-size: 13px; color: var(--muted); margin-top: 3px; }
+
+  /* Tabs */
+  .tabs { display: flex; gap: 4px; margin-bottom: 16px; }
+  .tab-btn { padding: 8px 18px; border: 1px solid var(--border); border-radius: 8px;
+    background: #fff; cursor: pointer; font-size: 13px; font-weight: 500;
+    color: var(--muted); transition: all 0.15s; }
+  .tab-btn:hover { border-color: var(--navy); color: var(--navy); }
+  .tab-btn.active { background: var(--navy); color: #fff; border-color: var(--navy); }
+  .tab-content { display: none; }
+  .tab-content.active { display: block; }
+
+  /* Cards */
+  .card { background: var(--card); border-radius: 12px; padding: 24px;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.06); margin-bottom: 16px; border: 1px solid var(--border); }
+  .section-title { font-size: 14px; font-weight: 700; color: var(--navy); margin-bottom: 12px;
+    display: flex; align-items: center; gap: 8px; }
+  .section-title .icon { font-size: 16px; }
+  .summary-text { font-size: 14px; line-height: 1.75; color: var(--text);
+    background: #f0f4ff; border-radius: 8px; padding: 16px; border-left: 3px solid var(--navy); }
+
+  /* Lists */
+  ul.insight-list { list-style: none; padding: 0; }
+  ul.insight-list li { font-size: 14px; line-height: 1.7; color: var(--text); padding: 8px 0;
+    border-bottom: 1px solid var(--border); display: flex; gap: 10px; }
+  ul.insight-list li:last-child { border-bottom: none; }
+  ul.insight-list li::before { content: '•'; color: var(--navy); font-weight: 700; flex-shrink: 0; }
+
+  /* Number grid */
+  .number-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 12px; }
+  .number-card { background: linear-gradient(135deg, #f0f4ff 0%, #e8f0ff 100%);
+    border-radius: 10px; padding: 14px; border: 1px solid #d0d9ff; }
+  .number-value { font-size: 22px; font-weight: 800; color: var(--navy); }
+  .number-label { font-size: 12px; color: var(--muted); margin-top: 4px; }
+
+  /* Quotes */
+  .quote-block { background: #fffbf0; border-left: 3px solid #f5a623; border-radius: 0 8px 8px 0;
+    padding: 14px 18px; margin-bottom: 10px; font-size: 14px; font-style: italic;
+    color: #5a4000; line-height: 1.6; }
+  .quote-block::before { content: '"'; font-size: 24px; color: #f5a623;
+    font-style: normal; margin-right: 4px; vertical-align: -4px; }
+
+  /* Action items */
+  .action-list { list-style: none; padding: 0; }
+  .action-list li { display: flex; align-items: flex-start; gap: 10px; padding: 10px 0;
+    font-size: 14px; border-bottom: 1px solid var(--border); }
+  .action-list li:last-child { border-bottom: none; }
+  .action-check { width: 20px; height: 20px; border: 2px solid var(--navy); border-radius: 4px;
+    flex-shrink: 0; margin-top: 1px; }
+
+  /* Raw text */
+  .raw-excerpt { background: #f8f9fc; border: 1px solid var(--border); border-radius: 8px;
+    padding: 16px; font-family: monospace; font-size: 12px; line-height: 1.8;
+    max-height: 400px; overflow-y: auto; color: #444; white-space: pre-wrap; }
+  .raw-excerpt .ts { color: #999; margin-right: 8px; }
+
+  /* Search highlight */
+  .highlight { background: #fff3a3; border-radius: 2px; }
+
+  /* Mobile toggle */
+  .mobile-toggle { display: none; position: fixed; top: 12px; left: 12px; z-index: 200;
+    background: var(--navy); color: #fff; border: none; border-radius: 8px;
+    padding: 10px 14px; cursor: pointer; font-size: 18px; }
+
+  @media (max-width: 768px) {
+    #sidebar { transform: translateX(-100%); }
+    #sidebar.open { transform: translateX(0); }
+    #main { margin-left: 0; }
+    .mobile-toggle { display: block; }
+    .main-header { padding: 24px 20px 20px; padding-top: 60px; }
+    #content { padding: 20px 16px; }
+    .number-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+</style>
+</head>
+<body>
+
+<button class="mobile-toggle" onclick="toggleSidebar()">☰</button>
+
+<nav id="sidebar">
+  <div class="sidebar-header">
+    <a href="/index.html" class="back-link">← 대시보드</a>
+    <h2>자사교 6기 — 5회차</h2>
+    <p>2026년 3월 31일 (화)</p>
+  </div>
+  <div class="sidebar-search">
+    <input type="text" id="searchInput" placeholder="🔍 내용 검색..." oninput="searchContent(this.value)">
+  </div>
+  <div class="sidebar-nav">
+    <a class="nav-item active" href="#s1" onclick="scrollTo('s1')">
+      <span class="nav-time">09:56</span>
+      <div class="nav-info">
+        <div class="nav-title">광고 구조 설계</div>
+        <div class="nav-sub">캠페인 3개 룰 · 타겟 중복</div>
+      </div>
+    </a>
+    <a class="nav-item" href="#s2" onclick="scrollTo('s2')">
+      <span class="nav-time">11:15</span>
+      <div class="nav-info">
+        <div class="nav-title">광고 소재 전략</div>
+        <div class="nav-sub">비디오 · 이미지 · 카탈로그</div>
+      </div>
+    </a>
+    <a class="nav-item" href="#s3" onclick="scrollTo('s3')">
+      <span class="nav-time">13:30</span>
+      <div class="nav-info">
+        <div class="nav-title">크리에이티브 테스트</div>
+        <div class="nav-sub">기능 세팅 · 예산 5%룰</div>
+      </div>
+    </a>
+    <a class="nav-item" href="#s4" onclick="scrollTo('s4')">
+      <span class="nav-time">14:25</span>
+      <div class="nav-info">
+        <div class="nav-title">사업 전략 / 자금조달</div>
+        <div class="nav-sub">기보 · 신보 · 스케일업</div>
+      </div>
+    </a>
+    <a class="nav-item" href="#s5" onclick="scrollTo('s5')">
+      <span class="nav-time">14:44</span>
+      <div class="nav-info">
+        <div class="nav-title">분석 도구 / 믹스패널</div>
+        <div class="nav-sub">퍼널 · 세션 리플레이 · VOC</div>
+      </div>
+    </a>
+    <a class="nav-item" href="#s6" onclick="scrollTo('s6')">
+      <span class="nav-time">16:58</span>
+      <div class="nav-info">
+        <div class="nav-title">콘텐츠 분석 / AI</div>
+        <div class="nav-sub">소재 분석 · NoSQL · MCP</div>
+      </div>
+    </a>
+  </div>
+</nav>
+
+<main id="main">
+  <div class="main-header">
+    <div class="breadcrumb">자사교 6기 → 5회차 강의노트</div>
+    <h1>자사교 6기 — 5회차</h1>
+    <div class="meta">
+      <span class="badge accent">2026.03.31</span>
+      <span class="badge">6개 세션</span>
+      <span class="badge">메타광고 · 데이터분석 · 사업전략</span>
+    </div>
+  </div>
+
+  <div id="content">
+
+    <!-- ===== SESSION 1 ===== -->
+    <div class="session" id="s1">
+      <div class="session-header">
+        <span class="session-time">09:56</span>
+        <div class="session-title-block">
+          <div class="session-title">광고 구조 설계</div>
+          <div class="session-subtitle">캠페인 3개 룰 · 타겟 중복 이해 · 파트너 광고</div>
+        </div>
+      </div>
+
+      <div class="tabs">
+        <button class="tab-btn active" onclick="switchTab(this, 's1-t1')">📋 핵심 정리</button>
+        <button class="tab-btn" onclick="switchTab(this, 's1-t2')">💡 상세 내용</button>
+        <button class="tab-btn" onclick="switchTab(this, 's1-t3')">📄 원문 발췌</button>
+      </div>
+
+      <div id="s1-t1" class="tab-content active">
+        <div class="card">
+          <div class="section-title"><span class="icon">📋</span> 핵심 요약</div>
+          <div class="summary-text">
+            메타 광고 캠페인은 <strong>전환수 극대화 / 전환값 극대화 / 페이지 조회</strong> 3개만 사용한다. 캠페인을 분리하는 기준은 오직 '전환 목표'뿐이며, 제품별·테스트별 분리는 금지. 세트 생성의 조건은 가격대. 타겟 중복은 경매 기회를 잡아먹기 때문에 구조적으로 최소화해야 하고, 전환수·전환값·페이지 조회 3개는 타겟 중복률이 거의 없다는 것이 핵심 인사이트. 파트너 광고는 한국에서 활용하는 사람이 거의 없어 경매에서 유리하므로 적극 활용 권장.
+          </div>
+        </div>
+        <div class="card">
+          <div class="section-title"><span class="icon">📊</span> 숫자 & 데이터</div>
+          <div class="number-grid">
+            <div class="number-card"><div class="number-value">3개</div><div class="number-label">캠페인 최대 개수 (전환수/전환값/페이지)</div></div>
+            <div class="number-card"><div class="number-value">CV 3~5%</div><div class="number-label">일반 카테고리 전환율 (카테고리별 상이)</div></div>
+            <div class="number-card"><div class="number-value">CV 0.9%</div><div class="number-label">가습기 저녁 광고 사례 전환율</div></div>
+            <div class="number-card"><div class="number-value">CR 2~5%</div><div class="number-label">클릭률 내외</div></div>
+            <div class="number-card"><div class="number-value">4,500%+</div><div class="number-label">파트너 광고 활용 시 ROAS 사례</div></div>
+            <div class="number-card"><div class="number-value">3만 vs 5만</div><div class="number-label">A/B 제품 가격 비교 시 저가 우선 노출</div></div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="section-title"><span class="icon">💬</span> 기억할 발언</div>
+          <div class="quote-block">저는 확률 게임을 하는 겁니다. 퍼포먼스 마케팅 이 숫자 먹는 게잖아요.</div>
+          <div class="quote-block">캠페인 생성하면은 동반자라고 생각하고 가야 돼.</div>
+          <div class="quote-block">전환값, 전환수, 페이지 조회 세 개 타겟 중복률이 거의 없다. — 이것 때문에 이렇게 캠페인 구조 짰습니다.</div>
+          <div class="quote-block">되는 놈만 계속 내리는 슬로우 모션 (메타의 멀티 알고리즘)</div>
+        </div>
+        <div class="card">
+          <div class="section-title"><span class="icon">🎯</span> 액션 아이템</div>
+          <ul class="action-list">
+            <li><div class="action-check"></div>캠페인 3개(전환수/전환값/페이지) 외 불필요한 캠페인 정리</li>
+            <li><div class="action-check"></div>타겟 중복률 체크 — 메타 광고 관리자에서 타겟 중복 확인</li>
+            <li><div class="action-check"></div>파트너 광고(Partnership Ads) 세팅 검토</li>
+            <li><div class="action-check"></div>세트 분리 기준을 가격대로만 운영하도록 정리</li>
+          </ul>
+        </div>
+      </div>
+
+      <div id="s1-t2" class="tab-content">
+        <div class="card">
+          <div class="section-title"><span class="icon">💡</span> 주요 개념 & 인사이트</div>
+          <ul class="insight-list">
+            <li>판매 캠페인은 풀퍼널 커버 — 잠재고객부터 구매 의향 높은 사람까지 모두 포함 (상세 페이지 조회 목표로 위쪽 퍼널도 가능)</li>
+            <li>캠페인 분리 기준 = 전환 목표만. 제품 다르다고 캠페인 분리하면 안 됨</li>
+            <li>세트 분리 기준 = 가격대. 타겟 분리는 더 이상 의미 없음 (AI가 전연령 다 들어가서 필터링)</li>
+            <li>타겟 중복 발생 시 ①셀프 CP 올림(자기 돈으로 자기끼리 경쟁) ②입찰 기회 손실(100번 가능한데 97번만) ③성과 기여 왜곡</li>
+            <li>A캠페인이 노출하고 B캠페인이 전환 가져가는 기여 왜곡 현상 — 두 캠페인 간 진짜 성과 비교 불가능</li>
+            <li>싼 제품(3만원)과 비싼 제품(5만원) 같이 넣으면 전환수 극대화에서 싼 제품만 타게 되어 비싼 제품 데이터 쌓임 기회 없어짐</li>
+            <li>파트너 광고: 국내 활용자 거의 없어 경매에서 유리. 주기성 있게 활용 시 ROAS 두 배 효과 사례</li>
+            <li>과거 AI 약할 때는 타겟 사전 정의 필요했지만, 현재는 메타 AI가 전 연령 다 넣고 내부에서 최적 필터링</li>
+            <li>메타가 권장하는 방향 = 판매 캠페인 중심, 전환 목표 기반 구조</li>
+            <li>퍼시(Persy) 브랜드와 파트너 광고 실험에서 좋은 결과 도출한 사례 언급</li>
+          </ul>
+        </div>
+        <div class="card">
+          <div class="section-title"><span class="icon">🔧</span> 실무 적용 포인트</div>
+          <ul class="insight-list">
+            <li>캠페인 개수 = 최대 3개 (전환수 극대화 판매 / 전환값 극대화 / 페이지 조회)</li>
+            <li>제품 여러 개일 때 → 같은 캠페인 안에서 세트만 분리 (가격대 기준)</li>
+            <li>타겟 중복 확인: 구글에서 '메타 타겟 중복' 검색하면 공식 문서 나옴</li>
+            <li>비싼 제품 지키려면 → 별도 캠페인에 최저 예산 부여해서 데이터 보호</li>
+            <li>A캠페인 끄고 B 켰는데 성과 나왔다 → 사실 A가 누적해준 데이터 덕분일 가능성 높음 (착시 주의)</li>
+            <li>캠페인은 동반자 — 장기적으로 함께 가는 구조로 설계</li>
+          </ul>
+        </div>
+      </div>
+
+      <div id="s1-t3" class="tab-content">
+        <div class="card">
+          <div class="section-title"><span class="icon">📄</span> 원문 발췌 (주요 구간)</div>
+          <div class="raw-excerpt"><span class="ts">[05:22]</span> 저는 확률 게임을 하는 겁니다. 저는 그 퍼포먼스 마케팅 이 숫자 먹는 거잖아요. 결국에는 마케팅도 숫자 먹는 게임이거든요. 그러면 제가 생각하는 구조상 확률에서 이길 수 있는 세팅을 하는 걸 좋아해요.
+
+<span class="ts">[11:32]</span> 전환값, 전환수, 페이지 조회 세 개 타겟 중복률이 거의 없다. 이것 때문에 제가 이렇게 캠페인 이렇게 구조 짰네요. 그래서 우리가 캠페인을 무언가 만든다는 거는 사실상 전환 목표만 달라요. 다른 거는 아무런 의미가 없습니다.
+
+<span class="ts">[15:39]</span> 우리는 하루에 각각 10만 원이면은 30만 원이잖아요. 그럼 입찰할 수 있는 게 정해져 있겠죠. 돈에 따라. 근데 그때 입찰 기회가 100번이어서 사실 한 개만 노출됐지만 99번이 돼야 되는데 97번이 돼. 입찰이 2로. 이러면 엄청 손해죠. 사실 우리는 100번 나올 수 있는 거. 타겟 중복을 시켜서 다 줘. 내 적은 숫자에 경매 기회가 묶게 되는 거.
+
+<span class="ts">[17:41]</span> 이게 메타의 우리가 제가 저번 주에 말씀드린 멀티한 알고리즘. 되는 놈만 계속 내리는 슬로우 모션.
