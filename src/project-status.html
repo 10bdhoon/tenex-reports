@@ -53,10 +53,27 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 
 /* 액션 체크리스트 */
 .action-list{display:flex;flex-direction:column;gap:6px}
-.action-item{display:flex;align-items:center;gap:12px;padding:12px 16px;background:#1e293b;border:1px solid #334155;border-radius:10px;cursor:pointer;transition:all .15s;user-select:none}
+.action-item{display:flex;align-items:center;gap:10px;padding:12px 16px;background:#1e293b;border:1px solid #334155;border-radius:10px;cursor:pointer;transition:all .15s;user-select:none}
 .action-item:hover{border-color:#002855;background:#1e3a5f}
-.action-num{font-size:12px;font-weight:700;color:#64748b;min-width:24px}
-.action-status{font-size:16px;flex-shrink:0;width:22px;text-align:center}
+.action-num{font-size:12px;font-weight:700;color:#64748b;min-width:24px;text-align:center;flex-shrink:0}
+.action-type{font-size:10px;font-weight:700;padding:3px 8px;border-radius:4px;flex-shrink:0;letter-spacing:.3px;min-width:44px;text-align:center}
+.action-type.t-mkt{background:rgba(59,130,246,0.15);color:#60a5fa}
+.action-type.t-dev{background:rgba(168,85,247,0.15);color:#c084fc}
+.action-type.t-cx{background:rgba(16,185,129,0.15);color:#34d399}
+.action-type.t-biz{background:rgba(245,158,11,0.15);color:#fbbf24}
+.action-type.t-fund{background:rgba(239,68,68,0.15);color:#f87171}
+.action-type.t-content{background:rgba(236,72,153,0.15);color:#f472b6}
+.action-type.t-hr{background:rgba(100,116,139,0.15);color:#94a3b8}
+.action-status-badge{font-size:10px;font-weight:700;padding:3px 8px;border-radius:4px;flex-shrink:0;min-width:44px;text-align:center}
+.action-status-badge.s-doing{background:rgba(59,130,246,0.15);color:#60a5fa}
+.action-status-badge.s-done{background:rgba(16,185,129,0.15);color:#34d399}
+.action-status-badge.s-delay{background:rgba(239,68,68,0.15);color:#f87171}
+.action-status-badge.s-waiting{background:rgba(100,116,139,0.15);color:#94a3b8}
+.action-matrix{display:flex;gap:3px;flex-shrink:0}
+.action-matrix-dot{width:8px;height:8px;border-radius:2px}
+.action-matrix-dot.high{background:#ef4444}
+.action-matrix-dot.mid{background:#f59e0b}
+.action-matrix-dot.low{background:#334155}
 .action-text{font-size:14px;color:#cbd5e1;flex:1}
 .action-item.done .action-text{text-decoration:line-through;color:#475569}
 .action-item.delay .action-text{color:#fca5a5}
@@ -157,11 +174,17 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
   <div class="section-title">✅ 태훈 액션 아이템</div>
   <div class="action-list" id="actionList"></div>
 
-  <div class="legend">
-    <span>🔧 진행중</span>
-    <span>✅ 완료</span>
-    <span>🔴 지연</span>
-    <span>⏳ 대기</span>
+  <div class="legend" style="flex-wrap:wrap">
+    <span><span class="action-status-badge s-doing" style="font-size:9px;padding:2px 6px">진행중</span></span>
+    <span><span class="action-status-badge s-done" style="font-size:9px;padding:2px 6px">완료</span></span>
+    <span><span class="action-status-badge s-delay" style="font-size:9px;padding:2px 6px">지연</span></span>
+    <span><span class="action-status-badge s-waiting" style="font-size:9px;padding:2px 6px">대기중</span></span>
+    <span style="margin-left:8px;border-left:1px solid #334155;padding-left:12px">
+      <span class="action-matrix-dot high" style="display:inline-block;width:8px;height:8px;border-radius:2px;vertical-align:middle"></span> 높음
+      <span class="action-matrix-dot mid" style="display:inline-block;width:8px;height:8px;border-radius:2px;vertical-align:middle;margin-left:6px"></span> 보통
+      <span class="action-matrix-dot low" style="display:inline-block;width:8px;height:8px;border-radius:2px;vertical-align:middle;margin-left:6px"></span> 낮음
+      <span style="margin-left:4px;color:#475569">(긴급도·중요도)</span>
+    </span>
   </div>
   <div class="last-saved" id="lastSaved"></div>
 </div>
@@ -269,17 +292,28 @@ const FALLBACK_AGENTS = [
 ];
 
 const FALLBACK_ACTIONS = [
-  {id:'t1', num:1, text:'리포트 UI 크롱 스타일 전환', status:'done'},
-  {id:'t2', num:2, text:'지메일 연동', status:'waiting'},
-  {id:'t3', num:3, text:'알림톡 CRM (알마니 대표 소개 후)', status:'waiting'},
-  {id:'t4', num:4, text:'정품등록 + 메타픽셀', status:'doing'},
-  {id:'t5', num:5, text:'Mixpanel 시각화', status:'waiting'},
-  {id:'t6', num:6, text:'앱 MVP 개발 착수', status:'waiting'},
-  {id:'t7', num:7, text:'CS-25 리뷰 체험단 세팅', status:'waiting'},
-  {id:'t8', num:8, text:'유튜브 콘텐츠 캘린더', status:'waiting'},
-  {id:'t9', num:9, text:'팀 채용 JD 작성', status:'waiting'},
-  {id:'t10', num:10, text:'해외진출 1차 리서치', status:'waiting'},
+  {id:'t1', num:1, text:'리포트 UI 크롱 스타일 전환', status:'done', type:'dev', urgency:'high', importance:'high'},
+  {id:'t2', num:2, text:'지메일 연동', status:'waiting', type:'dev', urgency:'mid', importance:'high'},
+  {id:'t3', num:3, text:'알림톡 CRM (알마니 대표 소개 후)', status:'waiting', type:'mkt', urgency:'mid', importance:'high'},
+  {id:'t4', num:4, text:'정품등록 + 메타픽셀', status:'doing', type:'dev', urgency:'high', importance:'high'},
+  {id:'t5', num:5, text:'Mixpanel 시각화', status:'waiting', type:'mkt', urgency:'mid', importance:'mid'},
+  {id:'t6', num:6, text:'앱 MVP 개발 착수', status:'waiting', type:'dev', urgency:'low', importance:'high'},
+  {id:'t7', num:7, text:'CS-25 리뷰 체험단 세팅', status:'waiting', type:'cx', urgency:'mid', importance:'mid'},
+  {id:'t8', num:8, text:'유튜브 콘텐츠 캘린더', status:'waiting', type:'content', urgency:'mid', importance:'mid'},
+  {id:'t9', num:9, text:'팀 채용 JD 작성', status:'waiting', type:'hr', urgency:'low', importance:'mid'},
+  {id:'t10', num:10, text:'해외진출 1차 리서치', status:'waiting', type:'biz', urgency:'low', importance:'mid'},
 ];
+
+const TYPE_MAP = {
+  dev: {label:'개발', cls:'t-dev'},
+  mkt: {label:'마케팅', cls:'t-mkt'},
+  cx: {label:'CX', cls:'t-cx'},
+  biz: {label:'전략', cls:'t-biz'},
+  fund: {label:'자금', cls:'t-fund'},
+  content: {label:'콘텐츠', cls:'t-content'},
+  hr: {label:'채용', cls:'t-hr'},
+};
+const STATUS_LABEL = {doing:'진행중', done:'완료', delay:'지연', waiting:'대기중', pending:'대기중'};
 
 const STATUS_EMOJI = {done:'✅', doing:'🔧', delay:'🔴', waiting:'⏳', pending:'⏳'};
 const STATUS_CYCLE = ['doing','done','delay','waiting'];
@@ -411,14 +445,25 @@ function renderAgents() {
 // ── Render: Actions ──
 function renderActions() {
   const list = document.getElementById('actionList');
-  list.innerHTML = actions.map(a => `
+  list.innerHTML = actions.map(a => {
+    const t = TYPE_MAP[a.type] || {label:'기타', cls:'t-dev'};
+    const sLabel = STATUS_LABEL[a.status] || '대기중';
+    const sCls = 's-' + (a.status || 'waiting');
+    const urg = a.urgency || 'low';
+    const imp = a.importance || 'low';
+    return `
     <div class="action-item ${a.status === 'done' ? 'done' : a.status === 'delay' ? 'delay' : ''}"
          onclick="toggleAction('${a.id}')" title="클릭하여 상태 변경">
       <span class="action-num">${a.num}</span>
-      <span class="action-status">${STATUS_EMOJI[a.status] || '⏳'}</span>
+      <span class="action-type ${t.cls}">${t.label}</span>
+      <span class="action-status-badge ${sCls}">${sLabel}</span>
+      <span class="action-matrix" title="긴급도 / 중요도">
+        <span class="action-matrix-dot ${urg}" title="긴급도: ${urg}"></span>
+        <span class="action-matrix-dot ${imp}" title="중요도: ${imp}"></span>
+      </span>
       <span class="action-text">${a.text}</span>
-    </div>
-  `).join('');
+    </div>`;
+  }).join('');
 }
 
 function startOrderEdit(el, agentId, idx) {
