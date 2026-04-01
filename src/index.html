@@ -2011,14 +2011,16 @@ function renderDetailBody(task){
   html+='<div class="tb-detail-section"><div class="tb-detail-label">업무 설명</div><textarea class="tb-detail-textarea" id="dpDesc" placeholder="업무 설명을 입력하세요..." rows="3">'+escapeHtml(task.desc||'')+'</textarea></div>';
   // Checklist
   const cl=task.checklist||[];
-  html+='<div class="tb-detail-section"><div class="tb-detail-label">체크리스트</div>';
+  html+='<div class="tb-detail-section"><div class="tb-detail-label">체크리스트</div><div class="tb-detail-checklist-wrap" data-tid="'+task.id+'">';
   cl.forEach((ci,idx)=>{
-    html+='<div class="tb-detail-checklist-item'+(ci.done?' checked':'')+'" data-ci="'+idx+'">';
+    html+='<div class="tb-detail-checklist-item'+(ci.done?' checked':'')+'" data-ci="'+idx+'" draggable="true" data-tid="'+task.id+'">';
+    html+='<span class="tb-cl-drag-handle" title="드래그하여 순서 변경">⠿</span>';
     html+='<input type="checkbox"'+(ci.done?' checked':'')+' data-ci="'+idx+'">';
     html+='<span>'+escapeHtml(ci.text)+'</span>';
     html+='<button class="cl-delete" data-ci="'+idx+'" title="삭제">✕</button>';
     html+='</div>';
   });
+  html+='</div>';
   html+='<div class="tb-detail-checklist-add"><input type="text" placeholder="항목 추가..." id="dpClAdd"><button id="dpClAddBtn">+</button></div>';
   html+='</div>';
   // Memo
@@ -2061,6 +2063,111 @@ function renderDetailBody(task){
   };
   clAddBtn.onclick=addClItem;
   clAddInput.onkeydown=e=>{if(e.key==='Enter')addClItem()};
+  // ── Checklist Drag & Drop (within same task + cross-task) ──
+  initClDrag(task, body);
+}
+
+let _clDragIdx=null, _clDragTid=null;
+function initClDrag(task, body){
+  const wrap=body.querySelector('.tb-detail-checklist-wrap');
+  if(!wrap)return;
+  const items=wrap.querySelectorAll('.tb-detail-checklist-item[draggable]');
+  items.forEach(el=>{
+    el.addEventListener('dragstart',e=>{
+      _clDragIdx=parseInt(el.dataset.ci);
+      _clDragTid=el.dataset.tid;
+      el.classList.add('cl-dragging');
+      e.dataTransfer.effectAllowed='move';
+      e.dataTransfer.setData('application/x-cl-drag',JSON.stringify({idx:_clDragIdx,tid:_clDragTid}));
+      // Enable external card drop targets
+      setTimeout(()=>enableClCardDrop(),0);
+    });
+    el.addEventListener('dragend',()=>{
+      el.classList.remove('cl-dragging');
+      _clDragIdx=null;_clDragTid=null;
+      clearClDragHighlights();
+      disableClCardDrop();
+    });
+    el.addEventListener('dragover',e=>{
+      e.preventDefault();e.dataTransfer.dropEffect='move';
+      clearClDragHighlights();
+      const rect=el.getBoundingClientRect();
+      if(e.clientY<rect.top+rect.height/2)el.classList.add('cl-drag-above');
+      else el.classList.add('cl-drag-below');
+    });
+    el.addEventListener('dragleave',()=>{
+      el.classList.remove('cl-drag-above','cl-drag-below');
+    });
+    el.addEventListener('drop',e=>{
+      e.preventDefault();
+      let data;try{data=JSON.parse(e.dataTransfer.getData('application/x-cl-drag'));}catch{return;}
+      const targetIdx=parseInt(el.dataset.ci);
+      const rect=el.getBoundingClientRect();
+      let insertIdx=e.clientY<rect.top+rect.height/2?targetIdx:targetIdx+1;
+      clearClDragHighlights();
+      if(data.tid===task.id){
+        // Same task — reorder
+        if(data.idx===insertIdx||data.idx+1===insertIdx)return;
+        const [item]=task.checklist.splice(data.idx,1);
+        const adj=insertIdx>data.idx?insertIdx-1:insertIdx;
+        task.checklist.splice(adj,0,item);
+      } else {
+        // Cross-task — move item here
+        const srcTask=tbTasks.find(t=>t.id===data.tid);
+        if(!srcTask||!srcTask.checklist)return;
+        const [item]=srcTask.checklist.splice(data.idx,1);
+        task.checklist.splice(insertIdx,0,item);
+      }
+      saveTasks();renderDetailBody(task);renderTbAll();
+    });
+  });
+}
+
+function enableClCardDrop(){
+  document.querySelectorAll('.tb-cat-task').forEach(el=>{
+    el.addEventListener('dragover',clCardDragOver);
+    el.addEventListener('dragleave',clCardDragLeave);
+    el.addEventListener('drop',clCardDrop);
+  });
+}
+function disableClCardDrop(){
+  document.querySelectorAll('.tb-cat-task').forEach(el=>{
+    el.removeEventListener('dragover',clCardDragOver);
+    el.removeEventListener('dragleave',clCardDragLeave);
+    el.removeEventListener('drop',clCardDrop);
+    el.classList.remove('cl-drop-target');
+  });
+}
+function clCardDragOver(e){e.preventDefault();e.dataTransfer.dropEffect='move';this.classList.add('cl-drop-target');}
+function clCardDragLeave(){this.classList.remove('cl-drop-target');}
+function clCardDrop(e){
+  e.preventDefault();this.classList.remove('cl-drop-target');
+  let data;try{data=JSON.parse(e.dataTransfer.getData('application/x-cl-drag'));}catch{return;}
+  const targetTid=this.dataset.tid;
+  if(!targetTid||targetTid===data.tid)return;
+  const srcTask=tbTasks.find(t=>t.id===data.tid);
+  const destTask=tbTasks.find(t=>t.id===targetTid);
+  if(!srcTask||!srcTask.checklist||!destTask)return;
+  const [item]=srcTask.checklist.splice(data.idx,1);
+  if(!destTask.checklist)destTask.checklist=[];
+  destTask.checklist.push(item);
+  saveTasks();
+  // Re-render detail panel if open
+  if(tbDetailTid===data.tid)renderDetailBody(srcTask);
+  else if(tbDetailTid===targetTid)renderDetailBody(destTask);
+  renderTbAll();
+  showTbToast('체크리스트 항목이 이동되었습니다');
+}
+function clearClDragHighlights(){
+  document.querySelectorAll('.cl-drag-above,.cl-drag-below,.cl-drop-target').forEach(el=>{
+    el.classList.remove('cl-drag-above','cl-drag-below','cl-drop-target');
+  });
+}
+function showTbToast(msg){
+  const t=document.createElement('div');
+  t.style.cssText='position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:var(--card);color:var(--text);padding:12px 24px;border-radius:10px;font-size:13px;z-index:9999;box-shadow:0 4px 12px rgba(0,0,0,.2);border:1px solid var(--border);transition:opacity .3s';
+  t.textContent=msg;document.body.appendChild(t);
+  setTimeout(()=>{t.style.opacity='0';setTimeout(()=>t.remove(),300);},2500);
 }
 
 let _renderRaf=null;
