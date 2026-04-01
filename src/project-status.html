@@ -778,6 +778,176 @@ function renderGanttTable(container, tasks, rangeStart, rangeEnd, today) {
   }
 }
 
+// ── 체크리스트 드래그앤드롭 (패널 내 순서 변경) ──
+let dragCheckIdx = null;
+let dragCheckAgentId = null;
+let dragCheckTaskId = null;
+
+function initChecklistDrag(container) {
+  container.querySelectorAll('.panel-check-item[draggable]').forEach(el => {
+    el.addEventListener('dragstart', e => {
+      dragCheckIdx = parseInt(el.dataset.checkIdx);
+      dragCheckAgentId = el.dataset.agentId;
+      dragCheckTaskId = el.dataset.taskId;
+      el.classList.add('dragging');
+      e.dataTransfer.effectAllowed = 'move';
+      e.dataTransfer.setData('text/plain', JSON.stringify({
+        type: 'checklist-item',
+        idx: dragCheckIdx,
+        agentId: dragCheckAgentId,
+        taskId: dragCheckTaskId
+      }));
+      // 패널 밖 드래그 시 task 카드가 드롭 대상이 되도록
+      setTimeout(() => enableCardDropTargets(), 0);
+    });
+
+    el.addEventListener('dragend', () => {
+      el.classList.remove('dragging');
+      dragCheckIdx = null;
+      clearAllDropHighlights();
+      disableCardDropTargets();
+    });
+
+    el.addEventListener('dragover', e => {
+      e.preventDefault();
+      e.dataTransfer.dropEffect = 'move';
+      const rect = el.getBoundingClientRect();
+      const midY = rect.top + rect.height / 2;
+      container.querySelectorAll('.panel-check-item').forEach(x => {
+        x.classList.remove('drag-over-above', 'drag-over-below');
+      });
+      if (e.clientY < midY) {
+        el.classList.add('drag-over-above');
+      } else {
+        el.classList.add('drag-over-below');
+      }
+    });
+
+    el.addEventListener('dragleave', () => {
+      el.classList.remove('drag-over-above', 'drag-over-below');
+    });
+
+    el.addEventListener('drop', e => {
+      e.preventDefault();
+      const targetIdx = parseInt(el.dataset.checkIdx);
+      const rect = el.getBoundingClientRect();
+      const midY = rect.top + rect.height / 2;
+      let insertIdx = e.clientY < midY ? targetIdx : targetIdx + 1;
+
+      container.querySelectorAll('.panel-check-item').forEach(x => {
+        x.classList.remove('drag-over-above', 'drag-over-below');
+      });
+
+      if (dragCheckIdx === null || dragCheckIdx === insertIdx || dragCheckIdx + 1 === insertIdx) {
+        return; // no-op
+      }
+
+      // 같은 카드 내 순서 변경
+      const [item] = panelChecklist.splice(dragCheckIdx, 1);
+      const adjustedIdx = insertIdx > dragCheckIdx ? insertIdx - 1 : insertIdx;
+      panelChecklist.splice(adjustedIdx, 0, item);
+      renderPanelChecklist();
+    });
+  });
+}
+
+// ── 카드 간 체크리스트 이동 (패널 밖 → 다른 task 카드로 드롭) ──
+function enableCardDropTargets() {
+  document.querySelectorAll('.task-item').forEach(taskEl => {
+    taskEl.addEventListener('dragover', cardDragOver);
+    taskEl.addEventListener('dragleave', cardDragLeave);
+    taskEl.addEventListener('drop', cardDrop);
+  });
+  // 패널 오버레이가 드래그를 막지 않도록
+  document.getElementById('panelOverlay')?.classList.add('drag-through');
+}
+
+function disableCardDropTargets() {
+  document.querySelectorAll('.task-item').forEach(taskEl => {
+    taskEl.removeEventListener('dragover', cardDragOver);
+    taskEl.removeEventListener('dragleave', cardDragLeave);
+    taskEl.removeEventListener('drop', cardDrop);
+    taskEl.classList.remove('check-drop-target');
+  });
+  document.getElementById('panelOverlay')?.classList.remove('drag-through');
+}
+
+function cardDragOver(e) {
+  e.preventDefault();
+  e.dataTransfer.dropEffect = 'move';
+  this.classList.add('check-drop-target');
+}
+
+function cardDragLeave(e) {
+  this.classList.remove('check-drop-target');
+}
+
+function cardDrop(e) {
+  e.preventDefault();
+  this.classList.remove('check-drop-target');
+
+  let data;
+  try { data = JSON.parse(e.dataTransfer.getData('text/plain')); } catch { return; }
+  if (data.type !== 'checklist-item') return;
+
+  // 드롭 대상 task 찾기
+  const taskItem = this.closest('.task-item');
+  if (!taskItem) return;
+
+  // task-item에서 agentId, taskId 추출 (onclick 속성에서 파싱)
+  const detailBtn = taskItem.querySelector('.task-detail-btn');
+  if (!detailBtn) return;
+  const onclickStr = detailBtn.getAttribute('onclick') || '';
+  const match = onclickStr.match(/openPanel\('([^']+)','([^']+)'\)/);
+  if (!match) return;
+  const targetAgentId = match[1];
+  const targetTaskId = match[2];
+
+  // 같은 카드면 무시
+  if (targetAgentId === data.agentId && targetTaskId === data.taskId) return;
+
+  // 원본 체크리스트에서 항목 제거
+  const srcItem = panelChecklist[data.idx];
+  if (!srcItem) return;
+
+  panelChecklist.splice(data.idx, 1);
+
+  // 원본 DB task 체크리스트 업데이트
+  const srcDb = dbTasks.find(t => t.id === data.taskId);
+  if (srcDb) {
+    srcDb.checklist = [...panelChecklist];
+  }
+
+  // 대상 DB task 체크리스트에 추가
+  let destDb = dbTasks.find(t => t.id === targetTaskId);
+  if (!destDb) {
+    destDb = {id: targetTaskId, checklist: []};
+    dbTasks.push(destDb);
+  }
+  if (!destDb.checklist) destDb.checklist = [];
+  destDb.checklist.push(srcItem);
+
+  saveData();
+  renderPanelChecklist();
+
+  // 이동 완료 토스트
+  showToast(`체크리스트 항목을 ${targetAgentId}의 다른 카드로 이동했습니다`);
+}
+
+function clearAllDropHighlights() {
+  document.querySelectorAll('.drag-over-above,.drag-over-below,.check-drop-target').forEach(el => {
+    el.classList.remove('drag-over-above', 'drag-over-below', 'check-drop-target');
+  });
+}
+
+function showToast(msg) {
+  const toast = document.createElement('div');
+  toast.style.cssText = 'position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:#334155;color:#f1f5f9;padding:12px 24px;border-radius:10px;font-size:13px;z-index:9999;box-shadow:0 4px 12px rgba(0,0,0,.3);transition:opacity .3s';
+  toast.textContent = msg;
+  document.body.appendChild(toast);
+  setTimeout(() => { toast.style.opacity = '0'; setTimeout(() => toast.remove(), 300); }, 2500);
+}
+
 // ── 초기화 ──
 (async () => {
   await loadData();
