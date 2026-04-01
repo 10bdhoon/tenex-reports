@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>DART 경쟁사 판관비 분석 — 실질 마케팅비 비교</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#0f172a;color:#e2e8f0;font-family:-apple-system,BlinkMacSystemFont,'Pretendard',sans-serif;font-size:14px;line-height:1.6}
+a{color:#60a5fa;text-decoration:none}
+a:hover{text-decoration:underline}
+.container{max-width:1100px;margin:0 auto;padding:0 20px 60px}
+.header{background:linear-gradient(135deg,#0f172a 0%,#1e3a5f 100%);padding:40px 0 30px;border-bottom:1px solid #334155}
+.header .container{display:flex;flex-direction:column;gap:12px}
+.back-link{font-size:13px;color:#94a3b8;display:inline-flex;align-items:center;gap:4px}
+.back-link:hover{color:#e2e8f0}
+.header h1{font-size:26px;font-weight:700;color:#f1f5f9}
+.header .subtitle{font-size:14px;color:#94a3b8}
+.header .meta{display:flex;gap:16px;font-size:13px;color:#64748b;flex-wrap:wrap}
+.section{padding-top:32px}
+.section-title{font-size:20px;font-weight:700;margin-bottom:20px;padding-bottom:10px;border-bottom:2px solid #3b82f6;display:flex;align-items:center;gap:8px}
+.card{background:#1e293b;border:1px solid #334155;border-radius:12px;padding:24px;margin-bottom:20px;transition:border-color .2s}
+.card:hover{border-color:#475569}
+.card h3{font-size:16px;font-weight:600;margin-bottom:12px;color:#f1f5f9}
+.info-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px;margin-bottom:24px}
+.info-item{background:#0f172a;border:1px solid #334155;border-radius:8px;padding:16px;text-align:center}
+.info-item .label{font-size:12px;color:#64748b;text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px}
+.info-item .value{font-size:22px;font-weight:700;color:#f1f5f9}
+.info-item .sub{font-size:12px;color:#94a3b8;margin-top:2px}
+table{width:100%;border-collapse:collapse;font-size:13px}
+th{background:#0f172a;color:#94a3b8;font-weight:600;text-transform:uppercase;font-size:11px;letter-spacing:.5px;padding:12px 10px;text-align:right;border-bottom:2px solid #334155}
+th:first-child{text-align:left}
+td{padding:12px 10px;border-bottom:1px solid #1e293b;text-align:right;color:#e2e8f0}
+td:first-child{text-align:left;font-weight:600;color:#f1f5f9}
+tr:hover td{background:#1e293b80}
+.highlight{color:#f59e0b;font-weight:700}
+.badge{display:inline-block;padding:2px 8px;border-radius:10px;font-size:11px;font-weight:600}
+.badge-high{background:#ef444420;color:#f87171;border:1px solid #ef444440}
+.badge-mid{background:#f59e0b20;color:#fbbf24;border:1px solid #f59e0b40}
+.badge-low{background:#22c55e20;color:#4ade80;border:1px solid #22c55e40}
+.chart-container{position:relative;height:350px;margin:20px 0}
+.insight-list{list-style:none;padding:0}
+.insight-list li{padding:12px 16px;border-left:3px solid #3b82f6;margin-bottom:12px;background:#0f172a;border-radius:0 8px 8px 0}
+.insight-list li strong{color:#60a5fa}
+.channel-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px}
+.channel-card{background:#0f172a;border:1px solid #334155;border-radius:8px;padding:16px;text-align:center}
+.channel-card .name{font-size:13px;color:#94a3b8;margin-bottom:4px}
+.channel-card .rate{font-size:20px;font-weight:700;color:#f59e0b}
+.benchmark-box{background:linear-gradient(135deg,#1e3a5f,#0f172a);border:2px solid #3b82f6;border-radius:12px;padding:24px;margin:24px 0}
+.benchmark-box h3{color:#60a5fa;margin-bottom:12px}
+.benchmark-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px}
+.benchmark-item{text-align:center}
+.benchmark-item .label{font-size:12px;color:#94a3b8}
+.benchmark-item .value{font-size:24px;font-weight:700;color:#f1f5f9}
+</style>
+</head>
+<body>
+
+<div class="header">
+<div class="container">
+<a href="/" class="back-link">← 리포트 목록</a>
+<h1>📊 DART 경쟁사 판관비 분석</h1>
+<div class="subtitle">건강/의료기기 상장사 실질 마케팅비 비교 — 키네메디칼 벤치마크</div>
+<div class="meta">
+<span>📅 2026.04.01</span>
+<span>📋 2024년 사업보고서 기준 (연결재무제표)</span>
+<span>📂 DART 전자공시</span>
+</div>
+</div>
+</div>
+
+<div class="container">
+
+<!-- 핵심 지표 -->
+<div class="section">
+<h2 class="section-title">🎯 핵심 벤치마크</h2>
+<div class="info-grid">
+<div class="info-item">
+<div class="label">B2C 헬스케어 평균</div>
+<div class="value" style="color:#f59e0b">13~18%</div>
+<div class="sub">매출 대비 실질 마케팅비</div>
+</div>
+<div class="info-item">
+<div class="label">광고선전비 평균</div>
+<div class="value" style="color:#60a5fa">4~6%</div>
+<div class="sub">매출 대비</div>
+</div>
+<div class="info-item">
+<div class="label">판매수수료 평균</div>
+<div class="value" style="color:#a78bfa">9~13%</div>
+<div class="sub">채널 수수료가 광고비 2~4배</div>
+</div>
+<div class="info-item">
+<div class="label">분석 기업</div>
+<div class="value">5개사</div>
+<div class="sub">+ 코웨이 참고</div>
+</div>
+</div>
+</div>
+
+<!-- 비교 차트 -->
+<div class="section">
+<h2 class="section-title">📈 기업별 실질 마케팅비 비교</h2>
+<div class="card">
+<div class="chart-container">
+<canvas id="compareChart"></canvas>
+</div>
+</div>
+</div>
+
+<!-- 상세 테이블 -->
+<div class="section">
+<h2 class="section-title">📋 기업별 판관비 상세</h2>
+<div class="card" style="overflow-x:auto">
+<table>
+<thead>
+<tr>
+<th>기업명</th>
+<th>매출액(억)</th>
+<th>광고선전비</th>
+<th>판매수수료</th>
+<th>판촉비</th>
+<th>실질마케팅비</th>
+<th>매출대비(%)</th>
+<th>지급수수료 포함</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>바디프랜드</td>
+<td>4,369</td>
+<td>221</td>
+<td>546</td>
+<td>16</td>
+<td class="highlight">784</td>
+<td><span class="badge badge-high">17.9%</span></td>
+<td>933 / 21.4%</td>
+</tr>
+<tr>
+<td>세라젬</td>
+<td>5,460</td>
+<td>232</td>
+<td>486</td>
+<td>-</td>
+<td class="highlight">719</td>
+<td><span class="badge badge-mid">13.2%</span></td>
+<td>1,321 / 24.2%</td>
+</tr>
+<tr>
+<td>인바디</td>
+<td>2,045</td>
+<td>113</td>
+<td>52</td>
+<td>-</td>
+<td class="highlight">165</td>
+<td><span class="badge badge-low">8.1%</span></td>
+<td>305 / 14.9%</td>
+</tr>
+<tr>
+<td>클래시스</td>
+<td>2,429</td>
+<td>128</td>
+<td>34</td>
+<td>0.2</td>
+<td class="highlight">163</td>
+<td><span class="badge badge-low">6.7%</span></td>
+<td>267 / 11.0%</td>
+</tr>
+<tr>
+<td>코웨이 <small>(참고)</small></td>
+<td>43,101</td>
+<td>1,212</td>
+<td>4,878</td>
+<td>716</td>
+<td class="highlight">6,806</td>
+<td><span class="badge badge-mid">15.8%</span></td>
+<td>9,148 / 21.2%</td>
+</tr>
+</tbody>
+</table>
+<p style="margin-top:12px;font-size:12px;color:#64748b">※ 실질마케팅비 = 광고선전비 + 판매수수료 + 판촉비 (단위: 억원) / DART 2024 사업보고서 연결재무제표 기준</p>
+</div>
+</div>
+
+<!-- 비용 구조 차트 -->
+<div class="section">
+<h2 class="section-title">🍩 비용 구조 비교</h2>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:20px">
+<div class="card">
+<h3>바디프랜드 마케팅비 구성</h3>
+<div style="position:relative;height:250px">
+<canvas id="bfChart"></canvas>
+</div>
+</div>
+<div class="card">
+<h3>세라젬 마케팅비 구성</h3>
+<div style="position:relative;height:250px">
+<canvas id="cgChart"></canvas>
+</div>
+</div>
+</div>
+</div>
+
+<!-- 채널 수수료율 -->
+<div class="section">
+<h2 class="section-title">💰 채널별 수수료율 (업계 추정)</h2>
+<div class="channel-grid">
+<div class="channel-card">
+<div class="name">홈쇼핑</div>
+<div class="rate">30~35%</div>
+</div>
+<div class="channel-card">
+<div class="name">오프라인 대리점</div>
+<div class="rate">25~35%</div>
+</div>
+<div class="channel-card">
+<div class="name">쿠팡</div>
+<div class="rate">5~10%</div>
+</div>
+<div class="channel-card">
+<div class="name">네이버쇼핑</div>
+<div class="rate">2~4%</div>
+</div>
+<div class="channel-card">
+<div class="name">자사몰</div>
+<div class="rate">PG 1~2%</div>
+</div>
+</div>
+<div class="card" style="margin-top:20px">
+<h3>기업별 평균 수수료율 역산</h3>
+<table>
+<thead><tr><th>기업</th><th>판매수수료(억)</th><th>매출(억)</th><th>평균수수료율</th><th>해석</th></tr></thead>
+<tbody>
+<tr><td>바디프랜드</td><td>546</td><td>4,369</td><td class="highlight">12.5%</td><td style="text-align:left">홈쇼핑 비중 40~50% 추정</td></tr>
+<tr><td>세라젬</td><td>486</td><td>5,460</td><td class="highlight">8.9%</td><td style="text-align:left">직영매장 비중 높아 수수료 낮음</td></tr>
+<tr><td>인바디</td><td>52</td><td>2,045</td><td>2.6%</td><td style="text-align:left">B2B 직판 위주</td></tr>
+<tr><td>클래시스</td><td>34</td><td>2,429</td><td>1.4%</td><td style="text-align:left">B2B 병원 직판 + 해외수출</td></tr>
+</tbody>
+</table>
+</div>
+</div>
+
+<!-- 키네메디칼 벤치마크 -->
+<div class="section">
+<h2 class="section-title">🏥 키네메디칼 벤치마크</h2>
+<div class="benchmark-box">
+<h3>B2C 헬스케어 실질 마케팅비 표준</h3>
+<div class="benchmark-grid">
+<div class="benchmark-item">
+<div class="label">광고선전비</div>
+<div class="value" style="color:#60a5fa">5~6%</div>
+</div>
+<div class="benchmark-item">
+<div class="label">채널 수수료</div>
+<div class="value" style="color:#a78bfa">8~13%</div>
+</div>
+<div class="benchmark-item">
+<div class="label">실질 마케팅비 합계</div>
+<div class="value" style="color:#f59e0b">13~19%</div>
+</div>
+</div>
+</div>
+<div class="card">
+<h3>💡 전략 시사점</h3>
+<ul class="insight-list">
+<li><strong>판매수수료 > 광고비:</strong> 채널 수수료가 광고비의 2~4배. 채널 믹스 최적화가 수익성의 핵심</li>
+<li><strong>자사몰 비중이 수익성 결정:</strong> 쿠팡/홈쇼핑 의존도 높을수록 수수료율 ↑. 자사몰(카페24) 비중 확대 = 마진 개선</li>
+<li><strong>세라젬 모델 참고:</strong> 직영 채널(스파/체험관)은 수수료 대신 고정비(임차+감가 485억). 규모의 경제 달성 전까지는 비효율</li>
+<li><strong>B2B vs B2C 갭:</strong> 인바디/클래시스(B2B) 6~8% vs 바디프랜드/세라젬(B2C) 13~18%. 키네메디칼은 B2C → 13~19% 기준 적용</li>
+<li><strong>현재 키네메디칼 포지션:</strong> 자사몰 비중 ~50%, 광고비 집중 구조 → 채널 수수료 최소화 + 오가닉 강점 유지가 핵심 전략</li>
+</ul>
+</div>
+</div>
+
+<!-- 데이터 출처 -->
+<div class="section">
+<h2 class="section-title">📎 데이터 출처</h2>
+<div class="card">
+<table>
+<thead><tr><th>기업</th><th>DART rcpNo</th><th>공시일</th><th>보고기간</th></tr></thead>
+<tbody>
+<tr><td>바디프랜드</td><td>20250331001790</td><td>2025.03.31</td><td>2024.01~12</td></tr>
+<tr><td>세라젬</td><td>20250410002135</td><td>2025.04.10</td><td>2024.01~12</td></tr>
+<tr><td>인바디</td><td>20250317000816</td><td>2025.03.17</td><td>2024.01~12</td></tr>
+<tr><td>클래시스</td><td>20250321001623</td><td>2025.03.21</td><td>2024.01~12</td></tr>
+<tr><td>코웨이</td><td>20250321001734</td><td>2025.03.21</td><td>2024.01~12</td></tr>
+</tbody>
+</table>
+<p style="margin-top:12px;font-size:12px;color:#64748b">※ 연결재무제표 기준. 단위 환산(천원→백만원) 과정에서 미세 오차 가능. 최종 의사결정 전 원문 검증 권장.</p>
+</div>
+</div>
+
+</div>
+
+<script>
+// 기업별 비교 차트
+const ctx1 = document.getElementById('compareChart').getContext('2d');
+new Chart(ctx1, {
+  type: 'bar',
+  data: {
+    labels: ['바디프랜드', '세라젬', '인바디', '클래시스', '코웨이(참고)'],
+    datasets: [
+      {
+        label: '광고선전비(%)',
+        data: [5.1, 4.3, 5.5, 5.3, 2.8],
+        backgroundColor: '#3b82f6',
+        borderRadius: 4
+      },
+      {
+        label: '판매수수료(%)',
+        data: [12.5, 8.9, 2.6, 1.4, 11.3],
+        backgroundColor: '#a78bfa',
+        borderRadius: 4
+      },
+      {
+        label: '판촉비(%)',
+        data: [0.4, 0, 0, 0, 1.7],
+        backgroundColor: '#f59e0b',
+        borderRadius: 4
+      }
+    ]
+  },
+  options: {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: { labels: { color: '#94a3b8', font: { size: 12 } } },
+      tooltip: { callbacks: { label: (c) => `${c.dataset.label}: ${c.raw}%` } }
+    },
+    scales: {
+      x: { 
+        stacked: true, 
+        ticks: { color: '#94a3b8' }, 
+        grid: { display: false } 
+      },
+      y: { 
+        stacked: true, 
+        ticks: { color: '#94a3b8', callback: v => v + '%' }, 
+        grid: { color: '#334155' },
+        title: { display: true, text: '매출 대비 (%)', color: '#94a3b8' }
+      }
+    }
+  }
+});
+
+// 바디프랜드 도넛
+const ctx2 = document.getElementById('bfChart').getContext('2d');
+new Chart(ctx2, {
+  type: 'doughnut',
+  data: {
+    labels: ['광고선전비', '판매수수료', '판촉비', '지급수수료'],
+    datasets: [{
+      data: [221, 546, 16, 149],
+      backgroundColor: ['#3b82f6', '#a78bfa', '#f59e0b', '#64748b'],
+      borderWidth: 0
+    }]
+  },
+  options: {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: { position: 'bottom', labels: { color: '#94a3b8', font: { size: 11 }, padding: 12 } },
+      tooltip: { callbacks: { label: (c) => `${c.label}: ${c.raw}억원` } }
+    }
+  }
+});
+
+// 세라젬 도넛
+const ctx3 = document.getElementById('cgChart').getContext('2d');
+new Chart(ctx3, {
+  type: 'doughnut',
+  data: {
+    labels: ['광고선전비', '판매수수료', '지급수수료'],
+    datasets: [{
+      data: [232, 486, 602],
+      backgroundColor: ['#3b82f6', '#a78bfa', '#64748b'],
+      borderWidth: 0
+    }]
+  },
+  options: {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: { position: 'bottom', labels: { color: '#94a3b8', font: { size: 11 }, padding: 12 } },
+      tooltip: { callbacks: { label: (c) => `${c.label}: ${c.raw}억원` } }
+    }
+  }
+});
+</script>
+
+</body>
+</html>
