@@ -409,9 +409,9 @@ var faqData = [
   {
     cat:"A/S · 고장",
     q:"보증기간은 얼마인가요?",
-    a:"<p>전 제품(CS-25, ES-808, WS-200) 모두 <strong>6개월 보증</strong>입니다.</p><ul><li>보증기간 내 제품 결함에 의한 고장: <strong>무상 수리</strong></li><li>사용자 과실에 의한 고장: 유상 수리</li><li>보증기간 이후에도 유상 수리 서비스 가능</li></ul>",
+    a:"<p>전 제품(CS-25, ES-808, WS-200) 모두 <strong>기본 3개월 보증</strong>입니다.</p><ul><li>📋 <strong>정품인증 시 +3개월 연장</strong> → 최대 <strong>6개월 보증</strong></li><li>보증기간 내 제품 결함에 의한 고장: <strong>무상 수리</strong></li><li>사용자 과실에 의한 고장: 유상 수리</li><li>보증기간 이후에도 유상 수리 서비스 가능</li></ul><div class='tip'>💡 정품인증은 제품 수령 후 <strong><a href='#' target='_blank' style='color:var(--accent);font-weight:600'>정품인증 페이지</a></strong>에서 간편하게 등록하실 수 있습니다.</div>",
     tags:["as"],
-    keywords:"보증 보증기간 AS 워런티 기간 6개월 무상"
+    keywords:"보증 보증기간 AS 워런티 기간 3개월 6개월 무상 정품인증"
   },
   {
     cat:"A/S · 고장",
@@ -423,7 +423,7 @@ var faqData = [
   {
     cat:"A/S · 고장",
     q:"사용 중 이상한 작동이 있어요",
-    a:"<p>전원을 껐다가 다시 켜보시고, 충전 상태도 확인해주세요.</p><p>증상이 계속된다면 <strong>사용을 중단</strong>하시고 <a href='https://pf.kakao.com/_CwrSn' target='_blank' style='color:var(--accent);font-weight:600'>카카오톡 플러스친구 💬</a>로 증상을 알려주시면 빠르게 도움드리겠습니다.</p><p>보증기간(6개월) 내 제품 결함이라면 <strong>무상 수리 또는 교환</strong>이 가능합니다.</p>",
+    a:"<p>전원을 껐다가 다시 켜보시고, 충전 상태도 확인해주세요.</p><p>증상이 계속된다면 <strong>사용을 중단</strong>하시고 <a href='https://pf.kakao.com/_CwrSn' target='_blank' style='color:var(--accent);font-weight:600'>카카오톡 플러스친구 💬</a>로 증상을 알려주시면 빠르게 도움드리겠습니다.</p><p>보증기간(기본 3개월, 정품인증 시 6개월) 내 제품 결함이라면 <strong>무상 수리 또는 교환</strong>이 가능합니다.</p>",
     tags:["as"],
     keywords:"이상 오류 오작동 멈춤 작동 이상한"
   },
@@ -462,9 +462,9 @@ var faqData = [
   {
     cat:"브랜드 · 기타",
     q:"고객센터에 어떻게 연락하나요?",
-    a:"<div class='contact'>📱 <strong><a href='https://pf.kakao.com/_CwrSn' target='_blank' style='color:var(--accent);font-weight:600'>카카오톡 플러스친구 💬</a></strong> — 가장 빠른 문의 방법<br>📞 전화: <strong>070-8919-3775</strong> (오전 11시~오후 4시)<br><br>문의량이 많을 때는 전화 응대가 어려울 수 있으니, 카카오톡이 더 빠릅니다 😊</div>",
+    a:"<div class='contact'>📱 <strong><a href='https://pf.kakao.com/_CwrSn' target='_blank' style='color:var(--accent);font-weight:600'>카카오톡 플러스친구 💬</a></strong> — 가장 빠른 문의 방법<br>📞 전화: <strong>070-8919-3775</strong> (오전 11시~오후 4시)<br>📧 이메일: <strong>support@tenex.kr</strong><br><br>문의량이 많을 때는 전화 응대가 어려울 수 있으니, 카카오톡이 더 빠릅니다 😊</div>",
     tags:["order"],
-    keywords:"문의 고객센터 상담 연락 전화 카카오톡 채널 번호"
+    keywords:"문의 고객센터 상담 연락 전화 카카오톡 채널 번호 이메일"
   },
 
   // ══════════════════════════════════════
@@ -597,7 +597,7 @@ function renderFAQ(items, query) {
   // CTA box
   var cta = document.createElement("div");
   cta.className = "cta-box";
-  cta.innerHTML = '<h3>찾으시는 답변이 없으신가요?</h3><p><a href='https://pf.kakao.com/_CwrSn' target='_blank' style='color:var(--accent);font-weight:600'>카카오톡 플러스친구 💬</a>로 문의해주시면 빠르게 도움드리겠습니다.</p><div class="cta-links"><a class="cta-link" href="https://pf.kakao.com/_CwrSn" target="_blank">💬 카카오톡 문의하기</a><a class="cta-link" href="https://www.youtube.com/@1%EB%B6%84%EB%8F%84%EC%88%98" target="_blank">📺 사용법 영상 보기</a><a class="cta-link" href="https://kinemedical.co.kr" target="_blank">🛒 자사몰 바로가기</a></div>';
+  cta.innerHTML = "<h3>찾으시는 답변이 없으신가요?</h3><p><a href='https://pf.kakao.com/_CwrSn' target='_blank' style='color:var(--accent);font-weight:600'>카카오톡 플러스친구 💬</a>로 문의해주시면 빠르게 도움드리겠습니다.</p><div class='cta-links'><a class='cta-link' href='https://pf.kakao.com/_CwrSn' target='_blank'>💬 카카오톡 문의하기</a><a class='cta-link' href='https://www.youtube.com/@1%EB%B6%84%EB%8F%84%EC%88%98' target='_blank'>📺 사용법 영상 보기</a><a class='cta-link' href='https://kinemedical.co.kr' target='_blank'>🛒 자사몰 바로가기</a></div>";
   contentEl.appendChild(cta);
 }
 
