@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>테넥스 Jobs — 채용공고</title>
+<meta name="description" content="테넥스 채용공고: 인플루언서 파트너십 매니저, 미디어믹스 마케터 등.">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--navy:#002855;--navy-light:#003d7a;--navy-dark:#001a3a;--gold:#c9a400;--gold-light:#f0d060;--bg:#fafbfc;--text:#1a1a2e;--text-secondary:#555;--text-muted:#888;--white:#fff;--border:#e8ecf0;--red:#dc2626;--red-light:#fef2f2;--yellow:#f59e0b;--yellow-light:#fffbeb}
+html{scroll-behavior:smooth}
+body{font-family:'Pretendard',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--bg);color:var(--text);line-height:1.7;-webkit-font-smoothing:antialiased}
+
+.nav{position:fixed;top:0;left:0;right:0;z-index:1000;background:rgba(0,40,85,0.97);backdrop-filter:blur(12px);border-bottom:1px solid rgba(255,255,255,0.08)}
+.nav-inner{max-width:1200px;margin:0 auto;padding:0 32px;display:flex;align-items:center;justify-content:space-between;height:64px}
+.nav-logo{font-size:1.2rem;font-weight:800;color:var(--white);letter-spacing:-.5px;text-decoration:none}
+.nav-logo span{color:var(--gold-light)}
+.nav-links{display:flex;gap:4px}
+.nav-links a{color:rgba(255,255,255,0.7);text-decoration:none;font-size:.9rem;font-weight:500;padding:8px 16px;border-radius:8px;transition:all .2s}
+.nav-links a:hover,.nav-links a.active{color:var(--white);background:rgba(255,255,255,0.1)}
+.nav-links a.active{font-weight:700}
+.hamburger{display:none;background:none;border:none;color:var(--white);font-size:1.5rem;cursor:pointer}
+.mobile-menu{display:none;position:fixed;top:64px;left:0;right:0;background:var(--navy);padding:16px;z-index:999}
+.mobile-menu a{display:block;color:rgba(255,255,255,0.8);text-decoration:none;padding:12px 16px;border-radius:8px;font-size:.95rem}
+.mobile-menu a.active{background:rgba(255,255,255,0.08);color:var(--white)}
+
+.hero{background:linear-gradient(165deg,var(--navy-dark),var(--navy) 50%,var(--navy-light));color:var(--white);padding:150px 32px 100px;text-align:center;position:relative;overflow:hidden}
+.hero-content{position:relative;z-index:1;max-width:700px;margin:0 auto}
+.hero-badge{display:inline-block;background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.15);padding:6px 20px;border-radius:100px;font-size:.85rem;font-weight:600;margin-bottom:28px}
+.hero h1{font-size:2.8rem;font-weight:900;line-height:1.25;margin-bottom:20px;letter-spacing:-1px}
+.hero-sub{font-size:1.15rem;opacity:.8;line-height:1.8}
+
+.section{padding:80px 32px}
+.section-inner{max-width:900px;margin:0 auto}
+.section-label{font-size:.85rem;font-weight:700;letter-spacing:1px;margin-bottom:24px;display:flex;align-items:center;gap:8px}
+.section-label.now{color:var(--red)}
+.section-label.future{color:var(--yellow)}
+
+/* JOB CARD */
+.job-card{background:var(--white);border:1px solid var(--border);border-radius:20px;padding:40px;margin-bottom:24px;transition:all .3s;position:relative}
+.job-card:hover{border-color:var(--navy);box-shadow:0 12px 32px rgba(0,40,85,0.06);transform:translateY(-2px)}
+.job-card.now{border-left:4px solid var(--red)}
+.job-card.future{border-left:4px solid var(--yellow);opacity:.85}
+.job-header{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;margin-bottom:20px;flex-wrap:wrap}
+.job-title{font-size:1.4rem;font-weight:900;color:var(--navy)}
+.job-meta{display:flex;gap:8px;flex-wrap:wrap}
+.job-tag{display:inline-block;font-size:.78rem;font-weight:600;padding:5px 14px;border-radius:8px}
+.job-tag.hiring{background:var(--red-light);color:var(--red)}
+.job-tag.planned{background:var(--yellow-light);color:#92400e}
+.job-tag.exp{background:rgba(0,40,85,0.06);color:var(--navy)}
+.job-tag.salary{background:#f0fdf4;color:#166534}
+.job-desc{font-size:1rem;color:var(--text-secondary);margin-bottom:20px;line-height:1.75}
+.job-requirements h4{font-size:.9rem;font-weight:700;color:var(--navy);margin-bottom:8px}
+.job-requirements ul{margin:0 0 0 18px}
+.job-requirements ul li{font-size:.95rem;color:var(--text-secondary);margin-bottom:6px;line-height:1.65}
+.job-requirements ul li strong{color:var(--text)}
+.job-apply{display:inline-flex;align-items:center;gap:8px;margin-top:24px;background:var(--navy);color:var(--white);font-weight:700;font-size:.9rem;padding:12px 28px;border-radius:10px;text-decoration:none;transition:all .2s}
+.job-apply:hover{background:var(--navy-light);transform:translateY(-1px)}
+
+/* FUTURE CARD */
+.future-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:20px}
+.future-card{background:var(--white);border:1px solid var(--border);border-left:4px solid var(--yellow);border-radius:16px;padding:28px;opacity:.85}
+.future-card h3{font-size:1.1rem;font-weight:800;color:var(--navy);margin-bottom:6px}
+.future-card .timing{font-size:.82rem;color:var(--yellow);font-weight:600;margin-bottom:8px}
+.future-card p{font-size:.92rem;color:var(--text-muted);line-height:1.65}
+
+/* APPLY SECTION */
+.apply-section{background:linear-gradient(135deg,var(--navy),var(--navy-light));padding:80px 32px;text-align:center;color:var(--white)}
+.apply-section h2{font-size:2rem;font-weight:900;margin-bottom:12px}
+.apply-section p{opacity:.7;margin-bottom:8px;font-size:1.05rem}
+.apply-email{display:inline-block;font-size:1.4rem;font-weight:800;color:var(--gold-light);margin:24px 0;text-decoration:none;padding:12px 32px;border:2px solid var(--gold-light);border-radius:14px;transition:all .2s}
+.apply-email:hover{background:rgba(201,164,0,0.15)}
+.apply-note{font-size:.9rem;opacity:.5;margin-top:16px;max-width:500px;margin-left:auto;margin-right:auto}
+
+.footer{background:var(--navy-dark);color:rgba(255,255,255,0.6);padding:48px 32px;text-align:center;font-size:.9rem;line-height:1.8}
+.footer a{color:var(--gold-light);text-decoration:none}
+.footer-quote{font-size:.95rem;color:rgba(255,255,255,0.4);margin-top:12px;font-style:italic}
+
+.fade-in{opacity:0;transform:translateY(30px);transition:opacity .6s ease,transform .6s ease}
+.fade-in.visible{opacity:1;transform:translateY(0)}
+
+@media(max-width:768px){
+  .nav-links{display:none}
+  .hamburger{display:block}
+  .mobile-menu.open{display:block}
+  .hero{padding:130px 20px 80px}
+  .hero h1{font-size:2rem}
+  .section{padding:60px 20px}
+  .job-card{padding:28px 20px}
+  .job-header{flex-direction:column}
+  .job-title{font-size:1.2rem}
+  .future-grid{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav-inner">
+    <a href="careers.html" class="nav-logo">TENEX <span>Careers</span></a>
+    <div class="nav-links">
+      <a href="careers.html">Main</a>
+      <a href="careers-culture.html">Culture</a>
+      <a href="careers-benefit.html">Benefit</a>
+      <a href="careers-process.html">Process</a>
+      <a href="careers-jobs.html" class="active">Jobs</a>
+    </div>
+    <button class="hamburger" onclick="document.querySelector('.mobile-menu').classList.toggle('open')" aria-label="메뉴">☰</button>
+  </div>
+</nav>
+<div class="mobile-menu">
+  <a href="careers.html">Main</a>
+  <a href="careers-culture.html">Culture</a>
+  <a href="careers-benefit.html">Benefit</a>
+  <a href="careers-process.html">Process</a>
+  <a href="careers-jobs.html" class="active">Jobs</a>
+</div>
+
+<section class="hero">
+  <div class="hero-content">
+    <div class="hero-badge">OPEN POSITIONS</div>
+    <h1>지금 합류할 수 있는<br>포지션</h1>
+    <p class="hero-sub">특별한 결과를 만들 오너십 있는 모험가를 찾습니다.<br>지원: <strong>partner@tenex.kr</strong></p>
+  </div>
+</section>
+
+<!-- NOW HIRING -->
+<section class="section">
+  <div class="section-inner">
+    <div class="section-label now">🔴 NOW HIRING — 채용 중</div>
+
+    <!-- JOB 1 -->
+    <div class="job-card now fade-in">
+      <div class="job-header">
+        <div class="job-title">인플루언서 파트너십 매니저</div>
+        <div class="job-meta">
+          <span class="job-tag hiring">채용중</span>
+          <span class="job-tag exp">경력 3~5년</span>
+          <span class="job-tag salary">3,500~4,500만 + 인센티브</span>
+        </div>
+      </div>
+      <p class="job-desc">의료계·헬스케어 인플루언서를 발굴하고 관계를 구축하여 콜라보레이션을 이끌어내는 역할. 추천코드 전략 실행과 성과 트래킹까지, 파트너십의 A to Z를 책임집니다.</p>
+      <div class="job-requirements">
+        <h4>주요 업무</h4>
+        <ul>
+          <li>의료계/헬스케어 인플루언서 발굴 → 관계 구축 → 계약</li>
+          <li>콜라보 영상 수급 + 촬영 코디네이션</li>
+          <li>추천코드 전략 실행 + 성과 트래킹</li>
+        </ul>
+        <h4 style="margin-top:16px">필수 자격</h4>
+        <ul>
+          <li><strong>의료계/헬스케어 업계 네트워크 필수</strong></li>
+          <li>인플루언서 마케팅 또는 파트너십 관리 경력 3~5년</li>
+          <li>영상 콘텐츠 기획·코디네이션 경험</li>
+          <li>성과 기반 사고 + 데이터 트래킹 역량</li>
+        </ul>
+      </div>
+      <a href="mailto:partner@tenex.kr?subject=[지원] 인플루언서 파트너십 매니저" class="job-apply">지원하기 →</a>
+    </div>
+
+    <!-- JOB 2 -->
+    <div class="job-card now fade-in">
+      <div class="job-header">
+        <div class="job-title">미디어믹스 마케터</div>
+        <div class="job-meta">
+          <span class="job-tag hiring">채용중</span>
+          <span class="job-tag exp">경력 3~5년</span>
+          <span class="job-tag salary">4,000~5,500만 + 인센티브</span>
+        </div>
+      </div>
+      <p class="job-desc">메타·구글·유튜브·틱톡·네이버 — 전 채널을 아우르는 미디어 포트폴리오를 설계하고, 전략부터 직접 집행까지. 손에 흙 묻히는 마케터를 찾습니다.</p>
+      <div class="job-requirements">
+        <h4>주요 업무</h4>
+        <ul>
+          <li>메타 + 구글 + 유튜브 + 틱톡 + 네이버 채널 포트폴리오 설계</li>
+          <li>전략 수립 + 직접 집행 + 성과 분석</li>
+          <li>AI 활용 광고 최적화 + 크리에이티브 테스트</li>
+        </ul>
+        <h4 style="margin-top:16px">필수 자격</h4>
+        <ul>
+          <li><strong>SA, SEO, GEO, AEO 기본 역량</strong></li>
+          <li>퍼포먼스 마케팅 경력 3~5년</li>
+          <li>전략 + 직접 집행 모두 가능한 실행력</li>
+          <li>AI 활용 광고 최적화 경험 <strong>우대</strong></li>
+        </ul>
+      </div>
+      <a href="mailto:partner@tenex.kr?subject=[지원] 미디어믹스 마케터" class="job-apply">지원하기 →</a>
+    </div>
+  </div>
+</section>
+
+<!-- FUTURE POSITIONS -->
+<section class="section" style="padding-top:0">
+  <div class="section-inner">
+    <div class="section-label future">🟡 향후 채용 예정</div>
+    <div class="future-grid">
+      <div class="future-card fade-in">
+        <h3>PR/커머스 매니저</h3>
+        <div class="timing">📅 약 6개월 후</div>
+        <p>D2C 채널 확장. 자사몰 + 마켓플레이스 운영 및 PR 전략.</p>
+      </div>
+      <div class="future-card fade-in">
+        <h3>글로벌 마케팅 리드</h3>
+        <div class="timing">📅 약 1년 후</div>
+        <p>AI 최적화 경험 기반 해외 시장 진출. K-health 글로벌화.</p>
+      </div>
+      <div class="future-card fade-in">
+        <h3>R&D/제품개발 매니저</h3>
+        <div class="timing">📅 연매출 50억+ 시점</div>
+        <p>제품 라인업 확장. 의료기기 인허가 + 신제품 개발 총괄.</p>
+      </div>
+      <div class="future-card fade-in">
+        <h3>COO</h3>
+        <div class="timing">📅 Pre-A 이후</div>
+        <p>전사 오퍼레이션 총괄. 조직·재무·법무 통합 관리.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- APPLY -->
+<section class="apply-section fade-in">
+  <h2>지원하기</h2>
+  <p>이력서, 포트폴리오, 본인을 설명하는 무엇이든 보내주세요.</p>
+  <p>형식에 구애받지 않습니다.</p>
+  <a href="mailto:partner@tenex.kr" class="apply-email">📧 partner@tenex.kr</a>
+  <p class="apply-note">서류 접수 후 3일 내 회신 드립니다. 전체 프로세스 2주 컷.</p>
+</section>
+
+<footer class="footer">
+  <p>지원 문의: <a href="mailto:partner@tenex.kr">partner@tenex.kr</a></p>
+  <p class="footer-quote">"K-health를 떠올리면 테넥스가 대체 불가능한 회사로 인식되는 날을 함께 만들어갑니다"</p>
+  <p style="margin-top:20px;font-size:.8rem;opacity:.5">© 2026 TENEX (키네메디칼). All rights reserved.</p>
+</footer>
+
+<script>
+const io=new IntersectionObserver((entries)=>{
+  entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');io.unobserve(e.target)}})
+},{threshold:0.12});
+document.querySelectorAll('.fade-in').forEach(el=>io.observe(el));
+</script>
+</body>
+</html>

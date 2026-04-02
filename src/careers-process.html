@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>테넥스 Process — 채용 프로세스</title>
+<meta name="description" content="테넥스 채용 프로세스: 서류 → 실무 과제 → 대표 면접 → 1일 체험 → 오퍼. 전체 2주 컷.">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--navy:#002855;--navy-light:#003d7a;--navy-dark:#001a3a;--gold:#c9a400;--gold-light:#f0d060;--bg:#fafbfc;--text:#1a1a2e;--text-secondary:#555;--text-muted:#888;--white:#fff;--border:#e8ecf0}
+html{scroll-behavior:smooth}
+body{font-family:'Pretendard',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--bg);color:var(--text);line-height:1.7;-webkit-font-smoothing:antialiased}
+
+.nav{position:fixed;top:0;left:0;right:0;z-index:1000;background:rgba(0,40,85,0.97);backdrop-filter:blur(12px);border-bottom:1px solid rgba(255,255,255,0.08)}
+.nav-inner{max-width:1200px;margin:0 auto;padding:0 32px;display:flex;align-items:center;justify-content:space-between;height:64px}
+.nav-logo{font-size:1.2rem;font-weight:800;color:var(--white);letter-spacing:-.5px;text-decoration:none}
+.nav-logo span{color:var(--gold-light)}
+.nav-links{display:flex;gap:4px}
+.nav-links a{color:rgba(255,255,255,0.7);text-decoration:none;font-size:.9rem;font-weight:500;padding:8px 16px;border-radius:8px;transition:all .2s}
+.nav-links a:hover,.nav-links a.active{color:var(--white);background:rgba(255,255,255,0.1)}
+.nav-links a.active{font-weight:700}
+.hamburger{display:none;background:none;border:none;color:var(--white);font-size:1.5rem;cursor:pointer}
+.mobile-menu{display:none;position:fixed;top:64px;left:0;right:0;background:var(--navy);padding:16px;z-index:999}
+.mobile-menu a{display:block;color:rgba(255,255,255,0.8);text-decoration:none;padding:12px 16px;border-radius:8px;font-size:.95rem}
+.mobile-menu a.active{background:rgba(255,255,255,0.08);color:var(--white)}
+
+.hero{background:linear-gradient(165deg,var(--navy-dark),var(--navy) 50%,var(--navy-light));color:var(--white);padding:150px 32px 100px;text-align:center;position:relative;overflow:hidden}
+.hero-content{position:relative;z-index:1;max-width:700px;margin:0 auto}
+.hero-badge{display:inline-block;background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.15);padding:6px 20px;border-radius:100px;font-size:.85rem;font-weight:600;margin-bottom:28px}
+.hero h1{font-size:2.8rem;font-weight:900;line-height:1.25;margin-bottom:20px;letter-spacing:-1px}
+.hero-sub{font-size:1.15rem;opacity:.8;line-height:1.8}
+
+.section{padding:100px 32px}
+.section-inner{max-width:800px;margin:0 auto}
+
+/* TIMELINE */
+.timeline{position:relative;margin:60px 0}
+.timeline::before{content:'';position:absolute;left:40px;top:0;bottom:0;width:3px;background:linear-gradient(to bottom,var(--navy),var(--navy-light),var(--gold))}
+
+.step{position:relative;padding-left:100px;margin-bottom:64px}
+.step:last-child{margin-bottom:0}
+.step-num{position:absolute;left:20px;top:0;width:44px;height:44px;background:var(--navy);color:var(--white);border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:1rem;z-index:1;box-shadow:0 4px 12px rgba(0,40,85,0.2)}
+.step-num.gold{background:linear-gradient(135deg,var(--gold),var(--gold-light));color:var(--navy-dark)}
+.step-content{background:var(--white);border:1px solid var(--border);border-radius:16px;padding:32px;transition:all .3s}
+.step-content:hover{border-color:var(--navy);box-shadow:0 8px 24px rgba(0,40,85,0.06)}
+.step-duration{display:inline-block;background:rgba(0,40,85,0.06);color:var(--navy);font-size:.78rem;font-weight:700;padding:4px 12px;border-radius:6px;margin-bottom:12px}
+.step-content h3{font-size:1.3rem;font-weight:800;color:var(--navy);margin-bottom:8px}
+.step-content p{font-size:1rem;color:var(--text-secondary);line-height:1.75;margin-bottom:0}
+.step-content .detail{font-size:.92rem;color:var(--text-muted);margin-top:12px;padding-top:12px;border-top:1px solid var(--border);line-height:1.7}
+
+/* TOTAL */
+.total-bar{background:linear-gradient(135deg,var(--navy),var(--navy-light));color:var(--white);border-radius:20px;padding:40px;text-align:center;margin:60px 0}
+.total-bar .big{font-size:3rem;font-weight:900;letter-spacing:-1px}
+.total-bar .big span{color:var(--gold-light)}
+.total-bar p{opacity:.7;margin-top:8px;font-size:1.05rem}
+
+/* FAQ */
+.faq{margin-top:60px}
+.faq h2{font-size:1.8rem;font-weight:900;color:var(--navy-dark);margin-bottom:32px;text-align:center}
+.faq-item{background:var(--white);border:1px solid var(--border);border-radius:14px;margin-bottom:12px;overflow:hidden}
+.faq-q{padding:20px 24px;font-weight:700;font-size:1rem;cursor:pointer;display:flex;justify-content:space-between;align-items:center;color:var(--navy);transition:background .2s}
+.faq-q:hover{background:rgba(0,40,85,0.02)}
+.faq-q .arrow{transition:transform .3s;font-size:.8rem}
+.faq-a{max-height:0;overflow:hidden;transition:max-height .3s ease,padding .3s ease;padding:0 24px;font-size:.95rem;color:var(--text-secondary);line-height:1.8}
+.faq-item.open .faq-a{max-height:200px;padding:0 24px 20px}
+.faq-item.open .arrow{transform:rotate(180deg)}
+
+/* CTA */
+.cta-section{background:linear-gradient(135deg,var(--navy),var(--navy-light));padding:80px 32px;text-align:center;color:var(--white)}
+.cta-section h2{font-size:2rem;font-weight:900;margin-bottom:12px}
+.cta-section p{opacity:.7;margin-bottom:32px;font-size:1.05rem}
+.btn-primary{display:inline-flex;align-items:center;gap:8px;background:var(--white);color:var(--navy);font-weight:700;font-size:1rem;padding:16px 36px;border-radius:12px;text-decoration:none;transition:all .2s}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,0,0,0.2)}
+
+.footer{background:var(--navy-dark);color:rgba(255,255,255,0.6);padding:48px 32px;text-align:center;font-size:.9rem;line-height:1.8}
+.footer a{color:var(--gold-light);text-decoration:none}
+.footer-quote{font-size:.95rem;color:rgba(255,255,255,0.4);margin-top:12px;font-style:italic}
+
+.fade-in{opacity:0;transform:translateY(30px);transition:opacity .6s ease,transform .6s ease}
+.fade-in.visible{opacity:1;transform:translateY(0)}
+
+@media(max-width:768px){
+  .nav-links{display:none}
+  .hamburger{display:block}
+  .mobile-menu.open{display:block}
+  .hero{padding:130px 20px 80px}
+  .hero h1{font-size:2rem}
+  .section{padding:64px 20px}
+  .step{padding-left:80px}
+  .timeline::before{left:30px}
+  .step-num{left:10px;width:40px;height:40px;font-size:.9rem}
+  .total-bar .big{font-size:2.2rem}
+}
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav-inner">
+    <a href="careers.html" class="nav-logo">TENEX <span>Careers</span></a>
+    <div class="nav-links">
+      <a href="careers.html">Main</a>
+      <a href="careers-culture.html">Culture</a>
+      <a href="careers-benefit.html">Benefit</a>
+      <a href="careers-process.html" class="active">Process</a>
+      <a href="careers-jobs.html">Jobs</a>
+    </div>
+    <button class="hamburger" onclick="document.querySelector('.mobile-menu').classList.toggle('open')" aria-label="메뉴">☰</button>
+  </div>
+</nav>
+<div class="mobile-menu">
+  <a href="careers.html">Main</a>
+  <a href="careers-culture.html">Culture</a>
+  <a href="careers-benefit.html">Benefit</a>
+  <a href="careers-process.html" class="active">Process</a>
+  <a href="careers-jobs.html">Jobs</a>
+</div>
+
+<section class="hero">
+  <div class="hero-content">
+    <div class="hero-badge">PROCESS</div>
+    <h1>우리의 채용은<br>빠르고 솔직합니다</h1>
+    <p class="hero-sub">설명보다 행동이 먼저인 팀답게, 채용도 빠르게.<br>전체 프로세스 2주 안에 완료합니다.</p>
+  </div>
+</section>
+
+<section class="section">
+  <div class="section-inner">
+
+    <div class="total-bar fade-in">
+      <div class="big">전체 <span>2주</span> 컷</div>
+      <p>지원부터 오퍼까지, 빠르고 명확하게</p>
+    </div>
+
+    <div class="timeline">
+
+      <div class="step fade-in">
+        <div class="step-num">1</div>
+        <div class="step-content">
+          <div class="step-duration">📋 3일 내 검토</div>
+          <h3>서류 전형</h3>
+          <p>이력서와 포트폴리오를 검토합니다. 화려한 학벌이나 대기업 경력보다, 오너십과 실행력의 흔적을 봅니다.</p>
+          <div class="detail">💡 자유 형식. 본인을 가장 잘 보여줄 수 있는 방식으로 보내주세요.</div>
+        </div>
+      </div>
+
+      <div class="step fade-in">
+        <div class="step-num">2</div>
+        <div class="step-content">
+          <div class="step-duration">🛠️ 1주일</div>
+          <h3>실무 과제</h3>
+          <p>실전 미니 버전. 실제로 입사 후 하게 될 업무의 축소판을 수행합니다. 결과물로 역량을 판단합니다.</p>
+          <div class="detail">💡 완벽한 결과보다 사고 과정과 실행 속도를 봅니다. AI 활용 OK.</div>
+        </div>
+      </div>
+
+      <div class="step fade-in">
+        <div class="step-num">3</div>
+        <div class="step-content">
+          <div class="step-duration">👔 약 1시간</div>
+          <h3>대표 면접</h3>
+          <p>CEO가 직접 만납니다. 컬처핏, 실무 역량, 열정 — 세 가지를 봅니다. 솔직한 대화를 나눕니다.</p>
+          <div class="detail">💡 면접이라기보다 대화. 궁금한 건 뭐든 물어보세요.</div>
+        </div>
+      </div>
+
+      <div class="step fade-in">
+        <div class="step-num">4</div>
+        <div class="step-content">
+          <div class="step-duration">🏢 1일 (유급)</div>
+          <h3>1일 체험</h3>
+          <p>실제로 하루 같이 일해봅니다. 서로의 궁합을 확인하는 시간. 분위기, 일하는 방식, 팀 케미를 직접 느껴보세요.</p>
+          <div class="detail">💡 유급입니다. 체험 후 양측 모두 거부할 수 있어요.</div>
+        </div>
+      </div>
+
+      <div class="step fade-in">
+        <div class="step-num gold">✓</div>
+        <div class="step-content" style="border-color:var(--gold);background:linear-gradient(135deg,#fffbeb,#fef3c7)">
+          <div class="step-duration" style="background:rgba(201,164,0,0.15);color:#92400e">🎉 합격 시 2주 내</div>
+          <h3>오퍼</h3>
+          <p>합격이라면 빠르게 오퍼를 드립니다. 연봉, 인센티브 구조, 성장 로드맵을 투명하게 공유합니다.</p>
+          <div class="detail">💡 오퍼 후 2주 내 출근. 빠르게 시작합시다.</div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- FAQ -->
+    <div class="faq fade-in">
+      <h2>자주 묻는 질문</h2>
+
+      <div class="faq-item">
+        <div class="faq-q" onclick="this.parentElement.classList.toggle('open')">
+          <span>과제에 시간 제한이 있나요?</span>
+          <span class="arrow">▼</span>
+        </div>
+        <div class="faq-a">1주일 내 제출입니다. 완벽하지 않아도 됩니다. 사고 과정과 실행력을 봅니다. AI 도구 활용도 환영합니다.</div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-q" onclick="this.parentElement.classList.toggle('open')">
+          <span>1일 체험은 필수인가요?</span>
+          <span class="arrow">▼</span>
+        </div>
+        <div class="faq-a">네, 필수입니다. 서로의 궁합을 확인하는 중요한 단계입니다. 유급이며, 체험 후 양측 모두 거부할 권리가 있습니다.</div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-q" onclick="this.parentElement.classList.toggle('open')">
+          <span>원격 근무가 가능한가요?</span>
+          <span class="arrow">▼</span>
+        </div>
+        <div class="faq-a">시차출퇴근 유연근무제를 운영합니다. 상세한 근무 형태는 면접 시 논의합니다.</div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-q" onclick="this.parentElement.classList.toggle('open')">
+          <span>경력이 부족해도 지원 가능한가요?</span>
+          <span class="arrow">▼</span>
+        </div>
+        <div class="faq-a">우리는 전문성보다 오너십을 더 중요하게 봅니다. 영상편집 경험 제로에서 유튜브 10만을 만든 멤버도 있습니다. 열정과 실행력이 있다면 도전해주세요.</div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<section class="cta-section fade-in">
+  <h2>준비되셨나요?</h2>
+  <p>2주 후면 테넥서가 될 수 있습니다.</p>
+  <a href="careers-jobs.html" class="btn-primary">채용공고 보러가기 →</a>
+</section>
+
+<footer class="footer">
+  <p>지원 문의: <a href="mailto:partner@tenex.kr">partner@tenex.kr</a></p>
+  <p class="footer-quote">"K-health를 떠올리면 테넥스가 대체 불가능한 회사로 인식되는 날을 함께 만들어갑니다"</p>
+  <p style="margin-top:20px;font-size:.8rem;opacity:.5">© 2026 TENEX (키네메디칼). All rights reserved.</p>
+</footer>
+
+<script>
+const io=new IntersectionObserver((entries)=>{
+  entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');io.unobserve(e.target)}})
+},{threshold:0.12});
+document.querySelectorAll('.fade-in').forEach(el=>io.observe(el));
+</script>
+</body>
+</html>

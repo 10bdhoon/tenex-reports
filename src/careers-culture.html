@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>테넥스 Culture — 우리의 문화</title>
+<meta name="description" content="테넥스의 문화: 모험가 정신, 오너십, 즉시 실행, AI Native 조직.">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--navy:#002855;--navy-light:#003d7a;--navy-dark:#001a3a;--gold:#c9a400;--gold-light:#f0d060;--bg:#fafbfc;--text:#1a1a2e;--text-secondary:#555;--text-muted:#888;--white:#fff;--border:#e8ecf0}
+html{scroll-behavior:smooth}
+body{font-family:'Pretendard',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--bg);color:var(--text);line-height:1.7;-webkit-font-smoothing:antialiased}
+
+/* NAV */
+.nav{position:fixed;top:0;left:0;right:0;z-index:1000;background:rgba(0,40,85,0.97);backdrop-filter:blur(12px);border-bottom:1px solid rgba(255,255,255,0.08)}
+.nav-inner{max-width:1200px;margin:0 auto;padding:0 32px;display:flex;align-items:center;justify-content:space-between;height:64px}
+.nav-logo{font-size:1.2rem;font-weight:800;color:var(--white);letter-spacing:-.5px;text-decoration:none}
+.nav-logo span{color:var(--gold-light)}
+.nav-links{display:flex;gap:4px}
+.nav-links a{color:rgba(255,255,255,0.7);text-decoration:none;font-size:.9rem;font-weight:500;padding:8px 16px;border-radius:8px;transition:all .2s}
+.nav-links a:hover,.nav-links a.active{color:var(--white);background:rgba(255,255,255,0.1)}
+.nav-links a.active{font-weight:700}
+.hamburger{display:none;background:none;border:none;color:var(--white);font-size:1.5rem;cursor:pointer}
+.mobile-menu{display:none;position:fixed;top:64px;left:0;right:0;background:var(--navy);padding:16px;z-index:999}
+.mobile-menu a{display:block;color:rgba(255,255,255,0.8);text-decoration:none;padding:12px 16px;border-radius:8px;font-size:.95rem}
+.mobile-menu a.active{background:rgba(255,255,255,0.08);color:var(--white)}
+
+/* HERO */
+.hero{background:linear-gradient(165deg,var(--navy-dark),var(--navy) 50%,var(--navy-light));color:var(--white);padding:150px 32px 100px;text-align:center;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;top:-40%;right:-15%;width:500px;height:500px;background:radial-gradient(circle,rgba(201,164,0,0.06) 0%,transparent 70%);border-radius:50%}
+.hero-content{position:relative;z-index:1;max-width:760px;margin:0 auto}
+.hero-badge{display:inline-block;background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.15);padding:6px 20px;border-radius:100px;font-size:.85rem;font-weight:600;margin-bottom:28px}
+.hero h1{font-size:2.8rem;font-weight:900;line-height:1.25;margin-bottom:20px;letter-spacing:-1px}
+.hero-sub{font-size:1.15rem;opacity:.8;line-height:1.8;max-width:620px;margin:0 auto}
+
+/* SECTIONS */
+.section{padding:100px 32px}
+.section-inner{max-width:800px;margin:0 auto}
+.section-num{display:inline-block;background:var(--navy);color:var(--white);font-size:.75rem;font-weight:700;padding:4px 14px;border-radius:100px;margin-bottom:12px}
+.section h2{font-size:2rem;font-weight:900;color:var(--navy-dark);margin-bottom:20px;letter-spacing:-.5px;line-height:1.3}
+.section p{font-size:1.05rem;color:var(--text-secondary);margin-bottom:16px;line-height:1.85}
+.section h3{font-size:1.25rem;font-weight:800;color:var(--navy);margin:40px 0 12px}
+.section ul{margin:12px 0 20px 20px}
+.section ul li{margin-bottom:10px;font-size:1.02rem;color:var(--text-secondary);line-height:1.7}
+.section ul li strong{color:var(--text)}
+
+.alt-bg{background:var(--white)}
+
+/* QUOTE */
+.quote-block{background:linear-gradient(135deg,#f0f4f8,#e8ecf2);border-left:4px solid var(--navy);padding:32px;border-radius:0 16px 16px 0;margin:32px 0;font-size:1.02rem;color:#333;line-height:1.85}
+.quote-block .quote-label{font-weight:700;color:var(--navy);margin-bottom:8px;font-size:.85rem;letter-spacing:.5px}
+.quote-highlight{background:rgba(0,40,85,0.06);padding:28px 32px;border-radius:14px;margin:24px 0;text-align:center}
+.quote-highlight p{font-size:1.15rem;font-weight:700;color:var(--navy);margin:0;line-height:1.6}
+
+/* GOAL LIST */
+.goal-list{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:24px 0}
+.goal-item{background:var(--white);border:1px solid var(--border);border-radius:12px;padding:20px;display:flex;align-items:flex-start;gap:12px}
+.goal-item .gi{font-size:1.4rem;flex-shrink:0}
+.goal-item p{font-size:.95rem;color:var(--text-secondary);margin:0;line-height:1.6}
+
+/* AI SECTION */
+.ai-section{background:linear-gradient(165deg,var(--navy-dark),var(--navy));color:var(--white);padding:100px 32px}
+.ai-section .section-inner{max-width:900px}
+.ai-section .section-num{background:rgba(255,255,255,0.15);color:var(--white)}
+.ai-section h2{color:var(--white)}
+.ai-section p{color:rgba(255,255,255,0.8)}
+.ai-org{display:flex;flex-direction:column;align-items:center;gap:20px;margin:48px 0}
+.ai-org-ceo{background:rgba(255,255,255,0.12);border:1px solid rgba(255,255,255,0.2);border-radius:16px;padding:20px 36px;text-align:center}
+.ai-org-ceo .name{font-weight:800;font-size:1.1rem}
+.ai-org-ceo .role{font-size:.85rem;opacity:.7}
+.ai-org-arrow{font-size:1.5rem;opacity:.4}
+.ai-org-coo{background:linear-gradient(135deg,rgba(201,164,0,0.2),rgba(201,164,0,0.08));border:1px solid rgba(201,164,0,0.3);border-radius:16px;padding:20px 36px;text-align:center}
+.ai-org-coo .name{font-weight:800;font-size:1.1rem;color:var(--gold-light)}
+.ai-org-coo .role{font-size:.85rem;opacity:.7}
+.ai-org-coo .badge{display:inline-block;background:rgba(201,164,0,0.2);padding:2px 10px;border-radius:6px;font-size:.75rem;font-weight:600;margin-top:4px;color:var(--gold-light)}
+.ai-org-team{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;width:100%;max-width:700px}
+.ai-org-member{background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);border-radius:12px;padding:16px;text-align:center}
+.ai-org-member .emoji{font-size:1.5rem;margin-bottom:4px}
+.ai-org-member .name{font-weight:700;font-size:.9rem}
+.ai-org-member .role{font-size:.78rem;opacity:.6}
+
+.auto-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;margin:40px 0}
+.auto-item{background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);border-radius:14px;padding:24px;text-align:center}
+.auto-item .icon{font-size:2rem;margin-bottom:8px}
+.auto-item h4{font-size:.95rem;font-weight:700;margin-bottom:4px}
+.auto-item p{font-size:.85rem;opacity:.6}
+
+.ai-quote{text-align:center;margin-top:48px;padding-top:40px;border-top:1px solid rgba(255,255,255,0.1)}
+.ai-quote p{font-size:1.3rem;font-weight:700;color:var(--gold-light);margin:0}
+.ai-quote .sub{font-size:.95rem;opacity:.5;margin-top:8px;font-weight:400;color:var(--white)}
+
+/* ABOUT */
+.about-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin:32px 0}
+.about-card{background:var(--white);border:1px solid var(--border);border-radius:14px;padding:28px;text-align:center}
+.about-card .icon{font-size:2.2rem;margin-bottom:12px}
+.about-card h4{font-size:1rem;font-weight:700;color:var(--navy);margin-bottom:6px}
+.about-card p{font-size:.9rem;color:var(--text-muted);line-height:1.6}
+
+/* FIT */
+.fit-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin:32px 0}
+.fit-card{border-radius:16px;padding:32px;line-height:1.7}
+.fit-card.yes{background:#f0fdf4;border:1px solid #bbf7d0}
+.fit-card.no{background:#fef2f2;border:1px solid #fecaca}
+.fit-card h3{font-size:1.1rem;font-weight:800;margin-bottom:16px}
+.fit-card.yes h3{color:#166534}
+.fit-card.no h3{color:#991b1b}
+.fit-card ul{margin:0 0 0 18px;font-size:.95rem}
+.fit-card ul li{margin-bottom:8px}
+.fit-card.yes ul li{color:#15803d}
+.fit-card.no ul li{color:#dc2626}
+
+/* CTA */
+.cta-section{background:linear-gradient(135deg,var(--navy),var(--navy-light));padding:80px 32px;text-align:center;color:var(--white)}
+.cta-section h2{font-size:2rem;font-weight:900;margin-bottom:12px}
+.cta-section p{opacity:.7;margin-bottom:32px;font-size:1.05rem}
+.btn-primary{display:inline-flex;align-items:center;gap:8px;background:var(--white);color:var(--navy);font-weight:700;font-size:1rem;padding:16px 36px;border-radius:12px;text-decoration:none;transition:all .2s;border:none;cursor:pointer}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,0,0,0.2)}
+
+/* FOOTER */
+.footer{background:var(--navy-dark);color:rgba(255,255,255,0.6);padding:48px 32px;text-align:center;font-size:.9rem;line-height:1.8}
+.footer a{color:var(--gold-light);text-decoration:none}
+.footer-quote{font-size:.95rem;color:rgba(255,255,255,0.4);margin-top:12px;font-style:italic}
+
+/* ANIMATIONS */
+.fade-in{opacity:0;transform:translateY(30px);transition:opacity .6s ease,transform .6s ease}
+.fade-in.visible{opacity:1;transform:translateY(0)}
+
+@media(max-width:768px){
+  .nav-links{display:none}
+  .hamburger{display:block}
+  .mobile-menu.open{display:block}
+  .hero{padding:130px 20px 80px}
+  .hero h1{font-size:2rem}
+  .section{padding:64px 20px}
+  .section h2{font-size:1.6rem}
+  .goal-list,.fit-grid{grid-template-columns:1fr}
+  .about-grid{grid-template-columns:1fr}
+  .ai-org-team{grid-template-columns:repeat(2,1fr)}
+  .auto-grid{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav">
+  <div class="nav-inner">
+    <a href="careers.html" class="nav-logo">TENEX <span>Careers</span></a>
+    <div class="nav-links">
+      <a href="careers.html">Main</a>
+      <a href="careers-culture.html" class="active">Culture</a>
+      <a href="careers-benefit.html">Benefit</a>
+      <a href="careers-process.html">Process</a>
+      <a href="careers-jobs.html">Jobs</a>
+    </div>
+    <button class="hamburger" onclick="document.querySelector('.mobile-menu').classList.toggle('open')" aria-label="메뉴">☰</button>
+  </div>
+</nav>
+<div class="mobile-menu">
+  <a href="careers.html">Main</a>
+  <a href="careers-culture.html" class="active">Culture</a>
+  <a href="careers-benefit.html">Benefit</a>
+  <a href="careers-process.html">Process</a>
+  <a href="careers-jobs.html">Jobs</a>
+</div>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-content">
+    <div class="hero-badge">CULTURE</div>
+    <h1>우리는 세상이 아픈 방식을<br>바꾸고 있습니다</h1>
+    <p class="hero-sub">우리가 함께하면서 행복하기는 쉽지 않을지도 모릅니다. 하지만 본인이 내 손으로 세상을 변화시킬 수 있다고 믿는 사람이라면, 이 기회를 놓치지 않아야 합니다.</p>
+  </div>
+</section>
+
+<!-- ABOUT TENEX -->
+<section class="section fade-in">
+  <div class="section-inner">
+    <div class="section-num">ABOUT</div>
+    <h2>테넥스는</h2>
+    <p>"누구나 집에서, 스스로 회복하는 세상"을 만들겠다고 선언했습니다. 병원에 줄 서고 도수치료 비용에 떠는 세상이 아니라, 스스로 몸을 이해하고 회복할 수 있는 세상. 우리는 이 말에 인생을 통째로 걸어보려 합니다.</p>
+    <div class="about-grid">
+      <div class="about-card">
+        <div class="icon">🏥</div>
+        <h4>키네메디칼</h4>
+        <p>의료기기·건강기기 브랜드<br>CS-25 · ES-808 · WS-200</p>
+      </div>
+      <div class="about-card">
+        <div class="icon">🎬</div>
+        <h4>1분도수</h4>
+        <p>콘텐츠 플랫폼<br>유튜브 11만 · 인스타 5.3만</p>
+      </div>
+      <div class="about-card">
+        <div class="icon">🚀</div>
+        <h4>비즈니스 모델</h4>
+        <p>D2C + 콘텐츠 커머스<br>K-health의 새로운 기준</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 1. 모험가 정신 -->
+<section class="section alt-bg fade-in">
+  <div class="section-inner">
+    <div class="section-num">01</div>
+    <h2>모험가 정신</h2>
+    <p>테넥스에서 일한다는 건 "근골격계에서의 본질적인 회복"이라는 가장 단순하고도 어려운 문제를 선택했다는 뜻입니다. 아무도 제대로 만들지 못한 기준을 만들려는 회사입니다.</p>
+
+    <div class="quote-highlight">
+      <p>우리는 남들이 '말도 안 된다'고 말하는 수준의 목표를 세웁니다.</p>
+    </div>
+
+    <div class="goal-list">
+      <div class="goal-item"><div class="gi">🍎</div><p>재활/통증계의 Apple</p></div>
+      <div class="goal-item"><div class="gi">🏆</div><p>목디스크 회복의 기준이 되는 브랜드</p></div>
+      <div class="goal-item"><div class="gi">📱</div><p>집에서 쓰는 디바이스가 병원 진료 패턴을 바꾸는 구조</p></div>
+      <div class="goal-item"><div class="gi">📺</div><p>유튜브 첫 도전, 9개월 만에 구독자 10만</p></div>
+      <div class="goal-item"><div class="gi">💰</div><p>브랜드 런칭 2년차, 4명으로 연매출 200억</p></div>
+      <div class="goal-item"><div class="gi">🔥</div><p>"이 정도는 가야 인생이 재밌지"</p></div>
+    </div>
+
+    <p>모든 가능성은 '될 방법을 찾는다'에서 시작됩니다. 우리는 문제보다 기회를 먼저 보고, 안전한 길보다 가슴 뛰는 목표를 택합니다. 실패는 필연이지만, 좌절은 선택입니다.</p>
+  </div>
+</section>
+
+<!-- 2. 오너십 -->
+<section class="section fade-in">
+  <div class="section-inner">
+    <div class="section-num">02</div>
+    <h2>오너십 — 모든 일에 단 한 명의 책임자</h2>
+    <p>테넥스에서 가장 크게 보는 역량은 실력보다 오너십입니다. 전문성은 시간이 해결해줍니다. 하지만 오너십은 사람의 기질과 태도에 가깝고, 바꾸기 거의 불가능합니다.</p>
+
+    <p>오너십이 있는 사람은 이렇게 행동합니다:</p>
+    <ul>
+      <li>매출·전환율·콘텐츠 조회수가 "회사 숫자"가 아니라 <strong>내 숫자</strong>처럼 느껴진다</li>
+      <li>"이거 왜 안 되지?"가 아니라 "이걸 내가 어떻게든 되게끔 만들어야지"로 생각이 돌아간다</li>
+      <li>문제가 눈에 보이면 "누가 안 해주나" 기다리지 않고, 내 일로 가져간다</li>
+    </ul>
+
+    <h3>DRI (직접책임자) 제도</h3>
+    <p>테넥스는 모든 일에 단 한 명의 책임자를 명시합니다. DRI는 해당 업무의 목표를 완벽히 이해하고, 정해진 기한 안에 달성할 책임이 있습니다. 그 누구도 '꼭 이렇게 일해야만 한다'라고 말하지 않습니다. 업무에 대한 권한을 위임함과 동시에, 스스로 알아내야 하는 책임이 있다는 뜻입니다.</p>
+
+    <h3>신뢰 기반 업무</h3>
+    <p>업무를 하달하고 매일의 진행척도를 감시하는 방식이 아니라, 목표와 맥락을 정확히 공유하고 충분한 신뢰를 줍니다. 뛰어난 사람들은 이러한 신뢰를 바탕으로 자부심과 책임감을 느끼고, 스스로 훌륭한 결과를 만듭니다.</p>
+
+    <div class="quote-block">
+      <div class="quote-label">📖 실화 — 인규의 이야기</div>
+      <p>2025년 3월, 테넥스의 누구도 유튜브나 SNS 콘텐츠를 다뤄본 적이 없었습니다. 다만 "올해 안에 유튜브 구독자 10만 명을 반드시 만든다"는 어마무시한 목표와 함께, 막중한 책임과 신뢰, 권한을 통째로 위임받은 도전자가 한 명 있었을 뿐입니다.</p>
+      <p>영상편집 경험도 없던 초짜중의 초짜. 하지만 동시에 강력한 오너십을 가진 모험가.</p>
+      <p><strong>그렇게 8개월이 지난 지금, 1분도수 채널은 구독자 약 10만 명, SNS 총 팔로워 14만명을 돌파했습니다.</strong></p>
+      <p>유의미한 목표와 그 목표를 한 사람에게 통째로 맡긴 신뢰, 그리고 끝까지 책임지겠다는 태도 — 불가능해 보였던 성장을 현실로 끌어냈습니다.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 3. 결과 구체화 + 즉시 실행 -->
+<section class="section alt-bg fade-in">
+  <div class="section-inner">
+    <div class="section-num">03</div>
+    <h2>결과 구체화, 그리고 즉시 실행</h2>
+    <p>우리는 비즈니스에 통용되는 몇 가지 상식을 거부합니다. 숫자로만 목표를 설정하는 것. 귀여운 PPT를 만드는 보고와 내부 설득.</p>
+    <p>대신 우리는 <strong>결과를 구체화</strong>합니다. '다 알고 시작했다'라고 말할 수 있을 만큼 결과를 구체적으로 예상합니다.</p>
+
+    <h3>스크립트 — 성공의 대본을 먼저 쓴다</h3>
+    <p>아이디어가 성공적으로 실현되면 고객과 세상이 어떤 반응을 보이는지 예측하는 도구. 기사의 헤드라인, 의료인의 소개말, 고객의 입소문 — 고객 가치의 실현을 전제로 미리 작성하는 대본입니다.</p>
+    <div class="quote-highlight">
+      <p>"그 일을 성공시키면 어떤 스크립트를 구현할 수 있는데요?"</p>
+    </div>
+
+    <h3>즉시 실행</h3>
+    <p>결과가 선명해졌다면, 그 다음은 미친 듯이 실행합니다. 설명보다 행동이 먼저. 빠른 실행 → 피드백 → 개선의 루프로 답을 찾습니다.</p>
+    <p>대부분의 업무, 95% 이상은 실패해도 금방 되돌릴 수 있는 일입니다. 그냥 바로 진행하면 됩니다. 우리가 실패보다 피하고 싶은 것은 <strong>두려움</strong>입니다.</p>
+  </div>
+</section>
+
+<!-- 4. 구조적 단순함 + 자유로운 소통 -->
+<section class="section fade-in">
+  <div class="section-inner">
+    <div class="section-num">04</div>
+    <h2>구조적 단순함</h2>
+    <p>우리는 단순함에 미친 듯이 집착합니다. 높은 목표가 정해지면, 그 목표 외의 모든 잡음을 제거합니다. 본질 외에는 과감히 버리고, 반드시 달성해야 할 한 가지에 모든 에너지를 쏟습니다.</p>
+    <p>우리의 업무 구조를 학습하는 데에는 약 한 시간 정도 걸립니다. 가치관과 원칙이 명확하기 때문에 복잡한 절차와 승인 없이도 누구나 올바른 결정을 내릴 수 있습니다.</p>
+
+    <h3>자유로운 소통 + 비정치</h3>
+    <p>누구나 동등한 위치에서 자유롭게 대화합니다. 문제를 발견하면 당사자와 직접, 즉시 대화합니다. "거리두기"는 테넥스의 문제 해결 방식이 아닙니다.</p>
+    <p>테넥스에는 성공적인 사내 정치를 위한 정보가 없습니다. 조직 내 정치 꿈나무를 발견하면 모두가 힘을 모아 여의도로 보내드립니다. 😄</p>
+  </div>
+</section>
+
+<!-- 5. 진정성 -->
+<section class="section alt-bg fade-in">
+  <div class="section-inner">
+    <div class="section-num">05</div>
+    <h2>진정성</h2>
+    <p>마지막 기준은 언제나 진정성입니다. 우리는 눈앞의 작은 이익을 위해 고객의 권리를 침해하거나, 시시한 선택을 하는 것을 거부합니다.</p>
+    <p>진정성의 추구는 우리를 가장 어려운 문제들로 이끌고, 그 과정에서 누구보다 대범하게 결단할 수 있게 합니다. 생각의 한계는 사라지고, 의사 결정의 속도는 빨라집니다.</p>
+    <div class="quote-highlight">
+      <p>우리가 슬퍼하는 순간은 매출이 떨어졌을 때가 아니라,<br>우리의 자부심을 잃었을 때입니다.</p>
+    </div>
+  </div>
+</section>
+
+<!-- AI NATIVE -->
+<section class="ai-section fade-in">
+  <div class="section-inner">
+    <div class="section-num">AI NATIVE</div>
+    <h2>AI Native Organization</h2>
+    <p>AI가 잡일을 다 하니까, 당신은 핵심 업무에만 집중하면 됩니다.</p>
+
+    <div class="ai-org">
+      <div class="ai-org-ceo">
+        <div class="name">태훈</div>
+        <div class="role">CEO · 대표</div>
+      </div>
+      <div class="ai-org-arrow">↓</div>
+      <div class="ai-org-coo">
+        <div class="name">카리나</div>
+        <div class="role">COO · 총괄</div>
+        <div class="badge">🤖 AI Agent</div>
+      </div>
+      <div class="ai-org-arrow">↓</div>
+      <div class="ai-org-team">
+        <div class="ai-org-member">
+          <div class="emoji">🔧</div>
+          <div class="name">개발실장</div>
+          <div class="role">AI Agent</div>
+        </div>
+        <div class="ai-org-member">
+          <div class="emoji">🎬</div>
+          <div class="name">콘텐츠실장</div>
+          <div class="role">AI Agent</div>
+        </div>
+        <div class="ai-org-member">
+          <div class="emoji">📢</div>
+          <div class="name">마케팅실장</div>
+          <div class="role">AI Agent</div>
+        </div>
+        <div class="ai-org-member">
+          <div class="emoji">💬</div>
+          <div class="name">고객실장</div>
+          <div class="role">AI Agent</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="auto-grid">
+      <div class="auto-item">
+        <div class="icon">💌</div>
+        <h4>CRM 자동문자</h4>
+        <p>구매 후 케어 메시지 자동 발송</p>
+      </div>
+      <div class="auto-item">
+        <div class="icon">💬</div>
+        <h4>CS 자동답변</h4>
+        <p>고객 문의 AI 즉시 응대</p>
+      </div>
+      <div class="auto-item">
+        <div class="icon">📊</div>
+        <h4>매출 리포트 자동생성</h4>
+        <p>일별/주별 성과 자동 집계</p>
+      </div>
+      <div class="auto-item">
+        <div class="icon">✍️</div>
+        <h4>댓글 자동화</h4>
+        <p>유튜브·SNS 댓글 자동 관리</p>
+      </div>
+    </div>
+
+    <div class="ai-quote">
+      <p>"대부분의 회사는 AI 도입을 검토 중입니다.<br>우리는 이미 AI가 팀원입니다."</p>
+      <p class="sub">당신이 합류하면, AI 팀원들과 함께 일하게 됩니다.</p>
+    </div>
+  </div>
+</section>
+
+<!-- FIT -->
+<section class="section fade-in">
+  <div class="section-inner">
+    <div class="section-num">FIT</div>
+    <h2>테넥스에 맞는 사람</h2>
+    <div class="fit-grid">
+      <div class="fit-card yes">
+        <h3>✅ 우리가 찾는 사람</h3>
+        <ul>
+          <li>될 방법을 찾는 사람. 문제보다 기회를 먼저 보는 사람</li>
+          <li>높은 목표에 에너지가 올라가는 사람</li>
+          <li>넘어져도 다시 일어나는 사람</li>
+          <li>내 숫자처럼 느끼는 사람</li>
+          <li>직접 말하는 사람. 뒤에서 돌려 말하지 않는 사람</li>
+        </ul>
+      </div>
+      <div class="fit-card no">
+        <h3>❌ 테넥스와 맞지 않는 유형</h3>
+        <ul>
+          <li>속도와 압박을 "문제"로 인식하는 사람</li>
+          <li>피드백을 거절이나 공격으로 받아들이는 사람</li>
+          <li>갈등 상황에서 해결보다 회피를 선택하는 사람</li>
+          <li>책임보다 자존심이 앞서는 사람</li>
+        </ul>
+      </div>
+    </div>
+    <div class="quote-highlight" style="margin-top:40px">
+      <p>테넥스에 들어온 순간, 이건 "그냥 직장"이 아니라 "인생 프로젝트"여야 합니다.<br>그 정도 마음으로 일할 사람이라면, 끝까지 같이 갑시다.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section fade-in">
+  <h2>모험가라면, 지금 합류하세요</h2>
+  <p>원대한 목표를 이루지 못하면 잠 못 이루는 사람들과 함께.</p>
+  <a href="careers-jobs.html" class="btn-primary">채용공고 보러가기 →</a>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <p>지원 문의: <a href="mailto:partner@tenex.kr">partner@tenex.kr</a></p>
+  <p class="footer-quote">"K-health를 떠올리면 테넥스가 대체 불가능한 회사로 인식되는 날을 함께 만들어갑니다"</p>
+  <p style="margin-top:20px;font-size:.8rem;opacity:.5">© 2026 TENEX (키네메디칼). All rights reserved.</p>
+</footer>
+
+<script>
+const io=new IntersectionObserver((entries)=>{
+  entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');io.unobserve(e.target)}})
+},{threshold:0.12});
+document.querySelectorAll('.fade-in').forEach(el=>io.observe(el));
+</script>
+</body>
+</html>

@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>테넥스 Benefit — 복지와 보상</title>
+<meta name="description" content="테넥스의 복지와 보상: 웰컴기프트, 성과 인센티브, 유연근무, 스톡옵션.">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--navy:#002855;--navy-light:#003d7a;--navy-dark:#001a3a;--gold:#c9a400;--gold-light:#f0d060;--bg:#fafbfc;--text:#1a1a2e;--text-secondary:#555;--text-muted:#888;--white:#fff;--border:#e8ecf0}
+html{scroll-behavior:smooth}
+body{font-family:'Pretendard',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--bg);color:var(--text);line-height:1.7;-webkit-font-smoothing:antialiased}
+
+.nav{position:fixed;top:0;left:0;right:0;z-index:1000;background:rgba(0,40,85,0.97);backdrop-filter:blur(12px);border-bottom:1px solid rgba(255,255,255,0.08)}
+.nav-inner{max-width:1200px;margin:0 auto;padding:0 32px;display:flex;align-items:center;justify-content:space-between;height:64px}
+.nav-logo{font-size:1.2rem;font-weight:800;color:var(--white);letter-spacing:-.5px;text-decoration:none}
+.nav-logo span{color:var(--gold-light)}
+.nav-links{display:flex;gap:4px}
+.nav-links a{color:rgba(255,255,255,0.7);text-decoration:none;font-size:.9rem;font-weight:500;padding:8px 16px;border-radius:8px;transition:all .2s}
+.nav-links a:hover,.nav-links a.active{color:var(--white);background:rgba(255,255,255,0.1)}
+.nav-links a.active{font-weight:700}
+.hamburger{display:none;background:none;border:none;color:var(--white);font-size:1.5rem;cursor:pointer}
+.mobile-menu{display:none;position:fixed;top:64px;left:0;right:0;background:var(--navy);padding:16px;z-index:999}
+.mobile-menu a{display:block;color:rgba(255,255,255,0.8);text-decoration:none;padding:12px 16px;border-radius:8px;font-size:.95rem}
+.mobile-menu a.active{background:rgba(255,255,255,0.08);color:var(--white)}
+
+.hero{background:linear-gradient(165deg,var(--navy-dark),var(--navy) 50%,var(--navy-light));color:var(--white);padding:150px 32px 100px;text-align:center;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;top:-40%;left:-15%;width:500px;height:500px;background:radial-gradient(circle,rgba(201,164,0,0.06) 0%,transparent 70%);border-radius:50%}
+.hero-content{position:relative;z-index:1;max-width:700px;margin:0 auto}
+.hero-badge{display:inline-block;background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.15);padding:6px 20px;border-radius:100px;font-size:.85rem;font-weight:600;margin-bottom:28px}
+.hero h1{font-size:2.8rem;font-weight:900;line-height:1.25;margin-bottom:20px;letter-spacing:-1px}
+.hero-sub{font-size:1.15rem;opacity:.8;line-height:1.8}
+
+.section{padding:100px 32px}
+.section-inner{max-width:1000px;margin:0 auto}
+
+/* BENEFIT CARDS */
+.benefit-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:28px;margin-top:48px}
+.benefit-card{background:var(--white);border:1px solid var(--border);border-radius:20px;padding:40px 32px;transition:all .3s;position:relative;overflow:hidden}
+.benefit-card:hover{transform:translateY(-4px);box-shadow:0 16px 40px rgba(0,40,85,0.08);border-color:var(--navy)}
+.benefit-card::before{content:'';position:absolute;top:0;left:0;right:0;height:4px;background:var(--navy);opacity:0;transition:opacity .3s}
+.benefit-card:hover::before{opacity:1}
+.benefit-icon{font-size:2.8rem;margin-bottom:20px}
+.benefit-card h3{font-size:1.3rem;font-weight:800;color:var(--navy);margin-bottom:8px}
+.benefit-card p{font-size:1rem;color:var(--text-secondary);line-height:1.75}
+.benefit-card .tag{display:inline-block;background:rgba(0,40,85,0.06);color:var(--navy);font-size:.78rem;font-weight:600;padding:4px 12px;border-radius:6px;margin-top:12px}
+
+/* HIGHLIGHT */
+.highlight-card{background:linear-gradient(135deg,var(--navy),var(--navy-light));color:var(--white);border:none;grid-column:span 2}
+.highlight-card h3{color:var(--gold-light)}
+.highlight-card p{color:rgba(255,255,255,0.8)}
+.highlight-card .tag{background:rgba(255,255,255,0.15);color:var(--white)}
+
+/* CTA */
+.cta-section{background:linear-gradient(135deg,var(--navy),var(--navy-light));padding:80px 32px;text-align:center;color:var(--white)}
+.cta-section h2{font-size:2rem;font-weight:900;margin-bottom:12px}
+.cta-section p{opacity:.7;margin-bottom:32px;font-size:1.05rem}
+.btn-primary{display:inline-flex;align-items:center;gap:8px;background:var(--white);color:var(--navy);font-weight:700;font-size:1rem;padding:16px 36px;border-radius:12px;text-decoration:none;transition:all .2s}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,0,0,0.2)}
+
+.footer{background:var(--navy-dark);color:rgba(255,255,255,0.6);padding:48px 32px;text-align:center;font-size:.9rem;line-height:1.8}
+.footer a{color:var(--gold-light);text-decoration:none}
+.footer-quote{font-size:.95rem;color:rgba(255,255,255,0.4);margin-top:12px;font-style:italic}
+
+.fade-in{opacity:0;transform:translateY(30px);transition:opacity .6s ease,transform .6s ease}
+.fade-in.visible{opacity:1;transform:translateY(0)}
+
+@media(max-width:768px){
+  .nav-links{display:none}
+  .hamburger{display:block}
+  .mobile-menu.open{display:block}
+  .hero{padding:130px 20px 80px}
+  .hero h1{font-size:2rem}
+  .section{padding:64px 20px}
+  .benefit-grid{grid-template-columns:1fr}
+  .highlight-card{grid-column:span 1}
+}
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav-inner">
+    <a href="careers.html" class="nav-logo">TENEX <span>Careers</span></a>
+    <div class="nav-links">
+      <a href="careers.html">Main</a>
+      <a href="careers-culture.html">Culture</a>
+      <a href="careers-benefit.html" class="active">Benefit</a>
+      <a href="careers-process.html">Process</a>
+      <a href="careers-jobs.html">Jobs</a>
+    </div>
+    <button class="hamburger" onclick="document.querySelector('.mobile-menu').classList.toggle('open')" aria-label="메뉴">☰</button>
+  </div>
+</nav>
+<div class="mobile-menu">
+  <a href="careers.html">Main</a>
+  <a href="careers-culture.html">Culture</a>
+  <a href="careers-benefit.html" class="active">Benefit</a>
+  <a href="careers-process.html">Process</a>
+  <a href="careers-jobs.html">Jobs</a>
+</div>
+
+<section class="hero">
+  <div class="hero-content">
+    <div class="hero-badge">BENEFITS</div>
+    <h1>함께하는 사람에게<br>아끼지 않습니다</h1>
+    <p class="hero-sub">최고의 결과를 만들기 위해, 최고의 환경을 제공합니다.<br>오너십 있는 모험가에겐 그에 걸맞은 보상이 따릅니다.</p>
+  </div>
+</section>
+
+<section class="section">
+  <div class="section-inner">
+    <div class="benefit-grid">
+
+      <div class="benefit-card fade-in">
+        <div class="benefit-icon">🎁</div>
+        <h3>웰컴기프트</h3>
+        <p>입사 첫 날, CS-25 + ES-808 + WS-200 풀세트를 드립니다. 우리 제품을 직접 사용해보는 것이 가장 좋은 온보딩입니다.</p>
+        <div class="tag">입사 즉시</div>
+      </div>
+
+      <div class="benefit-card fade-in">
+        <div class="benefit-icon">📦</div>
+        <h3>자사 제품 무제한 지급</h3>
+        <p>전 라인업 제품을 무제한으로 사용할 수 있습니다. 본인은 물론 가족, 지인에게도 공유하세요. 제품을 사랑하는 것이 최고의 마케팅입니다.</p>
+        <div class="tag">상시</div>
+      </div>
+
+      <div class="benefit-card fade-in">
+        <div class="benefit-icon">💰</div>
+        <h3>성과 인센티브</h3>
+        <p>매출 연동 변동형 인센티브. 성과가 좋으면 보상도 큽니다. 내 숫자처럼 느끼는 사람에게 실제로 내 숫자가 됩니다.</p>
+        <div class="tag">분기별 정산</div>
+      </div>
+
+      <div class="benefit-card fade-in">
+        <div class="benefit-icon">⏰</div>
+        <h3>유연근무</h3>
+        <p>시차출퇴근제. 감시가 아닌 신뢰 기반. 목표와 맥락이 공유되면 언제, 어디서 일하든 최고의 결과를 낼 수 있다고 믿습니다.</p>
+        <div class="tag">신뢰 기반</div>
+      </div>
+
+      <div class="benefit-card fade-in">
+        <div class="benefit-icon">📚</div>
+        <h3>교육비 지원</h3>
+        <p>성장에 필요한 교육, 컨퍼런스, 도서 구매를 지원합니다. 오너십 있는 사람의 성장은 곧 회사의 성장입니다.</p>
+        <div class="tag">사전 승인</div>
+      </div>
+
+      <div class="benefit-card fade-in">
+        <div class="benefit-icon">👔</div>
+        <h3>CEO 직속</h3>
+        <p>대표와 바로 일하며 사업 전체를 경험합니다. 중간 관리자 없이 의사결정에 직접 참여. 스타트업이니까 가능한 경험.</p>
+        <div class="tag">즉시</div>
+      </div>
+
+      <div class="benefit-card highlight-card fade-in">
+        <div class="benefit-icon">📈</div>
+        <h3>스톡옵션 기회</h3>
+        <p>입증 후 스톡옵션을 부여합니다. 우리는 연매출 200억, 그 이후를 준비하고 있습니다. 초기 멤버로서의 기회. 회사가 성장하면 당신의 지분도 성장합니다.</p>
+        <div class="tag">입증 후 부여</div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<section class="cta-section fade-in">
+  <h2>이 정도면, 같이 해볼 만하지 않나요?</h2>
+  <p>채용공고를 확인하고 지원해주세요.</p>
+  <a href="careers-jobs.html" class="btn-primary">채용공고 보러가기 →</a>
+</section>
+
+<footer class="footer">
+  <p>지원 문의: <a href="mailto:partner@tenex.kr">partner@tenex.kr</a></p>
+  <p class="footer-quote">"K-health를 떠올리면 테넥스가 대체 불가능한 회사로 인식되는 날을 함께 만들어갑니다"</p>
+  <p style="margin-top:20px;font-size:.8rem;opacity:.5">© 2026 TENEX (키네메디칼). All rights reserved.</p>
+</footer>
+
+<script>
+const io=new IntersectionObserver((entries)=>{
+  entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');io.unobserve(e.target)}})
+},{threshold:0.12});
+document.querySelectorAll('.fade-in').forEach(el=>io.observe(el));
+</script>
+</body>
+</html>
