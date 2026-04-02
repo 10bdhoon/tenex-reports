@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>테넥스 채용 — 다음 멤버를 찾습니다</title>
+<title>테넥스 채용 — 다음 테넥서를 찾습니다</title>
 <meta name="description" content="누구나 집에서 스스로 회복할 수 있는 세상. 테넥스와 함께할 다음 팀원을 찾습니다.">
 <link rel="preconnect" href="https://cdn.jsdelivr.net">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
@@ -20,6 +20,7 @@
   --white: #FFFFFF;
   --text: #1A1A1A;
   --text-sub: #666666;
+  --border: #eaeef2;
 }
 html { scroll-behavior: smooth; }
 body {
@@ -50,12 +51,6 @@ body {
   color: var(--navy-dark); text-decoration: none; letter-spacing: -0.5px;
 }
 .nav-logo span { color: var(--gold-dark); }
-.nav-logo small {
-  font-size: 0.7rem; font-weight: 600;
-  color: var(--text-sub); letter-spacing: 1.5px;
-  text-transform: uppercase; margin-left: 8px;
-  vertical-align: middle; opacity: 0.7;
-}
 .nav-cta {
   background: var(--navy-dark); color: #fff;
   font-weight: 700; font-size: 0.85rem;
@@ -65,16 +60,12 @@ body {
 }
 .nav-cta:hover { background: var(--navy-mid); transform: translateY(-1px); box-shadow: 0 6px 16px rgba(0,40,85,0.18); }
 
-/* ─── FADE-IN ANIMATION ─── */
+/* ─── FADE ANIMATIONS ─── */
 .fade-up {
-  opacity: 0;
-  transform: translateY(40px);
+  opacity: 0; transform: translateY(40px);
   transition: opacity 0.75s cubic-bezier(0.16,1,0.3,1), transform 0.75s cubic-bezier(0.16,1,0.3,1);
 }
-.fade-up.visible {
-  opacity: 1;
-  transform: translateY(0);
-}
+.fade-up.visible { opacity: 1; transform: translateY(0); }
 .fade-up.delay-1 { transition-delay: 0.1s; }
 .fade-up.delay-2 { transition-delay: 0.2s; }
 .fade-up.delay-3 { transition-delay: 0.35s; }
@@ -82,7 +73,7 @@ body {
 .fade-up.delay-5 { transition-delay: 0.65s; }
 .fade-up.delay-6 { transition-delay: 0.8s; }
 
-/* ─── ① HERO ─── */
+/* ─── HERO ─── */
 .hero {
   min-height: 100vh;
   background: linear-gradient(160deg, var(--navy-dark) 0%, var(--navy) 60%, #004080 100%);
@@ -109,8 +100,7 @@ body {
 .hero-inner { position: relative; z-index: 1; max-width: 860px; }
 .hero-badges {
   display: flex; align-items: center; justify-content: center;
-  gap: 12px; margin-bottom: 40px;
-  flex-wrap: wrap;
+  gap: 12px; margin-bottom: 40px; flex-wrap: wrap;
 }
 .hero-badge {
   display: inline-flex; align-items: center; gap: 8px;
@@ -122,28 +112,20 @@ body {
   letter-spacing: 0.2px;
 }
 .hero h1 {
-  font-size: clamp(40px, 6vw, 64px);
-  font-weight: 900;
-  color: #fff;
-  line-height: 1.18;
-  letter-spacing: -2px;
-  margin-bottom: 24px;
+  font-size: clamp(40px, 6vw, 64px); font-weight: 900;
+  color: #fff; line-height: 1.18; letter-spacing: -2px; margin-bottom: 24px;
 }
 .hero-sub {
-  font-size: clamp(17px, 2vw, 20px);
-  color: rgba(255,255,255,0.65);
-  line-height: 1.75;
-  margin-bottom: 48px;
-  max-width: 540px;
-  margin-left: auto; margin-right: auto;
+  font-size: clamp(17px, 2vw, 20px); color: rgba(255,255,255,0.65);
+  line-height: 1.75; margin-bottom: 48px;
+  max-width: 540px; margin-left: auto; margin-right: auto;
 }
 .hero-cta {
   display: inline-flex; align-items: center; gap: 8px;
   background: var(--gold); color: var(--navy-dark);
   font-weight: 800; font-size: 1.05rem;
   padding: 18px 40px; border-radius: 12px;
-  text-decoration: none; transition: all 0.2s;
-  letter-spacing: -0.3px;
+  text-decoration: none; transition: all 0.2s; letter-spacing: -0.3px;
 }
 .hero-cta:hover { background: #ffe033; transform: translateY(-3px); box-shadow: 0 12px 32px rgba(255,215,0,0.25); }
 .scroll-hint {
@@ -159,37 +141,42 @@ body {
   50% { transform: translateX(-50%) translateY(8px); opacity: 0.8; }
 }
 
-/* ─── ② TIMELINE ─── */
-.section-timing {
-  background: var(--white);
-  padding: 140px 40px;
-  text-align: center;
-}
+/* ─── SECTION COMMON ─── */
 .section-label {
   display: inline-block;
   font-size: 0.75rem; font-weight: 700;
   letter-spacing: 2px; text-transform: uppercase;
-  color: var(--gold-dark);
-  margin-bottom: 20px;
+  color: var(--gold-dark); margin-bottom: 20px;
+}
+.section-label-light {
+  display: inline-block;
+  font-size: 0.75rem; font-weight: 700;
+  letter-spacing: 2px; text-transform: uppercase;
+  color: rgba(255,255,255,0.5); margin-bottom: 20px;
 }
 .section-title {
-  font-size: clamp(30px, 4.5vw, 48px);
-  font-weight: 900;
-  color: var(--navy-dark);
-  letter-spacing: -1.5px;
-  line-height: 1.2;
-  margin-bottom: 16px;
+  font-size: clamp(30px, 4.5vw, 48px); font-weight: 900;
+  color: var(--navy-dark); letter-spacing: -1.5px; line-height: 1.2; margin-bottom: 16px;
+}
+.section-title-light {
+  font-size: clamp(30px, 4.5vw, 48px); font-weight: 900;
+  color: #fff; letter-spacing: -1.5px; line-height: 1.2; margin-bottom: 16px;
 }
 .section-sub {
-  font-size: clamp(16px, 2vw, 20px);
-  color: var(--text-sub);
-  margin-bottom: 80px;
-  line-height: 1.6;
+  font-size: clamp(16px, 2vw, 20px); color: var(--text-sub);
+  margin-bottom: 80px; line-height: 1.6;
+}
+.section-sub-light {
+  font-size: clamp(16px, 2vw, 18px); color: rgba(255,255,255,0.55);
+  margin-bottom: 64px; line-height: 1.6;
+}
+
+/* ─── TIMELINE ─── */
+.section-timing {
+  background: var(--white); padding: 140px 40px; text-align: center;
 }
 .timeline {
-  max-width: 640px; margin: 0 auto;
-  position: relative;
-  text-align: left;
+  max-width: 640px; margin: 0 auto; position: relative; text-align: left;
 }
 .timeline::before {
   content: '';
@@ -198,92 +185,81 @@ body {
 }
 .timeline-item {
   display: flex; align-items: flex-start; gap: 32px;
-  padding: 28px 0;
-  position: relative;
+  padding: 28px 0; position: relative;
 }
 .timeline-date {
   min-width: 100px; text-align: right;
   font-size: 0.82rem; font-weight: 700;
-  color: var(--text-sub); padding-top: 3px;
-  letter-spacing: 0.3px;
+  color: var(--text-sub); padding-top: 3px; letter-spacing: 0.3px;
 }
 .timeline-dot {
   position: relative; z-index: 1;
-  width: 12px; height: 12px;
-  border-radius: 50%;
-  background: #d0d7e0;
-  border: 2px solid var(--white);
+  width: 12px; height: 12px; border-radius: 50%;
+  background: #d0d7e0; border: 2px solid var(--white);
   flex-shrink: 0; margin-top: 3px;
-  box-shadow: 0 0 0 3px #e8ecf0;
-  transition: all 0.3s;
+  box-shadow: 0 0 0 3px #e8ecf0; transition: all 0.3s;
 }
 .timeline-item:last-child .timeline-dot {
   background: var(--navy);
   box-shadow: 0 0 0 4px rgba(0,40,85,0.15);
   width: 16px; height: 16px; margin-top: 1px;
 }
-.timeline-text {
-  flex: 1; padding-left: 8px;
-}
+.timeline-text { flex: 1; padding-left: 8px; }
 .timeline-text strong {
-  display: block;
-  font-size: 1rem; font-weight: 700; color: var(--text);
-  margin-bottom: 2px;
+  display: block; font-size: 1rem; font-weight: 700; color: var(--text); margin-bottom: 2px;
 }
 .timeline-text span { font-size: 0.88rem; color: var(--text-sub); }
 
-/* ─── ③ STATS ─── */
-.section-stats {
-  background: var(--navy);
-  padding: 120px 40px;
+/* 성과 하이라이트 */
+.growth-highlights {
+  max-width: 900px; margin: 72px auto 0;
+  display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px;
 }
+.growth-card {
+  background: var(--bg); border: 1px solid var(--border);
+  border-radius: 16px; padding: 28px 20px; text-align: center;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.growth-card:hover { transform: translateY(-3px); box-shadow: 0 12px 32px rgba(0,40,85,0.08); }
+.growth-card.highlight { background: var(--navy); border-color: var(--navy); }
+.growth-num {
+  font-size: 2rem; font-weight: 900; color: var(--navy);
+  letter-spacing: -1px; line-height: 1.1; margin-bottom: 8px;
+}
+.growth-card.highlight .growth-num { color: var(--gold); font-size: 2.4rem; }
+.growth-lbl { font-size: 0.82rem; color: var(--text-sub); line-height: 1.5; }
+.growth-card.highlight .growth-lbl { color: rgba(255,255,255,0.6); }
+
+/* ─── STATS ─── */
+.section-stats { background: var(--navy); padding: 120px 40px; }
 .stats-inner {
   max-width: 1100px; margin: 0 auto;
   display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px;
 }
 .stat-card {
-  padding: 60px 48px;
-  text-align: center;
-  background: rgba(255,255,255,0.04);
-  border: 1px solid rgba(255,255,255,0.07);
+  padding: 60px 48px; text-align: center;
+  background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.07);
   transition: background 0.3s;
 }
 .stat-card:hover { background: rgba(255,255,255,0.07); }
 .stat-card:first-child { border-radius: 16px 0 0 16px; }
 .stat-card:last-child { border-radius: 0 16px 16px 0; }
 .stat-num {
-  font-size: clamp(52px, 7vw, 80px);
-  font-weight: 900;
-  color: var(--gold);
-  letter-spacing: -3px;
-  line-height: 1;
-  margin-bottom: 16px;
-  display: block;
+  font-size: clamp(52px, 7vw, 80px); font-weight: 900;
+  color: var(--gold); letter-spacing: -3px; line-height: 1; margin-bottom: 16px; display: block;
 }
 .stat-unit { font-size: 0.6em; font-weight: 700; letter-spacing: 0; }
-.stat-label {
-  font-size: 1rem; font-weight: 600;
-  color: rgba(255,255,255,0.5);
-  letter-spacing: 0.3px;
-}
+.stat-label { font-size: 1rem; font-weight: 600; color: rgba(255,255,255,0.5); letter-spacing: 0.3px; }
 
-/* ─── ④ 브랜드 카드 ─── */
-.section-brands {
-  background: var(--bg);
-  padding: 140px 40px;
-  text-align: center;
-}
+/* ─── BRANDS ─── */
+.section-brands { background: var(--bg); padding: 140px 40px; text-align: center; }
 .brands-grid {
   max-width: 1100px; margin: 0 auto 80px;
   display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px;
 }
 .brand-card {
-  background: var(--white);
-  border-radius: 20px;
-  overflow: hidden;
-  border: 1px solid #eaeef2;
-  transition: transform 0.3s, box-shadow 0.3s;
-  text-align: left;
+  background: var(--white); border-radius: 20px; overflow: hidden;
+  border: 1px solid var(--border); transition: transform 0.3s, box-shadow 0.3s; text-align: left;
 }
 .brand-card:hover { transform: translateY(-6px); box-shadow: 0 24px 60px rgba(0,40,85,0.1); }
 .brand-img-placeholder {
@@ -294,153 +270,130 @@ body {
   letter-spacing: 1px; text-transform: uppercase;
   position: relative; overflow: hidden;
 }
-.brand-img-placeholder::after {
-  content: '[ 사진 교체 예정 ]';
-  font-size: 0.75rem; color: #a8b3bf;
-  font-weight: 500; letter-spacing: 0.5px;
-}
+.brand-img-placeholder::after { content: '[ 사진 교체 예정 ]'; font-size: 0.75rem; color: #a8b3bf; font-weight: 500; }
 .brand-body { padding: 36px 40px 40px; }
-.brand-tag {
-  font-size: 0.72rem; font-weight: 700;
-  letter-spacing: 2px; text-transform: uppercase;
-  color: var(--gold-dark); margin-bottom: 14px;
-}
-.brand-name {
-  font-size: 1.6rem; font-weight: 900;
-  color: var(--navy-dark); letter-spacing: -0.8px;
-  margin-bottom: 12px;
-}
-.brand-desc {
-  font-size: 0.95rem; color: var(--text-sub);
-  line-height: 1.75; margin-bottom: 20px;
-}
-.brand-products {
-  display: flex; flex-wrap: wrap; gap: 8px;
-}
+.brand-tag { font-size: 0.72rem; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--gold-dark); margin-bottom: 14px; }
+.brand-name { font-size: 1.6rem; font-weight: 900; color: var(--navy-dark); letter-spacing: -0.8px; margin-bottom: 12px; }
+.brand-desc { font-size: 0.95rem; color: var(--text-sub); line-height: 1.75; margin-bottom: 20px; }
+.brand-products { display: flex; flex-wrap: wrap; gap: 8px; }
 .brand-pill {
   background: #f0f3f7; color: var(--navy);
   font-size: 0.78rem; font-weight: 600;
-  padding: 6px 14px; border-radius: 100px;
-  letter-spacing: 0.2px;
+  padding: 6px 14px; border-radius: 100px; letter-spacing: 0.2px;
 }
-
-/* 로드맵 */
-.roadmap {
-  max-width: 900px; margin: 0 auto;
-}
-.roadmap-label {
-  font-size: 0.82rem; font-weight: 700;
-  color: var(--text-sub); letter-spacing: 1px;
-  text-transform: uppercase; margin-bottom: 28px;
-}
-.roadmap-track {
-  display: flex; align-items: center; justify-content: center;
-  flex-wrap: wrap; gap: 0;
-}
-.roadmap-step {
-  display: flex; align-items: center; gap: 0;
-}
+.roadmap { max-width: 900px; margin: 0 auto; }
+.roadmap-label { font-size: 0.82rem; font-weight: 700; color: var(--text-sub); letter-spacing: 1px; text-transform: uppercase; margin-bottom: 28px; }
+.roadmap-track { display: flex; align-items: center; justify-content: center; flex-wrap: wrap; gap: 0; }
+.roadmap-step { display: flex; align-items: center; gap: 0; }
 .roadmap-node {
-  background: var(--white);
-  border: 2px solid #dde2e9;
-  border-radius: 10px;
-  padding: 12px 22px;
-  font-size: 0.9rem; font-weight: 700; color: var(--navy);
+  background: var(--white); border: 2px solid #dde2e9; border-radius: 10px;
+  padding: 12px 22px; font-size: 0.9rem; font-weight: 700; color: var(--navy);
   transition: all 0.3s; white-space: nowrap;
 }
-.roadmap-node.active {
-  background: var(--navy); color: #fff;
-  border-color: var(--navy);
-}
-.roadmap-arrow {
-  color: #c5cdd6; font-size: 1rem;
-  padding: 0 8px; flex-shrink: 0;
-}
+.roadmap-node.active { background: var(--navy); color: #fff; border-color: var(--navy); }
+.roadmap-arrow { color: #c5cdd6; font-size: 1rem; padding: 0 8px; flex-shrink: 0; }
 
-/* ─── ⑤ 팀 ─── */
-.section-team {
-  background: var(--white);
-  padding: 140px 40px;
-  text-align: center;
+/* ─── DNA ─── */
+.section-dna { background: var(--white); padding: 140px 40px; text-align: center; }
+.dna-grid {
+  max-width: 900px; margin: 0 auto;
+  display: flex; flex-direction: column; gap: 16px;
 }
-.team-grid {
-  max-width: 960px; margin: 0 auto;
-  display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px;
+.dna-card {
+  display: flex; align-items: flex-start; gap: 28px;
+  background: var(--bg); border: 1px solid var(--border);
+  border-radius: 20px; padding: 36px 40px;
+  transition: all 0.3s; text-align: left;
 }
-.team-card {
-  background: var(--bg);
-  border-radius: 20px;
-  overflow: hidden;
-  border: 1px solid #eaeef2;
-  text-align: left;
-  transition: transform 0.3s, box-shadow 0.3s;
-}
-.team-card:hover { transform: translateY(-4px); box-shadow: 0 16px 48px rgba(0,40,85,0.08); }
-.team-photo-placeholder {
-  width: 100%; aspect-ratio: 4/3;
-  background: linear-gradient(135deg, #e4e9f0 0%, #cdd4de 100%);
+.dna-card:hover { box-shadow: 0 16px 40px rgba(0,40,85,0.08); border-color: var(--navy); transform: translateX(4px); }
+.dna-card.featured { background: var(--navy); border-color: var(--navy); }
+.dna-card.featured .dna-card-title { color: var(--gold); }
+.dna-card.featured .dna-card-desc { color: rgba(255,255,255,0.75); }
+.dna-icon {
+  font-size: 2rem; flex-shrink: 0;
+  width: 56px; height: 56px;
   display: flex; align-items: center; justify-content: center;
-  color: #a0aab6; font-size: 0.75rem;
-  font-weight: 500; letter-spacing: 0.5px;
-  position: relative;
+  background: rgba(0,40,85,0.06); border-radius: 14px;
 }
-.team-photo-placeholder::after { content: '[ 사진 교체 예정 ]'; }
-.team-body { padding: 32px 36px 36px; }
-.team-role {
-  font-size: 0.72rem; font-weight: 700;
-  letter-spacing: 2.5px; text-transform: uppercase;
-  color: var(--gold-dark); margin-bottom: 12px;
-}
-.team-title {
-  font-size: 1.35rem; font-weight: 900;
-  color: var(--navy-dark); letter-spacing: -0.5px;
-  margin-bottom: 10px;
-}
-.team-desc {
-  font-size: 0.9rem; color: var(--text-sub); line-height: 1.7;
-  margin-bottom: 20px;
-}
-.team-quote {
-  font-size: 0.92rem; font-weight: 600; color: var(--navy);
-  line-height: 1.65;
-  padding-left: 16px;
-  border-left: 3px solid var(--gold);
-}
+.dna-card.featured .dna-icon { background: rgba(255,255,255,0.1); }
+.dna-card-body { flex: 1; }
+.dna-card-title { font-size: 1.15rem; font-weight: 800; color: var(--navy-dark); margin-bottom: 8px; }
+.dna-card-desc { font-size: 0.92rem; color: var(--text-sub); line-height: 1.75; }
 
-/* ─── ⑥ 합류 혜택 ─── */
-.section-perks {
-  background: var(--bg);
-  padding: 140px 40px;
-  text-align: center;
-}
-.perks-grid {
+/* ─── BENEFITS ─── */
+.section-benefits { background: var(--bg); padding: 140px 40px; text-align: center; }
+.benefits-grid {
   max-width: 1100px; margin: 0 auto;
-  display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px;
+  display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; margin-bottom: 20px;
 }
-.perk-card {
-  background: var(--white);
-  border-radius: 16px;
-  padding: 40px 36px;
-  text-align: left;
-  border: 1px solid #eaeef2;
-  transition: transform 0.3s, box-shadow 0.3s;
+.benefit-item {
+  text-align: center; padding: 36px 20px;
+  background: var(--white); border: 1px solid var(--border);
+  border-radius: 16px; transition: all 0.3s;
 }
-.perk-card:hover { transform: translateY(-4px); box-shadow: 0 16px 40px rgba(0,40,85,0.07); }
-.perk-icon { font-size: 2rem; margin-bottom: 20px; display: block; }
-.perk-name {
-  font-size: 1.05rem; font-weight: 800;
-  color: var(--navy-dark); letter-spacing: -0.3px;
-  margin-bottom: 8px;
-}
-.perk-desc { font-size: 0.88rem; color: var(--text-sub); line-height: 1.65; }
+.benefit-item:hover { border-color: var(--navy); transform: translateY(-3px); box-shadow: 0 12px 32px rgba(0,40,85,0.07); }
+.benefit-item.dark { background: var(--navy); border-color: var(--navy); }
+.benefit-item.dark .benefit-name { color: #fff; }
+.benefit-item.dark .benefit-desc { color: rgba(255,255,255,0.6); }
+.benefit-icon { font-size: 2.2rem; margin-bottom: 16px; display: block; }
+.benefit-name { font-size: 1rem; font-weight: 800; color: var(--navy-dark); margin-bottom: 6px; letter-spacing: -0.2px; }
+.benefit-desc { font-size: 0.84rem; color: var(--text-sub); line-height: 1.6; }
 
-/* ─── ⑦ FINAL CTA ─── */
+/* ─── YOUTUBE THUMBNAILS ─── */
+.section-thumbs { background: var(--white); padding: 140px 40px; text-align: center; }
+.thumb-grid {
+  max-width: 1100px; margin: 0 auto;
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-top: 60px;
+}
+.thumb-item {
+  border-radius: 14px; overflow: hidden; position: relative;
+  aspect-ratio: 16/9; background: #111;
+  transition: transform 0.25s, box-shadow 0.25s;
+  display: block; text-decoration: none;
+}
+.thumb-item:hover { transform: scale(1.03); box-shadow: 0 20px 48px rgba(0,0,0,0.18); }
+.thumb-item img { width: 100%; height: 100%; object-fit: cover; display: block; opacity: 0.88; transition: opacity 0.2s; }
+.thumb-item:hover img { opacity: 1; }
+.thumb-overlay {
+  position: absolute; inset: 0;
+  background: linear-gradient(to top, rgba(0,0,0,0.72) 0%, transparent 55%);
+  display: flex; align-items: flex-end; padding: 14px 16px;
+}
+.thumb-title { font-size: 0.78rem; font-weight: 600; color: rgba(255,255,255,0.92); line-height: 1.45; word-break: keep-all; }
+.thumb-play {
+  position: absolute; top: 50%; left: 50%;
+  transform: translate(-50%,-50%);
+  width: 48px; height: 48px; background: rgba(255,255,255,0.18);
+  border-radius: 50%; display: flex; align-items: center; justify-content: center;
+  font-size: 1.1rem; backdrop-filter: blur(4px); transition: background 0.2s; color: #fff;
+}
+.thumb-item:hover .thumb-play { background: rgba(255,255,255,0.32); }
+
+/* ─── VIDEO ─── */
+.section-video {
+  background: var(--navy-dark); padding: 140px 40px; text-align: center;
+}
+.video-wrap {
+  max-width: 860px; margin: 0 auto;
+  border-radius: 16px; overflow: hidden; box-shadow: 0 24px 64px rgba(0,0,0,0.4);
+}
+.video-wrap iframe { width: 100%; aspect-ratio: 16/9; border: none; display: block; }
+.popular-label {
+  font-size: 0.78rem; font-weight: 700; letter-spacing: 1.5px;
+  color: rgba(255,255,255,0.35); text-transform: uppercase;
+  text-align: center; margin: 48px 0 16px;
+}
+.video-thumb-grid {
+  max-width: 1100px; margin: 0 auto;
+  display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px;
+}
+
+/* ─── CTA ─── */
 .section-cta {
   min-height: 80vh;
   background: linear-gradient(160deg, var(--navy-dark) 0%, var(--navy) 100%);
   display: flex; align-items: center; justify-content: center;
-  padding: 120px 40px;
-  text-align: center;
+  padding: 120px 40px; text-align: center;
   position: relative; overflow: hidden;
 }
 .section-cta::before {
@@ -452,32 +405,21 @@ body {
 }
 .cta-inner { position: relative; z-index: 1; max-width: 700px; }
 .cta-label {
-  display: inline-block;
-  font-size: 0.75rem; font-weight: 700;
-  letter-spacing: 2.5px; text-transform: uppercase;
-  color: var(--gold); margin-bottom: 28px;
+  display: inline-block; font-size: 0.75rem; font-weight: 700;
+  letter-spacing: 2.5px; text-transform: uppercase; color: var(--gold); margin-bottom: 28px;
 }
 .cta-title {
-  font-size: clamp(32px, 5vw, 52px);
-  font-weight: 900; color: #fff;
-  letter-spacing: -2px; line-height: 1.2;
-  margin-bottom: 20px;
+  font-size: clamp(32px, 5vw, 52px); font-weight: 900; color: #fff;
+  letter-spacing: -2px; line-height: 1.2; margin-bottom: 20px;
 }
-.cta-sub {
-  font-size: 1.05rem; color: rgba(255,255,255,0.55);
-  margin-bottom: 56px; line-height: 1.7;
-}
-.cta-buttons {
-  display: flex; align-items: center; justify-content: center;
-  gap: 16px; flex-wrap: wrap;
-}
+.cta-sub { font-size: 1.05rem; color: rgba(255,255,255,0.55); margin-bottom: 56px; line-height: 1.7; }
+.cta-buttons { display: flex; align-items: center; justify-content: center; gap: 16px; flex-wrap: wrap; }
 .btn-gold {
   display: inline-flex; align-items: center; gap: 8px;
   background: var(--gold); color: var(--navy-dark);
-  font-weight: 800; font-size: 1rem;
+  font-weight: 800; font-size: 1.05rem;
   padding: 18px 40px; border-radius: 12px;
-  text-decoration: none; transition: all 0.2s;
-  letter-spacing: -0.2px;
+  text-decoration: none; transition: all 0.2s; letter-spacing: -0.2px;
 }
 .btn-gold:hover { background: #ffe033; transform: translateY(-3px); box-shadow: 0 12px 32px rgba(255,215,0,0.25); }
 .btn-outline {
@@ -492,14 +434,12 @@ body {
 
 /* ─── FOOTER ─── */
 footer {
-  background: var(--navy-dark);
-  padding: 40px;
-  text-align: center;
-  color: rgba(255,255,255,0.3);
-  font-size: 0.82rem; line-height: 2;
+  background: var(--navy-dark); padding: 40px; text-align: center;
+  color: rgba(255,255,255,0.3); font-size: 0.82rem; line-height: 2;
 }
-footer a { color: rgba(255,255,255,0.4); text-decoration: none; }
+footer a { color: rgba(255,255,255,0.45); text-decoration: none; }
 footer a:hover { color: rgba(255,255,255,0.7); }
+.footer-quote { font-size: 0.9rem; color: rgba(255,255,255,0.2); margin-top: 8px; font-style: italic; }
 
 /* ─── MOBILE ─── */
 @media (max-width: 768px) {
@@ -510,45 +450,71 @@ footer a:hover { color: rgba(255,255,255,0.7); }
   .hero-sub { font-size: 16px; }
   .hero-badges { gap: 8px; }
 
-  .section-timing, .section-brands, .section-team, .section-perks { padding: 80px 24px; }
+  .section-timing, .section-brands, .section-dna, .section-benefits,
+  .section-thumbs, .section-video { padding: 80px 24px; }
   .section-stats { padding: 80px 24px; }
   .section-cta { padding: 80px 24px; min-height: auto; }
 
-  .section-title { font-size: 30px; letter-spacing: -1px; }
+  .section-title, .section-title-light { font-size: 30px; letter-spacing: -1px; }
+  .section-sub { margin-bottom: 48px; }
 
   .stats-inner { grid-template-columns: 1fr; gap: 0; }
   .stat-card:first-child { border-radius: 16px 16px 0 0; }
   .stat-card:last-child { border-radius: 0 0 16px 16px; }
   .stat-card { padding: 44px 32px; }
 
-  .brands-grid { grid-template-columns: 1fr; }
-  .team-grid { grid-template-columns: 1fr; }
-  .perks-grid { grid-template-columns: 1fr; gap: 16px; }
-
   .timeline::before { left: 90px; }
   .timeline-date { min-width: 72px; font-size: 0.76rem; }
 
-  .roadmap-track { gap: 0; justify-content: flex-start; overflow-x: auto; flex-wrap: nowrap; }
+  .growth-highlights { grid-template-columns: repeat(2, 1fr); gap: 12px; margin-top: 48px; }
+  .growth-num { font-size: 1.6rem; }
+  .growth-card.highlight .growth-num { font-size: 1.9rem; }
+
+  .brands-grid { grid-template-columns: 1fr; }
+  .brand-body { padding: 28px 28px 32px; }
+  .brand-name { font-size: 1.4rem; }
+
+  .roadmap-track { overflow-x: auto; flex-wrap: nowrap; justify-content: flex-start; }
   .roadmap { overflow-x: auto; }
   .roadmap-node { padding: 10px 16px; font-size: 0.82rem; }
 
+  .dna-card { flex-direction: row; padding: 24px 24px; gap: 16px; }
+  .dna-icon { width: 48px; height: 48px; font-size: 1.6rem; }
+  .dna-card-title { font-size: 1rem; }
+  .dna-card-desc { font-size: 0.875rem; }
+
+  .benefits-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+  .benefit-item { padding: 28px 16px; }
+  .benefit-icon { font-size: 1.8rem; margin-bottom: 12px; }
+  .benefit-name { font-size: 0.9rem; }
+  .benefit-desc { font-size: 0.8rem; }
+
+  .thumb-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+  .thumb-title { font-size: 0.7rem; }
+
+  .video-thumb-grid { grid-template-columns: repeat(3, 1fr); gap: 8px; }
+
   .cta-title { font-size: 28px; letter-spacing: -1px; }
-  .cta-buttons { flex-direction: column; align-items: stretch; text-align: center; }
+  .cta-buttons { flex-direction: column; align-items: stretch; }
   .btn-gold, .btn-outline { justify-content: center; }
+}
+@media (max-width: 480px) {
+  .benefits-grid { grid-template-columns: repeat(2, 1fr); }
+  .video-thumb-grid { grid-template-columns: repeat(2, 1fr); gap: 8px; }
 }
 </style>
 </head>
 <body>
 
-<!-- NAV -->
+<!-- ① 채용 전용 헤더 -->
 <nav class="nav">
   <div class="nav-inner">
-    <a href="careers.html" class="nav-logo">TENEX<span>.</span><small>Careers</small></a>
+    <a href="careers.html" class="nav-logo">TENEX<span>.</span></a>
     <a href="#jobs" class="nav-cta">채용공고 보기 →</a>
   </div>
 </nav>
 
-<!-- ① HERO -->
+<!-- ② HERO -->
 <section class="hero">
   <div class="hero-inner">
     <div class="hero-badges fade-up">
@@ -559,7 +525,7 @@ footer a:hover { color: rgba(255,255,255,0.7); }
       누구나 집에서<br>스스로 회복할 수 있는 세상
     </h1>
     <p class="hero-sub fade-up delay-2">
-      병원에 가지 않아도, 매일 집에서 회복할 수 있도록.<br>그 기술을 만듭니다.
+      병원에 가지 않아도, 매일 집에서 회복할 수 있도록.<br>그 기술을 만들고 있습니다.
     </p>
     <a href="#jobs" class="hero-cta fade-up delay-3">채용공고 보기 →</a>
   </div>
@@ -569,11 +535,11 @@ footer a:hover { color: rgba(255,255,255,0.7); }
   </div>
 </section>
 
-<!-- ② 타이밍 -->
+<!-- ③ 타이밍 (타임라인 + 매출 성장) -->
 <section class="section-timing" id="timing">
   <div class="fade-up">
     <span class="section-label">Why Now</span>
-    <h2 class="section-title">지금이 가장 빠르게<br>성장하는 순간</h2>
+    <h2 class="section-title">지금이 가장 빠르게<br>성장하는 순간입니다</h2>
     <p class="section-sub">3명이 월 2억을 만들고 있습니다.</p>
   </div>
 
@@ -583,7 +549,7 @@ footer a:hover { color: rgba(255,255,255,0.7); }
       <span class="timeline-dot"></span>
       <div class="timeline-text">
         <strong>출범</strong>
-        <span>둘이서 시작</span>
+        <span>둘이서 시작했습니다</span>
       </div>
     </div>
     <div class="timeline-item">
@@ -599,7 +565,7 @@ footer a:hover { color: rgba(255,255,255,0.7); }
       <span class="timeline-dot"></span>
       <div class="timeline-text">
         <strong>CS-25 런칭</strong>
-        <span>1달 만에 월매출 1억</span>
+        <span>1달 만에 월매출 1억 달성</span>
       </div>
     </div>
     <div class="timeline-item">
@@ -615,7 +581,7 @@ footer a:hover { color: rgba(255,255,255,0.7); }
       <span class="timeline-dot"></span>
       <div class="timeline-text">
         <strong>ES-808 리뉴얼</strong>
-        <span>일매출 7,000만</span>
+        <span>일매출 7,000만 기록</span>
       </div>
     </div>
     <div class="timeline-item">
@@ -627,9 +593,29 @@ footer a:hover { color: rgba(255,255,255,0.7); }
       </div>
     </div>
   </div>
+
+  <!-- 성과 하이라이트 -->
+  <div class="growth-highlights fade-up delay-3">
+    <div class="growth-card fade-up delay-1">
+      <div class="growth-num">4,000대</div>
+      <div class="growth-lbl">ES-808<br>2달 만에 완판</div>
+    </div>
+    <div class="growth-card fade-up delay-2">
+      <div class="growth-num">7,000만</div>
+      <div class="growth-lbl">ES-808 리뉴얼<br>하루 매출 기록</div>
+    </div>
+    <div class="growth-card fade-up delay-3">
+      <div class="growth-num">1억+</div>
+      <div class="growth-lbl">CS-25<br>런칭 1달 만에 월매출</div>
+    </div>
+    <div class="growth-card highlight fade-up delay-4">
+      <div class="growth-num">2억+</div>
+      <div class="growth-lbl">현재<br>월 매출</div>
+    </div>
+  </div>
 </section>
 
-<!-- ③ 수치 -->
+<!-- ④ 수치 카드 3개 -->
 <section class="section-stats">
   <div class="stats-inner">
     <div class="stat-card fade-up">
@@ -647,7 +633,7 @@ footer a:hover { color: rgba(255,255,255,0.7); }
   </div>
 </section>
 
-<!-- ④ 브랜드 -->
+<!-- ⑤ 브랜드 소개 -->
 <section class="section-brands" id="brands">
   <div class="fade-up">
     <span class="section-label">Our Brands</span>
@@ -662,7 +648,7 @@ footer a:hover { color: rgba(255,255,255,0.7); }
         <div class="brand-name">키네메디칼</div>
         <p class="brand-desc">
           의학적 원리를 담은 가정용 의료기기.<br>
-          집에서, 매일, 혼자서.
+          집에서, 매일, 혼자서 회복할 수 있습니다.
         </p>
         <div class="brand-products">
           <span class="brand-pill">CS-25</span>
@@ -678,7 +664,7 @@ footer a:hover { color: rgba(255,255,255,0.7); }
         <div class="brand-name">1분도수</div>
         <p class="brand-desc">
           도수치료사가 직접 만드는 건강 콘텐츠.<br>
-          유튜브 11만. 정확하고, 실용적으로.
+          유튜브 11만. 정확하고, 실용적입니다.
         </p>
         <div class="brand-products">
           <span class="brand-pill">유튜브 11만</span>
@@ -714,74 +700,198 @@ footer a:hover { color: rgba(255,255,255,0.7); }
   </div>
 </section>
 
-
-
-<!-- ⑥ 퍼크 -->
-<section class="section-perks" id="perks">
+<!-- ⑥ DNA -->
+<section class="section-dna" id="dna">
   <div class="fade-up">
-    <span class="section-label">Benefits</span>
-    <h2 class="section-title">함께하면 얻는 것</h2>
+    <span class="section-label">TENEXER DNA</span>
+    <h2 class="section-title">일에 미친 사람들</h2>
+    <p class="section-sub">3명이 월 2억입니다. AI가 팀원이고, 콘텐츠가 무기입니다.</p>
   </div>
-
-  <div class="perks-grid">
-    <div class="perk-card fade-up delay-1">
-      <span class="perk-icon">📈</span>
-      <div class="perk-name">초기 멤버 스톡옵션</div>
-      <p class="perk-desc">창업 초기 합류한 멤버에게만 주어지는 기회.</p>
+  <div class="dna-grid">
+    <div class="dna-card featured fade-up delay-1">
+      <div class="dna-icon">🎯</div>
+      <div class="dna-card-body">
+        <div class="dna-card-title">한 사람의 임팩트가 다릅니다</div>
+        <p class="dna-card-desc">3명이 월 매출 2억을 만들고 있습니다.<br>맡은 영역이 넓은 만큼, 성장도 그만큼 빠릅니다.</p>
+      </div>
     </div>
-    <div class="perk-card fade-up delay-2">
-      <span class="perk-icon">🚀</span>
-      <div class="perk-name">폭발적 성장 경험</div>
-      <p class="perk-desc">월 2억+ 스타트업의 성장 한복판에서 일합니다.</p>
+    <div class="dna-card fade-up delay-2">
+      <div class="dna-icon">🤖</div>
+      <div class="dna-card-body">
+        <div class="dna-card-title">AI가 이미 팀원입니다</div>
+        <p class="dna-card-desc">반복 업무는 AI가 처리하고,<br>사람은 판단과 창의에만 집중합니다.</p>
+      </div>
     </div>
-    <div class="perk-card fade-up delay-3">
-      <span class="perk-icon">⚡</span>
-      <div class="perk-name">CEO와 직접 일하는 속도</div>
-      <p class="perk-desc">보고 라인 없음. 결정은 당일.</p>
-    </div>
-    <div class="perk-card fade-up delay-1">
-      <span class="perk-icon">🤖</span>
-      <div class="perk-name">AI 시스템</div>
-      <p class="perk-desc">반복 업무는 AI가. 사람은 판단에만 집중.</p>
-    </div>
-    <div class="perk-card fade-up delay-2">
-      <span class="perk-icon">🕐</span>
-      <div class="perk-name">자율 출퇴근</div>
-      <p class="perk-desc">결과로만 평가. 리프레시 중심의 문화.</p>
-    </div>
-    <div class="perk-card fade-up delay-3">
-      <span class="perk-icon">🎁</span>
-      <div class="perk-name">웰컴 키트</div>
-      <p class="perk-desc">입사 첫 날, 키네메디칼 전 제품 + 팀 굿즈.</p>
+    <div class="dna-card fade-up delay-3">
+      <div class="dna-icon">🔥</div>
+      <div class="dna-card-body">
+        <div class="dna-card-title">초기 멤버의 기회</div>
+        <p class="dna-card-desc">회사가 10배 클 때, 당신은 이미 핵심입니다.<br>성과에 따른 스톡옵션 협의가 가능합니다.</p>
+      </div>
     </div>
   </div>
 </section>
 
-<!-- ⑦ CTA -->
+<!-- ⑦ BENEFITS -->
+<section class="section-benefits" id="benefits">
+  <div class="fade-up">
+    <span class="section-label">BENEFITS</span>
+    <h2 class="section-title">함께하는 사람에게<br>아끼지 않습니다</h2>
+    <p class="section-sub">오너십에 걸맞은 보상을 드립니다.</p>
+  </div>
+  <div class="benefits-grid">
+    <div class="benefit-item fade-up delay-1">
+      <span class="benefit-icon">🎁</span>
+      <div class="benefit-name">웰컴기프트</div>
+      <p class="benefit-desc">입사 시 풀세트 체험<br>수습 통과 시 본인 소유</p>
+    </div>
+    <div class="benefit-item fade-up delay-2">
+      <span class="benefit-icon">🍚</span>
+      <div class="benefit-name">점심·저녁 제공</div>
+      <p class="benefit-desc">식사 걱정 없이<br>일에만 집중하세요</p>
+    </div>
+    <div class="benefit-item fade-up delay-3">
+      <span class="benefit-icon">⏰</span>
+      <div class="benefit-name">자율 근무</div>
+      <p class="benefit-desc">간섭 없이<br>결과로 말하는 문화</p>
+    </div>
+    <div class="benefit-item fade-up delay-4">
+      <span class="benefit-icon">📈</span>
+      <div class="benefit-name">스톡옵션</div>
+      <p class="benefit-desc">입증 후 부여<br>초기 멤버의 기회</p>
+    </div>
+  </div>
+  <div class="benefits-grid" style="margin-top: 20px;">
+    <div class="benefit-item fade-up delay-1">
+      <span class="benefit-icon">🏋️</span>
+      <div class="benefit-name">운동비 지원</div>
+      <p class="benefit-desc">수습 통과 후<br>건강기기 회사답게</p>
+    </div>
+    <div class="benefit-item fade-up delay-2">
+      <span class="benefit-icon">📚</span>
+      <div class="benefit-name">교육비 지원</div>
+      <p class="benefit-desc">컨퍼런스·도서·강의<br>성장 비용 전액 지원</p>
+    </div>
+    <div class="benefit-item fade-up delay-3">
+      <span class="benefit-icon">👔</span>
+      <div class="benefit-name">CEO 직속</div>
+      <p class="benefit-desc">대표와 바로 일하며<br>사업 전체를 경험합니다</p>
+    </div>
+    <div class="benefit-item dark fade-up delay-4">
+      <span class="benefit-icon" style="color:var(--gold)">→</span>
+      <div class="benefit-name">자세히 보기</div>
+      <p class="benefit-desc"><a href="careers-benefit.html" style="color:var(--gold);text-decoration:none;font-weight:700">복지 상세 →</a></p>
+    </div>
+  </div>
+</section>
+
+<!-- ⑧ 유튜브 썸네일 -->
+<section class="section-thumbs" id="youtube">
+  <div class="fade-up">
+    <span class="section-label">1분도수</span>
+    <h2 class="section-title">11만이 구독하는 이유</h2>
+    <p class="section-sub">매주 올라오는 콘텐츠가 구독자를 팬으로 만들고 있습니다.</p>
+  </div>
+  <div class="thumb-grid">
+    <a href="https://youtu.be/E2-vvgT2OEs" target="_blank" class="thumb-item fade-up delay-1">
+      <img src="https://img.youtube.com/vi/E2-vvgT2OEs/mqdefault.jpg" alt="무릎·허리 통증 예방" loading="lazy">
+      <div class="thumb-overlay"><div class="thumb-title">무릎·허리 통증 예방하는 기적의 자세</div></div>
+      <div class="thumb-play">▶</div>
+    </a>
+    <a href="https://youtu.be/RqxYYXYaaW0" target="_blank" class="thumb-item fade-up delay-2">
+      <img src="https://img.youtube.com/vi/RqxYYXYaaW0/mqdefault.jpg" alt="어깨 통증 1분 삭제" loading="lazy">
+      <div class="thumb-overlay"><div class="thumb-title">어깨 통증 1분 삭제</div></div>
+      <div class="thumb-play">▶</div>
+    </a>
+    <a href="https://youtu.be/n0BJUe2Z-9Y" target="_blank" class="thumb-item fade-up delay-3">
+      <img src="https://img.youtube.com/vi/n0BJUe2Z-9Y/mqdefault.jpg" alt="병원비 1000만원 아끼기" loading="lazy">
+      <div class="thumb-overlay"><div class="thumb-title">병원비 1000만원 아껴드립니다</div></div>
+      <div class="thumb-play">▶</div>
+    </a>
+    <a href="https://youtu.be/YN99e-SLGGs" target="_blank" class="thumb-item fade-up delay-1">
+      <img src="https://img.youtube.com/vi/YN99e-SLGGs/mqdefault.jpg" alt="목 디스크 C커브 회복" loading="lazy">
+      <div class="thumb-overlay"><div class="thumb-title">목 디스크 C커브 회복 루틴</div></div>
+      <div class="thumb-play">▶</div>
+    </a>
+    <a href="https://youtu.be/YbYUdOIehj4" target="_blank" class="thumb-item fade-up delay-2">
+      <img src="https://img.youtube.com/vi/YbYUdOIehj4/mqdefault.jpg" alt="고관절 풀어주는 루틴" loading="lazy">
+      <div class="thumb-overlay"><div class="thumb-title">고관절 풀어주는 루틴</div></div>
+      <div class="thumb-play">▶</div>
+    </a>
+    <a href="https://youtu.be/1JJDDIogpJw" target="_blank" class="thumb-item fade-up delay-3">
+      <img src="https://img.youtube.com/vi/1JJDDIogpJw/mqdefault.jpg" alt="1분도수의 진심" loading="lazy">
+      <div class="thumb-overlay"><div class="thumb-title">스스로 회복하는 세상을 꿈꾸는 물리치료사의 진심</div></div>
+      <div class="thumb-play">▶</div>
+    </a>
+  </div>
+  <div style="text-align:center; margin-top:28px">
+    <a href="https://www.youtube.com/@1%EB%B6%84%EB%8F%84%EC%88%98" target="_blank" style="color:var(--navy);font-weight:700;text-decoration:none;font-size:0.95rem">📺 채널 전체 보기 →</a>
+  </div>
+</section>
+
+<!-- ⑨ 영상 섹션 -->
+<section class="section-video" id="video">
+  <div class="fade-up" style="margin-bottom:64px">
+    <span class="section-label-light">1분도수</span>
+    <h2 class="section-title-light">콘텐츠가 매출이 됩니다</h2>
+    <p class="section-sub-light">11개월 만에 구독자 10만. 이것이 테넥스의 오너십입니다.</p>
+  </div>
+  <div class="video-wrap fade-up delay-2">
+    <iframe src="https://www.youtube.com/embed/4v9uVkh63ys?start=155" title="1분도수 대표 영상" allow="accelerometer;autoplay;clipboard-write;encrypted-media;gyroscope;picture-in-picture" allowfullscreen loading="lazy"></iframe>
+  </div>
+  <div style="text-align:center;margin-top:20px">
+    <a href="https://www.youtube.com/@1%EB%B6%84%EB%8F%84%EC%88%98" target="_blank" style="color:rgba(255,255,255,0.5);text-decoration:none;font-size:0.9rem">📺 1분도수 유튜브 채널 바로가기 →</a>
+  </div>
+  <div class="popular-label fade-up">인기 영상</div>
+  <div class="video-thumb-grid fade-up delay-1">
+    <a href="https://www.youtube.com/watch?v=0qv0YWnRK2k" target="_blank" class="thumb-item">
+      <img src="https://img.youtube.com/vi/0qv0YWnRK2k/maxresdefault.jpg" alt="목 어깨 수면자세" loading="lazy">
+      <div class="thumb-play">▶</div>
+    </a>
+    <a href="https://www.youtube.com/watch?v=9_vgn-TBV_A" target="_blank" class="thumb-item">
+      <img src="https://img.youtube.com/vi/9_vgn-TBV_A/maxresdefault.jpg" alt="거북목 일자목 통증" loading="lazy">
+      <div class="thumb-play">▶</div>
+    </a>
+    <a href="https://www.youtube.com/watch?v=InieLaiFSaI" target="_blank" class="thumb-item">
+      <img src="https://img.youtube.com/vi/InieLaiFSaI/maxresdefault.jpg" alt="어깨 돌덩이 마사지" loading="lazy">
+      <div class="thumb-play">▶</div>
+    </a>
+    <a href="https://www.youtube.com/watch?v=p8r1XP7DJjg" target="_blank" class="thumb-item">
+      <img src="https://img.youtube.com/vi/p8r1XP7DJjg/maxresdefault.jpg" alt="뭉친어깨 마사지법" loading="lazy">
+      <div class="thumb-play">▶</div>
+    </a>
+    <a href="https://www.youtube.com/watch?v=eXEV2RQlzxo" target="_blank" class="thumb-item">
+      <img src="https://img.youtube.com/vi/eXEV2RQlzxo/maxresdefault.jpg" alt="거북목 방치하면" loading="lazy">
+      <div class="thumb-play">▶</div>
+    </a>
+  </div>
+</section>
+
+<!-- ⑩ CTA -->
 <section class="section-cta" id="jobs">
   <div class="cta-inner">
     <span class="cta-label fade-up">Join TENEX</span>
     <h2 class="cta-title fade-up delay-1">
-      다음 멤버가<br>이 팀을 한 단계 더 올립니다.
+      지금, 테넥서가 되어주세요
     </h2>
     <p class="cta-sub fade-up delay-2">
-      지금 이 순간이 가장 빠른 시점입니다.
+      말도 안 되는 목표를 세우고, 진짜 이뤄냅니다.
     </p>
     <div class="cta-buttons fade-up delay-3">
-      <a href="https://www.notion.so" class="btn-gold" target="_blank">채용공고 보기 →</a>
-      <a href="mailto:recruit@tenex.kr" class="btn-outline">이메일 문의 ✉</a>
+      <a href="careers-jobs.html" class="btn-gold">채용공고 보러가기 →</a>
+      <a href="mailto:partner@tenex.kr" class="btn-outline">이메일 문의 ✉</a>
     </div>
   </div>
 </section>
 
 <!-- FOOTER -->
 <footer>
-  <p>© 2026 TENEX Corp. &nbsp;|&nbsp; <a href="mailto:recruit@tenex.kr">recruit@tenex.kr</a></p>
-  <p style="margin-top: 6px; font-size: 0.75rem;">서울특별시 &nbsp;|&nbsp; 사업자등록번호 000-00-00000</p>
+  <p>지원 문의: <a href="mailto:partner@tenex.kr">partner@tenex.kr</a></p>
+  <p class="footer-quote">"K-health가 곧 테넥스로 인식되는 날을 함께 만들어 갑니다"</p>
+  <p style="margin-top:16px; font-size:0.75rem; opacity:0.5">© 2026 TENEX (키네메디칼). All rights reserved.</p>
 </footer>
 
 <script>
-// Fade-in on scroll
 (function() {
   const targets = document.querySelectorAll('.fade-up');
   if (!targets.length) return;
@@ -795,7 +905,7 @@ footer a:hover { color: rgba(255,255,255,0.7); }
         }
       });
     },
-    { threshold: 0.12, rootMargin: '0px 0px -48px 0px' }
+    { threshold: 0.1, rootMargin: '0px 0px -40px 0px' }
   );
 
   targets.forEach(el => observer.observe(el));
@@ -804,6 +914,11 @@ footer a:hover { color: rgba(255,255,255,0.7); }
   document.querySelectorAll('.hero .fade-up').forEach((el, i) => {
     setTimeout(() => el.classList.add('visible'), i * 150);
   });
+
+  // Mobile: show all immediately
+  if (window.innerWidth <= 768) {
+    targets.forEach(el => el.classList.add('visible'));
+  }
 })();
 </script>
 
