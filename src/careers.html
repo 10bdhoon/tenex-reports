@@ -33,7 +33,7 @@ body{font-family:'Pretendard',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-s
 .hero::after{content:'';position:absolute;bottom:-30%;left:-10%;width:400px;height:400px;background:radial-gradient(circle,rgba(255,255,255,0.03) 0%,transparent 70%);border-radius:50%}
 .hero-content{position:relative;z-index:1;max-width:800px;margin:0 auto}
 .hero-badge{display:inline-block;background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.15);padding:6px 20px;border-radius:100px;font-size:.85rem;font-weight:600;margin-bottom:32px;letter-spacing:.5px}
-.hero h1{font-size:3.2rem;font-weight:900;line-height:1.2;margin-bottom:24px;letter-spacing:-1px}
+.hero h1{font-size:3rem;font-weight:900;line-height:1.15;margin-bottom:28px;letter-spacing:-1.5px}
 .hero h1 em{font-style:normal;color:var(--gold-light)}
 .hero-pills{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-bottom:40px}
 .hero-pill{display:inline-flex;align-items:center;gap:6px;padding:10px 22px;border-radius:999px;font-size:.95rem;font-weight:600;backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,0.12)}
@@ -110,6 +110,10 @@ body{font-family:'Pretendard',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-s
 .build-app-title{font-size:1.05rem;font-weight:800;color:var(--white);margin-bottom:10px;line-height:1.4}
 .build-app-desc{font-size:.88rem;color:rgba(255,255,255,.75);line-height:1.7}
 .build-app-desc strong{color:var(--gold-light)}
+/* HERO BRANDS */
+.hero-brands{max-width:640px;margin:0 auto 40px;display:flex;flex-direction:column;gap:12px}
+.hero-brand-line{font-size:1.05rem;color:rgba(255,255,255,0.8);line-height:1.7;text-align:left;padding:14px 20px;border-left:2px solid rgba(255,255,255,0.2);background:rgba(255,255,255,0.04);border-radius:0 10px 10px 0}
+.hero-brand-line strong{color:var(--white);font-weight:800}
 /* HERO PILLS */
 .hero-pills{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin:0 auto 40px}
 .hero-pill{display:inline-flex;align-items:center;gap:6px;padding:9px 20px;border-radius:100px;font-size:.9rem;font-weight:600;white-space:nowrap}
@@ -191,7 +195,7 @@ body{font-family:'Pretendard',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-s
 
   /* Hero */
   .hero{padding:96px 16px 64px}
-  .hero h1{font-size:1.75rem;letter-spacing:-.5px;word-break:keep-all}
+  .hero h1{font-size:1.65rem;letter-spacing:-1px;word-break:keep-all}
   .hero-mission{font-size:.95rem;margin-bottom:32px}
   .hero-badge{font-size:.78rem;padding:5px 14px}
   .hero-actions{flex-direction:column;align-items:stretch;padding:0 8px}
@@ -226,6 +230,8 @@ body{font-family:'Pretendard',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-s
   .build-app-badge{top:12px;right:12px}
   .hero-pills{flex-direction:column;align-items:stretch;gap:8px;padding:0 8px}
   .hero-pill{justify-content:center;font-size:.85rem;padding:10px 16px}
+  .hero-brands{padding:0 4px}
+  .hero-brand-line{font-size:.9rem;padding:12px 14px}
   .growth-section{padding:60px 16px}
   .growth-charts{grid-template-columns:1fr;gap:24px}
   .chart-box{padding:24px 20px}
@@ -312,11 +318,10 @@ body{font-family:'Pretendard',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-s
 <section class="hero">
   <div class="hero-content">
     <div class="hero-badge">TENEX Careers</div>
-    <h1>누구나 집에서 스스로 회복하는 세상,<br><em>테넥스가 만듭니다</em></h1>
-    <div class="hero-pills">
-      <span class="hero-pill yt">🎬 유튜브 11.4만 · 1분도수</span>
-      <span class="hero-pill hw">🔧 자체 개발 건강기기 · 키네메디칼</span>
-      <span class="hero-pill rev">💰 2년차 월 매출 2억+</span>
+    <h1>1분도수 <span style="color:rgba(255,255,255,0.4);font-weight:300">×</span> 키네메디칼</h1>
+    <div class="hero-brands">
+      <p class="hero-brand-line"><strong>1분도수</strong> — 딱 1분만이라도 사람들을 움직이게 만들어서, 결국에는 회복까지 만드는 11만 유튜브 채널</p>
+      <p class="hero-brand-line"><strong>키네메디칼</strong> — 세계 최고 수준의 의료기기를 만드는 브랜드</p>
     </div>
     <div class="hero-actions">
       <a href="careers-jobs.html" class="btn-primary">채용공고 바로가기 →</a>
@@ -421,21 +426,21 @@ body{font-family:'Pretendard',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-s
         <img class="build-product-img" src="https://kinemedical.co.kr/web/product/medium/202603/51749eb3c15411d4a490c6feecb4769a.jpg" alt="CS-25 경추 솔루션" loading="lazy">
         <div class="build-product-body">
           <div class="build-product-name">CS-25 — 경추 솔루션</div>
-          <div class="build-product-desc">250만원대 병원 경추견인기를 가정용으로 만든 자동 경추 마사지기</div>
+          <div class="build-product-desc">250만원대 병원 경추견인기를 가정용으로. 하루 15분, 집에서 경추 커브를 복원합니다.</div>
         </div>
       </div>
       <div class="build-product fade-in">
         <img class="build-product-img" src="https://kinemedical.co.kr/web/product/big/202603/8d067e6fcada010311f91f0cefbfa606.jpg" alt="ES-808 타겟형 저주파 마사지기" loading="lazy">
         <div class="build-product-body">
-          <div class="build-product-name">ES-808 — 도수펜</div>
-          <div class="build-product-desc">뭉친 근육을 정확히 찾아가는 타겟형 저주파 마사지기</div>
+          <div class="build-product-name">ES-808</div>
+          <div class="build-product-desc">뭉친 근육을 정확히 찾아가는 타겟형 저주파 마사지기. 병원 도수치료처럼, 집에서 혼자.</div>
         </div>
       </div>
       <div class="build-product fade-in">
         <img class="build-product-img" src="https://kinemedical.co.kr/web/product/medium/202603/af1d9b203d70b513c2acb60666c1c1a8.jpg" alt="WS-200 근적외선 찜질기" loading="lazy">
         <div class="build-product-body">
           <div class="build-product-name">WS-200 — 근적외선 찜질기</div>
-          <div class="build-product-desc">108개 LED 밀착형 근적외선 찜질기</div>
+          <div class="build-product-desc">108개 LED 밀착형 근적외선 찜질기. 혈류를 살려 통증 회복 속도를 높입니다.</div>
         </div>
       </div>
     </div>
