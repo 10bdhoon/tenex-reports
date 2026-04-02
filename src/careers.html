@@ -5,6 +5,9 @@
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>테넥스 채용 — 다음 테넥서를 찾습니다</title>
 <meta name="description" content="누구나 집에서 스스로 회복할 수 있는 세상. 테넥스와 함께할 다음 팀원을 찾습니다.">
+<meta property="og:title" content="테넥스 채용 — 다음 테넥서를 찾습니다">
+<meta property="og:description" content="3명이 월 2억을 만드는 팀. 테넥스의 다음 멤버가 되어주세요.">
+<meta property="og:type" content="website">
 <link rel="preconnect" href="https://cdn.jsdelivr.net">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
 <style>
@@ -51,6 +54,15 @@ body {
   color: var(--navy-dark); text-decoration: none; letter-spacing: -0.5px;
 }
 .nav-logo span { color: var(--gold-dark); }
+.nav-links {
+  display: flex; gap: 4px;
+}
+.nav-links a {
+  color: rgba(0,40,85,0.7); text-decoration: none;
+  font-size: 0.9rem; font-weight: 500;
+  padding: 8px 16px; border-radius: 8px; transition: all 0.2s;
+}
+.nav-links a:hover { color: var(--navy-dark); background: rgba(0,40,85,0.06); }
 .nav-cta {
   background: var(--navy-dark); color: #fff;
   font-weight: 700; font-size: 0.85rem;
@@ -59,6 +71,7 @@ body {
   letter-spacing: -0.2px;
 }
 .nav-cta:hover { background: var(--navy-mid); transform: translateY(-1px); box-shadow: 0 6px 16px rgba(0,40,85,0.18); }
+@media (max-width: 768px) { .nav-links { display: none; } }
 
 /* ─── FADE ANIMATIONS ─── */
 .fade-up {
@@ -510,7 +523,13 @@ footer a:hover { color: rgba(255,255,255,0.7); }
 <nav class="nav">
   <div class="nav-inner">
     <a href="careers.html" class="nav-logo">TENEX<span>.</span></a>
-    <a href="#jobs" class="nav-cta">채용공고 보기 →</a>
+    <div class="nav-links">
+      <a href="careers-culture.html">Culture</a>
+      <a href="careers-benefit.html">Benefit</a>
+      <a href="careers-process.html">Process</a>
+      <a href="careers-jobs.html">Jobs</a>
+    </div>
+    <a href="careers-jobs.html" class="nav-cta">채용공고 보기 →</a>
   </div>
 </nav>
 
@@ -879,14 +898,14 @@ footer a:hover { color: rgba(255,255,255,0.7); }
     </p>
     <div class="cta-buttons fade-up delay-3">
       <a href="careers-jobs.html" class="btn-gold">채용공고 보러가기 →</a>
-      <a href="mailto:partner@tenex.kr" class="btn-outline">이메일 문의 ✉</a>
+      <a href="mailto:recruit@tenex.kr" class="btn-outline">이메일 문의 ✉</a>
     </div>
   </div>
 </section>
 
 <!-- FOOTER -->
 <footer>
-  <p>지원 문의: <a href="mailto:partner@tenex.kr">partner@tenex.kr</a></p>
+  <p>지원 문의: <a href="mailto:recruit@tenex.kr">recruit@tenex.kr</a></p>
   <p class="footer-quote">"K-health가 곧 테넥스로 인식되는 날을 함께 만들어 갑니다"</p>
   <p style="margin-top:16px; font-size:0.75rem; opacity:0.5">© 2026 TENEX (키네메디칼). All rights reserved.</p>
 </footer>
