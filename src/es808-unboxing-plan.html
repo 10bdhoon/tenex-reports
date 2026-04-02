@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ES-808 언박싱 경험 기획서 — TENEX Product Team</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{--navy:#002855;--navy2:#001a3a;--gold:#C9A84C;--gold2:#e8c96b;--bg:#0d1117;--bg2:#161b22;--card:#1c2230;--border:rgba(255,255,255,.08);--text:#e6edf3;--sub:rgba(230,237,243,.5);--green:#3fb950;--red:#f85149}
+body{font-family:-apple-system,BlinkMacSystemFont,'Pretendard','Segoe UI',sans-serif;background:var(--bg);color:var(--text);line-height:1.6;min-height:100vh}
+a{color:var(--gold);text-decoration:none}
+a:hover{text-decoration:underline}
+
+/* Header */
+.header{background:linear-gradient(160deg,var(--navy) 0%,var(--navy2) 60%,#0a1628 100%);padding:48px 40px 40px;position:relative;overflow:hidden}
+.header::before{content:'ES-808';position:absolute;right:-20px;bottom:-20px;font-size:180px;font-weight:900;color:rgba(255,255,255,.02);line-height:1;letter-spacing:10px}
+.header-label{font-size:11px;letter-spacing:4px;text-transform:uppercase;color:var(--gold);font-weight:700;margin-bottom:12px;opacity:.8}
+.header h1{font-size:26px;font-weight:800;color:#fff;margin-bottom:8px;letter-spacing:-.3px}
+.header .sub{font-size:14px;color:rgba(255,255,255,.5);margin-bottom:20px}
+.header-meta{display:flex;gap:20px;flex-wrap:wrap}
+.header-meta span{font-size:12px;color:rgba(255,255,255,.3);font-weight:500}
+.header-meta span strong{color:rgba(255,255,255,.55);font-weight:600}
+
+/* Container */
+.container{max-width:960px;margin:0 auto;padding:40px 24px}
+
+/* Section */
+.section{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:28px;margin-bottom:24px}
+.section-h{font-size:15px;font-weight:700;color:var(--text);margin-bottom:20px;display:flex;align-items:center;gap:10px}
+.section-h .num{background:var(--navy);color:var(--gold);width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800;flex-shrink:0}
+
+/* Table */
+.tbl{width:100%;border-collapse:collapse;font-size:13px}
+.tbl th{background:rgba(255,255,255,.04);color:var(--sub);font-weight:600;padding:10px 14px;text-align:left;border-bottom:1px solid var(--border)}
+.tbl td{padding:11px 14px;border-bottom:1px solid var(--border);vertical-align:top;color:var(--text)}
+.tbl tr:last-child td{border-bottom:none}
+.tbl .before{color:rgba(230,237,243,.35);text-decoration:line-through;font-size:12px}
+.tbl .after{color:#3fb950;font-weight:600}
+.arrow{color:var(--gold);margin:0 6px;font-size:11px}
+
+/* Card spec */
+.card-spec{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.card-block{background:rgba(255,255,255,.03);border:1px solid var(--border);border-radius:10px;overflow:hidden}
+.card-block-header{background:rgba(0,40,85,.4);padding:12px 16px;border-bottom:1px solid var(--border)}
+.card-block-header h3{font-size:13px;font-weight:700;color:#fff;margin-bottom:2px}
+.card-block-header .card-meta{font-size:11px;color:var(--sub)}
+.card-block-body{padding:16px}
+.card-face{margin-bottom:12px}
+.card-face-label{font-size:10px;letter-spacing:2px;color:var(--gold);font-weight:700;margin-bottom:6px;opacity:.7}
+.card-face-text{font-size:12px;color:var(--sub);line-height:1.7;white-space:pre-line}
+.card-face-text em{color:var(--text);font-style:normal;font-weight:600}
+
+/* Cost table */
+.cost-tag{display:inline-block;background:rgba(201,168,76,.1);color:var(--gold);font-size:11px;font-weight:700;padding:2px 8px;border-radius:6px;border:1px solid rgba(201,168,76,.2)}
+.cost-total td{background:rgba(0,40,85,.3);font-weight:700;color:#fff}
+
+/* Journey flowchart */
+.journey{display:flex;flex-wrap:wrap;gap:0;align-items:stretch;justify-content:center}
+.journey-step{display:flex;flex-direction:column;align-items:center;text-align:center;flex:1;min-width:80px;max-width:100px}
+.journey-step .j-dot{width:36px;height:36px;border-radius:50%;background:var(--navy);border:2px solid rgba(201,168,76,.3);display:flex;align-items:center;justify-content:center;font-size:14px;margin-bottom:6px;flex-shrink:0}
+.journey-step .j-label{font-size:10px;color:var(--sub);line-height:1.4;font-weight:500}
+.journey-step .j-sub{font-size:9px;color:rgba(201,168,76,.6);margin-top:2px;font-weight:600}
+.journey-arrow{display:flex;align-items:center;padding:0 2px;margin-bottom:22px;color:rgba(255,255,255,.15);font-size:16px;flex-shrink:0}
+
+/* Effect cards */
+.effect-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.effect-card{background:rgba(255,255,255,.03);border:1px solid var(--border);border-radius:10px;padding:18px;text-align:center}
+.effect-card .e-icon{font-size:28px;margin-bottom:8px}
+.effect-card h4{font-size:13px;font-weight:700;color:var(--text);margin-bottom:4px}
+.effect-card .e-from{font-size:12px;color:var(--sub)}
+.effect-card .e-to{font-size:14px;font-weight:800;color:var(--gold);margin-top:4px}
+
+/* Card mockup previews */
+.mockup-row{display:flex;gap:24px;flex-wrap:wrap;align-items:flex-start;justify-content:center}
+
+/* Welcome card mock */
+.mock-welcome{width:296px;min-height:210px;border-radius:12px;background:linear-gradient(145deg,var(--navy),var(--navy2));border:1px solid rgba(201,168,76,.2);padding:24px;position:relative;overflow:hidden;box-shadow:0 12px 40px rgba(0,0,0,.4)}
+.mock-welcome::before{content:'';position:absolute;top:-40%;left:-40%;width:180%;height:180%;background:conic-gradient(from 0deg,transparent,rgba(201,168,76,.03),transparent,rgba(201,168,76,.05),transparent);animation:spin 12s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.mock-welcome-inner{position:relative;z-index:2;height:100%}
+.mock-logo{font-size:10px;font-weight:800;letter-spacing:3px;color:var(--gold);margin-bottom:16px;opacity:.7}
+.mock-welcome-text{font-size:11.5px;color:rgba(255,255,255,.75);line-height:1.8;white-space:pre-line;font-style:italic}
+.mock-welcome-sig{font-size:11px;color:var(--gold);font-weight:700;margin-top:12px;opacity:.8}
+
+/* Auth card mock */
+.mock-auth{width:216px;height:136px;border-radius:10px;background:linear-gradient(145deg,var(--navy),#001228);border:1.5px solid rgba(201,168,76,.25);padding:16px;position:relative;overflow:hidden;box-shadow:0 8px 24px rgba(0,0,0,.4)}
+.mock-auth::after{content:'';position:absolute;bottom:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--gold),rgba(201,168,76,.5),var(--gold),transparent)}
+.mock-auth .a-logo{font-size:8px;font-weight:800;letter-spacing:3px;color:var(--gold);margin-bottom:6px}
+.mock-auth .a-cert{font-size:8px;color:rgba(255,255,255,.3);letter-spacing:1px;margin-bottom:8px}
+.mock-auth .a-product{font-size:14px;font-weight:800;color:#fff;margin-bottom:2px}
+.mock-auth .a-sub{font-size:9px;color:rgba(255,255,255,.4)}
+.mock-auth .a-badge{position:absolute;top:12px;right:12px;background:rgba(201,168,76,.1);border:1px solid rgba(201,168,76,.2);border-radius:4px;padding:2px 6px;font-size:8px;color:var(--gold);font-weight:700}
+
+/* Tip card mock */
+.mock-tip{width:226px;height:126px;border-radius:10px;background:#fff;border:1px solid #e0e0e0;padding:14px;box-shadow:0 4px 16px rgba(0,0,0,.2)}
+.mock-tip .t-title{font-size:11px;font-weight:800;color:var(--navy);margin-bottom:8px;border-bottom:1.5px solid var(--navy);padding-bottom:6px}
+.mock-tip .t-row{display:flex;justify-content:space-between;font-size:10px;color:#333;padding:2px 0;border-bottom:1px solid #f0f0f0}
+.mock-tip .t-row:last-child{border-bottom:none}
+.mock-tip .t-mode{color:var(--navy);font-weight:700}
+.mock-tip .t-warn{font-size:9px;color:#e53935;font-weight:700;margin-top:6px;text-align:center}
+
+.mock-label{font-size:11px;color:var(--sub);text-align:center;margin-top:8px;font-weight:500}
+.mock-size{font-size:10px;color:rgba(255,255,255,.2);text-align:center;margin-top:2px}
+
+/* Box lining section */
+.box-lining{background:rgba(0,40,85,.2);border:1px solid rgba(201,168,76,.15);border-radius:10px;padding:24px;text-align:center}
+.box-lining .bl-quote{font-size:28px;font-weight:900;color:var(--gold);letter-spacing:2px;margin-bottom:8px}
+.box-lining .bl-sub{font-size:13px;color:var(--sub)}
+
+/* Tag */
+.tag{display:inline-block;font-size:10px;font-weight:700;padding:2px 8px;border-radius:6px}
+.tag-gold{background:rgba(201,168,76,.1);color:var(--gold);border:1px solid rgba(201,168,76,.2)}
+.tag-green{background:rgba(63,185,80,.1);color:#3fb950;border:1px solid rgba(63,185,80,.2)}
+.tag-blue{background:rgba(88,166,255,.1);color:#58a6ff;border:1px solid rgba(88,166,255,.2)}
+
+/* Divider */
+.face-divider{border:none;border-top:1px solid var(--border);margin:12px 0}
+
+/* Resp */
+@media(max-width:768px){
+  .header{padding:32px 20px}
+  .container{padding:24px 16px}
+  .card-spec{grid-template-columns:1fr}
+  .effect-grid{grid-template-columns:1fr}
+  .mockup-row{flex-direction:column;align-items:center}
+  .journey{gap:0}
+  .journey-step{min-width:64px}
+}
+</style>
+</head>
+<body>
+
+<!-- Header -->
+<div class="header">
+  <div class="header-label">TENEX Product Planning · 2026.04.02</div>
+  <h1>ES-808 언박싱 경험 기획서</h1>
+  <div class="sub">고객이 박스를 여는 순간부터 팬이 되는 경험 설계</div>
+  <div class="header-meta">
+    <span><strong>작성</strong> TENEX Product Team</span>
+    <span><strong>제품</strong> ES-808 타겟형 저주파 마사지기 (도수펜)</span>
+    <span><strong>버전</strong> v1.0</span>
+  </div>
+</div>
+
+<div class="container">
+
+  <!-- Section 1: 현재 vs 개선 -->
+  <div class="section">
+    <div class="section-h"><span class="num">1</span> 현재 vs 개선 — 무엇이 달라지나</div>
+    <table class="tbl">
+      <thead>
+        <tr>
+          <th>구분</th>
+          <th>현재 (AS-IS)</th>
+          <th></th>
+          <th>개선 (TO-BE)</th>
+          <th>효과</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>박스</strong></td>
+          <td class="before">일반 제품 박스</td>
+          <td><span class="arrow">→</span></td>
+          <td class="after">뚜껑 내지에 브랜드 문구 인쇄</td>
+          <td><span class="tag tag-gold">첫인상 브랜딩</span></td>
+        </tr>
+        <tr>
+          <td><strong>동봉물</strong></td>
+          <td class="before">사용설명서 + 제품</td>
+          <td><span class="arrow">→</span></td>
+          <td class="after">+ 인서트 카드 3종 (웰컴 · 정품 · 꿀팁)</td>
+          <td><span class="tag tag-green">팬 전환 +정품등록</span></td>
+        </tr>
+        <tr>
+          <td><strong>디지털</strong></td>
+          <td class="before">CRM 문자 D+0</td>
+          <td><span class="arrow">→</span></td>
+          <td class="after">+ 정품등록 카드 QR → 카카오 친추 → 보증 2배</td>
+          <td><span class="tag tag-blue">재구매 파이프라인</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Section 2: 인서트 카드 3종 -->
+  <div class="section">
+    <div class="section-h"><span class="num">2</span> 인서트 카드 3종 상세 스펙</div>
+    <div class="card-spec">
+
+      <!-- 웰컴카드 -->
+      <div class="card-block">
+        <div class="card-block-header">
+          <h3>① 웰컴카드 <span style="font-size:10px;opacity:.6">(감성)</span></h3>
+          <div class="card-meta">148×105mm · 양면 · 딥네이비 코팅지 + 골드 포일</div>
+        </div>
+        <div class="card-block-body">
+          <div class="card-face">
+            <div class="card-face-label">FRONT</div>
+            <div class="card-face-text">"당신의 회복을 응원합니다.
+도수치료사가 손끝으로 정확한 포인트를 찾듯, ES-808은 당신의 손에서 같은 일을 합니다.
+
+처음엔 1단계부터 천천히.
+크림 바르고, 갖다 대고, 3초만 기다려보세요.
+몸이 먼저 반응할 겁니다.
+
+— Team. KINEMEDICAL"</div>
+          </div>
+          <hr class="face-divider">
+          <div class="card-face">
+            <div class="card-face-label">BACK</div>
+            <div class="card-face-text"><em>시작이 막막하다면, 이 순서대로.</em>
+① 부스터젤(or 글루코사민크림) 도포
+② 전원 3초 길게 눌러 ON
+③ 1번 모드 → 1단계부터 시작
+④ 은색판 2개를 동시에 피부에 밀착
+⑤ 하루 15분, 아픈 부위에 천천히
+
+📹 영상으로 보기 → <a href="https://www.youtube.com/playlist?list=PLe1SWUM0mFec9un9IeSV6NScxPK_DNFbr" target="_blank">YouTube QR</a></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 정품등록 카드 -->
+      <div class="card-block">
+        <div class="card-block-header">
+          <h3>② 정품등록 카드 <span style="font-size:10px;opacity:.6">(신뢰)</span></h3>
+          <div class="card-meta">85.6×54mm · 신용카드 비율 · 무광 딥네이비 + 골드 라인</div>
+        </div>
+        <div class="card-block-body">
+          <div class="card-face">
+            <div class="card-face-label">FRONT</div>
+            <div class="card-face-text"><em>KINEMEDICAL</em>
+Certificate of Authenticity
+
+<em>ES-808 DOSU PEN</em>
+타겟형 저주파 마사지기
+
+[제품 이미지 + 골드 라인 하단]</div>
+          </div>
+          <hr class="face-divider">
+          <div class="card-face">
+            <div class="card-face-label">BACK</div>
+            <div class="card-face-text"><em>정품등록하고 보증기간 2배로.</em>
+기본 3개월 → 정품등록 시 <em>6개월</em>
+
+QR → <a href="http://kinemedical-register.vercel.app" target="_blank">kinemedical-register.vercel.app</a>
+
+✦ 카카오 친구 추가하면
+웰컴쿠폰 즉시 지급</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 꿀팁 카드 -->
+      <div class="card-block">
+        <div class="card-block-header">
+          <h3>③ 꿀팁 카드 <span style="font-size:10px;opacity:.6">(재구매 유도)</span></h3>
+          <div class="card-meta">90×50mm · 명함 크기 · 화이트 + 네이비 텍스트</div>
+        </div>
+        <div class="card-block-body">
+          <div class="card-face">
+            <div class="card-face-label">FRONT</div>
+            <div class="card-face-text"><em>ES-808 200% 활용법</em>
+목·어깨 → <em>1~4번 모드(EMS)</em>
+손목·팔꿈치 → <em>5~8번 모드(TENS)</em>
+목은 1~4단계만 / 전신은 4~9단계
+
+⚠️ 크림 없이 쓰면 효과 반감!</div>
+          </div>
+          <hr class="face-divider">
+          <div class="card-face">
+            <div class="card-face-label">BACK</div>
+            <div class="card-face-text">부스터젤 떨어지면?
+→ 카카오 친구에게 재구매
+
+효과 느꼈다면?
+→ 리뷰 QR (카페24 리뷰)</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Section 3: 박스 내지 -->
+  <div class="section">
+    <div class="section-h"><span class="num">3</span> 박스 내지 문구</div>
+    <div class="box-lining">
+      <div class="bl-quote">"1분이면 충분합니다."</div>
+      <div class="bl-sub">— 1분도수 · 박스 뚜껑 안쪽 인쇄</div>
+    </div>
+    <div style="margin-top:12px;font-size:12px;color:var(--sub);padding:0 4px">
+      박스 뚜껑 내지 안쪽에 딥네이비 + 화이트 문구로 인쇄. 별도 재고 없이 박스 구조에 통합. 비용 최소화.
+    </div>
+  </div>
+
+  <!-- Section 4: 예상 비용 -->
+  <div class="section">
+    <div class="section-h"><span class="num">4</span> 예상 비용 (1,000부 기준)</div>
+    <table class="tbl">
+      <thead>
+        <tr>
+          <th>항목</th>
+          <th>규격/재질</th>
+          <th>단가 (1,000부)</th>
+          <th>비고</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>① 웰컴카드</td>
+          <td>148×105mm · 양면 · 골드 포일</td>
+          <td><span class="cost-tag">~150원/장</span></td>
+          <td style="font-size:12px;color:var(--sub)">포일 없이면 ~80원</td>
+        </tr>
+        <tr>
+          <td>② 정품등록 카드</td>
+          <td>85.6×54mm · 양면 · 골드 라인</td>
+          <td><span class="cost-tag">~120원/장</span></td>
+          <td style="font-size:12px;color:var(--sub)">무광 코팅 기준</td>
+        </tr>
+        <tr>
+          <td>③ 꿀팁 카드</td>
+          <td>90×50mm · 양면 · 컬러</td>
+          <td><span class="cost-tag">~60원/장</span></td>
+          <td style="font-size:12px;color:var(--sub)">명함 규격 활용</td>
+        </tr>
+        <tr class="cost-total">
+          <td colspan="2"><strong>세트 합계</strong></td>
+          <td><strong>~330원/세트</strong></td>
+          <td style="font-size:12px;color:rgba(255,255,255,.5)">박스 내지 별도</td>
+        </tr>
+      </tbody>
+    </table>
+    <div style="margin-top:10px;font-size:12px;color:var(--sub);padding:0 4px">
+      → 월 출하량 500세트 기준 추가 비용 165,000원. 재구매 1건(~128,000원 이상)만 추가 발생해도 ROI 흑자.
+    </div>
+  </div>
+
+  <!-- Section 5: 고객 여정 플로우 -->
+  <div class="section">
+    <div class="section-h"><span class="num">5</span> 고객 여정 플로우</div>
+    <div class="journey">
+      <div class="journey-step">
+        <div class="j-dot">📦</div>
+        <div class="j-label">택배 수령</div>
+      </div>
+      <div class="journey-arrow">›</div>
+      <div class="journey-step">
+        <div class="j-dot">🎁</div>
+        <div class="j-label">박스 개봉</div>
+        <div class="j-sub">"1분이면 충분"</div>
+      </div>
+      <div class="journey-arrow">›</div>
+      <div class="journey-step">
+        <div class="j-dot">💌</div>
+        <div class="j-label">웰컴카드</div>
+        <div class="j-sub">감동+사용법</div>
+      </div>
+      <div class="journey-arrow">›</div>
+      <div class="journey-step">
+        <div class="j-dot">📱</div>
+        <div class="j-label">정품등록 QR</div>
+        <div class="j-sub">보증 6개월</div>
+      </div>
+      <div class="journey-arrow">›</div>
+      <div class="journey-step">
+        <div class="j-dot">💛</div>
+        <div class="j-label">카카오 친추</div>
+        <div class="j-sub">웰컴쿠폰</div>
+      </div>
+      <div class="journey-arrow">›</div>
+      <div class="journey-step">
+        <div class="j-dot">📩</div>
+        <div class="j-label">CRM D+0</div>
+        <div class="j-sub">사용법 문자</div>
+      </div>
+      <div class="journey-arrow">›</div>
+      <div class="journey-step">
+        <div class="j-dot">💡</div>
+        <div class="j-label">꿀팁카드</div>
+        <div class="j-sub">모드별 활용</div>
+      </div>
+      <div class="journey-arrow">›</div>
+      <div class="journey-step">
+        <div class="j-dot">⭐</div>
+        <div class="j-label">D+7 리뷰</div>
+        <div class="j-sub">자발적 포스팅</div>
+      </div>
+      <div class="journey-arrow">›</div>
+      <div class="journey-step">
+        <div class="j-dot">🔄</div>
+        <div class="j-label">부스터젤 재구매</div>
+        <div class="j-sub">LTV 확보</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Section 6: 기대 효과 -->
+  <div class="section">
+    <div class="section-h"><span class="num">6</span> 기대 효과</div>
+    <div class="effect-grid">
+      <div class="effect-card">
+        <div class="e-icon">📋</div>
+        <h4>정품등록률</h4>
+        <div class="e-from">현재 ~5%</div>
+        <div class="e-to">→ 30% 목표</div>
+      </div>
+      <div class="effect-card">
+        <div class="e-icon">💛</div>
+        <h4>카카오 친추 전환</h4>
+        <div class="e-from">정품카드 QR 유입</div>
+        <div class="e-to">↑ CRM 재구매 파이프라인</div>
+      </div>
+      <div class="effect-card">
+        <div class="e-icon">📸</div>
+        <h4>언박싱 자발 포스팅</h4>
+        <div class="e-from">현재 거의 없음</div>
+        <div class="e-to">↑ 인스타 bttr 효과</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Section 7: 카드 프리뷰 -->
+  <div class="section">
+    <div class="section-h"><span class="num">7</span> 카드 프리뷰 — 실제 비율 목업</div>
+    <div class="mockup-row">
+
+      <!-- 웰컴카드 mock -->
+      <div style="text-align:center">
+        <div class="mock-welcome">
+          <div class="mock-welcome-inner">
+            <div class="mock-logo">KINEMEDICAL</div>
+            <div class="mock-welcome-text">"당신의 회복을 응원합니다.
+도수치료사가 손끝으로 정확한
+포인트를 찾듯,
+ES-808은 당신의 손에서
+같은 일을 합니다.
+
+처음엔 1단계부터 천천히."</div>
+            <div class="mock-welcome-sig">— Team. KINEMEDICAL</div>
+          </div>
+        </div>
+        <div class="mock-label">① 웰컴카드 (앞면)</div>
+        <div class="mock-size">148×105mm</div>
+      </div>
+
+      <!-- 정품카드 mock -->
+      <div style="text-align:center">
+        <div class="mock-auth">
+          <div class="a-badge">AUTHENTIC</div>
+          <div class="a-logo">KINEMEDICAL</div>
+          <div class="a-cert">CERTIFICATE OF AUTHENTICITY</div>
+          <div class="a-product">ES-808</div>
+          <div class="a-sub">DOSU PEN · 타겟형 저주파 마사지기</div>
+        </div>
+        <div class="mock-label">② 정품등록 카드 (앞면)</div>
+        <div class="mock-size">85.6×54mm (신용카드 비율)</div>
+      </div>
+
+      <!-- 꿀팁카드 mock -->
+      <div style="text-align:center">
+        <div class="mock-tip">
+          <div class="t-title">ES-808 200% 활용법</div>
+          <div class="t-row"><span class="t-mode">목·어깨</span><span>1~4번 모드 (EMS)</span></div>
+          <div class="t-row"><span class="t-mode">손목·팔꿈치</span><span>5~8번 모드 (TENS)</span></div>
+          <div class="t-row"><span class="t-mode">목 단계</span><span>1~4단계만</span></div>
+          <div class="t-row"><span class="t-mode">전신</span><span>4~9단계</span></div>
+          <div class="t-warn">⚠️ 크림 없이 쓰면 효과 반감!</div>
+        </div>
+        <div class="mock-label">③ 꿀팁 카드 (앞면)</div>
+        <div class="mock-size" style="color:var(--sub)">90×50mm (명함)</div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <div style="text-align:center;padding:24px 0 8px;font-size:12px;color:rgba(255,255,255,.2)">
+    TENEX Product Team · 2026.04.02 · Internal Use Only
+  </div>
+
+</div>
+</body>
+</html>
