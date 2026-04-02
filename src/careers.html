@@ -33,38 +33,37 @@ body {
 /* ─── NAV ─── */
 .nav {
   position: fixed; top: 0; left: 0; right: 0; z-index: 999;
-  background: rgba(0, 26, 58, 0.96);
+  background: rgba(255,255,255,0.94);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
-  border-bottom: 1px solid rgba(255,255,255,0.06);
+  border-bottom: 1px solid rgba(0,0,0,0.07);
+  transition: background 0.3s;
 }
 .nav-inner {
   max-width: 1200px; margin: 0 auto;
   padding: 0 40px;
-  height: 68px;
+  height: 64px;
   display: flex; align-items: center; justify-content: space-between;
 }
 .nav-logo {
-  font-size: 1.25rem; font-weight: 800;
-  color: #fff; text-decoration: none; letter-spacing: -0.5px;
+  font-size: 1.15rem; font-weight: 900;
+  color: var(--navy-dark); text-decoration: none; letter-spacing: -0.5px;
 }
-.nav-logo span { color: var(--gold); }
-.nav-links {
-  display: flex; align-items: center; gap: 32px;
+.nav-logo span { color: var(--gold-dark); }
+.nav-logo small {
+  font-size: 0.7rem; font-weight: 600;
+  color: var(--text-sub); letter-spacing: 1.5px;
+  text-transform: uppercase; margin-left: 8px;
+  vertical-align: middle; opacity: 0.7;
 }
-.nav-links a {
-  color: rgba(255,255,255,0.65); text-decoration: none;
-  font-size: 0.9rem; font-weight: 500;
-  transition: color 0.2s;
-}
-.nav-links a:hover { color: #fff; }
 .nav-cta {
-  background: var(--gold); color: var(--navy-dark);
-  font-weight: 700; font-size: 0.88rem;
-  padding: 10px 24px; border-radius: 8px;
+  background: var(--navy-dark); color: #fff;
+  font-weight: 700; font-size: 0.85rem;
+  padding: 10px 22px; border-radius: 8px;
   text-decoration: none; transition: all 0.2s;
+  letter-spacing: -0.2px;
 }
-.nav-cta:hover { background: #ffe033; transform: translateY(-1px); }
+.nav-cta:hover { background: var(--navy-mid); transform: translateY(-1px); box-shadow: 0 6px 16px rgba(0,40,85,0.18); }
 
 /* ─── FADE-IN ANIMATION ─── */
 .fade-up {
@@ -504,7 +503,6 @@ footer a:hover { color: rgba(255,255,255,0.7); }
 
 /* ─── MOBILE ─── */
 @media (max-width: 768px) {
-  .nav-links { display: none; }
   .nav-inner { padding: 0 24px; }
 
   .hero { padding: 100px 24px 100px; min-height: 100svh; }
@@ -545,12 +543,8 @@ footer a:hover { color: rgba(255,255,255,0.7); }
 <!-- NAV -->
 <nav class="nav">
   <div class="nav-inner">
-    <a href="index.html" class="nav-logo">TENEX<span>.</span></a>
-    <div class="nav-links">
-      <a href="index.html">대시보드</a>
-      <a href="careers.html">채용</a>
-      <a href="#jobs" class="nav-cta">채용공고 보기</a>
-    </div>
+    <a href="careers.html" class="nav-logo">TENEX<span>.</span><small>Careers</small></a>
+    <a href="#jobs" class="nav-cta">채용공고 보기 →</a>
   </div>
 </nav>
 
@@ -580,7 +574,7 @@ footer a:hover { color: rgba(255,255,255,0.7); }
   <div class="fade-up">
     <span class="section-label">Why Now</span>
     <h2 class="section-title">지금이 가장 빠르게<br>성장하는 순간</h2>
-    <p class="section-sub">3명이 월 2억을 만들고 있다.</p>
+    <p class="section-sub">3명이 월 2억을 만들고 있습니다.</p>
   </div>
 
   <div class="timeline fade-up delay-2">
@@ -667,7 +661,7 @@ footer a:hover { color: rgba(255,255,255,0.7); }
         <div class="brand-tag">Medical Device</div>
         <div class="brand-name">키네메디칼</div>
         <p class="brand-desc">
-          도수치료의 원리를 담은 가정용 의료기기.<br>
+          의학적 원리를 담은 가정용 의료기기.<br>
           집에서, 매일, 혼자서.
         </p>
         <div class="brand-products">
@@ -720,39 +714,7 @@ footer a:hover { color: rgba(255,255,255,0.7); }
   </div>
 </section>
 
-<!-- ⑤ 팀 -->
-<section class="section-team" id="team">
-  <div class="fade-up">
-    <span class="section-label">Our Team</span>
-    <h2 class="section-title">적은 인원, 압도적 성과</h2>
-    <p class="section-sub" style="margin-bottom: 64px;">그게 우리 팀이다.</p>
-  </div>
 
-  <div class="team-grid">
-    <div class="team-card fade-up delay-1">
-      <div class="team-photo-placeholder"></div>
-      <div class="team-body">
-        <div class="team-role">CEO</div>
-        <div class="team-title">제품 · 마케팅 · 시스템</div>
-        <p class="team-desc">AI로 3명이 30명 몫의 시스템을 직접 설계한다.</p>
-        <div class="team-quote">
-          "AI로 3명이 30명 몫을 해내는 구조를 만든다."
-        </div>
-      </div>
-    </div>
-    <div class="team-card fade-up delay-2">
-      <div class="team-photo-placeholder"></div>
-      <div class="team-body">
-        <div class="team-role">콘텐츠 총괄</div>
-        <div class="team-title">도수치료사 출신</div>
-        <p class="team-desc">현장 경험을 콘텐츠로. 정확하고 실용적인 정보만.</p>
-        <div class="team-quote">
-          "유튜브 11만 채널을 11개월 만에 만들었다."
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
 
 <!-- ⑥ 퍼크 -->
 <section class="section-perks" id="perks">
@@ -770,7 +732,7 @@ footer a:hover { color: rgba(255,255,255,0.7); }
     <div class="perk-card fade-up delay-2">
       <span class="perk-icon">🚀</span>
       <div class="perk-name">폭발적 성장 경험</div>
-      <p class="perk-desc">월 2억+ 스타트업의 성장 한복판에서 일한다.</p>
+      <p class="perk-desc">월 2억+ 스타트업의 성장 한복판에서 일합니다.</p>
     </div>
     <div class="perk-card fade-up delay-3">
       <span class="perk-icon">⚡</span>
@@ -800,7 +762,7 @@ footer a:hover { color: rgba(255,255,255,0.7); }
   <div class="cta-inner">
     <span class="cta-label fade-up">Join TENEX</span>
     <h2 class="cta-title fade-up delay-1">
-      다음 멤버가<br>이 팀을 한 단계 더 올린다.
+      다음 멤버가<br>이 팀을 한 단계 더 올립니다.
     </h2>
     <p class="cta-sub fade-up delay-2">
       지금 이 순간이 가장 빠른 시점입니다.
