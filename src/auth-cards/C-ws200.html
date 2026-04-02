@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KINEMEDICAL — 모바일 인증 (WS-200)</title>
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:#0c0c10;display:flex;justify-content:center;align-items:center;min-height:100vh;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif}
+  .phone{width:375px;background:#111116;border-radius:32px;overflow:hidden;box-shadow:0 32px 80px rgba(0,0,0,.5);border:1px solid rgba(255,255,255,.06)}
+  .status-bar{height:44px;display:flex;justify-content:space-between;align-items:center;padding:0 24px;font-size:12px;font-weight:600;color:rgba(255,255,255,.5)}
+  .status-bar .time{font-weight:700}
+  .status-icons{display:flex;gap:5px;align-items:center}
+  .status-icons svg{width:14px;height:14px;fill:rgba(255,255,255,.5)}
+  .content{padding:20px 24px 32px}
+  .success-icon{width:72px;height:72px;border-radius:50%;background:linear-gradient(135deg,#00c853,#00e676);margin:0 auto 20px;display:flex;align-items:center;justify-content:center;box-shadow:0 8px 32px rgba(0,200,83,.25);animation:scaleIn .5s ease}
+  @keyframes scaleIn{from{transform:scale(0)}to{transform:scale(1)}}
+  .success-icon svg{width:36px;height:36px;fill:#fff}
+  .title{text-align:center;font-size:20px;font-weight:800;color:#fff;margin-bottom:4px}
+  .subtitle{text-align:center;font-size:13px;color:rgba(255,255,255,.4);margin-bottom:28px}
+  .product-card{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:16px;padding:20px;margin-bottom:16px;display:flex;align-items:center;gap:16px}
+  .product-wrap{width:80px;height:80px;border-radius:50%;overflow:hidden;background:rgba(255,255,255,.03);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+  .product-wrap img{width:100%;height:100%;object-fit:contain;filter:drop-shadow(0 2px 8px rgba(0,0,0,.3))}
+  .product-card .info h3{font-size:16px;font-weight:700;color:#fff;margin-bottom:2px}
+  .product-card .info .model{font-size:11px;color:rgba(255,255,255,.35);letter-spacing:1px;margin-bottom:6px}
+  .product-card .info .type{font-size:11px;color:rgba(0,200,83,.7);font-weight:600}
+  .detail-card{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:16px;padding:20px;margin-bottom:16px}
+  .detail-row{display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid rgba(255,255,255,.04)}
+  .detail-row:last-child{border-bottom:none}
+  .detail-row .label{font-size:12px;color:rgba(255,255,255,.35);font-weight:500}
+  .detail-row .value{font-size:13px;color:rgba(255,255,255,.8);font-weight:600}
+  .detail-row .value.green{color:#00c853}
+  .brand-footer{text-align:center;padding-top:8px}
+  .brand-footer .logo{font-size:11px;font-weight:700;letter-spacing:3px;color:rgba(255,255,255,.15)}
+  .brand-footer .tagline{font-size:10px;color:rgba(255,255,255,.08);margin-top:2px}
+</style>
+</head>
+<body>
+<div class="phone">
+  <div class="status-bar">
+    <div class="time">10:56</div>
+    <div class="status-icons">
+      <svg viewBox="0 0 24 24"><path d="M1 9l2 2c4.97-4.97 13.03-4.97 18 0l2-2C16.93 2.93 7.08 2.93 1 9zm8 8l3 3 3-3c-1.65-1.66-4.34-1.66-6 0zm-4-4l2 2c2.76-2.76 7.24-2.76 10 0l2-2C15.14 9.14 8.87 9.14 5 13z"/></svg>
+      <svg viewBox="0 0 24 24"><path d="M15.67 4H14V2h-4v2H8.33C7.6 4 7 4.6 7 5.33v15.33C7 21.4 7.6 22 8.33 22h7.33c.74 0 1.34-.6 1.34-1.33V5.33C17 4.6 16.4 4 15.67 4z"/></svg>
+    </div>
+  </div>
+  <div class="content">
+    <div class="success-icon">
+      <svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
+    </div>
+    <div class="title">정품 인증 완료</div>
+    <div class="subtitle">KINEMEDICAL 정품이 확인되었습니다</div>
+
+    <div class="product-card">
+      <div class="product-wrap">
+        <img src="images/ws-200-detail.png" alt="WS-200">
+      </div>
+      <div class="info">
+        <h3>WS-200</h3>
+        <div class="model">MODEL WS-200-KR</div>
+        <div class="type">온열 찜질기</div>
+      </div>
+    </div>
+
+    <div class="detail-card">
+      <div class="detail-row">
+        <div class="label">제품명</div>
+        <div class="value">WS-200 온열 찜질기</div>
+      </div>
+      <div class="detail-row">
+        <div class="label">인증 상태</div>
+        <div class="value green">✓ Verified Authentic</div>
+      </div>
+      <div class="detail-row">
+        <div class="label">정품등록일</div>
+        <div class="value">2026.04.02</div>
+      </div>
+      <div class="detail-row">
+        <div class="label">보증만료일</div>
+        <div class="value">2026.10.02</div>
+      </div>
+      <div class="detail-row">
+        <div class="label">보증기간</div>
+        <div class="value">6개월</div>
+      </div>
+    </div>
+
+    <div class="brand-footer">
+      <div class="logo">KINEMEDICAL</div>
+      <div class="tagline">Warming Stone Therapy</div>
+    </div>
+  </div>
+</div>
+</body>
+</html>
