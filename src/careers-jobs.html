@@ -80,6 +80,7 @@ body{font-family:'Pretendard',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-s
 .fade-in.visible{opacity:1;transform:translateY(0)}
 
 @media(max-width:768px){
+  html,body{overflow-x:hidden}
   .fade-in{opacity:1!important;transform:none!important}
   .nav-links{display:none}
   .hamburger{display:block}
@@ -87,13 +88,34 @@ body{font-family:'Pretendard',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-s
   .nav-inner{padding:0 16px}
   .hero{padding:96px 16px 64px}
   .hero h1{font-size:1.75rem;word-break:keep-all}
-  .section{padding:60px 20px}
-  .job-card{padding:28px 20px}
-  .job-header{flex-direction:column}
-  .job-title{font-size:1.2rem}
-  .future-grid{grid-template-columns:1fr}
+  .hero-sub{font-size:.95rem;word-break:keep-all}
+  .section{padding:60px 16px}
+  .section-inner{width:100%;max-width:100%}
+  .job-card{padding:24px 18px;border-radius:14px}
+  .job-header{flex-direction:column;gap:12px}
+  .job-title{font-size:1.15rem;word-break:keep-all}
+  .job-meta{gap:6px}
+  .job-tag{font-size:.75rem;padding:4px 10px}
+  .job-desc{font-size:.9rem}
+  .job-requirements h4{font-size:.85rem}
+  .job-requirements ul li{font-size:.88rem}
+  .job-apply{padding:10px 22px;font-size:.85rem;width:100%;justify-content:center}
+  .future-grid{grid-template-columns:1fr;gap:12px}
+  .future-card{padding:22px 18px}
+  .section-label{font-size:.8rem}
+  .apply-section{padding:64px 16px}
+  .apply-section h2{font-size:1.5rem;word-break:keep-all}
+  .apply-email{font-size:1.1rem;padding:10px 20px;word-break:break-all}
+  .apply-note{font-size:.85rem}
+  .footer{padding:40px 16px;word-break:keep-all}
 }
-@media(max-width:375px){.hero h1{font-size:1.5rem}}
+@media(max-width:430px){
+  .hero h1{font-size:1.6rem}
+}
+@media(max-width:375px){
+  .hero h1{font-size:1.45rem}
+  .job-card{padding:20px 16px}
+}
 </style>
 </head>
 <body>
