@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>테넥스 채용 — 다음 테넥서(TENEXER)를 찾습니다</title>
+<meta name="description" content="누구나 집에서 스스로 회복할 수 있는 세상을 만드는 테넥스. K-health의 새로운 기준을 함께 만들 사람을 찾습니다.">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{--navy:#002855;--navy-light:#003d7a;--gold:#C9A84C;--bg:#f8f9fb;--text:#1a1a2e;--text-sub:#5a5a7a;--card:#fff;--border:#e8eaf0;--accent:#e53935;--green:#16a34a}
+body{font-family:-apple-system,BlinkMacSystemFont,'Pretendard','Segoe UI',sans-serif;background:var(--bg);color:var(--text);line-height:1.6;overflow-x:hidden}
+a{color:inherit;text-decoration:none}
+.container{max-width:1100px;margin:0 auto;padding:0 24px}
+
+/* Nav */
+.nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(0,40,85,.95);backdrop-filter:blur(12px);border-bottom:1px solid rgba(255,255,255,.08)}
+.nav-inner{max-width:1100px;margin:0 auto;padding:0 24px;height:56px;display:flex;align-items:center;justify-content:space-between}
+.nav-logo{font-size:15px;font-weight:800;color:#fff;letter-spacing:1px}
+.nav-links{display:flex;gap:24px}
+.nav-links a{color:rgba(255,255,255,.7);font-size:13px;font-weight:600;transition:color .2s}
+.nav-links a:hover{color:#fff}
+.nav-cta{background:var(--gold);color:var(--navy);font-size:12px;font-weight:700;padding:8px 18px;border-radius:20px;transition:all .2s}
+.nav-cta:hover{background:#d4b45a;transform:translateY(-1px)}
+
+/* Fade-in */
+.fade-in{opacity:0;transform:translateY(30px);transition:opacity .7s,transform .7s}
+.fade-in.visible{opacity:1;transform:translateY(0)}
+
+/* Hero */
+.hero{background:linear-gradient(160deg,var(--navy) 0%,#001a3a 50%,var(--navy-light) 100%);color:#fff;padding:140px 0 80px;position:relative;overflow:hidden}
+.hero::before{content:'TENEXER';position:absolute;right:-40px;bottom:-30px;font-size:160px;font-weight:900;color:rgba(255,255,255,.02);letter-spacing:10px;line-height:1}
+.hero-label{font-size:12px;letter-spacing:4px;text-transform:uppercase;color:var(--gold);font-weight:700;margin-bottom:20px}
+.hero h1{font-size:42px;font-weight:900;line-height:1.2;margin-bottom:16px;letter-spacing:-1px}
+.hero h1 em{font-style:normal;color:var(--gold)}
+.hero-sub{font-size:17px;color:rgba(255,255,255,.6);max-width:560px;margin-bottom:40px;line-height:1.7}
+.hero-stats{display:flex;gap:32px;flex-wrap:wrap}
+.hero-stat{text-align:left}
+.hero-stat .num{font-size:24px;font-weight:900;color:#fff;margin-bottom:2px}
+.hero-stat .lbl{font-size:12px;color:rgba(255,255,255,.4);font-weight:500}
+
+/* Section */
+.section{padding:80px 0}
+.section-label{font-size:11px;letter-spacing:4px;text-transform:uppercase;color:var(--navy);font-weight:700;margin-bottom:12px;opacity:.6}
+.section-title{font-size:32px;font-weight:800;color:var(--navy);margin-bottom:16px;letter-spacing:-.5px}
+.section-desc{font-size:15px;color:var(--text-sub);max-width:600px;line-height:1.7;margin-bottom:40px}
+
+/* About */
+.about-grid{display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:center}
+.about-features{display:flex;flex-direction:column;gap:16px}
+.about-feat{display:flex;gap:12px;align-items:flex-start}
+.about-feat .icon{width:36px;height:36px;background:var(--navy);color:#fff;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0}
+.about-feat .info h4{font-size:14px;font-weight:700;color:var(--text);margin-bottom:2px}
+.about-feat .info p{font-size:13px;color:var(--text-sub)}
+.about-visual{background:linear-gradient(135deg,var(--navy),var(--navy-light));border-radius:20px;padding:40px;color:#fff;display:flex;flex-direction:column;gap:20px}
+.about-visual h3{font-size:22px;font-weight:800;margin-bottom:8px}
+.about-products{display:flex;gap:12px;flex-wrap:wrap}
+.about-products span{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.15);padding:6px 14px;border-radius:20px;font-size:12px;font-weight:600}
+
+/* DNA */
+.dna-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-bottom:24px}
+.dna-card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:32px 24px;text-align:center;transition:all .3s}
+.dna-card:hover{border-color:var(--navy);box-shadow:0 12px 40px rgba(0,40,85,.08);transform:translateY(-4px)}
+.dna-card .dna-icon{width:56px;height:56px;background:linear-gradient(135deg,var(--navy),var(--navy-light));color:#fff;border-radius:16px;display:flex;align-items:center;justify-content:center;font-size:24px;margin:0 auto 16px}
+.dna-card h3{font-size:16px;font-weight:800;color:var(--navy);margin-bottom:8px}
+.dna-card p{font-size:13px;color:var(--text-sub);line-height:1.6}
+.dna-quote{font-size:15px;color:var(--text-sub);font-style:italic;text-align:center;padding-top:8px}
+
+/* AI Org */
+.ai-section{background:linear-gradient(160deg,#0a0e17,#111827);color:#fff;padding:80px 0}
+.ai-section .section-label{color:var(--gold)}
+.ai-section .section-title{color:#fff}
+.ai-section .section-desc{color:rgba(255,255,255,.5)}
+.org-chart{display:flex;flex-direction:column;align-items:center;gap:12px;margin-bottom:40px}
+.org-row{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+.org-node{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:12px;padding:12px 20px;text-align:center;min-width:120px;transition:all .3s}
+.org-node:hover{border-color:var(--gold);background:rgba(201,168,76,.08)}
+.org-node .role{font-size:10px;color:rgba(255,255,255,.4);letter-spacing:1px;font-weight:600;margin-bottom:4px}
+.org-node .name{font-size:14px;font-weight:700;color:#fff}
+.org-node.ceo{border-color:var(--gold);background:rgba(201,168,76,.08)}
+.org-node.coo{border-color:rgba(229,57,53,.4);background:rgba(229,57,53,.06)}
+.org-connector{width:2px;height:16px;background:rgba(255,255,255,.1);margin:0 auto}
+.org-hline{width:60%;height:1px;background:rgba(255,255,255,.08)}
+.ai-examples{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:32px}
+.ai-example{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.06);border-radius:12px;padding:16px;text-align:center}
+.ai-example .ai-icon{font-size:24px;margin-bottom:8px}
+.ai-example h4{font-size:12px;font-weight:700;color:rgba(255,255,255,.7);margin-bottom:4px}
+.ai-example p{font-size:11px;color:rgba(255,255,255,.35)}
+.ai-quote{text-align:center;font-size:15px;color:var(--gold);font-weight:600;margin-top:32px;padding:0 20px}
+
+/* Benefits */
+.benefit-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.benefit-card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:24px 20px;transition:all .3s}
+.benefit-card:hover{border-color:var(--navy);transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,40,85,.06)}
+.benefit-card .b-icon{font-size:28px;margin-bottom:12px}
+.benefit-card h4{font-size:14px;font-weight:700;color:var(--text);margin-bottom:4px}
+.benefit-card p{font-size:12px;color:var(--text-sub);line-height:1.5}
+
+/* Positions */
+.positions-section{background:var(--card);border-top:1px solid var(--border);border-bottom:1px solid var(--border);padding:80px 0}
+.pos-now-label{display:inline-flex;align-items:center;gap:6px;background:#fee2e2;color:#dc2626;font-size:11px;font-weight:700;padding:4px 12px;border-radius:20px;margin-bottom:20px}
+.pos-now-label .dot{width:8px;height:8px;background:#dc2626;border-radius:50%;animation:pulse 2s ease-in-out infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+.pos-card{background:var(--bg);border:1px solid var(--border);border-radius:16px;padding:28px;margin-bottom:16px;transition:all .3s}
+.pos-card:hover{border-color:var(--navy);box-shadow:0 8px 24px rgba(0,40,85,.06)}
+.pos-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:16px;flex-wrap:wrap;gap:12px}
+.pos-header h3{font-size:18px;font-weight:800;color:var(--navy)}
+.pos-meta{display:flex;gap:8px;flex-wrap:wrap}
+.pos-meta span{font-size:11px;font-weight:600;padding:4px 10px;border-radius:8px}
+.pos-meta .exp{background:#e0e7ff;color:#3730a3}
+.pos-meta .salary{background:#dcfce7;color:#15803d}
+.pos-reqs{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.pos-req{font-size:13px;color:var(--text-sub);padding-left:16px;position:relative;line-height:1.6}
+.pos-req::before{content:'•';position:absolute;left:4px;color:var(--navy);font-weight:700}
+.pos-future{margin-top:32px}
+.pos-future-label{display:inline-flex;align-items:center;gap:6px;background:#fef9c3;color:#854d0e;font-size:11px;font-weight:700;padding:4px 12px;border-radius:20px;margin-bottom:16px}
+.pos-future-list{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.pos-future-item{background:var(--bg);border:1px solid var(--border);border-radius:12px;padding:16px 20px}
+.pos-future-item h4{font-size:14px;font-weight:700;color:var(--text);margin-bottom:2px}
+.pos-future-item p{font-size:12px;color:var(--text-sub)}
+
+/* Process */
+.process-steps{display:flex;gap:0;align-items:flex-start;margin-bottom:20px}
+.proc-step{flex:1;text-align:center;position:relative;padding:0 8px}
+.proc-step:not(:last-child)::after{content:'→';position:absolute;right:-10px;top:28px;color:var(--navy);font-size:18px;font-weight:700;opacity:.3}
+.proc-num{width:40px;height:40px;background:var(--navy);color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:14px;margin:0 auto 10px}
+.proc-step h4{font-size:13px;font-weight:700;color:var(--text);margin-bottom:4px}
+.proc-step p{font-size:11px;color:var(--text-sub);line-height:1.4}
+.proc-badge{text-align:center;background:var(--navy);color:#fff;display:inline-block;padding:8px 24px;border-radius:20px;font-size:13px;font-weight:700}
+
+/* Footer CTA */
+.footer-cta{background:var(--navy);color:#fff;padding:80px 0;text-align:center}
+.footer-cta h2{font-size:28px;font-weight:800;margin-bottom:12px}
+.footer-cta p{font-size:14px;color:rgba(255,255,255,.5);max-width:500px;margin:0 auto 32px;line-height:1.7}
+.cta-btn{display:inline-flex;align-items:center;gap:8px;background:var(--gold);color:var(--navy);font-size:16px;font-weight:800;padding:16px 40px;border-radius:28px;transition:all .2s;box-shadow:0 8px 24px rgba(201,168,76,.25)}
+.cta-btn:hover{transform:translateY(-2px);box-shadow:0 12px 32px rgba(201,168,76,.35);background:#d4b45a}
+.footer-bottom{margin-top:40px;font-size:12px;color:rgba(255,255,255,.25)}
+
+/* Mobile */
+@media(max-width:768px){
+  .nav-links{display:none}
+  .hero{padding:100px 0 60px}
+  .hero h1{font-size:28px}
+  .hero-sub{font-size:14px}
+  .hero-stats{gap:20px}
+  .hero-stat .num{font-size:18px}
+  .about-grid{grid-template-columns:1fr}
+  .dna-grid{grid-template-columns:1fr}
+  .ai-examples{grid-template-columns:repeat(2,1fr)}
+  .benefit-grid{grid-template-columns:repeat(2,1fr)}
+  .pos-reqs{grid-template-columns:1fr}
+  .process-steps{flex-direction:column;gap:20px}
+  .proc-step:not(:last-child)::after{content:'↓';right:auto;left:50%;top:auto;bottom:-16px;transform:translateX(-50%)}
+  .pos-future-list{grid-template-columns:1fr}
+  .section-title{font-size:24px}
+  .org-row{flex-direction:column;align-items:center}
+}
+</style>
+</head>
+<body>
+
+<!-- Nav -->
+<nav class="nav">
+  <div class="nav-inner">
+    <div class="nav-logo">TENEX</div>
+    <div class="nav-links">
+      <a href="#about">About</a>
+      <a href="#dna">DNA</a>
+      <a href="#ai">AI Org</a>
+      <a href="#benefits">Benefits</a>
+      <a href="#positions">Positions</a>
+      <a href="#process">Process</a>
+    </div>
+    <a class="nav-cta" href="mailto:partner@tenex.kr">지원하기</a>
+  </div>
+</nav>
+
+<!-- 1. Hero -->
+<section class="hero">
+  <div class="container fade-in">
+    <div class="hero-label">We're Hiring</div>
+    <h1>다음 <em>테넥서(TENEXER)</em>를<br>찾습니다</h1>
+    <p class="hero-sub">누구나 집에서 스스로 회복할 수 있는 세상을 만듭니다.<br>K-health의 새로운 기준, 테넥스와 함께하세요.</p>
+    <div class="hero-stats">
+      <div class="hero-stat">
+        <div class="num">3명 → 월 2억</div>
+        <div class="lbl">현재 팀 규모 & 매출</div>
+      </div>
+      <div class="hero-stat">
+        <div class="num">연 200억</div>
+        <div class="lbl">2026 매출 목표</div>
+      </div>
+      <div class="hero-stat">
+        <div class="num">K-health</div>
+        <div class="lbl">새로운 기준</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 2. About TENEX -->
+<section class="section" id="about">
+  <div class="container">
+    <div class="about-grid">
+      <div class="fade-in">
+        <div class="section-label">About TENEX</div>
+        <div class="section-title">회복을 위한<br>최고의 기술</div>
+        <div class="section-desc">키네메디칼(의료기기·건강기기)과 1분도수(콘텐츠)를 통해 D2C + 콘텐츠 커머스라는 새로운 모델을 만들고 있습니다.</div>
+        <div class="about-features">
+          <div class="about-feat">
+            <div class="icon">🏥</div>
+            <div class="info"><h4>키네메디칼</h4><p>의료기기 인증 받은 도수치료 디바이스 제조·판매</p></div>
+          </div>
+          <div class="about-feat">
+            <div class="icon">🎬</div>
+            <div class="info"><h4>1분도수</h4><p>유튜브 11만 · 인스타 5.3만 — 콘텐츠로 신뢰 쌓고, 제품으로 전환</p></div>
+          </div>
+          <div class="about-feat">
+            <div class="icon">🎯</div>
+            <div class="info"><h4>D2C 커머스</h4><p>자사몰 중심 직접 판매. 고객과 직접 만나는 구조</p></div>
+          </div>
+          <div class="about-feat">
+            <div class="icon">🌏</div>
+            <div class="info"><h4>글로벌 확장</h4><p>미국 시장 진출 준비 중. K-health의 시작</p></div>
+          </div>
+        </div>
+      </div>
+      <div class="about-visual fade-in">
+        <h3>Our Products</h3>
+        <p style="font-size:13px;color:rgba(255,255,255,.5);line-height:1.6">9년 경력 도수치료사가 직접 설계한 병원급 홈케어 디바이스. 3,000명+ 고객이 실제로 회복을 경험하고 있습니다.</p>
+        <div class="about-products">
+          <span>🦴 CS-25 경추 솔루션</span>
+          <span>⚡ ES-808 저주파 마사지기</span>
+          <span>🔥 WS-200 근적외선 찜질기</span>
+        </div>
+        <div style="margin-top:12px;padding-top:16px;border-top:1px solid rgba(255,255,255,.1)">
+          <div style="font-size:12px;color:rgba(255,255,255,.4)">미션</div>
+          <div style="font-size:15px;font-weight:700;margin-top:4px">"누구나 집에서 스스로 회복할 수 있는 세상"</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 3. TENEXER DNA -->
+<section class="section" id="dna" style="background:var(--card);border-top:1px solid var(--border);border-bottom:1px solid var(--border)">
+  <div class="container">
+    <div class="fade-in" style="text-align:center">
+      <div class="section-label">TENEXER DNA</div>
+      <div class="section-title" style="margin-left:auto;margin-right:auto">우리가 찾는 사람</div>
+    </div>
+    <div class="dna-grid fade-in">
+      <div class="dna-card">
+        <div class="dna-icon">💎</div>
+        <h3>자기 분야의 프로</h3>
+        <p>맡은 일에서 결과를 만들어내는 실력. "잘하는 것"이 아니라 "되게 만드는 것"에 집착하는 사람.</p>
+      </div>
+      <div class="dna-card">
+        <div class="dna-icon">🤖</div>
+        <h3>AI를 도구처럼 쓰는 사람</h3>
+        <p>ChatGPT에게 물어보는 수준이 아니라, AI로 업무 프로세스를 바꿔본 경험. 효율은 곧 경쟁력.</p>
+      </div>
+      <div class="dna-card">
+        <div class="dna-icon">🔥</div>
+        <h3>열정이 기본값인 사람</h3>
+        <p>시키는 일만 하는 사람은 맞지 않아요. 스스로 문제를 찾고, 해결하고, 결과를 만드는 사람.</p>
+      </div>
+    </div>
+    <div class="dna-quote fade-in">"일에 열정 넘치고 진심인 사람들. 우리도 그런 사람."</div>
+  </div>
+</section>
+
+<!-- 4. AI Native Organization -->
+<section class="ai-section" id="ai">
+  <div class="container">
+    <div class="fade-in" style="text-align:center">
+      <div class="section-label">AI Native Organization</div>
+      <div class="section-title">AI가 이미 팀원입니다</div>
+      <div class="section-desc" style="margin-left:auto;margin-right:auto">대부분의 회사는 AI 도입을 검토 중입니다.<br>우리는 이미 AI가 팀원입니다.</div>
+    </div>
+    <div class="org-chart fade-in">
+      <div class="org-row">
+        <div class="org-node ceo"><div class="role">CEO</div><div class="name">태훈</div></div>
+      </div>
+      <div class="org-connector"></div>
+      <div class="org-row">
+        <div class="org-node coo"><div class="role">AI COO</div><div class="name">카리나</div></div>
+      </div>
+      <div class="org-connector"></div>
+      <div class="org-hline"></div>
+      <div class="org-row">
+        <div class="org-node"><div class="role">개발실</div><div class="name">개실장</div></div>
+        <div class="org-node"><div class="role">마케팅실</div><div class="name">마실장</div></div>
+        <div class="org-node"><div class="role">콘텐츠실</div><div class="name">콘실장</div></div>
+        <div class="org-node"><div class="role">고객성공실</div><div class="name">고실장</div></div>
+      </div>
+    </div>
+    <div style="text-align:center;font-size:13px;color:rgba(255,255,255,.35);margin-bottom:24px">AI가 잡일을 다 하니까, 당신은 핵심 업무에만 집중</div>
+    <div class="ai-examples fade-in">
+      <div class="ai-example"><div class="ai-icon">💬</div><h4>CRM 자동문자</h4><p>구매 후 케어 문자 자동 발송</p></div>
+      <div class="ai-example"><div class="ai-icon">🎧</div><h4>CS 자동답변</h4><p>반복 문의 AI가 즉시 처리</p></div>
+      <div class="ai-example"><div class="ai-icon">📊</div><h4>매출 리포트</h4><p>일간/주간 리포트 자동 생성</p></div>
+      <div class="ai-example"><div class="ai-icon">💬</div><h4>댓글 자동화</h4><p>유튜브 댓글 분석+답변 자동</p></div>
+    </div>
+    <div class="ai-quote fade-in">"3명이서 200억을 만들 수 있는 이유, AI입니다."</div>
+  </div>
+</section>
+
+<!-- 5. Benefits -->
+<section class="section" id="benefits">
+  <div class="container">
+    <div class="fade-in">
+      <div class="section-label">Benefits</div>
+      <div class="section-title">테넥서를 위한 혜택</div>
+    </div>
+    <div class="benefit-grid fade-in">
+      <div class="benefit-card"><div class="b-icon">🎁</div><h4>웰컴 풀세트</h4><p>CS-25 + ES-808 + WS-200 입사 시 전부 지급</p></div>
+      <div class="benefit-card"><div class="b-icon">📦</div><h4>자사 제품 무제한</h4><p>전 라인업 무제한 사용. 가족도 OK</p></div>
+      <div class="benefit-card"><div class="b-icon">💰</div><h4>성과 인센티브</h4><p>매출 연동 변동형 인센티브</p></div>
+      <div class="benefit-card"><div class="b-icon">⏰</div><h4>유연근무</h4><p>시차 출퇴근제 운영</p></div>
+      <div class="benefit-card"><div class="b-icon">📚</div><h4>교육비 지원</h4><p>컨퍼런스, 강의, 도서 구매 지원</p></div>
+      <div class="benefit-card"><div class="b-icon">🤝</div><h4>CEO 직속</h4><p>대표와 바로 일하며 사업 전체를 경험</p></div>
+      <div class="benefit-card"><div class="b-icon">📈</div><h4>스톡옵션</h4><p>입증 후 스톡옵션 기회 부여</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- 6. Open Positions -->
+<section class="positions-section" id="positions">
+  <div class="container">
+    <div class="fade-in">
+      <div class="section-label">Open Positions</div>
+      <div class="section-title">채용 중인 포지션</div>
+    </div>
+
+    <div class="pos-now-label fade-in"><span class="dot"></span>NOW 채용중</div>
+
+    <div class="pos-card fade-in">
+      <div class="pos-header">
+        <h3>① 인플루언서 파트너십 매니저</h3>
+        <div class="pos-meta">
+          <span class="exp">경력 3~5년</span>
+          <span class="salary">3,500~4,500만 + 인센티브</span>
+        </div>
+      </div>
+      <div class="pos-reqs">
+        <div class="pos-req">의료계/헬스케어 인플루언서 발굴 → 관계 구축 → 계약</div>
+        <div class="pos-req">콜라보 영상 수급 + 촬영 코디네이션</div>
+        <div class="pos-req">추천코드 전략 실행 + 성과 트래킹</div>
+        <div class="pos-req">의료계/헬스케어 업계 네트워크 필수</div>
+      </div>
+    </div>
+
+    <div class="pos-card fade-in">
+      <div class="pos-header">
+        <h3>② 미디어믹스 마케터</h3>
+        <div class="pos-meta">
+          <span class="exp">경력 3~5년</span>
+          <span class="salary">4,000~5,500만 + 인센티브</span>
+        </div>
+      </div>
+      <div class="pos-reqs">
+        <div class="pos-req">메타+구글+유튜브+틱톡+네이버 채널 포트폴리오 설계</div>
+        <div class="pos-req">SA, SEO, GEO, AEO 기본 역량</div>
+        <div class="pos-req">전략 + 직접 집행 (손에 흙 묻히는 사람)</div>
+        <div class="pos-req">AI 활용 광고 최적화 경험 우대</div>
+      </div>
+    </div>
+
+    <div class="pos-future fade-in">
+      <div class="pos-future-label">🟡 향후 채용 예정</div>
+      <div class="pos-future-list">
+        <div class="pos-future-item"><h4>③ PR/커머스 매니저</h4><p>D2C 채널 확장 · 6개월 후</p></div>
+        <div class="pos-future-item"><h4>④ 글로벌 마케팅 리드</h4><p>AI 최적화 경험으로 해외 확장 · 1년 후</p></div>
+        <div class="pos-future-item"><h4>⑤ R&D/제품개발 매니저</h4><p>제품 라인업 확장 · 연매출 50억+</p></div>
+        <div class="pos-future-item"><h4>⑥ COO</h4><p>전사 오퍼레이션 · Pre-A 이후</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 7. Recruitment Process -->
+<section class="section" id="process">
+  <div class="container">
+    <div class="fade-in" style="text-align:center">
+      <div class="section-label">Recruitment Process</div>
+      <div class="section-title">채용 프로세스</div>
+      <div class="section-desc" style="margin-left:auto;margin-right:auto">빠르게, 솔직하게, 서로를 알아가는 과정</div>
+    </div>
+    <div class="process-steps fade-in">
+      <div class="proc-step">
+        <div class="proc-num">1</div>
+        <h4>서류 전형</h4>
+        <p>3일 내 검토<br>이력서+포트폴리오</p>
+      </div>
+      <div class="proc-step">
+        <div class="proc-num">2</div>
+        <h4>실무 과제</h4>
+        <p>실전 미니 버전<br>1주일 소요</p>
+      </div>
+      <div class="proc-step">
+        <div class="proc-num">3</div>
+        <h4>대표 면접</h4>
+        <p>CEO 직접 면접<br>컬처핏+실무+열정</p>
+      </div>
+      <div class="proc-step">
+        <div class="proc-num">4</div>
+        <h4>1일 체험</h4>
+        <p>실제로 하루 같이<br>일해보기 (유급)</p>
+      </div>
+      <div class="proc-step">
+        <div class="proc-num">5</div>
+        <h4>오퍼</h4>
+        <p>합격 시<br>2주 내 출근</p>
+      </div>
+    </div>
+    <div style="text-align:center;margin-top:24px" class="fade-in">
+      <span class="proc-badge">⚡ 전체 프로세스 2주 컷</span>
+    </div>
+  </div>
+</section>
+
+<!-- 8. Footer CTA -->
+<section class="footer-cta">
+  <div class="container fade-in">
+    <h2>함께 만들어갈 준비 되셨나요?</h2>
+    <p>K-health를 떠올리면 테넥스가 대체 불가능한 회사로 인식되는 날을 함께 만들어갑니다.</p>
+    <a class="cta-btn" href="mailto:partner@tenex.kr">✉️ partner@tenex.kr 로 지원하기</a>
+    <div class="footer-bottom">© 2026 TENEX. All rights reserved.</div>
+  </div>
+</section>
+
+<script>
+// Scroll fade-in
+const observer = new IntersectionObserver((entries)=>{
+  entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');observer.unobserve(e.target)}})
+},{threshold:0.15,rootMargin:'0px 0px -40px 0px'});
+document.querySelectorAll('.fade-in').forEach(el=>observer.observe(el));
+
+// Smooth scroll for nav links
+document.querySelectorAll('.nav-links a').forEach(a=>{
+  a.addEventListener('click',e=>{
+    e.preventDefault();
+    const t=document.querySelector(a.getAttribute('href'));
+    if(t)t.scrollIntoView({behavior:'smooth',block:'start'});
+  });
+});
+</script>
+
+</body>
+</html>
