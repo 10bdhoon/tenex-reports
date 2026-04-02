@@ -62,7 +62,7 @@ body{font-family:'Pretendard',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-s
 .build-products{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-bottom:60px}
 .build-product{border:1px solid var(--border);border-radius:20px;overflow:hidden;transition:all .3s;background:var(--bg)}
 .build-product:hover{transform:translateY(-4px);box-shadow:0 16px 40px rgba(0,40,85,.08);border-color:var(--navy)}
-.build-product-img{width:100%;aspect-ratio:1;object-fit:cover;background:linear-gradient(135deg,#f0f4f8,#e8ecf0);display:flex;align-items:center;justify-content:center;font-size:3.5rem}
+.build-product-img{width:100%;aspect-ratio:1;object-fit:cover;background:#f0f4f8;display:block}
 .build-product-body{padding:20px 22px}
 .build-product-name{font-size:1.1rem;font-weight:800;color:var(--navy);margin-bottom:4px}
 .build-product-desc{font-size:.9rem;color:var(--text-secondary);line-height:1.6;margin-bottom:10px}
@@ -280,45 +280,30 @@ body{font-family:'Pretendard',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-s
 <section class="build-section" id="build">
   <div class="section-inner">
     <div class="section-badge fade-in">What We Build</div>
-    <h2 class="section-title fade-in">병원 치료를 집으로 가져왔습니다</h2>
-    <p class="section-desc fade-in">250만원짜리 병원 장비를 10만~40만원대로. 3명이 만든 제품이 3,000명+의 통증을 해결했습니다.</p>
+    <h2 class="section-title fade-in">이 회사가 만드는 것</h2>
+    <p class="section-desc fade-in">도수치료사 출신 대표가 직접 설계했습니다. 병원 가지 않아도 집에서 스스로 회복하는 루틴을 만들고 있습니다.</p>
 
-    <!-- 제품 3종 -->
+    <!-- 제품 3종 (실제 이미지) -->
     <div class="build-products">
       <div class="build-product fade-in">
-        <div class="build-product-img">🦴</div>
+        <img class="build-product-img" src="https://kinemedical.co.kr/web/product/medium/202603/51749eb3c15411d4a490c6feecb4769a.jpg" alt="CS-25 경추 솔루션" loading="lazy">
         <div class="build-product-body">
           <div class="build-product-name">CS-25 — 경추 솔루션</div>
-          <div class="build-product-desc">250만원대 병원 경추견인기를 가정용으로. 9년 경력 도수치료사가 직접 설계한 자동 경추 마사지기.</div>
-          <div class="build-product-price">
-            <span class="original">690,000원</span>
-            <span class="discount">42%</span>
-            398,000원
-          </div>
+          <div class="build-product-desc">250만원대 병원 경추견인기를 가정용으로 만든 자동 경추 마사지기</div>
         </div>
       </div>
       <div class="build-product fade-in">
-        <div class="build-product-img">⚡</div>
+        <img class="build-product-img" src="https://kinemedical.co.kr/web/product/big/202603/8d067e6fcada010311f91f0cefbfa606.jpg" alt="ES-808 타겟형 저주파 마사지기" loading="lazy">
         <div class="build-product-body">
           <div class="build-product-name">ES-808 — 도수펜</div>
-          <div class="build-product-desc">EMS+TENS 두 가지 기능을 하나의 펜에. 타겟형 저주파 마사지기. 병원 물리치료와 동일한 원리.</div>
-          <div class="build-product-price">
-            <span class="original">158,000원</span>
-            <span class="discount">18%</span>
-            129,000원
-          </div>
+          <div class="build-product-desc">뭉친 근육을 정확히 찾아가는 타겟형 저주파 마사지기</div>
         </div>
       </div>
       <div class="build-product fade-in">
-        <div class="build-product-img">🔥</div>
+        <img class="build-product-img" src="https://kinemedical.co.kr/web/product/medium/202603/af1d9b203d70b513c2acb60666c1c1a8.jpg" alt="WS-200 근적외선 찜질기" loading="lazy">
         <div class="build-product-body">
           <div class="build-product-name">WS-200 — 근적외선 찜질기</div>
-          <div class="build-product-desc">LED 108개, 몸에 밀착하는 구조. 국내 최초 밀착형 근적외선 찜질기. 병원 광선치료기 기술.</div>
-          <div class="build-product-price">
-            <span class="original">198,000원</span>
-            <span class="discount">35%</span>
-            128,000원
-          </div>
+          <div class="build-product-desc">108개 LED 밀착형 근적외선 찜질기</div>
         </div>
       </div>
     </div>
@@ -329,49 +314,48 @@ body{font-family:'Pretendard',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-s
       <div class="build-step">
         <div class="build-step-num">1</div>
         <h4>운동</h4>
-        <p>1분도수 유튜브 콘텐츠로 올바른 운동법 학습</p>
+        <p>1분도수 영상으로 올바른 운동법</p>
       </div>
       <div class="build-step">
         <div class="build-step-num">2</div>
         <h4>회복</h4>
-        <p>ES-808·WS-200으로 통증 완화 & 혈류 개선</p>
+        <p>기기로 통증 완화 & 혈류 개선</p>
       </div>
       <div class="build-step">
         <div class="build-step-num">3</div>
         <h4>교정</h4>
-        <p>CS-25로 변형된 경추 커브 복원</p>
+        <p>CS-25로 경추 커브 복원</p>
       </div>
       <div class="build-step">
         <div class="build-step-num">4</div>
         <h4>고정</h4>
-        <p>꾸준한 루틴으로 재발 방지 & 자기 관리</p>
+        <p>꾸준한 루틴으로 재발 방지</p>
       </div>
     </div>
 
-    <!-- 핵심 트랙션 -->
+    <!-- 트랙션 (공개 수치만) -->
     <div style="margin:40px 0 16px;font-size:.85rem;font-weight:700;color:var(--text-muted);letter-spacing:.5px;text-transform:uppercase" class="fade-in">Traction</div>
     <div class="build-traction">
       <div class="build-traction-item fade-in">
-        <div class="build-traction-num">11개월</div>
-        <div class="build-traction-label">유튜브 구독자 10만 달성<br><span style="opacity:.6;font-size:.8rem">경험 제로에서 시작한 채널</span></div>
+        <div class="build-traction-num">9개월</div>
+        <div class="build-traction-label">유튜브 구독자 10만 달성</div>
       </div>
       <div class="build-traction-item fade-in">
-        <div class="build-traction-num">200억</div>
-        <div class="build-traction-label">4명 팀의 2026 매출 목표<br><span style="opacity:.6;font-size:.8rem">D2C + 콘텐츠 커머스 모델</span></div>
+        <div class="build-traction-num">2억+</div>
+        <div class="build-traction-label">2년차 팀 월 매출</div>
       </div>
       <div class="build-traction-item fade-in">
-        <div class="build-traction-num">3,000+</div>
-        <div class="build-traction-label">실제 회복을 경험한 고객<br><span style="opacity:.6;font-size:.8rem">평균 별점 4.9 / 리뷰 1,000+</span></div>
+        <div class="build-traction-num">4명</div>
+        <div class="build-traction-label">현재 팀 전원이 도메인 전문가</div>
       </div>
     </div>
 
-    <!-- 비전 -->
+    <!-- 파운더 스토리 -->
     <div class="build-vision fade-in">
-      <p>"목디스크에서 시작해 <em>전신 근골격계</em>, 그리고 <em>글로벌로</em>.<br>3명이서 판 짜고, 10명이서 세계로 나갑니다."</p>
+      <p>9년 경력 도수치료사가 매일 봤습니다 — <em>치료비가 없어서, 시간이 없어서</em> 병원을 못 오는 사람들을.<br>그래서 직접 기기를 만들었습니다. 처음엔 목디스크 하나로, 지금은 전신 회복 루틴으로.</p>
     </div>
   </div>
 </section>
-
 <!-- DNA PREVIEW -->
 <section class="section fade-in">
   <div class="section-inner">
