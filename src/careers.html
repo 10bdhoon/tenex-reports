@@ -170,12 +170,17 @@ body{font-family:'Pretendard',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-s
 .timeline-badge{display:inline-block;background:rgba(201,164,0,0.12);color:var(--gold);border:1px solid rgba(201,164,0,0.25);font-size:.72rem;font-weight:800;padding:2px 8px;border-radius:100px;margin-top:6px;letter-spacing:.3px}
 
 /* DNA CARDS */
-.dna-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-bottom:32px}
-.dna-card{background:var(--white);border:1px solid var(--border);border-radius:16px;padding:36px 28px;transition:all .3s}
-.dna-card:hover{transform:translateY(-4px);box-shadow:0 12px 32px rgba(0,40,85,0.08);border-color:var(--navy)}
-.dna-icon{font-size:2.4rem;margin-bottom:16px}
-.dna-card h3{font-size:1.15rem;font-weight:800;color:var(--navy);margin-bottom:8px}
-.dna-card p{font-size:.95rem;color:var(--text-secondary);line-height:1.7}
+.dna-grid{display:flex;flex-direction:column;gap:16px;margin-bottom:32px}
+.dna-card{display:flex;align-items:flex-start;gap:24px;background:var(--white);border:1px solid var(--border);border-radius:16px;padding:28px 32px;transition:all .3s;position:relative;overflow:hidden}
+.dna-card:hover{box-shadow:0 12px 32px rgba(0,40,85,0.08);border-color:var(--navy);transform:translateX(4px)}
+.dna-card.dna-featured{background:var(--navy);border-color:var(--navy)}
+.dna-card.dna-featured h3{color:var(--gold-light)}
+.dna-card.dna-featured p{color:rgba(255,255,255,.75)}
+.dna-icon{font-size:2rem;flex-shrink:0;width:52px;height:52px;display:flex;align-items:center;justify-content:center;background:rgba(0,40,85,.06);border-radius:12px}
+.dna-card.dna-featured .dna-icon{background:rgba(255,255,255,.1)}
+.dna-card-body{flex:1}
+.dna-card h3{font-size:1.1rem;font-weight:800;color:var(--navy);margin-bottom:6px}
+.dna-card p{font-size:.9rem;color:var(--text-secondary);line-height:1.7}
 .section-link{display:inline-flex;align-items:center;gap:8px;color:var(--navy);font-weight:700;font-size:1rem;text-decoration:none;margin-top:16px;transition:gap .2s}
 .section-link:hover{gap:12px}
 
@@ -405,20 +410,8 @@ body{font-family:'Pretendard',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-s
       <p>2025년 초 제로베이스, 지금까지</p>
     </div>
 
-    <!-- 성과 하이라이트 카드 -->
+    <!-- 성과 하이라이트 카드 (공개 검증 수치만) -->
     <div class="milestone-cards">
-      <div class="milestone-card fade-in">
-        <div class="milestone-num">4,000대</div>
-        <div class="milestone-label">ES-808<br>2달 만에 완판</div>
-      </div>
-      <div class="milestone-card fade-in">
-        <div class="milestone-num">7,000만</div>
-        <div class="milestone-label">ES-808 리뉴얼<br>하루 매출 기록</div>
-      </div>
-      <div class="milestone-card fade-in">
-        <div class="milestone-num">1억+</div>
-        <div class="milestone-label">CS-25<br>런칭 1달 만에 월매출</div>
-      </div>
       <div class="milestone-card fade-in highlight">
         <div class="milestone-num">2억+</div>
         <div class="milestone-label">현재<br>월 매출</div>
@@ -495,7 +488,7 @@ body{font-family:'Pretendard',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-s
         <div class="timeline-content">
           <h4>ES-808 첫 런칭</h4>
           <p>타겟형 저주파 마사지기. 반응이 폭발적이었습니다.</p>
-          <span class="timeline-badge">🔥 2달 만에 4,000대 완판</span>
+          <span class="timeline-badge">🔥 초기 물량 완판</span>
         </div>
       </div>
       <div class="timeline-item fade-in">
@@ -512,8 +505,8 @@ body{font-family:'Pretendard',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-s
         <div class="timeline-content">
           <h4>ES-808 리뉴얼 + CS-25 런칭</h4>
           <p>리뉴얼 ES-808 출시, CS-25(경추 솔루션) 동시 공개.</p>
-          <span class="timeline-badge">⚡ ES-808 리뉴얼 일매출 7,000만원</span>
-          <span class="timeline-badge" style="margin-left:6px">🏆 CS-25 런칭 1달 → 월매출 1억</span>
+          
+          <span class="timeline-badge">🏆 CS-25 런칭 → 빠른 성과</span>
         </div>
       </div>
       <div class="timeline-item fade-in">
@@ -567,7 +560,11 @@ body{font-family:'Pretendard',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-s
       <div class="build-app-icon">📱</div>
       <div class="build-app-body">
         <div class="build-app-title">그리고, 이 모든 걸 하나로 묶는 앱을 만들고 있습니다</div>
-        <div class="build-app-desc">RAG 기반 AI가 통증별 맞춤 운동·회복 루틴을 제안합니다. 운동 → 회복 → 교정 → 고정, 4단계가 하나의 앱 안에서 이어집니다. 루틴 속에 기기 사용이 자연스럽게 녹아드는 구조 — 기기만 파는 회사가 아니라, <strong>회복 생태계를 만드는 회사</strong>입니다.</div>
+        <div class="build-app-desc">
+          <p style="margin-bottom:12px">RAG 기반 AI가 통증별 맞춤 운동·회복 루틴을 제안합니다.</p>
+          <p style="margin-bottom:12px">운동 → 회복 → 교정 → 고정,<br>4단계가 하나의 앱 안에서 이어집니다.</p>
+          <p>루틴 속에 기기 사용이 자연스럽게 녹아드는 구조 —<br>기기만 파는 회사가 아니라, <strong>회복 생태계를 만드는 회사</strong>입니다.</p>
+        </div>
       </div>
     </div>
 
@@ -626,20 +623,26 @@ body{font-family:'Pretendard',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-s
     <h2 class="section-title">일에 미친 사람들</h2>
     <p class="section-desc">3명이 월 2억. AI가 팀원, 콘텐츠가 무기.</p>
     <div class="dna-grid">
-      <div class="dna-card fade-in">
+      <div class="dna-card dna-featured fade-in">
         <div class="dna-icon">🎯</div>
-        <h3>한 사람의 임팩트가 다릅니다</h3>
-        <p>소수정예. 맡은 영역이 넓고, 성장이 빠릅니다.</p>
+        <div class="dna-card-body">
+          <h3>한 사람의 임팩트가 다릅니다</h3>
+          <p>3명이 월 매출 2억을 만듭니다.<br>맡은 영역이 넓은 만큼, 성장도 빠릅니다.</p>
+        </div>
       </div>
       <div class="dna-card fade-in">
         <div class="dna-icon">🤖</div>
-        <h3>AI가 이미 팀원</h3>
-        <p>반복 업무는 AI가. 사람은 판단과 창의에 집중합니다.</p>
+        <div class="dna-card-body">
+          <h3>AI가 이미 팀원입니다</h3>
+          <p>반복 업무는 AI가 처리하고,<br>사람은 판단과 창의에만 집중합니다.</p>
+        </div>
       </div>
       <div class="dna-card fade-in">
         <div class="dna-icon">🔥</div>
-        <h3>초기 멤버의 기회</h3>
-        <p>목에서 전신, 글로벌로. 판을 짜는 자리에 있습니다.</p>
+        <div class="dna-card-body">
+          <h3>초기 멤버의 기회</h3>
+          <p>회사가 10배 클 때, 당신은 이미 핵심입니다.<br>성과에 따른 스톡옵션 협의 가능.</p>
+        </div>
       </div>
     </div>
     <a href="careers-culture.html" class="section-link">테넥스 문화 자세히 보기 →</a>
