@@ -142,6 +142,33 @@ body{font-family:'Pretendard',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-s
 .build-vision p{font-size:1.2rem;font-weight:700;line-height:1.7;opacity:.95}
 .build-vision p em{font-style:normal;color:var(--gold-light)}
 
+/* MILESTONE CARDS */
+.milestone-cards{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:48px}
+.milestone-card{background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.08);border-radius:16px;padding:24px 20px;text-align:center;transition:transform .2s}
+.milestone-card:hover{transform:translateY(-3px)}
+.milestone-card.highlight{background:rgba(201,164,0,0.12);border-color:rgba(201,164,0,0.3)}
+.milestone-num{font-size:2rem;font-weight:900;color:var(--gold-light);letter-spacing:-1px;line-height:1.1;margin-bottom:8px}
+.milestone-card.highlight .milestone-num{font-size:2.4rem}
+.milestone-label{font-size:.8rem;color:rgba(255,255,255,0.55);line-height:1.5}
+
+/* EXPLOSIVE BAR CHART */
+.bar-chart.explosive{height:120px}
+.bar-chart.explosive .bar{height:var(--bar-h,10%);transform-origin:bottom;animation:barRise .8s ease-out both}
+@keyframes barRise{from{transform:scaleY(0)}to{transform:scaleY(1)}}
+.bar-value.explosive-val{color:var(--gold-light)!important;font-size:.85rem!important;font-weight:900!important}
+
+/* TIMELINE */
+.timeline-section{background:var(--white);padding:80px 32px;border-bottom:1px solid var(--border)}
+.timeline-inner{max-width:800px;margin:0 auto}
+.timeline-list{display:flex;flex-direction:column;gap:0;position:relative}
+.timeline-list::before{content:'';position:absolute;left:100px;top:0;bottom:0;width:2px;background:var(--border)}
+.timeline-item{display:flex;gap:32px;align-items:flex-start;padding:24px 0}
+.timeline-date{min-width:100px;font-size:.8rem;font-weight:700;color:var(--text-muted);padding-top:4px;text-align:right;letter-spacing:.3px}
+.timeline-dot{width:12px;height:12px;border-radius:50%;background:var(--navy);flex-shrink:0;margin-top:6px;position:relative;z-index:1;border:2px solid var(--white);box-shadow:0 0 0 2px var(--navy)}
+.timeline-content h4{font-size:1rem;font-weight:800;color:var(--navy);margin-bottom:4px;word-break:keep-all}
+.timeline-content p{font-size:.9rem;color:var(--text-secondary);line-height:1.6;word-break:keep-all}
+.timeline-badge{display:inline-block;background:rgba(201,164,0,0.12);color:var(--gold);border:1px solid rgba(201,164,0,0.25);font-size:.72rem;font-weight:800;padding:2px 8px;border-radius:100px;margin-top:6px;letter-spacing:.3px}
+
 /* DNA CARDS */
 .dna-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-bottom:32px}
 .dna-card{background:var(--white);border:1px solid var(--border);border-radius:16px;padding:36px 28px;transition:all .3s}
@@ -253,6 +280,11 @@ body{font-family:'Pretendard',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-s
   .hero-pills{flex-direction:column;align-items:center;gap:8px}
   .hero-pill{font-size:.82rem;padding:8px 16px}
 
+  /* Milestone */
+  .milestone-cards{grid-template-columns:repeat(2,1fr);gap:12px;margin-bottom:32px}
+  .milestone-num{font-size:1.5rem}
+  .milestone-card.highlight .milestone-num{font-size:1.8rem}
+
   /* Growth */
   .growth-section{padding:64px 16px}
   .growth-title{font-size:1.5rem}
@@ -260,6 +292,14 @@ body{font-family:'Pretendard',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-s
   .growth-chart{padding:28px 20px}
   .growth-chart-num{font-size:1.8rem}
   .growth-bars{height:120px}
+
+  /* Timeline */
+  .timeline-section{padding:56px 16px}
+  .timeline-list::before{left:72px}
+  .timeline-date{min-width:72px;font-size:.72rem}
+  .timeline-item{gap:16px}
+  .timeline-content h4{font-size:.9rem}
+  .timeline-content p{font-size:.82rem}
 
   /* Video */
   .video-section{padding:64px 16px}
@@ -434,6 +474,61 @@ body{font-family:'Pretendard',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-s
   </div>
 </section>
 
+<!-- TIMELINE -->
+<section class="timeline-section fade-in">
+  <div class="timeline-inner">
+    <div class="section-badge" style="margin-bottom:16px">Our Story</div>
+    <h2 class="section-title" style="margin-bottom:8px">1년, 이렇게 만들었습니다</h2>
+    <p class="section-desc" style="margin-bottom:48px">더 좋은 제품을 만들기 위해 계속 개선합니다. 실제로 사람들이 회복할 수 있도록.</p>
+    <div class="timeline-list">
+      <div class="timeline-item fade-in">
+        <div class="timeline-date">2025.03.27</div>
+        <div class="timeline-dot"></div>
+        <div class="timeline-content">
+          <h4>홈도수 × 1분도수 출범</h4>
+          <p>도수치료사 출신 대표가 "집에서 스스로 회복"을 목표로 시작했습니다.</p>
+        </div>
+      </div>
+      <div class="timeline-item fade-in">
+        <div class="timeline-date">2025.03 말</div>
+        <div class="timeline-dot"></div>
+        <div class="timeline-content">
+          <h4>ES-808 (도수펜) 첫 런칭</h4>
+          <p>타겟형 저주파 마사지기. 반응이 폭발적이었습니다.</p>
+          <span class="timeline-badge">🔥 2달 만에 4,000대 완판</span>
+        </div>
+      </div>
+      <div class="timeline-item fade-in">
+        <div class="timeline-date">2025.11~</div>
+        <div class="timeline-dot"></div>
+        <div class="timeline-content">
+          <h4>키네메디칼로 리브랜딩</h4>
+          <p>의료기기 전문 브랜드로. 제품 철학을 명확하게 정의했습니다.</p>
+        </div>
+      </div>
+      <div class="timeline-item fade-in">
+        <div class="timeline-date">~2026.01</div>
+        <div class="timeline-dot" style="background:var(--gold);box-shadow:0 0 0 2px var(--gold)"></div>
+        <div class="timeline-content">
+          <h4>ES-808 리뉴얼 + CS-25 런칭</h4>
+          <p>리뉴얼 ES-808 출시, CS-25(경추 솔루션) 동시 공개.</p>
+          <span class="timeline-badge">⚡ ES-808 리뉴얼 일매출 7,000만원</span>
+          <span class="timeline-badge" style="margin-left:6px">🏆 CS-25 런칭 1달 → 월매출 1억</span>
+        </div>
+      </div>
+      <div class="timeline-item fade-in">
+        <div class="timeline-date">2026 현재</div>
+        <div class="timeline-dot" style="background:var(--gold-light);width:16px;height:16px;margin-top:4px;box-shadow:0 0 0 3px var(--gold-light),0 0 12px rgba(240,208,96,0.4)"></div>
+        <div class="timeline-content">
+          <h4>월 매출 2억+, 팀 3명</h4>
+          <p>CS-25 의료기기 인증 진행 중. 더 나은 버전을 준비하고 있습니다.</p>
+          <span class="timeline-badge" style="background:rgba(201,164,0,0.2);border-color:rgba(201,164,0,0.5)">📈 월 매출 2억+</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- WHAT WE BUILD -->
 <section class="build-section" id="build">
   <div class="section-inner">
@@ -447,14 +542,14 @@ body{font-family:'Pretendard',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-s
         <img class="build-product-img" src="https://kinemedical.co.kr/web/product/medium/202603/51749eb3c15411d4a490c6feecb4769a.jpg" alt="CS-25 경추 솔루션" loading="lazy">
         <div class="build-product-body">
           <div class="build-product-name">CS-25 — 경추 솔루션</div>
-          <div class="build-product-desc">250만원대 병원 경추견인기를 가정용으로. 하루 15분, 집에서 경추 커브를 복원합니다.</div>
+          <div class="build-product-desc">250만원대 병원 경추견인기를 가정용으로. 런칭 1달 만에 월매출 1억 돌파.</div>
         </div>
       </div>
       <div class="build-product fade-in">
         <img class="build-product-img" src="https://kinemedical.co.kr/web/product/big/202603/8d067e6fcada010311f91f0cefbfa606.jpg" alt="ES-808 타겟형 저주파 마사지기" loading="lazy">
         <div class="build-product-body">
           <div class="build-product-name">ES-808</div>
-          <div class="build-product-desc">뭉친 근육을 정확히 찾아가는 타겟형 저주파 마사지기. 병원 도수치료처럼, 집에서 혼자.</div>
+          <div class="build-product-desc">뭉친 근육을 정확히 찾아가는 타겟형 저주파 마사지기. 첫 버전 2달 만에 4,000대 완판.</div>
         </div>
       </div>
       <div class="build-product fade-in">
@@ -632,15 +727,45 @@ body{font-family:'Pretendard',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-s
 </footer>
 
 <script>
-// Scroll animation - mobile에서는 즉시 표시
+// Scroll animation
 if (window.innerWidth <= 768) {
   document.querySelectorAll('.fade-in').forEach(el => el.classList.add('visible'));
+  // 모바일에서 바 차트 즉시 표시
+  document.querySelectorAll('.bar.explosive-bar, .bar-chart.explosive .bar').forEach((bar, i) => {
+    bar.style.height = bar.style.getPropertyValue('--bar-h') || bar.style.height;
+  });
 } else {
   const io = new IntersectionObserver((entries) => {
-    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); io.unobserve(e.target); } });
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+        io.unobserve(e.target);
+      }
+    });
   }, {threshold: 0.1});
   document.querySelectorAll('.fade-in').forEach(el => io.observe(el));
 }
+
+// 바 차트 스크롤 애니메이션 — 뷰포트 진입 시 바 높이 적용
+document.querySelectorAll('.bar-chart.explosive').forEach(chart => {
+  const bars = chart.querySelectorAll('.bar');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        bars.forEach((bar, i) => {
+          const targetH = bar.style.getPropertyValue('--bar-h') || bar.style.height;
+          bar.style.height = '0%';
+          setTimeout(() => {
+            bar.style.transition = `height 0.6s cubic-bezier(0.22,1,0.36,1) ${i * 80}ms`;
+            bar.style.height = targetH;
+          }, 50);
+        });
+        observer.unobserve(e.target);
+      }
+    });
+  }, {threshold: 0.2});
+  observer.observe(chart);
+});
 </script>
 </body>
 </html>
