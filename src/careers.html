@@ -35,8 +35,29 @@ body{font-family:'Pretendard',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-s
 .hero-badge{display:inline-block;background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.15);padding:6px 20px;border-radius:100px;font-size:.85rem;font-weight:600;margin-bottom:32px;letter-spacing:.5px}
 .hero h1{font-size:3.2rem;font-weight:900;line-height:1.2;margin-bottom:24px;letter-spacing:-1px}
 .hero h1 em{font-style:normal;color:var(--gold-light)}
-.hero-mission{font-size:1.2rem;opacity:.85;max-width:560px;margin:0 auto 48px;line-height:1.8}
+.hero-pills{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-bottom:40px}
+.hero-pill{display:inline-flex;align-items:center;gap:6px;padding:10px 22px;border-radius:999px;font-size:.95rem;font-weight:600;backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,0.12)}
+.hero-pill.yt{background:rgba(220,38,38,0.2)}
+.hero-pill.hw{background:rgba(59,130,246,0.2)}
+.hero-pill.rev{background:rgba(34,197,94,0.2)}
 .hero-actions{display:flex;gap:16px;justify-content:center;flex-wrap:wrap}
+
+/* GROWTH GRAPH */
+.growth-section{background:var(--navy-dark);padding:100px 32px;color:var(--white)}
+.growth-inner{max-width:1000px;margin:0 auto}
+.growth-title{font-size:2.2rem;font-weight:900;text-align:center;margin-bottom:12px;letter-spacing:-.5px}
+.growth-subtitle{font-size:1.05rem;opacity:.6;text-align:center;margin-bottom:60px}
+.growth-grid{display:grid;grid-template-columns:1fr 1fr;gap:48px}
+.growth-chart{background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:20px;padding:36px 32px}
+.growth-chart-title{font-size:.85rem;font-weight:700;letter-spacing:1px;opacity:.5;margin-bottom:8px;text-transform:uppercase}
+.growth-chart-num{font-size:2.4rem;font-weight:900;color:var(--gold-light);margin-bottom:24px;letter-spacing:-1px}
+.growth-bars{display:flex;align-items:flex-end;gap:8px;height:160px}
+.growth-bar{flex:1;border-radius:6px 6px 0 0;position:relative;transition:height .3s;min-width:0}
+.growth-bar-label{position:absolute;bottom:-24px;left:50%;transform:translateX(-50%);font-size:.65rem;opacity:.5;white-space:nowrap}
+.growth-bar-value{position:absolute;top:-22px;left:50%;transform:translateX(-50%);font-size:.7rem;font-weight:700;color:var(--gold-light);white-space:nowrap}
+.growth-curve{position:relative;height:160px;margin-bottom:24px}
+.growth-curve svg{width:100%;height:100%}
+.growth-curve-label{font-size:.9rem;opacity:.7;text-align:center;margin-top:12px}
 .btn-primary{display:inline-flex;align-items:center;gap:8px;background:var(--white);color:var(--navy);font-weight:700;font-size:1rem;padding:16px 36px;border-radius:12px;text-decoration:none;transition:all .2s;border:none;cursor:pointer}
 .btn-primary:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,0,0,0.2)}
 .btn-secondary{display:inline-flex;align-items:center;gap:8px;background:transparent;color:var(--white);font-weight:600;font-size:1rem;padding:16px 36px;border-radius:12px;text-decoration:none;transition:all .2s;border:1px solid rgba(255,255,255,0.3)}
@@ -89,6 +110,31 @@ body{font-family:'Pretendard',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-s
 .build-app-title{font-size:1.05rem;font-weight:800;color:var(--white);margin-bottom:10px;line-height:1.4}
 .build-app-desc{font-size:.88rem;color:rgba(255,255,255,.75);line-height:1.7}
 .build-app-desc strong{color:var(--gold-light)}
+/* HERO PILLS */
+.hero-pills{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin:0 auto 40px}
+.hero-pill{display:inline-flex;align-items:center;gap:6px;padding:9px 20px;border-radius:100px;font-size:.9rem;font-weight:600;white-space:nowrap}
+.hero-pill.yt{background:rgba(255,255,255,0.12);border:1px solid rgba(255,255,255,0.2);color:var(--white)}
+.hero-pill.hw{background:rgba(201,164,0,0.18);border:1px solid rgba(201,164,0,0.3);color:var(--gold-light)}
+.hero-pill.rev{background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);color:rgba(255,255,255,0.9)}
+/* GROWTH CHART */
+.growth-section{padding:80px 32px;background:var(--navy-dark);color:var(--white)}
+.growth-inner{max-width:900px;margin:0 auto}
+.growth-header{text-align:center;margin-bottom:56px}
+.growth-header .section-badge{background:rgba(255,255,255,0.1);color:rgba(255,255,255,0.85)}
+.growth-header h2{font-size:2rem;font-weight:900;color:var(--white);margin-bottom:8px;letter-spacing:-.5px}
+.growth-header p{font-size:1rem;color:rgba(255,255,255,0.6)}
+.growth-charts{display:grid;grid-template-columns:1fr 1fr;gap:40px}
+.chart-box{background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:20px;padding:32px}
+.chart-title{font-size:.85rem;font-weight:700;color:rgba(255,255,255,0.5);letter-spacing:.5px;text-transform:uppercase;margin-bottom:8px}
+.chart-headline{font-size:2rem;font-weight:900;color:var(--gold-light);letter-spacing:-1px;margin-bottom:4px;line-height:1}
+.chart-sub{font-size:.85rem;color:rgba(255,255,255,0.45);margin-bottom:28px}
+.bar-chart{display:flex;align-items:flex-end;gap:6px;height:80px}
+.bar{flex:1;border-radius:4px 4px 0 0;position:relative;transition:height .3s ease}
+.bar-label{position:absolute;bottom:-22px;left:50%;transform:translateX(-50%);font-size:.65rem;color:rgba(255,255,255,0.35);white-space:nowrap}
+.bar-value{position:absolute;top:-20px;left:50%;transform:translateX(-50%);font-size:.7rem;font-weight:700;color:rgba(255,255,255,0.6);white-space:nowrap}
+.bar-axis{border-top:1px solid rgba(255,255,255,0.1);margin-top:28px;padding-top:8px;display:flex;justify-content:space-between;font-size:.7rem;color:rgba(255,255,255,0.3)}
+.line-chart{position:relative;height:80px;margin-bottom:28px}
+.line-chart svg{width:100%;height:100%;overflow:visible}
 .build-vision p{font-size:1.2rem;font-weight:700;line-height:1.7;opacity:.95}
 .build-vision p em{font-style:normal;color:var(--gold-light)}
 
@@ -178,6 +224,12 @@ body{font-family:'Pretendard',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-s
   .build-vision p{font-size:1rem}
   .build-app-banner{flex-direction:column;gap:12px;padding:24px 20px}
   .build-app-badge{top:12px;right:12px}
+  .hero-pills{flex-direction:column;align-items:stretch;gap:8px;padding:0 8px}
+  .hero-pill{justify-content:center;font-size:.85rem;padding:10px 16px}
+  .growth-section{padding:60px 16px}
+  .growth-charts{grid-template-columns:1fr;gap:24px}
+  .chart-box{padding:24px 20px}
+  .growth-header h2{font-size:1.5rem;word-break:keep-all}
 
   /* DNA */
   .dna-grid{grid-template-columns:1fr;gap:12px}
@@ -190,6 +242,18 @@ body{font-family:'Pretendard',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-s
   .benefit-icon{font-size:1.6rem;margin-bottom:8px}
   .benefit-item h4{font-size:.875rem}
   .benefit-item p{font-size:.78rem}
+
+  /* Hero pills */
+  .hero-pills{flex-direction:column;align-items:center;gap:8px}
+  .hero-pill{font-size:.82rem;padding:8px 16px}
+
+  /* Growth */
+  .growth-section{padding:64px 16px}
+  .growth-title{font-size:1.5rem}
+  .growth-grid{grid-template-columns:1fr;gap:32px}
+  .growth-chart{padding:28px 20px}
+  .growth-chart-num{font-size:1.8rem}
+  .growth-bars{height:120px}
 
   /* Video */
   .video-section{padding:64px 16px}
@@ -249,7 +313,11 @@ body{font-family:'Pretendard',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-s
   <div class="hero-content">
     <div class="hero-badge">TENEX Careers</div>
     <h1>누구나 집에서 스스로 회복하는 세상,<br><em>테넥스가 만듭니다</em></h1>
-    <p class="hero-mission">유튜브 11.4만 · 자체 기기 3종 · 월 매출 2억+<br>운동 → 회복 → 교정 → 고정, 전신 회복 생태계를 만드는 팀입니다.</p>
+    <div class="hero-pills">
+      <span class="hero-pill yt">🎬 유튜브 11.4만 · 1분도수</span>
+      <span class="hero-pill hw">🔧 자체 개발 건강기기 · 키네메디칼</span>
+      <span class="hero-pill rev">💰 2년차 월 매출 2억+</span>
+    </div>
     <div class="hero-actions">
       <a href="careers-jobs.html" class="btn-primary">채용공고 바로가기 →</a>
       <a href="careers-culture.html" class="btn-secondary">우리 문화 알아보기</a>
@@ -283,12 +351,69 @@ body{font-family:'Pretendard',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-s
   </div>
 </section>
 
+<!-- GROWTH -->
+<section class="growth-section fade-in">
+  <div class="growth-inner">
+    <div class="growth-header">
+      <div class="section-badge">Growth</div>
+      <h2>숫자가 증명합니다</h2>
+      <p>2024년 초 제로베이스, 지금까지</p>
+    </div>
+    <div class="growth-charts">
+      <!-- 유튜브 구독자 -->
+      <div class="chart-box">
+        <div class="chart-title">YouTube Subscribers</div>
+        <div class="chart-headline">11.4만</div>
+        <div class="chart-sub">11개월 만에 구독자 10만 돌파</div>
+        <div class="bar-chart">
+          <div class="bar" style="height:8%;background:rgba(201,164,0,0.3)">
+            <span class="bar-label">1M</span><span class="bar-value">0.3만</span></div>
+          <div class="bar" style="height:18%;background:rgba(201,164,0,0.4)">
+            <span class="bar-label">3M</span><span class="bar-value">1만</span></div>
+          <div class="bar" style="height:32%;background:rgba(201,164,0,0.5)">
+            <span class="bar-label">5M</span><span class="bar-value">3만</span></div>
+          <div class="bar" style="height:52%;background:rgba(201,164,0,0.65)">
+            <span class="bar-label">7M</span><span class="bar-value">5.5만</span></div>
+          <div class="bar" style="height:75%;background:rgba(201,164,0,0.8)">
+            <span class="bar-label">9M</span><span class="bar-value">8만</span></div>
+          <div class="bar" style="height:90%;background:rgba(201,164,0,0.9)">
+            <span class="bar-label">11M</span><span class="bar-value">10만</span></div>
+          <div class="bar" style="height:100%;background:var(--gold-light)">
+            <span class="bar-label">NOW</span><span class="bar-value" style="color:var(--gold-light)">11.4만</span></div>
+        </div>
+        <div class="bar-axis"><span>시작</span><span>11개월</span><span>현재</span></div>
+      </div>
+      <!-- 월 매출 -->
+      <div class="chart-box">
+        <div class="chart-title">Monthly Revenue</div>
+        <div class="chart-headline">2억+</div>
+        <div class="chart-sub">런칭 2년차 팀의 월 매출</div>
+        <div class="bar-chart">
+          <div class="bar" style="height:8%;background:rgba(255,255,255,0.1)">
+            <span class="bar-label">Q1'24</span><span class="bar-value">-</span></div>
+          <div class="bar" style="height:18%;background:rgba(255,255,255,0.18)">
+            <span class="bar-label">Q2'24</span><span class="bar-value">-</span></div>
+          <div class="bar" style="height:38%;background:rgba(255,255,255,0.28)">
+            <span class="bar-label">Q3'24</span><span class="bar-value">-</span></div>
+          <div class="bar" style="height:58%;background:rgba(255,255,255,0.38)">
+            <span class="bar-label">Q4'24</span><span class="bar-value">-</span></div>
+          <div class="bar" style="height:78%;background:rgba(255,255,255,0.55)">
+            <span class="bar-label">Q1'25</span><span class="bar-value">-</span></div>
+          <div class="bar" style="height:100%;background:rgba(255,255,255,0.85)">
+            <span class="bar-label">NOW</span><span class="bar-value" style="color:#fff">2억+</span></div>
+        </div>
+        <div class="bar-axis"><span>런칭</span><span>성장</span><span>현재</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- WHAT WE BUILD -->
 <section class="build-section" id="build">
   <div class="section-inner">
     <div class="section-badge fade-in">What We Build</div>
     <h2 class="section-title fade-in">이 회사가 만드는 것</h2>
-    <p class="section-desc fade-in">도수치료사 출신 대표가 직접 설계했습니다. 병원 가지 않아도 집에서 스스로 회복하는 루틴을 만들고 있습니다.</p>
+    <p class="section-desc fade-in">도수치료사 출신 대표가 직접 설계한 회복 솔루션.</p>
 
     <!-- 제품 3종 (실제 이미지) -->
     <div class="build-products">
@@ -373,12 +498,53 @@ body{font-family:'Pretendard',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-s
     </div>
   </div>
 </section>
+<!-- GROWTH GRAPH -->
+<section class="growth-section">
+  <div class="growth-inner">
+    <h2 class="growth-title fade-in">숫자로 보는 성장</h2>
+    <p class="growth-subtitle fade-in">3명이 11개월 만에 만든 결과</p>
+    <div class="growth-grid">
+      <div class="growth-chart fade-in">
+        <div class="growth-chart-title">YouTube 구독자</div>
+        <div class="growth-chart-num">11개월 → 10만</div>
+        <div class="growth-bars">
+          <div class="growth-bar" style="height:5%;background:rgba(220,38,38,0.3)"><span class="growth-bar-value">5천</span><span class="growth-bar-label">1개월</span></div>
+          <div class="growth-bar" style="height:15%;background:rgba(220,38,38,0.4)"><span class="growth-bar-value">1.5만</span><span class="growth-bar-label">3개월</span></div>
+          <div class="growth-bar" style="height:40%;background:rgba(220,38,38,0.55)"><span class="growth-bar-value">4만</span><span class="growth-bar-label">6개월</span></div>
+          <div class="growth-bar" style="height:75%;background:rgba(220,38,38,0.7)"><span class="growth-bar-value">7.5만</span><span class="growth-bar-label">9개월</span></div>
+          <div class="growth-bar" style="height:100%;background:rgba(220,38,38,0.9)"><span class="growth-bar-value">10만</span><span class="growth-bar-label">11개월</span></div>
+        </div>
+      </div>
+      <div class="growth-chart fade-in">
+        <div class="growth-chart-title">월 매출</div>
+        <div class="growth-chart-num">월 2억+</div>
+        <div class="growth-curve">
+          <svg viewBox="0 0 300 160" preserveAspectRatio="none">
+            <defs>
+              <linearGradient id="curveGrad" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="rgba(201,164,0,0.4)"/>
+                <stop offset="100%" stop-color="rgba(201,164,0,0)"/>
+              </linearGradient>
+            </defs>
+            <path d="M0,150 C50,145 80,130 120,110 C160,90 200,50 250,25 L300,5 L300,160 L0,160Z" fill="url(#curveGrad)"/>
+            <path d="M0,150 C50,145 80,130 120,110 C160,90 200,50 250,25 L300,5" fill="none" stroke="#c9a400" stroke-width="3" stroke-linecap="round"/>
+            <circle cx="0" cy="150" r="4" fill="#c9a400"/>
+            <circle cx="120" cy="110" r="4" fill="#c9a400"/>
+            <circle cx="300" cy="5" r="5" fill="#f0d060"/>
+          </svg>
+        </div>
+        <div class="growth-curve-label">1년차 초반 → 2년차 월 2억+ 달성</div>
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- DNA PREVIEW -->
 <section class="section fade-in">
   <div class="section-inner">
     <div class="section-badge">TENEXER DNA</div>
     <h2 class="section-title">일에 미친 사람들</h2>
-    <p class="section-desc">3명이 월 매출 2억을 만들었습니다.<br>AI를 팀원으로, 콘텐츠를 무기로.</p>
+    <p class="section-desc">3명이 월 2억. AI가 팀원, 콘텐츠가 무기.</p>
     <div class="dna-grid">
       <div class="dna-card fade-in">
         <div class="dna-icon">🎯</div>
@@ -405,7 +571,7 @@ body{font-family:'Pretendard',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-s
   <div class="section-inner">
     <div class="section-badge">BENEFITS</div>
     <h2 class="section-title">함께하는 사람에게 아끼지 않습니다</h2>
-    <p class="section-desc">오너십 있는 모험가에겐 그에 걸맞은 보상이 따릅니다.</p>
+    <p class="section-desc">오너십에 걸맞은 보상.</p>
     <div class="benefit-preview">
       <div class="benefit-item fade-in">
         <div class="benefit-icon">🎁</div>
@@ -458,7 +624,7 @@ body{font-family:'Pretendard',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-s
   <div class="section-inner">
     <div class="section-badge">1분도수</div>
     <h2 class="section-title">콘텐츠가 매출이 됩니다</h2>
-    <p class="section-desc">11개월 만에 구독자 10만. 이것이 테넥스의 오너십입니다.</p>
+    <p class="section-desc">11개월 만에 구독자 10만. 이게 테넥스 오너십.</p>
     <div class="video-wrap">
       <iframe src="https://www.youtube.com/embed/4v9uVkh63ys?start=155" title="1분도수 대표 영상" allow="accelerometer;autoplay;clipboard-write;encrypted-media;gyroscope;picture-in-picture" allowfullscreen loading="lazy"></iframe>
     </div>
@@ -469,7 +635,7 @@ body{font-family:'Pretendard',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-s
 <!-- CTA -->
 <section class="cta-section fade-in">
   <h2>지금, 테넥서가 되어주세요</h2>
-  <p>사람들이 생각지도 못했던 결과를 만듭니다.<br>최고의 목표를 세우고, 이뤄냅니다.</p>
+  <p>말도 안 되는 목표를 세우고, 진짜 이뤄냅니다.</p>
   <a href="careers-jobs.html" class="btn-primary" style="font-size:1.1rem;padding:18px 44px">채용공고 보러가기 →</a>
 </section>
 
