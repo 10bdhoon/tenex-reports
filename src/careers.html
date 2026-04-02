@@ -334,11 +334,15 @@ body{font-family:'Pretendard',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-s
 </footer>
 
 <script>
-// Scroll animation
-const io=new IntersectionObserver((entries)=>{
-  entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');io.unobserve(e.target)}})
-},{threshold:0.15});
-document.querySelectorAll('.fade-in').forEach(el=>io.observe(el));
+// Scroll animation - mobile에서는 즉시 표시
+if (window.innerWidth <= 768) {
+  document.querySelectorAll('.fade-in').forEach(el => el.classList.add('visible'));
+} else {
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); io.unobserve(e.target); } });
+  }, {threshold: 0.1});
+  document.querySelectorAll('.fade-in').forEach(el => io.observe(el));
+}
 </script>
 </body>
 </html>
