@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>채용 안내 | KINEMEDICAL</title>
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" />
+  <link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" rel="stylesheet" />
+  <style>
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    :root {
+      --navy: #002855;
+      --navy-light: #003d7a;
+      --gray-dark: #2c2c2c;
+      --gray-mid: #555555;
+      --gray-light: #888888;
+      --gray-border: #d4d4d4;
+      --gray-bg: #f5f5f5;
+      --white: #ffffff;
+      --accent: #0056b3;
+    }
+
+    body {
+      font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background-color: var(--white);
+      color: var(--gray-dark);
+      font-size: 15px;
+      line-height: 1.7;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── HEADER ── */
+    header {
+      background-color: var(--navy);
+      padding: 28px 0 24px;
+      border-bottom: 3px solid #001f42;
+    }
+
+    .header-inner {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    .brand-name {
+      font-size: 26px;
+      font-weight: 800;
+      color: var(--white);
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+    }
+
+    .brand-sub {
+      font-size: 12px;
+      font-weight: 400;
+      color: rgba(255,255,255,0.62);
+      letter-spacing: 0.12em;
+      margin-top: 4px;
+      text-transform: uppercase;
+    }
+
+    /* ── HERO BAND ── */
+    .hero-band {
+      background-color: #f0f4f8;
+      border-bottom: 1px solid var(--gray-border);
+      padding: 40px 24px 38px;
+      text-align: center;
+    }
+
+    .hero-band h1 {
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--navy);
+      letter-spacing: 0.04em;
+    }
+
+    .hero-band p {
+      font-size: 14px;
+      color: var(--gray-mid);
+      margin-top: 8px;
+    }
+
+    /* ── LAYOUT ── */
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    section {
+      padding: 52px 0 44px;
+      border-bottom: 1px solid var(--gray-border);
+    }
+
+    section:last-of-type {
+      border-bottom: none;
+    }
+
+    .section-label {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 18px;
+    }
+
+    .section-title {
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 20px;
+      padding-bottom: 12px;
+      border-bottom: 2px solid var(--navy);
+    }
+
+    /* ── COMPANY INTRO ── */
+    .intro-body p {
+      font-size: 15px;
+      color: var(--gray-dark);
+      margin-bottom: 12px;
+      line-height: 1.85;
+    }
+
+    .product-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 28px;
+      font-size: 14px;
+    }
+
+    .product-table thead tr {
+      background-color: var(--navy);
+      color: var(--white);
+    }
+
+    .product-table thead th {
+      padding: 12px 16px;
+      text-align: left;
+      font-weight: 600;
+      letter-spacing: 0.03em;
+    }
+
+    .product-table tbody tr {
+      border-bottom: 1px solid var(--gray-border);
+    }
+
+    .product-table tbody tr:nth-child(even) {
+      background-color: var(--gray-bg);
+    }
+
+    .product-table tbody td {
+      padding: 13px 16px;
+      color: var(--gray-dark);
+      vertical-align: top;
+    }
+
+    .product-table td.model {
+      font-weight: 700;
+      font-size: 13px;
+      color: var(--navy);
+      letter-spacing: 0.04em;
+      white-space: nowrap;
+    }
+
+    /* ── JOB CARDS ── */
+    .job-list {
+      display: flex;
+      flex-direction: column;
+      gap: 28px;
+      margin-top: 8px;
+    }
+
+    .job-card {
+      border: 1px solid var(--gray-border);
+      border-top: 3px solid var(--navy);
+      background-color: var(--white);
+    }
+
+    .job-card-header {
+      background-color: #f8f9fb;
+      padding: 20px 24px 18px;
+      border-bottom: 1px solid var(--gray-border);
+    }
+
+    .job-title {
+      font-size: 17px;
+      font-weight: 700;
+      color: var(--navy);
+    }
+
+    .job-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 10px;
+    }
+
+    .job-tag {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--gray-mid);
+      background-color: var(--white);
+      border: 1px solid var(--gray-border);
+      padding: 4px 10px;
+      letter-spacing: 0.02em;
+    }
+
+    .job-tag.dept {
+      color: var(--navy);
+      border-color: var(--navy);
+    }
+
+    .job-card-body {
+      padding: 22px 24px 24px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+    }
+
+    @media (max-width: 620px) {
+      .job-card-body {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .job-block h4 {
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--gray-light);
+      margin-bottom: 10px;
+      padding-bottom: 6px;
+      border-bottom: 1px solid #e8e8e8;
+    }
+
+    .job-block ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    .job-block ul li {
+      font-size: 13.5px;
+      color: var(--gray-dark);
+      padding: 5px 0 5px 14px;
+      position: relative;
+      line-height: 1.6;
+      border-bottom: 1px dashed #ebebeb;
+    }
+
+    .job-block ul li:last-child {
+      border-bottom: none;
+    }
+
+    .job-block ul li::before {
+      content: "—";
+      position: absolute;
+      left: 0;
+      color: var(--gray-light);
+      font-size: 11px;
+      top: 7px;
+    }
+
+    .job-block ul li .eng {
+      font-size: 12px;
+      color: var(--accent);
+      font-weight: 600;
+    }
+
+    /* ── APPLY SECTION ── */
+    .apply-box {
+      background-color: #f0f4f8;
+      border: 1px solid #c8d8e8;
+      border-left: 4px solid var(--navy);
+      padding: 28px 28px 26px;
+      margin-top: 8px;
+    }
+
+    .apply-box p {
+      font-size: 14.5px;
+      color: var(--gray-dark);
+      margin-bottom: 10px;
+      line-height: 1.8;
+    }
+
+    .apply-box p:last-of-type {
+      margin-bottom: 0;
+    }
+
+    .email-line {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-top: 20px;
+      padding-top: 20px;
+      border-top: 1px solid #c8d8e8;
+    }
+
+    .email-label {
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--navy);
+      white-space: nowrap;
+    }
+
+    .email-addr {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--accent);
+      text-decoration: none;
+      letter-spacing: 0.02em;
+    }
+
+    .email-addr:hover {
+      text-decoration: underline;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      background-color: var(--navy);
+      padding: 28px 24px;
+      text-align: center;
+    }
+
+    .footer-inner p {
+      font-size: 12px;
+      color: rgba(255,255,255,0.5);
+      line-height: 1.9;
+    }
+
+    .footer-inner .footer-brand {
+      font-size: 14px;
+      font-weight: 700;
+      color: rgba(255,255,255,0.85);
+      letter-spacing: 0.14em;
+      margin-bottom: 6px;
+    }
+
+    /* ── NOTICE BAR ── */
+    .notice-bar {
+      background-color: #fff8e1;
+      border: 1px solid #f0d060;
+      padding: 10px 20px;
+      font-size: 13px;
+      color: #6b5800;
+      text-align: center;
+    }
+
+    /* Responsive tweaks */
+    @media (max-width: 480px) {
+      .brand-name { font-size: 21px; }
+      .hero-band h1 { font-size: 18px; }
+      .section-title { font-size: 17px; }
+      .job-title { font-size: 15px; }
+      .product-table { font-size: 13px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ── HEADER ── -->
+  <header>
+    <div class="header-inner">
+      <div class="brand-name">KINEMEDICAL</div>
+      <div class="brand-sub">Advancing Home Medical Technology</div>
+    </div>
+  </header>
+
+  <!-- ── NOTICE ── -->
+  <div class="notice-bar">
+    본 페이지는 상시 인재풀 운영을 위한 채용 안내 페이지입니다. 공개 채용 외에도 수시로 우수 인재를 검토합니다.
+  </div>
+
+  <!-- ── HERO ── -->
+  <div class="hero-band">
+    <h1>인재 채용 안내</h1>
+    <p>Talent Acquisition &amp; Career Opportunities</p>
+  </div>
+
+  <!-- ── COMPANY INTRO ── -->
+  <section>
+    <div class="container">
+      <div class="section-label">About Kinemedical</div>
+      <div class="section-title">회사 소개</div>
+      <div class="intro-body">
+        <p>
+          키네메디칼은 의학적 원리를 가정용 의료기기에 적용하는 <strong>Medical Device</strong> 기업입니다.
+          병원급 치료 기술을 누구나 집에서 사용할 수 있도록, R&D부터 제품화까지 자체적으로 수행합니다.
+        </p>
+        <p>
+          근골격계 질환의 재활 및 통증 관리 분야에 집중하며,
+          <strong>임상적 근거(Clinical Evidence)</strong>에 기반한 제품 개발을 원칙으로 합니다.
+          자체 연구 파이프라인 및 KOL(Key Opinion Leader) 네트워크를 통해
+          국내외 시장을 겨냥한 제품 포트폴리오를 지속적으로 확장하고 있습니다.
+        </p>
+
+        <table class="product-table">
+          <thead>
+            <tr>
+              <th>모델명</th>
+              <th>제품명 / 분류</th>
+              <th>적용 기술</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="model">CS-25</td>
+              <td>경추 가동화 장치<br><span style="font-size:12px;color:#666;">Cervical Spine Mobilization Device</span></td>
+              <td>경추 견인 원리 기반 자세 교정, 경추 정렬 지지</td>
+            </tr>
+            <tr>
+              <td class="model">ES-808</td>
+              <td>타겟형 EMS/TENS 자극기<br><span style="font-size:12px;color:#666;">Targeted EMS/TENS Stimulator</span></td>
+              <td>EMS(근육 전기자극) + TENS(신경 전기자극) 복합 모드, 크롬 팁 집중 자극</td>
+            </tr>
+            <tr>
+              <td class="model">WS-200</td>
+              <td>근적외선 온열 치료기<br><span style="font-size:12px;color:#666;">Near-Infrared Thermotherapy Unit</span></td>
+              <td>NIR(근적외선) 파장 온열 침투, 심부 근육 이완</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── JOB POSTINGS ── -->
+  <section>
+    <div class="container">
+      <div class="section-label">Open Positions</div>
+      <div class="section-title">채용 포지션</div>
+
+      <div class="job-list">
+
+        <!-- JOB 1 -->
+        <div class="job-card">
+          <div class="job-card-header">
+            <div class="job-title">의료기기 연구개발 엔지니어</div>
+            <div class="job-meta">
+              <span class="job-tag dept">Product Development</span>
+              <span class="job-tag">경력 5년 이상</span>
+              <span class="job-tag">정규직</span>
+            </div>
+          </div>
+          <div class="job-card-body">
+            <div class="job-block">
+              <h4>Requirements</h4>
+              <ul>
+                <li>의료기기 규제 이해 (<span class="eng">KFDA Class II/III, ISO 13485</span>)</li>
+                <li>전기기계 시스템 설계 경험</li>
+                <li><span class="eng">CAD/CAE</span> 툴 활용 (<span class="eng">SolidWorks, ANSYS</span>)</li>
+                <li>생체역학 및 재활공학 기초 지식</li>
+                <li><span class="eng">EMG/EMS/TENS</span> 기기 개발 경험 우대</li>
+              </ul>
+            </div>
+            <div class="job-block">
+              <h4>Responsibilities</h4>
+              <ul>
+                <li>제품 개발 전 주기(<span class="eng">Concept to Mass Production</span>) 리드</li>
+                <li>위탁 제조사와의 <span class="eng">DFM/DFA</span> 협업 및 최적화</li>
+                <li><span class="eng">IEC 60601</span> 기준 검증·유효성 평가 수행</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <!-- JOB 2 -->
+        <div class="job-card">
+          <div class="job-card-header">
+            <div class="job-title">임상연구 전문가</div>
+            <div class="job-meta">
+              <span class="job-tag dept">Clinical Affairs</span>
+              <span class="job-tag">경력 3년 이상</span>
+              <span class="job-tag">정규직</span>
+            </div>
+          </div>
+          <div class="job-card-body">
+            <div class="job-block">
+              <h4>Requirements</h4>
+              <ul>
+                <li>물리치료학, 재활의학 또는 의공학 전공</li>
+                <li><span class="eng">IRB</span> 프로토콜 및 임상시험 설계 경험</li>
+                <li><span class="eng">KFDA/FDA Class II</span> 인허가 경로 이해</li>
+                <li>근골격계 재활 분야 연구 실적 우대</li>
+              </ul>
+            </div>
+            <div class="job-block">
+              <h4>Responsibilities</h4>
+              <ul>
+                <li>제품 유효성 검증을 위한 임상 연구 설계·수행</li>
+                <li>재활의학 분야 <span class="eng">KOL(Key Opinion Leader)</span> 관계 관리</li>
+                <li>인허가 제출 대비 임상 근거 전략 수립</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <!-- JOB 3 -->
+        <div class="job-card">
+          <div class="job-card-header">
+            <div class="job-title">임베디드 시스템 엔지니어</div>
+            <div class="job-meta">
+              <span class="job-tag dept">Firmware &amp; Hardware</span>
+              <span class="job-tag">경력 3년 이상</span>
+              <span class="job-tag">정규직</span>
+            </div>
+          </div>
+          <div class="job-card-body">
+            <div class="job-block">
+              <h4>Requirements</h4>
+              <ul>
+                <li><span class="eng">C/C++</span> 임베디드 개발 (<span class="eng">ARM Cortex-M</span>)</li>
+                <li><span class="eng">BLE/Wi-Fi</span> 연결 모듈 경험</li>
+                <li><span class="eng">PCB</span> 설계 검토 능력</li>
+                <li>의료기기 펌웨어 개발 (<span class="eng">IEC 62304</span>) 경험 우대</li>
+              </ul>
+            </div>
+            <div class="job-block">
+              <h4>Responsibilities</h4>
+              <ul>
+                <li>치료 기기용 펌웨어 개발 및 최적화</li>
+                <li><span class="eng">EMS/TENS</span> 파형 생성 실시간 신호처리 구현</li>
+                <li>의료기기 소프트웨어 생애주기 표준 준수</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <!-- JOB 4 -->
+        <div class="job-card">
+          <div class="job-card-header">
+            <div class="job-title">재활의학 자문위원</div>
+            <div class="job-meta">
+              <span class="job-tag dept">Medical Advisory</span>
+              <span class="job-tag">임상 경력 10년 이상</span>
+              <span class="job-tag">파트타임 / 자문 계약</span>
+            </div>
+          </div>
+          <div class="job-card-body">
+            <div class="job-block">
+              <h4>Requirements</h4>
+              <ul>
+                <li>물리치료사 면허 또는 재활의학 전문의</li>
+                <li>경추 질환 및 근골격계 임상 경험</li>
+                <li>가정용 재활 기기 분야 관심 보유자</li>
+              </ul>
+            </div>
+            <div class="job-block">
+              <h4>Responsibilities</h4>
+              <ul>
+                <li>제품 개발 로드맵에 대한 임상적 의견 제공</li>
+                <li>치료 프로토콜 검토 및 유효성 자문</li>
+                <li>임상 연구 설계 및 <span class="eng">KOL</span> 네트워킹 지원</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ── APPLY ── -->
+  <section>
+    <div class="container">
+      <div class="section-label">Application</div>
+      <div class="section-title">지원 안내</div>
+
+      <div class="apply-box">
+        <p>
+          키네메디칼은 <strong>상시 인재풀</strong>을 운영하고 있습니다.
+          현재 공개 채용 포지션 외에도, 역량 있는 지원자의 이력서를 항시 검토하고 있습니다.
+        </p>
+        <p>
+          관심 있으신 분은 지원 포지션을 명기하여 이력서 및 포트폴리오를 아래 이메일로 보내주십시오.
+          서류 검토 후 개별 연락드리겠습니다.
+        </p>
+        <p style="color: #666; font-size: 13px;">
+          ※ 임상연구 전문가, 재활의학 자문위원 포지션의 경우 관련 연구 실적 목록 또는 임상 약력을 함께 제출하여 주십시오.
+        </p>
+        <div class="email-line">
+          <span class="email-label">채용 문의</span>
+          <a href="mailto:recruit@tenex.kr" class="email-addr">recruit@tenex.kr</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── FOOTER ── -->
+  <footer>
+    <div class="footer-inner container">
+      <p class="footer-brand">KINEMEDICAL</p>
+      <p>© 2026 KINEMEDICAL. All rights reserved.</p>
+      <p>주식회사 테넥스 | 사업자등록번호 XXX-XX-XXXXX</p>
+    </div>
+  </footer>
+
+</body>
+</html>
