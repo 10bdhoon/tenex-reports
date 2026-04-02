@@ -66,14 +66,43 @@ body{font-family:'Pretendard',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-s
 .fade-in.visible{opacity:1;transform:translateY(0)}
 
 @media(max-width:768px){
+  /* Nav */
   .nav-links{display:none}
   .hamburger{display:block}
   .mobile-menu.open{display:block}
-  .hero{padding:130px 20px 80px}
-  .hero h1{font-size:2rem}
-  .section{padding:64px 20px}
-  .benefit-grid{grid-template-columns:1fr}
+  .nav-inner{padding:0 16px}
+
+  /* Hero */
+  .hero{padding:96px 16px 64px}
+  .hero h1{font-size:1.75rem;letter-spacing:-.5px;word-break:keep-all}
+  .hero-sub{font-size:.95rem}
+  .hero-badge{font-size:.78rem}
+
+  /* Section */
+  .section{padding:64px 16px}
+  .section-inner{width:100%}
+
+  /* Benefit grid */
+  .benefit-grid{grid-template-columns:1fr;gap:16px;margin-top:32px}
+  .benefit-card{padding:28px 20px}
+  .benefit-icon{font-size:2.2rem;margin-bottom:14px}
+  .benefit-card h3{font-size:1.1rem}
+  .benefit-card p{font-size:.9rem}
   .highlight-card{grid-column:span 1}
+
+  /* CTA */
+  .cta-section{padding:64px 16px}
+  .cta-section h2{font-size:1.5rem;word-break:keep-all}
+  .cta-section p{font-size:.9rem}
+  .btn-primary{padding:14px 28px;font-size:.9rem;justify-content:center;width:100%}
+
+  /* Footer */
+  .footer{padding:40px 16px}
+}
+
+@media(max-width:375px){
+  .hero h1{font-size:1.5rem}
+  .benefit-card{padding:22px 16px}
 }
 </style>
 </head>

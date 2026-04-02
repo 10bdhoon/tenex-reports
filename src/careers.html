@@ -100,19 +100,62 @@ body{font-family:'Pretendard',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-s
 
 /* RESPONSIVE */
 @media(max-width:768px){
+  /* Nav */
   .nav-links,.nav-cta-wrap{display:none}
   .hamburger{display:block}
   .mobile-menu.open{display:block}
-  .hero{padding:130px 20px 80px}
-  .hero h1{font-size:2rem}
-  .hero-mission{font-size:1rem}
-  .stats-inner{grid-template-columns:repeat(2,1fr);gap:24px}
-  .stat-num{font-size:2rem}
-  .section{padding:80px 20px}
-  .section-title{font-size:1.6rem}
-  .dna-grid{grid-template-columns:1fr}
-  .benefit-preview{grid-template-columns:repeat(2,1fr)}
-  .hero-actions{flex-direction:column;align-items:center}
+  .nav-inner{padding:0 16px}
+
+  /* Hero */
+  .hero{padding:96px 16px 64px}
+  .hero h1{font-size:1.75rem;letter-spacing:-.5px;word-break:keep-all}
+  .hero-mission{font-size:.95rem;margin-bottom:32px}
+  .hero-badge{font-size:.78rem;padding:5px 14px}
+  .hero-actions{flex-direction:column;align-items:stretch;padding:0 8px}
+  .btn-primary,.btn-secondary{justify-content:center;padding:14px 24px;font-size:.95rem}
+
+  /* Stats */
+  .stats{padding:48px 16px}
+  .stats-inner{grid-template-columns:repeat(2,1fr);gap:16px}
+  .stats-inner .stat-item:last-child{grid-column:1 / -1}
+  .stat-num{font-size:1.8rem}
+  .stat-label{font-size:.85rem}
+
+  /* Sections */
+  .section{padding:64px 16px}
+  .section-inner{width:100%}
+  .section-title{font-size:1.5rem;word-break:keep-all}
+  .section-desc{font-size:.95rem;margin-bottom:32px}
+
+  /* DNA */
+  .dna-grid{grid-template-columns:1fr;gap:12px}
+  .dna-card{padding:24px 20px}
+  .dna-icon{font-size:2rem}
+
+  /* Benefits */
+  .benefit-preview{grid-template-columns:repeat(2,1fr);gap:12px}
+  .benefit-item{padding:20px 12px}
+  .benefit-icon{font-size:1.6rem;margin-bottom:8px}
+  .benefit-item h4{font-size:.875rem}
+  .benefit-item p{font-size:.78rem}
+
+  /* Video */
+  .video-section{padding:64px 16px}
+
+  /* CTA */
+  .cta-section{padding:64px 16px}
+  .cta-section h2{font-size:1.6rem;word-break:keep-all}
+  .cta-section p{font-size:.95rem}
+  .cta-section .btn-primary{font-size:.95rem;padding:14px 28px}
+
+  /* Footer */
+  .footer{padding:48px 16px}
+}
+
+@media(max-width:375px){
+  .hero h1{font-size:1.55rem}
+  .stats-inner{grid-template-columns:1fr 1fr}
+  .benefit-preview{grid-template-columns:1fr 1fr}
 }
 </style>
 </head>
