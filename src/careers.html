@@ -82,6 +82,13 @@ body{font-family:'Pretendard',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-s
 .build-traction-num{font-size:2rem;font-weight:900;color:var(--gold-light);line-height:1;margin-bottom:6px;letter-spacing:-1px}
 .build-traction-label{font-size:.9rem;opacity:.8;line-height:1.5}
 .build-vision{background:linear-gradient(135deg,var(--navy-dark),var(--navy));border-radius:16px;padding:36px 40px;text-align:center;color:var(--white)}
+.build-app-banner{display:flex;align-items:flex-start;gap:20px;background:linear-gradient(135deg,#001a3a,#002855);border:1px solid rgba(201,169,106,.25);border-radius:16px;padding:28px 32px;margin:12px 0 40px;position:relative;overflow:hidden}
+.build-app-banner::before{content:'';position:absolute;inset:0;background:repeating-linear-gradient(45deg,transparent,transparent 20px,rgba(201,169,106,.03) 20px,rgba(201,169,106,.03) 21px)}
+.build-app-badge{position:absolute;top:16px;right:16px;background:rgba(201,169,106,.2);border:1px solid rgba(201,169,106,.4);color:#c9a96a;font-size:.7rem;font-weight:800;letter-spacing:1px;padding:4px 10px;border-radius:20px;text-transform:uppercase}
+.build-app-icon{font-size:2.8rem;flex-shrink:0;line-height:1;padding-top:4px}
+.build-app-title{font-size:1.05rem;font-weight:800;color:var(--white);margin-bottom:10px;line-height:1.4}
+.build-app-desc{font-size:.88rem;color:rgba(255,255,255,.75);line-height:1.7}
+.build-app-desc strong{color:var(--gold-light)}
 .build-vision p{font-size:1.2rem;font-weight:700;line-height:1.7;opacity:.95}
 .build-vision p em{font-style:normal;color:var(--gold-light)}
 
@@ -169,6 +176,8 @@ body{font-family:'Pretendard',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-s
   .build-traction-num{font-size:1.6rem}
   .build-vision{padding:24px 20px}
   .build-vision p{font-size:1rem}
+  .build-app-banner{flex-direction:column;gap:12px;padding:24px 20px}
+  .build-app-badge{top:12px;right:12px}
 
   /* DNA */
   .dna-grid{grid-template-columns:1fr;gap:12px}
@@ -305,6 +314,16 @@ body{font-family:'Pretendard',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-s
           <div class="build-product-name">WS-200 — 근적외선 찜질기</div>
           <div class="build-product-desc">108개 LED 밀착형 근적외선 찜질기</div>
         </div>
+      </div>
+    </div>
+
+    <!-- AI 운동 앱 (Coming Soon) -->
+    <div class="build-app-banner fade-in">
+      <div class="build-app-badge">Coming Soon</div>
+      <div class="build-app-icon">📱</div>
+      <div class="build-app-body">
+        <div class="build-app-title">그리고, 이 모든 걸 하나로 묶는 앱을 만들고 있습니다</div>
+        <div class="build-app-desc">RAG 기반 AI가 통증별 맞춤 운동·회복 루틴을 제안합니다. 운동 → 회복 → 교정 → 고정, 4단계가 하나의 앱 안에서 이어집니다. 루틴 속에 기기 사용이 자연스럽게 녹아드는 구조 — 기기만 파는 회사가 아니라, <strong>회복 생태계를 만드는 회사</strong>입니다.</div>
       </div>
     </div>
 
