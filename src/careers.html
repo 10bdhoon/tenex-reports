@@ -28,7 +28,10 @@ body{font-family:'Pretendard',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-s
 .mobile-menu a:hover,.mobile-menu a.active{background:rgba(255,255,255,0.08);color:var(--white)}
 
 /* HERO */
-.hero{background:linear-gradient(165deg,var(--navy-dark) 0%,var(--navy) 40%,var(--navy-light) 100%);color:var(--white);padding:160px 32px 120px;text-align:center;position:relative;overflow:hidden}
+.hero{position:relative;color:var(--white);padding:160px 32px 120px;text-align:center;overflow:hidden;background:var(--navy-dark)}
+.hero-video-bg{position:absolute;inset:0;width:100%;height:100%;z-index:0;pointer-events:none;overflow:hidden}
+.hero-video-bg iframe{position:absolute;top:50%;left:50%;width:177.78vh;min-width:100%;height:56.25vw;min-height:100%;transform:translate(-50%,-50%);border:none;pointer-events:none}
+.hero-video-overlay{position:absolute;inset:0;background:linear-gradient(165deg,rgba(0,10,30,0.82) 0%,rgba(0,20,50,0.75) 50%,rgba(0,30,70,0.7) 100%);z-index:1}
 .hero-video-bg{position:absolute;inset:0;z-index:0;overflow:hidden;pointer-events:none}
 .hero-video-bg iframe{position:absolute;top:50%;left:50%;width:177.78vh;height:100vh;min-width:100%;min-height:56.25vw;transform:translate(-50%,-50%);opacity:0.07;pointer-events:none;border:none}
 .hero-video-overlay{position:absolute;inset:0;background:linear-gradient(165deg,rgba(0,26,58,0.92) 0%,rgba(0,40,85,0.88) 50%,rgba(0,61,122,0.9) 100%);z-index:0}
@@ -123,6 +126,15 @@ body{font-family:'Pretendard',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-s
 .hero-pill.yt{background:rgba(255,255,255,0.12);border:1px solid rgba(255,255,255,0.2);color:var(--white)}
 .hero-pill.hw{background:rgba(201,164,0,0.18);border:1px solid rgba(201,164,0,0.3);color:var(--gold-light)}
 .hero-pill.rev{background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);color:rgba(255,255,255,0.9)}
+
+/* YOUTUBE THUMBNAILS */
+.thumb-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-top:32px}
+.thumb-item{position:relative;border-radius:10px;overflow:hidden;aspect-ratio:16/9;cursor:pointer;transition:transform .25s}
+.thumb-item:hover{transform:scale(1.03)}
+.thumb-item img{width:100%;height:100%;object-fit:cover;display:block}
+.thumb-play{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,0.2);transition:background .2s}
+.thumb-play::after{content:'▶';font-size:1.8rem;color:rgba(255,255,255,0.85);text-shadow:0 2px 8px rgba(0,0,0,0.5)}
+.thumb-item:hover .thumb-play{background:rgba(0,0,0,0.4)}
 /* GROWTH CHART */
 .growth-section{padding:80px 32px;background:var(--navy-dark);color:var(--white)}
 .growth-inner{max-width:900px;margin:0 auto}
@@ -332,6 +344,7 @@ body{font-family:'Pretendard',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-s
   .video-section{padding:64px 16px}
   .video-wrap{border-radius:10px}
   .video-wrap iframe{width:100%;aspect-ratio:16/9;display:block}
+  .thumb-grid{grid-template-columns:repeat(3,1fr);gap:8px}
   
   /* Hero video bg */
   .hero-video-bg{display:none}
@@ -783,6 +796,31 @@ body{font-family:'Pretendard',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-s
       <iframe src="https://www.youtube.com/embed/4v9uVkh63ys?start=155" title="1분도수 대표 영상" allow="accelerometer;autoplay;clipboard-write;encrypted-media;gyroscope;picture-in-picture" allowfullscreen loading="lazy"></iframe>
     </div>
     <div style="text-align:center;margin-top:24px"><a href="https://www.youtube.com/@1%EB%B6%84%EB%8F%84%EC%88%98" target="_blank" style="color:rgba(255,255,255,0.6);text-decoration:none;font-size:.95rem">📺 1분도수 유튜브 채널 바로가기 →</a></div>
+
+    <!-- 인기 영상 썸네일 그리드 -->
+    <div style="margin-top:40px;font-size:.8rem;font-weight:700;color:rgba(255,255,255,0.4);letter-spacing:.5px;text-align:center;margin-bottom:16px;text-transform:uppercase">인기 영상</div>
+    <div class="thumb-grid">
+      <a href="https://www.youtube.com/watch?v=0qv0YWnRK2k" target="_blank" class="thumb-item">
+        <img src="https://img.youtube.com/vi/0qv0YWnRK2k/maxresdefault.jpg" alt="목 어깨 수면자세" loading="lazy">
+        <div class="thumb-play"></div>
+      </a>
+      <a href="https://www.youtube.com/watch?v=9_vgn-TBV_A" target="_blank" class="thumb-item">
+        <img src="https://img.youtube.com/vi/9_vgn-TBV_A/maxresdefault.jpg" alt="거북목 일자목 통증" loading="lazy">
+        <div class="thumb-play"></div>
+      </a>
+      <a href="https://www.youtube.com/watch?v=InieLaiFSaI" target="_blank" class="thumb-item">
+        <img src="https://img.youtube.com/vi/InieLaiFSaI/maxresdefault.jpg" alt="어깨 돌덩이 마사지" loading="lazy">
+        <div class="thumb-play"></div>
+      </a>
+      <a href="https://www.youtube.com/watch?v=p8r1XP7DJjg" target="_blank" class="thumb-item">
+        <img src="https://img.youtube.com/vi/p8r1XP7DJjg/maxresdefault.jpg" alt="뭉친어깨 마사지법" loading="lazy">
+        <div class="thumb-play"></div>
+      </a>
+      <a href="https://www.youtube.com/watch?v=eXEV2RQlzxo" target="_blank" class="thumb-item">
+        <img src="https://img.youtube.com/vi/eXEV2RQlzxo/maxresdefault.jpg" alt="거북목 방치하면" loading="lazy">
+        <div class="thumb-play"></div>
+      </a>
+    </div>
   </div>
 </section>
 
@@ -818,6 +856,12 @@ if (window.innerWidth <= 768) {
     });
   }, {threshold: 0.1});
   document.querySelectorAll('.fade-in').forEach(el => io.observe(el));
+}
+
+// 히어로 영상 배경 — 모바일 숨김 (데이터 절약)
+if (window.innerWidth <= 768) {
+  const vbg = document.querySelector('.hero-video-bg');
+  if (vbg) vbg.style.display = 'none';
 }
 
 // 바 차트 스크롤 애니메이션 — 뷰포트 진입 시 바 높이 적용
