@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI 실장 사용 가이드 — 테넥스</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#0d1117;color:#c9d1d9;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Apple SD Gothic Neo',sans-serif;padding:20px;max-width:900px;margin:0 auto;line-height:1.7}
+h1{text-align:center;font-size:1.8em;margin:20px 0 5px;color:#58a6ff}
+.subtitle{text-align:center;color:#8b949e;margin-bottom:30px}
+h2{color:#58a6ff;margin:35px 0 15px;padding-bottom:8px;border-bottom:1px solid #21262d}
+h3{color:#e6edf3;margin:20px 0 10px}
+.card{background:#161b22;border:1px solid #21262d;border-radius:12px;padding:20px;margin:15px 0}
+.danger{border-color:#f85149;background:#1a0e0e}
+.warning{border-color:#d29922;background:#1a1500}
+.success{border-color:#3fb950;background:#0e1a12}
+.info{border-color:#58a6ff;background:#0d1a2e}
+code{background:#0d1117;padding:2px 6px;border-radius:4px;font-size:.9em;color:#79c0ff}
+ul{padding-left:20px;margin:8px 0}
+li{margin:6px 0}
+.emoji-title{font-size:1.3em;margin-bottom:8px}
+.do-dont{display:grid;grid-template-columns:1fr 1fr;gap:15px;margin:15px 0}
+@media(max-width:600px){.do-dont{grid-template-columns:1fr}}
+.do-box{background:#0e1a12;border:1px solid #3fb950;border-radius:12px;padding:16px}
+.dont-box{background:#1a0e0e;border:1px solid #f85149;border-radius:12px;padding:16px}
+.do-box h4{color:#3fb950;margin-bottom:8px}
+.dont-box h4{color:#f85149;margin-bottom:8px}
+.tip{background:#1a1500;border-left:3px solid #d29922;padding:12px 16px;border-radius:0 8px 8px 0;margin:12px 0;font-size:.9em}
+.agent-card{display:flex;align-items:center;gap:12px;padding:12px;background:#0d1117;border-radius:8px;margin:8px 0}
+.agent-emoji{font-size:1.8em}
+.agent-info{flex:1}
+.agent-name{font-weight:700;color:#e6edf3}
+.agent-role{color:#8b949e;font-size:.85em}
+</style>
+</head>
+<body>
+
+<h1>🤖 AI 실장 사용 가이드</h1>
+<p class="subtitle">테넥스 팀원용 — 슬랙에서 AI 실장과 효율적으로 일하는 법</p>
+
+<!-- AI 실장 소개 -->
+<h2>👋 AI 실장이 뭐예요?</h2>
+<div class="card info">
+  <p>테넥스에는 4명의 AI 실장이 슬랙에서 일하고 있어요. 각 실장은 담당 분야의 <strong>PM(프로젝트 매니저)</strong> 역할을 합니다.</p>
+  <p style="margin-top:8px">실장에게 멘션(@)하면 업무 관련 질문, 자료 요청, 분석 등을 도와줍니다.</p>
+  
+  <div style="margin-top:16px">
+    <div class="agent-card">
+      <div class="agent-emoji">📣</div>
+      <div class="agent-info">
+        <div class="agent-name">마실장</div>
+        <div class="agent-role">마케팅/광고 — 메타 광고, CRM, 소재 기획</div>
+      </div>
+    </div>
+    <div class="agent-card">
+      <div class="agent-emoji">🔧</div>
+      <div class="agent-info">
+        <div class="agent-name">개실장</div>
+        <div class="agent-role">개발/AI — 앱, 자동화, 시스템</div>
+      </div>
+    </div>
+    <div class="agent-card">
+      <div class="agent-emoji">🎬</div>
+      <div class="agent-info">
+        <div class="agent-name">콘실장</div>
+        <div class="agent-role">콘텐츠/채널 — 유튜브, SNS, 댓글 관리</div>
+      </div>
+    </div>
+    <div class="agent-card">
+      <div class="agent-emoji">💚</div>
+      <div class="agent-info">
+        <div class="agent-name">고실장</div>
+        <div class="agent-role">고객성공 — CS, 리뷰, 고객 여정</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 기본 사용법 -->
+<h2>📌 기본 사용법</h2>
+<div class="card">
+  <h3>1. 멘션해야 응답합니다</h3>
+  <p>슬랙에서 <code>@마실장</code> <code>@개실장</code> <code>@콘실장</code> <code>@고실장</code> 멘션해야 응답해요. 멘션 없으면 무시합니다.</p>
+  
+  <h3 style="margin-top:16px">2. 질문은 구체적으로</h3>
+  <div class="do-dont">
+    <div class="do-box">
+      <h4>✅ 좋은 예</h4>
+      <ul>
+        <li>"@개실장 tenex-reports에 3월 SNS 트래킹 페이지 추가해줘. 인스타/틱톡/스레드 팔로워 추이 차트로"</li>
+        <li>"@고실장 이번 주 CS-25 불만 접수 건 정리해줘. 카페24 게시판 기준"</li>
+      </ul>
+    </div>
+    <div class="dont-box">
+      <h4>❌ 나쁜 예</h4>
+      <ul>
+        <li>"@개실장 페이지 만들어줘"</li>
+        <li>"@고실장 CS 어때?"</li>
+      </ul>
+    </div>
+  </div>
+
+  <h3 style="margin-top:16px">3. 한 번에 하나씩</h3>
+  <p>여러 작업을 한 메시지에 넣지 말고, <strong>하나씩 요청</strong>하세요. 실장이 더 정확하게 처리합니다.</p>
+</div>
+
+<!-- 스레드 규칙 -->
+<h2>💬 슬랙 스레드 규칙</h2>
+<div class="card warning">
+  <h3>⚠️ 스레드 50개 넘으면 새로 시작!</h3>
+  <p>슬랙 스레드에 대화가 쌓이면 실장이 <strong>매번 전체를 다시 읽어요</strong>. 100개 쌓이면 토큰(= 비용) 엄청 나갑니다.</p>
+  
+  <ul>
+    <li><strong>50개 넘으면</strong> → 새 메시지로 시작</li>
+    <li>첫 줄에 이전 대화 요약 한 줄 넣기</li>
+    <li>형식: <code>📎 이전: [요약] → 이어서 [다음 요청]</code></li>
+  </ul>
+  
+  <div class="tip">
+    💡 <strong>왜?</strong> 스레드 50개 = 약 5만 토큰. 100개 = 약 10만 토큰. 매 응답마다 이걸 다 읽으면 하루에 수십만 토큰이 날아갑니다.
+  </div>
+</div>
+
+<!-- 토큰 절약 -->
+<h2>💰 토큰 절약하는 법</h2>
+<div class="card">
+  <ul>
+    <li><strong>긴 질문 한 번 > 짧은 질문 여러 번</strong> — 맥락을 한 번에 주면 실장이 한 번에 처리</li>
+    <li><strong>불필요한 대화 줄이기</strong> — "감사합니다", "알겠습니다" 같은 응답은 토큰 낭비</li>
+    <li><strong>파일/이미지 첨부는 필요할 때만</strong> — 이미지 하나 = 수천 토큰</li>
+    <li><strong>스레드 새로 시작</strong> — 주제 바뀌면 새 스레드</li>
+  </ul>
+</div>
+
+<!-- 절대 하지 말 것 -->
+<h2>🚫 절대 하지 말 것</h2>
+<div class="card danger">
+  <ul>
+    <li>❌ <strong><code>openclaw configure</code> 실행 금지</strong> — 전체 설정이 날아갑니다 (2026-04-02 실제 사고 발생)</li>
+    <li>❌ <strong>설정 파일 직접 수정 금지</strong> — <code>openclaw.json</code>, <code>auth-profiles.json</code> 등</li>
+    <li>❌ <strong>터미널에서 <code>openclaw</code> 명령어 실행 금지</strong> — 카리나(COO)에게 요청하세요</li>
+    <li>❌ <strong>실장한테 "코드 짜줘" 금지</strong> — 실장은 PM이에요. 코딩이 필요하면 실장이 알아서 개발자(서브에이전트)를 부릅니다</li>
+    <li>❌ <strong>민감 정보 슬랙에 올리지 마세요</strong> — 매출, 지분, 연봉 등은 태훈 대표에게 직접</li>
+  </ul>
+</div>
+
+<!-- 문제 생기면 -->
+<h2>🆘 문제 생기면?</h2>
+<div class="card success">
+  <ul>
+    <li>실장이 응답 안 하면 → <strong>태훈 대표에게 알려주세요</strong> (카리나가 확인)</li>
+    <li>이상한 응답이 오면 → <strong>스크린샷 찍어서 태훈에게</strong></li>
+    <li>시스템 관련 문의 → <strong>직접 건드리지 말고 태훈에게</strong></li>
+  </ul>
+  
+  <div class="tip">
+    💡 AI 실장은 사람이 아니에요. 가끔 틀릴 수 있습니다. 중요한 숫자나 결정은 반드시 더블체크!
+  </div>
+</div>
+
+<!-- FAQ -->
+<h2>❓ FAQ</h2>
+<div class="card">
+  <h3>Q. 실장한테 아무거나 물어봐도 돼요?</h3>
+  <p>업무 관련이면 OK. 개인적인 질문이나 업무 외 잡담은 피해주세요.</p>
+
+  <h3 style="margin-top:16px">Q. 여러 실장한테 동시에 물어봐도 돼요?</h3>
+  <p>네, 담당 분야가 다르면 각각 멘션하세요. 같은 질문을 여러 실장한테 보내는 건 비효율.</p>
+
+  <h3 style="margin-top:16px">Q. 실장이 틀린 답변을 하면?</h3>
+  <p>"이거 틀린 것 같은데 확인해줘"라고 하면 재확인합니다. 그래도 이상하면 태훈에게.</p>
+
+  <h3 style="margin-top:16px">Q. 밤에도 응답해요?</h3>
+  <p>네, 24시간 응답합니다. 근데 새벽에는 응답이 느릴 수 있어요.</p>
+</div>
+
+<p style="text-align:center;color:#8b949e;margin-top:40px;font-size:.85em">
+  마지막 업데이트: 2026-04-02 · 카리나 작성<br>
+  문의: 태훈 대표 (텔레그램)
+</p>
+
+</body>
+</html>
