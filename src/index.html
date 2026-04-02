@@ -930,6 +930,9 @@ body.sidebar-collapsed .header-toggle{display:flex}
 .tb-cl-drag-handle{color:var(--text-secondary);font-size:13px;cursor:grab;padding:0 2px;flex-shrink:0;user-select:none;opacity:.4;transition:opacity .15s}
 .tb-cl-drag-handle:hover{opacity:1}
 .tb-cat-task.cl-drop-target{background:var(--accent-light)!important;border:1px dashed var(--accent);border-radius:7px;box-shadow:0 0 6px rgba(0,40,85,.2)}
+.tb-cat-task.task-dragging{opacity:.4;background:var(--accent-light)}
+.tb-cat-task.task-drag-above{border-top:2px solid var(--accent)!important}
+.tb-cat-task.task-drag-below{border-bottom:2px solid var(--accent)!important}
 .tb-detail-checklist-add{display:flex;gap:6px;margin-top:6px}
 .tb-detail-checklist-add input{flex:1;padding:5px 8px;border:1px solid var(--border);border-radius:6px;background:var(--bg);color:var(--text);font-size:12px;outline:none}
 .tb-detail-checklist-add input:focus{border-color:var(--accent)}
@@ -1804,7 +1807,7 @@ function renderTbTasks(){
         const urgDot=t.urgency==='red'?'🔴':t.urgency==='yellow'?'🟡':'🟢';
         const cbClass='tb-task-checkbox state-'+t.status;
         const cbChecked=t.status==='done'?' checked':'';
-        html+='<div class="tb-cat-task urgency-'+t.urgency+(isDone?' done-task':'')+'" data-tid="'+t.id+'">';
+        html+='<div class="tb-cat-task urgency-'+t.urgency+(isDone?' done-task':'')+'" data-tid="'+t.id+'" draggable="true">';
         html+='<div class="tb-cat-task-row">';
         html+='<span class="tb-cat-order-num" data-tid="'+t.id+'" data-cat="'+cat.key+'" title="클릭하여 순서 변경">'+(tasks.indexOf(t)+1)+'</span>';
         html+='<input type="checkbox" class="'+cbClass+'" data-tid="'+t.id+'"'+cbChecked+' title="'+TB_STATUS_LABEL[t.status]+'">';
@@ -1995,6 +1998,63 @@ function renderTbTasks(){
       });
     };
   });
+
+  // ── Task Card Drag & Drop (within same category reorder) ──
+  let _taskDragTid=null,_taskDragCat=null;
+  list.querySelectorAll('.tb-cat-task[draggable]').forEach(el=>{
+    el.addEventListener('dragstart',e=>{
+      // Skip if checklist drag is active
+      if(_clDragIdx!==null)return;
+      _taskDragTid=el.dataset.tid;
+      const task=tbTasks.find(t=>t.id===_taskDragTid);
+      _taskDragCat=task?task.cat:null;
+      el.classList.add('task-dragging');
+      e.dataTransfer.effectAllowed='move';
+      e.dataTransfer.setData('application/x-task-drag',_taskDragTid);
+    });
+    el.addEventListener('dragend',()=>{
+      el.classList.remove('task-dragging');
+      _taskDragTid=null;_taskDragCat=null;
+      list.querySelectorAll('.tb-cat-task').forEach(c=>c.classList.remove('task-drag-above','task-drag-below'));
+    });
+    el.addEventListener('dragover',e=>{
+      if(!_taskDragTid)return;
+      const targetTask=tbTasks.find(t=>t.id===el.dataset.tid);
+      if(!targetTask||targetTask.cat!==_taskDragCat)return;
+      e.preventDefault();e.dataTransfer.dropEffect='move';
+      list.querySelectorAll('.tb-cat-task').forEach(c=>c.classList.remove('task-drag-above','task-drag-below'));
+      const rect=el.getBoundingClientRect();
+      if(e.clientY<rect.top+rect.height/2)el.classList.add('task-drag-above');
+      else el.classList.add('task-drag-below');
+    });
+    el.addEventListener('dragleave',()=>{
+      el.classList.remove('task-drag-above','task-drag-below');
+    });
+    el.addEventListener('drop',e=>{
+      e.preventDefault();
+      const srcTid=e.dataTransfer.getData('application/x-task-drag');
+      if(!srcTid)return;
+      el.classList.remove('task-drag-above','task-drag-below');
+      const targetTid=el.dataset.tid;
+      if(srcTid===targetTid)return;
+      const srcTask=tbTasks.find(t=>t.id===srcTid);
+      const targetTask=tbTasks.find(t=>t.id===targetTid);
+      if(!srcTask||!targetTask||srcTask.cat!==targetTask.cat)return;
+      const catKey=srcTask.cat;
+      const catTasks=tbTasks.filter(t=>t.cat===catKey).sort((a,b)=>(a.sortOrder||0)-(b.sortOrder||0));
+      const fromIdx=catTasks.findIndex(t=>t.id===srcTid);
+      const toIdx=catTasks.findIndex(t=>t.id===targetTid);
+      if(fromIdx<0||toIdx<0)return;
+      const rect=el.getBoundingClientRect();
+      let insertIdx=e.clientY<rect.top+rect.height/2?toIdx:toIdx+1;
+      if(fromIdx===insertIdx||fromIdx+1===insertIdx)return;
+      const [moved]=catTasks.splice(fromIdx,1);
+      const adj=insertIdx>fromIdx?insertIdx-1:insertIdx;
+      catTasks.splice(adj,0,moved);
+      catTasks.forEach((t,i)=>t.sortOrder=i+1);
+      saveTasks();renderTbAll();
+    });
+  });
 }
 
 function escapeHtml(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;')}
@@ -2003,6 +2063,7 @@ function escapeHtml(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').repla
 function openDetailPanel(tid){
   const task=tbTasks.find(t=>t.id===tid);
   if(!task)return;
+  closeDetailPanel();
   tbDetailTid=tid;
   const panel=document.getElementById('tbDetailPanel');
   const overlay=document.getElementById('tbDetailOverlay');
