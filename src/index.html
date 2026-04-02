@@ -840,11 +840,40 @@ body.sidebar-collapsed .header-toggle{display:flex}
 .tb-priority-urgency{font-size:14px;flex-shrink:0}
 .tb-priority-title-text{flex:1;font-size:13px;font-weight:600;color:var(--text);min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;cursor:pointer}
 .tb-priority-title-text:hover{color:var(--accent)}
-.tb-priority-cat{font-size:10px;padding:2px 8px;border-radius:10px;background:var(--accent-light);color:var(--text-secondary);font-weight:600;flex-shrink:0}
-.tb-priority-imp{font-size:10px;padding:2px 6px;border-radius:6px;background:#ede9fe;color:#7c3aed;font-weight:600;flex-shrink:0}
+.tb-priority-cat{font-size:10px;padding:2px 8px;border-radius:10px;font-weight:700;flex-shrink:0;border:1.5px solid transparent}
+.tb-priority-cat[data-cat="A"]{background:#e0f2fe;color:#0369a1;border-color:#bae6fd}
+.tb-priority-cat[data-cat="B"]{background:#fef3c7;color:#92400e;border-color:#fde68a}
+.tb-priority-cat[data-cat="C"]{background:#d1fae5;color:#065f46;border-color:#a7f3d0}
+.tb-priority-cat[data-cat="D"]{background:#fce7f3;color:#9d174d;border-color:#fbcfe8}
+.tb-priority-cat[data-cat="E"]{background:#e0e7ff;color:#3730a3;border-color:#c7d2fe}
+.tb-priority-cat[data-cat="F"]{background:#fef9c3;color:#713f12;border-color:#fef08a}
+.tb-priority-cat[data-cat="G"]{background:#ede9fe;color:#5b21b6;border-color:#ddd6fe}
+.tb-priority-cat[data-cat="H"]{background:#f3f4f6;color:#374151;border-color:#d1d5db}
+.tb-priority-cat[data-cat="I"]{background:#cffafe;color:#155e75;border-color:#a5f3fc}
+.tb-priority-cat[data-cat="J"]{background:#dcfce7;color:#166534;border-color:#bbf7d0}
+.tb-priority-cat[data-cat="K"]{background:#fee2e2;color:#991b1b;border-color:#fecaca}
+.tb-priority-cat[data-cat="Z"]{background:#f5f3ff;color:#6d28d9;border-color:#e9d5ff}
+.tb-priority-cat[data-cat="★"]{background:#fff7ed;color:#c2410c;border-color:#fed7aa}
+[data-theme="dark"] .tb-priority-cat{opacity:.9}
+.tb-priority-status-label{font-size:10px;padding:3px 8px;border-radius:8px;font-weight:700;flex-shrink:0;cursor:pointer;user-select:none;transition:all .15s;letter-spacing:.3px}
+.tb-priority-status-label:hover{filter:brightness(1.1);transform:scale(1.05)}
+.tb-priority-status-label[data-status="waiting"]{background:#f3f4f6;color:#6b7280;border:1px solid #d1d5db}
+.tb-priority-status-label[data-status="doing"]{background:#dbeafe;color:#1d4ed8;border:1px solid #93c5fd}
+.tb-priority-status-label[data-status="done"]{background:#dcfce7;color:#15803d;border:1px solid #86efac}
+[data-theme="dark"] .tb-priority-status-label[data-status="waiting"]{background:rgba(107,114,128,.15);color:#9ca3af;border-color:rgba(107,114,128,.3)}
+[data-theme="dark"] .tb-priority-status-label[data-status="doing"]{background:rgba(59,130,246,.15);color:#93c5fd;border-color:rgba(59,130,246,.3)}
+[data-theme="dark"] .tb-priority-status-label[data-status="done"]{background:rgba(34,197,94,.15);color:#86efac;border-color:rgba(34,197,94,.3)}
+.tb-priority-tags{display:flex;gap:4px;flex-shrink:0;align-items:center}
+.tb-priority-tag-urgent{font-size:10px;padding:2px 6px;border-radius:6px;font-weight:700;flex-shrink:0}
+.tb-priority-tag-urgent[data-level="red"]{background:#fee2e2;color:#dc2626}
+.tb-priority-tag-urgent[data-level="yellow"]{background:#fef9c3;color:#ca8a04}
+.tb-priority-tag-urgent[data-level="green"]{background:#dcfce7;color:#16a34a}
+[data-theme="dark"] .tb-priority-tag-urgent[data-level="red"]{background:rgba(220,38,38,.15);color:#fca5a5}
+[data-theme="dark"] .tb-priority-tag-urgent[data-level="yellow"]{background:rgba(234,179,8,.15);color:#fde68a}
+[data-theme="dark"] .tb-priority-tag-urgent[data-level="green"]{background:rgba(22,163,74,.15);color:#86efac}
+.tb-priority-imp{font-size:10px;padding:2px 6px;border-radius:6px;background:#ede9fe;color:#7c3aed;font-weight:700;flex-shrink:0}
 [data-theme="dark"] .tb-priority-imp{background:rgba(139,92,246,0.15);color:#c4b5fd}
-.tb-priority-status{font-size:15px;cursor:pointer;user-select:none;flex-shrink:0;padding:2px;border-radius:4px;transition:background .15s}
-.tb-priority-status:hover{background:rgba(0,40,85,0.1)}
+.tb-priority-assignee{font-size:11px;color:var(--text-secondary);font-weight:600;flex-shrink:0;max-width:60px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 /* ── Task Checkbox ── */
 .tb-task-checkbox{position:relative;width:16px;height:16px;cursor:pointer;flex-shrink:0;accent-color:var(--accent)}
 .tb-task-checkbox.state-waiting{opacity:.4}
@@ -1823,16 +1852,20 @@ function renderTbTasks(){
     html+='<div class="tb-priority-title">🎯 우선순위 리스트</div>';
     html+='<div class="tb-priority-list">';
     plTasks.forEach((t,idx)=>{
-      const urgDot=t.urgency==='red'?'🔴':t.urgency==='yellow'?'🟡':'🟢';
       const c=catMapPL[t.cat];
-      const catLabel=c?c.icon+' '+c.key:'';
+      const catLabel=c?c.icon+' '+c.label.replace(/^[A-Z★]\s*/,''):'';
+      const urgLabel=t.urgency==='red'?'긴급':t.urgency==='yellow'?'보통':'낮음';
+      const statusLabel=TB_STATUS_LABEL[t.status]||'대기';
       html+='<div class="tb-priority-item" data-tid="'+t.id+'">';
       html+='<span class="tb-priority-order-num" data-idx="'+idx+'" title="클릭하여 순서 변경">'+(idx+1)+'</span>';
-      html+='<span class="tb-priority-urgency">'+urgDot+'</span>';
-      html+='<span class="tb-priority-title-text" title="'+escapeHtml(t.title)+'">'+escapeHtml(t.title)+'</span>';
-      html+='<span class="tb-priority-cat">'+catLabel+'</span>';
+      html+='<span class="tb-priority-cat" data-cat="'+(t.cat||'')+'">'+catLabel+'</span>';
+      html+='<span class="tb-priority-status-label" data-status="'+t.status+'" data-tid="'+t.id+'" title="클릭하여 상태 변경">'+statusLabel+'</span>';
+      html+='<span class="tb-priority-tags">';
+      html+='<span class="tb-priority-tag-urgent" data-level="'+t.urgency+'">'+urgLabel+'</span>';
       html+='<span class="tb-priority-imp">'+t.importance+'</span>';
-      html+='<span class="tb-priority-status" data-tid="'+t.id+'" title="클릭하여 상태 변경">'+TB_STATUS_EMOJI[t.status]+'</span>';
+      html+='</span>';
+      html+='<span class="tb-priority-title-text" title="'+escapeHtml(t.title)+'">'+escapeHtml(t.title)+'</span>';
+      html+='<span class="tb-priority-assignee" title="'+(t.assignee||'')+'">'+escapeHtml(t.assignee||'')+'</span>';
       html+='</div>';
     });
     html+='</div></div>';
@@ -1844,8 +1877,8 @@ function renderTbTasks(){
   list.querySelectorAll('.tb-task-checkbox.state-doing').forEach(cb=>{cb.indeterminate=true;cb.checked=false});
 
   // ── Events ──
-  // Priority list status toggle
-  list.querySelectorAll('.tb-priority-status').forEach(el=>el.onclick=e=>{
+  // Priority list status toggle (text label)
+  list.querySelectorAll('.tb-priority-status-label').forEach(el=>el.onclick=e=>{
     e.stopPropagation();
     const task=tbTasks.find(t=>t.id===el.dataset.tid);
     if(!task)return;
