@@ -4,354 +4,698 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>테넥스 Jobs — 채용공고</title>
-<meta name="description" content="테넥스 채용공고: 인플루언서 파트너십 매니저, 미디어믹스 마케터 등.">
-<meta property="og:title" content="테넥스 Jobs — 오픈 포지션">
-<meta property="og:description" content="테넥스와 함께 성장할 인플루언서 파트너십, 마케터 등을 찾습니다.">
-<meta property="og:type" content="website">
+<meta name="description" content="테넥스 채용공고: 운영 매니저, 퍼포먼스 마케터. 3명이 월 2억을 만드는 팀에 합류하세요.">
 <link rel="preconnect" href="https://cdn.jsdelivr.net">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
 <style>
-*{margin:0;padding:0;box-sizing:border-box}
-:root{--navy:#002855;--navy-light:#003d7a;--navy-dark:#001a3a;--gold:#c9a400;--gold-light:#f0d060;--bg:#fafbfc;--text:#1a1a2e;--text-secondary:#555;--text-muted:#888;--white:#fff;--border:#e8ecf0;--red:#dc2626;--red-light:#fef2f2;--yellow:#f59e0b;--yellow-light:#fffbeb}
-html{scroll-behavior:smooth}
-body{font-family:'Pretendard',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--bg);color:var(--text);line-height:1.7;-webkit-font-smoothing:antialiased;word-break:keep-all}
-
-.nav{position:fixed;top:0;left:0;right:0;z-index:1000;background:rgba(0,40,85,0.97);backdrop-filter:blur(12px);border-bottom:1px solid rgba(255,255,255,0.08)}
-.nav-inner{max-width:1200px;margin:0 auto;padding:0 32px;display:flex;align-items:center;justify-content:space-between;height:64px}
-.nav-logo{font-size:1.2rem;font-weight:800;color:var(--white);letter-spacing:-.5px;text-decoration:none}
-.nav-logo span{color:var(--gold-light)}
-.nav-links{display:flex;gap:4px}
-.nav-links a{color:rgba(255,255,255,0.7);text-decoration:none;font-size:.9rem;font-weight:500;padding:8px 16px;border-radius:8px;transition:all .2s}
-.nav-links a:hover,.nav-links a.active{color:var(--white);background:rgba(255,255,255,0.1)}
-.nav-links a.active{font-weight:700}
-.hamburger{display:none;background:none;border:none;color:var(--white);font-size:1.5rem;cursor:pointer}
-.mobile-menu{display:none;position:fixed;top:64px;left:0;right:0;background:var(--navy);padding:16px;z-index:999}
-.mobile-menu a{display:block;color:rgba(255,255,255,0.8);text-decoration:none;padding:12px 16px;border-radius:8px;font-size:.95rem}
-.mobile-menu a.active{background:rgba(255,255,255,0.08);color:var(--white)}
-
-.hero{background:linear-gradient(165deg,var(--navy-dark),var(--navy) 50%,var(--navy-light));color:var(--white);padding:150px 32px 100px;text-align:center;position:relative;overflow:hidden}
-.hero-content{position:relative;z-index:1;max-width:700px;margin:0 auto}
-.hero-badge{display:inline-block;background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.15);padding:6px 20px;border-radius:100px;font-size:.85rem;font-weight:600;margin-bottom:28px}
-.hero h1{font-size:2.8rem;font-weight:900;line-height:1.25;margin-bottom:20px;letter-spacing:-1px}
-.hero-sub{font-size:1.15rem;opacity:.8;line-height:1.8}
-
-.section{padding:80px 32px}
-.section-inner{max-width:900px;margin:0 auto}
-.section-label{font-size:.85rem;font-weight:700;letter-spacing:1px;margin-bottom:24px;display:flex;align-items:center;gap:8px}
-.section-label.now{color:var(--red)}
-.section-label.future{color:var(--yellow)}
-
-/* JOB CARD */
-.job-card{background:var(--white);border:1px solid var(--border);border-radius:20px;padding:40px;margin-bottom:24px;transition:all .3s;position:relative}
-.job-card:hover{border-color:var(--navy);box-shadow:0 12px 32px rgba(0,40,85,0.06);transform:translateY(-2px)}
-.job-card.now{border-left:4px solid var(--red)}
-.job-card.future{border-left:4px solid var(--yellow);opacity:.85}
-.job-header{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;margin-bottom:20px;flex-wrap:wrap}
-.job-title{font-size:1.4rem;font-weight:900;color:var(--navy)}
-.job-meta{display:flex;gap:8px;flex-wrap:wrap}
-.job-tag{display:inline-block;font-size:.78rem;font-weight:600;padding:5px 14px;border-radius:8px}
-.job-tag.hiring{background:var(--red-light);color:var(--red)}
-.job-tag.planned{background:var(--yellow-light);color:#92400e}
-.job-tag.exp{background:rgba(0,40,85,0.06);color:var(--navy)}
-.job-tag.salary{background:#f0fdf4;color:#166534}
-.job-desc{font-size:1rem;color:var(--text-secondary);margin-bottom:20px;line-height:1.75}
-.job-requirements h4{font-size:.9rem;font-weight:700;color:var(--navy);margin-bottom:8px}
-.job-requirements ul{margin:0 0 0 18px}
-.job-requirements ul li{font-size:.95rem;color:var(--text-secondary);margin-bottom:6px;line-height:1.65}
-.job-requirements ul li strong{color:var(--text)}
-.job-apply{display:inline-flex;align-items:center;gap:8px;margin-top:24px;background:var(--navy);color:var(--white);font-weight:700;font-size:.9rem;padding:12px 28px;border-radius:10px;text-decoration:none;transition:all .2s}
-.job-apply:hover{background:var(--navy-light);transform:translateY(-1px)}
-
-/* FUTURE CARD */
-.future-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:20px}
-.future-card{background:var(--white);border:1px solid var(--border);border-left:4px solid var(--yellow);border-radius:16px;padding:28px;opacity:.85}
-.future-card h3{font-size:1.1rem;font-weight:800;color:var(--navy);margin-bottom:6px}
-.future-card .timing{font-size:.82rem;color:var(--yellow);font-weight:600;margin-bottom:8px}
-.future-card p{font-size:.92rem;color:var(--text-muted);line-height:1.65}
-
-/* APPLY SECTION */
-.apply-section{background:linear-gradient(135deg,var(--navy),var(--navy-light));padding:80px 32px;text-align:center;color:var(--white)}
-.apply-section h2{font-size:2rem;font-weight:900;margin-bottom:12px}
-.apply-section p{opacity:.7;margin-bottom:8px;font-size:1.05rem}
-.apply-email{display:inline-block;font-size:1.4rem;font-weight:800;color:var(--gold-light);margin:24px 0;text-decoration:none;padding:12px 32px;border:2px solid var(--gold-light);border-radius:14px;transition:all .2s}
-.apply-email:hover{background:rgba(201,164,0,0.15)}
-.apply-note{font-size:.9rem;opacity:.5;margin-top:16px;max-width:500px;margin-left:auto;margin-right:auto}
-
-.footer{background:var(--navy-dark);color:rgba(255,255,255,0.6);padding:48px 32px;text-align:center;font-size:.9rem;line-height:1.8}
-.footer a{color:var(--gold-light);text-decoration:none}
-.footer-quote{font-size:.95rem;color:rgba(255,255,255,0.4);margin-top:12px;font-style:italic}
-
-.fade-in{opacity:0;transform:translateY(30px);transition:opacity .6s ease,transform .6s ease}
-.fade-in.visible{opacity:1;transform:translateY(0)}
-
-@media(max-width:768px){
-  html,body{overflow-x:hidden}
-  .fade-in{opacity:1!important;transform:none!important}
-  .nav-links{display:none}
-  .hamburger{display:block}
-  .mobile-menu.open{display:block}
-  .nav-inner{padding:0 16px}
-  .hero{padding:96px 16px 64px}
-  .hero h1{font-size:1.75rem;word-break:keep-all}
-  .hero-sub{font-size:.95rem;word-break:keep-all}
-  .section{padding:60px 16px}
-  .section-inner{width:100%;max-width:100%}
-  .job-card{padding:24px 18px;border-radius:14px}
-  .job-header{flex-direction:column;gap:12px}
-  .job-title{font-size:1.15rem;word-break:keep-all}
-  .job-meta{gap:6px}
-  .job-tag{font-size:.75rem;padding:4px 10px}
-  .job-desc{font-size:.9rem}
-  .job-requirements h4{font-size:.85rem}
-  .job-requirements ul li{font-size:.88rem}
-  .job-apply{padding:10px 22px;font-size:.85rem;width:100%;justify-content:center}
-  .future-grid{grid-template-columns:1fr;gap:12px}
-  .future-card{padding:22px 18px}
-  .section-label{font-size:.8rem}
-  .apply-section{padding:64px 16px}
-  .apply-section h2{font-size:1.5rem;word-break:keep-all}
-  .apply-email{font-size:1.1rem;padding:10px 20px;word-break:break-all}
-  .apply-note{font-size:.85rem}
-  .footer{padding:40px 16px;word-break:keep-all}
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+:root {
+  --navy: #002855;
+  --navy-dark: #001a3a;
+  --navy-mid: #003572;
+  --gold: #FFD700;
+  --gold-dark: #d4aa00;
+  --bg: #FAFAFA;
+  --white: #FFFFFF;
+  --text: #1A1A1A;
+  --text-sub: #666666;
+  --border: #eaeef2;
+  --green: #15803d;
+  --green-bg: #f0fdf4;
+  --red: #dc2626;
+  --red-bg: #fef2f2;
 }
-@media(max-width:430px){
-  .hero h1{font-size:1.6rem}
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+  word-break: keep-all;
 }
-@media(max-width:375px){
-  .hero h1{font-size:1.45rem}
-  .job-card{padding:20px 16px}
+
+/* ─── NAV ─── */
+.nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 999;
+  background: rgba(0,40,85,0.97);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+}
+.nav-inner {
+  max-width: 1200px; margin: 0 auto;
+  padding: 0 40px;
+  height: 64px;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.nav-logo {
+  font-size: 1.15rem; font-weight: 900;
+  color: #fff; text-decoration: none; letter-spacing: -0.5px;
+}
+.nav-logo span { color: var(--gold); }
+.nav-links {
+  display: flex; gap: 4px;
+}
+.nav-links a {
+  color: rgba(255,255,255,0.65); text-decoration: none;
+  font-size: 0.9rem; font-weight: 500;
+  padding: 8px 16px; border-radius: 8px;
+  transition: all 0.2s;
+}
+.nav-links a:hover, .nav-links a.active {
+  color: #fff; background: rgba(255,255,255,0.1);
+}
+.nav-links a.active { font-weight: 700; }
+.hamburger {
+  display: none; background: none; border: none;
+  color: #fff; font-size: 1.5rem; cursor: pointer;
+}
+.mobile-menu {
+  display: none; position: fixed;
+  top: 64px; left: 0; right: 0;
+  background: var(--navy-dark); padding: 16px; z-index: 998;
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+.mobile-menu a {
+  display: block; color: rgba(255,255,255,0.75);
+  text-decoration: none; padding: 12px 16px;
+  border-radius: 8px; font-size: 0.95rem;
+}
+.mobile-menu a.active {
+  background: rgba(255,255,255,0.08); color: #fff;
+}
+.mobile-menu.open { display: block; }
+
+/* ─── FADE ─── */
+.fade-in {
+  opacity: 0; transform: translateY(28px);
+  transition: opacity 0.65s cubic-bezier(0.16,1,0.3,1), transform 0.65s cubic-bezier(0.16,1,0.3,1);
+}
+.fade-in.visible { opacity: 1; transform: translateY(0); }
+.fade-in.d1 { transition-delay: 0.1s; }
+.fade-in.d2 { transition-delay: 0.2s; }
+.fade-in.d3 { transition-delay: 0.35s; }
+
+/* ─── HERO ─── */
+.hero {
+  min-height: 55vh;
+  background: linear-gradient(160deg, var(--navy-dark) 0%, var(--navy) 60%, #004080 100%);
+  display: flex; align-items: center; justify-content: center;
+  text-align: center; padding: 130px 40px 80px;
+  position: relative; overflow: hidden;
+}
+.hero::before {
+  content: '';
+  position: absolute; top: -20%; right: -10%;
+  width: 500px; height: 500px;
+  background: radial-gradient(circle, rgba(255,215,0,0.07) 0%, transparent 65%);
+  border-radius: 50%; pointer-events: none;
+}
+.hero-content { position: relative; z-index: 1; max-width: 640px; }
+.hero-badge {
+  display: inline-block;
+  background: rgba(255,255,255,0.1);
+  border: 1px solid rgba(255,255,255,0.15);
+  color: rgba(255,255,255,0.85);
+  font-size: 0.82rem; font-weight: 700;
+  padding: 6px 20px; border-radius: 100px;
+  letter-spacing: 0.5px; margin-bottom: 28px;
+}
+.hero h1 {
+  font-size: clamp(32px, 5vw, 52px); font-weight: 900;
+  color: #fff; line-height: 1.2; letter-spacing: -1.5px;
+  margin-bottom: 20px;
+}
+.hero h1 em { color: var(--gold); font-style: normal; }
+.hero-sub {
+  font-size: 1.05rem; color: rgba(255,255,255,0.65);
+  line-height: 1.75;
+}
+
+/* ─── MAIN CONTENT ─── */
+.main { max-width: 900px; margin: 0 auto; padding: 80px 40px 120px; }
+
+/* ─── PROCESS SECTION ─── */
+.process-section {
+  background: var(--navy-dark); padding: 64px 40px;
+  text-align: center; margin: 0 -40px; border-radius: 0;
+}
+.process-label {
+  font-size: 0.72rem; font-weight: 700;
+  letter-spacing: 2px; text-transform: uppercase;
+  color: rgba(255,255,255,0.45); margin-bottom: 28px;
+}
+.process-track {
+  display: flex; align-items: center; justify-content: center;
+  flex-wrap: wrap; gap: 0; max-width: 700px; margin: 0 auto;
+}
+.process-step { display: flex; align-items: center; }
+.process-node {
+  display: flex; flex-direction: column; align-items: center;
+  gap: 8px; padding: 16px 20px;
+}
+.process-num {
+  width: 36px; height: 36px; border-radius: 50%;
+  background: rgba(255,255,255,0.1);
+  border: 2px solid rgba(255,255,255,0.2);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.82rem; font-weight: 800; color: rgba(255,255,255,0.7);
+}
+.process-node.gold .process-num {
+  background: var(--gold); border-color: var(--gold); color: var(--navy-dark);
+}
+.process-text {
+  font-size: 0.82rem; font-weight: 600;
+  color: rgba(255,255,255,0.65); white-space: nowrap;
+}
+.process-node.gold .process-text { color: var(--gold); }
+.process-sub {
+  font-size: 0.72rem; color: rgba(255,255,255,0.35);
+  white-space: nowrap;
+}
+.process-arrow {
+  color: rgba(255,255,255,0.2); font-size: 1rem;
+  padding: 0 4px; flex-shrink: 0; margin-bottom: 24px;
+}
+.process-note {
+  margin-top: 20px;
+  font-size: 0.88rem; color: rgba(255,255,255,0.4);
+}
+.process-note strong { color: var(--gold); }
+
+/* ─── BENEFITS BAR ─── */
+.benefits-bar {
+  background: var(--white); border: 1px solid var(--border);
+  border-radius: 20px; padding: 40px;
+  margin-bottom: 48px;
+}
+.benefits-bar-title {
+  font-size: 1rem; font-weight: 800; color: var(--navy);
+  margin-bottom: 24px; letter-spacing: -0.3px;
+}
+.benefits-list {
+  display: flex; flex-wrap: wrap; gap: 10px;
+}
+.benefit-pill {
+  display: inline-flex; align-items: center; gap: 6px;
+  background: var(--bg); border: 1px solid var(--border);
+  border-radius: 100px; padding: 8px 16px;
+  font-size: 0.85rem; font-weight: 600; color: var(--text);
+}
+
+/* ─── SECTION HEADER ─── */
+.section-header { margin-bottom: 32px; }
+.section-tag {
+  display: inline-block;
+  font-size: 0.72rem; font-weight: 700;
+  letter-spacing: 2px; text-transform: uppercase;
+  color: var(--gold-dark); margin-bottom: 12px;
+}
+.section-title {
+  font-size: clamp(24px, 3.5vw, 36px); font-weight: 900;
+  color: var(--navy-dark); letter-spacing: -1px;
+}
+
+/* ─── JOB CARD ─── */
+.job-card {
+  background: var(--white); border: 1px solid var(--border);
+  border-radius: 24px; overflow: hidden;
+  margin-bottom: 32px;
+  transition: box-shadow 0.3s, transform 0.3s;
+}
+.job-card:hover {
+  box-shadow: 0 16px 48px rgba(0,40,85,0.1);
+  transform: translateY(-2px);
+}
+.job-card-header {
+  background: linear-gradient(135deg, var(--navy-dark), var(--navy));
+  padding: 40px 48px;
+  position: relative; overflow: hidden;
+}
+.job-card-header::after {
+  content: '';
+  position: absolute; top: -30%; right: -5%;
+  width: 300px; height: 300px;
+  background: radial-gradient(circle, rgba(255,215,0,0.07) 0%, transparent 65%);
+  border-radius: 50%;
+}
+.job-badge {
+  display: inline-flex; align-items: center; gap: 6px;
+  background: var(--green-bg); color: var(--green);
+  font-size: 0.75rem; font-weight: 700;
+  padding: 5px 14px; border-radius: 8px;
+  margin-bottom: 16px; letter-spacing: 0.3px;
+}
+.job-badge::before { content: '●'; font-size: 0.6rem; }
+.job-position {
+  font-size: clamp(22px, 3vw, 30px); font-weight: 900;
+  color: #fff; letter-spacing: -0.8px; margin-bottom: 6px;
+}
+.job-position-en {
+  font-size: 0.9rem; font-weight: 600;
+  color: rgba(255,255,255,0.45); letter-spacing: 0.3px;
+  margin-bottom: 20px;
+}
+.job-tags {
+  display: flex; flex-wrap: wrap; gap: 8px; position: relative; z-index: 1;
+}
+.job-tag {
+  display: inline-block;
+  font-size: 0.78rem; font-weight: 600;
+  padding: 5px 14px; border-radius: 8px;
+  background: rgba(255,255,255,0.1);
+  border: 1px solid rgba(255,255,255,0.15);
+  color: rgba(255,255,255,0.8);
+}
+.job-tag.salary {
+  background: rgba(255,215,0,0.15);
+  border-color: rgba(255,215,0,0.3);
+  color: var(--gold);
+}
+
+.job-card-body { padding: 40px 48px; }
+.job-desc {
+  font-size: 1.02rem; color: var(--text-sub);
+  line-height: 1.8; margin-bottom: 32px;
+  padding-bottom: 32px; border-bottom: 1px solid var(--border);
+}
+.job-desc strong { color: var(--text); }
+
+.job-sections {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 32px;
+  margin-bottom: 32px;
+}
+.job-section h4 {
+  font-size: 0.82rem; font-weight: 700;
+  color: var(--navy); letter-spacing: 1px;
+  text-transform: uppercase; margin-bottom: 14px;
+  display: flex; align-items: center; gap: 8px;
+}
+.job-section h4::before {
+  content: '';
+  display: inline-block; width: 3px; height: 14px;
+  background: var(--gold); border-radius: 2px;
+}
+.job-section ul { list-style: none; }
+.job-section ul li {
+  font-size: 0.92rem; color: var(--text-sub);
+  padding: 6px 0;
+  display: flex; align-items: flex-start; gap: 10px;
+  line-height: 1.55;
+  border-bottom: 1px solid #f5f6f8;
+}
+.job-section ul li:last-child { border-bottom: none; }
+.job-section ul li::before {
+  content: '→';
+  color: var(--gold-dark); font-size: 0.8rem;
+  flex-shrink: 0; margin-top: 2px;
+}
+.job-section ul li strong { color: var(--text); font-weight: 700; }
+
+.tools-row {
+  display: flex; flex-wrap: wrap; gap: 8px;
+  margin-top: 12px;
+}
+.tool-tag {
+  background: rgba(0,40,85,0.06); color: var(--navy);
+  font-size: 0.78rem; font-weight: 700;
+  padding: 4px 12px; border-radius: 6px;
+  letter-spacing: 0.2px;
+}
+
+.preferred-badge {
+  display: inline-block;
+  background: #fffbeb; color: #92400e;
+  font-size: 0.7rem; font-weight: 700;
+  padding: 2px 8px; border-radius: 4px;
+  margin-left: 6px; vertical-align: middle;
+}
+
+.job-apply-row {
+  padding-top: 28px; border-top: 1px solid var(--border);
+  display: flex; align-items: center; gap: 16px; flex-wrap: wrap;
+}
+.btn-apply {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: var(--navy); color: #fff;
+  font-weight: 800; font-size: 1rem;
+  padding: 16px 36px; border-radius: 12px;
+  text-decoration: none; transition: all 0.2s;
+  letter-spacing: -0.2px;
+}
+.btn-apply:hover { background: var(--navy-mid); transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,40,85,0.2); }
+.apply-hint { font-size: 0.85rem; color: var(--text-sub); }
+
+/* ─── CTA SECTION ─── */
+.cta-section {
+  background: linear-gradient(160deg, var(--navy-dark), var(--navy));
+  border-radius: 24px; padding: 64px 48px;
+  text-align: center; margin-top: 64px;
+  position: relative; overflow: hidden;
+}
+.cta-section::before {
+  content: '';
+  position: absolute; top: -20%; right: -5%;
+  width: 400px; height: 400px;
+  background: radial-gradient(circle, rgba(255,215,0,0.06) 0%, transparent 65%);
+  border-radius: 50%;
+}
+.cta-inner { position: relative; z-index: 1; }
+.cta-label {
+  font-size: 0.75rem; font-weight: 700;
+  letter-spacing: 2.5px; text-transform: uppercase;
+  color: var(--gold); margin-bottom: 20px; display: block;
+}
+.cta-title {
+  font-size: clamp(24px, 4vw, 40px); font-weight: 900;
+  color: #fff; letter-spacing: -1.5px; line-height: 1.25;
+  margin-bottom: 16px;
+}
+.cta-sub {
+  font-size: 1rem; color: rgba(255,255,255,0.55);
+  margin-bottom: 40px; line-height: 1.7;
+}
+.cta-email {
+  display: inline-block;
+  font-size: 1.25rem; font-weight: 900;
+  color: var(--gold);
+  padding: 14px 36px; border: 2px solid rgba(255,215,0,0.4);
+  border-radius: 14px; text-decoration: none;
+  transition: all 0.2s; letter-spacing: -0.3px;
+  margin-bottom: 20px;
+}
+.cta-email:hover { background: rgba(255,215,0,0.1); border-color: var(--gold); }
+.cta-note {
+  font-size: 0.85rem; color: rgba(255,255,255,0.35);
+}
+
+/* ─── FOOTER ─── */
+footer {
+  background: var(--navy-dark); padding: 40px;
+  text-align: center;
+  color: rgba(255,255,255,0.3); font-size: 0.82rem; line-height: 2;
+}
+footer a { color: rgba(255,255,255,0.45); text-decoration: none; }
+footer a:hover { color: rgba(255,255,255,0.7); }
+
+/* ─── MOBILE ─── */
+@media (max-width: 768px) {
+  .nav-links { display: none; }
+  .hamburger { display: block; }
+  .nav-inner { padding: 0 20px; }
+
+  .hero { padding: 96px 24px 64px; }
+  .hero h1 { font-size: 28px; letter-spacing: -0.5px; }
+
+  .main { padding: 48px 20px 80px; }
+
+  .process-section { padding: 48px 20px; margin: 0 -20px; }
+  .process-track { gap: 0; }
+  .process-node { padding: 12px 10px; }
+  .process-text { font-size: 0.75rem; }
+  .process-sub { font-size: 0.68rem; }
+  .process-arrow { font-size: 0.8rem; padding: 0; margin-bottom: 20px; }
+
+  .benefits-bar { padding: 28px 24px; }
+
+  .job-card-header { padding: 28px 24px; }
+  .job-position { font-size: 22px; }
+  .job-card-body { padding: 28px 24px; }
+
+  .job-sections { grid-template-columns: 1fr; gap: 24px; }
+
+  .cta-section { padding: 48px 24px; }
+  .cta-email { font-size: 1rem; padding: 12px 24px; word-break: break-all; }
+
+  .job-apply-row { flex-direction: column; align-items: stretch; }
+  .btn-apply { justify-content: center; }
+
+  footer { padding: 32px 20px; }
+}
+@media (max-width: 480px) {
+  .process-track { flex-direction: column; align-items: center; gap: 0; }
+  .process-arrow { transform: rotate(90deg); margin-bottom: 0; margin: 4px 0; }
+  .process-step { flex-direction: column; align-items: center; }
 }
 </style>
 </head>
 <body>
 
+<!-- NAV -->
 <nav class="nav">
   <div class="nav-inner">
-    <a href="careers.html" class="nav-logo">TENEX <span>Careers</span></a>
+    <a href="careers.html" class="nav-logo">TENEX<span>.</span></a>
     <div class="nav-links">
-      <a href="careers.html">Main</a>
-      <a href="careers-culture.html">Culture</a>
-      <a href="careers-benefit.html">Benefit</a>
-      <a href="careers-process.html">Process</a>
-      <a href="careers-jobs.html" class="active">Jobs</a>
+      <a href="careers.html">홈</a>
+      <a href="careers-jobs.html" class="active">채용공고</a>
     </div>
     <button class="hamburger" onclick="document.querySelector('.mobile-menu').classList.toggle('open')" aria-label="메뉴">☰</button>
   </div>
 </nav>
 <div class="mobile-menu">
-  <a href="careers.html">Main</a>
-  <a href="careers-culture.html">Culture</a>
-  <a href="careers-benefit.html">Benefit</a>
-  <a href="careers-process.html">Process</a>
-  <a href="careers-jobs.html" class="active">Jobs</a>
+  <a href="careers.html">홈</a>
+  <a href="careers-jobs.html" class="active">채용공고</a>
 </div>
 
+<!-- HERO -->
 <section class="hero">
   <div class="hero-content">
-    <div class="hero-badge">OPEN POSITIONS</div>
-    <h1>지금 합류할 수 있는<br>포지션</h1>
-    <p class="hero-sub">오너십 있는 모험가를 찾습니다. 지원: <strong>recruit@tenex.kr</strong></p>
+    <div class="hero-badge fade-in">OPEN POSITIONS · 2026</div>
+    <h1 class="fade-in d1">
+      <em>3명</em>이 <em>월 2억</em>을<br>만드는 팀에 합류하세요
+    </h1>
+    <p class="hero-sub fade-in d2">지금 딱 2자리 열려 있습니다. 빠를수록 유리합니다.</p>
   </div>
 </section>
 
-<!-- NOW HIRING -->
-<section class="section">
-  <div class="section-inner">
-    <div class="section-label now">🔴 NOW HIRING — 채용 중</div>
-
-    <!-- JOB 1 -->
-    <div class="job-card now fade-in">
-      <div class="job-header">
-        <div class="job-title">인플루언서 파트너십 매니저</div>
-        <div class="job-meta">
-          <span class="job-tag hiring">채용중</span>
-          <span class="job-tag exp">정규직 (수습 3개월)</span>
-          <span class="job-tag salary">직전 연봉 기반 협의 + 인센티브</span>
-        </div>
+<!-- 지원 프로세스 -->
+<section class="process-section fade-in">
+  <div class="process-label">지원 프로세스</div>
+  <div class="process-track">
+    <div class="process-step">
+      <div class="process-node">
+        <div class="process-num">1</div>
+        <div class="process-text">서류 접수</div>
+        <div class="process-sub">recruit@tenex.kr</div>
       </div>
-      <p class="job-desc">의료계/헬스케어 인플루언서 발굴 → 관계 구축 → 콜라보. 파트너십 A to Z 책임.</p>
-      <div class="job-requirements">
-        <h4>주요 업무</h4>
-        <ul>
-          <li>의료계/헬스케어 인플루언서 발굴 → 관계 구축 → 계약</li>
-          <li>콜라보 영상 수급 + 촬영 코디네이션</li>
-          <li>추천코드 전략 실행 + 성과 트래킹</li>
-        </ul>
-        <h4 style="margin-top:16px">이런 분을 찾습니다</h4>
-        <ul>
-          <li>의료계/헬스케어 업계 네트워크 보유</li>
-          <li>인플루언서 마케팅 또는 파트너십 관리 직접 경험</li>
-          <li>영상 콘텐츠 기획·코디네이션 경험</li>
-          <li>성과 기반 사고 + 데이터 트래킹 역량</li>
-        </ul>
-        <h4 style="margin-top:16px">근무 조건</h4>
-        <ul>
-          <li>정규직 (수습 3개월)</li>
-          <li>서울 광진구 능동로 81</li>
-          <li>연봉: 직전 연봉 기반 협의 + 인센티브</li>
-        </ul>
-      </div>
-      <a href="mailto:recruit@tenex.kr?subject=[지원] 인플루언서 파트너십 매니저" class="job-apply">지원하기 →</a>
+      <span class="process-arrow">→</span>
     </div>
-
-    <!-- JOB 2 -->
-    <div class="job-card now fade-in">
-      <div class="job-header">
-        <div class="job-title">미디어믹스 마케터</div>
-        <div class="job-meta">
-          <span class="job-tag hiring">채용중</span>
-          <span class="job-tag exp">정규직 (수습 3개월)</span>
-          <span class="job-tag salary">직전 연봉 기반 협의 + 인센티브</span>
-        </div>
+    <div class="process-step">
+      <div class="process-node">
+        <div class="process-num">2</div>
+        <div class="process-text">1차 면접</div>
+        <div class="process-sub">CEO 직접 면접</div>
       </div>
-      <p class="job-desc">메타·구글·유튜브·틱톡·네이버 전 채널 포트폴리오 설계 + 직접 집행. 손에 흙 묻히는 마케터.</p>
-      <div class="job-requirements">
-        <h4>주요 업무</h4>
-        <ul>
-          <li>메타 + 구글 + 유튜브 + 틱톡 + 네이버 채널 포트폴리오 설계</li>
-          <li>전략 수립 + 직접 집행 + 성과 분석</li>
-          <li>AI 활용 광고 최적화 + 크리에이티브 테스트</li>
-        </ul>
-        <h4 style="margin-top:16px">이런 분을 찾습니다</h4>
-        <ul>
-          <li>SA, SEO, GEO, AEO 기본 역량</li>
-          <li>퍼포먼스 마케팅 직접 집행 경험</li>
-          <li>전략 + 직접 집행 모두 가능한 실행력</li>
-          <li>AI 활용 광고 최적화 경험 우대</li>
-        </ul>
-        <h4 style="margin-top:16px">근무 조건</h4>
-        <ul>
-          <li>정규직 (수습 3개월)</li>
-          <li>서울 광진구 능동로 81</li>
-          <li>연봉: 직전 연봉 기반 협의 + 인센티브</li>
-        </ul>
-      </div>
-      <a href="mailto:recruit@tenex.kr?subject=[지원] 미디어믹스 마케터" class="job-apply">지원하기 →</a>
+      <span class="process-arrow">→</span>
     </div>
-
-    <!-- JOB 3 -->
-    <div class="job-card now fade-in">
-      <div class="job-header">
-        <div class="job-title">글로벌 마케팅 매니저</div>
-        <div class="job-meta">
-          <span class="job-tag hiring">채용중</span>
-          <span class="job-tag exp">정규직 (수습 3개월)</span>
-          <span class="job-tag salary">직전 연봉 기반 협의 + 인센티브</span>
-        </div>
+    <div class="process-step">
+      <div class="process-node gold">
+        <div class="process-num">3</div>
+        <div class="process-text">2주 수습</div>
+        <div class="process-sub">급여 100% 지급</div>
       </div>
-      <p class="job-desc">한국에서 검증된 근골격계 솔루션을 글로벌로 확장합니다.</p>
-      <div class="job-requirements">
-        <h4>주요 업무</h4>
-        <ul>
-          <li>미국 시장 진출 전략 수립·실행</li>
-          <li>해외 이커머스 채널(Amazon, Shopify 등) 셋업·운영</li>
-          <li>해외 파트너십/인플루언서 발굴·관리</li>
-          <li>크로스보더 물류·CS 체계 구축</li>
-        </ul>
-        <h4 style="margin-top:16px">이런 분을 찾습니다</h4>
-        <ul>
-          <li>해외 마케팅/세일즈 실무 경험</li>
-          <li>영어 비즈니스 커뮤니케이션 가능</li>
-          <li>해외 이커머스 운영 경험</li>
-          <li>미국 시장 진출 경험 우대</li>
-          <li>헬스케어/의료기기 업종 경험 우대</li>
-        </ul>
-        <h4 style="margin-top:16px">근무 조건</h4>
-        <ul>
-          <li>정규직 (수습 3개월)</li>
-          <li>서울 광진구 능동로 81</li>
-          <li>연봉: 직전 연봉 기반 협의 + 인센티브</li>
-        </ul>
-      </div>
-      <a href="mailto:recruit@tenex.kr?subject=[지원] 글로벌 마케팅 매니저" class="job-apply">지원하기 →</a>
+      <span class="process-arrow">→</span>
     </div>
-
-    <!-- JOB 4 -->
-    <div class="job-card now fade-in">
-      <div class="job-header">
-        <div class="job-title">마케팅 인턴 (3개월, 정규직 전환형)</div>
-        <div class="job-meta">
-          <span class="job-tag hiring">채용중</span>
-          <span class="job-tag exp">채용연계형 인턴 3개월</span>
-          <span class="job-tag salary">월 220만원 (세전)</span>
-        </div>
-      </div>
-      <p class="job-desc">경력 무관. 빠르게 배우고 바로 실행하는 마케팅 진심러.</p>
-      <div class="job-requirements">
-        <h4>주요 업무</h4>
-        <ul>
-          <li>광고 소재 기획 보조 및 성과 데이터 정리</li>
-          <li>SNS 콘텐츠 기획·업로드</li>
-          <li>고객 VOC 분석 및 인사이트 정리</li>
-          <li>마케팅 캠페인 운영 서포트</li>
-        </ul>
-        <h4 style="margin-top:16px">이런 분을 찾습니다</h4>
-        <ul>
-          <li>마케팅에 진심인 분 (경력 무관)</li>
-          <li>데이터 보는 게 재미있는 분</li>
-          <li>빠르게 배우고 바로 실행하는 분</li>
-          <li>마케팅 프로젝트/개인 채널 운영 경험 우대</li>
-        </ul>
-        <h4 style="margin-top:16px">채용 프로세스</h4>
-        <ul>
-          <li>서류 → 전화면접 → 면접 → 3개월 인턴 → 정규직 전환 심사</li>
-        </ul>
-        <h4 style="margin-top:16px">근무 조건</h4>
-        <ul>
-          <li>채용연계형 인턴 3개월</li>
-          <li>서울 광진구 능동로 81</li>
-          <li>월 220만원 (세전)</li>
-        </ul>
-      </div>
-      <a href="mailto:recruit@tenex.kr?subject=[지원] 마케팅 인턴" class="job-apply">지원하기 →</a>
-    </div>
-  </div>
-</section>
-
-<!-- FUTURE POSITIONS -->
-<section class="section" style="padding-top:0">
-  <div class="section-inner">
-    <div class="section-label future">🟡 향후 채용 예정</div>
-    <div class="future-grid">
-      <div class="future-card fade-in">
-        <h3>PR/커머스 매니저</h3>
-        <div class="timing">📅 약 6개월 후</div>
-        <p>D2C 채널 확장. 자사몰 + 마켓플레이스 운영 및 PR 전략.</p>
-      </div>
-      <div class="future-card fade-in">
-        <h3>R&D/제품개발 매니저</h3>
-        <div class="timing">📅 연매출 50억+ 시점</div>
-        <p>제품 라인업 확장. 의료기기 인허가 + 신제품 개발 총괄.</p>
+    <div class="process-step">
+      <div class="process-node">
+        <div class="process-num">4</div>
+        <div class="process-text">최종 합류</div>
+        <div class="process-sub">정규직 전환</div>
       </div>
     </div>
   </div>
+  <p class="process-note">서류 접수 후 <strong>3일 내 피드백</strong> 드립니다.</p>
 </section>
 
-<!-- APPLY -->
-<section class="apply-section fade-in">
-  <h2>지원하기</h2>
-  <p>이력서, 포트폴리오, 본인을 설명하는 무엇이든 보내주세요.</p>
-  <p>형식에 구애받지 않습니다.</p>
-  <a href="mailto:recruit@tenex.kr" class="apply-email">📧 recruit@tenex.kr</a>
-  <p class="apply-note">서류 접수 후 3일 내 회신 드립니다. 전체 프로세스 2주 컷.</p>
-</section>
+<!-- MAIN -->
+<main class="main">
 
-<footer class="footer">
+  <!-- 공통 혜택 -->
+  <div class="benefits-bar fade-in">
+    <div class="benefits-bar-title">🎁 공통 혜택 — 모든 포지션 동일</div>
+    <div class="benefits-list">
+      <span class="benefit-pill">📈 초기 멤버 스톡옵션 (협의)</span>
+      <span class="benefit-pill">🎁 웰컴 키트 (자사 제품 풀세트)</span>
+      <span class="benefit-pill">⏰ 자율 출퇴근</span>
+      <span class="benefit-pill">🍚 점심·저녁 제공</span>
+      <span class="benefit-pill">🏋️ 운동비 지원</span>
+      <span class="benefit-pill">📚 교육비 지원</span>
+      <span class="benefit-pill">👔 CEO 직속 — 사업 전체 경험</span>
+    </div>
+  </div>
+
+  <!-- 포지션 타이틀 -->
+  <div class="section-header fade-in">
+    <div class="section-tag">NOW HIRING</div>
+    <h2 class="section-title">현재 채용 중인 포지션</h2>
+  </div>
+
+  <!-- JOB 1: 운영 매니저 -->
+  <div class="job-card fade-in d1">
+    <div class="job-card-header">
+      <div class="job-badge">채용 중</div>
+      <div class="job-position">운영 매니저</div>
+      <div class="job-position-en">Operation Manager</div>
+      <div class="job-tags">
+        <span class="job-tag">정규직</span>
+        <span class="job-tag">서울 광진구</span>
+        <span class="job-tag salary">3,500 – 4,500만원</span>
+        <span class="job-tag">스톡옵션 협의</span>
+      </div>
+    </div>
+    <div class="job-card-body">
+      <p class="job-desc">
+        고객 한 명이 우리를 다시 찾을 이유를 만드는 사람입니다.<br>
+        <strong>CS부터 물류, 재고, 주문 관리까지</strong> — 뒤에서 돌아가는 모든 것의 A to Z를 책임집니다.<br>
+        단순 처리가 아니라, <strong>VOC를 데이터로 만들고 프로세스를 개선하는 역할</strong>입니다.
+      </p>
+
+      <div class="job-sections">
+        <div class="job-section">
+          <h4>주요 업무</h4>
+          <ul>
+            <li>CS 대응 — 문의·클레임·AS 처리 전반</li>
+            <li>주문 관리 — 카페24 기반 주문 처리 및 오류 대응</li>
+            <li>물류 관리 — 출고 확인, 배송 이슈 대응</li>
+            <li>재고 관리 — 이지어드민 연동, 재고 현황 파악</li>
+            <li>고객 VOC 수집 → 데이터화 → 프로세스 개선 제안</li>
+          </ul>
+        </div>
+        <div class="job-section">
+          <h4>이런 분을 찾습니다</h4>
+          <ul>
+            <li>CS·운영 실무 경험 1년 이상</li>
+            <li>카페24 또는 이커머스 플랫폼 사용 경험</li>
+            <li>꼼꼼함 + 빠른 실행력</li>
+            <li>문제를 발견하면 개선안까지 들고 오는 사람</li>
+            <li>AI 도구 활용 능력 <span class="preferred-badge">우대</span></li>
+            <li>이지어드민 경험 <span class="preferred-badge">우대</span></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="job-section" style="margin-bottom: 28px;">
+        <h4>사용 툴</h4>
+        <div class="tools-row">
+          <span class="tool-tag">카페24</span>
+          <span class="tool-tag">이지어드민</span>
+          <span class="tool-tag">Claude / ChatGPT</span>
+          <span class="tool-tag">Google Sheets</span>
+        </div>
+      </div>
+
+      <div class="job-apply-row">
+        <a href="mailto:recruit@tenex.kr?subject=[지원] 운영 매니저 — 이름" class="btn-apply">지원하기 →</a>
+        <span class="apply-hint">이력서 + 자기소개 자유 형식으로 보내주세요</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- JOB 2: 퍼포먼스 마케터 -->
+  <div class="job-card fade-in d2">
+    <div class="job-card-header">
+      <div class="job-badge">채용 중</div>
+      <div class="job-position">퍼포먼스 마케터</div>
+      <div class="job-position-en">Performance Marketer</div>
+      <div class="job-tags">
+        <span class="job-tag">정규직</span>
+        <span class="job-tag">서울 광진구</span>
+        <span class="job-tag salary">4,000 – 5,500만원</span>
+        <span class="job-tag">스톡옵션 협의</span>
+      </div>
+    </div>
+    <div class="job-card-body">
+      <p class="job-desc">
+        광고비를 쓰는 게 아니라 <strong>ROAS를 설계하는 사람</strong>입니다.<br>
+        Meta, Google, TikTok — 채널마다 다른 언어로 말하고,<br>
+        <strong>크리에이티브 기획부터 A/B 테스트, 데이터 분석까지</strong> 혼자 돌릴 수 있어야 합니다.<br>
+        월 광고비 수천만 원을 집행하며 매출을 직접 만드는 역할입니다.
+      </p>
+
+      <div class="job-sections">
+        <div class="job-section">
+          <h4>주요 업무</h4>
+          <ul>
+            <li>Meta / Google / TikTok 광고 캠페인 전략 수립 + 직접 운영</li>
+            <li>ROAS 목표 설정 → 예산 배분 → 성과 최적화</li>
+            <li>광고 소재 기획 + 크리에이티브 A/B 테스트</li>
+            <li>GA4·Mixpanel 데이터 분석 → 인사이트 도출</li>
+            <li>광고 성과 리포트 및 개선 사이클 운영</li>
+          </ul>
+        </div>
+        <div class="job-section">
+          <h4>이런 분을 찾습니다</h4>
+          <ul>
+            <li>퍼포먼스 마케팅 직접 집행 경험 2년 이상</li>
+            <li>월 광고비 3,000만원 이상 집행 경험</li>
+            <li>크리에이티브 기획 + 분석 모두 가능한 분</li>
+            <li>숫자로 사고하고 결과로 말하는 분</li>
+            <li>TikTok Ads 운영 경험 <span class="preferred-badge">우대</span></li>
+            <li>헬스케어·이커머스 업종 경험 <span class="preferred-badge">우대</span></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="job-section" style="margin-bottom: 28px;">
+        <h4>사용 툴</h4>
+        <div class="tools-row">
+          <span class="tool-tag">Meta Ads Manager</span>
+          <span class="tool-tag">Google Ads</span>
+          <span class="tool-tag">TikTok Ads</span>
+          <span class="tool-tag">GA4</span>
+          <span class="tool-tag">Mixpanel</span>
+        </div>
+      </div>
+
+      <div class="job-apply-row">
+        <a href="mailto:recruit@tenex.kr?subject=[지원] 퍼포먼스 마케터 — 이름" class="btn-apply">지원하기 →</a>
+        <span class="apply-hint">이력서 + 이전 ROAS 성과 or 포트폴리오 자유 형식으로</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- CTA -->
+  <div class="cta-section fade-in">
+    <div class="cta-inner">
+      <span class="cta-label">지원하기</span>
+      <h2 class="cta-title">형식에 구애받지 않습니다.<br>당신 자신을 보내주세요.</h2>
+      <p class="cta-sub">이력서, 포트폴리오, 링크드인, 노션 — 무엇이든 좋습니다.<br>지원 후 3일 내 회신 드립니다.</p>
+      <a href="mailto:recruit@tenex.kr" class="cta-email">📧 recruit@tenex.kr</a>
+      <p class="cta-note">서류 접수 → 3일 내 피드백 → 1차 면접 (CEO) → 2주 수습 (급여 100%) → 합류</p>
+    </div>
+  </div>
+
+</main>
+
+<!-- FOOTER -->
+<footer>
   <p>지원 문의: <a href="mailto:recruit@tenex.kr">recruit@tenex.kr</a></p>
-  <p class="footer-quote">"K-health를 떠올리면 테넥스가 대체 불가능한 회사로 인식되는 날을 함께 만들어갑니다"</p>
-  <p style="margin-top:20px;font-size:.8rem;opacity:.5">© 2026 TENEX (키네메디칼). All rights reserved.</p>
+  <p style="margin-top: 8px; font-style: italic; opacity: 0.5;">"K-health가 곧 테넥스로 인식되는 날을 함께 만들어 갑니다"</p>
+  <p style="margin-top: 16px; font-size: 0.75rem; opacity: 0.4;">© 2026 TENEX (키네메디칼). All rights reserved.</p>
 </footer>
 
 <script>
-// Scroll animation - mobile에서는 즉시 표시
-if (window.innerWidth <= 768) {
-  document.querySelectorAll('.fade-in').forEach(el => el.classList.add('visible'));
-} else {
+(function() {
+  if (window.innerWidth <= 768) {
+    document.querySelectorAll('.fade-in').forEach(el => el.classList.add('visible'));
+    return;
+  }
   const io = new IntersectionObserver((entries) => {
-    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); io.unobserve(e.target); } });
-  }, {threshold: 0.1});
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+        io.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.1, rootMargin: '0px 0px -30px 0px' });
   document.querySelectorAll('.fade-in').forEach(el => io.observe(el));
-}
+
+  // Hero immediately
+  document.querySelectorAll('.hero .fade-in').forEach((el, i) => {
+    setTimeout(() => el.classList.add('visible'), i * 120);
+  });
+})();
 </script>
 </body>
 </html>
