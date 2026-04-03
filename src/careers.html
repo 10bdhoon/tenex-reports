@@ -74,7 +74,24 @@ em, strong { white-space: nowrap; }
   letter-spacing: -0.2px;
 }
 .nav-cta:hover { background: var(--navy-mid); transform: translateY(-1px); box-shadow: 0 6px 16px rgba(0,40,85,0.18); }
-@media (max-width: 768px) { .nav-links { display: none; } }
+/* ─── MOBILE HAMBURGER ─── */
+.nav-hamburger {
+  display: none; background: none; border: none;
+  font-size: 1.5rem; cursor: pointer; color: var(--navy-dark);
+  padding: 4px 8px; line-height: 1;
+}
+@media (max-width: 768px) {
+  .nav-links {
+    display: none; position: absolute; top: 100%; left: 0; right: 0;
+    background: #fff; flex-direction: column; padding: 12px 20px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.1); border-top: 1px solid rgba(0,0,0,0.06);
+  }
+  .nav-links.open { display: flex; }
+  .nav-links a { padding: 12px 0; font-size: 1rem; }
+  .nav-hamburger { display: block; }
+  .nav-cta { display: none; }
+  .nav-inner { position: relative; }
+}
 
 /* ─── FADE ANIMATIONS ─── */
 .fade-up {
@@ -641,6 +658,7 @@ footer a:hover { color: rgba(255,255,255,0.7); }
       <a href="careers-jobs.html">Jobs</a>
     </div>
     <a href="careers-jobs.html" class="nav-cta">채용공고 보기 →</a>
+    <button class="nav-hamburger" onclick="document.querySelector('.nav-links').classList.toggle('open')">☰</button>
   </div>
 </nav>
 
