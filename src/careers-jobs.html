@@ -71,6 +71,14 @@ body {
   display: none; background: none; border: none;
   color: #fff; font-size: 1.5rem; cursor: pointer;
 }
+.nav-cta {
+  background: var(--gold); color: var(--navy-dark);
+  font-weight: 700; font-size: .85rem;
+  padding: 10px 22px; border-radius: 8px;
+  text-decoration: none; transition: all .2s;
+  letter-spacing: -.2px; white-space: nowrap;
+}
+.nav-cta:hover { background: #ffe033; transform: translateY(-1px); }
 .mobile-menu {
   display: none; position: fixed;
   top: 64px; left: 0; right: 0;
@@ -451,7 +459,9 @@ footer a:hover { color: rgba(255,255,255,0.7); }
       <a href="careers-culture.html">Culture</a>
       <a href="careers-process.html">Process</a>
       <a href="careers-jobs.html" class="active">Jobs</a>
+      <a href="careers-faq.html">FAQ</a>
     </div>
+    <a href="mailto:recruit@tenex.kr" class="nav-cta">지원하기 →</a>
     <button class="hamburger" onclick="document.querySelector('.mobile-menu').classList.toggle('open')" aria-label="메뉴">☰</button>
   </div>
 </nav>
@@ -460,6 +470,7 @@ footer a:hover { color: rgba(255,255,255,0.7); }
   <a href="careers-culture.html">Culture</a>
   <a href="careers-process.html">Process</a>
   <a href="careers-jobs.html" class="active">Jobs</a>
+  <a href="careers-faq.html">FAQ</a>
 </div>
 
 <!-- HERO -->

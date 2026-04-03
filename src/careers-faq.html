@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>테넥스 FAQ — 자주 묻는 질문</title>
+<meta name="description" content="테넥스 채용 FAQ: 수습 급여, 근무 형태, 스톡옵션, 면접 복장, 온보딩 등 자주 묻는 질문에 답합니다.">
+<meta property="og:title" content="테넥스 FAQ — 궁금한 건 여기서 다 찾으세요">
+<meta property="og:description" content="테넥스 채용에 대한 자주 묻는 질문 8가지">
+<meta property="og:type" content="website">
+<link rel="preconnect" href="https://cdn.jsdelivr.net">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --navy:#002855;--navy-light:#003d7a;--navy-dark:#001a3a;
+  --gold:#c9a400;--gold-light:#f0d060;
+  --bg:#fafbfc;--text:#1a1a2e;--text-secondary:#555;--text-muted:#888;
+  --white:#fff;--border:#e8ecf0
+}
+html{scroll-behavior:smooth}
+body{font-family:'Pretendard',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--bg);color:var(--text);line-height:1.7;-webkit-font-smoothing:antialiased;word-break:keep-all}
+
+/* NAV */
+.nav{position:fixed;top:0;left:0;right:0;z-index:1000;background:rgba(0,40,85,0.97);backdrop-filter:blur(12px);border-bottom:1px solid rgba(255,255,255,0.08)}
+.nav-inner{max-width:1200px;margin:0 auto;padding:0 32px;display:flex;align-items:center;justify-content:space-between;height:64px}
+.nav-logo{font-size:1.2rem;font-weight:800;color:var(--white);letter-spacing:-.5px;text-decoration:none}
+.nav-logo span{color:var(--gold-light)}
+.nav-links{display:flex;gap:4px}
+.nav-links a{color:rgba(255,255,255,0.7);text-decoration:none;font-size:.9rem;font-weight:500;padding:8px 16px;border-radius:8px;transition:all .2s}
+.nav-links a:hover,.nav-links a.active{color:var(--white);background:rgba(255,255,255,0.1)}
+.nav-links a.active{font-weight:700}
+.nav-cta{background:var(--gold);color:var(--navy-dark);font-weight:700;font-size:.85rem;padding:10px 22px;border-radius:8px;text-decoration:none;transition:all .2s;letter-spacing:-.2px;white-space:nowrap}
+.nav-cta:hover{background:var(--gold-light);transform:translateY(-1px)}
+.hamburger{display:none;background:none;border:none;color:var(--white);font-size:1.5rem;cursor:pointer}
+.mobile-menu{display:none;position:fixed;top:64px;left:0;right:0;background:var(--navy);padding:16px;z-index:999}
+.mobile-menu a{display:block;color:rgba(255,255,255,0.8);text-decoration:none;padding:12px 16px;border-radius:8px;font-size:.95rem}
+.mobile-menu a.active{background:rgba(255,255,255,0.08);color:var(--white)}
+
+/* HERO */
+.hero{background:linear-gradient(165deg,var(--navy-dark),var(--navy) 50%,var(--navy-light));color:var(--white);padding:150px 32px 100px;text-align:center;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;top:-40%;right:-15%;width:600px;height:600px;background:radial-gradient(circle,rgba(201,164,0,0.08) 0%,transparent 70%);border-radius:50%}
+.hero-content{position:relative;z-index:1;max-width:700px;margin:0 auto}
+.hero-badge{display:inline-block;background:rgba(201,164,0,0.15);border:1px solid rgba(201,164,0,0.3);padding:6px 20px;border-radius:100px;font-size:.85rem;font-weight:600;margin-bottom:28px;color:var(--gold-light)}
+.hero h1{font-size:2.8rem;font-weight:900;line-height:1.25;margin-bottom:20px;letter-spacing:-1px}
+.hero-sub{font-size:1.1rem;opacity:.8;line-height:1.8}
+
+/* FAQ SECTION */
+.section{padding:100px 32px}
+.section-inner{max-width:760px;margin:0 auto}
+
+.faq-group{margin-bottom:56px}
+.faq-group-title{font-size:.75rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:20px;padding-left:4px}
+
+.faq-item{background:var(--white);border:1px solid var(--border);border-radius:16px;margin-bottom:12px;overflow:hidden;transition:border-color .2s,box-shadow .2s}
+.faq-item:hover{border-color:rgba(0,40,85,0.2);box-shadow:0 4px 16px rgba(0,40,85,0.06)}
+.faq-item.open{border-color:var(--navy)}
+.faq-q{padding:22px 24px;font-weight:700;font-size:1rem;cursor:pointer;display:flex;justify-content:space-between;align-items:center;color:var(--navy);transition:background .2s;gap:16px}
+.faq-q:hover{background:rgba(0,40,85,0.02)}
+.faq-q .q-num{font-size:.75rem;font-weight:800;color:var(--gold);min-width:24px;background:rgba(201,164,0,0.1);padding:3px 8px;border-radius:6px;text-align:center}
+.faq-q .q-text{flex:1}
+.faq-q .arrow{transition:transform .3s;font-size:.8rem;color:var(--text-muted);flex-shrink:0}
+.faq-a{max-height:0;overflow:hidden;transition:max-height .35s ease,padding .3s ease;padding:0 24px;font-size:.97rem;color:var(--text-secondary);line-height:1.85}
+.faq-item.open .faq-a{max-height:300px;padding:0 24px 24px}
+.faq-item.open .arrow{transform:rotate(180deg)}
+.faq-a strong{color:var(--navy)}
+
+/* CTA */
+.cta-section{background:linear-gradient(135deg,var(--navy),var(--navy-light));padding:80px 32px;text-align:center;color:var(--white)}
+.cta-section h2{font-size:2rem;font-weight:900;margin-bottom:12px}
+.cta-section p{opacity:.7;margin-bottom:32px;font-size:1.05rem}
+.cta-buttons{display:flex;justify-content:center;gap:16px;flex-wrap:wrap}
+.btn-primary{display:inline-flex;align-items:center;gap:8px;background:var(--white);color:var(--navy);font-weight:700;font-size:1rem;padding:16px 36px;border-radius:12px;text-decoration:none;transition:all .2s}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,0,0,0.2)}
+.btn-outline{display:inline-flex;align-items:center;gap:8px;background:transparent;color:rgba(255,255,255,0.85);font-weight:600;font-size:1rem;padding:16px 36px;border-radius:12px;border:1.5px solid rgba(255,255,255,0.25);text-decoration:none;transition:all .2s}
+.btn-outline:hover{border-color:rgba(255,255,255,0.5);color:#fff}
+
+.footer{background:var(--navy-dark);color:rgba(255,255,255,0.6);padding:48px 32px;text-align:center;font-size:.9rem;line-height:1.8}
+.footer a{color:var(--gold-light);text-decoration:none}
+.footer-quote{font-size:.95rem;color:rgba(255,255,255,0.35);margin-top:12px;font-style:italic}
+
+.fade-in{opacity:0;transform:translateY(24px);transition:opacity .6s ease,transform .6s ease}
+.fade-in.visible{opacity:1;transform:translateY(0)}
+
+@media(max-width:768px){
+  html,body{overflow-x:hidden}
+  .fade-in{opacity:1!important;transform:none!important}
+  .nav-links{display:none}
+  .nav-cta{display:none}
+  .hamburger{display:block}
+  .mobile-menu.open{display:block}
+  .nav-inner{padding:0 16px}
+  .hero{padding:100px 16px 64px}
+  .hero h1{font-size:1.75rem;word-break:keep-all}
+  .hero-sub{font-size:.95rem}
+  .section{padding:64px 16px}
+  .faq-q{font-size:.92rem;padding:18px 16px}
+  .faq-a{font-size:.88rem;padding-left:16px!important;padding-right:16px!important}
+  .cta-section{padding:64px 16px}
+  .cta-section h2{font-size:1.5rem;word-break:keep-all}
+  .cta-buttons{flex-direction:column;align-items:stretch}
+  .btn-primary,.btn-outline{justify-content:center}
+  .footer{padding:40px 16px}
+}
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav-inner">
+    <a href="careers.html" class="nav-logo">TENEX <span>Careers</span></a>
+    <div class="nav-links">
+      <a href="careers.html">Main</a>
+      <a href="careers-culture.html">Culture</a>
+      <a href="careers-process.html">Process</a>
+      <a href="careers-jobs.html">Jobs</a>
+      <a href="careers-faq.html" class="active">FAQ</a>
+    </div>
+    <a href="mailto:recruit@tenex.kr" class="nav-cta">지원하기 →</a>
+    <button class="hamburger" onclick="document.querySelector('.mobile-menu').classList.toggle('open')" aria-label="메뉴">☰</button>
+  </div>
+</nav>
+<div class="mobile-menu">
+  <a href="careers.html">Main</a>
+  <a href="careers-culture.html">Culture</a>
+  <a href="careers-process.html">Process</a>
+  <a href="careers-jobs.html">Jobs</a>
+  <a href="careers-faq.html" class="active">FAQ</a>
+</div>
+
+<section class="hero">
+  <div class="hero-content">
+    <div class="hero-badge">FAQ</div>
+    <h1>궁금한 건 다 여기</h1>
+    <p class="hero-sub">테넥스 입사를 고민 중인 분들이 가장 많이 묻는 질문들입니다.<br>더 궁금한 게 있다면 바로 연락하세요.</p>
+  </div>
+</section>
+
+<section class="section">
+  <div class="section-inner">
+
+    <!-- 근무 조건 -->
+    <div class="faq-group fade-in">
+      <div class="faq-group-title">근무 조건</div>
+
+      <div class="faq-item">
+        <div class="faq-q" onclick="this.parentElement.classList.toggle('open')">
+          <span class="q-num">Q1</span>
+          <span class="q-text">수습 기간에 급여가 나오나요?</span>
+          <span class="arrow">▼</span>
+        </div>
+        <div class="faq-a">네, <strong>100% 지급</strong>됩니다. 수습 3개월이지만 급여는 한 푼도 깎지 않습니다. 서로의 궁합을 확인하는 기간이고, 테넥스도 그 책임을 집니다.</div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-q" onclick="this.parentElement.classList.toggle('open')">
+          <span class="q-num">Q2</span>
+          <span class="q-text">근무 형태는 어떻게 되나요?</span>
+          <span class="arrow">▼</span>
+        </div>
+        <div class="faq-a"><strong>시차출퇴근 유연근무제</strong>를 운영합니다. 정해진 코어타임 내에 자유롭게 시작 시간을 조정할 수 있습니다. 상세한 근무 형태는 면접 시 함께 논의합니다.</div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-q" onclick="this.parentElement.classList.toggle('open')">
+          <span class="q-num">Q3</span>
+          <span class="q-text">리모트 근무 가능한가요?</span>
+          <span class="arrow">▼</span>
+        </div>
+        <div class="faq-a">현재는 <strong>오피스 출근 기본</strong>입니다. 초기 팀인 만큼 빠른 소통과 실행이 중요합니다. 유연근무제를 운영하고 있으며, 일정 적응 후 협의 가능한 부분이 있을 수 있습니다.</div>
+      </div>
+
+    </div>
+
+    <!-- 지원 & 면접 -->
+    <div class="faq-group fade-in">
+      <div class="faq-group-title">지원 & 면접</div>
+
+      <div class="faq-item">
+        <div class="faq-q" onclick="this.parentElement.classList.toggle('open')">
+          <span class="q-num">Q4</span>
+          <span class="q-text">실력이 부족해도 지원 가능한가요?</span>
+          <span class="arrow">▼</span>
+        </div>
+        <div class="faq-a">실력보다 중요한 건 <strong>'해야 할 일이 있으면 그냥 해내는 마인드셋'</strong>입니다. 영상편집 경험 제로에서 1년 만에 구독자 10만을 만든 멤버가 있습니다. 방법은 팀이 함께 찾습니다.</div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-q" onclick="this.parentElement.classList.toggle('open')">
+          <span class="q-num">Q5</span>
+          <span class="q-text">면접 복장 코드는 따로 있나요?</span>
+          <span class="arrow">▼</span>
+        </div>
+        <div class="faq-a"><strong>편하게 오세요.</strong> 캐주얼 완전 OK입니다. 복장보다 대화가 중요합니다. 면접이라기보다 서로를 알아가는 시간이니까요.</div>
+      </div>
+
+    </div>
+
+    <!-- 보상 & 성장 -->
+    <div class="faq-group fade-in">
+      <div class="faq-group-title">보상 & 성장</div>
+
+      <div class="faq-item">
+        <div class="faq-q" onclick="this.parentElement.classList.toggle('open')">
+          <span class="q-num">Q6</span>
+          <span class="q-text">스톡옵션 제도가 있나요?</span>
+          <span class="arrow">▼</span>
+        </div>
+        <div class="faq-a"><strong>초기 멤버에게 스톡옵션 협의가 가능</strong>합니다. 회사가 10배 성장할 때 함께 성장하는 구조를 지향합니다. 구체적인 조건은 면접 시 직접 논의합니다.</div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-q" onclick="this.parentElement.classList.toggle('open')">
+          <span class="q-num">Q7</span>
+          <span class="q-text">팀 규모가 어떻게 되나요?</span>
+          <span class="arrow">▼</span>
+        </div>
+        <div class="faq-a">현재 <strong>소수정예 3~5인</strong>입니다. 각자가 한 팀의 리더처럼 움직입니다. 반복 업무는 AI가 처리하고, 사람은 판단과 창의에 집중합니다.</div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-q" onclick="this.parentElement.classList.toggle('open')">
+          <span class="q-num">Q8</span>
+          <span class="q-text">입사 후 온보딩은 어떻게 진행되나요?</span>
+          <span class="arrow">▼</span>
+        </div>
+        <div class="faq-a"><strong>첫 주는 CEO가 직접 온보딩</strong>합니다. 회사가 어떻게 돌아가는지, 어떤 판단으로 결정을 내리는지 직접 보고 느끼는 시간입니다. 이후 실무에 즉시 투입 — 배우면서 성장하는 방식입니다.</div>
+      </div>
+
+    </div>
+
+  </div>
+</section>
+
+<section class="cta-section">
+  <h2>더 궁금한 게 있나요?</h2>
+  <p>어떤 질문이든 편하게 연락하세요. 솔직하게 답합니다.</p>
+  <div class="cta-buttons">
+    <a href="mailto:recruit@tenex.kr" class="btn-primary">이메일로 질문하기 ✉</a>
+    <a href="careers-jobs.html" class="btn-outline">채용공고 보러가기 →</a>
+  </div>
+</section>
+
+<footer class="footer">
+  <p>지원 문의: <a href="mailto:recruit@tenex.kr">recruit@tenex.kr</a></p>
+  <p class="footer-quote">"K-health를 떠올리면 테넥스가 대체 불가능한 회사로 인식되는 날을 함께 만들어갑니다"</p>
+  <p style="margin-top:20px;font-size:.8rem;opacity:.5">© 2026 TENEX (키네메디칼). All rights reserved.</p>
+</footer>
+
+<script>
+if (window.innerWidth <= 768) {
+  document.querySelectorAll('.fade-in').forEach(el => el.classList.add('visible'));
+} else {
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); io.unobserve(e.target); } });
+  }, {threshold: 0.1});
+  document.querySelectorAll('.fade-in').forEach(el => io.observe(el));
+}
+</script>
+</body>
+</html>
