@@ -249,97 +249,95 @@ body {
 
 
 
-/* ─── REVENUE BAR CHART ─── */
-.revenue-chart {
-  max-width: 860px;
-  margin: 72px auto 0;
-}
-.chart-heading {
-  font-size: 0.72rem;
-  font-weight: 700;
-  letter-spacing: 1.5px;
-  text-transform: uppercase;
-  color: var(--text-sub);
+/* ─── GROWTH CURVE ─── */
+.growth-curve {
+  max-width: 640px;
+  margin: 80px auto 0;
   text-align: center;
-  margin-bottom: 20px;
 }
-.chart-scroll-wrap {
-  overflow-x: auto;
-  -webkit-overflow-scrolling: touch;
+.growth-title {
+  font-size: clamp(24px, 3.5vw, 36px);
+  font-weight: 900;
+  color: var(--navy-dark);
+  letter-spacing: -1px;
+  margin-bottom: 48px;
 }
-.chart-inner {
-  display: flex;
-  align-items: flex-end;
-  gap: 8px;
-  border-bottom: 2px solid #e0e5eb;
-  min-width: 480px;
-  padding: 8px 0 0;
+.growth-title em {
+  color: #E53935;
+  font-style: normal;
 }
-.chart-col {
-  flex: 1;
-  min-width: 28px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: flex-end;
-}
-.chart-val {
-  font-size: 0.52rem;
-  font-weight: 700;
-  color: var(--navy);
-  text-align: center;
-  margin-bottom: 4px;
-  white-space: nowrap;
-  line-height: 1.2;
-}
-.chart-val.gold-v { color: var(--gold-dark); }
-.chart-bar {
+.growth-svg-wrap {
+  position: relative;
   width: 100%;
-  background: var(--navy);
-  border-radius: 4px 4px 0 0;
-  min-height: 4px;
-  transform-origin: bottom;
-  transform: scaleY(0);
-  transition: transform 1s cubic-bezier(0.16, 1, 0.3, 1);
+  max-width: 520px;
+  margin: 0 auto;
 }
-.chart-bar.gold {
-  background: linear-gradient(to top, var(--gold-dark), var(--gold));
-}
-.chart-bar.peak {
-  background: linear-gradient(to top, var(--navy-mid), #004faa);
-}
-.fade-up.visible .chart-bar { transform: scaleY(1); }
-.chart-col:nth-child(1)  .chart-bar { transition-delay: 0.00s; }
-.chart-col:nth-child(2)  .chart-bar { transition-delay: 0.05s; }
-.chart-col:nth-child(3)  .chart-bar { transition-delay: 0.10s; }
-.chart-col:nth-child(4)  .chart-bar { transition-delay: 0.15s; }
-.chart-col:nth-child(5)  .chart-bar { transition-delay: 0.20s; }
-.chart-col:nth-child(6)  .chart-bar { transition-delay: 0.25s; }
-.chart-col:nth-child(7)  .chart-bar { transition-delay: 0.30s; }
-.chart-col:nth-child(8)  .chart-bar { transition-delay: 0.35s; }
-.chart-col:nth-child(9)  .chart-bar { transition-delay: 0.40s; }
-.chart-col:nth-child(10) .chart-bar { transition-delay: 0.45s; }
-.chart-col:nth-child(11) .chart-bar { transition-delay: 0.50s; }
-.chart-col:nth-child(12) .chart-bar { transition-delay: 0.55s; }
-.chart-col:nth-child(13) .chart-bar { transition-delay: 0.60s; }
-.chart-months {
-  display: flex;
-  gap: 8px;
-  padding-top: 8px;
-  min-width: 480px;
-}
-.chart-months span {
-  flex: 1;
-  min-width: 28px;
-  text-align: center;
-  font-size: 0.62rem;
-  color: var(--text-sub);
-  line-height: 1.4;
-}
-.chart-months small {
+.growth-svg-wrap svg {
+  width: 100%;
+  height: auto;
   display: block;
-  font-size: 0.5rem;
-  opacity: 0.65;
+}
+.growth-curve-path {
+  stroke: var(--navy);
+  stroke-width: 3;
+  fill: none;
+  stroke-linecap: round;
+  stroke-dasharray: 500;
+  stroke-dashoffset: 500;
+  transition: stroke-dashoffset 1.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.fade-up.visible .growth-curve-path {
+  stroke-dashoffset: 0;
+}
+.growth-fill {
+  opacity: 0;
+  transition: opacity 1.2s ease 0.6s;
+}
+.fade-up.visible .growth-fill {
+  opacity: 1;
+}
+.growth-dot-2025 {
+  fill: var(--navy);
+  opacity: 0;
+  transition: opacity 0.4s ease 1s;
+}
+.fade-up.visible .growth-dot-2025 { opacity: 1; }
+.growth-dot-2026 {
+  fill: #E53935;
+  opacity: 0;
+  transition: opacity 0.4s ease 1.4s;
+}
+.fade-up.visible .growth-dot-2026 { opacity: 1; }
+.growth-label-2025 {
+  opacity: 0;
+  transition: opacity 0.4s ease 1.1s;
+}
+.fade-up.visible .growth-label-2025 { opacity: 1; }
+.growth-label-2026 {
+  opacity: 0;
+  transition: opacity 0.4s ease 1.5s;
+}
+.fade-up.visible .growth-label-2026 { opacity: 1; }
+.growth-badge {
+  display: inline-flex; align-items: center; justify-content: center;
+  background: #E53935; color: #fff;
+  font-size: 18px; font-weight: 900;
+  padding: 8px 20px; border-radius: 100px;
+  box-shadow: 0 4px 20px rgba(229,57,53,0.35);
+  letter-spacing: -0.5px;
+}
+.growth-axis {
+  display: flex; justify-content: space-between;
+  max-width: 520px; margin: 12px auto 0;
+  padding: 0 30px;
+}
+.growth-axis span {
+  font-size: 0.85rem; font-weight: 700;
+  color: var(--text-sub); letter-spacing: 0.5px;
+}
+.growth-unit {
+  font-size: 0.72rem; color: var(--text-sub);
+  margin-top: 4px; letter-spacing: 0.5px;
 }
 
 /* ─── STATS ─── */
@@ -709,41 +707,41 @@ footer a:hover { color: rgba(255,255,255,0.7); }
     </div>
   </div>
 
-  <!-- 월별 매출 성장 그래프 -->
-  <div class="revenue-chart fade-up delay-3">
-    <div class="chart-heading">월별 매출 성장</div>
-    <div class="chart-scroll-wrap">
-      <div class="chart-inner">
-        <div class="chart-col"><div class="chart-val">2천만</div><div class="chart-bar" style="height:14px"></div></div>
-        <div class="chart-col"><div class="chart-val">3천만</div><div class="chart-bar" style="height:22px"></div></div>
-        <div class="chart-col"><div class="chart-val">2.5천</div><div class="chart-bar" style="height:18px"></div></div>
-        <div class="chart-col"><div class="chart-val">3.5천</div><div class="chart-bar" style="height:25px"></div></div>
-        <div class="chart-col"><div class="chart-val">4천만</div><div class="chart-bar" style="height:29px"></div></div>
-        <div class="chart-col"><div class="chart-val">8천만</div><div class="chart-bar" style="height:58px"></div></div>
-        <div class="chart-col"><div class="chart-val">1.2억</div><div class="chart-bar" style="height:86px"></div></div>
-        <div class="chart-col"><div class="chart-val">9천만</div><div class="chart-bar" style="height:65px"></div></div>
-        <div class="chart-col"><div class="chart-val">8천만</div><div class="chart-bar" style="height:58px"></div></div>
-        <div class="chart-col"><div class="chart-val">2.5억</div><div class="chart-bar peak" style="height:180px"></div></div>
-        <div class="chart-col"><div class="chart-val gold-v">2억</div><div class="chart-bar gold" style="height:144px"></div></div>
-        <div class="chart-col"><div class="chart-val gold-v">1억</div><div class="chart-bar gold" style="height:72px"></div></div>
-        <div class="chart-col"><div class="chart-val gold-v">1.5억</div><div class="chart-bar gold" style="height:108px"></div></div>
-      </div>
-      <div class="chart-months">
-        <span>3<small>'25</small></span>
-        <span>4</span>
-        <span>5</span>
-        <span>6</span>
-        <span>7</span>
-        <span>8</span>
-        <span>9</span>
-        <span>10</span>
-        <span>11</span>
-        <span>12</span>
-        <span>1<small>'26</small></span>
-        <span>2</span>
-        <span>3</span>
-      </div>
+  <!-- 연도별 성장 곡선 -->
+  <div class="growth-curve fade-up delay-3">
+    <div class="growth-title">연매출 <em>200억</em> 목표</div>
+    <div class="growth-svg-wrap">
+      <svg viewBox="0 0 520 260" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="curveGrad" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#002855" stop-opacity="0.18"/>
+            <stop offset="100%" stop-color="#002855" stop-opacity="0"/>
+          </linearGradient>
+        </defs>
+        <!-- 그라데이션 채움 -->
+        <path class="growth-fill" d="M 80 200 Q 260 185 440 40 L 440 240 L 80 240 Z" fill="url(#curveGrad)"/>
+        <!-- 우상향 커브 -->
+        <path class="growth-curve-path" d="M 80 200 Q 260 185 440 40"/>
+        <!-- 2025 도트 -->
+        <circle class="growth-dot-2025" cx="80" cy="200" r="6"/>
+        <!-- 2025 라벨 -->
+        <g class="growth-label-2025">
+          <text x="80" y="228" text-anchor="middle" font-size="15" font-weight="800" fill="#002855">15억</text>
+        </g>
+        <!-- 2026 도트 (큰 강조) -->
+        <circle class="growth-dot-2026" cx="440" cy="40" r="10"/>
+        <!-- 2026 뱃지 -->
+        <g class="growth-label-2026">
+          <rect x="388" y="2" width="104" height="32" rx="16" fill="#E53935"/>
+          <text x="440" y="23" text-anchor="middle" font-size="15" font-weight="900" fill="#fff">200억 🎯</text>
+        </g>
+      </svg>
     </div>
+    <div class="growth-axis">
+      <span>2025년</span>
+      <span>2026년</span>
+    </div>
+    <div class="growth-unit">(단위: 억 원)</div>
   </div>
 </section>
 
