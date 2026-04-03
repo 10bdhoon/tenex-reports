@@ -1,21 +1,18 @@
 (function(){
-  document.addEventListener('DOMContentLoaded', function() {
-    // 1. 제품정보(솔루션) 드롭다운: cate-override 구조를 wp-dropdown과 동일하게 변경
+  function applyFixes() {
+    // 1. 제품정보(솔루션) 드롭다운: cate-override → wp-dropdown 스타일
     var catOverride = document.getElementById('category');
     if (catOverride && catOverride.classList.contains('cate-override')) {
-      // sub-cate 제거
       var subCate = catOverride.querySelector('.sub-cate');
       if (subCate) subCate.remove();
-      // wp-dropdown-menu 생성 (회복/교정/고정 기기)
       var li = catOverride.querySelector('li');
-      if (li) {
+      if (li && !li.querySelector('.wp-dropdown-menu')) {
         var dropMenu = document.createElement('div');
         dropMenu.className = 'wp-dropdown-menu';
         dropMenu.innerHTML = '<a href="/product/list.html?cate_no=74">회복 기기</a>' +
                              '<a href="/product/list.html?cate_no=74">교정 기기</a>' +
                              '<a href="/product/list.html?cate_no=74">고정 기기</a>';
         li.appendChild(dropMenu);
-        // cate-override를 wp-dropdown 스타일로 변경
         catOverride.classList.add('wp-dropdown');
       }
     }
@@ -33,19 +30,26 @@
       var t = title.textContent.trim();
 
       if (t === '기업소식') {
-        // 1번: ksilbo
         var img0 = items[0] && items[0].querySelector('.km-info-card__thumb img');
         if (img0) img0.src = 'https://cdn.ksilbo.co.kr/news/thumbnail/202602/1049823_630919_4136_v150.jpg';
-        // 2번: nbntv
         var img1 = items[1] && items[1].querySelector('.km-info-card__thumb img');
         if (img1) img1.src = 'https://www.nbntv.kr/news/thumbnail/202511/338143_362280_4230_v150.jpg';
       }
 
       if (t === '공식 블로그') {
-        // 2번: 목디스크 관리법
         var img1b = items[1] && items[1].querySelector('.km-info-card__thumb img');
         if (img1b) img1b.src = 'https://source.inblog.dev/featured_image/2026-02-25T04:52:20.161Z-ff86ab91-cee7-4d03-93dc-d10260ac5ee0';
       }
     });
-  });
+  }
+
+  // 즉시 실행 + DOMContentLoaded 양쪽 대비
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', applyFixes);
+  } else {
+    applyFixes();
+  }
+  // 안전장치: 100ms 후에도 한번 더
+  setTimeout(applyFixes, 200);
+  setTimeout(applyFixes, 1000);
 })();
