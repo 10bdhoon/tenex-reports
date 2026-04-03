@@ -247,25 +247,100 @@ body {
 }
 .timeline-text span { font-size: 0.88rem; color: var(--text-sub); }
 
-/* 성과 하이라이트 */
-.growth-highlights {
-  max-width: 900px; margin: 72px auto 0;
-  display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px;
+
+
+/* ─── REVENUE BAR CHART ─── */
+.revenue-chart {
+  max-width: 860px;
+  margin: 72px auto 0;
 }
-.growth-card {
-  background: var(--bg); border: 1px solid var(--border);
-  border-radius: 16px; padding: 28px 20px; text-align: center;
-  transition: transform 0.2s, box-shadow 0.2s;
+.chart-heading {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--text-sub);
+  text-align: center;
+  margin-bottom: 20px;
 }
-.growth-card:hover { transform: translateY(-3px); box-shadow: 0 12px 32px rgba(0,40,85,0.08); }
-.growth-card.highlight { background: var(--navy); border-color: var(--navy); }
-.growth-num {
-  font-size: 2rem; font-weight: 900; color: var(--navy);
-  letter-spacing: -1px; line-height: 1.1; margin-bottom: 8px;
+.chart-scroll-wrap {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
 }
-.growth-card.highlight .growth-num { color: var(--gold); font-size: 2.4rem; }
-.growth-lbl { font-size: 0.82rem; color: var(--text-sub); line-height: 1.5; }
-.growth-card.highlight .growth-lbl { color: rgba(255,255,255,0.6); }
+.chart-inner {
+  display: flex;
+  align-items: flex-end;
+  gap: 8px;
+  border-bottom: 2px solid #e0e5eb;
+  min-width: 480px;
+  padding: 8px 0 0;
+}
+.chart-col {
+  flex: 1;
+  min-width: 28px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+}
+.chart-val {
+  font-size: 0.52rem;
+  font-weight: 700;
+  color: var(--navy);
+  text-align: center;
+  margin-bottom: 4px;
+  white-space: nowrap;
+  line-height: 1.2;
+}
+.chart-val.gold-v { color: var(--gold-dark); }
+.chart-bar {
+  width: 100%;
+  background: var(--navy);
+  border-radius: 4px 4px 0 0;
+  min-height: 4px;
+  transform-origin: bottom;
+  transform: scaleY(0);
+  transition: transform 1s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.chart-bar.gold {
+  background: linear-gradient(to top, var(--gold-dark), var(--gold));
+}
+.chart-bar.peak {
+  background: linear-gradient(to top, var(--navy-mid), #004faa);
+}
+.fade-up.visible .chart-bar { transform: scaleY(1); }
+.chart-col:nth-child(1)  .chart-bar { transition-delay: 0.00s; }
+.chart-col:nth-child(2)  .chart-bar { transition-delay: 0.05s; }
+.chart-col:nth-child(3)  .chart-bar { transition-delay: 0.10s; }
+.chart-col:nth-child(4)  .chart-bar { transition-delay: 0.15s; }
+.chart-col:nth-child(5)  .chart-bar { transition-delay: 0.20s; }
+.chart-col:nth-child(6)  .chart-bar { transition-delay: 0.25s; }
+.chart-col:nth-child(7)  .chart-bar { transition-delay: 0.30s; }
+.chart-col:nth-child(8)  .chart-bar { transition-delay: 0.35s; }
+.chart-col:nth-child(9)  .chart-bar { transition-delay: 0.40s; }
+.chart-col:nth-child(10) .chart-bar { transition-delay: 0.45s; }
+.chart-col:nth-child(11) .chart-bar { transition-delay: 0.50s; }
+.chart-col:nth-child(12) .chart-bar { transition-delay: 0.55s; }
+.chart-col:nth-child(13) .chart-bar { transition-delay: 0.60s; }
+.chart-months {
+  display: flex;
+  gap: 8px;
+  padding-top: 8px;
+  min-width: 480px;
+}
+.chart-months span {
+  flex: 1;
+  min-width: 28px;
+  text-align: center;
+  font-size: 0.62rem;
+  color: var(--text-sub);
+  line-height: 1.4;
+}
+.chart-months small {
+  display: block;
+  font-size: 0.5rem;
+  opacity: 0.65;
+}
 
 /* ─── STATS ─── */
 .section-stats { background: var(--navy); padding: 120px 40px; }
@@ -503,9 +578,6 @@ footer a:hover { color: rgba(255,255,255,0.7); }
   .timeline::before { left: 90px; }
   .timeline-date { min-width: 72px; font-size: 0.76rem; }
 
-  .growth-highlights { grid-template-columns: repeat(2, 1fr); gap: 12px; margin-top: 48px; }
-  .growth-num { font-size: 1.6rem; }
-  .growth-card.highlight .growth-num { font-size: 1.9rem; }
 
   .brands-grid { grid-template-columns: 1fr; }
   .brand-body { padding: 28px 28px 32px; }
@@ -637,23 +709,40 @@ footer a:hover { color: rgba(255,255,255,0.7); }
     </div>
   </div>
 
-  <!-- 성과 하이라이트 -->
-  <div class="growth-highlights fade-up delay-3">
-    <div class="growth-card fade-up delay-1">
-      <div class="growth-num">4,000대</div>
-      <div class="growth-lbl">ES-808<br>2달 만에 완판</div>
-    </div>
-    <div class="growth-card fade-up delay-2">
-      <div class="growth-num">7,000만</div>
-      <div class="growth-lbl">ES-808 리뉴얼<br>하루 매출 기록</div>
-    </div>
-    <div class="growth-card fade-up delay-3">
-      <div class="growth-num">1억+</div>
-      <div class="growth-lbl">CS-25<br>런칭 1달 만에 월매출</div>
-    </div>
-    <div class="growth-card highlight fade-up delay-4">
-      <div class="growth-num">15억</div>
-      <div class="growth-lbl">1년 만에<br>연매출 돌파</div>
+  <!-- 월별 매출 성장 그래프 -->
+  <div class="revenue-chart fade-up delay-3">
+    <div class="chart-heading">월별 매출 성장</div>
+    <div class="chart-scroll-wrap">
+      <div class="chart-inner">
+        <div class="chart-col"><div class="chart-val">2천만</div><div class="chart-bar" style="height:14px"></div></div>
+        <div class="chart-col"><div class="chart-val">3천만</div><div class="chart-bar" style="height:22px"></div></div>
+        <div class="chart-col"><div class="chart-val">2.5천</div><div class="chart-bar" style="height:18px"></div></div>
+        <div class="chart-col"><div class="chart-val">3.5천</div><div class="chart-bar" style="height:25px"></div></div>
+        <div class="chart-col"><div class="chart-val">4천만</div><div class="chart-bar" style="height:29px"></div></div>
+        <div class="chart-col"><div class="chart-val">8천만</div><div class="chart-bar" style="height:58px"></div></div>
+        <div class="chart-col"><div class="chart-val">1.2억</div><div class="chart-bar" style="height:86px"></div></div>
+        <div class="chart-col"><div class="chart-val">9천만</div><div class="chart-bar" style="height:65px"></div></div>
+        <div class="chart-col"><div class="chart-val">8천만</div><div class="chart-bar" style="height:58px"></div></div>
+        <div class="chart-col"><div class="chart-val">2.5억</div><div class="chart-bar peak" style="height:180px"></div></div>
+        <div class="chart-col"><div class="chart-val gold-v">2억</div><div class="chart-bar gold" style="height:144px"></div></div>
+        <div class="chart-col"><div class="chart-val gold-v">1억</div><div class="chart-bar gold" style="height:72px"></div></div>
+        <div class="chart-col"><div class="chart-val gold-v">1.5억</div><div class="chart-bar gold" style="height:108px"></div></div>
+      </div>
+      <div class="chart-months">
+        <span>3<small>'25</small></span>
+        <span>4</span>
+        <span>5</span>
+        <span>6</span>
+        <span>7</span>
+        <span>8</span>
+        <span>9</span>
+        <span>10</span>
+        <span>11</span>
+        <span>12</span>
+        <span>1<small>'26</small></span>
+        <span>2</span>
+        <span>3</span>
+      </div>
     </div>
   </div>
 </section>
