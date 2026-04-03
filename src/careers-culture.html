@@ -88,26 +88,13 @@ body{font-family:'Pretendard',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-s
 .ai-section .section-num{background:rgba(255,255,255,0.15);color:var(--white)}
 .ai-section h2{color:var(--white)}
 .ai-section p{color:rgba(255,255,255,0.8)}
-.ai-org{display:flex;flex-direction:column;align-items:center;gap:20px;margin:48px 0}
-.ai-org-ceo{background:rgba(255,255,255,0.12);border:1px solid rgba(255,255,255,0.2);border-radius:16px;padding:24px 48px;text-align:center}
-.ai-org-ceo .name{font-weight:800;font-size:1.2rem}
-.ai-org-ceo .role{font-size:.9rem;opacity:.7}
-.ai-org-arrow{font-size:1.5rem;opacity:.4}
-.ai-org-coo{background:linear-gradient(135deg,rgba(201,164,0,0.2),rgba(201,164,0,0.08));border:1px solid rgba(201,164,0,0.3);border-radius:16px;padding:24px 48px;text-align:center}
-.ai-org-coo .name{font-weight:800;font-size:1.2rem;color:var(--gold-light)}
-.ai-org-coo .role{font-size:.9rem;opacity:.7}
-.ai-org-coo .badge{display:inline-block;background:rgba(201,164,0,0.2);padding:2px 10px;border-radius:6px;font-size:.75rem;font-weight:600;margin-top:4px;color:var(--gold-light)}
-.ai-org-team{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;width:100%;max-width:720px}
-.ai-org-member{background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);border-radius:12px;padding:20px;text-align:center}
-.ai-org-member .emoji{font-size:1.8rem;margin-bottom:6px}
-.ai-org-member .name{font-weight:700;font-size:.95rem}
-.ai-org-member .role{font-size:.8rem;opacity:.6}
-
-.auto-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;margin:40px 0}
-.auto-item{background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);border-radius:14px;padding:24px;text-align:center}
-.auto-item .icon{font-size:2rem;margin-bottom:8px}
-.auto-item h4{font-size:.95rem;font-weight:700;margin-bottom:4px}
-.auto-item p{font-size:.85rem;opacity:.6}
+.ai-hero-copy{font-size:1.4rem;line-height:1.6;margin-bottom:48px;color:rgba(255,255,255,0.9)}
+.ai-hero-copy strong{color:var(--gold-light);font-size:1.6rem}
+.ai-points{display:flex;flex-direction:column;gap:24px;margin:40px 0}
+.ai-point{display:flex;gap:20px;align-items:flex-start;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);border-radius:16px;padding:28px}
+.ai-point .icon{font-size:2rem;flex-shrink:0}
+.ai-point h4{font-size:1.05rem;font-weight:700;margin-bottom:6px;color:var(--white)}
+.ai-point p{font-size:.9rem;opacity:.7;margin:0}
 
 .ai-quote{text-align:center;margin-top:48px;padding-top:40px;border-top:1px solid rgba(255,255,255,0.1)}
 .ai-quote p{font-size:1.3rem;font-weight:700;color:var(--gold-light);margin:0}
@@ -161,9 +148,9 @@ body{font-family:'Pretendard',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-s
   .section p,.section ul li{font-size:.95rem;word-break:keep-all}
   .goal-list,.fit-grid{grid-template-columns:1fr;gap:12px}
   .goal-item{padding:20px!important}
-  .ai-org-team{grid-template-columns:repeat(2,1fr);max-width:100%}
-  .ai-org-ceo,.ai-org-coo{padding:18px 28px}
-  .auto-grid{grid-template-columns:1fr}
+  .ai-hero-copy{font-size:1.2rem}
+  .ai-hero-copy strong{font-size:1.3rem}
+  .ai-point{flex-direction:column;gap:12px;padding:20px}
   .fit-card{padding:24px 20px}
   .quote-highlight{padding:20px 16px}
   .quote-highlight p{font-size:1rem;word-break:keep-all}
@@ -246,7 +233,7 @@ body{font-family:'Pretendard',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-s
     <p>'말도 안 된다'는 목표를 세우고, 실제로 해냅니다.</p>
 
     <div class="goal-list">
-      <div class="goal-item"><div class="gi">📺</div><p>유튜브 첫 도전 → <strong>11개월 만에 구독자 10만</strong></p></div>
+      <div class="goal-item"><div class="gi">📺</div><p>유튜브 첫 도전 → <strong>1년 만에 팔로워 20만</strong></p></div>
       <div class="goal-item"><div class="gi">💰</div><p>런칭 2년차, <strong>3명으로 연매출 200억 목표</strong></p></div>
       <div class="goal-item"><div class="gi">🍎</div><p><strong>재활/통증계의 Apple</strong> — 집에서 쓰는 디바이스가 병원 진료 패턴을 바꾸는 구조</p></div>
       <div class="goal-item"><div class="gi">🔥</div><p>"이 정도는 가야 <strong>인생이 재밌지</strong>"</p></div>
@@ -284,8 +271,8 @@ body{font-family:'Pretendard',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-s
         <div class="timeline-step">
           <div class="timeline-dot">🏆</div>
           <div>
-            <div class="num">11개월</div>
-            <div class="desc">구독자 10만 달성.<br>SNS 총 팔로워 20만 돌파.</div>
+            <div class="num">1년</div>
+            <div class="desc">SNS 총 팔로워 20만 돌파.<br>유튜브 구독자 10만 달성.</div>
           </div>
         </div>
       </div>
@@ -302,71 +289,29 @@ body{font-family:'Pretendard',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-s
 <section class="ai-section fade-in">
   <div class="section-inner">
     <div class="section-num">AI NATIVE</div>
-    <h2>AI Native Organization</h2>
-    <p>반복 업무를 AI에게 맡기고, 사람은 판단과 창의에만 집중합니다.<br>CRM 문자 발송, CS 응대, 매출 집계, 댓글 관리 — 전부 자동화.</p>
+    <h2>AI를 실무에 씁니다</h2>
+    <p class="ai-hero-copy">사람은 판단하고, AI가 실행합니다.<br><strong>업무 속도 10배.</strong></p>
 
-    <div class="ai-org">
-      <div class="ai-org-ceo">
-        <div class="name">태훈</div>
-        <div class="role">CEO · 대표</div>
+    <div class="ai-points">
+      <div class="ai-point">
+        <div class="icon">⚡</div>
+        <h4>입사 첫 날부터 AI 풀셋 제공</h4>
+        <p>반복 업무는 AI가 처리. 당신은 판단과 창의에만 집중.</p>
       </div>
-      <div class="ai-org-arrow">↓</div>
-      <div class="ai-org-coo">
-        <div class="name">카리나</div>
-        <div class="role">COO · 총괄</div>
-        <div class="badge">🤖 AI Agent</div>
+      <div class="ai-point">
+        <div class="icon">🚀</div>
+        <h4>3명이 200억을 만드는 비결</h4>
+        <p>CRM, CS, 리포트, 콘텐츠 관리 — 사람이 할 필요 없는 건 전부 자동화.</p>
       </div>
-      <div class="ai-org-arrow">↓</div>
-      <div class="ai-org-team">
-        <div class="ai-org-member">
-          <div class="emoji">🔧</div>
-          <div class="name">개발실장</div>
-          <div class="role">AI Agent</div>
-        </div>
-        <div class="ai-org-member">
-          <div class="emoji">🎬</div>
-          <div class="name">콘텐츠실장</div>
-          <div class="role">AI Agent</div>
-        </div>
-        <div class="ai-org-member">
-          <div class="emoji">📢</div>
-          <div class="name">마케팅실장</div>
-          <div class="role">AI Agent</div>
-        </div>
-        <div class="ai-org-member">
-          <div class="emoji">💬</div>
-          <div class="name">고객실장</div>
-          <div class="role">AI Agent</div>
-        </div>
-      </div>
-    </div>
-
-    <div class="auto-grid">
-      <div class="auto-item">
-        <div class="icon">💌</div>
-        <h4>CRM 자동문자</h4>
-        <p>구매 후 케어 메시지 자동 발송</p>
-      </div>
-      <div class="auto-item">
-        <div class="icon">💬</div>
-        <h4>CS 자동답변</h4>
-        <p>고객 문의 AI 즉시 응대</p>
-      </div>
-      <div class="auto-item">
-        <div class="icon">📊</div>
-        <h4>매출 리포트 자동생성</h4>
-        <p>일별/주별 성과 자동 집계</p>
-      </div>
-      <div class="auto-item">
-        <div class="icon">✍️</div>
-        <h4>댓글 자동화</h4>
-        <p>유튜브·SNS 댓글 자동 관리</p>
+      <div class="ai-point">
+        <div class="icon">🧠</div>
+        <h4>AI를 도구로 쓰는 게 아니라, 일하는 방식 자체</h4>
+        <p>대부분의 회사는 AI 도입을 검토 중입니다. 우리는 이미 돌아가고 있습니다.</p>
       </div>
     </div>
 
     <div class="ai-quote">
-      <p>"대부분의 회사는 AI 도입을 검토 중입니다.<br>우리는 이미 AI가 팀원입니다."</p>
-      <p class="sub">당신이 합류하면, AI 팀원들과 함께 일하게 됩니다.</p>
+      <p>"AI를 적극적으로 실무에 사용하고 있습니다.<br>사람은 판단하고, AI가 실행합니다."</p>
     </div>
   </div>
 </section>
