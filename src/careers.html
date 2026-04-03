@@ -814,6 +814,7 @@ footer a:hover { color: rgba(255,255,255,0.7); }
   .impact-stats {
     grid-template-columns: repeat(2, 1fr);
     gap: 24px;
+    padding: 32px 16px;
   }
   .impact-stat {
     border-right: none;
@@ -822,9 +823,13 @@ footer a:hover { color: rgba(255,255,255,0.7); }
 @media (max-width: 480px) {
   .impact-stats {
     grid-template-columns: 1fr 1fr;
+    padding: 24px 12px;
   }
   .impact-stat-number {
-    font-size: 2.5rem;
+    font-size: 2rem;
+  }
+  .impact-stat {
+    padding: 0 8px;
   }
 }
 /* ====== end impact ====== */
