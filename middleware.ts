@@ -32,6 +32,7 @@ export default async function middleware(req: Request) {
     url.pathname === "/sns-tracker" ||
     url.pathname === "/sns-tracker.html" ||
     url.pathname.startsWith("/data/") ||
+    url.pathname === "/kinemedical-fix.js" ||
     url.pathname === "/careers" ||
     url.pathname === "/careers.html" ||
     url.pathname === "/careers-culture" ||
