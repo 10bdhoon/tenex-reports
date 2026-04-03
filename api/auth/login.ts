@@ -38,7 +38,7 @@ function getUsers(): User[] {
     },
     {
       username: "dlsrb",
-      passwordHash: "$2b$10$c0F0NehSkD.mWLBAU0tXCe.VosZnKd56j1amqfXheYpJouIMxzJHm",
+      passwordHash: "$2b$10$Dw.AWkjoyejRvRK6PNDeJe7p.Ch2PYGeeqVxpPq.to4ELNvA5wc8y",
       role: "viewer",
     },
     {
