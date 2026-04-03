@@ -41,10 +41,10 @@ em, strong { white-space: nowrap; }
 /* ─── NAV ─── */
 .nav {
   position: fixed; top: 0; left: 0; right: 0; z-index: 999;
-  background: rgba(255,255,255,0.94);
+  background: rgba(0,40,85,0.97);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
-  border-bottom: 1px solid rgba(0,0,0,0.07);
+  border-bottom: 1px solid rgba(255,255,255,0.08);
   transition: background 0.3s;
 }
 .nav-inner {
@@ -55,41 +55,42 @@ em, strong { white-space: nowrap; }
 }
 .nav-logo {
   font-size: 1.15rem; font-weight: 900;
-  color: var(--navy-dark); text-decoration: none; letter-spacing: -0.5px;
+  color: #fff; text-decoration: none; letter-spacing: -0.5px;
   font-family: 'Outfit', sans-serif;
 }
-.nav-logo span { color: var(--gold-dark); }
+.nav-logo span { color: var(--gold); }
 .nav-links {
   display: flex; gap: 4px;
 }
 .nav-links a {
-  color: rgba(0,40,85,0.7); text-decoration: none;
+  color: rgba(255,255,255,0.7); text-decoration: none;
   font-size: 0.9rem; font-weight: 500;
   padding: 8px 16px; border-radius: 8px; transition: all 0.2s;
 }
-.nav-links a:hover { color: var(--navy-dark); background: rgba(0,40,85,0.06); }
+.nav-links a:hover, .nav-links a.active { color: #fff; background: rgba(255,255,255,0.1); }
+.nav-links a.active { font-weight: 700; }
 .nav-cta {
-  background: var(--navy-dark); color: #fff;
+  background: var(--gold); color: var(--navy-dark);
   font-weight: 700; font-size: 0.85rem;
   padding: 10px 22px; border-radius: 8px;
   text-decoration: none; transition: all 0.2s;
-  letter-spacing: -0.2px;
+  letter-spacing: -0.2px; white-space: nowrap;
 }
-.nav-cta:hover { background: var(--navy-mid); transform: translateY(-1px); box-shadow: 0 6px 16px rgba(0,40,85,0.18); }
+.nav-cta:hover { background: #ffe033; transform: translateY(-1px); }
 /* ─── MOBILE HAMBURGER ─── */
 .nav-hamburger {
   display: none; background: none; border: none;
-  font-size: 1.5rem; cursor: pointer; color: var(--navy-dark);
+  font-size: 1.5rem; cursor: pointer; color: #fff;
   padding: 4px 8px; line-height: 1;
 }
 @media (max-width: 768px) {
   .nav-links {
     display: none; position: absolute; top: 100%; left: 0; right: 0;
-    background: #fff; flex-direction: column; padding: 12px 20px;
-    box-shadow: 0 8px 24px rgba(0,0,0,0.1); border-top: 1px solid rgba(0,0,0,0.06);
+    background: var(--navy); flex-direction: column; padding: 12px 20px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.2); border-top: 1px solid rgba(255,255,255,0.08);
   }
   .nav-links.open { display: flex; }
-  .nav-links a { padding: 12px 0; font-size: 1rem; }
+  .nav-links a { padding: 12px 0; font-size: 1rem; color: rgba(255,255,255,0.8); }
   .nav-hamburger { display: block; }
   .nav-cta { display: none; }
   .nav-inner { position: relative; }
@@ -861,7 +862,7 @@ footer a:hover { color: rgba(255,255,255,0.7); }
     <p class="hero-sub fade-up delay-2">
       두 사람이 시작해서, 런칭 <em>1년</em> 만에 연매출 <em>15억</em>.<br>SNS 팔로워 <em>20만</em>. 올해 목표 <em class="big">200억</em>.<br><br>지금 합류하면, 이 폭발적 성장을 경험할 수 있습니다.
     </p>
-    <a href="#jobs" class="hero-cta fade-up delay-3">채용공고 보기 →</a>
+    <a href="mailto:recruit@tenex.kr" class="hero-cta fade-up delay-3">지원하기 →</a>
   </div>
   <div class="scroll-hint">
     <span>SCROLL DOWN</span>
