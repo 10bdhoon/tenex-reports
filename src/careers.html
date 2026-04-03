@@ -32,7 +32,10 @@ body {
   color: var(--text);
   -webkit-font-smoothing: antialiased;
   overflow-x: hidden;
+  word-break: keep-all;
+  overflow-wrap: break-word;
 }
+em, strong { white-space: nowrap; }
 
 /* ─── NAV ─── */
 .nav {
@@ -566,22 +569,25 @@ footer a:hover { color: rgba(255,255,255,0.7); }
   .nav-inner { padding: 0 24px; }
 
   .hero { padding: 100px 24px 100px; min-height: 100svh; }
-  .hero h1 { font-size: 36px; letter-spacing: -1px; }
-  .hero-sub { font-size: 16px; }
+  .hero h1 { font-size: 28px; letter-spacing: -1px; }
+  .hero-sub { font-size: 14px; padding: 0 16px; }
   .hero-badges { gap: 8px; }
+  .hero-badge { font-size: 0.72rem; padding: 5px 12px; }
 
   .section-timing, .section-brands, .section-dna, .section-benefits,
-  .section-thumbs, .section-video { padding: 80px 24px; }
+  .section-thumbs, .section-video { padding: 60px 20px; }
   .section-stats { padding: 80px 24px; }
   .section-cta { padding: 80px 24px; min-height: auto; }
 
-  .section-title, .section-title-light { font-size: 30px; letter-spacing: -1px; }
-  .section-sub { margin-bottom: 48px; }
+  .section-title, .section-title-light { font-size: 24px; letter-spacing: -1px; }
+  .section-sub { font-size: 14px; padding: 0 8px; margin-bottom: 48px; }
 
   .stats-inner { grid-template-columns: 1fr; gap: 0; }
   .stat-card:first-child { border-radius: 16px 16px 0 0; }
   .stat-card:last-child { border-radius: 0 0 16px 16px; }
   .stat-card { padding: 44px 32px; }
+  .stat-num { font-size: 2rem; }
+  .stat-label { font-size: 0.85rem; }
 
   .timeline::before { left: 90px; }
   .timeline-date { min-width: 72px; font-size: 0.76rem; }
@@ -595,10 +601,10 @@ footer a:hover { color: rgba(255,255,255,0.7); }
   .roadmap { overflow-x: auto; }
   .roadmap-node { padding: 10px 16px; font-size: 0.82rem; }
 
-  .dna-card { flex-direction: row; padding: 24px 24px; gap: 16px; }
+  .dna-card { flex-direction: row; padding: 20px; gap: 16px; }
   .dna-icon { width: 48px; height: 48px; font-size: 1.6rem; }
   .dna-card-title { font-size: 1rem; }
-  .dna-card-desc { font-size: 0.875rem; }
+  .dna-card-desc { font-size: 0.85rem; word-break: keep-all; }
 
   .benefits-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
   .benefit-item { padding: 28px 16px; }
@@ -611,7 +617,8 @@ footer a:hover { color: rgba(255,255,255,0.7); }
 
   .video-thumb-grid { grid-template-columns: repeat(3, 1fr); gap: 8px; }
 
-  .cta-title { font-size: 28px; letter-spacing: -1px; }
+  .cta-title { font-size: 24px; letter-spacing: -1px; }
+  .cta-sub { font-size: 14px; padding: 0 12px; }
   .cta-buttons { flex-direction: column; align-items: stretch; }
   .btn-gold, .btn-outline { justify-content: center; }
 }
