@@ -130,6 +130,33 @@ sqlite3 ~/.openclaw/workspace/brain/brain.db "SELECT content FROM memories WHERE
 }</pre>
 </div>
 
+<!-- 토큰 100% 긴급 전환 -->
+<h2>🚨 토큰 100% 찼을 때 (카리나 응답 불가)</h2>
+<div class="card danger">
+  <h3>증상</h3>
+  <p>카리나가 응답 안 함, 실장들도 응답 안 함 = 토큰 한도 다 쥌</p>
+  
+  <h3>해결: 터미널에서 명령어 2줄</h3>
+  <pre>bash ~/.openclaw/workspace/scripts/switch-token.sh 계정이름
+openclaw gateway restart</pre>
+  
+  <h3>계정 이름 목록</h3>
+  <ul>
+    <li><code>10bdhoon</code> — 10bdhoon@gmail.com</li>
+    <li><code>th.950414</code> — th.950414@gmail.com</li>
+    <li><code>tenex-kr</code> — taehoon.kim@tenex.kr</li>
+  </ul>
+  
+  <h3>예시</h3>
+  <pre>bash ~/.openclaw/workspace/scripts/switch-token.sh th.950414
+openclaw gateway restart</pre>
+  <p>30초면 끝. restart 후 카리나가 새 계정으로 응답 시작해요.</p>
+  
+  <div class="tip">
+    💡 Claude Code CLI도 바꿔야 합니다: Claude Code 열고 <code>/login</code> 입력 → 해당 계정으로 로그인
+  </div>
+</div>
+
 <!-- 자동 백업 -->
 <h2>🛡️ 자동 백업 시스템</h2>
 <div class="card success">
