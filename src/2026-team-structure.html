@@ -18,14 +18,13 @@
   .person-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 16px; flex-wrap: wrap; gap: 8px; }
   .person-name { font-size: 1.1rem; font-weight: 800; color: #f0f6fc; }
   .person-title { color: #8b949e; font-size: 0.85rem; margin-top: 2px; }
-  .salary-badge { background: rgba(56,211,159,0.15); border: 1px solid rgba(56,211,159,0.3); color: #38d39f; padding: 6px 16px; border-radius: 20px; font-weight: 700; font-size: 0.9rem; white-space: nowrap; }
-  .salary-badge.future { background: rgba(88,166,255,0.15); border-color: rgba(88,166,255,0.3); color: #58a6ff; }
-  .salary-badge.tbd { background: rgba(240,136,62,0.15); border-color: rgba(240,136,62,0.3); color: #f0883e; }
+  .status-badge { background: rgba(56,211,159,0.15); border: 1px solid rgba(56,211,159,0.3); color: #38d39f; padding: 6px 16px; border-radius: 20px; font-weight: 700; font-size: 0.9rem; white-space: nowrap; }
+  .status-badge.future { background: rgba(88,166,255,0.15); border-color: rgba(88,166,255,0.3); color: #58a6ff; }
+  .status-badge.tbd { background: rgba(240,136,62,0.15); border-color: rgba(240,136,62,0.3); color: #f0883e; }
   .role-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 12px; }
   .role-box h4 { font-size: 0.82rem; color: #8b949e; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.5px; }
   ul.role-list { padding-left: 16px; }
   ul.role-list li { color: #cdd9e5; font-size: 0.88rem; margin-bottom: 5px; }
-  .stock-tag { display: inline-block; background: rgba(163,113,247,0.15); border: 1px solid rgba(163,113,247,0.3); color: #a371f7; padding: 3px 10px; border-radius: 12px; font-size: 0.78rem; margin-top: 8px; }
   .timing-tag { display: inline-block; background: #21262d; color: #8b949e; padding: 3px 10px; border-radius: 12px; font-size: 0.78rem; margin-top: 8px; margin-left: 6px; }
   .highlight { background: rgba(88,166,255,0.08); border-left: 3px solid #58a6ff; padding: 14px 18px; border-radius: 0 8px 8px 0; margin: 12px 0; }
   .highlight p { color: #cdd9e5; font-size: 0.92rem; }
@@ -113,7 +112,7 @@
           <div class="person-name">김태훈 — CEO</div>
           <div class="person-title">전략 · 제품 · 마케팅 · 자금 · AI 시스템</div>
         </div>
-        <div class="salary-badge">대표 (연봉 X)</div>
+        <div class="status-badge">CEO</div>
       </div>
       <div class="role-grid">
         <div class="role-box">
@@ -147,7 +146,7 @@
           <div class="person-name">인규 — 콘텐츠 총괄</div>
           <div class="person-title">1분도수 채널 · 영상 제작 · CS 관리</div>
         </div>
-        <div class="salary-badge">세후 400만/월 + 지분 5%</div>
+        <div class="status-badge">현재 팀</div>
       </div>
       <div class="role-grid">
         <div class="role-box">
@@ -169,7 +168,6 @@
           </ul>
         </div>
       </div>
-      <span class="stock-tag">지분 5% (4년 베스팅, 매년 1.25%)</span>
       <span class="timing-tag">현재</span>
     </div>
 
@@ -179,7 +177,7 @@
           <div class="person-name">이정민 — 그로스 리드</div>
           <div class="person-title">그로스 마케팅 · 미디어믹스 · CRM · 온사이트 분석 총괄</div>
         </div>
-        <div class="salary-badge future">입사 완료 · 2026-04-10</div>
+        <div class="status-badge future">입사 완료 · 2026-04-10</div>
       </div>
       <div class="role-grid">
         <div class="role-box">
@@ -214,14 +212,14 @@
           <div class="person-name" style="color:#f0883e">이제형 — 퇴사</div>
           <div class="person-title">디자인 · 앱 · 웹 담당 예정 → 퇴사 완료</div>
         </div>
-        <div class="salary-badge tbd">퇴사 · 2026-04-10</div>
+        <div class="status-badge tbd">퇴사 · 2026-04-10</div>
       </div>
       <div class="role-grid">
         <div class="role-box">
-          <h4>퇴사 사유</h4>
+          <h4>상태</h4>
           <ul class="role-list">
-            <li>반복되는 야근 부담이 컸음</li>
-            <li>업무 능력 부족으로 팀에 피해를 준다고 느낌</li>
+            <li>디자인 · 앱 · 웹 담당 예정이었으나 퇴사 완료</li>
+            <li>상세 사유는 대표 전용 문서에서 관리</li>
           </ul>
         </div>
         <div class="role-box">
@@ -241,7 +239,7 @@
           <div class="person-name" style="color:#a371f7">카리나 — AI COO</div>
           <div class="person-title">전략실행 · 실장단 총괄 · 자동화 · 분석</div>
         </div>
-        <div class="salary-badge" style="background:rgba(163,113,247,0.15);border-color:rgba(163,113,247,0.3);color:#a371f7">AI (비용 0원)</div>
+        <div class="status-badge" style="background:rgba(163,113,247,0.15);border-color:rgba(163,113,247,0.3);color:#a371f7">AI COO</div>
       </div>
       <div class="role-grid">
         <div class="role-box">
@@ -280,7 +278,7 @@
           <div class="person-name">① 인플루언서 마케팅 운영</div>
           <div class="person-title">리서치 · 아웃리치 · DM · 협업 운영</div>
         </div>
-        <div class="salary-badge future">알바/계약직 우선 검토</div>
+        <div class="status-badge future">알바/계약직 우선 검토</div>
       </div>
       <div class="role-grid">
         <div class="role-box">
@@ -312,7 +310,7 @@
           <div class="person-name">② 운영 매니저</div>
           <div class="person-title">물류 · 재고 · QC · CS 시스템화</div>
         </div>
-        <div class="salary-badge future">3,500~4,500만/년</div>
+        <div class="status-badge future">월매출 5억+ 시점</div>
       </div>
       <div class="role-grid">
         <div class="role-box">
@@ -336,7 +334,6 @@
           </ul>
         </div>
       </div>
-      <span class="stock-tag">스톡옵션 0.5~1%</span>
       <span class="timing-tag">월매출 5억+ 도달 시</span>
     </div>
 
@@ -347,7 +344,7 @@
           <div class="person-name">③ 미국 담당자 (글로벌 마케터)</div>
           <div class="person-title">TikTok US · PT 인플루언서 · Shopify 운영</div>
         </div>
-        <div class="salary-badge future">3,500~5,000만/년</div>
+        <div class="status-badge future">FCC 확보 후</div>
       </div>
       <div class="role-grid">
         <div class="role-box">
@@ -371,7 +368,6 @@
           </ul>
         </div>
       </div>
-      <span class="stock-tag">스톡옵션 0.3~0.5%</span>
       <span class="timing-tag">FCC 확보 후 / Q2~Q3</span>
     </div>
 
@@ -382,7 +378,7 @@
           <div class="person-name">④ 퍼포먼스 마케터</div>
           <div class="person-title">메타/틱톡 광고 세팅 & 최적화</div>
         </div>
-        <div class="salary-badge future">4,000~5,500만/년</div>
+        <div class="status-badge future">광고비 월 3억+ 시</div>
       </div>
       <div class="role-grid">
         <div class="role-box">
@@ -405,7 +401,6 @@
           </ul>
         </div>
       </div>
-      <span class="stock-tag">스톡옵션 0.3~0.5%</span>
       <span class="timing-tag">광고비 월 3억+ 시 / Q3~Q4</span>
     </div>
 
@@ -416,7 +411,7 @@
           <div class="person-name">⑤ COO / 경영지원</div>
           <div class="person-title">재무 · 인사 · 법무 · 팀 운영 총괄</div>
         </div>
-        <div class="salary-badge tbd">6,000~8,000만/년</div>
+        <div class="status-badge tbd">2027 or Pre-A 이후</div>
       </div>
       <div class="role-grid">
         <div class="role-box">
@@ -439,26 +434,15 @@
           </ul>
         </div>
       </div>
-      <span class="stock-tag">스톡옵션 1~3%</span>
       <span class="timing-tag">2027 or Pre-A 이후</span>
     </div>
   </div>
 
-  <!-- 비용 총계 -->
+  <!-- 운영 원칙 -->
   <div class="section">
-    <h2>💰 인건비 시뮬레이션</h2>
-    <div class="total-box">
-      <div class="total-row"><span>인규 (현재)</span><span style="color:#38d39f">세후 4,800만/년</span></div>
-      <div class="total-row" style="color:#38d39f"><span>이정민 (현재, 그로스 리드)</span><span>처우 협의 완료 기준 반영 필요</span></div>
-      <div class="total-row"><span>카리나 AI COO + 실장단 4명</span><span style="color:#a371f7">0원 (AI)</span></div>
-      <div class="total-row" style="color:#8b949e"><span>① 인플루언서 마케팅 운영 (즉시)</span><span>알바/계약직 예산 별도</span></div>
-      <div class="total-row" style="color:#8b949e"><span>② 운영 매니저 (월매출 5억 후)</span><span>3,500~4,500만/년</span></div>
-      <div class="total-row" style="color:#8b949e"><span>③ 미국 담당자 (Q2~Q3)</span><span>3,500~5,000만/년</span></div>
-      <div class="total-row" style="color:#8b949e"><span>④ 퍼포먼스 마케터 (Q3~Q4)</span><span>4,000~5,500만/년</span></div>
-      <div class="total-row"><span>2026년 말 인건비 총계 (추정)</span><span>~2억/년</span></div>
-    </div>
-    <div class="highlight green" style="margin-top:16px">
-      <p>연매출 200억 기준 인건비 비율 1%. <strong>매우 효율적인 구조</strong>. 카리나(AI)가 3명분 실무를 커버하기 때문에 가능.</p>
+    <h2>📌 운영 원칙</h2>
+    <div class="highlight green" style="margin-top:0">
+      <p>공개용 조직문서는 <strong>역할, 책임, 채용 우선순위</strong> 중심으로 공유하고, 보상/지분/민감 인사 메모는 대표 전용 문서에서만 관리합니다.</p>
     </div>
   </div>
 
