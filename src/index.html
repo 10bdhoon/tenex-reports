@@ -1059,6 +1059,21 @@ body.sidebar-collapsed .header-toggle{display:flex}
     <div class="nav-section" id="catSection">
       <div class="nav-section-title">업무 카테고리 (A~Z)</div>
     </div>
+
+    <div class="nav-section" id="sidebarSystem">
+      <div class="nav-section-title nav-archive-toggle" id="systemToggle">⚙️ 시스템 <span class="expand-arrow" id="systemArrow">▶</span></div>
+      <div class="nav-sub-list" id="systemList">
+        <div class="nav-sub-item admin-only" data-system-page="system"><span>🖥️ 시스템 현황</span></div>
+        <div class="nav-sub-item admin-only" data-system-page="cron"><span>🔄 크론</span></div>
+        <div class="nav-sub-item admin-only" data-system-page="deploy"><span>🚀 배포</span></div>
+        <div class="nav-sub-item admin-only" data-system-page="security"><span>🔒 보안</span></div>
+        <div class="nav-sub-item admin-only" data-system-page="skills"><span>🧩 스킬</span></div>
+        <div class="nav-sub-item admin-only" data-system-page="heartbeat"><span>💓 하트비트</span></div>
+        <div class="nav-sub-item admin-only" data-system-page="pipeline"><span>🔗 파이프라인</span></div>
+        <div class="nav-sub-item admin-only" data-nav-href="/openclaw-troubleshooting.html" data-nav-title="트러블슈팅"><span>🛠️ 트러블슈팅</span></div>
+        <div class="nav-sub-item team-visible" data-nav-href="/ai-usage-guide.html" data-nav-title="AI 사용 가이드"><span>📖 AI 사용 가이드</span></div>
+      </div>
+    </div>
   </nav>
   <div class="sidebar-footer">
     <span class="version">v3.0</span>
@@ -1460,13 +1475,17 @@ function toggleTheme(){const d=document.documentElement.getAttribute('data-theme
 function closeMobile(){document.getElementById('sidebar').classList.remove('open');document.getElementById('sidebarOverlay').classList.remove('show')}
 document.addEventListener('DOMContentLoaded',()=>{
   initTheme();renderAll();renderGlossary();
+  const role=localStorage.getItem('tenex_role')||'viewer';
+  const isAdmin=role==='admin';
+  document.querySelectorAll('.admin-only').forEach(el=>el.style.display=isAdmin?'':'none');
+  document.querySelectorAll('.team-visible').forEach(el=>el.style.display=(isAdmin||role==='team')?'':'none');
   document.getElementById('themeToggle').onclick=toggleTheme;
   document.getElementById('sidebarCollapse').onclick=()=>document.body.classList.toggle('sidebar-collapsed');
   document.getElementById('headerToggle').onclick=()=>document.body.classList.toggle('sidebar-collapsed');
   document.getElementById('mobileMenuBtn').onclick=()=>{document.getElementById('sidebar').classList.add('open');document.getElementById('sidebarOverlay').classList.add('show')};
   document.getElementById('sidebarOverlay').onclick=closeMobile;
   document.querySelector('.nav-item[data-cat="all"]').onclick=()=>{currentSub=null;setCategory('all')};
-  document.getElementById('sidebarSearchInput').oninput=e=>{const q=e.target.value.toLowerCase();document.querySelectorAll('#pinnedSection .nav-item, #strategySection .nav-item, #archiveList .nav-sub-item, #systemList .nav-sub-item').forEach(el=>{const l=(el.querySelector('.label')||el).textContent.toLowerCase();el.style.display=(!q||l.includes(q))?'':'none';if(q&&l.includes(q)){const subList=el.closest('.nav-sub-list');if(subList&&!subList.classList.contains('open'))subList.classList.add('open')}})};
+  document.getElementById('sidebarSearchInput').oninput=e=>{const q=e.target.value.toLowerCase();document.querySelectorAll('#pinnedSection .nav-item, #catSection .nav-item, #catSection .nav-sub-item, #systemList .nav-sub-item').forEach(el=>{const l=(el.querySelector('.label')||el).textContent.toLowerCase();const visibleBase=el.classList.contains('admin-only')?!isAdmin?false:true:el.classList.contains('team-visible')?(isAdmin||role==='team'):true;el.style.display=(visibleBase&&(!q||l.includes(q)))?'':'none';if(q&&l.includes(q)){const subList=el.closest('.nav-sub-list');if(subList&&!subList.classList.contains('open'))subList.classList.add('open')}})};
   const globalSearchEl=document.getElementById('globalSearch');
   globalSearchEl.oninput=e=>{searchQuery=e.target.value;renderReports()};
   document.getElementById('searchClear').onclick=()=>{globalSearchEl.value='';searchQuery='';renderReports();globalSearchEl.focus()};
