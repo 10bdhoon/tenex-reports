@@ -1343,7 +1343,7 @@ const DEFAULT_REPORTS=[
 ];
 let currentCat='all',currentSub=null,searchQuery='',currentView='reports';
 const expandedCats={};
-function getReports(){const o=JSON.parse(localStorage.getItem('tenex-cat-v3')||'{}');const isAdmin=localStorage.getItem('tenex_role')==='admin';return DEFAULT_REPORTS.filter(r=>!r.adminOnly||isAdmin).map(r=>({...r,cat:o[r.href]||r.cat}))}
+function getReports(){const o=JSON.parse(localStorage.getItem('tenex-cat-v3')||'{}');const role=localStorage.getItem('tenex_role')||'viewer';const isAdmin=role==='admin';const allowedPaths=JSON.parse(localStorage.getItem('tenex_allowed_paths')||'[]');return DEFAULT_REPORTS.filter(r=>{if(isAdmin)return true;if(r.adminOnly)return false;if(allowedPaths.length===0)return true;return allowedPaths.includes(r.href);}).map(r=>({...r,cat:o[r.href]||r.cat}))}
 function saveCatOverride(href,cat){const o=JSON.parse(localStorage.getItem('tenex-cat-v3')||'{}');o[href]=cat;localStorage.setItem('tenex-cat-v3',JSON.stringify(o))}
 function renderSidebarCats(){
   const sec=document.getElementById('catSection');

@@ -3,8 +3,8 @@
   "accounts": [
     {"username":"admin","role":"admin","access":"전체","status":"active"},
     {"username":"almani","role":"viewer","access":"/crm, /crm.html만","status":"active"},
-    {"username":"dlsrb","role":"viewer","access":"전체","status":"active"},
-    {"username":"jeongmin.lee@tenex.kr","role":"viewer","access":"/ai-usage-guide, /ai-usage-guide.html만","status":"active"}
+    {"username":"dlsrb","role":"team","access":"팀 리포트 + team-board","status":"active"},
+    {"username":"jeongmin.lee@tenex.kr","role":"team","access":"팀 리포트 + team-board","status":"active"}
   ],
   "tokens": [
     {"name":"GitHub PAT","type":"Token","status":"active","lastRefresh":"2026-03-15","expiresIn":"30일"},

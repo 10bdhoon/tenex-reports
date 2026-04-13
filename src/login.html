@@ -129,6 +129,8 @@
 
         if (res.ok && data.ok) {
           localStorage.setItem('tenex_role', data.role);
+          localStorage.setItem('tenex_allowed_paths', JSON.stringify(data.allowedPaths || []));
+          localStorage.setItem('tenex_username', document.getElementById('username').value);
           window.location.href = returnTo;
         } else {
           errorMsg.textContent = data.error || '로그인에 실패했습니다.';

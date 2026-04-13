@@ -170,6 +170,7 @@ textarea{resize:vertical;min-height:80px;font-size:12px;font-family:'SF Mono',Co
           <label>권한</label>
           <select id="newRole" onchange="togglePathsGroup()">
             <option value="viewer">viewer (제한 접근)</option>
+            <option value="team">team (팀 공유 리포트)</option>
             <option value="admin">admin (전체 접근)</option>
           </select>
         </div>
@@ -236,6 +237,7 @@ textarea{resize:vertical;min-height:80px;font-size:12px;font-family:'SF Mono',Co
       <label>권한</label>
       <select id="roleValue">
         <option value="viewer">viewer (제한 접근)</option>
+        <option value="team">team (팀 공유 리포트)</option>
         <option value="admin">admin (전체 접근)</option>
       </select>
     </div>
@@ -315,7 +317,9 @@ async function loadUsers(){
   if(!localUsers){
     localUsers=[
       {username:'admin',role:'admin',allowedPaths:null,passwordHash:null},
-      {username:'almani',role:'viewer',allowedPaths:['/crm','/crm.html'],passwordHash:null}
+      {username:'almani',role:'viewer',allowedPaths:['/crm','/crm.html'],passwordHash:null},
+      {username:'dlsrb',role:'team',allowedPaths:['/index.html','/team-board.html'],passwordHash:null},
+      {username:'jeongmin.lee@tenex.kr',role:'team',allowedPaths:['/index.html','/team-board.html'],passwordHash:null}
     ];
   }
   renderTable();
@@ -347,7 +351,7 @@ function renderTable(){
 // ── Toggle paths group ──
 function togglePathsGroup(){
   var role=document.getElementById('newRole').value;
-  document.getElementById('pathsGroup').style.display=role==='viewer'?'':'none';
+  document.getElementById('pathsGroup').style.display=role==='admin'?'none':'';
 }
 
 // ── Add User ──
@@ -356,7 +360,7 @@ async function addUser(){
   var password=document.getElementById('newPassword').value;
   var role=document.getElementById('newRole').value;
   var pathsRaw=document.getElementById('newPaths').value.trim();
-  var allowedPaths=role==='viewer'&&pathsRaw?pathsRaw.split(',').map(function(p){return p.trim();}).filter(Boolean):null;
+  var allowedPaths=pathsRaw?pathsRaw.split(',').map(function(p){return p.trim();}).filter(Boolean):null;
 
   if(!username||!password){toast('아이디와 비밀번호를 입력하세요.','error');return;}
   if(localUsers&&localUsers.find(function(u){return u.username===username;})){

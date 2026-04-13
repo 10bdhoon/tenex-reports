@@ -25,6 +25,46 @@ interface User {
   allowedPaths?: string[];
 }
 
+const TEAM_ALLOWED_PATHS = [
+  "/index.html",
+  "/2026-team-structure.html",
+  "/tenex-strategy.html",
+  "/media-mix-strategy.html",
+  "/mixpanel-analysis.html",
+  "/meta-weekly-2026-03-30.html",
+  "/weekly-mixpanel-2026-04-05.html",
+  "/weekly-mixpanel-2026-04-12.html",
+  "/myprotein-growth.html",
+  "/platform-api-research.html",
+  "/customer-journey-v5.html",
+  "/crm.html",
+  "/sns-tracker.html",
+  "/youtube.html",
+  "/brand-design-system.html",
+  "/kinemedical-redesign.html",
+  "/product-roadmap.html",
+  "/es808.html",
+  "/es808-unboxing-plan.html",
+  "/membership.html",
+  "/global-strategy.html",
+  "/ai-usage-guide.html",
+  "/onboarding-guide.html",
+  "/onboarding-guide-v2.html",
+  "/cs-guide-external.html",
+  "/cs-optimization-plan.html",
+  "/faq.html",
+  "/jungmin-request.html",
+  "/apr-analysis.html",
+  "/apr-hiring-analysis.html",
+  "/apr-organization-analysis.html",
+  "/ceo-roles.html",
+  "/jasagyo-5gi.html",
+  "/jasagyo-6ki-week2.html",
+  "/jasagyo-6-5.html",
+  "/mosamo-lectures.html",
+  "/team-board.html",
+];
+
 function getUsers(): User[] {
   const usersEnv = process.env.USERS;
   if (usersEnv) {
@@ -53,13 +93,14 @@ function getUsers(): User[] {
     {
       username: "dlsrb",
       passwordHash: "$2b$10$c0F0NehSkD.mWLBAU0tXCe.VosZnKd56j1amqfXheYpJouIMxzJHm",
-      role: "viewer",
+      role: "team",
+      allowedPaths: TEAM_ALLOWED_PATHS,
     },
     {
       username: "jeongmin.lee@tenex.kr",
       passwordHash: "$2b$10$q4gsSO9a3mPMblumLDImkuKz/ecyngg3Or.ZLlWzgtWTh7FDWBuLq",
-      role: "viewer",
-      allowedPaths: ["/ai-usage-guide", "/ai-usage-guide.html"],
+      role: "team",
+      allowedPaths: TEAM_ALLOWED_PATHS,
     },
   ];
 }

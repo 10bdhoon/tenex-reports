@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>팀 업무보드 — 테넥스</title>
+  <style>
+    *{margin:0;padding:0;box-sizing:border-box}
+    body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#0f172a;color:#e2e8f0;min-height:100vh}
+    .header{background:#111827;border-bottom:1px solid #334155;padding:20px 28px;display:flex;justify-content:space-between;align-items:center;gap:16px}
+    .header h1{font-size:22px;font-weight:800}
+    .header a{color:#93c5fd;text-decoration:none;font-size:13px}
+    .wrap{max-width:1200px;margin:0 auto;padding:28px 20px 56px}
+    .toolbar{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-bottom:20px}
+    .toolbar select,.toolbar input{background:#111827;border:1px solid #334155;color:#e2e8f0;border-radius:10px;padding:10px 12px;font-size:14px}
+    .toolbar label{display:flex;align-items:center;gap:8px;font-size:14px;color:#cbd5e1}
+    .summary{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px;margin-bottom:22px}
+    .card{background:#111827;border:1px solid #334155;border-radius:14px;padding:16px}
+    .card .label{font-size:12px;color:#94a3b8;margin-bottom:6px}
+    .card .value{font-size:24px;font-weight:800}
+    table{width:100%;border-collapse:collapse;background:#111827;border:1px solid #334155;border-radius:14px;overflow:hidden}
+    th,td{padding:14px 12px;border-bottom:1px solid #1f2937;text-align:left;font-size:14px;vertical-align:top}
+    th{background:#0b1220;color:#94a3b8;font-size:12px;text-transform:uppercase;letter-spacing:.04em}
+    tr:last-child td{border-bottom:none}
+    .badge{display:inline-block;padding:4px 8px;border-radius:999px;font-size:11px;font-weight:700}
+    .status-doing{background:rgba(59,130,246,.18);color:#93c5fd}
+    .status-done{background:rgba(16,185,129,.18);color:#6ee7b7}
+    .status-waiting,.status-todo{background:rgba(100,116,139,.18);color:#cbd5e1}
+    .status-delay{background:rgba(239,68,68,.18);color:#fca5a5}
+    .priority-red{color:#fca5a5}.priority-yellow{color:#fde68a}.priority-green{color:#86efac}
+    .muted{color:#94a3b8;font-size:12px}
+    .empty{padding:40px;text-align:center;color:#64748b}
+  </style>
+</head>
+<body>
+  <div class="header">
+    <div>
+      <h1>📋 팀 업무보드</h1>
+      <div class="muted">공유 가능한 팀 업무만 노출</div>
+    </div>
+    <a href="/index.html">← 리포트 홈</a>
+  </div>
+  <div class="wrap">
+    <div class="summary" id="summary"></div>
+    <div class="toolbar">
+      <select id="assigneeFilter">
+        <option value="all">전체 담당자</option>
+      </select>
+      <select id="statusFilter">
+        <option value="all">전체 상태</option>
+        <option value="doing">진행중</option>
+        <option value="waiting">대기</option>
+        <option value="todo">할 일</option>
+        <option value="done">완료</option>
+        <option value="delay">지연</option>
+      </select>
+      <input id="searchInput" type="search" placeholder="업무 검색">
+      <label><input type="checkbox" id="mineOnly"> 내 업무만 보기</label>
+    </div>
+    <table>
+      <thead>
+        <tr>
+          <th>업무</th>
+          <th>담당자</th>
+          <th>상태</th>
+          <th>마감일</th>
+          <th>우선순위</th>
+          <th>공개 메모</th>
+        </tr>
+      </thead>
+      <tbody id="taskBody">
+        <tr><td colspan="6" class="empty">불러오는 중...</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <script>
+    const API_READ='/api/tasks/read';
+    const STATUS_LABEL={doing:'진행중',waiting:'대기',todo:'할 일',done:'완료',delay:'지연'};
+    let tasks=[];
+    let filtered=[];
+
+    function statusClass(status){return 'status-'+(status||'waiting');}
+    function currentUserName(){
+      const username=localStorage.getItem('tenex_username')||'';
+      const map={
+        'dlsrb':'인규',
+        'jeongmin.lee@tenex.kr':'이정민',
+        'admin':'태훈'
+      };
+      return map[username]||'';
+    }
+    function isVisibleTask(task){
+      const blocked=['자금','채용','보안','시스템'];
+      const hay=[task.title,task.desc,task.memo,task.cat].join(' ');
+      if(task.assignee==='태훈' && /개인|민감|비공개/.test(hay)) return false;
+      return !blocked.some(k=>hay.includes(k));
+    }
+    function priorityText(task){return `긴급 ${task.urgency||'-'} / 중요 ${task.importance||'-'}`}
+    function normalizeStatus(status){return status==='pending'?'waiting':(status||'waiting')}
+
+    function renderSummary(list){
+      const summary=document.getElementById('summary');
+      const done=list.filter(t=>normalizeStatus(t.status)==='done').length;
+      const doing=list.filter(t=>normalizeStatus(t.status)==='doing').length;
+      const waiting=list.filter(t=>['waiting','todo'].includes(normalizeStatus(t.status))).length;
+      summary.innerHTML=`
+        <div class="card"><div class="label">전체 업무</div><div class="value">${list.length}</div></div>
+        <div class="card"><div class="label">진행중</div><div class="value">${doing}</div></div>
+        <div class="card"><div class="label">대기/할 일</div><div class="value">${waiting}</div></div>
+        <div class="card"><div class="label">완료</div><div class="value">${done}</div></div>`;
+    }
+
+    function renderAssignees(list){
+      const select=document.getElementById('assigneeFilter');
+      const current=select.value;
+      const assignees=[...new Set(list.map(t=>t.assignee).filter(Boolean))].sort();
+      select.innerHTML='<option value="all">전체 담당자</option>'+assignees.map(a=>`<option value="${a}">${a}</option>`).join('');
+      if(assignees.includes(current)) select.value=current;
+    }
+
+    function applyFilters(){
+      const assignee=document.getElementById('assigneeFilter').value;
+      const status=document.getElementById('statusFilter').value;
+      const q=document.getElementById('searchInput').value.trim().toLowerCase();
+      const mineOnly=document.getElementById('mineOnly').checked;
+      const me=currentUserName();
+      filtered=tasks.filter(t=>{
+        const s=normalizeStatus(t.status);
+        if(assignee!=='all' && t.assignee!==assignee) return false;
+        if(status!=='all' && s!==status) return false;
+        if(mineOnly && me && t.assignee!==me) return false;
+        if(q){
+          const hay=[t.title,t.assignee,t.desc].join(' ').toLowerCase();
+          if(!hay.includes(q)) return false;
+        }
+        return true;
+      });
+      renderTable();
+      renderSummary(filtered);
+    }
+
+    function renderTable(){
+      const body=document.getElementById('taskBody');
+      if(!filtered.length){
+        body.innerHTML='<tr><td colspan="6" class="empty">조건에 맞는 업무가 없어</td></tr>';
+        return;
+      }
+      body.innerHTML=filtered.map(t=>{
+        const status=normalizeStatus(t.status);
+        return `<tr>
+          <td><strong>${t.title||'-'}</strong><div class="muted">${t.cat||''}</div></td>
+          <td>${t.assignee||'-'}</td>
+          <td><span class="badge ${statusClass(status)}">${STATUS_LABEL[status]||status}</span></td>
+          <td>${t.due||'-'}</td>
+          <td class="priority-${t.urgency||'green'}">${priorityText(t)}</td>
+          <td>${t.desc||t.memo||'-'}</td>
+        </tr>`;
+      }).join('');
+    }
+
+    async function load(){
+      try{
+        const res=await fetch(API_READ,{credentials:'include'});
+        const data=await res.json();
+        tasks=(data.tasks||[]).filter(isVisibleTask).sort((a,b)=>(a.priorityOrder||999)-(b.priorityOrder||999));
+        renderAssignees(tasks);
+        applyFilters();
+      }catch(e){
+        document.getElementById('taskBody').innerHTML='<tr><td colspan="6" class="empty">업무를 불러오지 못했어</td></tr>';
+      }
+    }
+
+    ['assigneeFilter','statusFilter','searchInput','mineOnly'].forEach(id=>{
+      document.getElementById(id).addEventListener(id==='searchInput'?'input':'change',applyFilters);
+    });
+
+    load();
+  </script>
+</body>
+</html>

@@ -78,7 +78,7 @@ export default async function middleware(req: Request) {
       const ADMIN_ONLY_PATHS = [
         '/funding', '/funding.html',
         '/profit-simulation', '/profit-simulation.html',
-        '/2026-team-structure', '/2026-team-structure.html',
+        '/2026-team-structure-admin', '/2026-team-structure-admin.html',
         '/cron-dashboard', '/cron-dashboard.html',
         '/deploy-dashboard', '/deploy-dashboard.html',
         '/heartbeat-dashboard', '/heartbeat-dashboard.html',
@@ -87,8 +87,14 @@ export default async function middleware(req: Request) {
         '/ai-system', '/ai-system.html',
         '/openclaw-overview', '/openclaw-overview.html',
         '/system-status', '/system-status.html',
+        '/openclaw-troubleshooting', '/openclaw-troubleshooting.html',
         '/security-dashboard', '/security-dashboard.html',
         '/skills-dashboard', '/skills-dashboard.html',
+        '/tenex-os-plan', '/tenex-os-plan.html',
+        '/kinemedical-app', '/kinemedical-app.html',
+        '/app-tech-spec', '/app-tech-spec.html',
+        '/app-unified', '/app-unified.html',
+        '/1min-dosu-app', '/1min-dosu-app.html',
       ];
 
       const isRestrictedPath = ADMIN_ONLY_PATHS.some(p => url.pathname === p);
