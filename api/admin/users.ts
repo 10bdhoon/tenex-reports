@@ -56,9 +56,10 @@ function getUsers(): User[] {
       role: "viewer",
     },
     {
-      username: "wpgud",
-      passwordHash: "$2b$10$3Gmm4CozTb.exZqr2n4SW.egqhQZiUnyaI3RbwTSTtf55HXwYt6HO",
+      username: "jeongmin.lee@tenex.kr",
+      passwordHash: "$2b$10$q4gsSO9a3mPMblumLDImkuKz/ecyngg3Or.ZLlWzgtWTh7FDWBuLq",
       role: "viewer",
+      allowedPaths: ["/ai-usage-guide", "/ai-usage-guide.html"],
     },
   ];
 }
