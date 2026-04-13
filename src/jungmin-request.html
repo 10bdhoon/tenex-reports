@@ -3,131 +3,212 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>정민님 요청안 | 테넥스 리포트</title>
+<title>신규/재방문 세션 추이 | 테넥스 리포트</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 :root{
-  --bg:#0b1020;--card:#121a2f;--card2:#0f172a;--line:rgba(255,255,255,.08);
-  --text:#f8fafc;--sub:#94a3b8;--blue:#60a5fa;--blue2:#1d4ed8;--green:#34d399;--amber:#fbbf24;
+  --bg:#09101d;--card:#121a2f;--card2:#0f172a;--line:rgba(255,255,255,.08);
+  --text:#f8fafc;--sub:#94a3b8;--blue:#60a5fa;--blue2:#2563eb;--green:#34d399;--green2:#10b981;--amber:#fbbf24;
 }
-body{font-family:-apple-system,BlinkMacSystemFont,'Pretendard','Segoe UI',sans-serif;background:linear-gradient(180deg,#08101f 0%,#0b1020 100%);color:var(--text);line-height:1.7}
+body{font-family:-apple-system,BlinkMacSystemFont,'Pretendard','Segoe UI',sans-serif;background:linear-gradient(180deg,#07101d 0%,#0b1020 100%);color:var(--text);line-height:1.7}
 a{color:var(--blue);text-decoration:none} a:hover{text-decoration:underline}
-.container{max-width:1100px;margin:0 auto;padding:0 20px 64px}
-.hero{padding:56px 0 28px;border-bottom:1px solid var(--line);background:radial-gradient(circle at top right,rgba(96,165,250,.18),transparent 28%)}
+.container{max-width:1180px;margin:0 auto;padding:0 20px 64px}
+.hero{padding:56px 0 28px;border-bottom:1px solid var(--line);background:radial-gradient(circle at top right,rgba(96,165,250,.16),transparent 30%)}
 .back{display:inline-flex;gap:6px;align-items:center;color:var(--sub);font-size:13px;margin-bottom:16px}
 .badge{display:inline-block;padding:6px 12px;border-radius:999px;background:rgba(96,165,250,.12);border:1px solid rgba(96,165,250,.28);color:#bfdbfe;font-size:12px;font-weight:700;margin-bottom:14px}
-h1{font-size:34px;line-height:1.25;margin-bottom:10px;letter-spacing:-.02em}
-.sub{color:var(--sub);font-size:16px;max-width:760px}
+h1{font-size:34px;line-height:1.22;margin-bottom:10px;letter-spacing:-.02em}
+.sub{color:var(--sub);font-size:16px;max-width:820px}
 .meta{display:flex;flex-wrap:wrap;gap:10px;margin-top:18px}
 .meta span{font-size:12px;color:#cbd5e1;background:rgba(255,255,255,.04);border:1px solid var(--line);padding:6px 10px;border-radius:10px}
-.section{padding-top:28px}
-.grid{display:grid;grid-template-columns:1.2fr .8fr;gap:20px}
+.section{padding-top:26px}
+.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
 .card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:24px;box-shadow:0 12px 32px rgba(0,0,0,.18)}
-.card h2{font-size:20px;margin-bottom:14px}
-.card h3{font-size:16px;margin-bottom:10px;color:#dbeafe}
-.list{display:grid;gap:10px}
-.item{background:rgba(255,255,255,.03);border:1px solid var(--line);border-radius:14px;padding:14px 16px}
-.item strong{display:block;margin-bottom:4px}
-.kpis{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:18px}
-.kpi{background:var(--card2);border:1px solid var(--line);border-radius:14px;padding:16px;text-align:center}
-.kpi .label{font-size:12px;color:var(--sub);margin-bottom:6px}.kpi .value{font-size:24px;font-weight:800}
-.mock{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:16px}
-.panel{background:linear-gradient(160deg,#10203d,#0b1530);border:1px solid rgba(255,255,255,.08);border-radius:16px;padding:18px;min-height:220px;position:relative;overflow:hidden}
-.panel:before{content:'';position:absolute;inset:auto -30% -35% auto;width:180px;height:180px;background:radial-gradient(circle,rgba(96,165,250,.18),transparent 60%)}
-.panel .tag{font-size:11px;color:#bfdbfe;font-weight:700;letter-spacing:.06em;text-transform:uppercase;margin-bottom:10px}
-.panel .title{font-size:18px;font-weight:800;margin-bottom:10px}
-.panel p{font-size:13px;color:#dbe4f0}
-.panel ul{padding-left:18px;margin-top:10px;color:#dbe4f0;font-size:13px}
-.note{margin-top:16px;padding:14px 16px;border-left:3px solid var(--amber);background:rgba(251,191,36,.08);border-radius:0 12px 12px 0;color:#fde68a;font-size:13px}
-.flow{display:grid;gap:10px;margin-top:14px}.step{display:flex;gap:12px;align-items:flex-start;background:rgba(255,255,255,.03);border:1px solid var(--line);padding:14px;border-radius:14px}.num{width:28px;height:28px;border-radius:999px;background:var(--blue2);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:13px;flex-shrink:0}
-.cta{margin-top:24px;text-align:center;padding:20px;border-radius:18px;background:linear-gradient(135deg,rgba(29,78,216,.22),rgba(52,211,153,.12));border:1px solid rgba(96,165,250,.2)}
-.cta strong{display:block;font-size:18px;margin-bottom:6px}.cta span{color:var(--sub);font-size:13px}
-@media(max-width:900px){.grid,.mock,.kpis{grid-template-columns:1fr}.container{padding:0 16px 48px}h1{font-size:28px}}
+.card h2{font-size:21px;margin-bottom:8px}.card h3{font-size:16px;margin-bottom:14px;color:#dbeafe}
+.kpi{background:var(--card2);border:1px solid var(--line);border-radius:16px;padding:18px}.kpi .label{font-size:12px;color:var(--sub);margin-bottom:8px}.kpi .value{font-size:30px;font-weight:800;line-height:1.15}.kpi .desc{font-size:12px;color:#cbd5e1;margin-top:6px}
+.chart-card{padding:22px 22px 18px}.chart-wrap{position:relative;height:380px;margin-top:12px}.chart-wrap.tall{height:420px}
+.chart-head{display:flex;justify-content:space-between;align-items:flex-end;gap:16px;flex-wrap:wrap}.chart-head p{font-size:13px;color:var(--sub)}
+.legend-note{display:flex;gap:14px;flex-wrap:wrap;font-size:12px;color:#cbd5e1}.dot{width:10px;height:10px;border-radius:999px;display:inline-block;margin-right:6px}
+.table-wrap{overflow:auto;margin-top:14px}.data-table{width:100%;border-collapse:collapse;font-size:13px}.data-table th{color:var(--sub);font-weight:600;text-align:left;padding:10px 12px;border-bottom:1px solid var(--line);background:rgba(255,255,255,.02)}.data-table td{padding:10px 12px;border-bottom:1px solid rgba(255,255,255,.05)}.data-table tr:hover td{background:rgba(255,255,255,.02)}
+.note{margin-top:14px;padding:14px 16px;border-left:3px solid var(--amber);background:rgba(251,191,36,.08);border-radius:0 12px 12px 0;color:#fde68a;font-size:13px}
+.dual{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+@media(max-width:960px){.grid,.dual{grid-template-columns:1fr 1fr}.container{padding:0 16px 48px}h1{font-size:28px}}
+@media(max-width:640px){.grid,.dual{grid-template-columns:1fr}.chart-wrap,.chart-wrap.tall{height:320px}}
 </style>
 </head>
 <body>
   <div class="hero">
     <div class="container">
       <a class="back" href="/">← 테넥스 리포트로 돌아가기</a>
-      <div class="badge">정민님 요청안</div>
-      <h1>이미지 재전달 대신, 바로 검토 가능한<br>테넥스 리포트 배포 페이지</h1>
-      <p class="sub">슬랙에서 이미지 전달이 실패한 상황을 줄이기 위해, 산출물을 파일 전달이 아니라 링크 기반으로 확인하는 방식으로 전환한 임시 검토 페이지입니다.</p>
+      <div class="badge">정민님 요청 반영</div>
+      <h1>신규 세션 / 재방문 세션<br>추이 및 전환율 선 그래프</h1>
+      <p class="sub">주차별 신규 세션과 재방문 세션의 유입 규모, 그리고 각 세션군 전환율 변화를 한 페이지에서 비교할 수 있도록 선 그래프로 시각화했습니다.</p>
       <div class="meta">
-        <span>배포 목적: 슬랙 확인 편의</span>
-        <span>형식: 새 단일 페이지</span>
-        <span>상태: 초안 배포</span>
+        <span>기간: 01-05 ~ 04-06</span>
+        <span>차트: Line Chart 2종</span>
+        <span>기준: 전달된 주차별 원시 수치</span>
       </div>
     </div>
   </div>
 
   <div class="container">
     <section class="section grid">
-      <div class="card">
-        <h2>왜 이 페이지로 전환했는가</h2>
-        <div class="list">
-          <div class="item"><strong>문제</strong>슬랙에서 이미지가 정상 렌더링되지 않아 재전달 요청이 발생했습니다.</div>
-          <div class="item"><strong>대응</strong>JPG 재전달 대신, Vercel에 바로 올려 링크로 확인하는 방식이 더 편하다는 피드백을 반영했습니다.</div>
-          <div class="item"><strong>목적</strong>이후에는 파일 실패 여부와 무관하게, 검토자는 링크 1개로 바로 확인할 수 있게 만드는 것입니다.</div>
+      <div class="kpi"><div class="label">최신 신규 세션</div><div class="value">65,051</div><div class="desc">04-06 기준</div></div>
+      <div class="kpi"><div class="label">최신 재방문 세션</div><div class="value">25,891</div><div class="desc">04-06 기준</div></div>
+      <div class="kpi"><div class="label">최신 신규 전환율</div><div class="value">0.34%</div><div class="desc">04-06 기준</div></div>
+      <div class="kpi"><div class="label">최신 재방문 전환율</div><div class="value">0.27%</div><div class="desc">04-06 기준</div></div>
+    </section>
+
+    <section class="section dual">
+      <div class="card chart-card">
+        <div class="chart-head">
+          <div>
+            <h2>1) 신규 세션 / 재방문 세션 추이</h2>
+            <p>주차별 유입 세션 규모 비교. 신규 세션은 파란색, 재방문 세션은 초록색으로 표시했습니다.</p>
+          </div>
+          <div class="legend-note">
+            <span><i class="dot" style="background:var(--blue)"></i>신규 세션</span>
+            <span><i class="dot" style="background:var(--green)"></i>재방문 세션</span>
+          </div>
         </div>
-        <div class="kpis">
-          <div class="kpi"><div class="label">전달 방식</div><div class="value">파일 → 링크</div></div>
-          <div class="kpi"><div class="label">검토 편의</div><div class="value">즉시 확인</div></div>
-          <div class="kpi"><div class="label">재요청 가능성</div><div class="value">감소</div></div>
-        </div>
+        <div class="chart-wrap"><canvas id="sessionsChart"></canvas></div>
       </div>
-      <div class="card">
-        <h2>현재 상태</h2>
-        <h3>확인된 요청</h3>
-        <div class="flow">
-          <div class="step"><div class="num">1</div><div><strong>이미지 실패</strong><br><span style="color:var(--sub)">슬랙 내 이미지 표시가 정상적으로 되지 않음</span></div></div>
-          <div class="step"><div class="num">2</div><div><strong>스레드 응답 고정</strong><br><span style="color:var(--sub)">모든 후속 답변은 해당 스레드 안에서만 진행</span></div></div>
-          <div class="step"><div class="num">3</div><div><strong>Vercel 링크 전달</strong><br><span style="color:var(--sub)">테넥스 리포트에 새 페이지를 만들고 링크로 전달</span></div></div>
+
+      <div class="card chart-card">
+        <div class="chart-head">
+          <div>
+            <h2>2) 신규 세션 / 재방문 세션 전환율 추이</h2>
+            <p>동일 기간 전환율 변화. 퍼센트 수치가 작아 축은 % 기준으로 세밀하게 구성했습니다.</p>
+          </div>
+          <div class="legend-note">
+            <span><i class="dot" style="background:var(--blue2)"></i>신규 전환율</span>
+            <span><i class="dot" style="background:var(--green2)"></i>재방문 전환율</span>
+          </div>
         </div>
-        <div class="note">확인 필요: 원본 이미지 자체나 상세 카피 요구사항은 현재 스레드에 명시돼 있지 않아, 이 페이지는 우선 링크 전달용 기본 틀로 배포합니다.</div>
+        <div class="chart-wrap"><canvas id="conversionChart"></canvas></div>
       </div>
     </section>
 
     <section class="section">
       <div class="card">
-        <h2>정민님 요청 대응용 페이지 구조</h2>
-        <div class="mock">
-          <div class="panel">
-            <div class="tag">Block A</div>
-            <div class="title">요청 배경</div>
-            <p>왜 파일이 아닌 링크 기반 검토가 필요한지 한 화면 안에서 설명합니다.</p>
-            <ul>
-              <li>슬랙 이미지 실패 맥락</li>
-              <li>검토 동선 단순화</li>
-              <li>링크 공유 기준 통일</li>
-            </ul>
-          </div>
-          <div class="panel">
-            <div class="tag">Block B</div>
-            <div class="title">산출물 자리</div>
-            <p>실제 이미지, 시안, 카피, 비교안이 들어갈 영역입니다. 지금은 후속 반영을 위한 플레이스홀더입니다.</p>
-            <ul>
-              <li>시안 썸네일</li>
-              <li>카피 버전 A/B</li>
-              <li>피드백 반영 기록</li>
-            </ul>
-          </div>
-          <div class="panel">
-            <div class="tag">Block C</div>
-            <div class="title">후속 액션</div>
-            <p>검토자가 이 페이지를 보고 바로 수정 요청 또는 확정 판단을 할 수 있도록 정리합니다.</p>
-            <ul>
-              <li>수정 포인트 회신</li>
-              <li>확정 시 운영 반영</li>
-              <li>추가 페이지 분기 가능</li>
-            </ul>
-          </div>
+        <h3>원본 데이터 표</h3>
+        <div class="table-wrap">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>주차</th>
+                <th>신규 세션</th>
+                <th>재방문 세션</th>
+                <th>신규 전환율</th>
+                <th>재방문 전환율</th>
+              </tr>
+            </thead>
+            <tbody id="dataRows"></tbody>
+          </table>
         </div>
-        <div class="cta">
-          <strong>이 페이지는 링크 전달용 1차 배포본입니다.</strong>
-          <span>원본 이미지나 정확한 요청 문안이 들어오면 이 페이지에 바로 확장 반영하면 됩니다.</span>
-        </div>
+        <div class="note">메모: 01-05 재방문 세션과 재방문 전환율은 전달값 기준 0으로 반영했습니다.</div>
       </div>
     </section>
   </div>
+
+<script>
+const labels = ['01-05','01-12','01-19','01-26','02-02','02-09','02-16','02-23','03-02','03-09','03-16','03-23','03-30','04-06'];
+const newSessions = [33485,52149,40528,55241,20045,29072,30850,26351,39286,41023,47650,61973,70150,65051];
+const returningSessions = [0,6661,7744,20187,10104,9844,8698,6807,6310,7987,9964,16609,21631,25891];
+const newConversion = [0.22,0.16,0.23,0.33,0.40,0.28,0.29,0.30,0.32,0.32,0.35,0.29,0.29,0.34];
+const returningConversion = [0.00,0.20,0.17,0.30,0.40,0.33,0.34,0.40,0.35,0.43,0.40,0.32,0.31,0.27];
+
+const fmtNumber = n => n.toLocaleString('ko-KR');
+const fmtPct = n => `${n.toFixed(2)}%`;
+
+const commonOptions = {
+  responsive:true,
+  maintainAspectRatio:false,
+  interaction:{mode:'index',intersect:false},
+  plugins:{
+    legend:{display:false},
+    tooltip:{
+      backgroundColor:'rgba(15,23,42,.96)',
+      titleColor:'#fff',bodyColor:'#e2e8f0',borderColor:'rgba(255,255,255,.1)',borderWidth:1,
+      padding:12
+    }
+  },
+  scales:{
+    x:{ticks:{color:'#94a3b8'},grid:{color:'rgba(255,255,255,.04)'}},
+    y:{ticks:{color:'#94a3b8'},grid:{color:'rgba(255,255,255,.06)'}}
+  }
+};
+
+new Chart(document.getElementById('sessionsChart'), {
+  type:'line',
+  data:{
+    labels,
+    datasets:[
+      {label:'신규 세션',data:newSessions,borderColor:'#60a5fa',backgroundColor:'rgba(96,165,250,.18)',borderWidth:3,tension:.3,fill:false,pointRadius:3,pointHoverRadius:5},
+      {label:'재방문 세션',data:returningSessions,borderColor:'#34d399',backgroundColor:'rgba(52,211,153,.18)',borderWidth:3,tension:.3,fill:false,pointRadius:3,pointHoverRadius:5}
+    ]
+  },
+  options:{
+    ...commonOptions,
+    plugins:{
+      ...commonOptions.plugins,
+      tooltip:{
+        ...commonOptions.plugins.tooltip,
+        callbacks:{label:(ctx)=>`${ctx.dataset.label}: ${fmtNumber(ctx.raw)}`}
+      }
+    },
+    scales:{
+      ...commonOptions.scales,
+      y:{
+        ...commonOptions.scales.y,
+        ticks:{color:'#94a3b8',callback:(v)=>fmtNumber(v)}
+      }
+    }
+  }
+});
+
+new Chart(document.getElementById('conversionChart'), {
+  type:'line',
+  data:{
+    labels,
+    datasets:[
+      {label:'신규 전환율',data:newConversion,borderColor:'#2563eb',backgroundColor:'rgba(37,99,235,.18)',borderWidth:3,tension:.3,fill:false,pointRadius:3,pointHoverRadius:5},
+      {label:'재방문 전환율',data:returningConversion,borderColor:'#10b981',backgroundColor:'rgba(16,185,129,.18)',borderWidth:3,tension:.3,fill:false,pointRadius:3,pointHoverRadius:5}
+    ]
+  },
+  options:{
+    ...commonOptions,
+    plugins:{
+      ...commonOptions.plugins,
+      tooltip:{
+        ...commonOptions.plugins.tooltip,
+        callbacks:{label:(ctx)=>`${ctx.dataset.label}: ${fmtPct(ctx.raw)}`}
+      }
+    },
+    scales:{
+      ...commonOptions.scales,
+      y:{
+        min:0,
+        max:0.5,
+        ticks:{color:'#94a3b8',callback:(v)=>`${Number(v).toFixed(2)}%`},
+        grid:{color:'rgba(255,255,255,.06)'}
+      }
+    }
+  }
+});
+
+const tbody = document.getElementById('dataRows');
+labels.forEach((label, i) => {
+  const tr = document.createElement('tr');
+  tr.innerHTML = `
+    <td>${label}</td>
+    <td>${fmtNumber(newSessions[i])}</td>
+    <td>${fmtNumber(returningSessions[i])}</td>
+    <td>${fmtPct(newConversion[i])}</td>
+    <td>${fmtPct(returningConversion[i])}</td>
+  `;
+  tbody.appendChild(tr);
+});
+</script>
 </body>
 </html>
