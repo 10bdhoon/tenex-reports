@@ -95,3 +95,14 @@ npx vercel dev
 ```bash
 git push  # main → Vercel 자동 배포
 ```
+
+## 문서 운영 기준
+
+리포트 문서는 `LIVE / ARCHIVE / INTERNAL / DRAFT` 4가지 상태로만 관리한다.
+
+- 메인 메뉴에는 `LIVE`만 노출
+- `ARCHIVE`는 기록 보관용
+- `INTERNAL`은 admin only
+- `DRAFT`는 메뉴 비노출
+
+상세 기준은 `DOC_LIFECYCLE.md` 참고.
