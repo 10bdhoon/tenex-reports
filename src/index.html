@@ -1485,6 +1485,14 @@ document.addEventListener('DOMContentLoaded',()=>{
   document.getElementById('mobileMenuBtn').onclick=()=>{document.getElementById('sidebar').classList.add('open');document.getElementById('sidebarOverlay').classList.add('show')};
   document.getElementById('sidebarOverlay').onclick=closeMobile;
   document.querySelector('.nav-item[data-cat="all"]').onclick=()=>{currentSub=null;setCategory('all')};
+  const navTaskboard=document.getElementById('navTaskboard');
+  if(navTaskboard){
+    navTaskboard.onclick=()=>{
+      switchView('taskboard');
+      navTaskboard.classList.add('active');
+      closeMobile();
+    };
+  }
   document.getElementById('sidebarSearchInput').oninput=e=>{const q=e.target.value.toLowerCase();document.querySelectorAll('#pinnedSection .nav-item, #catSection .nav-item, #catSection .nav-sub-item, #systemList .nav-sub-item').forEach(el=>{const l=(el.querySelector('.label')||el).textContent.toLowerCase();const visibleBase=el.classList.contains('admin-only')?!isAdmin?false:true:el.classList.contains('team-visible')?(isAdmin||role==='team'):true;el.style.display=(visibleBase&&(!q||l.includes(q)))?'':'none';if(q&&l.includes(q)){const subList=el.closest('.nav-sub-list');if(subList&&!subList.classList.contains('open'))subList.classList.add('open')}})};
   const globalSearchEl=document.getElementById('globalSearch');
   globalSearchEl.oninput=e=>{searchQuery=e.target.value;renderReports()};
