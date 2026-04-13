@@ -1505,20 +1505,16 @@ document.addEventListener('DOMContentLoaded',()=>{
       closeMobile();
     };
   });
-  // ── Archive toggle ──
-  document.getElementById('archiveToggle').onclick=()=>{
-    const list=document.getElementById('archiveList');
-    const arrow=document.getElementById('archiveArrow');
-    list.classList.toggle('open');
-    arrow.classList.toggle('open');
-  };
   // ── System toggle ──
-  document.getElementById('systemToggle').onclick=()=>{
-    const list=document.getElementById('systemList');
-    const arrow=document.getElementById('systemArrow');
-    list.classList.toggle('open');
-    arrow.classList.toggle('open');
-  };
+  const systemToggle=document.getElementById('systemToggle');
+  const systemList=document.getElementById('systemList');
+  const systemArrow=document.getElementById('systemArrow');
+  if(systemToggle&&systemList&&systemArrow){
+    systemToggle.onclick=()=>{
+      systemList.classList.toggle('open');
+      systemArrow.classList.toggle('open');
+    };
+  }
   // ── System View ──
   document.querySelectorAll('#sidebarSystem [data-system-page]').forEach(el=>{
     el.onclick=()=>{
