@@ -1,40 +1,87 @@
 (function(){
+  var CATEGORY_LABELS = [
+    { href: '/product/list.html?cate_no=74', text: '회복 기기' },
+    { href: '/product/list.html?cate_no=74', text: '교정 기기' },
+    { href: '/product/list.html?cate_no=74', text: '고정 기기' }
+  ];
+
   // CSS 삽입: sub-cate 라운드 박스 제거 + pointbox 숨김
   var style = document.createElement('style');
   style.textContent = [
-    /* 제품정보(솔루션) sub-cate 라운드 박스 완전 제거 */
     '#category .sub-cate { display:none !important; }',
-    /* 제품정보 wp-dropdown-menu 스타일 (다른 메뉴와 동일하게) */
     '#category .wp-dropdown-menu { display:none; position:absolute; top:100%; left:0; background:#fff; min-width:160px; box-shadow:0 4px 12px rgba(0,0,0,0.1); z-index:999; }',
     '#category:hover .wp-dropdown-menu { display:block; }',
     '#category .wp-dropdown-menu a { display:block; padding:12px 20px; font-size:14px; color:#333; text-decoration:none; white-space:nowrap; }',
     '#category .wp-dropdown-menu a:hover { background:#f5f5f5; color:#002855; }',
-    /* +20,000P 완전 제거 */
     '.pointbox { display:none !important; }'
   ].join('\n');
   document.head.appendChild(style);
 
+  function setProductInfoTitle() {
+    var targets = document.querySelectorAll('#titleArea h2, #contents h2, .titleArea h2');
+    targets.forEach(function(node) {
+      if (node && node.textContent && node.textContent.trim() === '솔루션') {
+        node.textContent = '제품정보';
+      }
+    });
+
+    document.querySelectorAll('meta[property="og:title"], meta[name="twitter:title"], title').forEach(function(node) {
+      if (node.tagName === 'TITLE') {
+        if (node.textContent && node.textContent.indexOf('솔루션') !== -1) {
+          node.textContent = node.textContent.replace(/솔루션/g, '제품정보');
+        }
+      } else {
+        var content = node.getAttribute('content');
+        if (content && content.indexOf('솔루션') !== -1) {
+          node.setAttribute('content', content.replace(/솔루션/g, '제품정보'));
+        }
+      }
+    });
+  }
+
+  function replaceCategoryChips() {
+    var containers = document.querySelectorAll('.sub-cate, .xans-product-normalmenu .function, .menuCategory');
+    containers.forEach(function(container) {
+      var text = (container.textContent || '').replace(/\s+/g, ' ').trim();
+      if (!text) return;
+      if (text.indexOf('1. 운동') === -1 && text.indexOf('1분도수') === -1 && text.indexOf('회복') === -1) return;
+
+      container.innerHTML = '';
+      CATEGORY_LABELS.forEach(function(item) {
+        var a = document.createElement('a');
+        a.href = item.href;
+        a.textContent = item.text;
+        container.appendChild(a);
+      });
+    });
+  }
+
   function applyFixes() {
-    // 1. 제품정보(솔루션) 드롭다운 추가: 회복/교정/고정 기기
     var catOverride = document.getElementById('category');
     if (catOverride) {
-      // sub-cate 제거
       var subCate = catOverride.querySelector('.sub-cate');
       if (subCate) subCate.remove();
       var li = catOverride.querySelector('li');
-      if (li && !li.querySelector('.wp-dropdown-menu')) {
-        var dm = document.createElement('div');
-        dm.className = 'wp-dropdown-menu';
-        dm.innerHTML =
-          '<a href="/product/list.html?cate_no=74">회복 기기</a>' +
-          '<a href="/product/list.html?cate_no=74">교정 기기</a>' +
-          '<a href="/product/list.html?cate_no=74">고정 기기</a>';
-        li.appendChild(dm);
-        catOverride.classList.add('wp-dropdown');
+      if (li) {
+        var topLink = li.querySelector('a');
+        if (topLink && topLink.textContent.trim() === '솔루션') {
+          topLink.textContent = '제품정보';
+        }
+        if (!li.querySelector('.wp-dropdown-menu')) {
+          var dm = document.createElement('div');
+          dm.className = 'wp-dropdown-menu';
+          dm.innerHTML = CATEGORY_LABELS.map(function(item) {
+            return '<a href="' + item.href + '">' + item.text + '</a>';
+          }).join('');
+          li.appendChild(dm);
+          catOverride.classList.add('wp-dropdown');
+        }
       }
     }
 
-    // 2. 메인용 km-info-card 썸네일 수정 (메인에서만 존재)
+    setProductInfoTitle();
+    replaceCategoryChips();
+
     document.querySelectorAll('.km-info-card').forEach(function(card) {
       var title = card.querySelector('.km-info-card__title');
       if (!title) return;
@@ -60,4 +107,5 @@
   }
   setTimeout(applyFixes, 300);
   setTimeout(applyFixes, 1200);
+  setTimeout(applyFixes, 2500);
 })();
