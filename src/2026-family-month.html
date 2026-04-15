@@ -13,6 +13,7 @@
 body{font-family:-apple-system,BlinkMacSystemFont,'Pretendard','Segoe UI',sans-serif;background:linear-gradient(180deg,#07111f 0%,#0c1424 100%);color:var(--text);line-height:1.65}
 a{color:var(--blue);text-decoration:none} a:hover{text-decoration:underline}
 .container{max-width:1280px;margin:0 auto;padding:0 20px 72px}
+.banner-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}.banner-frame{background:rgba(255,255,255,.03);border:1px solid var(--line);border-radius:18px;padding:14px}.banner-frame img{width:100%;height:auto;display:block;border-radius:12px;background:#09111d}.banner-caption{margin-top:10px;font-size:13px;color:#cbd5e1}.source-link{font-size:12px;color:var(--sub)}
 .hero{padding:60px 0 34px;border-bottom:1px solid var(--line);background:radial-gradient(circle at top right, rgba(96,165,250,.18), transparent 30%),radial-gradient(circle at top left, rgba(167,139,250,.12), transparent 25%)}
 .back{display:inline-flex;gap:6px;align-items:center;color:var(--sub);font-size:13px;margin-bottom:16px}
 .badges{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:16px}.badge{display:inline-block;padding:6px 12px;border-radius:999px;font-size:12px;font-weight:700;border:1px solid transparent}
@@ -210,7 +211,37 @@ table{width:100%;border-collapse:collapse;font-size:13px;min-width:1100px}th,td{
 
     <section class="section">
       <div class="card">
-        <h2 class="section-title">4. 공통 패턴 5개</h2>
+        <h2 class="section-title">4. 경쟁사 프로모션 배너 레퍼런스</h2>
+        <p class="section-desc">정민님 요청 기준으로, 현재 공개 접근 가능한 경쟁사 프로모션/메인 비주얼 이미지를 바로 비교할 수 있게 붙였습니다. <strong>풀리오는 가정의 달 카테고리 이미지, 클럭은 프로모션 랜딩 배너, 슬룸은 메인 대표 비주얼 기준</strong>으로 수집했습니다.</p>
+        <div class="banner-grid">
+          <div class="banner-frame">
+            <img src="/competitor-banners/pulio-banner-2.jpg" alt="풀리오 가정의 달 카테고리 배너">
+            <div class="banner-caption"><strong>풀리오</strong> 가정의 달 카테고리형 배너, 시즌 기획전 진입용 비주얼</div>
+            <div class="source-link">출처: <a href="https://puliodays.com/category/%EA%B0%80%EC%A0%95%EC%9D%98-%EB%8B%AC-%ED%94%84%EB%A1%9C%EB%AA%A8%EC%85%98/119/" target="_blank" rel="noopener noreferrer">puliodays.com</a></div>
+          </div>
+          <div class="banner-frame">
+            <img src="/competitor-banners/klug-banner-2.jpg" alt="클럭 프로모션 배너">
+            <div class="banner-caption"><strong>클럭</strong> 프로모션 랜딩형 배너, 시즌 혜택 알림/이벤트 진입 비주얼</div>
+            <div class="source-link">출처: <a href="https://klug.kr/chiwoom_promotion.html" target="_blank" rel="noopener noreferrer">klug.kr</a></div>
+          </div>
+          <div class="banner-frame">
+            <img src="/competitor-banners/klug-banner-4.jpg" alt="클럭 프로모션 상세 배너">
+            <div class="banner-caption"><strong>클럭</strong> 제품 오퍼 강조형 배너, 가격/혜택 확인 유도형</div>
+            <div class="source-link">출처: <a href="https://klug.kr/chiwoom_promotion.html" target="_blank" rel="noopener noreferrer">klug.kr</a></div>
+          </div>
+          <div class="banner-frame">
+            <img src="/competitor-banners/sloom-banner-4.png" alt="슬룸 메인 비주얼">
+            <div class="banner-caption"><strong>슬룸</strong> 메인 대표 비주얼, 제품군/홈케어 무드 전달형</div>
+            <div class="source-link">출처: <a href="https://sleeplab.co.kr/" target="_blank" rel="noopener noreferrer">sleeplab.co.kr</a></div>
+          </div>
+        </div>
+        <div class="note">확인 필요: 슬룸은 현재 별도 가정의 달 전용 랜딩 배너를 공개 소스에서 직접 확인하지 못해, 공식몰 메인 대표 비주얼로 대체 반영했습니다.</div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="card">
+        <h2 class="section-title">5. 공통 패턴 5개</h2>
         <div class="grid grid-2">
           <div>
             <ul class="list">
@@ -230,7 +261,7 @@ table{width:100%;border-collapse:collapse;font-size:13px;min-width:1100px}th,td{
     </section>
 
     <section class="section">
-      <h2 class="section-title">5. 우리 제품 적용안</h2>
+      <h2 class="section-title">6. 우리 제품 적용안</h2>
       <p class="section-desc">제품 역할을 다시 나누고, 가정의달 맥락에 맞는 포지션과 확정된 메인 오퍼 기준으로 재정리한 안입니다.</p>
       <div class="grid grid-3">
         <div class="card proposal">
@@ -264,7 +295,7 @@ table{width:100%;border-collapse:collapse;font-size:13px;min-width:1100px}th,td{
     </section>
 
     <section class="section">
-      <h2 class="section-title">6. 프로모션 상세 / 혜택 구조</h2>
+      <h2 class="section-title">7. 프로모션 상세 / 혜택 구조</h2>
       <div class="grid grid-2">
         <div class="card proposal">
           <div class="head"><div><h3>쿠폰 정책</h3><p class="muted">장바구니 쿠폰 구조</p></div><span class="pill blue">중복 규칙 중요</span></div>
@@ -291,7 +322,7 @@ table{width:100%;border-collapse:collapse;font-size:13px;min-width:1100px}th,td{
     </section>
 
     <section class="section">
-      <h2 class="section-title">7. 추천 프로모션안 3개</h2>
+      <h2 class="section-title">8. 추천 프로모션안 3개</h2>
       <div class="grid grid-3">
         <div class="card proposal">
           <div class="head"><div><h3>안 1. 나도 쓰고 선물도 하는 듀오 구성</h3><p class="muted">확정 메인 캠페인</p></div><span class="pill blue">추천 1순위</span></div>

@@ -1,0 +1,30 @@
+[
+  {
+    "file": "klug-banner-1.png",
+    "src": "https://klug.kr/web/upload/images/chiwoom/banner-in_04.png",
+    "alt": "치움4",
+    "bytes": 3468116,
+    "score": 4
+  },
+  {
+    "file": "klug-banner-2.jpg",
+    "src": "https://klugkorea.cafe24.com/web/upload/images/chiwoom/klug_may_pc_03.jpg",
+    "alt": "",
+    "bytes": 206647,
+    "score": 2
+  },
+  {
+    "file": "klug-banner-3.jpg",
+    "src": "https://klugkorea.cafe24.com/web/upload/images/chiwoom/klug_may_pc_02.jpg",
+    "alt": "",
+    "bytes": 139992,
+    "score": 2
+  },
+  {
+    "file": "klug-banner-4.jpg",
+    "src": "https://klugkorea.cafe24.com/web/product/chiwoom/gover_pc.jpg",
+    "alt": "치움8",
+    "bytes": 148184,
+    "score": 2
+  }
+]
