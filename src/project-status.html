@@ -417,6 +417,12 @@ function saveData() {
       });
       if (resp.ok) {
         updateSaveStatus('DB 저장 완료');
+      } else if (resp.status === 401 || resp.status === 403) {
+        updateSaveStatus('로그인 만료 — 다시 로그인 필요');
+        setTimeout(() => {
+          const next = encodeURIComponent(window.location.pathname + window.location.search);
+          window.location.href = '/login.html?returnTo=' + next;
+        }, 800);
       } else {
         updateSaveStatus('DB 저장 실패 (로컬에 저장됨)');
       }
