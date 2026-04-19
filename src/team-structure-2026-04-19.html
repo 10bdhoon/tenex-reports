@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>테넥스 채용 구조 시각화</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Apple SD Gothic Neo', sans-serif;
+    background: #0b1020;
+    color: #f8fafc;
+    line-height: 1.6;
+  }
+  .wrap { max-width: 1180px; margin: 0 auto; padding: 32px 20px 80px; }
+  .hero {
+    background: linear-gradient(135deg, #0d1f3e 0%, #111827 55%, #0b1020 100%);
+    border: 1px solid rgba(148,163,184,0.15);
+    border-radius: 24px;
+    padding: 40px 32px;
+    margin-bottom: 24px;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.25);
+  }
+  .eyebrow { color: #7dd3fc; font-size: 0.9rem; font-weight: 700; margin-bottom: 10px; }
+  h1 { font-size: clamp(2rem, 4vw, 3.2rem); line-height: 1.15; margin-bottom: 14px; }
+  .subtitle { color: #cbd5e1; font-size: 1.05rem; max-width: 900px; }
+  .chips { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 18px; }
+  .chip {
+    padding: 8px 14px; border-radius: 999px; font-size: 0.85rem; font-weight: 700;
+    border: 1px solid rgba(148,163,184,0.18); color: #dbeafe; background: rgba(255,255,255,0.05);
+  }
+  .grid { display: grid; grid-template-columns: 1.3fr 1fr; gap: 20px; margin-bottom: 20px; }
+  .card {
+    background: rgba(15,23,42,0.92);
+    border: 1px solid rgba(148,163,184,0.12);
+    border-radius: 20px;
+    padding: 24px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.18);
+  }
+  .card h2 { font-size: 1.2rem; margin-bottom: 16px; color: #f8fafc; }
+  .card h3 { font-size: 1rem; margin-bottom: 8px; color: #f8fafc; }
+  .muted { color: #94a3b8; }
+  .org {
+    display: flex; flex-direction: column; gap: 12px; align-items: center; margin-top: 10px;
+  }
+  .row { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; width: 100%; }
+  .node {
+    min-width: 170px; max-width: 220px; padding: 16px 14px; border-radius: 16px; text-align: center;
+    border: 1px solid rgba(148,163,184,0.16); background: #111827;
+  }
+  .node .name { font-weight: 800; margin-bottom: 6px; }
+  .node .desc { font-size: 0.82rem; color: #cbd5e1; }
+  .ceo { border-color: rgba(125,211,252,0.5); background: rgba(14,116,144,0.18); }
+  .core { border-color: rgba(74,222,128,0.45); background: rgba(20,83,45,0.22); }
+  .ops { border-color: rgba(250,204,21,0.4); background: rgba(113,63,18,0.22); }
+  .future { border-style: dashed; border-color: rgba(251,146,60,0.55); background: rgba(124,45,18,0.22); }
+  .partner { border-color: rgba(192,132,252,0.45); background: rgba(88,28,135,0.20); }
+  .arrow { color: #64748b; font-weight: 700; }
+  .columns { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+  .list { display: flex; flex-direction: column; gap: 12px; }
+  .item {
+    padding: 14px 16px; border-radius: 14px; background: rgba(255,255,255,0.03); border: 1px solid rgba(148,163,184,0.1);
+  }
+  .item strong { display: block; margin-bottom: 4px; }
+  .tag { display: inline-block; margin-top: 8px; font-size: 0.75rem; padding: 5px 9px; border-radius: 999px; background: rgba(255,255,255,0.06); color: #cbd5e1; }
+  .highlight {
+    margin-top: 14px; padding: 16px 18px; border-radius: 16px;
+    background: linear-gradient(135deg, rgba(14,165,233,0.12), rgba(59,130,246,0.08));
+    border: 1px solid rgba(125,211,252,0.18);
+    color: #dbeafe;
+  }
+  .priority { display: grid; grid-template-columns: repeat(3,1fr); gap: 14px; margin-top: 16px; }
+  .priority .item { min-height: 150px; }
+  .footer { margin-top: 22px; color: #94a3b8; font-size: 0.88rem; text-align: right; }
+  @media (max-width: 960px) {
+    .grid, .columns, .priority { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <section class="hero">
+      <div class="eyebrow">TENEX TEAM MAP · 2026-04-19</div>
+      <h1>태훈-인규-정민 코어 위에<br>운영과 확장을 붙이는 구조</h1>
+      <p class="subtitle">현재 코어 인력, 알바/외주, 제조 파트너, 다음 채용 포지션까지 한 번에 보이도록 정리한 구조도. 목적은 단순 인원 확장이 아니라, 사업의 뒷배를 단단하게 만들고 매출 확장 레버를 붙이는 것.</p>
+      <div class="chips">
+        <span class="chip">내일 백오피스 2명 면접</span>
+        <span class="chip">CS 안정화 시작</span>
+        <span class="chip">인플루언서 운영 착수</span>
+        <span class="chip">의료기기 확장 파트너 확보</span>
+      </div>
+    </section>
+
+    <div class="grid">
+      <section class="card">
+        <h2>1. 조직 구조</h2>
+        <div class="org">
+          <div class="row">
+            <div class="node ceo">
+              <div class="name">태훈</div>
+              <div class="desc">전략, 제품, 마케팅 총괄<br>자금조달, 채용, AI</div>
+            </div>
+          </div>
+          <div class="arrow">↓</div>
+          <div class="row">
+            <div class="node core">
+              <div class="name">인규</div>
+              <div class="desc">콘텐츠 총괄<br>채널 운영, 고객 접점</div>
+            </div>
+            <div class="node core">
+              <div class="name">정민</div>
+              <div class="desc">백오피스/운영 코어 예정<br>사업 뒷배 안정화 축</div>
+            </div>
+          </div>
+          <div class="arrow">↓</div>
+          <div class="row">
+            <div class="node ops">
+              <div class="name">오은옥</div>
+              <div class="desc">CS 알바<br>월 80만원, 의료기기/제약 CS 경력</div>
+            </div>
+            <div class="node ops">
+              <div class="name">정채린</div>
+              <div class="desc">인플루언서 마케팅 보조<br>DM 발송, 관계관리, 3개월 평가</div>
+            </div>
+            <div class="node ops">
+              <div class="name">주동연</div>
+              <div class="desc">외주 영상편집<br>1분도수 성장 기여 파트너</div>
+            </div>
+          </div>
+          <div class="arrow">↓ 다음 채용</div>
+          <div class="row">
+            <div class="node future">
+              <div class="name">MD 리드</div>
+              <div class="desc">오픈마켓 입점 + 백화점 팝업 + 딜메이킹</div>
+            </div>
+            <div class="node future">
+              <div class="name">CX 담당</div>
+              <div class="desc">첫 접점부터 재구매까지 고객감동 설계</div>
+            </div>
+            <div class="node future">
+              <div class="name">해외사업 리드</div>
+              <div class="desc">미국/일본 테스트 후 시장 확장 리드</div>
+            </div>
+          </div>
+        </div>
+        <div class="highlight">핵심은 태훈 혼자 전방위로 치는 구조에서, 인규와 정민이 축이 되고, 알바/외주/파트너가 실행 레이어를 받쳐주는 형태로 바뀌는 거야.</div>
+      </section>
+
+      <section class="card">
+        <h2>2. 지금 생기는 변화</h2>
+        <div class="list">
+          <div class="item">
+            <strong>CS 병목 해소</strong>
+            외주가 전화도 제대로 안 받던 문제를, 경력자 중심 CS 운영으로 해결할 가능성이 높음.
+          </div>
+          <div class="item">
+            <strong>인플루언서 실행력 확보</strong>
+            리스트업만 하고 멈추던 걸, 이제 DM 발송과 관계관리까지 실제로 돌릴 수 있음.
+          </div>
+          <div class="item">
+            <strong>콘텐츠 생산 안정화</strong>
+            주동연이 계속 받쳐주면 1분도수 콘텐츠 퀄리티와 속도를 유지 가능.
+          </div>
+          <div class="item">
+            <strong>의료기기 확장 기반</strong>
+            굿플, 알카나인, 비즈모아코리아 구조로 기술/제조/양산 축이 이미 어느 정도 잡혀 있음.
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <section class="card" style="margin-bottom:20px;">
+      <h2>3. 알바 / 외주 / 협업 파트너</h2>
+      <div class="columns">
+        <div>
+          <h3>운영 보강</h3>
+          <div class="list">
+            <div class="item"><strong>오은옥 · CS</strong>물류 포워딩 10년+, 제약/의료기기 CS 5년+.<span class="tag">월 80만원</span></div>
+            <div class="item"><strong>정채린 · 인플루언서 마케팅 보조</strong>필라테스 강사 출신, 근골격계 이해도 보유.<span class="tag">3개월 후 정규직 전환 검토</span></div>
+            <div class="item"><strong>주동연 · 영상 편집</strong>1분도수 12만까지 함께 간 외주 편집자.<span class="tag">신뢰 기반 파트너</span></div>
+          </div>
+        </div>
+        <div>
+          <h3>제조/기술 파트너</h3>
+          <div class="list">
+            <div class="item"><strong>굿플</strong>의료기기 3등급까지 제조 가능. ES-808, CS-25 의료기기 버전 핵심 파트너.</div>
+            <div class="item"><strong>알카나인</strong>CS-25 원청 기술사. 기술 원류 축.</div>
+            <div class="item"><strong>비즈모아코리아</strong>ES-808, WS-200 제조. 중국 20년 네트워크 강점.</div>
+          </div>
+        </div>
+        <div>
+          <h3>의미</h3>
+          <div class="list">
+            <div class="item"><strong>운영</strong>CS와 인플루언서 실행 공백이 메워짐</div>
+            <div class="item"><strong>제품</strong>의료기기 버전 고도화 루트가 열림</div>
+            <div class="item"><strong>스케일</strong>내부 소수 정예 + 외부 전문 파트너 구조가 가능해짐</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>4. 다음 채용 우선순위</h2>
+      <div class="priority">
+        <div class="item">
+          <strong>1순위. MD 리드</strong>
+          오픈마켓 입점만 하는 사람이 아니라, 더현대 같은 팝업과 유통 딜까지 만들어서 매출을 확장할 사람.
+          <span class="tag">매출 확장 엔진</span>
+        </div>
+        <div class="item">
+          <strong>2순위. CX 담당</strong>
+          광고, 상담, 구매, 배송, 사용, 재구매까지 각 접점의 감동을 설계하는 사람.
+          <span class="tag">브랜드 경험 시스템화</span>
+        </div>
+        <div class="item">
+          <strong>3순위. 해외사업 리드</strong>
+          미국/일본 등에서 테스트를 직접 돌리고, 나중에 국가별 팀을 늘릴 수 있는 사람.
+          <span class="tag">확장 옵션</span>
+        </div>
+      </div>
+      <div class="highlight">추천 순서는 <strong>MD 리드 → CX 담당 → 해외사업 리드</strong>. 지금은 국내 운영 완성도와 유통 확장이 해외보다 바로 돈으로 연결될 가능성이 더 큼.</div>
+      <div class="footer">Prepared for 김태훈 · Karina / TENEX</div>
+    </section>
+  </div>
+</body>
+</html>
