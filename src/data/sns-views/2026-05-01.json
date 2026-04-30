@@ -1,0 +1,104 @@
+{
+  "date": "2026-05-01",
+  "collected_at": "2026-04-30T21:00:04Z",
+  "youtube": {
+    "channel_id": "UCWywSxMIVgYcE8lqPCwHWfg",
+    "total_views": 22535107,
+    "subscribers": 126000,
+    "video_count": 249,
+    "recent_videos": [
+      {
+        "id": "3ptlGUlNTrM",
+        "title": "혼자인 어르신들을 위한 방문 봉사 #봉사 #어버이날 #가정의달 #독거노인",
+        "views": 531,
+        "likes": 5,
+        "comments": 1,
+        "published": "2026-04-30"
+      },
+      {
+        "id": "YNsC_DfhV5s",
+        "title": "병원 갈 시간 없는 당신을 위해, 물리치료실을 통째로 손바닥 안에 담았습니다.",
+        "views": 1792,
+        "likes": 9,
+        "comments": 2,
+        "published": "2026-04-29"
+      },
+      {
+        "id": "byceHvR2a_M",
+        "title": "만성피로 싹- 사라집니다. 전신 근막 해방 & 신경 리셋 3분 루틴",
+        "views": 4690,
+        "likes": 64,
+        "comments": 3,
+        "published": "2026-04-28"
+      },
+      {
+        "id": "0D01e0W_nAI",
+        "title": "물리치료실 비밀 얘기할 건데 퍼트리면 안됩니다!",
+        "views": 768,
+        "likes": 34,
+        "comments": 8,
+        "published": "2026-04-27"
+      },
+      {
+        "id": "vGQd9kQVCu4",
+        "title": "수면 권장시간이 바뀌었는데 아무도 모릅니다 | 통증 잡기 위한 기본 중 기본 '수면시간'",
+        "views": 10953,
+        "likes": 287,
+        "comments": 28,
+        "published": "2026-04-22"
+      },
+      {
+        "id": "qpGWlk8cIl0",
+        "title": "고관절 찝히고 딱! 소리 나시는 분들! 3가지 동작 필수입니다!",
+        "views": 16964,
+        "likes": 290,
+        "comments": 9,
+        "published": "2026-04-20"
+      },
+      {
+        "id": "77hTnfvXvCI",
+        "title": "웬만한 손목 통증 3분 만에 사라집니다. 주사도 마사지도 안 듣던 통증 잡는 기적의 3분 치료법",
+        "views": 90088,
+        "likes": 2390,
+        "comments": 79,
+        "published": "2026-04-16"
+      },
+      {
+        "id": "ZAcYlRt37Y8",
+        "title": "거북목·두통 탈출! 잘 때마다 등이 굽어 있다면 이 '3분 시스템'이 정답입니다. ✨",
+        "views": 103206,
+        "likes": 1542,
+        "comments": 12,
+        "published": "2026-04-15"
+      },
+      {
+        "id": "OKa0mQWd4es",
+        "title": "전세계가 극찬한 최고의 전신 이완, 두통 마사지 법",
+        "views": 14926,
+        "likes": 207,
+        "comments": 4,
+        "published": "2026-04-10"
+      },
+      {
+        "id": "9BBlJlfADlo",
+        "title": "골반 뻥 뚫리는 느낌, 이 루틴 해보면 알아요 #골반케어 #유연성",
+        "views": 27561,
+        "likes": 327,
+        "comments": 5,
+        "published": "2026-04-09"
+      }
+    ]
+  },
+  "instagram": {
+    "username": "one_dosu_physio",
+    "followers": 57262,
+    "post_count": 54,
+    "note": "total views require Meta Business API"
+  },
+  "tiktok": {
+    "username": "one_dosu_physio",
+    "followers": 30800,
+    "total_likes": 318800,
+    "video_count": 173
+  }
+}
