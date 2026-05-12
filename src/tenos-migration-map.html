@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="ko" data-theme="dark">
+<head>
+  <script src="auth.js"></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TENOS 마이그레이션 자산맵</title>
+  <style>
+    :root{--navy:#002855;--bg:#09111f;--bg2:#0f172a;--card:#121d34;--line:#22314f;--text:#e8f0ff;--muted:#9cb0d0;--soft:#7d90b0;--blue:#60a5fa;--green:#34d399;--amber:#fbbf24;--red:#f87171;--purple:#a78bfa;--shadow:0 12px 36px rgba(0,0,0,.28)}
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Apple SD Gothic Neo',sans-serif;background:linear-gradient(180deg,#06101d,#0a1222);color:var(--text);line-height:1.6}
+    .wrap{max-width:1320px;margin:0 auto;padding:24px 20px 80px}
+    .back{display:inline-flex;align-items:center;gap:8px;padding:10px 14px;border:1px solid var(--line);border-radius:10px;color:var(--muted);text-decoration:none;background:rgba(255,255,255,.03);margin-bottom:18px}.back:hover{color:#fff;border-color:#35518c}
+    .hero{background:radial-gradient(circle at top right, rgba(96,165,250,.16), transparent 30%),linear-gradient(135deg,#101a33 0%,#0c1530 50%,#08111f 100%);border:1px solid var(--line);border-radius:28px;padding:34px;box-shadow:var(--shadow)}
+    .eyebrow{display:inline-block;padding:6px 10px;border-radius:999px;background:rgba(96,165,250,.12);border:1px solid rgba(96,165,250,.24);font-size:12px;font-weight:800;color:#a9cbff;margin-bottom:14px}
+    h1{font-size:40px;line-height:1.15;letter-spacing:-.03em;margin-bottom:10px}.hero p{font-size:17px;color:var(--muted);max-width:960px}
+    .chips{display:flex;flex-wrap:wrap;gap:10px;margin-top:18px}.chip{padding:8px 12px;border-radius:999px;border:1px solid var(--line);background:rgba(255,255,255,.04);font-size:13px}
+    .section{margin-top:28px}.section h2{font-size:28px;margin-bottom:14px}.sub{color:var(--muted);margin-bottom:16px}
+    .grid{display:grid;gap:16px}.g2{grid-template-columns:repeat(auto-fit,minmax(320px,1fr))}.g3{grid-template-columns:repeat(auto-fit,minmax(260px,1fr))}
+    .card{background:linear-gradient(180deg,var(--card),var(--bg2));border:1px solid var(--line);border-radius:20px;padding:20px;box-shadow:var(--shadow)}
+    .card h3{font-size:20px;margin-bottom:8px}.card p{font-size:14px;color:var(--muted)}
+    .badge{display:inline-block;padding:5px 8px;border-radius:999px;font-size:11px;font-weight:800;margin-bottom:10px;text-transform:uppercase;letter-spacing:.06em}
+    .b-blue{background:rgba(96,165,250,.14);border:1px solid rgba(96,165,250,.24);color:#a9cbff}.b-green{background:rgba(52,211,153,.14);border:1px solid rgba(52,211,153,.24);color:#9ef0cf}.b-amber{background:rgba(251,191,36,.14);border:1px solid rgba(251,191,36,.24);color:#ffe29b}.b-red{background:rgba(248,113,113,.14);border:1px solid rgba(248,113,113,.24);color:#ffc1c1}.b-purple{background:rgba(167,139,250,.14);border:1px solid rgba(167,139,250,.24);color:#d0c2ff}
+    .decision{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}.bucket{background:linear-gradient(180deg,var(--card),var(--bg2));border:1px solid var(--line);border-radius:22px;padding:20px}.bucket h3{font-size:22px;margin-bottom:10px}.bucket ul{padding-left:18px;color:var(--muted);font-size:14px}.bucket li{margin:8px 0}
+    .keep{border-color:rgba(52,211,153,.35)}.ref{border-color:rgba(251,191,36,.35)}.drop{border-color:rgba(248,113,113,.35)}
+    .map-table{width:100%;border-collapse:collapse;border:1px solid var(--line);border-radius:16px;overflow:hidden}.map-table th,.map-table td{padding:14px 16px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top;font-size:14px}.map-table th{background:#101b33;color:#a9cbff;font-size:12px;text-transform:uppercase;letter-spacing:.08em}.map-table tr:last-child td{border-bottom:none}
+    .pill{display:inline-block;padding:4px 8px;border-radius:999px;font-size:12px;font-weight:700}.ok{background:rgba(52,211,153,.14);color:#9ef0cf}.warn{background:rgba(251,191,36,.14);color:#ffe29b}.no{background:rgba(248,113,113,.14);color:#ffc1c1}
+    .flow{display:grid;grid-template-columns:repeat(4,minmax(180px,1fr));gap:16px}.flowbox{background:linear-gradient(180deg,var(--card),var(--bg2));border:1px solid var(--line);border-radius:18px;padding:18px;min-height:180px}.flowbox .k{font-size:12px;color:#a9cbff;text-transform:uppercase;letter-spacing:.08em}.flowbox .t{font-size:20px;font-weight:800;margin-top:6px}.flowbox .d{font-size:14px;color:var(--muted);margin-top:8px}.flowbox ul{padding-left:18px;margin-top:10px;color:var(--muted);font-size:14px}
+    .next{display:grid;gap:12px}.next-item{display:grid;grid-template-columns:60px 1fr;gap:14px;align-items:start;background:linear-gradient(180deg,var(--card),var(--bg2));border:1px solid var(--line);border-radius:18px;padding:18px}.num{width:60px;height:60px;border-radius:16px;background:linear-gradient(135deg,var(--navy),#173c73);display:flex;align-items:center;justify-content:center;font-size:24px;font-weight:900}.next-item h3{font-size:19px;margin-bottom:6px}.next-item p{font-size:14px;color:var(--muted)}
+    .callout{padding:18px 20px;border-radius:18px;border:1px solid rgba(251,191,36,.28);background:rgba(251,191,36,.08);color:#ffe3a8}.callout strong{color:#fff}
+    @media(max-width:980px){h1{font-size:34px}.decision{grid-template-columns:1fr}.flow{grid-template-columns:1fr 1fr}.next-item{grid-template-columns:1fr}.num{width:56px;height:56px}}
+    @media(max-width:640px){.flow{grid-template-columns:1fr}}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <a class="back" href="/tenos-master-plan">← TENOS Master Plan으로</a>
+
+    <section class="hero">
+      <div class="eyebrow">OPENCLAW → TENOS MIGRATION ASSET MAP</div>
+      <h1>TENOS 마이그레이션 자산맵</h1>
+      <p>
+        구현 들어가기 전에 필요한 건 문서 대청소가 아니라, <strong>OpenClaw 안의 기존 자산을 무엇을 가져가고, 무엇을 참고만 하고, 무엇을 버릴지</strong>
+        분류하는 것이다. 이 페이지는 TENOS V1 구현 전에 필요한 자산 정리 지도다.
+      </p>
+      <div class="chips">
+        <div class="chip">목표: 대청소 금지, 분류 먼저</div>
+        <div class="chip">핵심: 프롬프트가 아니라 운영체계를 옮긴다</div>
+        <div class="chip">기준: TENOS V1에 필요한 것만 남긴다</div>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>1. 먼저 3개 버킷으로 나눈다</h2>
+      <div class="decision">
+        <div class="bucket keep">
+          <div class="badge b-green">가져갈 것</div>
+          <h3>Keep</h3>
+          <ul>
+            <li>조직 구조 관련 문서</li>
+            <li>카리나 / 실장 / 팀원 역할 정의</li>
+            <li>보고 경로와 승인 규칙</li>
+            <li>MEMORY / HEARTBEAT 운영 방식</li>
+            <li>brain.db 사용 구조</li>
+            <li>자동화 목록, 크론 목록</li>
+            <li>채널 라우팅 규칙</li>
+          </ul>
+        </div>
+        <div class="bucket ref">
+          <div class="badge b-amber">참고만 할 것</div>
+          <h3>Reference</h3>
+          <ul>
+            <li>OpenClaw 전용 설정법</li>
+            <li>gateway-specific 운영법</li>
+            <li>token 전환 트릭</li>
+            <li>특정 툴 사용법</li>
+            <li>OpenClaw 내부 명령/옵션 의존 자료</li>
+          </ul>
+        </div>
+        <div class="bucket drop">
+          <div class="badge b-red">버려도 되는 것</div>
+          <h3>Drop</h3>
+          <ul>
+            <li>OpenClaw 종속 임시 시행착오 문서</li>
+            <li>지금 구조와 안 맞는 예전 프롬프트 찌꺼기</li>
+            <li>중복 설명 파일</li>
+            <li>현재 운영과 무관한 구버전 노트</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>2. TENOS로 옮길 핵심 자산</h2>
+      <p class="sub">이건 구현 전에 반드시 목록화돼 있어야 한다.</p>
+      <table class="map-table">
+        <thead><tr><th>자산</th><th>왜 필요한가</th><th>TENOS에서의 위치</th></tr></thead>
+        <tbody>
+          <tr><td><strong>카리나 역할 정의</strong></td><td>메인 허브의 판단 범위를 고정해야 함</td><td>TENOS Core / Flow</td></tr>
+          <tr><td><strong>실장별 역할 정의</strong></td><td>실장과 팀원 역할 경계가 무너지면 구조가 깨짐</td><td>TENOS Core / Runtime</td></tr>
+          <tr><td><strong>보고 경로</strong></td><td>실장 → 카리나 → 태훈 루프를 강제해야 함</td><td>TENOS Flow / Policy</td></tr>
+          <tr><td><strong>승인 규칙</strong></td><td>민감 작업과 사람 승인 게이트를 시스템화해야 함</td><td>TENOS Policy</td></tr>
+          <tr><td><strong>memory 구조</strong></td><td>기억 주입과 저장이 시스템 핵심임</td><td>TENOS Memory</td></tr>
+          <tr><td><strong>brain.db 활용 방식</strong></td><td>장기 기억 검색/기록의 중심 저장소</td><td>TENOS Memory</td></tr>
+          <tr><td><strong>HEARTBEAT 구조</strong></td><td>진행 중 작업 상태 추적의 기준</td><td>TENOS Memory / Flow</td></tr>
+          <tr><td><strong>자동화 / 크론 목록</strong></td><td>무엇을 scheduler가 돌려야 하는지 알아야 함</td><td>TENOS Runtime / Scheduler</td></tr>
+          <tr><td><strong>채널 라우팅 규칙</strong></td><td>텔레그램/슬랙 입력이 어디로 가는지 기준 필요</td><td>TENOS Router</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section class="section">
+      <h2>3. OpenClaw 기능 중 TENOS V1에 필요한 것만 추린다</h2>
+      <div class="grid g3">
+        <div class="card"><div class="badge b-green">필수</div><h3>메시지 받기</h3><p>텔레그램, 슬랙, 자동 이벤트 입력 수신.</p></div>
+        <div class="card"><div class="badge b-green">필수</div><h3>카리나 / 실장 라우팅</h3><p>누가 처리할지 결정하는 분배 로직.</p></div>
+        <div class="card"><div class="badge b-green">필수</div><h3>worker 실행</h3><p>필요시 spawn해서 실행하고 끝나면 종료.</p></div>
+        <div class="card"><div class="badge b-green">필수</div><h3>memory 검색 / 저장</h3><p>brain.db, MEMORY, HEARTBEAT 연동.</p></div>
+        <div class="card"><div class="badge b-green">필수</div><h3>상태 추적</h3><p>작업이 누구 손에 있고 어디까지 왔는지 추적.</p></div>
+        <div class="card"><div class="badge b-green">필수</div><h3>보고 루프</h3><p>카리나 경유 최종 보고, 사람 승인 포함.</p></div>
+        <div class="card"><div class="badge b-green">필수</div><h3>스케줄 실행</h3><p>정시 자동화와 크론 이벤트 처리.</p></div>
+        <div class="card"><div class="badge b-red">보류</div><h3>범용 플랫폼 기능</h3><p>처음부터 OpenClaw 전기능 복제는 안 한다.</p></div>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>4. 제일 중요한 주의점</h2>
+      <div class="callout">
+        <strong>프롬프트를 옮기는 게 아니라 운영체계를 옮기는 거다.</strong><br/>
+        md 파일 몇 개 복붙한다고 TENOS가 되는 게 아니다. 핵심은 역할, 흐름, 기억, 보고, 승인 이 다섯 개를 시스템 레벨로 옮기는 것이다.
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>5. 구현 전에 결정해야 할 것</h2>
+      <div class="flow">
+        <div class="flowbox"><div class="k">Decision A</div><div class="t">모델 전략</div><div class="d">카리나, 실장, 팀원 각각 어떤 모델을 쓸지.</div><ul><li>메인 모델</li><li>실장용 모델</li><li>워커용 모델</li></ul></div>
+        <div class="flowbox"><div class="k">Decision B</div><div class="t">런타임 형태</div><div class="d">Node 기반인지, Python 일부 섞는지, 세션 상태를 어디에 두는지.</div><ul><li>런타임 언어</li><li>세션 저장소</li><li>프로세스 구조</li></ul></div>
+        <div class="flowbox"><div class="k">Decision C</div><div class="t">메모리 저장소</div><div class="d">brain.db를 그대로 쓸지, TENOS DB를 분리할지.</div><ul><li>brain.db 유지?</li><li>파일 메모리 병행?</li><li>추가 DB 필요?</li></ul></div>
+        <div class="flowbox"><div class="k">Decision D</div><div class="t">첫 파일럿</div><div class="d">마케팅, CRM, CS, 개발운영 중 어디서 먼저 검증할지.</div><ul><li>위험도</li><li>반복성</li><li>성과 측정 용이성</li></ul></div>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>6. 지금 태훈이 해야 할 실제 액션</h2>
+      <div class="next">
+        <div class="next-item"><div class="num">1</div><div><h3>가져갈 문서 / 버릴 문서 / 참고 문서 분류</h3><p>전체 정리하지 말고 3개 버킷으로만 먼저 나누기.</p></div></div>
+        <div class="next-item"><div class="num">2</div><div><h3>TENOS V1 필수 기능 체크</h3><p>메시지, 라우팅, worker, memory, 상태, 보고, 스케줄만 우선 고정.</p></div></div>
+        <div class="next-item"><div class="num">3</div><div><h3>첫 파일럿 도메인 선택</h3><p>마케팅 / CRM / CS / 개발운영 중 하나를 먼저 정하기.</p></div></div>
+      </div>
+    </section>
+  </div>
+</body>
+</html>
