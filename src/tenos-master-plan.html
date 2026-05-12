@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="ko" data-theme="dark">
+<head>
+  <script src="auth.js"></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TENOS Master Plan</title>
+  <style>
+    :root{--navy:#002855;--navy2:#0d1f3e;--bg:#09111f;--bg2:#0f172a;--card:#121d34;--line:#22314f;--text:#e8f0ff;--muted:#9cb0d0;--soft:#7d90b0;--blue:#60a5fa;--green:#34d399;--amber:#fbbf24;--purple:#a78bfa;--red:#f87171;--shadow:0 12px 36px rgba(0,0,0,.28)}
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Apple SD Gothic Neo',sans-serif;background:linear-gradient(180deg,#06101d,#0a1222);color:var(--text);line-height:1.6}
+    .wrap{max-width:1320px;margin:0 auto;padding:24px 20px 80px}
+    .back{display:inline-flex;align-items:center;gap:8px;padding:10px 14px;border:1px solid var(--line);border-radius:10px;color:var(--muted);text-decoration:none;background:rgba(255,255,255,.03);margin-bottom:18px}.back:hover{color:#fff;border-color:#35518c}
+    .hero{background:radial-gradient(circle at top right, rgba(96,165,250,.16), transparent 30%),linear-gradient(135deg,#101a33 0%,#0c1530 50%,#08111f 100%);border:1px solid var(--line);border-radius:28px;padding:34px;box-shadow:var(--shadow)}
+    .eyebrow{display:inline-block;padding:6px 10px;border-radius:999px;background:rgba(96,165,250,.12);border:1px solid rgba(96,165,250,.24);font-size:12px;font-weight:800;color:#a9cbff;margin-bottom:14px}
+    h1{font-size:42px;line-height:1.15;letter-spacing:-.03em;margin-bottom:10px}.hero p{font-size:17px;color:var(--muted);max-width:940px}
+    .chips{display:flex;flex-wrap:wrap;gap:10px;margin-top:18px}.chip{padding:8px 12px;border-radius:999px;border:1px solid var(--line);background:rgba(255,255,255,.04);font-size:13px}
+    .summary{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px;margin-top:24px}.sum{background:rgba(255,255,255,.04);border:1px solid var(--line);border-radius:18px;padding:16px}.sum .k{font-size:12px;color:var(--soft);text-transform:uppercase;letter-spacing:.08em}.sum .v{font-size:30px;font-weight:900;margin-top:6px}.sum .d{font-size:13px;color:var(--muted);margin-top:4px}
+    .section{margin-top:28px}.section h2{font-size:28px;margin-bottom:14px}.sub{color:var(--muted);margin-bottom:16px}
+    .grid{display:grid;gap:16px}.g2{grid-template-columns:repeat(auto-fit,minmax(320px,1fr))}.g3{grid-template-columns:repeat(auto-fit,minmax(260px,1fr))}.g4{grid-template-columns:repeat(auto-fit,minmax(230px,1fr))}
+    .card{background:linear-gradient(180deg,var(--card),var(--bg2));border:1px solid var(--line);border-radius:20px;padding:20px;box-shadow:var(--shadow)}
+    .card h3{font-size:20px;margin-bottom:8px}.card p{font-size:14px;color:var(--muted)}
+    .badge{display:inline-block;padding:5px 8px;border-radius:999px;font-size:11px;font-weight:800;margin-bottom:10px;text-transform:uppercase;letter-spacing:.06em}
+    .b-blue{background:rgba(96,165,250,.14);border:1px solid rgba(96,165,250,.24);color:#a9cbff}.b-green{background:rgba(52,211,153,.14);border:1px solid rgba(52,211,153,.24);color:#9ef0cf}.b-purple{background:rgba(167,139,250,.14);border:1px solid rgba(167,139,250,.24);color:#d0c2ff}.b-amber{background:rgba(251,191,36,.14);border:1px solid rgba(251,191,36,.24);color:#ffe29b}.b-red{background:rgba(248,113,113,.14);border:1px solid rgba(248,113,113,.24);color:#ffc1c1}
+    .pillar{border-left:4px solid var(--blue);padding-left:14px}.pillar h3{font-size:18px}
+    .master-map{display:grid;grid-template-columns:1.15fr .85fr;gap:16px}.stack{display:grid;gap:12px}
+    .page-card{display:flex;flex-direction:column;gap:10px;background:rgba(255,255,255,.03);border:1px solid var(--line);border-radius:18px;padding:18px}
+    .page-card .top{display:flex;justify-content:space-between;gap:8px;align-items:flex-start}.page-card .title{font-size:18px;font-weight:800}.page-card .desc{font-size:14px;color:var(--muted)}.page-card .meta{display:flex;flex-wrap:wrap;gap:8px}.tag{padding:4px 8px;border-radius:999px;font-size:12px;background:rgba(255,255,255,.05);border:1px solid var(--line);color:var(--muted)}
+    .status{padding:5px 10px;border-radius:999px;font-size:12px;font-weight:800}.done{background:rgba(52,211,153,.14);border:1px solid rgba(52,211,153,.25);color:#9ef0cf}.progress{background:rgba(251,191,36,.14);border:1px solid rgba(251,191,36,.25);color:#ffe29b}.planned{background:rgba(96,165,250,.14);border:1px solid rgba(96,165,250,.25);color:#a9cbff}
+    .page-card a{display:inline-flex;align-items:center;gap:8px;color:#a9cbff;text-decoration:none;font-weight:700}.page-card a:hover{text-decoration:underline}
+    .flow{display:grid;grid-template-columns:repeat(5,minmax(160px,1fr));gap:14px}.flowbox{background:linear-gradient(180deg,var(--card),var(--bg2));border:1px solid var(--line);border-radius:18px;padding:18px;min-height:170px}.flowbox .k{font-size:12px;color:#a9cbff;text-transform:uppercase;letter-spacing:.08em}.flowbox .t{font-size:20px;font-weight:800;margin-top:6px}.flowbox .d{font-size:14px;color:var(--muted);margin-top:8px}.flowbox ul{padding-left:18px;margin-top:10px;color:var(--muted);font-size:14px}
+    .timeline{display:grid;gap:14px}.phase{display:grid;grid-template-columns:160px 1fr;gap:14px}.phase-label{border-radius:16px;padding:16px;background:#0f1830;border:1px solid var(--line)}.phase-label .pnum{font-size:12px;color:#a9cbff;text-transform:uppercase;letter-spacing:.08em}.phase-label .ptitle{font-size:22px;font-weight:800;margin-top:4px}.phase-body{border-radius:16px;padding:18px;background:linear-gradient(180deg,var(--card),var(--bg2));border:1px solid var(--line)}.phase-body ul{padding-left:18px;font-size:14px;color:var(--muted)}
+    .callout{padding:18px 20px;border-radius:18px;border:1px solid rgba(52,211,153,.28);background:rgba(52,211,153,.08);color:#c8ffe9}.callout strong{color:#fff}
+    .table{width:100%;border-collapse:collapse;border:1px solid var(--line);border-radius:16px;overflow:hidden}.table th,.table td{padding:14px 16px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top;font-size:14px}.table th{background:#101b33;color:#a9cbff;font-size:12px;text-transform:uppercase;letter-spacing:.08em}.table tr:last-child td{border-bottom:none}
+    @media(max-width:980px){h1{font-size:34px}.master-map{grid-template-columns:1fr}.flow{grid-template-columns:1fr 1fr}.phase{grid-template-columns:1fr}}
+    @media(max-width:640px){.flow{grid-template-columns:1fr}}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <a class="back" href="/">← 리포트 홈으로</a>
+
+    <section class="hero">
+      <div class="eyebrow">TENOS MASTER PLAN · SSOT FOR FINAL VERSION</div>
+      <h1>TENOS Master Plan</h1>
+      <p>
+        이 페이지는 TENOS 최종버전 제작의 상위 SSOT다. 즉 개별 페이지들을 따로 만드는 것이 목적이 아니라,
+        <strong>마스터플랜을 중심으로 Naming, Engine, Memory, Event Flow, Roadmap, Policy를 하나씩 채워서</strong>
+        마지막에 최종 통합본으로 묶기 위한 전체 지도다.
+      </p>
+      <div class="chips">
+        <div class="chip">정식명: TENOS</div>
+        <div class="chip">의미: Tenex Operating System</div>
+        <div class="chip">목적: 테넥스 AI 조직 운영체계</div>
+        <div class="chip">전략: OpenClaw를 바로 버리지 않고 병행 치환</div>
+      </div>
+      <div class="summary">
+        <div class="sum"><div class="k">현재 확정</div><div class="v">2</div><div class="d">Engine, Naming 초안 완료</div></div>
+        <div class="sum"><div class="k">남은 핵심 페이지</div><div class="v">4</div><div class="d">Memory, Event Flow, Roadmap, Policy</div></div>
+        <div class="sum"><div class="k">최종 통합본</div><div class="v">1</div><div class="d">TENOS Final Integrated View</div></div>
+        <div class="sum"><div class="k">기준 문서</div><div class="v">SSOT</div><div class="d">이 페이지가 상위 의사결정 기준</div></div>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>1. 마스터플랜이 왜 필요한가</h2>
+      <div class="callout">
+        <strong>핵심:</strong> 지금 필요한 건 예쁜 소개자료가 아니라, TENOS 최종버전이 어디까지 만들어졌고 무엇이 비어있는지 한눈에 보이는 상위 지도다.
+        이 페이지가 있어야 하위 문서가 늘어나도 방향을 잃지 않는다.
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>2. 최종본에 반드시 들어가야 하는 7개 축</h2>
+      <div class="grid g4">
+        <div class="card pillar"><div class="badge b-blue">01</div><h3>TENOS 정의</h3><p>TENOS가 정확히 무엇인지, 왜 필요한지, 어떤 문제를 해결하는지.</p></div>
+        <div class="card pillar"><div class="badge b-purple">02</div><h3>조직 운영 구조</h3><p>태훈, 카리나, 실장, 팀원, 보고경로와 역할 경계.</p></div>
+        <div class="card pillar"><div class="badge b-green">03</div><h3>코어 모듈 구조</h3><p>Core, Router, Runtime, Memory, Flow, Console 책임범위.</p></div>
+        <div class="card pillar"><div class="badge b-amber">04</div><h3>메모리 구조</h3><p>brain.db, MEMORY, daily memory, HEARTBEAT, learnings 사용 원칙.</p></div>
+        <div class="card pillar"><div class="badge b-blue">05</div><h3>이벤트 / 실행 흐름</h3><p>사람 지시, 자동화 이벤트, spawn, 저장, 보고 흐름.</p></div>
+        <div class="card pillar"><div class="badge b-purple">06</div><h3>V1~V3 로드맵</h3><p>처음 어디까지 만들지, 이후 무엇을 붙일지, 무엇을 미룰지.</p></div>
+        <div class="card pillar"><div class="badge b-red">07</div><h3>운영 원칙</h3><p>승인 규칙, 위험 작업, 사람 검수, 실패 대응, 역할 분리 원칙.</p></div>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>3. 문서 구조, 마스터플랜과 하위 페이지 관계</h2>
+      <div class="master-map">
+        <div class="card">
+          <h3>상위 SSOT</h3>
+          <p class="sub">마스터플랜은 책 목차이자 시스템 지도다. 하위 페이지는 각 장의 본문이다.</p>
+          <div class="stack">
+            <div class="page-card">
+              <div class="top"><div><div class="title">TENOS Master Plan</div><div class="desc">전체 방향, 현재 완성도, 남은 작업, 최종 의사결정 SSOT</div></div><div class="status progress">진행중</div></div>
+              <div class="meta"><span class="tag">상위 문서</span><span class="tag">SSOT</span><span class="tag">최종본 기준점</span></div>
+            </div>
+          </div>
+        </div>
+        <div class="card">
+          <h3>하위 상세 페이지</h3>
+          <p class="sub">하위 페이지는 각각 하나의 질문에 답해야 한다.</p>
+          <div class="stack">
+            <div class="page-card"><div class="top"><div><div class="title">TENOS Engine</div><div class="desc">왜 가능한지, 무엇을 교체하는지, 엔진룸 전체 구조</div></div><div class="status done">완료</div></div><a href="/tenex-engine-v1.html">페이지 보기 →</a></div>
+            <div class="page-card"><div class="top"><div><div class="title">TENOS Naming</div><div class="desc">이름 정의, 모듈 네이밍 계층, 책임 범위</div></div><div class="status done">완료</div></div><a href="/tenos-naming-system.html">페이지 보기 →</a></div>
+            <div class="page-card"><div class="top"><div><div class="title">TENOS Memory</div><div class="desc">memory가 언제 검색되고 언제 저장되는지</div></div><div class="status planned">예정</div></div></div>
+            <div class="page-card"><div class="top"><div><div class="title">TENOS Event Flow</div><div class="desc">입력 → 실장 → 팀원 → 보고 → 저장 전체 흐름</div></div><div class="status planned">예정</div></div></div>
+            <div class="page-card"><div class="top"><div><div class="title">TENOS Roadmap</div><div class="desc">V1/V2/V3, 제외 기능, 파일럿 우선순위</div></div><div class="status planned">예정</div></div></div>
+            <div class="page-card"><div class="top"><div><div class="title">TENOS Policy</div><div class="desc">승인, 위험 작업, 실패 대응, 권한 체계</div></div><div class="status planned">예정</div></div></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>4. 최종본 제작 방식</h2>
+      <p class="sub">최종본은 한 번에 쓰는 문서가 아니라, 단계적으로 고정해나가는 구조다.</p>
+      <div class="timeline">
+        <div class="phase">
+          <div class="phase-label"><div class="pnum">Phase A</div><div class="ptitle">구조 확정</div></div>
+          <div class="phase-body"><ul><li>이름 고정</li><li>모듈 고정</li><li>조직 운영 구조 고정</li><li>보고 경로 고정</li><li>메모리 체계 고정</li></ul></div>
+        </div>
+        <div class="phase">
+          <div class="phase-label"><div class="pnum">Phase B</div><div class="ptitle">흐름 확정</div></div>
+          <div class="phase-body"><ul><li>이벤트 종류 정의</li><li>라우팅 규칙</li><li>spawn 규칙</li><li>승인 규칙</li><li>실패 처리 규칙</li></ul></div>
+        </div>
+        <div class="phase">
+          <div class="phase-label"><div class="pnum">Phase C</div><div class="ptitle">개발 범위 확정</div></div>
+          <div class="phase-body"><ul><li>V1 범위</li><li>V2 범위</li><li>V3 범위</li><li>제외 기능</li><li>첫 파일럿 도메인</li></ul></div>
+        </div>
+        <div class="phase">
+          <div class="phase-label"><div class="pnum">Phase D</div><div class="ptitle">최종 통합</div></div>
+          <div class="phase-body"><ul><li>조직도, 흐름도, 메모리, 로드맵을 한 페이지로 통합</li><li>의사결정 가능한 최종본으로 마감</li></ul></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>5. 실제로 최종본이 답해야 하는 질문</h2>
+      <table class="table">
+        <thead><tr><th>질문</th><th>이 질문에 답하는 하위 문서</th></tr></thead>
+        <tbody>
+          <tr><td>어떤 입력이 들어오면 누가 받나?</td><td>TENOS Event Flow</td></tr>
+          <tr><td>실장은 뭘 하고 팀원은 뭘 안 하나?</td><td>TENOS Naming / Policy</td></tr>
+          <tr><td>memory는 언제 검색되고 언제 저장되나?</td><td>TENOS Memory</td></tr>
+          <tr><td>승인 필요한 작업은 어디서 멈추나?</td><td>TENOS Policy</td></tr>
+          <tr><td>실패하면 누가 재시도하나?</td><td>TENOS Runtime / Policy / Roadmap</td></tr>
+          <tr><td>OpenClaw를 대체하려면 무엇부터 구현하나?</td><td>TENOS Engine / Roadmap</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section class="section">
+      <h2>6. 우선순위, 다음에 바로 만들 페이지</h2>
+      <div class="grid g3">
+        <div class="card"><div class="badge b-amber">1순위</div><h3>TENOS Memory</h3><p>brain.db, MEMORY, daily memory, HEARTBEAT, learnings를 언제 어떻게 주입/저장하는지 시각화.</p></div>
+        <div class="card"><div class="badge b-amber">2순위</div><h3>TENOS Event Flow</h3><p>사용자 메시지 → 카리나 → 실장 → worker → 보고 → 저장 흐름 정리.</p></div>
+        <div class="card"><div class="badge b-amber">3순위</div><h3>TENOS Roadmap</h3><p>V1, V2, V3, 파일럿 도메인, 제외 기능까지 정리.</p></div>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>7. 한 줄 결론</h2>
+      <div class="callout">
+        <strong>최종버전은 새로 한 번에 쓰는 문서가 아니라,</strong>
+        마스터플랜을 상위 SSOT로 두고 하위 페이지들을 하나씩 완성한 뒤 마지막에 통합하는 방식으로 가야 한다.
+      </div>
+    </section>
+  </div>
+</body>
+</html>
