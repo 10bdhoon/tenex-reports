@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="ko" data-theme="dark">
+<head>
+  <script src="auth.js"></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TENOS Roadmap</title>
+  <style>
+    :root{--navy:#002855;--bg:#09111f;--bg2:#0f172a;--card:#121d34;--line:#22314f;--text:#e8f0ff;--muted:#9cb0d0;--soft:#7d90b0;--blue:#60a5fa;--green:#34d399;--amber:#fbbf24;--purple:#a78bfa;--red:#f87171;--shadow:0 12px 36px rgba(0,0,0,.28)}
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Apple SD Gothic Neo',sans-serif;background:linear-gradient(180deg,#06101d,#0a1222);color:var(--text);line-height:1.6}
+    .wrap{max-width:1360px;margin:0 auto;padding:24px 20px 80px}
+    .back{display:inline-flex;align-items:center;gap:8px;padding:10px 14px;border:1px solid var(--line);border-radius:10px;color:var(--muted);text-decoration:none;background:rgba(255,255,255,.03);margin-bottom:18px}.back:hover{color:#fff;border-color:#35518c}
+    .hero{background:radial-gradient(circle at top right, rgba(251,191,36,.16), transparent 30%),linear-gradient(135deg,#101a33 0%,#0c1530 50%,#08111f 100%);border:1px solid var(--line);border-radius:28px;padding:34px;box-shadow:var(--shadow)}
+    .eyebrow{display:inline-block;padding:6px 10px;border-radius:999px;background:rgba(251,191,36,.12);border:1px solid rgba(251,191,36,.24);font-size:12px;font-weight:800;color:#ffe29b;margin-bottom:14px}
+    h1{font-size:40px;line-height:1.15;letter-spacing:-.03em;margin-bottom:10px}.hero p{font-size:17px;color:var(--muted);max-width:980px}
+    .chips{display:flex;flex-wrap:wrap;gap:10px;margin-top:18px}.chip{padding:8px 12px;border-radius:999px;border:1px solid var(--line);background:rgba(255,255,255,.04);font-size:13px}
+    .section{margin-top:28px}.section h2{font-size:28px;margin-bottom:14px}.sub{color:var(--muted);margin-bottom:16px}
+    .grid{display:grid;gap:16px}.g2{grid-template-columns:repeat(auto-fit,minmax(320px,1fr))}.g3{grid-template-columns:repeat(auto-fit,minmax(260px,1fr))}
+    .card{background:linear-gradient(180deg,var(--card),var(--bg2));border:1px solid var(--line);border-radius:20px;padding:20px;box-shadow:var(--shadow)}
+    .card h3{font-size:20px;margin-bottom:8px}.card p{font-size:14px;color:var(--muted)}
+    .badge{display:inline-block;padding:5px 8px;border-radius:999px;font-size:11px;font-weight:800;margin-bottom:10px;text-transform:uppercase;letter-spacing:.06em}
+    .b-blue{background:rgba(96,165,250,.14);border:1px solid rgba(96,165,250,.24);color:#a9cbff}.b-green{background:rgba(52,211,153,.14);border:1px solid rgba(52,211,153,.24);color:#9ef0cf}.b-amber{background:rgba(251,191,36,.14);border:1px solid rgba(251,191,36,.24);color:#ffe29b}.b-purple{background:rgba(167,139,250,.14);border:1px solid rgba(167,139,250,.24);color:#d0c2ff}.b-red{background:rgba(248,113,113,.14);border:1px solid rgba(248,113,113,.24);color:#ffc1c1}
+    .timeline{display:grid;gap:16px}.phase{display:grid;grid-template-columns:180px 1fr;gap:16px;align-items:stretch}.phase-label{border-radius:18px;padding:18px;background:#0f1830;border:1px solid var(--line)}.phase-label .k{font-size:12px;color:#ffe29b;text-transform:uppercase;letter-spacing:.08em}.phase-label .t{font-size:24px;font-weight:900;margin-top:4px}.phase-label .s{font-size:13px;color:var(--muted);margin-top:8px}.phase-body{border-radius:18px;padding:20px;background:linear-gradient(180deg,var(--card),var(--bg2));border:1px solid var(--line)}.phase-body ul{padding-left:18px;color:var(--muted);font-size:14px}.phase-body li{margin:8px 0}
+    .table{width:100%;border-collapse:collapse;border:1px solid var(--line);border-radius:16px;overflow:hidden}.table th,.table td{padding:14px 16px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top;font-size:14px}.table th{background:#101b33;color:#ffe29b;font-size:12px;text-transform:uppercase;letter-spacing:.08em}.table tr:last-child td{border-bottom:none}
+    .callout{padding:18px 20px;border-radius:18px;border:1px solid rgba(251,191,36,.28);background:rgba(251,191,36,.08);color:#ffe3a8}.callout strong{color:#fff}
+    @media(max-width:900px){h1{font-size:34px}.phase{grid-template-columns:1fr}}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <a class="back" href="/tenos-master-plan">← TENOS Master Plan으로</a>
+
+    <section class="hero">
+      <div class="eyebrow">TENOS ROADMAP · V1 TO V3</div>
+      <h1>TENOS Roadmap</h1>
+      <p>
+        TENOS Roadmap은 “무엇을 언제 구현할지”를 정하는 문서다. 핵심은 욕심을 줄이고, V1에서 테넥스 AI 조직을 굴리는 데 꼭 필요한 것만 먼저 구현하는 것이다.
+        즉 OpenClaw 전체 복제가 아니라, TENOS가 실제로 돌아갈 최소 커널부터 올리는 순서표다.
+      </p>
+      <div class="chips">
+        <div class="chip">원칙: 범용 플랫폼 금지</div>
+        <div class="chip">원칙: V1은 최소 커널</div>
+        <div class="chip">원칙: 파일럿으로 검증 후 확장</div>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>1. 전체 로드맵 개요</h2>
+      <div class="timeline">
+        <div class="phase">
+          <div class="phase-label"><div class="k">Phase 1</div><div class="t">V1</div><div class="s">최소 실행기</div></div>
+          <div class="phase-body"><ul><li>메시지 입력 수신</li><li>카리나/실장 라우팅</li><li>worker spawn</li><li>memory 검색/저장</li><li>상태 추적</li><li>보고 루프</li><li>기본 스케줄러</li></ul></div>
+        </div>
+        <div class="phase">
+          <div class="phase-label"><div class="k">Phase 2</div><div class="t">V2</div><div class="s">운영 안정화</div></div>
+          <div class="phase-body"><ul><li>권한/승인 체계 고도화</li><li>실패 복구 / retry 정책 강화</li><li>파일럿 도메인 확장</li><li>상태 시각화 뷰 추가</li></ul></div>
+        </div>
+        <div class="phase">
+          <div class="phase-label"><div class="k">Phase 3</div><div class="t">V3</div><div class="s">확장 / 최적화</div></div>
+          <div class="phase-body"><ul><li>Console 고도화</li><li>자율 제안 / 패턴 승격</li><li>도메인별 세부 엔진 확장</li><li>운영 자동화 강화</li></ul></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>2. V1에서 반드시 들어가야 할 것</h2>
+      <div class="grid g3">
+        <div class="card"><div class="badge b-green">V1 필수</div><h3>Input Router</h3><p>Telegram, Slack, cron event 입력을 받는 관문.</p></div>
+        <div class="card"><div class="badge b-green">V1 필수</div><h3>Lead Orchestration</h3><p>카리나와 실장에게 어떤 요청을 보낼지 결정.</p></div>
+        <div class="card"><div class="badge b-green">V1 필수</div><h3>Worker Spawn</h3><p>필요시만 실행 worker를 띄우는 최소 런타임.</p></div>
+        <div class="card"><div class="badge b-green">V1 필수</div><h3>Memory Layer</h3><p>brain.db 검색, MEMORY/HEARTBEAT 읽기, 결과 저장.</p></div>
+        <div class="card"><div class="badge b-green">V1 필수</div><h3>Task State</h3><p>누가 맡았고 어디까지 왔는지 상태 추적.</p></div>
+        <div class="card"><div class="badge b-green">V1 필수</div><h3>Report Loop</h3><p>실장 → 카리나 → 태훈 보고 체계.</p></div>
+        <div class="card"><div class="badge b-green">V1 필수</div><h3>Basic Scheduler</h3><p>정시 실행, 리마인더, 자동 이벤트 처리.</p></div>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>3. V1에서 일부러 안 하는 것</h2>
+      <div class="grid g2">
+        <div class="card"><div class="badge b-red">보류</div><h3>범용 에이전트 플랫폼</h3><p>OpenClaw 같은 범용 제품을 새로 만드는 건 안 한다.</p></div>
+        <div class="card"><div class="badge b-red">보류</div><h3>고급 웹 콘솔</h3><p>V1에서는 예쁜 관리 UI보다 작동이 먼저다.</p></div>
+        <div class="card"><div class="badge b-red">보류</div><h3>자동 스킬 생성</h3><p>학습 자동 승격은 V3 이후에 보는 게 맞다.</p></div>
+        <div class="card"><div class="badge b-red">보류</div><h3>멀티모델 최적화 엔진</h3><p>처음부터 모델 스위칭 최적화에 집착하지 않는다.</p></div>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>4. 어떤 도메인으로 먼저 파일럿할까</h2>
+      <table class="table">
+        <thead><tr><th>도메인</th><th>장점</th><th>추천도</th></tr></thead>
+        <tbody>
+          <tr><td><strong>마케팅</strong></td><td>반복도 높고, 분석/리포트/소재 보조처럼 구조화하기 쉬움</td><td>높음</td></tr>
+          <tr><td><strong>CRM</strong></td><td>고객 흐름 설계와 자동화 검증에 좋음</td><td>높음</td></tr>
+          <tr><td><strong>CS</strong></td><td>실무 임팩트는 크지만 승인/리스크 관리가 더 중요함</td><td>중간</td></tr>
+          <tr><td><strong>개발 운영</strong></td><td>기술적으로는 좋지만 실패시 리스크 체감이 큼</td><td>중간</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section class="section">
+      <h2>5. 현실적인 권장 순서</h2>
+      <div class="callout">
+        <strong>추천:</strong><br/>
+        1) TENOS Memory 확정<br/>
+        2) TENOS Event Flow 확정<br/>
+        3) TENOS Policy 확정<br/>
+        4) V1 구현 범위 고정<br/>
+        5) 마케팅 또는 CRM 파일럿 실행<br/>
+        6) V2 확장 결정
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>6. 다음 단계</h2>
+      <div class="grid g2">
+        <div class="card"><div class="badge b-purple">다음 1</div><h3>TENOS Policy</h3><p>Roadmap에서 빠질 수 없는 승인, 권한, 위험 작업 규칙을 문서화할 차례.</p></div>
+        <div class="card"><div class="badge b-blue">다음 2</div><h3>파일럿 도메인 확정</h3><p>마케팅과 CRM 중 하나를 먼저 골라 실제 TENOS V1 적용 기준으로 삼아야 한다.</p></div>
+      </div>
+    </section>
+  </div>
+</body>
+</html>
