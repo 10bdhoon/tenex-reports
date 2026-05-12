@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="ko" data-theme="dark">
+<head>
+  <script src="auth.js"></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TENOS Event Flow</title>
+  <style>
+    :root{--navy:#002855;--bg:#09111f;--bg2:#0f172a;--card:#121d34;--line:#22314f;--text:#e8f0ff;--muted:#9cb0d0;--soft:#7d90b0;--blue:#60a5fa;--green:#34d399;--amber:#fbbf24;--purple:#a78bfa;--red:#f87171;--shadow:0 12px 36px rgba(0,0,0,.28)}
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Apple SD Gothic Neo',sans-serif;background:linear-gradient(180deg,#06101d,#0a1222);color:var(--text);line-height:1.6}
+    .wrap{max-width:1380px;margin:0 auto;padding:24px 20px 80px}
+    .back{display:inline-flex;align-items:center;gap:8px;padding:10px 14px;border:1px solid var(--line);border-radius:10px;color:var(--muted);text-decoration:none;background:rgba(255,255,255,.03);margin-bottom:18px}.back:hover{color:#fff;border-color:#35518c}
+    .hero{background:radial-gradient(circle at top right, rgba(96,165,250,.16), transparent 30%),linear-gradient(135deg,#101a33 0%,#0c1530 50%,#08111f 100%);border:1px solid var(--line);border-radius:28px;padding:34px;box-shadow:var(--shadow)}
+    .eyebrow{display:inline-block;padding:6px 10px;border-radius:999px;background:rgba(96,165,250,.12);border:1px solid rgba(96,165,250,.24);font-size:12px;font-weight:800;color:#a9cbff;margin-bottom:14px}
+    h1{font-size:40px;line-height:1.15;letter-spacing:-.03em;margin-bottom:10px}.hero p{font-size:17px;color:var(--muted);max-width:980px}
+    .chips{display:flex;flex-wrap:wrap;gap:10px;margin-top:18px}.chip{padding:8px 12px;border-radius:999px;border:1px solid var(--line);background:rgba(255,255,255,.04);font-size:13px}
+    .section{margin-top:28px}.section h2{font-size:28px;margin-bottom:14px}.sub{color:var(--muted);margin-bottom:16px}
+    .grid{display:grid;gap:16px}.g2{grid-template-columns:repeat(auto-fit,minmax(320px,1fr))}.g3{grid-template-columns:repeat(auto-fit,minmax(260px,1fr))}
+    .card{background:linear-gradient(180deg,var(--card),var(--bg2));border:1px solid var(--line);border-radius:20px;padding:20px;box-shadow:var(--shadow)}
+    .card h3{font-size:20px;margin-bottom:8px}.card p{font-size:14px;color:var(--muted)}
+    .badge{display:inline-block;padding:5px 8px;border-radius:999px;font-size:11px;font-weight:800;margin-bottom:10px;text-transform:uppercase;letter-spacing:.06em}
+    .b-blue{background:rgba(96,165,250,.14);border:1px solid rgba(96,165,250,.24);color:#a9cbff}.b-green{background:rgba(52,211,153,.14);border:1px solid rgba(52,211,153,.24);color:#9ef0cf}.b-amber{background:rgba(251,191,36,.14);border:1px solid rgba(251,191,36,.24);color:#ffe29b}.b-purple{background:rgba(167,139,250,.14);border:1px solid rgba(167,139,250,.24);color:#d0c2ff}.b-red{background:rgba(248,113,113,.14);border:1px solid rgba(248,113,113,.24);color:#ffc1c1}
+    .flow{display:grid;grid-template-columns:repeat(6,minmax(170px,1fr));gap:14px}.flowbox{background:linear-gradient(180deg,var(--card),var(--bg2));border:1px solid var(--line);border-radius:18px;padding:18px;min-height:190px}.flowbox .k{font-size:12px;color:#a9cbff;text-transform:uppercase;letter-spacing:.08em}.flowbox .t{font-size:20px;font-weight:800;margin-top:6px}.flowbox .d{font-size:14px;color:var(--muted);margin-top:8px}.flowbox ul{padding-left:18px;margin-top:10px;color:var(--muted);font-size:14px}
+    .table{width:100%;border-collapse:collapse;border:1px solid var(--line);border-radius:16px;overflow:hidden}.table th,.table td{padding:14px 16px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top;font-size:14px}.table th{background:#101b33;color:#a9cbff;font-size:12px;text-transform:uppercase;letter-spacing:.08em}.table tr:last-child td{border-bottom:none}
+    .callout{padding:18px 20px;border-radius:18px;border:1px solid rgba(96,165,250,.28);background:rgba(96,165,250,.08);color:#d9e9ff}.callout strong{color:#fff}
+    @media(max-width:1100px){h1{font-size:34px}.flow{grid-template-columns:1fr 1fr 1fr}}
+    @media(max-width:760px){.flow{grid-template-columns:1fr}}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <a class="back" href="/tenos-master-plan">← TENOS Master Plan으로</a>
+
+    <section class="hero">
+      <div class="eyebrow">TENOS EVENT FLOW · INPUT TO REPORT LOOP</div>
+      <h1>TENOS Event Flow</h1>
+      <p>
+        TENOS Event Flow는 “어떤 입력이 들어오면 누가 받고, memory는 언제 검색되며, 누가 worker를 띄우고, 어디서 승인하고, 어떤 경로로 보고되고, 언제 저장되는가”를 정의하는 흐름 레이어다.
+        즉 TENOS의 실제 작동 순서를 시각화한 페이지다.
+      </p>
+      <div class="chips">
+        <div class="chip">질문: 어떤 입력이 오면 누가 처리하나?</div>
+        <div class="chip">질문: worker는 언제 spawn되나?</div>
+        <div class="chip">질문: 보고와 저장은 어디서 일어나나?</div>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>1. 가장 기본 흐름</h2>
+      <div class="flow">
+        <div class="flowbox"><div class="k">Step 1</div><div class="t">입력 수신</div><div class="d">태훈 메시지, 슬랙 멘션, 크론 이벤트, 웹훅 등.</div><ul><li>Telegram</li><li>Slack</li><li>cron</li><li>webhook</li></ul></div>
+        <div class="flowbox"><div class="k">Step 2</div><div class="t">이벤트 분류</div><div class="d">무슨 종류의 요청인지 라벨링.</div><ul><li>user_message</li><li>manager_task</li><li>cron_tick</li><li>alert</li></ul></div>
+        <div class="flowbox"><div class="k">Step 3</div><div class="t">Memory 검색</div><div class="d">관련 기억이 있는지 먼저 확인.</div><ul><li>brain.db</li><li>MEMORY</li><li>HEARTBEAT</li></ul></div>
+        <div class="flowbox"><div class="k">Step 4</div><div class="t">리드 분배</div><div class="d">카리나가 직접 할지, 실장에게 넘길지 결정.</div><ul><li>카리나</li><li>마실장</li><li>개실장</li><li>고실장 / 콘실장</li></ul></div>
+        <div class="flowbox"><div class="k">Step 5</div><div class="t">worker 실행</div><div class="d">필요한 경우에만 세부 실행 worker를 띄움.</div><ul><li>조사</li><li>분석</li><li>코드</li><li>콘텐츠 초안</li></ul></div>
+        <div class="flowbox"><div class="k">Step 6</div><div class="t">검수 / 보고 / 저장</div><div class="d">카리나 요약, 승인, 최종 보고, memory 저장.</div><ul><li>태훈 보고</li><li>승인 게이트</li><li>결과 저장</li></ul></div>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>2. 입력 종류별 흐름 차이</h2>
+      <table class="table">
+        <thead><tr><th>입력 종류</th><th>예시</th><th>기본 흐름</th></tr></thead>
+        <tbody>
+          <tr><td><strong>User Message</strong></td><td>“광고 분석해줘”</td><td>입력 수신 → memory 검색 → 카리나 분배 → 실장/worker → 카리나 요약 → 태훈 보고 → 저장</td></tr>
+          <tr><td><strong>Manager Task</strong></td><td>실장이 다른 팀원 실행 필요 판단</td><td>실장 컨텍스트 유지 → worker spawn → 결과 검수 → 카리나 경유 보고</td></tr>
+          <tr><td><strong>Cron Tick</strong></td><td>정시 보고, 리마인더, 수집</td><td>스케줄 이벤트 → 관련 실장/카리나 실행 → 필요시 알림 → 저장</td></tr>
+          <tr><td><strong>Alert</strong></td><td>매출 급감, 수집 실패</td><td>이상값 감지 → 관련 리드 호출 → 원인 확인 → 태훈 알림 → 저장</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section class="section">
+      <h2>3. 카리나와 실장의 역할 분기</h2>
+      <div class="grid g2">
+        <div class="card"><div class="badge b-purple">카리나 직접</div><h3>카리나가 직접 처리할 때</h3><p>전략 판단, 우선순위 조정, 단순 응답, 실장 배분, 최종 보고, 승인/리스크 판단처럼 상위 레이어 일은 카리나가 담당.</p></div>
+        <div class="card"><div class="badge b-green">실장 위임</div><h3>실장에게 넘길 때</h3><p>마케팅, 개발, 콘텐츠, 고객성공처럼 기능별 실행이 필요한 요청은 해당 실장에게 위임.</p></div>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>4. worker는 언제 spawn되나</h2>
+      <div class="grid g3">
+        <div class="card"><div class="badge b-amber">spawn 필요</div><h3>큰 조사 / 분석</h3><p>실장이 직접 끝내기보다 세부 실행이 필요한 경우.</p></div>
+        <div class="card"><div class="badge b-amber">spawn 필요</div><h3>코드 / 자료 생성</h3><p>개발, 콘텐츠 초안, 데이터 가공처럼 실제 산출물이 필요한 경우.</p></div>
+        <div class="card"><div class="badge b-red">spawn 불필요</div><h3>단순 판단 / 답변</h3><p>카리나 또는 실장 레벨에서 바로 판단 가능한 경우 worker 없이 끝낸다.</p></div>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>5. 승인 게이트는 어디에 있나</h2>
+      <div class="callout">
+        <strong>승인은 마지막이 아니라 중간에 걸린다.</strong><br/>
+        즉 결과물이 나왔다고 바로 태훈에게 전달하거나 실행하는 게 아니라, 광고 변경, 배포, 고객대면, 민감 작업은 중간에서 멈추고 카리나/태훈 승인 후 다음 단계로 간다.
+      </div>
+      <div class="grid g2" style="margin-top:16px">
+        <div class="card"><div class="badge b-red">민감 작업</div><h3>중간 승인 필요</h3><p>광고 ON/OFF, 예산 변경, 운영 리스크, 고객대면 발화, 배포/설정 변경.</p></div>
+        <div class="card"><div class="badge b-blue">비민감 작업</div><h3>바로 보고 가능</h3><p>요약, 분석, 리서치 초안, 내부 운영 정리처럼 실행이 동반되지 않는 결과물.</p></div>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>6. 보고는 어떻게 닫히나</h2>
+      <table class="table">
+        <thead><tr><th>단계</th><th>무엇이 일어나는가</th></tr></thead>
+        <tbody>
+          <tr><td><strong>worker 완료</strong></td><td>세부 실행 결과를 실장에게 반환</td></tr>
+          <tr><td><strong>실장 검수</strong></td><td>기획 의도와 맞는지 확인, 부족하면 재실행</td></tr>
+          <tr><td><strong>카리나 통합</strong></td><td>실장 결과를 최종 사용자 언어로 요약</td></tr>
+          <tr><td><strong>태훈 보고</strong></td><td>필요한 결정 포인트 포함해서 전달</td></tr>
+          <tr><td><strong>기록 저장</strong></td><td>brain.db, daily memory, HEARTBEAT에 필요한 부분 반영</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section class="section">
+      <h2>7. Event Flow에서 흔들리면 안 되는 원칙</h2>
+      <div class="grid g3">
+        <div class="card"><div class="badge b-purple">원칙 1</div><h3>카리나가 최종 허브다</h3><p>실장끼리 바로 사용자에게 붙지 않는다. 최종 보고 허브는 카리나다.</p></div>
+        <div class="card"><div class="badge b-green">원칙 2</div><h3>실장은 판단, worker는 실행</h3><p>실장이 직접 실무에 빠지면 구조가 무너진다.</p></div>
+        <div class="card"><div class="badge b-amber">원칙 3</div><h3>기록 저장까지가 완료다</h3><p>보고만 하고 저장 안 하면 시스템은 학습되지 않는다.</p></div>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>8. 다음 단계</h2>
+      <div class="grid g2">
+        <div class="card"><div class="badge b-green">다음 1</div><h3>TENOS Roadmap</h3><p>이제 V1/V2/V3로 무엇을 언제 구현할지 순서를 확정할 차례.</p></div>
+        <div class="card"><div class="badge b-red">다음 2</div><h3>TENOS Policy</h3><p>Event Flow 안에 걸린 승인, 위험도, 권한 규칙을 더 선명하게 따로 문서화해야 한다.</p></div>
+      </div>
+    </section>
+  </div>
+</body>
+</html>
