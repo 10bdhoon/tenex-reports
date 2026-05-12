@@ -53,6 +53,12 @@ export default async function middleware(req: Request) {
     url.pathname === "/jungmin-request.html" ||
     url.pathname === "/customer-experience-map" ||
     url.pathname === "/customer-experience-map.html" ||
+    url.pathname === "/tenos-master-plan" ||
+    url.pathname === "/tenos-master-plan.html" ||
+    url.pathname === "/tenex-engine-v1" ||
+    url.pathname === "/tenex-engine-v1.html" ||
+    url.pathname === "/tenos-naming-system" ||
+    url.pathname === "/tenos-naming-system.html" ||
     url.pathname === "/chatbot-widget.js" ||
     url.pathname.startsWith("/api/kakao-webhook")
   ) {
