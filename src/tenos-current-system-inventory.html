@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="ko" data-theme="dark">
+<head>
+  <script src="auth.js"></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TENOS As-Is System Inventory</title>
+  <style>
+    :root{--navy:#002855;--bg:#09111f;--bg2:#0f172a;--card:#121d34;--line:#22314f;--text:#e8f0ff;--muted:#9cb0d0;--soft:#7d90b0;--blue:#60a5fa;--green:#34d399;--amber:#fbbf24;--red:#f87171;--purple:#a78bfa;--shadow:0 12px 36px rgba(0,0,0,.28)}
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Apple SD Gothic Neo',sans-serif;background:linear-gradient(180deg,#06101d,#0a1222);color:var(--text);line-height:1.6}
+    .wrap{max-width:1360px;margin:0 auto;padding:24px 20px 80px}
+    .back{display:inline-flex;align-items:center;gap:8px;padding:10px 14px;border:1px solid var(--line);border-radius:10px;color:var(--muted);text-decoration:none;background:rgba(255,255,255,.03);margin-bottom:18px}.back:hover{color:#fff;border-color:#35518c}
+    .hero{background:radial-gradient(circle at top right, rgba(96,165,250,.16), transparent 30%),linear-gradient(135deg,#101a33 0%,#0c1530 50%,#08111f 100%);border:1px solid var(--line);border-radius:28px;padding:34px;box-shadow:var(--shadow)}
+    .eyebrow{display:inline-block;padding:6px 10px;border-radius:999px;background:rgba(96,165,250,.12);border:1px solid rgba(96,165,250,.24);font-size:12px;font-weight:800;color:#a9cbff;margin-bottom:14px}
+    h1{font-size:40px;line-height:1.15;letter-spacing:-.03em;margin-bottom:10px}.hero p{font-size:17px;color:var(--muted);max-width:980px}
+    .chips{display:flex;flex-wrap:wrap;gap:10px;margin-top:18px}.chip{padding:8px 12px;border-radius:999px;border:1px solid var(--line);background:rgba(255,255,255,.04);font-size:13px}
+    .summary{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px;margin-top:24px}.sum{background:rgba(255,255,255,.04);border:1px solid var(--line);border-radius:18px;padding:16px}.sum .k{font-size:12px;color:var(--soft);text-transform:uppercase;letter-spacing:.08em}.sum .v{font-size:30px;font-weight:900;margin-top:6px}.sum .d{font-size:13px;color:var(--muted);margin-top:4px}
+    .section{margin-top:28px}.section h2{font-size:28px;margin-bottom:14px}.sub{color:var(--muted);margin-bottom:16px}
+    .grid{display:grid;gap:16px}.g2{grid-template-columns:repeat(auto-fit,minmax(320px,1fr))}.g3{grid-template-columns:repeat(auto-fit,minmax(260px,1fr))}.g4{grid-template-columns:repeat(auto-fit,minmax(220px,1fr))}
+    .card{background:linear-gradient(180deg,var(--card),var(--bg2));border:1px solid var(--line);border-radius:20px;padding:20px;box-shadow:var(--shadow)}
+    .card h3{font-size:20px;margin-bottom:8px}.card p{font-size:14px;color:var(--muted)}
+    .badge{display:inline-block;padding:5px 8px;border-radius:999px;font-size:11px;font-weight:800;margin-bottom:10px;text-transform:uppercase;letter-spacing:.06em}
+    .b-blue{background:rgba(96,165,250,.14);border:1px solid rgba(96,165,250,.24);color:#a9cbff}.b-green{background:rgba(52,211,153,.14);border:1px solid rgba(52,211,153,.24);color:#9ef0cf}.b-amber{background:rgba(251,191,36,.14);border:1px solid rgba(251,191,36,.24);color:#ffe29b}.b-red{background:rgba(248,113,113,.14);border:1px solid rgba(248,113,113,.24);color:#ffc1c1}.b-purple{background:rgba(167,139,250,.14);border:1px solid rgba(167,139,250,.24);color:#d0c2ff}
+    .table{width:100%;border-collapse:collapse;border:1px solid var(--line);border-radius:16px;overflow:hidden}.table th,.table td{padding:14px 16px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top;font-size:14px}.table th{background:#101b33;color:#a9cbff;font-size:12px;text-transform:uppercase;letter-spacing:.08em}.table tr:last-child td{border-bottom:none}
+    .org{display:grid;grid-template-columns:1fr 1fr;gap:16px}.stack{display:grid;gap:12px}.agent{background:rgba(255,255,255,.03);border:1px solid var(--line);border-radius:18px;padding:18px}.agent .name{font-size:19px;font-weight:800}.agent .role{font-size:14px;color:#a9cbff;margin-top:4px}.agent ul{padding-left:18px;margin-top:10px;color:var(--muted);font-size:14px}
+    .flow{display:grid;grid-template-columns:repeat(5,minmax(160px,1fr));gap:14px}.flowbox{background:linear-gradient(180deg,var(--card),var(--bg2));border:1px solid var(--line);border-radius:18px;padding:18px;min-height:170px}.flowbox .k{font-size:12px;color:#a9cbff;text-transform:uppercase;letter-spacing:.08em}.flowbox .t{font-size:20px;font-weight:800;margin-top:6px}.flowbox .d{font-size:14px;color:var(--muted);margin-top:8px}.flowbox ul{padding-left:18px;margin-top:10px;color:var(--muted);font-size:14px}
+    .callout{padding:18px 20px;border-radius:18px;border:1px solid rgba(96,165,250,.28);background:rgba(96,165,250,.08);color:#d9e9ff}.callout strong{color:#fff}
+    @media(max-width:980px){h1{font-size:34px}.org{grid-template-columns:1fr}.flow{grid-template-columns:1fr 1fr}}
+    @media(max-width:640px){.flow{grid-template-columns:1fr}}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <a class="back" href="/tenos-master-plan">← TENOS Master Plan으로</a>
+
+    <section class="hero">
+      <div class="eyebrow">AS-IS SYSTEM MAP · BEFORE MIGRATION</div>
+      <h1>TENOS As-Is System Inventory</h1>
+      <p>
+        TENOS로 옮기기 전에 먼저 해야 할 건, 지금 실제로 돌아가는 전체 시스템을 한 장에 적는 것이다.
+        이 페이지는 현재 테넥스 AI 운영체계의 인벤토리다. 즉 <strong>무엇이 존재하고, 누가 무엇을 하고, 어디에 기억이 쌓이고, 무엇이 자동으로 돈는지</strong>
+        먼저 명확히 적어두는 As-Is 시스템 지도다.
+      </p>
+      <div class="chips">
+        <div class="chip">목적: 현행 시스템 빠짐없이 적기</div>
+        <div class="chip">다음 단계: 이 페이지 기준 Keep / Reference / Drop 분류</div>
+        <div class="chip">원칙: 모르는 상태로 옮기지 않는다</div>
+      </div>
+      <div class="summary">
+        <div class="sum"><div class="k">핵심 채널</div><div class="v">2</div><div class="d">Telegram, Slack</div></div>
+        <div class="sum"><div class="k">상시 리드 에이전트</div><div class="v">5</div><div class="d">카리나 + 4실장</div></div>
+        <div class="sum"><div class="k">기억 계층</div><div class="v">4+</div><div class="d">brain.db, MEMORY, daily memory, HEARTBEAT</div></div>
+        <div class="sum"><div class="k">자동화 축</div><div class="v">3</div><div class="d">OpenClaw, launchd, 외부 API/스크립트</div></div>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>1. 현재 시스템의 큰 구조</h2>
+      <div class="flow">
+        <div class="flowbox"><div class="k">Layer 1</div><div class="t">입력 채널</div><div class="d">태훈이 실제로 지시를 넣는 곳.</div><ul><li>Telegram</li><li>Slack</li><li>가끔 브라우저/웹</li></ul></div>
+        <div class="flowbox"><div class="k">Layer 2</div><div class="t">OpenClaw</div><div class="d">현재 라우팅, 세션, 도구호출, 자동화 허브를 맡고 있음.</div><ul><li>Gateway</li><li>Session</li><li>Tool orchestration</li></ul></div>
+        <div class="flowbox"><div class="k">Layer 3</div><div class="t">카리나 / 실장</div><div class="d">판단, 분배, 검수, 요약 보고를 담당.</div><ul><li>카리나</li><li>마/개/고/콘 실장</li></ul></div>
+        <div class="flowbox"><div class="k">Layer 4</div><div class="t">기억 시스템</div><div class="d">brain.db와 파일 메모리 계층으로 운영 맥락을 유지.</div><ul><li>brain.db</li><li>MEMORY</li><li>HEARTBEAT</li></ul></div>
+        <div class="flowbox"><div class="k">Layer 5</div><div class="t">자동화/외부연동</div><div class="d">launchd, API, Vercel, Cafe24, Plaud 등 외부 실행 기반.</div><ul><li>launchd</li><li>Cafe24</li><li>Vercel</li></ul></div>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>2. 사람 + AI 조직 구조</h2>
+      <div class="org">
+        <div class="card">
+          <div class="badge b-blue">사람 / 리드</div>
+          <div class="stack">
+            <div class="agent"><div class="name">태훈</div><div class="role">최종 지시자 / CEO</div><ul><li>전략, 제품, 채용, 자금, AI 방향 결정</li><li>텔레그램으로 카리나와 대화</li></ul></div>
+            <div class="agent"><div class="name">카리나</div><div class="role">메인 허브 / COO / Opus</div><ul><li>판단, 우선순위, 실장 지휘</li><li>최종 보고 요약</li><li>운영 / 조직 / 재무 겸임 일부 담당</li></ul></div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="badge b-purple">실장 구조</div>
+          <div class="stack">
+            <div class="agent"><div class="name">마실장</div><div class="role">마케팅 / 광고 / CRM</div><ul><li>퍼포먼스, 광고, 소재, CRM 흐름</li></ul></div>
+            <div class="agent"><div class="name">개실장</div><div class="role">개발 / 인프라 / AI PM</div><ul><li>앱, 개발, 자동화, 시스템 구현</li></ul></div>
+            <div class="agent"><div class="name">고실장</div><div class="role">고객성공 / CS / CX</div><ul><li>고객 대응, VOC, 재구매 구조</li></ul></div>
+            <div class="agent"><div class="name">콘실장</div><div class="role">콘텐츠 / 채널 / 커뮤니티</div><ul><li>콘텐츠 기획, 채널 운영, 댓글/커뮤니티</li></ul></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>3. 팀원 / spawn 구조</h2>
+      <table class="table">
+        <thead><tr><th>영역</th><th>실장</th><th>현재 spawn되는 팀원 예시</th><th>특징</th></tr></thead>
+        <tbody>
+          <tr><td>마케팅</td><td>마실장</td><td>퍼포먼스 마케터, 광고 크리에이터, CRM 마케터, SNS 마케터, 데이터 분석가 등</td><td>필요시 spawn, 실행 후 소멸</td></tr>
+          <tr><td>개발</td><td>개실장</td><td>PM, 프론트엔드, 백엔드, UI/UX, 코드리뷰어, QA</td><td>실장 판단 후 세부 실행 위임</td></tr>
+          <tr><td>콘텐츠</td><td>콘실장</td><td>콘텐츠 기획자, 채널 애널리스트, 커뮤니티 매니저, 썸네일 디자이너</td><td>콘텐츠 실행/분석 중심</td></tr>
+          <tr><td>고객성공</td><td>고실장</td><td>CS, CX, VOC 분석가</td><td>고객대면 결과물은 사람 검수 비중 높음</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section class="section">
+      <h2>4. 현재 메모리 시스템</h2>
+      <div class="grid g2">
+        <div class="card"><div class="badge b-green">장기 기억</div><h3>brain.db</h3><p>대화, 녹음, 문서, 요약 등이 저장되는 장기 기억 저장소. HTTP API와 검색 스크립트로 활용됨.</p></div>
+        <div class="card"><div class="badge b-green">큐레이션 기억</div><h3>MEMORY.md</h3><p>장기적으로 유지해야 하는 핵심 팩트와 결정사항 요약.</p></div>
+        <div class="card"><div class="badge b-green">일일 기록</div><h3>memory/YYYY-MM-DD.md</h3><p>최근 작업과 대화 맥락을 세션 단위로 이어주는 일일 로그.</p></div>
+        <div class="card"><div class="badge b-green">진행 상태</div><h3>HEARTBEAT.md</h3><p>진행 중 작업, 서브에이전트 상태, 주기 체크 항목을 유지하는 상태판.</p></div>
+        <div class="card"><div class="badge b-amber">실수 방지</div><h3>LEARNINGS.md</h3><p>반복 실수 방지용 교훈 모음.</p></div>
+        <div class="card"><div class="badge b-purple">정체성 / 운영문서</div><h3>AGENTS / SOUL / USER / TOOLS</h3><p>페르소나, 운영 규칙, 사용자 정보, 환경 메모를 담당.</p></div>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>5. 현재 자동화 / 실행 기반</h2>
+      <table class="table">
+        <thead><tr><th>축</th><th>현재 담당</th><th>무엇을 하고 있나</th></tr></thead>
+        <tbody>
+          <tr><td>메시지 / 세션</td><td>OpenClaw Gateway</td><td>텔레그램/슬랙 입력 수신, 세션 유지, 에이전트 라우팅</td></tr>
+          <tr><td>툴 호출</td><td>OpenClaw tools</td><td>browser, exec, memory_search, message 등 실행</td></tr>
+          <tr><td>정시 자동화</td><td>launchd + cron jobs</td><td>매출 리포트, Plaud, 배포 감지, token refresh, memory sync 등</td></tr>
+          <tr><td>대시보드/리포트</td><td>tenex-reports / tenex-dashboard / Vercel</td><td>시각화, 리포트, 시스템 현황 페이지 제공</td></tr>
+          <tr><td>외부 비즈니스 연동</td><td>Cafe24, Meta, YouTube, Plaud, Notion 등</td><td>주문, 광고, 녹음, 콘텐츠, 업무 현황 등과 연결</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section class="section">
+      <h2>6. 현재 보고 / 승인 구조</h2>
+      <div class="callout">
+        <strong>핵심 운영 원칙:</strong>
+        태훈 → 카리나 → 실장 → 팀원 → 카리나 → 태훈 흐름이 기본이다.
+        고객대면, 광고 변경, 배포, 민감 작업은 사람 승인 또는 카리나 검수를 거친다.
+      </div>
+      <div class="grid g3" style="margin-top:16px">
+        <div class="card"><div class="badge b-blue">보고</div><h3>최종 보고 허브</h3><p>카리나가 실장 결과를 받아 태훈에게 요약 보고하는 구조.</p></div>
+        <div class="card"><div class="badge b-amber">승인</div><h3>민감 작업 게이트</h3><p>광고 ON/OFF, 예산 변경, 운영/배포 위험작업은 승인 필요.</p></div>
+        <div class="card"><div class="badge b-purple">품질</div><h3>초기 검수 우선</h3><p>고객대면 콘텐츠나 CS는 사람 승인 비중이 큼.</p></div>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>7. 현재 시스템에서 OpenClaw가 실제로 맡는 역할</h2>
+      <div class="grid g2">
+        <div class="card"><div class="badge b-red">OpenClaw 담당</div><h3>현재 엔진 역할</h3><p>메시지 입력, 세션 유지, 툴 호출, 서브에이전트 실행, 채널 응답, 일부 스케줄/자동화 연결의 허브.</p></div>
+        <div class="card"><div class="badge b-green">사람/조직 담당</div><h3>조직 운영 역할</h3><p>누가 무엇을 결정하고, 어떤 승인 규칙으로 움직이며, 어떤 기억을 남기는지는 조직 운영체계가 담당.</p></div>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>8. 이 페이지 다음에 해야 할 일</h2>
+      <div class="callout">
+        <strong>다음 단계:</strong>
+        이 인벤토리 페이지를 기준으로 Keep / Reference / Drop 분류를 해야 한다.
+        즉 이제야 비로소 마이그레이션 자산맵을 제대로 쓸 수 있다.
+      </div>
+    </section>
+  </div>
+</body>
+</html>
