@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="ko" data-theme="dark">
+<head>
+  <script src="auth.js"></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TENOS MVP 구현 계획</title>
+  <style>
+    :root{--navy:#002855;--bg:#09111f;--bg2:#0f172a;--card:#121d34;--line:#22314f;--text:#e8f0ff;--muted:#9cb0d0;--soft:#7d90b0;--blue:#60a5fa;--green:#34d399;--amber:#fbbf24;--purple:#a78bfa;--red:#f87171;--shadow:0 12px 36px rgba(0,0,0,.28)}
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Apple SD Gothic Neo',sans-serif;background:linear-gradient(180deg,#06101d,#0a1222);color:var(--text);line-height:1.6}
+    .wrap{max-width:1360px;margin:0 auto;padding:24px 20px 80px}
+    .back{display:inline-flex;align-items:center;gap:8px;padding:10px 14px;border:1px solid var(--line);border-radius:10px;color:var(--muted);text-decoration:none;background:rgba(255,255,255,.03);margin-bottom:18px}.back:hover{color:#fff;border-color:#35518c}
+    .hero{background:radial-gradient(circle at top right, rgba(52,211,153,.16), transparent 30%),linear-gradient(135deg,#101a33 0%,#0c1530 50%,#08111f 100%);border:1px solid var(--line);border-radius:28px;padding:34px;box-shadow:var(--shadow)}
+    .eyebrow{display:inline-block;padding:6px 10px;border-radius:999px;background:rgba(52,211,153,.12);border:1px solid rgba(52,211,153,.24);font-size:12px;font-weight:800;color:#9ef0cf;margin-bottom:14px}
+    h1{font-size:40px;line-height:1.15;letter-spacing:-.03em;margin-bottom:10px}.hero p{font-size:17px;color:var(--muted);max-width:980px}
+    .chips{display:flex;flex-wrap:wrap;gap:10px;margin-top:18px}.chip{padding:8px 12px;border-radius:999px;border:1px solid var(--line);background:rgba(255,255,255,.04);font-size:13px}
+    .summary{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px;margin-top:24px}.sum{background:rgba(255,255,255,.04);border:1px solid var(--line);border-radius:18px;padding:16px}.sum .k{font-size:12px;color:var(--soft);text-transform:uppercase;letter-spacing:.08em}.sum .v{font-size:30px;font-weight:900;margin-top:6px}.sum .d{font-size:13px;color:var(--muted);margin-top:4px}
+    .section{margin-top:28px}.section h2{font-size:28px;margin-bottom:14px}.sub{color:var(--muted);margin-bottom:16px}
+    .grid{display:grid;gap:16px}.g2{grid-template-columns:repeat(auto-fit,minmax(320px,1fr))}.g3{grid-template-columns:repeat(auto-fit,minmax(260px,1fr))}
+    .card{background:linear-gradient(180deg,var(--card),var(--bg2));border:1px solid var(--line);border-radius:20px;padding:20px;box-shadow:var(--shadow)}
+    .card h3{font-size:20px;margin-bottom:8px}.card p{font-size:14px;color:var(--muted)} .card ul{padding-left:18px;color:var(--muted);font-size:14px}
+    .badge{display:inline-block;padding:5px 8px;border-radius:999px;font-size:11px;font-weight:800;margin-bottom:10px;text-transform:uppercase;letter-spacing:.06em}
+    .b-blue{background:rgba(96,165,250,.14);border:1px solid rgba(96,165,250,.24);color:#a9cbff}.b-green{background:rgba(52,211,153,.14);border:1px solid rgba(52,211,153,.24);color:#9ef0cf}.b-amber{background:rgba(251,191,36,.14);border:1px solid rgba(251,191,36,.24);color:#ffe29b}.b-purple{background:rgba(167,139,250,.14);border:1px solid rgba(167,139,250,.24);color:#d0c2ff}.b-red{background:rgba(248,113,113,.14);border:1px solid rgba(248,113,113,.24);color:#ffc1c1}
+    .table{width:100%;border-collapse:collapse;border:1px solid var(--line);border-radius:16px;overflow:hidden}.table th,.table td{padding:14px 16px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top;font-size:14px}.table th{background:#101b33;color:#9ef0cf;font-size:12px;text-transform:uppercase;letter-spacing:.08em}.table tr:last-child td{border-bottom:none}
+    .callout{padding:18px 20px;border-radius:18px;border:1px solid rgba(52,211,153,.28);background:rgba(52,211,153,.08);color:#c8ffe9}.callout strong{color:#fff}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <a class="back" href="/tenos-master-plan">← TENOS Master Plan으로</a>
+
+    <section class="hero">
+      <div class="eyebrow">TENOS MVP · IMPLEMENTATION PLAN</div>
+      <h1>TENOS MVP 구현 계획</h1>
+      <p>
+        이 페이지는 더 이상 개념 설명이 아니라, <strong>TENOS 자체 엔진 MVP를 실제로 만들기 위한 구현 계획</strong>이다.
+        목표는 OpenClaw 전체 복제가 아니라, <strong>입력 수신 → memory 주입 → 라우팅 → worker 실행 → 보고 → 저장</strong>까지
+        테넥스 전용 최소 실행 루프를 독립적으로 굴리는 것이다.
+      </p>
+      <div class="chips">
+        <div class="chip">목표: 독립 루프 1개 완성</div>
+        <div class="chip">범위: Router + Memory + State + Worker + Report</div>
+        <div class="chip">원칙: 문서보다 실행 우선</div>
+      </div>
+      <div class="summary">
+        <div class="sum"><div class="k">MVP 코어</div><div class="v">5</div><div class="d">router, memory, state, worker, report</div></div>
+        <div class="sum"><div class="k">1차 파일럿</div><div class="v">1</div><div class="d">마케팅 또는 CRM 중 하나</div></div>
+        <div class="sum"><div class="k">완료 기준</div><div class="v">Loop</div><div class="d">입력부터 저장까지 한 바퀴 독립 실행</div></div>
+        <div class="sum"><div class="k">현재 단계</div><div class="v">착수</div><div class="d">문서 기반 구현 계획 확정</div></div>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>1. MVP 완료 기준</h2>
+      <div class="callout">
+        <strong>완료 정의:</strong> 메시지 1개가 들어오면, TENOS가 관련 memory를 붙이고, 담당 리드를 정하고, 필요시 worker를 실행하고,
+        결과를 요약해서 보고한 뒤, 최종 결과를 상태/기억층에 저장하면 MVP 1차 완료다.
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>2. 코어 모듈 5개</h2>
+      <div class="grid g3">
+        <div class="card"><div class="badge b-blue">Core 1</div><h3>Input Router</h3><p>텔레그램/슬랙/내부 이벤트를 공통 envelope로 변환.</p><ul><li>eventType</li><li>source channel</li><li>request payload</li></ul></div>
+        <div class="card"><div class="badge b-green">Core 2</div><h3>Memory Layer</h3><p>brain.db, MEMORY, daily memory, HEARTBEAT를 불러와 필요한 만큼만 주입.</p><ul><li>search</li><li>context assembly</li><li>result save</li></ul></div>
+        <div class="card"><div class="badge b-purple">Core 3</div><h3>State Store</h3><p>작업 상태, 담당자, 마지막 업데이트, 승인대기 여부를 추적.</p><ul><li>task id</li><li>owner</li><li>status</li></ul></div>
+        <div class="card"><div class="badge b-amber">Core 4</div><h3>Worker Runtime</h3><p>필요한 경우에만 워커를 실행하고 timeout, retry, result capture를 처리.</p><ul><li>spawn</li><li>collect</li><li>retry</li></ul></div>
+        <div class="card"><div class="badge b-red">Core 5</div><h3>Report Loop</h3><p>결과를 카리나/리드 요약 형태로 정리하고 최종 저장까지 닫는다.</p><ul><li>summary</li><li>approval hold</li><li>save</li></ul></div>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>3. 실제 구현 순서</h2>
+      <table class="table">
+        <thead><tr><th>순서</th><th>구현 항목</th><th>완료 조건</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Step 1</strong></td><td>Event Envelope 스키마 정의</td><td>모든 입력이 같은 JSON 구조로 정리됨</td></tr>
+          <tr><td><strong>Step 2</strong></td><td>Memory Loader / Context Assembler</td><td>요청 타입별 memory 조립 규칙 고정</td></tr>
+          <tr><td><strong>Step 3</strong></td><td>Lead Router</td><td>카리나 직접 처리 vs 실장 위임 결정 가능</td></tr>
+          <tr><td><strong>Step 4</strong></td><td>Task State Store</td><td>작업 생성/진행/완료 상태 추적 가능</td></tr>
+          <tr><td><strong>Step 5</strong></td><td>Worker Executor</td><td>세부 실행 유닛 호출 후 결과 회수 가능</td></tr>
+          <tr><td><strong>Step 6</strong></td><td>Report + Save Loop</td><td>보고 후 brain.db/상태 저장까지 자동 수행</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section class="section">
+      <h2>4. 파일 구조 초안</h2>
+      <div class="grid g2">
+        <div class="card"><div class="badge b-blue">Runtime</div><h3>/tenos/core</h3><ul><li>router.ts</li><li>orchestrator.ts</li><li>state-store.ts</li><li>report-loop.ts</li></ul></div>
+        <div class="card"><div class="badge b-green">Memory</div><h3>/tenos/memory</h3><ul><li>brain-search.ts</li><li>memory-loader.ts</li><li>context-assembler.ts</li><li>result-writer.ts</li></ul></div>
+        <div class="card"><div class="badge b-purple">Workers</div><h3>/tenos/runtime</h3><ul><li>worker-executor.ts</li><li>lead-session.ts</li><li>retry-policy.ts</li></ul></div>
+        <div class="card"><div class="badge b-amber">Schemas</div><h3>/tenos/schemas</h3><ul><li>event-envelope.ts</li><li>task-state.ts</li><li>report-payload.ts</li></ul></div>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>5. 첫 파일럿 추천</h2>
+      <div class="grid g2">
+        <div class="card"><div class="badge b-green">추천 1</div><h3>마케팅</h3><p>반복성 높고 분석/리포트형 요청이 많아서 구조 검증에 좋다.</p></div>
+        <div class="card"><div class="badge b-amber">추천 2</div><h3>CRM</h3><p>고객 흐름과 자동화 구조를 보기 좋지만 승인 게이트 설계가 조금 더 중요하다.</p></div>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>6. 바로 다음 액션</h2>
+      <div class="grid g3">
+        <div class="card"><div class="badge b-blue">Next 1</div><h3>Envelope 스키마 확정</h3><p>입력 이벤트 공통 구조를 먼저 고정.</p></div>
+        <div class="card"><div class="badge b-purple">Next 2</div><h3>Memory 주입 규칙 작성</h3><p>요청 종류별 어떤 기억을 붙일지 명문화.</p></div>
+        <div class="card"><div class="badge b-red">Next 3</div><h3>Task State 초안 구현</h3><p>상태 추적이 있어야 엔진이 실제로 굴러간다.</p></div>
+      </div>
+    </section>
+  </div>
+</body>
+</html>
