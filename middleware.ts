@@ -26,6 +26,7 @@ export default async function middleware(req: Request) {
     url.pathname === "/login.html" ||
     url.pathname.startsWith("/api/auth") ||
     url.pathname.startsWith("/api/tasks") ||
+    url.pathname.startsWith("/api/tenos") ||
     url.pathname === "/faq" ||
     url.pathname === "/faq.html" ||
     url.pathname.startsWith("/faq") ||
