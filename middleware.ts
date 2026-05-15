@@ -56,6 +56,8 @@ export default async function middleware(req: Request) {
     url.pathname === "/customer-experience-map.html" ||
     url.pathname === "/ceo-decision-framework" ||
     url.pathname === "/ceo-decision-framework.html" ||
+    url.pathname === "/affiliate-system" ||
+    url.pathname === "/affiliate-system.html" ||
     url.pathname === "/chatbot-widget.js" ||
     url.pathname.startsWith("/api/kakao-webhook")
   ) {
