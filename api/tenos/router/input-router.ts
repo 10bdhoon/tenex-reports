@@ -1,6 +1,6 @@
 import { randomUUID } from 'crypto';
-import type { TenosEventEnvelope } from '../schemas/event-envelope';
-import { createRunState, createTaskState, type TenosRunState, type TenosTaskState } from '../state/task-state';
+import type { TenosEventEnvelope } from '../schemas/event-envelope.js';
+import { createRunState, createTaskState, type TenosRunState, type TenosTaskState } from '../state/task-state.js';
 
 export interface RouterResult {
   task: TenosTaskState;

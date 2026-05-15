@@ -1,7 +1,7 @@
-import type { TenosEventEnvelope } from '../schemas/event-envelope';
-import type { MemoryInjectionPlan } from '../memory/injection-rules';
-import type { TenosRunState, TenosTaskState } from '../state/task-state';
-import type { TenosStateStore } from '../state/state-store';
+import type { TenosEventEnvelope } from '../schemas/event-envelope.js';
+import type { MemoryInjectionPlan } from '../memory/injection-rules.js';
+import type { TenosRunState, TenosTaskState } from '../state/task-state.js';
+import type { TenosStateStore } from '../state/state-store.js';
 
 export interface WorkerExecutionInput {
   event: TenosEventEnvelope;

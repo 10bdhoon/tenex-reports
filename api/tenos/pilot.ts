@@ -1,10 +1,10 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
-import { applyMemoryInjectionRules } from './memory/injection-rules';
-import { routeInputEvent } from './router/input-router';
-import { TenosWorkerRuntime, type TenosWorker } from './runtime/worker-runtime';
-import { createTenosEvent } from './schemas/event-envelope';
-import { InMemoryTenosStateStore } from './state/state-store';
-import { createRunState, createTaskState } from './state/task-state';
+import { applyMemoryInjectionRules } from './memory/injection-rules.js';
+import { routeInputEvent } from './router/input-router.js';
+import { TenosWorkerRuntime, type TenosWorker } from './runtime/worker-runtime.js';
+import { createTenosEvent } from './schemas/event-envelope.js';
+import { InMemoryTenosStateStore } from './state/state-store.js';
+import { createRunState, createTaskState } from './state/task-state.js';
 
 const store = new InMemoryTenosStateStore();
 
