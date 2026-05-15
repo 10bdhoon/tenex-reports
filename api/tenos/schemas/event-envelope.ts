@@ -1,3 +1,5 @@
+import { randomUUID } from 'crypto';
+
 export type TenosEventType =
   | 'task.requested'
   | 'task.queued'
@@ -55,7 +57,7 @@ export function createTenosEvent<TPayload = Record<string, unknown>>(
   input: CreateTenosEventInput<TPayload>,
 ): TenosEventEnvelope<TPayload> {
   return {
-    id: input.id ?? crypto.randomUUID(),
+    id: input.id ?? randomUUID(),
     type: input.type,
     version: 1,
     createdAt: input.createdAt ?? new Date().toISOString(),

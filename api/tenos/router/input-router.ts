@@ -1,5 +1,6 @@
-import type { TenosEventEnvelope } from '../schemas/event-envelope.ts';
-import { createRunState, createTaskState, type TenosRunState, type TenosTaskState } from '../state/task-state.ts';
+import { randomUUID } from 'crypto';
+import type { TenosEventEnvelope } from '../schemas/event-envelope';
+import { createRunState, createTaskState, type TenosRunState, type TenosTaskState } from '../state/task-state';
 
 export interface RouterResult {
   task: TenosTaskState;
@@ -19,7 +20,7 @@ export function routeInputEvent(event: TenosEventEnvelope<{ title?: string; prio
   });
 
   const run = createRunState({
-    runId: crypto.randomUUID(),
+    runId: randomUUID(),
     taskId: task.taskId,
     status: 'booting',
     progress: {

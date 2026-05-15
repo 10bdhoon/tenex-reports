@@ -1,4 +1,4 @@
-import type { TenosRunState, TenosTaskState } from './task-state.ts';
+import type { TenosRunState, TenosTaskState } from './task-state';
 
 export interface TenosStateStore {
   getTask(taskId: string): Promise<TenosTaskState | null>;
