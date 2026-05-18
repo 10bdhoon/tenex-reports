@@ -46,6 +46,8 @@ export default async function middleware(req: Request) {
     url.pathname === "/careers-jobs.html" ||
     url.pathname === "/careers-faq" ||
     url.pathname === "/careers-faq.html" ||
+    url.pathname === "/2026-team-structure" ||
+    url.pathname === "/2026-team-structure.html" ||
     url.pathname === "/onboarding-guide" ||
     url.pathname === "/onboarding-guide.html" ||
     url.pathname === "/onboarding-guide-v2" ||
