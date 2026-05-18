@@ -6,24 +6,16 @@
 <title>키네메디칼 성장 전략 허브 | TENEX</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-:root{
-  --bg:#07111f;--surface:#101a2d;--surface2:#16243b;--surface3:#0d1f3e;--border:#24324c;--text:#e8eef9;--muted:#9aa9c2;
-  --blue:#60a5fa;--green:#22c55e;--yellow:#f59e0b;--red:#ef4444;--purple:#a78bfa;
-}
+:root{--bg:#07111f;--surface:#101a2d;--surface2:#16243b;--surface3:#0d1f3e;--border:#24324c;--text:#e8eef9;--muted:#9aa9c2;--blue:#60a5fa;--green:#22c55e;--yellow:#f59e0b;--red:#ef4444;--purple:#a78bfa}
 body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Noto Sans KR',sans-serif;background:var(--bg);color:var(--text);line-height:1.7}
 .hero{padding:56px 24px 34px;background:linear-gradient(135deg,#07111f 0%,#0d1f3e 55%,#07111f 100%);border-bottom:1px solid var(--border)}
-.hero-inner,.container{max-width:1240px;margin:0 auto}
+.hero-inner,.container{max-width:1280px;margin:0 auto}.back-link{display:inline-flex;align-items:center;gap:6px;font-size:12px;color:var(--muted);text-decoration:none;margin:18px 24px 0}.back-link:hover{color:#fff}
 .badge{display:inline-block;padding:6px 12px;border-radius:999px;background:rgba(96,165,250,.12);border:1px solid rgba(96,165,250,.35);color:var(--blue);font-size:11px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;margin-bottom:14px}
-.hero h1{font-size:clamp(30px,4vw,46px);line-height:1.15;margin-bottom:12px}
-.hero p{max-width:960px;font-size:15px;color:var(--muted)}
+.hero h1{font-size:clamp(30px,4vw,46px);line-height:1.15;margin-bottom:12px}.hero p{max-width:980px;font-size:15px;color:var(--muted)}
 .meta{display:flex;gap:8px;flex-wrap:wrap;margin-top:18px}.meta span{font-size:11px;padding:5px 10px;border-radius:999px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);color:var(--muted)}
-.container{padding:28px 24px 72px}
-.back-link{display:inline-flex;align-items:center;gap:6px;font-size:12px;color:var(--muted);text-decoration:none;margin:18px 24px 0}.back-link:hover{color:#fff}
-.summary{background:linear-gradient(135deg,rgba(96,165,250,.10),rgba(34,197,94,.08));border:1px solid rgba(96,165,250,.28);border-radius:18px;padding:22px;margin-bottom:22px}.summary h2{font-size:22px;margin-bottom:8px}.summary p{font-size:15px;color:#d6e2f5}
-.tabs{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:18px;position:sticky;top:0;padding:10px 0;background:linear-gradient(180deg,rgba(7,17,31,.98),rgba(7,17,31,.92));backdrop-filter:blur(10px);z-index:20}
-.tab-btn{border:1px solid var(--border);background:var(--surface);color:var(--muted);padding:10px 14px;border-radius:999px;font-size:13px;font-weight:700;cursor:pointer;transition:.18s}.tab-btn:hover{color:#fff;border-color:#35507a}.tab-btn.active{background:var(--surface3);color:#fff;border-color:rgba(96,165,250,.55);box-shadow:0 0 0 1px rgba(96,165,250,.12) inset}
-.tab-panel{display:none}.tab-panel.active{display:block}
-.section{margin-bottom:24px}.section-title{font-size:22px;font-weight:800;margin-bottom:8px}.section-desc{font-size:13px;color:var(--muted);margin-bottom:16px}
+.container{padding:28px 24px 72px}.summary{background:linear-gradient(135deg,rgba(96,165,250,.10),rgba(34,197,94,.08));border:1px solid rgba(96,165,250,.28);border-radius:18px;padding:22px;margin-bottom:22px}.summary h2{font-size:22px;margin-bottom:8px}.summary p{font-size:15px;color:#d6e2f5}
+.tabs{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:18px;position:sticky;top:0;padding:10px 0;background:linear-gradient(180deg,rgba(7,17,31,.98),rgba(7,17,31,.92));backdrop-filter:blur(10px);z-index:20}.tab-btn{border:1px solid var(--border);background:var(--surface);color:var(--muted);padding:10px 14px;border-radius:999px;font-size:13px;font-weight:700;cursor:pointer;transition:.18s}.tab-btn:hover{color:#fff;border-color:#35507a}.tab-btn.active{background:var(--surface3);color:#fff;border-color:rgba(96,165,250,.55);box-shadow:0 0 0 1px rgba(96,165,250,.12) inset}
+.tab-panel{display:none}.tab-panel.active{display:block}.section{margin-bottom:24px}.section-title{font-size:22px;font-weight:800;margin-bottom:8px}.section-desc{font-size:13px;color:var(--muted);margin-bottom:16px}
 .grid-2,.grid-3,.grid-4{display:grid;gap:14px}.grid-2{grid-template-columns:repeat(2,minmax(0,1fr))}.grid-3{grid-template-columns:repeat(3,minmax(0,1fr))}.grid-4{grid-template-columns:repeat(4,minmax(0,1fr))}
 @media(max-width:980px){.grid-2,.grid-3,.grid-4{grid-template-columns:1fr}.tabs{position:static}}
 .card{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:20px}.card h3{font-size:17px;font-weight:800;margin-bottom:8px}.card p,.card li{font-size:14px;color:var(--muted)}.card ul{padding-left:18px;margin-top:8px}
@@ -31,30 +23,14 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Noto Sans KR',sans
 .table-wrap{overflow:auto;border:1px solid var(--border);border-radius:16px;background:var(--surface)}table{width:100%;border-collapse:collapse;min-width:880px}th,td{padding:14px 16px;border-bottom:1px solid var(--border);vertical-align:top;text-align:left}th{font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);background:var(--surface2)}td{font-size:14px}tr:last-child td{border-bottom:none}
 .pill{display:inline-block;padding:4px 10px;border-radius:999px;font-size:11px;font-weight:700;margin-bottom:10px}.blue{background:rgba(96,165,250,.12);color:var(--blue);border:1px solid rgba(96,165,250,.3)}.green{background:rgba(34,197,94,.12);color:#86efac;border:1px solid rgba(34,197,94,.3)}.yellow{background:rgba(245,158,11,.12);color:#fcd34d;border:1px solid rgba(245,158,11,.3)}.red{background:rgba(239,68,68,.12);color:#fca5a5;border:1px solid rgba(239,68,68,.3)}.purple{background:rgba(167,139,250,.12);color:#d8b4fe;border:1px solid rgba(167,139,250,.3)}
 .kpi{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px}.kpi-item{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:14px}.kpi-item strong{display:block;font-size:13px;margin-bottom:5px}.kpi-item span{font-size:12px;color:var(--muted)}
-.note{font-size:12px;color:var(--muted);margin-top:8px}
-.footer{padding:28px 24px;color:var(--muted);text-align:center;border-top:1px solid var(--border);font-size:12px}
+.note{font-size:12px;color:var(--muted);margin-top:8px}.footer{padding:28px 24px;color:var(--muted);text-align:center;border-top:1px solid var(--border);font-size:12px}
 </style>
 </head>
 <body>
 <a href="/" class="back-link">← 테넥스 리포트 홈</a>
-<div class="hero">
-  <div class="hero-inner">
-    <div class="badge">Kinemedical Strategy Hub</div>
-    <h1>키네메디칼 성장 전략 허브</h1>
-    <p>한 문서 안에서 전략, 설계안, 기획안, 실행안을 탭별로 바로 열어보는 구조다. 키네메디칼은 경추 브랜드가 아니라 운동-회복-교정-고정 프로토콜을 가진 근골격계 홈 회복 플랫폼으로 가야 한다. 히어로 SKU, 의료계 추천 콘텐츠, 다채널 그로스, 추천코드/공구, 커뮤니티, 자사몰/CRM, 팝업, 해외 확장까지 하나의 시스템으로 설계한다.</p>
-    <div class="meta">
-      <span>2026-05-18</span>
-      <span>카리나 작성</span>
-      <span>전략 허브</span>
-      <span>달바글로벌 · APR · 아누아 벤치마크 반영</span>
-    </div>
-  </div>
-</div>
+<div class="hero"><div class="hero-inner"><div class="badge">Kinemedical Strategy Hub</div><h1>키네메디칼 성장 전략 허브</h1><p>한 문서 안에서 전략, 설계안, 기획안, 실행안을 탭별로 바로 열어보는 구조다. 키네메디칼은 경추 브랜드가 아니라 운동-회복-교정-고정 프로토콜을 가진 근골격계 홈 회복 플랫폼으로 가야 한다. 히어로 SKU, 의료계 추천 콘텐츠, 다채널 그로스, 추천코드/공구, 커뮤니티, 자사몰/CRM, 팝업, 해외 확장까지 하나의 시스템으로 설계한다.</p><div class="meta"><span>2026-05-18</span><span>카리나 작성</span><span>전략 허브</span><span>달바글로벌 · APR · 아누아 벤치마크 반영</span></div></div></div>
 <div class="container">
-  <div class="summary">
-    <h2>핵심 결론</h2>
-    <p><strong>ES-808로 고객을 잡고, 보호대로 번들을 만들고, CS-25로 브랜드 격을 올리고, 운동기구·앱·소모품으로 LTV를 깊게 먹는다.</strong> 한국에서 200억 이상 구조를 증명한 뒤, 일본에서 홈헬스케어 적합도를 먹고, 미국에서 K-헬스로 크게 증폭한다. 상시 오프라인 판매는 완전 후순위다.</p>
-  </div>
+  <div class="summary"><h2>핵심 결론</h2><p><strong>ES-808로 고객을 잡고, 보호대로 번들을 만들고, CS-25로 브랜드 격을 올리고, 운동기구·앱·소모품으로 LTV를 깊게 먹는다.</strong> 한국에서 200억 이상 구조를 증명한 뒤, 일본에서 홈헬스케어 적합도를 먹고, 미국에서 K-헬스로 크게 증폭한다. 상시 오프라인 판매는 완전 후순위다.</p></div>
 
   <div class="tabs" role="tablist" aria-label="전략 허브 탭">
     <button class="tab-btn active" data-tab="overview">전체 전략</button>
@@ -62,166 +38,54 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Noto Sans KR',sans
     <button class="tab-btn" data-tab="roadmap">단계별 실행</button>
     <button class="tab-btn" data-tab="org">조직 설계</button>
     <button class="tab-btn" data-tab="metrics">지표 / KPI</button>
+    <button class="tab-btn" data-tab="bodyparts">부위 우선순위</button>
+    <button class="tab-btn" data-tab="referral">추천코드</button>
+    <button class="tab-btn" data-tab="growthops">그로스 운영</button>
+    <button class="tab-btn" data-tab="megainfluencer">메가 공구</button>
+    <button class="tab-btn" data-tab="offline">팝업 / 오프라인</button>
+    <button class="tab-btn" data-tab="medicalcontent">의료계 콘텐츠</button>
+    <button class="tab-btn" data-tab="crm">CRM</button>
+    <button class="tab-btn" data-tab="global">일본 / 미국</button>
+    <button class="tab-btn" data-tab="bundles">보호대 / 번들</button>
     <button class="tab-btn" data-tab="nextdocs">후속 설계 문서</button>
   </div>
 
-  <section id="overview" class="tab-panel active">
-    <div class="section">
-      <div class="section-title">1. 키네메디칼의 정체성</div>
-      <div class="section-desc">목 하나를 파는 회사가 아니라 전신 근골격계 홈 회복 프로토콜을 파는 회사로 규정해야 한다.</div>
-      <div class="grid-4">
-        <div class="stat"><div class="label">운동</div><div class="value">앱 · 루틴 · 운동기구</div><div class="sub">매일 해야 하는 운동의 효과를 최대화</div></div>
-        <div class="stat"><div class="label">회복</div><div class="value">ES-808 · 크림 · 찜질</div><div class="sub">통증과 뭉침, 신경 자극, 회복 체감</div></div>
-        <div class="stat"><div class="label">교정</div><div class="value">CS-25</div><div class="sub">브랜드 시그니처, 자세와 정렬 축</div></div>
-        <div class="stat"><div class="label">고정</div><div class="value">보호대류</div><div class="sub">급성기 보호와 재손상 방지</div></div>
-      </div>
-    </div>
+  <section id="overview" class="tab-panel active"><div class="section"><div class="section-title">1. 키네메디칼의 정체성</div><div class="section-desc">목 하나를 파는 회사가 아니라 전신 근골격계 홈 회복 프로토콜을 파는 회사로 규정해야 한다.</div><div class="grid-4"><div class="stat"><div class="label">운동</div><div class="value">앱 · 루틴 · 운동기구</div><div class="sub">매일 해야 하는 운동의 효과를 최대화</div></div><div class="stat"><div class="label">회복</div><div class="value">ES-808 · 크림 · 찜질</div><div class="sub">통증과 뭉침, 신경 자극, 회복 체감</div></div><div class="stat"><div class="label">교정</div><div class="value">CS-25</div><div class="sub">브랜드 시그니처, 자세와 정렬 축</div></div><div class="stat"><div class="label">고정</div><div class="value">보호대류</div><div class="sub">급성기 보호와 재손상 방지</div></div></div></div><div class="section"><div class="section-title">2. 무엇을 먼저 먹을 것인가</div><div class="section-desc">시장 전체를 동시에 먹지 않는다. 정체성은 전신, 전술은 순차 확장이다.</div><div class="table-wrap"><table><thead><tr><th>순서</th><th>영역</th><th>이유</th><th>역할</th></tr></thead><tbody><tr><td><strong>1</strong></td><td><strong>ES-808</strong></td><td>이미 팔리고 있고, 후기를 만들기 쉽고, 추천코드/공구/CRM과 가장 잘 붙는다.</td><td>현금흐름 창출기 + 고객 획득기</td></tr><tr><td><strong>2</strong></td><td><strong>보호대류</strong></td><td>원가/소싱 속도/번들성이 좋고, 급성기 고정 니즈가 명확하다.</td><td>업셀 + 객단가 확장 + 프로토콜 보강</td></tr><tr><td><strong>3</strong></td><td><strong>CS-25</strong></td><td>카테고리 상징성과 브랜드 격을 높인다. 볼륨보다 신뢰 자산에 가깝다.</td><td>브랜드 시그니처</td></tr><tr><td><strong>4</strong></td><td><strong>운동기구/재활 소도구</strong></td><td>시장은 크지만 차별화가 약하면 레드오션이다. 반드시 루틴/앱과 묶여야 한다.</td><td>LTV 확장 + 프로토콜 완성</td></tr></tbody></table></div><p class="note">상시 오프라인 판매는 후순위다. 팝업은 브랜드 증폭 엔진으로 쓰되, 상시 입점 확장은 추후 검토한다.</p></div></section>
 
-    <div class="section">
-      <div class="section-title">2. 무엇을 먼저 먹을 것인가</div>
-      <div class="section-desc">시장 전체를 동시에 먹지 않는다. 정체성은 전신, 전술은 순차 확장이다.</div>
-      <div class="table-wrap">
-        <table>
-          <thead><tr><th>순서</th><th>영역</th><th>이유</th><th>역할</th></tr></thead>
-          <tbody>
-            <tr><td><strong>1</strong></td><td><strong>ES-808</strong></td><td>이미 팔리고 있고, 후기를 만들기 쉽고, 추천코드/공구/CRM과 가장 잘 붙는다.</td><td>현금흐름 창출기 + 고객 획득기</td></tr>
-            <tr><td><strong>2</strong></td><td><strong>보호대류</strong></td><td>원가/소싱 속도/번들성이 좋고, 급성기 고정 니즈가 명확하다.</td><td>업셀 + 객단가 확장 + 프로토콜 보강</td></tr>
-            <tr><td><strong>3</strong></td><td><strong>CS-25</strong></td><td>카테고리 상징성과 브랜드 격을 높인다. 볼륨보다 신뢰 자산에 가깝다.</td><td>브랜드 시그니처</td></tr>
-            <tr><td><strong>4</strong></td><td><strong>운동기구/재활 소도구</strong></td><td>시장은 크지만 차별화가 약하면 레드오션이다. 반드시 루틴/앱과 묶여야 한다.</td><td>LTV 확장 + 프로토콜 완성</td></tr>
-          </tbody>
-        </table>
-      </div>
-      <p class="note">상시 오프라인 판매는 후순위다. 팝업은 브랜드 증폭 엔진으로 쓰되, 상시 입점 확장은 추후 검토한다.</p>
-    </div>
-  </section>
+  <section id="engines" class="tab-panel"><div class="section"><div class="section-title">성장 엔진 설계</div><div class="section-desc">조직도와 채널 구조를 반영한 실제 성장 엔진이다.</div><div class="grid-3"><div class="card"><div class="pill blue">Engine 1</div><h3>히어로 SKU 엔진</h3><ul><li>ES-808 단일 히어로 체제 고도화</li><li>부위별 사용 장면과 후기 구조화</li><li>소모품/보호대/회복도구 번들 설계</li></ul></div><div class="card"><div class="pill green">Engine 2</div><h3>의료계 추천 콘텐츠 → 광고소재 엔진</h3><ul><li>1분도수, 도수치료사, 재활 전문가 신뢰를 광고소재 원천으로 전환</li><li>전문가 설명, 사용 장면, 환자형 문제 해결 사례를 숏폼과 상세로 재가공</li><li>의료계 신뢰가 대중 매출로 넘어오는 브릿지 역할</li></ul></div><div class="card"><div class="pill yellow">Engine 3</div><h3>그로스마케팅 엔진</h3><ul><li>메타, 구글, 카카오, 네이버, 틱톡 성과형 채널 통합 운영</li><li>부위별 문제, 오퍼, 랜딩, 크리에이티브, 리타겟팅 동시 최적화</li><li>채널별 ROAS가 아니라 채널별 실공헌이익으로 판단</li></ul></div><div class="card"><div class="pill purple">Engine 4</div><h3>추천코드/공구 엔진</h3><ul><li>추천코드 파일럿 10명 → 상위 파트너 승급</li><li>메가 인플루언서 공구와 마이크로 추천코드 운영을 분리</li><li>도수치료사/재활/자세 교정 크리에이터 우선</li></ul></div><div class="card"><div class="pill red">Engine 5</div><h3>커뮤니티/네이버 카페 엔진</h3><ul><li>목·어깨·허리·손목·무릎·족저근막염 커뮤니티별 언어 최적화</li><li>단순 광고보다 후기, 해결사례, 루틴 콘텐츠 중심 진입</li><li>카페 운영자는 제휴/공구 파트너로 전환</li></ul></div><div class="card"><div class="pill blue">Engine 6</div><h3>자사몰 프로모션 / CRM 엔진</h3><ul><li>상시 2~3개 프로모션 병렬 운영</li><li>가격 할인보다 프로토콜 사은품, 번들, 회복 키트 중심</li><li>마사지볼/마사지봉은 사은품/번들 무기로 활용하고 CRM으로 재구매 회수</li></ul></div><div class="card"><div class="pill purple">Engine 7</div><h3>오프라인 팝업 엔진</h3><ul><li>더현대, 현백 등에서 체험형 팝업으로 브랜드를 증폭</li><li>현장 매출보다 완판 서사, 체험 후기, CRM 리드, 광고소재 생산을 같이 본다</li><li>팝업은 단발 이벤트가 아니라 유통 레버리지와 온라인 증폭 엔진으로 설계</li></ul></div><div class="card"><div class="pill blue">Engine 8</div><h3>해외 확장 엔진</h3><ul><li>한국에서 검증된 메시지와 SKU를 복제</li><li>일본 → 미국 순서</li><li>해외는 브랜드 소개가 아니라 잘 팔리는 프로토콜 수출</li></ul></div></div></div></section>
 
-  <section id="engines" class="tab-panel">
-    <div class="section">
-      <div class="section-title">성장 엔진 설계</div>
-      <div class="section-desc">조직도와 채널 구조를 반영한 실제 성장 엔진이다.</div>
-      <div class="grid-3">
-        <div class="card"><div class="pill blue">Engine 1</div><h3>히어로 SKU 엔진</h3><ul><li>ES-808 단일 히어로 체제 고도화</li><li>부위별 사용 장면과 후기 구조화</li><li>소모품/보호대/회복도구 번들 설계</li></ul></div>
-        <div class="card"><div class="pill green">Engine 2</div><h3>의료계 추천 콘텐츠 → 광고소재 엔진</h3><ul><li>1분도수, 도수치료사, 재활 전문가 신뢰를 광고소재 원천으로 전환</li><li>전문가 설명, 사용 장면, 환자형 문제 해결 사례를 숏폼과 상세로 재가공</li><li>의료계 신뢰가 대중 매출로 넘어오는 브릿지 역할</li></ul></div>
-        <div class="card"><div class="pill yellow">Engine 3</div><h3>그로스마케팅 엔진</h3><ul><li>메타, 구글, 카카오, 네이버, 틱톡 성과형 채널 통합 운영</li><li>부위별 문제, 오퍼, 랜딩, 크리에이티브, 리타겟팅 동시 최적화</li><li>채널별 ROAS가 아니라 채널별 실공헌이익으로 판단</li></ul></div>
-        <div class="card"><div class="pill purple">Engine 4</div><h3>추천코드/공구 엔진</h3><ul><li>추천코드 파일럿 10명 → 상위 파트너 승급</li><li>메가 인플루언서 공구와 마이크로 추천코드 운영을 분리</li><li>도수치료사/재활/자세 교정 크리에이터 우선</li></ul></div>
-        <div class="card"><div class="pill red">Engine 5</div><h3>커뮤니티/네이버 카페 엔진</h3><ul><li>목·어깨·허리·손목·무릎·족저근막염 커뮤니티별 언어 최적화</li><li>단순 광고보다 후기, 해결사례, 루틴 콘텐츠 중심 진입</li><li>카페 운영자는 제휴/공구 파트너로 전환</li></ul></div>
-        <div class="card"><div class="pill blue">Engine 6</div><h3>자사몰 프로모션 / CRM 엔진</h3><ul><li>상시 2~3개 프로모션 병렬 운영</li><li>가격 할인보다 프로토콜 사은품, 번들, 회복 키트 중심</li><li>마사지볼/마사지봉은 사은품/번들 무기로 활용하고 CRM으로 재구매 회수</li></ul></div>
-        <div class="card"><div class="pill purple">Engine 7</div><h3>오프라인 팝업 엔진</h3><ul><li>더현대, 현백 등에서 체험형 팝업으로 브랜드를 증폭</li><li>현장 매출보다 완판 서사, 체험 후기, CRM 리드, 광고소재 생산을 같이 본다</li><li>팝업은 단발 이벤트가 아니라 유통 레버리지와 온라인 증폭 엔진으로 설계</li></ul></div>
-        <div class="card"><div class="pill blue">Engine 8</div><h3>해외 확장 엔진</h3><ul><li>한국에서 검증된 메시지와 SKU를 복제</li><li>일본 → 미국 순서</li><li>해외는 브랜드 소개가 아니라 잘 팔리는 프로토콜 수출</li></ul></div>
-      </div>
-    </div>
-  </section>
+  <section id="roadmap" class="tab-panel"><div class="section"><div class="section-title">단계별 실행 순서</div><div class="section-desc">대충 늘리는 게 아니라, 가장 적합한 순서로 밀어야 한다.</div><div class="grid-3"><div class="card"><div class="pill green">0~3개월</div><h3>Phase 1. ES-808 압도화</h3><ul><li>ES-808 메시지 3개 고정</li><li>후기 30개 구조화</li><li>의료계 추천형 광고소재 포맷 3종 확립</li><li>주간 광고소재 5개+</li><li>추천코드 파일럿 10명</li><li>공구 파일럿 3명</li><li>CRM D+0 / D+3 / D+7 / D+14 정착</li></ul></div><div class="card"><div class="pill yellow">3~9개월</div><h3>Phase 2. 번들 + 보호대 확장</h3><ul><li>보호대 SKU 1~2개 소싱/테스트</li><li>ES-808 + 보호대 세트 런칭</li><li>자사몰 상시 프로모션 2~3개 운용</li><li>네이버 카페/커뮤니티 제휴 구조화</li><li>더현대/현백 팝업 포맷 1회 성공</li><li>상위 추천코드 파트너 등급제 도입</li></ul></div><div class="card"><div class="pill purple">9~24개월</div><h3>Phase 3. 일본 → 미국 확장</h3><ul><li>일본용 SKU/메시지 최적화</li><li>일본 홈헬스케어/보호대/통증 카테고리 공략</li><li>미국은 ES-808 또는 보호대 기반으로 좁게 시작</li><li>해외 플랫폼 + D2C + 리뷰 자산 동시 구축</li></ul></div></div></div><div class="section"><div class="section-title">단계별 목표 숫자</div><div class="section-desc">대표가 판단해야 할 최소 목표선이다.</div><div class="table-wrap"><table><thead><tr><th>단계</th><th>매출 목표</th><th>핵심 조건</th><th>의미</th></tr></thead><tbody><tr><td>0~3개월</td><td>ES-808 월 매출 가속</td><td>후기 구조화, 소재 5개/주, 추천코드 파일럿</td><td>히어로 SKU 증명</td></tr><tr><td>3~9개월</td><td>국내 연 200억 구조 가시화</td><td>보호대 번들, 공구 반복, CRM 정착</td><td>한국 모델 증명</td></tr><tr><td>9~18개월</td><td>국내 연 200억 돌파 + 일본 런칭</td><td>일본용 SKU/메시지/채널 가동</td><td>K-헬스 해외 진입</td></tr><tr><td>18~36개월</td><td>국내+일본 500억~1000억권</td><td>프로토콜 확장, 보호대/운동기구/소모품 심화</td><td>아시아권 리더십</td></tr><tr><td>36개월+</td><td>미국 본격 확장</td><td>리뷰/카테고리 증거, 현지화, 반복 가능한 오퍼</td><td>글로벌 점프</td></tr></tbody></table></div></div></section>
 
-  <section id="roadmap" class="tab-panel">
-    <div class="section">
-      <div class="section-title">단계별 실행 순서</div>
-      <div class="section-desc">대충 늘리는 게 아니라, 가장 적합한 순서로 밀어야 한다.</div>
-      <div class="grid-3">
-        <div class="card"><div class="pill green">0~3개월</div><h3>Phase 1. ES-808 압도화</h3><ul><li>ES-808 메시지 3개 고정</li><li>후기 30개 구조화</li><li>의료계 추천형 광고소재 포맷 3종 확립</li><li>주간 광고소재 5개+</li><li>추천코드 파일럿 10명</li><li>공구 파일럿 3명</li><li>CRM D+0 / D+3 / D+7 / D+14 정착</li></ul></div>
-        <div class="card"><div class="pill yellow">3~9개월</div><h3>Phase 2. 번들 + 보호대 확장</h3><ul><li>보호대 SKU 1~2개 소싱/테스트</li><li>ES-808 + 보호대 세트 런칭</li><li>자사몰 상시 프로모션 2~3개 운용</li><li>네이버 카페/커뮤니티 제휴 구조화</li><li>더현대/현백 팝업 포맷 1회 성공</li><li>상위 추천코드 파트너 등급제 도입</li></ul></div>
-        <div class="card"><div class="pill purple">9~24개월</div><h3>Phase 3. 일본 → 미국 확장</h3><ul><li>일본용 SKU/메시지 최적화</li><li>일본 홈헬스케어/보호대/통증 카테고리 공략</li><li>미국은 ES-808 또는 보호대 기반으로 좁게 시작</li><li>해외 플랫폼 + D2C + 리뷰 자산 동시 구축</li></ul></div>
-      </div>
-    </div>
+  <section id="org" class="tab-panel"><div class="section"><div class="section-title">조직 역할 설계</div><div class="section-desc">태훈이 뭘 하려는지 기준으로 역할을 나눠야 한다.</div><div class="table-wrap"><table><thead><tr><th>영역</th><th>주인</th><th>핵심 책임</th><th>대표가 직접 쥐는 것</th></tr></thead><tbody><tr><td>히어로 SKU / 제품 방향</td><td>태훈</td><td>어떤 부위, 어떤 문제, 어떤 프로토콜로 갈지 결정</td><td>제품 우선순위, 메시지, 소싱 방향</td></tr><tr><td>운영/백오피스</td><td>운영/백오피스 매니저</td><td>정산, 문서, 프로세스, 자료 취합</td><td>최종 승인, 금융 핵심 통제</td></tr><tr><td>추천코드/공구/그로스 백업</td><td>6월 합류 인력</td><td>파트너 발굴, 제안, 코드 운영, 정산 흐름</td><td>상위 파트너 승급 기준, 메가 인플루언서 딜 판단</td></tr><tr><td>자사몰 프로모션/채널</td><td>자사몰 MD</td><td>상시 프로모션, 번들, 상세/혜택 구조</td><td>오퍼 최종 방향, 브랜드 톤</td></tr><tr><td>콘텐츠 원천</td><td>1분도수 / 인규</td><td>후기, 사용법, 해결 맥락, 공감형 소재</td><td>어떤 메시지를 밀지, 어떤 주인공을 세울지</td></tr><tr><td>해외 확장</td><td>태훈 + 전담 리더(추후)</td><td>국가별 SKU/메시지/채널/파트너 구조</td><td>국가 우선순위와 진입 방식</td></tr></tbody></table></div></div></section>
 
-    <div class="section">
-      <div class="section-title">단계별 목표 숫자</div>
-      <div class="section-desc">대표가 판단해야 할 최소 목표선이다.</div>
-      <div class="table-wrap">
-        <table>
-          <thead><tr><th>단계</th><th>매출 목표</th><th>핵심 조건</th><th>의미</th></tr></thead>
-          <tbody>
-            <tr><td>0~3개월</td><td>ES-808 월 매출 가속</td><td>후기 구조화, 소재 5개/주, 추천코드 파일럿</td><td>히어로 SKU 증명</td></tr>
-            <tr><td>3~9개월</td><td>국내 연 200억 구조 가시화</td><td>보호대 번들, 공구 반복, CRM 정착</td><td>한국 모델 증명</td></tr>
-            <tr><td>9~18개월</td><td>국내 연 200억 돌파 + 일본 런칭</td><td>일본용 SKU/메시지/채널 가동</td><td>K-헬스 해외 진입</td></tr>
-            <tr><td>18~36개월</td><td>국내+일본 500억~1000억권</td><td>프로토콜 확장, 보호대/운동기구/소모품 심화</td><td>아시아권 리더십</td></tr>
-            <tr><td>36개월+</td><td>미국 본격 확장</td><td>리뷰/카테고리 증거, 현지화, 반복 가능한 오퍼</td><td>글로벌 점프</td></tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
-  </section>
+  <section id="metrics" class="tab-panel"><div class="section"><div class="section-title">지표 체계</div><div class="section-desc">대표는 매출만 보면 늦다. 엔진별 선행지표를 봐야 한다.</div><div class="kpi"><div class="kpi-item"><strong>Hero SKU Revenue</strong><span>ES-808 단일 매출, 매출 비중, 실공헌이익</span></div><div class="kpi-item"><strong>New Creatives / Week</strong><span>주간 신규 광고소재 수</span></div><div class="kpi-item"><strong>Medical Trust Creative Rate</strong><span>의료계 추천/전문가 기반 소재 비중</span></div><div class="kpi-item"><strong>Content Reuse Rate</strong><span>1분도수·의료계 추천 콘텐츠가 광고/CRM/상세로 번역된 비율</span></div><div class="kpi-item"><strong>Review Velocity</strong><span>주간 신규 후기 수, 부위별 후기 커버리지</span></div><div class="kpi-item"><strong>Promo AOV</strong><span>프로모션별 객단가, 번들 비중</span></div><div class="kpi-item"><strong>Repeat Rate</strong><span>D+30 / D+60 재구매율</span></div><div class="kpi-item"><strong>Referral Revenue</strong><span>추천코드 매출, 코드별 매출, 코드별 CAC</span></div><div class="kpi-item"><strong>Group Buy Revenue</strong><span>공구별 매출, CPA, 신규고객 비중</span></div><div class="kpi-item"><strong>Community Inflow</strong><span>네이버 카페/커뮤니티 유입, 전환</span></div><div class="kpi-item"><strong>Accessory Attach Rate</strong><span>보호대/젤/사은품 포함 업셀 비율</span></div><div class="kpi-item"><strong>Channel Contribution Profit</strong><span>메타/구글/카카오/네이버/틱톡 채널별 실공헌이익</span></div><div class="kpi-item"><strong>Popup Sell-through</strong><span>팝업 체험률, 구매전환율, 완판 시간, 팝업 후 재마케팅 매출</span></div><div class="kpi-item"><strong>Country Readiness</strong><span>일본/미국 진출 준비도 체크리스트 달성률</span></div><div class="kpi-item"><strong>Real Contribution Profit</strong><span>광고 포함 실공헌이익</span></div></div></div></section>
 
-  <section id="org" class="tab-panel">
-    <div class="section">
-      <div class="section-title">조직 역할 설계</div>
-      <div class="section-desc">태훈이 뭘 하려는지 기준으로 역할을 나눠야 한다.</div>
-      <div class="table-wrap">
-        <table>
-          <thead><tr><th>영역</th><th>주인</th><th>핵심 책임</th><th>대표가 직접 쥐는 것</th></tr></thead>
-          <tbody>
-            <tr><td>히어로 SKU / 제품 방향</td><td>태훈</td><td>어떤 부위, 어떤 문제, 어떤 프로토콜로 갈지 결정</td><td>제품 우선순위, 메시지, 소싱 방향</td></tr>
-            <tr><td>운영/백오피스</td><td>운영/백오피스 매니저</td><td>정산, 문서, 프로세스, 자료 취합</td><td>최종 승인, 금융 핵심 통제</td></tr>
-            <tr><td>추천코드/공구/그로스 백업</td><td>6월 합류 인력</td><td>파트너 발굴, 제안, 코드 운영, 정산 흐름</td><td>상위 파트너 승급 기준, 메가 인플루언서 딜 판단</td></tr>
-            <tr><td>자사몰 프로모션/채널</td><td>자사몰 MD</td><td>상시 프로모션, 번들, 상세/혜택 구조</td><td>오퍼 최종 방향, 브랜드 톤</td></tr>
-            <tr><td>콘텐츠 원천</td><td>1분도수 / 인규</td><td>후기, 사용법, 해결 맥락, 공감형 소재</td><td>어떤 메시지를 밀지, 어떤 주인공을 세울지</td></tr>
-            <tr><td>해외 확장</td><td>태훈 + 전담 리더(추후)</td><td>국가별 SKU/메시지/채널/파트너 구조</td><td>국가 우선순위와 진입 방식</td></tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
-  </section>
+  <section id="bodyparts" class="tab-panel"><div class="section"><div class="section-title">부위별 확장 우선순위 매트릭스</div><div class="section-desc">시장성, 콘텐츠화, 제품 확장성, 추천코드/공구 적합성, 해외 적합성 기준으로 점수화했다.</div><div class="table-wrap"><table><thead><tr><th>부위</th><th>우선순위</th><th>이유</th><th>먼저 붙일 제품</th><th>주요 KPI</th></tr></thead><tbody><tr><td>목</td><td><strong>1</strong></td><td>현재 자산과 신뢰가 가장 강하고 ES-808, CS-25, 콘텐츠가 이미 존재</td><td>ES-808, CS-25, 회복도구</td><td>목 카테고리 매출, 후기 30건+</td></tr><tr><td>어깨</td><td><strong>2</strong></td><td>목과 메시지가 이어지고 대중 수요가 큼</td><td>ES-808, 마사지봉, 보호대</td><td>어깨 광고 ROAS, 어깨 후기수</td></tr><tr><td>허리</td><td><strong>3</strong></td><td>시장 큼, 다만 메시지/제품 정합성 정리 필요</td><td>보호대, 회복도구, 운동 루틴</td><td>허리 세트 전환율</td></tr><tr><td>손목</td><td><strong>4</strong></td><td>사무직/운동/육아 등 수요층 넓음, 보호대 번들 적합</td><td>손목 보호대, ES-808</td><td>손목 번들 attach rate</td></tr><tr><td>팔꿈치</td><td><strong>5</strong></td><td>테니스엘보/골프엘보 명확한 문제시장</td><td>팔꿈치 보호대, ES-808</td><td>팔꿈치 공구 매출</td></tr><tr><td>무릎</td><td><strong>6</strong></td><td>중장년/운동층 모두 큼, 보호대 시장과 연결</td><td>무릎 보호대, 찜질/회복도구</td><td>무릎 객단가</td></tr><tr><td>발목/족저근막염</td><td><strong>7</strong></td><td>러닝 붐으로 뜨는 서브카테고리, 커뮤니티 적합성 높음</td><td>발목 보호대, 마사지볼</td><td>러닝 커뮤니티 유입, 족저 콘텐츠 조회</td></tr><tr><td>손가락</td><td><strong>8</strong></td><td>확장 가능하지만 상대적으로 시장 서사가 작음</td><td>보조 보호대</td><td>테스트 판매 반응</td></tr></tbody></table></div></div></section>
 
-  <section id="metrics" class="tab-panel">
-    <div class="section">
-      <div class="section-title">지표 체계</div>
-      <div class="section-desc">대표는 매출만 보면 늦다. 엔진별 선행지표를 봐야 한다.</div>
-      <div class="kpi">
-        <div class="kpi-item"><strong>Hero SKU Revenue</strong><span>ES-808 단일 매출, 매출 비중, 실공헌이익</span></div>
-        <div class="kpi-item"><strong>New Creatives / Week</strong><span>주간 신규 광고소재 수</span></div>
-        <div class="kpi-item"><strong>Medical Trust Creative Rate</strong><span>의료계 추천/전문가 기반 소재 비중</span></div>
-        <div class="kpi-item"><strong>Content Reuse Rate</strong><span>1분도수·의료계 추천 콘텐츠가 광고/CRM/상세로 번역된 비율</span></div>
-        <div class="kpi-item"><strong>Review Velocity</strong><span>주간 신규 후기 수, 부위별 후기 커버리지</span></div>
-        <div class="kpi-item"><strong>Promo AOV</strong><span>프로모션별 객단가, 번들 비중</span></div>
-        <div class="kpi-item"><strong>Repeat Rate</strong><span>D+30 / D+60 재구매율</span></div>
-        <div class="kpi-item"><strong>Referral Revenue</strong><span>추천코드 매출, 코드별 매출, 코드별 CAC</span></div>
-        <div class="kpi-item"><strong>Group Buy Revenue</strong><span>공구별 매출, CPA, 신규고객 비중</span></div>
-        <div class="kpi-item"><strong>Community Inflow</strong><span>네이버 카페/커뮤니티 유입, 전환</span></div>
-        <div class="kpi-item"><strong>Accessory Attach Rate</strong><span>보호대/젤/사은품 포함 업셀 비율</span></div>
-        <div class="kpi-item"><strong>Channel Contribution Profit</strong><span>메타/구글/카카오/네이버/틱톡 채널별 실공헌이익</span></div>
-        <div class="kpi-item"><strong>Popup Sell-through</strong><span>팝업 체험률, 구매전환율, 완판 시간, 팝업 후 재마케팅 매출</span></div>
-        <div class="kpi-item"><strong>Country Readiness</strong><span>일본/미국 진출 준비도 체크리스트 달성률</span></div>
-        <div class="kpi-item"><strong>Real Contribution Profit</strong><span>광고 포함 실공헌이익</span></div>
-      </div>
-    </div>
-  </section>
+  <section id="referral" class="tab-panel"><div class="section"><div class="section-title">추천코드 운영정책</div><div class="section-desc">공구와 섞지 말고, 반복 가능한 파트너 매출 엔진으로 운영한다.</div><div class="grid-2"><div class="card"><h3>대상</h3><ul><li>도수치료사 / 재활 / 자세교정 / 러닝 / 운동 크리에이터</li><li>의료계 신뢰가 있거나 후기 전환력이 있는 계정 우선</li><li>단순 팔로워 수보다 전환력 우선</li></ul></div><div class="card"><h3>정책</h3><ul><li>기본 고객 할인 10~15%</li><li>기본 커미션 15%</li><li>상위 파트너 20~30%는 월 매출 기준으로 승급</li><li>정산은 월 1회, 환불 반영 후 확정</li></ul></div><div class="card"><h3>등급</h3><ul><li>Seed: 파일럿, 코드 발급만</li><li>Core: 월 일정 매출 이상, 전용 콘텐츠 지원</li><li>Hero: 상위 파트너, 공동기획/공구 우선권</li></ul></div><div class="card"><h3>퇴출 기준</h3><ul><li>브랜드 톤 훼손</li><li>과장 표현 / 의료법 리스크</li><li>성과 부진 2~3개월 지속</li><li>정산/운영 협조 불량</li></ul></div></div></div></section>
 
-  <section id="nextdocs" class="tab-panel">
-    <div class="section">
-      <div class="section-title">후속 설계 문서 로드맵</div>
-      <div class="section-desc">마스터플랜은 방향판이다. 아래 항목은 이제 실제 운영 설계 문서로 쪼개야 한다.</div>
-      <div class="grid-2">
-        <div class="card"><div class="pill blue">우선 설계</div><ul><li>부위별 확장 우선순위 매트릭스</li><li>추천코드 운영정책과 등급제</li><li>메가 인플루언서 공구 표준안</li><li>네이버 카페/커뮤니티 제휴 플레이북</li><li>자사몰 상시 프로모션 캘린더</li><li>보호대/사은품 번들 구조</li></ul></div>
-        <div class="card"><div class="pill purple">후속 설계</div><ul><li>그로스마케팅 채널별 목표 KPI와 예산 배분</li><li>팝업 운영 플레이북과 완판 포맷</li><li>일본 진출용 SKU/메시지/채널 전략</li><li>미국 진출용 히어로 SKU 검증 플랜</li><li>의료계 추천 콘텐츠 제작 SOP</li><li>CRM 세그먼트와 재구매 자동화 시나리오</li></ul></div>
-      </div>
-    </div>
+  <section id="growthops" class="tab-panel"><div class="section"><div class="section-title">그로스마케팅 채널별 KPI / 예산 구조</div><div class="section-desc">각 채널 역할을 분리하고, 최종 판단은 실공헌이익으로 한다.</div><div class="table-wrap"><table><thead><tr><th>채널</th><th>역할</th><th>예산 원칙</th><th>핵심 KPI</th></tr></thead><tbody><tr><td>메타</td><td>메인 신규획득 + 소재 테스트</td><td>최대 비중 유지</td><td>신규 CAC, MER, 실공헌이익</td></tr><tr><td>구글</td><td>검색 의도 수확</td><td>브랜드/문제 키워드 우선</td><td>검색 ROAS, 브랜드검색 점유</td></tr><tr><td>카카오</td><td>리타겟팅/보조 채널</td><td>메타/자사몰 반응자 회수</td><td>재방문 전환율</td></tr><tr><td>네이버</td><td>문제 인식형 유입</td><td>콘텐츠/쇼핑/검색 결합</td><td>유입 후 구매율</td></tr><tr><td>틱톡</td><td>젊은 층 도달, 바이럴, 러닝/운동 부위 공략</td><td>소액 반복 테스트</td><td>후킹률, 클릭률, 신규 고객 비중</td></tr></tbody></table></div><p class="note">예산 기본 원칙: 메타 중심, 검색 의도는 구글/네이버, 바이럴 확장은 틱톡, 회수는 카카오/리마케팅.</p></div></section>
 
-    <div class="section">
-      <div class="section-title">절대 하면 안 되는 것</div>
-      <div class="section-desc">너무 많은 걸 동시에 건드리면 성장 속도가 아니라 분산 속도가 된다.</div>
-      <div class="grid-2">
-        <div class="card"><div class="pill red">금지</div><ul><li>제품을 아무 기준 없이 한꺼번에 늘리기</li><li>ES-808이 압도되기 전에 다른 SKU에 에너지 분산</li><li>할인만으로 자사몰 프로모션 운영</li><li>해외를 한국 증거 없이 감으로 진입</li><li>메가 인플루언서 공구에만 기대기</li><li>팝업을 예쁜 행사로만 끝내고 데이터/콘텐츠/CRM 자산을 못 남기기</li></ul></div>
-        <div class="card"><div class="pill green">원칙</div><ul><li>정체성은 전신, 전술은 순차 확장</li><li>히어로 SKU가 다음 SKU를 끌고 가게 설계</li><li>할인이 아니라 프로토콜 가치로 딜 체감 만들기</li><li>추천코드·공구·자사몰·커뮤니티를 따로 보지 말고 하나의 엔진으로 운영</li><li>국내는 테스트베드, 일본은 첫 해외, 미국은 두 번째 큰 점프</li><li>상시 오프라인은 완전 후순위, 팝업만 증폭 엔진으로 활용</li></ul></div>
-      </div>
-    </div>
-  </section>
+  <section id="megainfluencer" class="tab-panel"><div class="section"><div class="section-title">메가 인플루언서 공구 표준안</div><div class="section-desc">공구는 추천코드와 다르게 짧게 크게 터뜨리는 행사다.</div><div class="grid-2"><div class="card"><h3>대상 선정</h3><ul><li>문제 인식이 맞는 팔로워 구조</li><li>건강/재활/운동/라이프스타일 적합성</li><li>과거 공구 전환력 확인</li></ul></div><div class="card"><h3>딜 구조</h3><ul><li>기본은 성과형 우선</li><li>최소 보장은 극히 제한적으로</li><li>공구가 끝난 뒤 CRM 회수 시나리오 필수</li></ul></div><div class="card"><h3>필수 산출물</h3><ul><li>공구 랜딩</li><li>숏폼 3종+</li><li>리마케팅용 컷다운</li><li>후속 고객 관리용 메시지</li></ul></div><div class="card"><h3>평가</h3><ul><li>공구 매출</li><li>신규 고객 비중</li><li>공구 후 30일 재구매</li><li>활용 가능한 광고소재 수</li></ul></div></div></div></section>
+
+  <section id="offline" class="tab-panel"><div class="section"><div class="section-title">팝업 / 오프라인 전략</div><div class="section-desc">상시 오프라인은 후순위, 팝업만 엔진으로 본다.</div><div class="grid-2"><div class="card"><h3>팝업 목적</h3><ul><li>브랜드 급 올리기</li><li>완판 서사 만들기</li><li>체험 후기와 영상 대량 생산</li><li>CRM 리드 확보</li></ul></div><div class="card"><h3>팝업 KPI</h3><ul><li>방문자 수</li><li>체험률</li><li>체험 → 구매 전환율</li><li>완판 시간</li><li>팝업 후 14일 재마케팅 매출</li></ul></div><div class="card"><h3>운영 포맷</h3><ul><li>부위별 5분 회복 체험관</li><li>문제 해결형 동선</li><li>현장 구매 + 미구매 리드수집 병행</li></ul></div><div class="card"><h3>주의</h3><ul><li>예쁜 행사로 끝내지 말 것</li><li>현장 데이터와 콘텐츠를 반드시 남길 것</li><li>상시 입점 제안은 팝업 검증 후에만 검토</li></ul></div></div></div></section>
+
+  <section id="medicalcontent" class="tab-panel"><div class="section"><div class="section-title">의료계 추천 콘텐츠 SOP</div><div class="section-desc">의료계 신뢰를 대중 매출로 번역하는 표준 운영안이다.</div><div class="grid-3"><div class="card"><h3>소스</h3><ul><li>1분도수</li><li>도수치료사</li><li>재활 전문가</li><li>실사용자 후기</li></ul></div><div class="card"><h3>포맷</h3><ul><li>전문가 설명형</li><li>문제 해결 사례형</li><li>사용 장면 시연형</li></ul></div><div class="card"><h3>번역</h3><ul><li>유튜브 원본</li><li>숏폼</li><li>광고 컷다운</li><li>상세페이지 블록</li><li>CRM 메시지</li></ul></div></div></div></section>
+
+  <section id="crm" class="tab-panel"><div class="section"><div class="section-title">CRM 세그먼트와 재구매 자동화</div><div class="section-desc">고객을 한 번 사고 끝내지 않고 프로토콜 안으로 계속 데려온다.</div><div class="table-wrap"><table><thead><tr><th>세그먼트</th><th>핵심 메시지</th><th>타이밍</th><th>목표</th></tr></thead><tbody><tr><td>첫구매자</td><td>사용법, 단계 조절, 안심</td><td>D+0</td><td>불만 감소</td></tr><tr><td>미사용/저사용자</td><td>쉬운 사용법, 부위별 팁</td><td>D+3</td><td>사용률 증가</td></tr><tr><td>리뷰 유도</td><td>후기 요청, 사례 수집</td><td>D+7</td><td>후기 확보</td></tr><tr><td>재구매 후보</td><td>보호대/젤/도구 번들</td><td>D+14~30</td><td>LTV 확대</td></tr><tr><td>공구/추천코드 유입자</td><td>파트너 맥락 유지</td><td>유입 즉시</td><td>이탈 방지</td></tr><tr><td>부위별 확장군</td><td>다른 부위 문제 해결 제안</td><td>30일+</td><td>카테고리 확장</td></tr></tbody></table></div></div></section>
+
+  <section id="global" class="tab-panel"><div class="section"><div class="section-title">일본 / 미국 진출 설계</div><div class="section-desc">일본은 첫 해외, 미국은 두 번째 큰 점프다.</div><div class="grid-2"><div class="card"><h3>일본</h3><ul><li>첫 SKU: ES-808 또는 보호대 기반 회복 세트</li><li>메시지: 홈헬스케어, 통증, 회복 루틴</li><li>채널: 온라인 D2C + 플랫폼 테스트</li><li>목표: 한국 모델 복제와 문화 적합성 검증</li></ul></div><div class="card"><h3>미국</h3><ul><li>조건: 한국과 일본에서 후기/카테고리 증거 확보 후</li><li>첫 진입: 좁은 카테고리와 명확한 오퍼</li><li>채널: Amazon 또는 D2C, 리뷰 축적 우선</li><li>목표: K-헬스 브랜드로 큰 점프</li></ul></div></div></div></section>
+
+  <section id="bundles" class="tab-panel"><div class="section"><div class="section-title">보호대 / 사은품 번들 구조</div><div class="section-desc">싸게 파는 게 아니라 프로토콜 가치로 객단가와 만족도를 올린다.</div><div class="grid-3"><div class="card"><h3>ES-808 번들</h3><ul><li>ES-808 + 부스터젤</li><li>ES-808 + 마사지봉</li><li>ES-808 + 손목/팔꿈치 보호대</li></ul></div><div class="card"><h3>CS-25 번들</h3><ul><li>CS-25 + 목 회복볼</li><li>CS-25 + 목 사용 가이드</li><li>CS-25 + 후속 회복도구</li></ul></div><div class="card"><h3>평가 지표</h3><ul><li>Attach Rate</li><li>객단가 증가분</li><li>번들별 실공헌이익</li><li>재구매율 변화</li></ul></div></div></div></section>
+
+  <section id="nextdocs" class="tab-panel"><div class="section"><div class="section-title">후속 설계 문서 로드맵</div><div class="section-desc">이 허브를 기준으로 다음 문서들을 독립 탭/독립 페이지로 계속 확장한다.</div><div class="grid-2"><div class="card"><div class="pill blue">다음 우선순위</div><ul><li>부위별 확장 매트릭스 상세 버전</li><li>추천코드 운영 대시보드</li><li>채널별 예산/성과 보드</li><li>메가 공구 파이프라인</li><li>팝업 플레이북 상세본</li></ul></div><div class="card"><div class="pill green">원칙</div><ul><li>전략 방향은 허브에, 운영 상세는 세부 탭으로</li><li>상시 오프라인은 후순위 유지</li><li>모든 축의 판단 기준은 실공헌이익과 반복 가능성</li></ul></div></div></div></section>
 </div>
 <div class="footer">Kinemedical Strategy Hub · 2026-05-18 · TENEX Internal Strategy</div>
 <script>
 const buttons=[...document.querySelectorAll('.tab-btn')];
 const panels=[...document.querySelectorAll('.tab-panel')];
-buttons.forEach(btn=>{
-  btn.addEventListener('click',()=>{
-    const id=btn.dataset.tab;
-    buttons.forEach(b=>b.classList.toggle('active',b===btn));
-    panels.forEach(p=>p.classList.toggle('active',p.id===id));
-    history.replaceState(null,'','#'+id);
-  });
-});
-const initial=location.hash?.replace('#','');
-if(initial){
-  const btn=buttons.find(b=>b.dataset.tab===initial);
-  if(btn) btn.click();
-}
+buttons.forEach(btn=>{btn.addEventListener('click',()=>{const id=btn.dataset.tab;buttons.forEach(b=>b.classList.toggle('active',b===btn));panels.forEach(p=>p.classList.toggle('active',p.id===id));history.replaceState(null,'','#'+id);});});
+const initial=location.hash?.replace('#',''); if(initial){ const btn=buttons.find(b=>b.dataset.tab===initial); if(btn) btn.click(); }
 </script>
 </body>
 </html>
