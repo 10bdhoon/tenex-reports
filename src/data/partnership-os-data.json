@@ -7,303 +7,72 @@
     "groupbuyCandidates": 6
   },
   "campaigns": [
-    {
-      "id": "camp-es808-therapist",
-      "name": "ES-808 치료사 파트너십",
-      "product": "ES-808",
-      "category": "치료사/교정전문가",
-      "model": "추천코드",
-      "budget": "₩1,000,000",
-      "kpi": "고정비 없는 전환 극대화",
-      "status": "active"
-    },
-    {
-      "id": "camp-cs25-parenting",
-      "name": "CS-25 육아 체험단",
-      "product": "CS-25",
-      "category": "육아",
-      "model": "시딩+추천코드",
-      "budget": "₩700,000",
-      "kpi": "카테고리 확장 검증",
-      "status": "active"
-    },
-    {
-      "id": "camp-recovery-running",
-      "name": "회복템 러닝 코드형",
-      "product": "ES-808",
-      "category": "러닝",
-      "model": "공동구매",
-      "budget": "₩1,500,000",
-      "kpi": "직접 매출 + UGC 확보",
-      "status": "active"
-    }
+    {"id":"camp-es808-therapist","name":"ES-808 치료사 파트너십","product":"ES-808","category":"치료사/교정전문가","model":"추천코드","budget":"₩1,000,000","kpi":"고정비 없는 전환 극대화","status":"active"},
+    {"id":"camp-cs25-parenting","name":"CS-25 육아 체험단","product":"CS-25","category":"육아","model":"시딩+추천코드","budget":"₩700,000","kpi":"카테고리 확장 검증","status":"active"},
+    {"id":"camp-recovery-running","name":"회복템 러닝 코드형","product":"ES-808","category":"러닝","model":"공동구매","budget":"₩1,500,000","kpi":"직접 매출 + UGC 확보","status":"active"}
   ],
   "candidates": [
-    {
-      "id": "inf-pt-kim",
-      "name": "김OO 물리치료사",
-      "platform": "Instagram",
-      "followers": 23000,
-      "avgViews": 18000,
-      "category": "치료사/교정전문가",
-      "score": 89,
-      "grade": "S",
-      "model": "추천코드형",
-      "costSensitivity": "낮음",
-      "honor": "높음",
-      "reason": "실사용 맥락이 강하고 전문성 기반 신뢰가 높다. 고정비보다 선정 파트너 프레임과 성과형 구조가 잘 맞는다.",
-      "tags": ["실사용", "전문성", "명예형"],
-      "campaignId": "camp-es808-therapist"
-    },
-    {
-      "id": "inf-run-park",
-      "name": "러닝연구소 박OO",
-      "platform": "YouTube",
-      "followers": 41000,
-      "avgViews": 12000,
-      "category": "러닝",
-      "score": 82,
-      "grade": "A",
-      "model": "공동구매 후보",
-      "costSensitivity": "중간",
-      "honor": "중간",
-      "reason": "회복 루틴 콘텐츠와 연결성이 높고 설명력이 좋아 UGC 및 랜딩 재활용 가치가 크다.",
-      "tags": ["UGC", "공동구매", "설명력"],
-      "campaignId": "camp-recovery-running"
-    },
-    {
-      "id": "inf-parent-choi",
-      "name": "육아자세연구소 최OO",
-      "platform": "Instagram",
-      "followers": 17000,
-      "avgViews": 9000,
-      "category": "육아",
-      "score": 77,
-      "grade": "A",
-      "model": "시딩+코드형",
-      "costSensitivity": "낮음",
-      "honor": "중간",
-      "reason": "육아 손목, 어깨, 목 불편 맥락이 명확하다. 직접 매출보다 카테고리 확장 테스트용 가치가 크다.",
-      "tags": ["카테고리확장", "육아", "시딩"],
-      "campaignId": "camp-cs25-parenting"
-    },
-    {
-      "id": "inf-rehab-jung",
-      "name": "정OO 재활코치",
-      "platform": "Instagram",
-      "followers": 12000,
-      "avgViews": 7000,
-      "category": "치료사/교정전문가",
-      "score": 74,
-      "grade": "B",
-      "model": "추천코드 전환 협상",
-      "costSensitivity": "높음",
-      "honor": "중간",
-      "reason": "기본 적합성은 좋지만 고정비 선호가 있어 비용 압축 협상이 필요하다.",
-      "tags": ["협상필요", "재활", "비용압축"],
-      "campaignId": "camp-es808-therapist"
-    }
+    {"id":"inf-pt-kim","name":"김OO 물리치료사","platform":"Instagram","followers":23000,"avgViews":18000,"category":"치료사/교정전문가","score":89,"grade":"S","model":"추천코드형","costSensitivity":"낮음","honor":"높음","reason":"실사용 맥락이 강하고 전문성 기반 신뢰가 높다. 고정비보다 선정 파트너 프레임과 성과형 구조가 잘 맞는다.","tags":["실사용","전문성","명예형"],"campaignId":"camp-es808-therapist"},
+    {"id":"inf-run-park","name":"러닝연구소 박OO","platform":"YouTube","followers":41000,"avgViews":12000,"category":"러닝","score":82,"grade":"A","model":"공동구매 후보","costSensitivity":"중간","honor":"중간","reason":"회복 루틴 콘텐츠와 연결성이 높고 설명력이 좋아 UGC 및 랜딩 재활용 가치가 크다.","tags":["UGC","공동구매","설명력"],"campaignId":"camp-recovery-running"},
+    {"id":"inf-parent-choi","name":"육아자세연구소 최OO","platform":"Instagram","followers":17000,"avgViews":9000,"category":"육아","score":77,"grade":"A","model":"시딩+코드형","costSensitivity":"낮음","honor":"중간","reason":"육아 손목, 어깨, 목 불편 맥락이 명확하다. 직접 매출보다 카테고리 확장 테스트용 가치가 크다.","tags":["카테고리확장","육아","시딩"],"campaignId":"camp-cs25-parenting"},
+    {"id":"inf-rehab-jung","name":"정OO 재활코치","platform":"Instagram","followers":12000,"avgViews":7000,"category":"치료사/교정전문가","score":74,"grade":"B","model":"추천코드 전환 협상","costSensitivity":"높음","honor":"중간","reason":"기본 적합성은 좋지만 고정비 선호가 있어 비용 압축 협상이 필요하다.","tags":["협상필요","재활","비용압축"],"campaignId":"camp-es808-therapist"}
   ],
   "instagramCreators": [
-    {
-      "id": "ig-pt-kim",
-      "accountName": "김OO 물리치료사",
-      "handle": "@pt_kim_lab",
-      "category": "치료사/교정전문가",
-      "followers": 23000,
-      "avgViews10": 18000,
-      "avgLikes10": 940,
-      "avgComments10": 63,
-      "avgSaves10": 211,
-      "engagementScore": 91,
-      "trustScore": 90,
-      "costEfficiency": 88,
-      "honorSensitivity": 92,
-      "recommendedModel": "추천코드",
-      "status": "ready_to_dm",
-      "lastContacted": "-",
-      "note": "전문성 강함, 명예형 DM 우선",
-      "duplicateBlocked": false,
-      "codeStatus": "코드 준비",
-      "groupbuyStatus": "해당없음"
-    },
-    {
-      "id": "ig-parent-choi",
-      "accountName": "육아자세연구소 최OO",
-      "handle": "@mom_posture_lab",
-      "category": "육아",
-      "followers": 17000,
-      "avgViews10": 9000,
-      "avgLikes10": 420,
-      "avgComments10": 38,
-      "avgSaves10": 156,
-      "engagementScore": 84,
-      "trustScore": 81,
-      "costEfficiency": 86,
-      "honorSensitivity": 70,
-      "recommendedModel": "시딩+코드",
-      "status": "ready_to_dm",
-      "lastContacted": "-",
-      "note": "육아 카테고리 테스트용",
-      "duplicateBlocked": false,
-      "codeStatus": "코드 준비",
-      "groupbuyStatus": "검토전"
-    },
-    {
-      "id": "ig-rehab-jung",
-      "accountName": "정OO 재활코치",
-      "handle": "@rehab_jung",
-      "category": "치료사/교정전문가",
-      "followers": 12000,
-      "avgViews10": 7000,
-      "avgLikes10": 331,
-      "avgComments10": 21,
-      "avgSaves10": 88,
-      "engagementScore": 72,
-      "trustScore": 78,
-      "costEfficiency": 58,
-      "honorSensitivity": 62,
-      "recommendedModel": "추천코드 전환 협상",
-      "status": "human_review",
-      "lastContacted": "2026-05-20",
-      "note": "고정비 성향 있어 검토 필요",
-      "duplicateBlocked": true,
-      "codeStatus": "협상중",
-      "groupbuyStatus": "해당없음"
-    },
-    {
-      "id": "ig-running-lee",
-      "accountName": "러닝회복 이OO",
-      "handle": "@recovery_runner_lee",
-      "category": "러닝",
-      "followers": 31000,
-      "avgViews10": 14500,
-      "avgLikes10": 502,
-      "avgComments10": 27,
-      "avgSaves10": 133,
-      "engagementScore": 79,
-      "trustScore": 75,
-      "costEfficiency": 73,
-      "honorSensitivity": 68,
-      "recommendedModel": "공동구매 후보",
-      "status": "dm_sent",
-      "lastContacted": "2026-05-21",
-      "note": "답장 대기",
-      "duplicateBlocked": true,
-      "codeStatus": "코드 발급완료",
-      "groupbuyStatus": "제안대기"
-    }
+    {"id":"ig-pt-kim","accountName":"김OO 물리치료사","handle":"@pt_kim_lab","category":"치료사/교정전문가","followers":23000,"avgViews10":18000,"avgLikes10":940,"avgComments10":63,"avgSaves10":211,"engagementScore":91,"trustScore":90,"costEfficiency":88,"honorSensitivity":92,"recommendedModel":"추천코드","status":"ready_to_dm","lastContacted":"-","note":"전문성 강함, 명예형 DM 우선","duplicateBlocked":false,"codeStatus":"코드 준비","groupbuyStatus":"해당없음"},
+    {"id":"ig-parent-choi","accountName":"육아자세연구소 최OO","handle":"@mom_posture_lab","category":"육아","followers":17000,"avgViews10":9000,"avgLikes10":420,"avgComments10":38,"avgSaves10":156,"engagementScore":84,"trustScore":81,"costEfficiency":86,"honorSensitivity":70,"recommendedModel":"시딩+코드","status":"ready_to_dm","lastContacted":"-","note":"육아 카테고리 테스트용","duplicateBlocked":false,"codeStatus":"코드 준비","groupbuyStatus":"검토전"},
+    {"id":"ig-rehab-jung","accountName":"정OO 재활코치","handle":"@rehab_jung","category":"치료사/교정전문가","followers":12000,"avgViews10":7000,"avgLikes10":331,"avgComments10":21,"avgSaves10":88,"engagementScore":72,"trustScore":78,"costEfficiency":58,"honorSensitivity":62,"recommendedModel":"추천코드 전환 협상","status":"human_review","lastContacted":"2026-05-20","note":"고정비 성향 있어 검토 필요","duplicateBlocked":true,"codeStatus":"협상중","groupbuyStatus":"해당없음"},
+    {"id":"ig-running-lee","accountName":"러닝회복 이OO","handle":"@recovery_runner_lee","category":"러닝","followers":31000,"avgViews10":14500,"avgLikes10":502,"avgComments10":27,"avgSaves10":133,"engagementScore":79,"trustScore":75,"costEfficiency":73,"honorSensitivity":68,"recommendedModel":"공동구매 후보","status":"dm_sent","lastContacted":"2026-05-21","note":"답장 대기","duplicateBlocked":true,"codeStatus":"코드 발급완료","groupbuyStatus":"제안대기"}
   ],
   "dmQueue": [
-    {
-      "accountName": "김OO 물리치료사",
-      "handle": "@pt_kim_lab",
-      "template": "명예형",
-      "status": "ready_to_send"
-    },
-    {
-      "accountName": "육아자세연구소 최OO",
-      "handle": "@mom_posture_lab",
-      "template": "공감형",
-      "status": "ready_to_send"
-    },
-    {
-      "accountName": "러닝회복 이OO",
-      "handle": "@recovery_runner_lee",
-      "template": "성과형",
-      "status": "waiting_reply"
-    }
+    {"accountName":"김OO 물리치료사","handle":"@pt_kim_lab","template":"명예형","status":"ready_to_send"},
+    {"accountName":"육아자세연구소 최OO","handle":"@mom_posture_lab","template":"공감형","status":"ready_to_send"},
+    {"accountName":"러닝회복 이OO","handle":"@recovery_runner_lee","template":"성과형","status":"waiting_reply"}
   ],
   "dmLogs": [
-    {
-      "accountName": "러닝회복 이OO",
-      "handle": "@recovery_runner_lee",
-      "sentAt": "2026-05-21 14:20",
-      "template": "성과형",
-      "result": "sent",
-      "duplicateBlocked": true
-    },
-    {
-      "accountName": "정OO 재활코치",
-      "handle": "@rehab_jung",
-      "sentAt": "2026-05-20 11:10",
-      "template": "명예형",
-      "result": "blocked",
-      "duplicateBlocked": true
-    }
+    {"accountName":"러닝회복 이OO","handle":"@recovery_runner_lee","sentAt":"2026-05-21 14:20","template":"성과형","result":"sent","duplicateBlocked":true},
+    {"accountName":"정OO 재활코치","handle":"@rehab_jung","sentAt":"2026-05-20 11:10","template":"명예형","result":"blocked","duplicateBlocked":true}
   ],
-  "humanReviewInbox": [
-    {
-      "accountName": "정OO 재활코치",
-      "handle": "@rehab_jung",
-      "reply": "관심은 있는데 단가가 어떻게 될까요?",
-      "recommendedAction": "고정비 대신 추천코드형 제안",
-      "status": "review_needed"
-    },
-    {
-      "accountName": "러닝회복 이OO",
-      "handle": "@recovery_runner_lee",
-      "reply": "공동구매도 가능한가요?",
-      "recommendedAction": "공동구매 제안서 공유",
-      "status": "reply_received"
-    }
+  "followupQueue": [
+    {"accountName":"러닝회복 이OO","handle":"@recovery_runner_lee","nextAction":"공동구매 제안서 전송","due":"오늘","status":"reply_received"},
+    {"accountName":"정OO 재활코치","handle":"@rehab_jung","nextAction":"고정비 대신 코드형 제안","due":"오늘","status":"review_needed"}
   ],
-  "contentPosts": [
-    {
-      "creator": "김OO 물리치료사",
-      "platform": "Instagram Reels",
-      "url": "https://instagram.com/reel/sample-1",
-      "publishedAt": "2026-05-21",
-      "views": 18200,
-      "likes": 931,
-      "comments": 66,
-      "saves": 214,
-      "revenue": "₩1,240,000",
-      "note": "광고 훅 재활용 가능"
-    },
-    {
-      "creator": "육아자세연구소 최OO",
-      "platform": "Instagram Reels",
-      "url": "https://instagram.com/reel/sample-2",
-      "publishedAt": "2026-05-20",
-      "views": 9100,
-      "likes": 418,
-      "comments": 37,
-      "saves": 158,
-      "revenue": "₩320,000",
-      "note": "육아 카테고리 반응 테스트"
-    }
-  ],
-  "operations": {
-    "discovered": [
-      { "name": "러닝연구소 박OO", "desc": "공동구매 적합성 높음, 컨택 전" },
-      { "name": "육아자세연구소 최OO", "desc": "육아 카테고리 테스트 후보" }
+  "creatorHistories": {
+    "ig-pt-kim": [
+      {"date":"2026-05-22 10:00","event":"candidate_added","detail":"치료사 카테고리 A/S급 후보 등록"},
+      {"date":"2026-05-22 14:00","event":"ready_to_dm","detail":"1차 명예형 DM 발송 준비 완료"}
     ],
-    "contacted": [
-      { "name": "김OO 물리치료사", "desc": "명예형 1차 DM 발송 준비 완료" }
-    ],
-    "negotiating": [
-      { "name": "정OO 재활코치", "desc": "고정비 대신 추천코드형 전환 협상중" }
-    ],
-    "scheduled": [
-      { "name": "송OO 자세코치", "desc": "샘플 발송 완료, 촬영 가이드 전달" }
-    ],
-    "tracking": [
-      { "name": "최OO 러닝코치", "desc": "코드 14회 사용, UGC 재활용 후보" }
+    "ig-running-lee": [
+      {"date":"2026-05-21 14:20","event":"dm_sent","detail":"성과형 1차 DM 발송"},
+      {"date":"2026-05-22 11:05","event":"reply_received","detail":"공동구매 가능 여부 문의 답장 수신"}
     ]
   },
+  "humanReviewInbox": [
+    {"accountName":"정OO 재활코치","handle":"@rehab_jung","reply":"관심은 있는데 단가가 어떻게 될까요?","recommendedAction":"고정비 대신 추천코드형 제안","status":"review_needed"},
+    {"accountName":"러닝회복 이OO","handle":"@recovery_runner_lee","reply":"공동구매도 가능한가요?","recommendedAction":"공동구매 제안서 공유","status":"reply_received"}
+  ],
+  "contentPosts": [
+    {"creator":"김OO 물리치료사","platform":"Instagram Reels","url":"https://instagram.com/reel/sample-1","publishedAt":"2026-05-21","views":18200,"likes":931,"comments":66,"saves":214,"revenue":"₩1,240,000","note":"광고 훅 재활용 가능"},
+    {"creator":"육아자세연구소 최OO","platform":"Instagram Reels","url":"https://instagram.com/reel/sample-2","publishedAt":"2026-05-20","views":9100,"likes":418,"comments":37,"saves":158,"revenue":"₩320,000","note":"육아 카테고리 반응 테스트"}
+  ],
+  "operations": {
+    "discovered": [{"name":"러닝연구소 박OO","desc":"공동구매 적합성 높음, 컨택 전"},{"name":"육아자세연구소 최OO","desc":"육아 카테고리 테스트 후보"}],
+    "contacted": [{"name":"김OO 물리치료사","desc":"명예형 1차 DM 발송 준비 완료"}],
+    "negotiating": [{"name":"정OO 재활코치","desc":"고정비 대신 추천코드형 전환 협상중"}],
+    "scheduled": [{"name":"송OO 자세코치","desc":"샘플 발송 완료, 촬영 가이드 전달"}],
+    "tracking": [{"name":"최OO 러닝코치","desc":"코드 14회 사용, UGC 재활용 후보"}]
+  },
   "performance": [
-    { "partner": "김OO 물리치료사", "model": "추천코드", "cost": "0원", "revenue": "₩2,480,000", "type": "Sales Driver" },
-    { "partner": "박OO 러닝연구소", "model": "공동구매", "cost": "₩300,000", "revenue": "₩4,900,000", "type": "Groupbuy Closer" },
-    { "partner": "송OO 자세코치", "model": "시딩", "cost": "제품 1개", "revenue": "직접매출 미미", "type": "UGC Producer" }
+    {"partner":"김OO 물리치료사","model":"추천코드","cost":"0원","revenue":"₩2,480,000","type":"Sales Driver"},
+    {"partner":"박OO 러닝연구소","model":"공동구매","cost":"₩300,000","revenue":"₩4,900,000","type":"Groupbuy Closer"},
+    {"partner":"송OO 자세코치","model":"시딩","cost":"제품 1개","revenue":"직접매출 미미","type":"UGC Producer"}
   ],
   "reuseQueue": [
-    { "name": "송OO 자세코치 릴스", "desc": "광고 훅 추출 가능, 랜딩 후기 블록 전환 가능" },
-    { "name": "박OO 러닝연구소 리뷰", "desc": "공동구매 상세페이지 문구화 필요" },
-    { "name": "김OO 치료사 사용 팁", "desc": "CRM 후속 문자, FAQ 전환 후보" }
+    {"name":"송OO 자세코치 릴스","desc":"광고 훅 추출 가능, 랜딩 후기 블록 전환 가능"},
+    {"name":"박OO 러닝연구소 리뷰","desc":"공동구매 상세페이지 문구화 필요"},
+    {"name":"김OO 치료사 사용 팁","desc":"CRM 후속 문자, FAQ 전환 후보"}
   ],
   "outreachTemplate": {
-    "honor": "안녕하세요 {name}님,\n\n최근 {recent_content_reference} 콘텐츠를 보면서 이 분야에서 신뢰를 만들 수 있는 분이라는 인상을 받았습니다.\n\n저희는 단순 협찬보다 실제로 의미 있는 파트너를 찾고 있습니다. 초기 파트너로 함께하실 분께는 단순 노출이 아니라 {honor_frame} 같은 상징성 있는 포지션을 드리는 방향으로 보고 있어요.\n\n관심 있으시면 짧게 소개드리고 싶습니다.",
-    "performance": "안녕하세요 {name}님,\n\n최근 {recent_content_reference}를 보고 연락드렸습니다. {reason_fit}\n\n저희는 {product} 관련 협업을 검토 중인데, 단발성 협찬보다는 추천코드/성과형 구조처럼 서로 부담이 적고 길게 갈 수 있는 방식에 더 관심이 있습니다.\n\n혹시 이런 방향의 협업도 열려 있으실까요?"
+    "honor":"안녕하세요 {name}님,\n\n최근 {recent_content_reference} 콘텐츠를 보면서 이 분야에서 신뢰를 만들 수 있는 분이라는 인상을 받았습니다.\n\n저희는 단순 협찬보다 실제로 의미 있는 파트너를 찾고 있습니다. 초기 파트너로 함께하실 분께는 단순 노출이 아니라 {honor_frame} 같은 상징성 있는 포지션을 드리는 방향으로 보고 있어요.\n\n관심 있으시면 짧게 소개드리고 싶습니다.",
+    "performance":"안녕하세요 {name}님,\n\n최근 {recent_content_reference}를 보고 연락드렸습니다. {reason_fit}\n\n저희는 {product} 관련 협업을 검토 중인데, 단발성 협찬보다는 추천코드/성과형 구조처럼 서로 부담이 적고 길게 갈 수 있는 방식에 더 관심이 있습니다.\n\n혹시 이런 방향의 협업도 열려 있으실까요?"
   }
 }
