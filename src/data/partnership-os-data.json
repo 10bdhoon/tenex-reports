@@ -122,7 +122,10 @@
       "recommendedModel": "추천코드",
       "status": "ready_to_dm",
       "lastContacted": "-",
-      "note": "전문성 강함, 명예형 DM 우선"
+      "note": "전문성 강함, 명예형 DM 우선",
+      "duplicateBlocked": false,
+      "codeStatus": "코드 준비",
+      "groupbuyStatus": "해당없음"
     },
     {
       "id": "ig-parent-choi",
@@ -141,7 +144,10 @@
       "recommendedModel": "시딩+코드",
       "status": "ready_to_dm",
       "lastContacted": "-",
-      "note": "육아 카테고리 테스트용"
+      "note": "육아 카테고리 테스트용",
+      "duplicateBlocked": false,
+      "codeStatus": "코드 준비",
+      "groupbuyStatus": "검토전"
     },
     {
       "id": "ig-rehab-jung",
@@ -160,7 +166,10 @@
       "recommendedModel": "추천코드 전환 협상",
       "status": "human_review",
       "lastContacted": "2026-05-20",
-      "note": "고정비 성향 있어 검토 필요"
+      "note": "고정비 성향 있어 검토 필요",
+      "duplicateBlocked": true,
+      "codeStatus": "협상중",
+      "groupbuyStatus": "해당없음"
     },
     {
       "id": "ig-running-lee",
@@ -179,7 +188,10 @@
       "recommendedModel": "공동구매 후보",
       "status": "dm_sent",
       "lastContacted": "2026-05-21",
-      "note": "답장 대기"
+      "note": "답장 대기",
+      "duplicateBlocked": true,
+      "codeStatus": "코드 발급완료",
+      "groupbuyStatus": "제안대기"
     }
   ],
   "dmQueue": [
@@ -200,6 +212,24 @@
       "handle": "@recovery_runner_lee",
       "template": "성과형",
       "status": "waiting_reply"
+    }
+  ],
+  "dmLogs": [
+    {
+      "accountName": "러닝회복 이OO",
+      "handle": "@recovery_runner_lee",
+      "sentAt": "2026-05-21 14:20",
+      "template": "성과형",
+      "result": "sent",
+      "duplicateBlocked": true
+    },
+    {
+      "accountName": "정OO 재활코치",
+      "handle": "@rehab_jung",
+      "sentAt": "2026-05-20 11:10",
+      "template": "명예형",
+      "result": "blocked",
+      "duplicateBlocked": true
     }
   ],
   "humanReviewInbox": [
