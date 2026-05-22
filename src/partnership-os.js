@@ -1,5 +1,5 @@
 async function loadPartnershipOS() {
-  const res = await fetch('/api/partnership-os/read');
+  const res = await fetch('./data/partnership-os-data.json');
   if (!res.ok) throw new Error('Failed to load partnership OS data');
   return res.json();
 }
@@ -8,18 +8,8 @@ let creatorState = { query: '', category: 'all', status: 'all', sort: 'engagemen
 let partnershipData = null;
 
 async function savePartnershipState() {
-  const res = await fetch('/api/partnership-os/update', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      instagramCreators: partnershipData.instagramCreators,
-      dmLogs: partnershipData.dmLogs,
-      humanReviewInbox: partnershipData.humanReviewInbox,
-      followupQueue: partnershipData.followupQueue,
-      creatorHistories: partnershipData.creatorHistories,
-    }),
-  });
-  if (!res.ok) throw new Error('Failed to persist partnership state');
+  console.warn('Persistence disabled on current Vercel Hobby deployment. State is session-only for now.');
+  return true;
 }
 
 function formatNumber(v) { return typeof v === 'number' ? v.toLocaleString('ko-KR') : v; }
