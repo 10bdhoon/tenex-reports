@@ -21,9 +21,10 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   }
 
   try {
-    const [tasksRaw, agentsRaw] = await Promise.all([
+    const [tasksRaw, agentsRaw, partnershipRaw] = await Promise.all([
       supaFetch("tasks", "select=*&order=sort_order.asc"),
       supaFetch("agents", "select=*"),
+      supaFetch("tasks", "select=note&id=eq.partnership-os-state"),
     ]);
 
     const tasks = (tasksRaw || []).map((t: Record<string, unknown>) => ({
@@ -51,7 +52,11 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       tasks: a.tasks,
     }));
 
-    return res.json({ updated: new Date().toISOString(), tasks, agents });
+    const partnershipState = Array.isArray(partnershipRaw) && partnershipRaw[0]?.note
+      ? JSON.parse(String(partnershipRaw[0].note))
+      : null;
+
+    return res.json({ updated: new Date().toISOString(), tasks, agents, partnershipState });
   } catch (err) {
     const message = err instanceof Error ? err.message : String(err);
     console.error("Supabase read failed:", message);

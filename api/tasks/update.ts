@@ -66,7 +66,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     return res.status(401).json({ error: "Invalid token" });
   }
 
-  const { tasks, agents } = req.body || {};
+  const { tasks, agents, partnershipState } = req.body || {};
 
   try {
     // tasks 업데이트 (비어있으면 스킵 — 전체 삭제 방지)
@@ -90,6 +90,25 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       await supaPost("tasks", dbTasks);
       const taskIds = dbTasks.map((t: Record<string, unknown>) => String(t.id));
       await supaDelete("tasks", taskIds);
+    }
+
+    if (partnershipState && typeof partnershipState === "object") {
+      const payload = [{
+        id: "partnership-os-state",
+        title: "partnership-os-state",
+        cat: "I",
+        urgency: "green",
+        importance: "중",
+        status: "system",
+        assignee: "karina",
+        due_date: null,
+        note: JSON.stringify(partnershipState),
+        checklist: [],
+        sort_order: 999999,
+        priority_order: 999999,
+        updated_at: new Date().toISOString(),
+      }];
+      await supaPost("tasks", payload);
     }
 
     if (agents && Array.isArray(agents)) {
