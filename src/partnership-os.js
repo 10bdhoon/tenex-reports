@@ -1,14 +1,24 @@
 async function loadPartnershipOS() {
-  const res = await fetch('./data/partnership-os-data.json');
+  const res = await fetch('/api/tasks/read');
   if (!res.ok) throw new Error('Failed to load partnership OS data');
-  return res.json();
+  const payload = await res.json();
+  if (payload?.partnershipState) return payload.partnershipState;
+  const fallback = await fetch('./data/partnership-os-data.json');
+  if (!fallback.ok) throw new Error('Failed to load fallback partnership OS data');
+  return fallback.json();
 }
 
 let creatorState = { query: '', category: 'all', status: 'all', sort: 'engagement_desc', data: [] };
 let partnershipData = null;
 
 async function savePartnershipState() {
-  console.warn('Persistence disabled on current Vercel Hobby deployment. State is session-only for now.');
+  const res = await fetch('/api/tasks/update', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ partnershipState: partnershipData }),
+    credentials: 'include',
+  });
+  if (!res.ok) throw new Error('Failed to persist partnership state');
   return true;
 }
 
@@ -90,11 +100,7 @@ function rerenderPersistedSections() {
 }
 function appendHistory(creatorId, event, detail) {
   if (!partnershipData.creatorHistories[creatorId]) partnershipData.creatorHistories[creatorId] = [];
-  partnershipData.creatorHistories[creatorId].unshift({
-    date: new Date().toLocaleString('sv-SE').replace('T', ' '),
-    event,
-    detail,
-  });
+  partnershipData.creatorHistories[creatorId].unshift({ date: new Date().toLocaleString('sv-SE').replace('T', ' '), event, detail });
 }
 function bindControls(data) {
   const campaignSelect = document.getElementById('campaignFilter');
@@ -134,7 +140,7 @@ function bindControls(data) {
     creator.duplicateBlocked = true;
     partnershipData.dmLogs.unshift({ accountName: target.accountName, handle: target.handle, sentAt: new Date().toLocaleString('sv-SE').replace('T', ' '), template: target.template, result: 'sent', duplicateBlocked: true });
     appendHistory(creator.id, 'dm_sent', `${target.template} 1차 DM 발송`);
-    await savePartnershipState();
+    try { await savePartnershipState(); } catch (err) { console.error(err); }
     rerenderPersistedSections();
     renderCreatorDetail(creator);
   });
@@ -143,7 +149,7 @@ function bindControls(data) {
     if (!btn) return;
     const idx = Number(btn.dataset.index);
     partnershipData.humanReviewInbox[idx].status = 'review_completed';
-    await savePartnershipState();
+    try { await savePartnershipState(); } catch (err) { console.error(err); }
     rerenderPersistedSections();
   });
   document.getElementById('followupBody').addEventListener('click', async (e) => {
@@ -157,7 +163,7 @@ function bindControls(data) {
       creator.status = 'negotiating';
       appendHistory(creator.id, 'next_step', item.nextAction);
     }
-    await savePartnershipState();
+    try { await savePartnershipState(); } catch (err) { console.error(err); }
     rerenderPersistedSections();
     if (creator) renderCreatorDetail(creator);
   });
