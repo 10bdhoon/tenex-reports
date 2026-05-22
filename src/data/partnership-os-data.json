@@ -202,6 +202,48 @@
       "status": "waiting_reply"
     }
   ],
+  "humanReviewInbox": [
+    {
+      "accountName": "정OO 재활코치",
+      "handle": "@rehab_jung",
+      "reply": "관심은 있는데 단가가 어떻게 될까요?",
+      "recommendedAction": "고정비 대신 추천코드형 제안",
+      "status": "review_needed"
+    },
+    {
+      "accountName": "러닝회복 이OO",
+      "handle": "@recovery_runner_lee",
+      "reply": "공동구매도 가능한가요?",
+      "recommendedAction": "공동구매 제안서 공유",
+      "status": "reply_received"
+    }
+  ],
+  "contentPosts": [
+    {
+      "creator": "김OO 물리치료사",
+      "platform": "Instagram Reels",
+      "url": "https://instagram.com/reel/sample-1",
+      "publishedAt": "2026-05-21",
+      "views": 18200,
+      "likes": 931,
+      "comments": 66,
+      "saves": 214,
+      "revenue": "₩1,240,000",
+      "note": "광고 훅 재활용 가능"
+    },
+    {
+      "creator": "육아자세연구소 최OO",
+      "platform": "Instagram Reels",
+      "url": "https://instagram.com/reel/sample-2",
+      "publishedAt": "2026-05-20",
+      "views": 9100,
+      "likes": 418,
+      "comments": 37,
+      "saves": 158,
+      "revenue": "₩320,000",
+      "note": "육아 카테고리 반응 테스트"
+    }
+  ],
   "operations": {
     "discovered": [
       { "name": "러닝연구소 박OO", "desc": "공동구매 적합성 높음, 컨택 전" },

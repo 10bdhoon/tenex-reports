@@ -75,6 +75,34 @@ function creatorRows(rows) {
   `).join('');
 }
 
+function humanReviewRows(rows) {
+  return rows.map(r => `
+    <tr>
+      <td>${r.accountName}<div class="small">${r.handle}</div></td>
+      <td>${r.reply}</td>
+      <td>${r.recommendedAction}</td>
+      <td>${r.status}</td>
+      <td><button class="review-btn">검토 완료</button></td>
+    </tr>
+  `).join('');
+}
+
+function contentPostRows(rows) {
+  return rows.map(r => `
+    <tr>
+      <td>${r.creator}</td>
+      <td>${r.platform}</td>
+      <td><a href="${r.url}" target="_blank">링크 보기</a></td>
+      <td>${r.publishedAt}</td>
+      <td>${formatNumber(r.views)}</td>
+      <td>${formatNumber(r.comments)}</td>
+      <td>${formatNumber(r.saves)}</td>
+      <td>${r.revenue}</td>
+      <td>${r.note}</td>
+    </tr>
+  `).join('');
+}
+
 function fillTemplate(template, candidate) {
   return template
     .replaceAll('{name}', candidate.name || candidate.accountName)
@@ -99,9 +127,7 @@ function renderCandidates(data, campaignId = 'all', grade = 'all') {
   document.getElementById('candidateCount').textContent = `${list.length}명`;
   document.getElementById('candidateList').innerHTML = list.map(candidateCard).join('');
   const first = list[0] || data.candidates[0];
-  if (first) {
-    document.getElementById('outreachTemplateBox').innerHTML = fillTemplate(data.outreachTemplate.honor, first).replaceAll('\n', '<br/>');
-  }
+  if (first) document.getElementById('outreachTemplateBox').innerHTML = fillTemplate(data.outreachTemplate.honor, first).replaceAll('\n', '<br/>');
 }
 
 function renderOperations(ops) {
@@ -141,6 +167,13 @@ function bindControls(data) {
     btn.disabled = true;
     btn.style.opacity = '.6';
   });
+  document.getElementById('reviewInboxBody').addEventListener('click', (e) => {
+    const btn = e.target.closest('.review-btn');
+    if (!btn) return;
+    btn.textContent = '검토 완료';
+    btn.disabled = true;
+    btn.style.opacity = '.6';
+  });
 }
 
 loadPartnershipOS()
@@ -150,6 +183,8 @@ loadPartnershipOS()
     renderOperations(data.operations);
     renderInstagramDB(data.instagramCreators);
     renderDmQueue(data.dmQueue);
+    document.getElementById('reviewInboxBody').innerHTML = humanReviewRows(data.humanReviewInbox);
+    document.getElementById('contentPostBody').innerHTML = contentPostRows(data.contentPosts);
     document.getElementById('performanceBody').innerHTML = performanceRows(data.performance);
     document.getElementById('reuseQueue').innerHTML = reuseRows(data.reuseQueue);
     bindControls(data);
