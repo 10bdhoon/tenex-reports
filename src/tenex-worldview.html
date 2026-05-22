@@ -3,87 +3,156 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>TENEX 세계관 | 발표자료형 최종 버전</title>
+<title>TENEX 세계관 | 인포그래픽형 버전</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#060d18;color:#eef3fa;line-height:1.55}
+:root{
+  --bg:#060d18;
+  --panel:#0d1830;
+  --card:#0b1526;
+  --line:rgba(255,255,255,.08);
+  --text:#eef3fa;
+  --sub:#c7d4e5;
+  --blue:#8fc5ff;
+  --blue-bg:#143055;
+  --green:#5be49b;
+  --green-bg:#10281f;
+  --orange:#ffb86b;
+  --orange-bg:#2a1d10;
+  --purple:#c097ff;
+  --purple-bg:#211633;
+  --red:#ff9f9f;
+  --red-bg:#211416;
+}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--bg);color:var(--text);line-height:1.55}
 .wrapper{max-width:1280px;margin:0 auto;padding:20px}
-.slide{position:relative;background:linear-gradient(180deg,#0d1830 0%,#08111f 100%);border:1px solid rgba(255,255,255,.08);border-radius:30px;padding:32px;margin-bottom:22px;box-shadow:0 24px 60px rgba(0,0,0,.28);overflow:hidden}
+.slide{position:relative;background:linear-gradient(180deg,var(--panel) 0%,#08111f 100%);border:1px solid var(--line);border-radius:30px;padding:32px;margin-bottom:22px;box-shadow:0 24px 60px rgba(0,0,0,.28);overflow:hidden}
 .slide::after{content:"";position:absolute;right:-60px;top:-60px;width:220px;height:220px;background:radial-gradient(circle,rgba(143,197,255,.12) 0%,rgba(143,197,255,0) 70%);pointer-events:none}
-.eyebrow{font-size:12px;font-weight:900;letter-spacing:2px;color:#8fc5ff;text-transform:uppercase;margin-bottom:12px}
-.hero-title{font-size:46px;line-height:1.1;font-weight:900;color:#fff;max-width:1020px;margin-bottom:14px}
-.hero-sub{font-size:18px;color:#c7d4e5;max-width:980px}
-.hero-chip{display:inline-flex;align-items:center;gap:8px;margin-top:18px;padding:12px 16px;border-radius:999px;background:#143055;border:1px solid rgba(143,197,255,.22);color:#fff;font-weight:800;font-size:14px}
+.eyebrow{font-size:12px;font-weight:900;letter-spacing:2px;color:var(--blue);text-transform:uppercase;margin-bottom:12px}
+.hero-title{font-size:46px;line-height:1.08;font-weight:900;color:#fff;max-width:1060px;margin-bottom:14px}
+.hero-sub{font-size:18px;color:var(--sub);max-width:980px}
+.hero-chip{display:inline-flex;align-items:center;gap:8px;margin-top:18px;padding:12px 16px;border-radius:999px;background:var(--blue-bg);border:1px solid rgba(143,197,255,.22);color:#fff;font-weight:800;font-size:14px}
 .section-title{font-size:34px;font-weight:900;color:#fff;margin-bottom:8px}
 .section-sub{font-size:15px;color:#9db2c9;margin-bottom:20px}
-.big-quote{font-size:30px;font-weight:900;line-height:1.4;color:#fff;max-width:1040px}
+.big-quote{font-size:30px;font-weight:900;line-height:1.38;color:#fff;max-width:1040px}
 .row{display:grid;gap:16px}
 .cols-2{grid-template-columns:repeat(2,minmax(0,1fr))}
 .cols-3{grid-template-columns:repeat(3,minmax(0,1fr))}
 .cols-4{grid-template-columns:repeat(4,minmax(0,1fr))}
-.card{background:#0b1526;border:1px solid rgba(255,255,255,.08);border-radius:22px;padding:20px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:22px;padding:20px}
 .card h3{font-size:20px;color:#fff;margin-bottom:10px}
 .card p,.card li{font-size:14px;color:#d1dbea}
 .card ul{padding-left:18px;margin-top:10px}
 .card li{margin-bottom:6px}
 .icon{font-size:24px;display:inline-block;margin-bottom:10px}
 .center{text-align:center}
+.summary-grid{display:grid;grid-template-columns:1.1fr 1fr 1fr;gap:14px}
+.summary-box{border-radius:24px;padding:22px;border:1px solid var(--line);position:relative}
+.summary-box h3{font-size:22px;color:#fff;margin-bottom:10px}
+.summary-box p,.summary-box li{font-size:14px;color:#d1dbea}
+.summary-box ul{padding-left:18px;margin-top:10px}
+.summary-core{background:linear-gradient(135deg,#12305f,#0d1b34)}
+.summary-problem{background:#0b1526}
+.summary-solution{background:#0b1526}
 .flow-line{display:grid;grid-template-columns:1.1fr 70px 1.1fr 70px 1.1fr;gap:14px;align-items:stretch}
-.flow-box{background:#0b1526;border:1px solid rgba(255,255,255,.08);border-radius:22px;padding:20px;position:relative}
+.flow-box{background:var(--card);border:1px solid var(--line);border-radius:22px;padding:20px;position:relative}
 .flow-box h4{font-size:20px;color:#fff;margin-bottom:10px}
 .flow-box p,.flow-box li{font-size:14px;color:#d1dbea}
 .flow-box ul{padding-left:18px;margin-top:10px}
 .arrow-wrap{display:flex;align-items:center;justify-content:center}
-.arrow{width:56px;height:56px;border-radius:50%;background:#143055;border:1px solid rgba(143,197,255,.2);display:flex;align-items:center;justify-content:center;color:#8fc5ff;font-size:28px;font-weight:900}
+.arrow{width:56px;height:56px;border-radius:50%;background:var(--blue-bg);border:1px solid rgba(143,197,255,.2);display:flex;align-items:center;justify-content:center;color:var(--blue);font-size:28px;font-weight:900}
 .stage-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}
-.stage{background:#0b1526;border:1px solid rgba(143,197,255,.18);border-radius:22px;padding:20px;position:relative;overflow:hidden}
-.stage::before{content:"";position:absolute;left:0;top:0;bottom:0;width:5px;background:#8fc5ff}
-.stage .num{font-size:12px;font-weight:900;color:#8fc5ff;letter-spacing:1px;text-transform:uppercase;margin-bottom:10px}
+.stage{border-radius:22px;padding:20px;position:relative;overflow:hidden;border:1px solid}
+.stage.blue{background:#0d1d33;border-color:rgba(143,197,255,.2)}
+.stage.green{background:var(--green-bg);border-color:rgba(91,228,155,.2)}
+.stage.orange{background:var(--orange-bg);border-color:rgba(255,184,107,.2)}
+.stage.purple{background:var(--purple-bg);border-color:rgba(192,151,255,.2)}
+.stage::before{content:"";position:absolute;left:0;top:0;bottom:0;width:5px}
+.stage.blue::before{background:var(--blue)}
+.stage.green::before{background:var(--green)}
+.stage.orange::before{background:var(--orange)}
+.stage.purple::before{background:var(--purple)}
+.stage .num{font-size:12px;font-weight:900;letter-spacing:1px;text-transform:uppercase;margin-bottom:10px}
+.stage.blue .num{color:var(--blue)}
+.stage.green .num{color:var(--green)}
+.stage.orange .num{color:var(--orange)}
+.stage.purple .num{color:var(--purple)}
 .stage h4{font-size:20px;color:#fff;margin-bottom:10px}
 .stage p{font-size:14px;color:#d1dbea}
-.role-visual{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:12px;align-items:start}
-.role-node{background:#0b1526;border:1px solid rgba(255,255,255,.08);border-radius:20px;padding:18px;min-height:205px;position:relative}
-.role-node .tag{display:inline-block;padding:5px 10px;border-radius:999px;background:#153055;color:#8fc5ff;font-size:11px;font-weight:900;margin-bottom:10px}
+.role-visual{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:12px}
+.role-node{border-radius:20px;padding:18px;min-height:205px;position:relative;border:1px solid var(--line)}
 .role-node h4{font-size:18px;color:#fff;margin-bottom:10px}
 .role-node p{font-size:13px;color:#d1dbea}
-.role-arrow{display:flex;align-items:center;justify-content:center;color:#8fc5ff;font-size:30px;font-weight:900}
+.role-node .tag{display:inline-block;padding:5px 10px;border-radius:999px;font-size:11px;font-weight:900;margin-bottom:10px}
+.role-blue{background:#0d1d33}.role-blue .tag{background:var(--blue-bg);color:var(--blue)}
+.role-green{background:var(--green-bg)}.role-green .tag{background:#163a2b;color:var(--green)}
+.role-orange{background:var(--orange-bg)}.role-orange .tag{background:#4a2b15;color:var(--orange)}
+.role-purple{background:var(--purple-bg)}.role-purple .tag{background:#38204f;color:var(--purple)}
 .problem-deck{display:grid;gap:14px}
-.problem-card{background:#0b1526;border:1px solid rgba(255,255,255,.08);border-radius:22px;padding:20px}
+.problem-card{background:var(--card);border:1px solid var(--line);border-radius:22px;padding:20px}
 .problem-title{font-size:20px;color:#fff;margin-bottom:14px}
 .problem-steps{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
-.small-step{background:#09111d;border:1px solid rgba(255,255,255,.08);border-radius:16px;padding:14px;position:relative}
-.small-step::after{content:"→";position:absolute;right:-12px;top:50%;transform:translateY(-50%);color:#8fc5ff;font-size:22px;font-weight:900}
+.small-step{background:#09111d;border:1px solid var(--line);border-radius:16px;padding:14px;position:relative}
+.small-step::after{content:"→";position:absolute;right:-12px;top:50%;transform:translateY(-50%);color:var(--blue);font-size:22px;font-weight:900}
 .small-step:last-child::after{display:none}
-.small-step .label{font-size:11px;font-weight:900;letter-spacing:1px;text-transform:uppercase;color:#8fc5ff;margin-bottom:8px}
+.small-step .label{font-size:11px;font-weight:900;letter-spacing:1px;text-transform:uppercase;color:var(--blue);margin-bottom:8px}
 .small-step h5{font-size:15px;color:#fff;margin-bottom:6px}
 .small-step p{font-size:12px;color:#d1dbea}
 .loop-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
-.loop-card{background:#0b1526;border:1px solid rgba(143,197,255,.16);border-radius:18px;padding:18px;position:relative}
-.loop-card::before{content:"↺";position:absolute;right:14px;top:12px;color:#8fc5ff;font-size:18px;font-weight:900;opacity:.8}
-.loop-order{font-size:12px;font-weight:900;color:#8fc5ff;margin-bottom:8px}
+.loop-card{background:var(--card);border:1px solid rgba(143,197,255,.16);border-radius:18px;padding:18px;position:relative}
+.loop-card::before{content:"↺";position:absolute;right:14px;top:12px;color:var(--blue);font-size:18px;font-weight:900;opacity:.8}
+.loop-order{font-size:12px;font-weight:900;color:var(--blue);margin-bottom:8px}
 .loop-card h4{font-size:18px;color:#fff;margin-bottom:8px}
 .loop-card p{font-size:13px;color:#d1dbea}
 .engine-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
-.engine{background:#0b1526;border:1px solid rgba(255,255,255,.08);border-radius:20px;padding:18px;min-height:220px}
-.engine-num{font-size:12px;font-weight:900;color:#8fc5ff;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px}
+.engine{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:18px;min-height:220px;position:relative}
+.engine::after{content:"";position:absolute;right:0;top:0;bottom:0;width:4px;background:var(--blue);border-radius:0 20px 20px 0;opacity:.7}
+.engine-num{font-size:12px;font-weight:900;color:var(--blue);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px}
 .engine h4{font-size:18px;color:#fff;margin-bottom:10px}
 .engine p,.engine li{font-size:13px;color:#d1dbea}
 .engine ul{padding-left:18px}
 .remember-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
-.warning{background:#211416;border:1px solid rgba(255,124,124,.2)}
-.warning h3{color:#ff9f9f}
+.warning{background:var(--red-bg);border:1px solid rgba(255,124,124,.2)}
+.warning h3{color:var(--red)}
 .footer{padding:10px 4px 0;color:#7e90a7;font-size:12px;text-align:center}
-@media (max-width:1180px){.role-visual{grid-template-columns:repeat(3,minmax(0,1fr))}.engine-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.stage-grid,.problem-steps,.loop-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.flow-line{grid-template-columns:1fr}.arrow-wrap{padding:4px 0}.small-step::after{display:none}}
-@media (max-width:760px){.wrapper{padding:14px}.hero-title{font-size:34px}.section-title{font-size:28px}.cols-2,.cols-3,.cols-4,.role-visual,.engine-grid,.stage-grid,.problem-steps,.loop-grid,.remember-grid{grid-template-columns:1fr}.big-quote{font-size:24px}}
+@media (max-width:1180px){.summary-grid,.role-visual{grid-template-columns:repeat(3,minmax(0,1fr))}.engine-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.stage-grid,.problem-steps,.loop-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.flow-line{grid-template-columns:1fr}.arrow-wrap{padding:4px 0}.small-step::after{display:none}}
+@media (max-width:760px){.wrapper{padding:14px}.hero-title{font-size:34px}.section-title{font-size:28px}.cols-2,.cols-3,.cols-4,.summary-grid,.role-visual,.engine-grid,.stage-grid,.problem-steps,.loop-grid,.remember-grid{grid-template-columns:1fr}.big-quote{font-size:24px}}
 </style>
 </head>
 <body>
   <div class="wrapper">
     <section class="slide">
-      <div class="eyebrow">TENEX WORLDVIEW · PRESENTATION VERSION</div>
+      <div class="eyebrow">TENEX WORLDVIEW · INFOGRAPHIC VERSION</div>
       <div class="hero-title">TENEX는 안마기 회사가 아니라,<br>병원 밖에서 사람들이 스스로 회복하는 시스템을 만드는 회사다.</div>
       <div class="hero-sub">우리는 제품 하나를 파는 게 아니라, 운동을 병렬로 유지하면서 WS-200 → ES-808 → 교정 → 고정으로 이어지는 회복 루틴을 제품, 콘텐츠, CRM, 마케팅 생태계로 연결한다.</div>
       <div class="hero-chip"><span>🎯</span><span>핵심 한 줄: 우리는 시원함이 아니라 반복 가능한 회복을 판다.</span></div>
+    </section>
+
+    <section class="slide">
+      <div class="section-title">0. 한 장 요약 슬라이드</div>
+      <div class="section-sub">처음 보는 사람도 여기 한 장만 보면 TENEX가 뭔지 이해하게 만드는 슬라이드다.</div>
+      <div class="summary-grid">
+        <div class="summary-box summary-core">
+          <h3>우리는 누구냐</h3>
+          <p><strong>TENEX는 병원 밖 회복 시스템 회사</strong>다. 제품이 아니라 루틴을 판다.</p>
+        </div>
+        <div class="summary-box summary-problem">
+          <h3>어떤 문제를 푸냐</h3>
+          <ul>
+            <li>목/어깨/손목/무릎 통증</li>
+            <li>병원 다녀와도 반복되는 문제</li>
+            <li>집에서 뭘 해야 할지 모르는 상태</li>
+          </ul>
+        </div>
+        <div class="summary-box summary-solution">
+          <h3>어떻게 푸냐</h3>
+          <ul>
+            <li>운동 병렬 유지</li>
+            <li>WS-200 → ES-808 회복</li>
+            <li>CS-25 교정 + 보호대/크림 유지</li>
+          </ul>
+        </div>
+      </div>
     </section>
 
     <section class="slide">
@@ -124,31 +193,31 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 
     <section class="slide">
       <div class="section-title">2. TENEX의 회복 공식</div>
-      <div class="section-sub">표면적으로는 4단계지만, 실제 운영 핵심은 “운동은 항상 병렬”, “회복은 WS-200 → ES-808”이다.</div>
+      <div class="section-sub">색 코드를 붙였다. 파랑=운동, 초록=회복 1차, 주황=회복 2차, 보라=교정/고정.</div>
       <div class="stage-grid">
-        <div class="stage"><div class="num">01 · 병렬</div><h4>🏃 운동</h4><p>운동은 맨 앞에 한 번 하고 끝나는 게 아니라 회복/교정 내내 병렬로 간다.</p></div>
-        <div class="stage"><div class="num">02 · 회복 1차</div><h4>🔥 WS-200</h4><p>넓고 얕게 몸을 열어준다. 찜질, 순환, 이완의 입구 단계다.</p></div>
-        <div class="stage"><div class="num">03 · 회복 2차</div><h4>⚡ ES-808</h4><p>포인트를 깊게 자극한다. 병원처럼 넓게 푼 뒤 타겟팅한다.</p></div>
-        <div class="stage"><div class="num">04 · 안정화</div><h4>🧭 교정·고정</h4><p>CS-25와 보호대, 습관 교정으로 다시 무너지지 않게 만든다.</p></div>
+        <div class="stage blue"><div class="num">01 · 병렬</div><h4>🏃 운동</h4><p>운동은 맨 앞에 한 번 하고 끝나는 게 아니라 회복/교정 내내 병렬로 간다.</p></div>
+        <div class="stage green"><div class="num">02 · 회복 1차</div><h4>🔥 WS-200</h4><p>넓고 얕게 몸을 열어준다. 찜질, 순환, 이완의 입구 단계다.</p></div>
+        <div class="stage orange"><div class="num">03 · 회복 2차</div><h4>⚡ ES-808</h4><p>포인트를 깊게 자극한다. 병원처럼 넓게 푼 뒤 타겟팅한다.</p></div>
+        <div class="stage purple"><div class="num">04 · 안정화</div><h4>🧭 교정·고정</h4><p>CS-25와 보호대, 습관 교정으로 다시 무너지지 않게 만든다.</p></div>
       </div>
     </section>
 
     <section class="slide">
       <div class="section-title">3. 제품 역할 맵</div>
-      <div class="section-sub">이걸 섞어 말하면 안 된다. 제품마다 역할이 명확해야 팀이 같은 언어로 움직인다.</div>
+      <div class="section-sub">색 코드와 역할을 붙여서 더 직관적으로 만들었다.</div>
       <div class="role-visual">
-        <div class="role-node"><div class="tag">회복 입구</div><div class="icon">🔥</div><h4>WS-200</h4><p>몸을 넓고 부드럽게 열어주는 회복 1차 도구.</p></div>
-        <div class="role-node"><div class="tag">회복 핵심</div><div class="icon">⚡</div><h4>ES-808</h4><p>문제 부위를 포인트로 깊게 공략하는 회복의 코어.</p></div>
-        <div class="role-node"><div class="tag">ES-808 전용</div><div class="icon">💧</div><h4>부스터젤</h4><p>ES-808 사용 순간의 체감과 효율을 올리는 전용 증폭재.</p></div>
-        <div class="role-node"><div class="tag">비사용 시간 유지</div><div class="icon">🧴</div><h4>통증크림</h4><p>기기를 쓰지 않는 텀에서 회복감을 이어주는 유지재.</p></div>
-        <div class="role-node"><div class="tag">교정</div><div class="icon">🧭</div><h4>CS-25</h4><p>정렬과 자세 문제를 잡는 시그니처 교정 도구.</p></div>
-        <div class="role-node"><div class="tag">고정/지지</div><div class="icon">🛡️</div><h4>보호대</h4><p>회복 후 다시 무너지지 않게 지지해주는 안정화 도구.</p></div>
+        <div class="role-node role-green"><div class="tag">회복 입구</div><div class="icon">🔥</div><h4>WS-200</h4><p>몸을 넓고 부드럽게 열어주는 회복 1차 도구.</p></div>
+        <div class="role-node role-orange"><div class="tag">회복 핵심</div><div class="icon">⚡</div><h4>ES-808</h4><p>문제 부위를 포인트로 깊게 공략하는 회복의 코어.</p></div>
+        <div class="role-node role-orange"><div class="tag">ES-808 전용</div><div class="icon">💧</div><h4>부스터젤</h4><p>ES-808 사용 순간의 체감과 효율을 올리는 전용 증폭재.</p></div>
+        <div class="role-node role-blue"><div class="tag">비사용 시간 유지</div><div class="icon">🧴</div><h4>통증크림</h4><p>기기를 쓰지 않는 텀에서 회복감을 이어주는 유지재.</p></div>
+        <div class="role-node role-purple"><div class="tag">교정</div><div class="icon">🧭</div><h4>CS-25</h4><p>정렬과 자세 문제를 잡는 시그니처 교정 도구.</p></div>
+        <div class="role-node role-purple"><div class="tag">고정/지지</div><div class="icon">🛡️</div><h4>보호대</h4><p>회복 후 다시 무너지지 않게 지지해주는 안정화 도구.</p></div>
       </div>
     </section>
 
     <section class="slide">
       <div class="section-title">4. 고객 문제 해결 플로우</div>
-      <div class="section-sub">제품명이 아니라 문제 해결 순서로 이해해야 한다.</div>
+      <div class="section-sub">문제 해결 과정을 화살표로 더 노골적으로 보이게 만들었다.</div>
       <div class="problem-deck">
         <div class="problem-card">
           <div class="problem-title">예시 A. 목/어깨가 늘 뭉치고 목이 잘 안 돌아가는 직장인</div>
@@ -173,7 +242,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 
     <section class="slide">
       <div class="section-title">5. ES-808 반복 사용 루프</div>
-      <div class="section-sub">기기 단발 브랜드가 되지 않으려면, 고객이 TENEX 루틴 자체를 계속 따라가게 만들어야 한다.</div>
+      <div class="section-sub">반복 구조가 보이도록 루프 성격을 더 강조했다.</div>
       <div class="loop-grid">
         <div class="loop-card"><div class="loop-order">Step 1</div><h4>✨ 체감</h4><p>첫 사용에서 바로 “시원하다”는 체감을 만든다.</p></div>
         <div class="loop-card"><div class="loop-order">Step 2</div><h4>📚 교육</h4><p>어디에 어떻게 쓰는지, 왜 이 루틴이 필요한지 가르친다.</p></div>
@@ -223,7 +292,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
       <div class="big-quote">TENEX는 “아픈 사람에게 시원함을 파는 회사”가 아니라,<br>“운동을 병렬로 유지하면서 회복·교정·고정을 통해 집에서도 스스로 회복하게 만드는 회사”다.</div>
     </section>
 
-    <div class="footer">TENEX Worldview Deck · 시장 구조 → 회복 공식 → 제품 역할 맵 → 문제 해결 플로우 → 반복 루프 → 성장 엔진</div>
+    <div class="footer">TENEX Worldview Infographic · 한 장 요약 → 시장 구조 → 회복 공식 → 제품 역할 맵 → 문제 해결 플로우 → 반복 루프 → 성장 엔진</div>
   </div>
 </body>
 </html>
