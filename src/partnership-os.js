@@ -4,8 +4,15 @@ async function loadPartnershipOS() {
   return res.json();
 }
 
+let creatorState = { query: '', category: 'all', status: 'all', sort: 'engagement_desc', data: [] };
+
 function formatNumber(v) {
   return typeof v === 'number' ? v.toLocaleString('ko-KR') : v;
+}
+
+function percent(num, denom) {
+  if (!denom) return '-';
+  return `${((num / denom) * 100).toFixed(2)}%`;
 }
 
 function candidateCard(c) {
@@ -59,20 +66,25 @@ function dmQueueRows(rows) {
 }
 
 function creatorRows(rows) {
-  return rows.map(r => `
-    <tr>
-      <td>${r.accountName}<div class="small">${r.handle}</div></td>
-      <td>${r.category}</td>
-      <td>${formatNumber(r.followers)}</td>
-      <td>${formatNumber(r.avgViews10)}</td>
-      <td>${formatNumber(r.avgComments10)}</td>
-      <td>${formatNumber(r.avgSaves10)}</td>
-      <td>${r.engagementScore}</td>
-      <td>${r.recommendedModel}</td>
-      <td>${r.status}</td>
-      <td>${r.lastContacted}</td>
-    </tr>
-  `).join('');
+  return rows.map(r => {
+    const commentRate = percent(r.avgComments10, r.avgViews10);
+    const saveRate = percent(r.avgSaves10, r.avgViews10);
+    const viewFollowerRate = percent(r.avgViews10, r.followers);
+    return `
+      <tr>
+        <td>${r.accountName}<div class="small">${r.handle}</div></td>
+        <td>${r.category}</td>
+        <td>${formatNumber(r.followers)}</td>
+        <td>${formatNumber(r.avgViews10)}<div class="small">조회/팔로워 ${viewFollowerRate}</div></td>
+        <td>${formatNumber(r.avgComments10)}<div class="small">댓글률 ${commentRate}</div></td>
+        <td>${formatNumber(r.avgSaves10)}<div class="small">저장률 ${saveRate}</div></td>
+        <td>${r.engagementScore}</td>
+        <td>${r.recommendedModel}</td>
+        <td>${r.status}</td>
+        <td>${r.lastContacted}</td>
+      </tr>
+    `;
+  }).join('');
 }
 
 function humanReviewRows(rows) {
@@ -135,14 +147,37 @@ function renderOperations(ops) {
   document.getElementById('operationsBoard').innerHTML = Object.entries(labels).map(([key, label]) => operationLane(label, ops[key] || [])).join('');
 }
 
-function renderInstagramDB(creators) {
-  document.getElementById('creatorCount').textContent = `${creators.length}개 계정`;
-  document.getElementById('creatorTableBody').innerHTML = creatorRows(creators);
+function applyCreatorFilters() {
+  let rows = [...creatorState.data];
+  if (creatorState.query) {
+    const q = creatorState.query.toLowerCase();
+    rows = rows.filter(r => r.accountName.toLowerCase().includes(q) || r.handle.toLowerCase().includes(q));
+  }
+  if (creatorState.category !== 'all') rows = rows.filter(r => r.category === creatorState.category);
+  if (creatorState.status !== 'all') rows = rows.filter(r => r.status === creatorState.status);
+
+  const sorters = {
+    engagement_desc: (a, b) => b.engagementScore - a.engagementScore,
+    followers_desc: (a, b) => b.followers - a.followers,
+    views_desc: (a, b) => b.avgViews10 - a.avgViews10,
+    saves_desc: (a, b) => b.avgSaves10 - a.avgSaves10,
+    comments_desc: (a, b) => b.avgComments10 - a.avgComments10
+  };
+  rows.sort(sorters[creatorState.sort]);
+  document.getElementById('creatorCount').textContent = `${rows.length}개 계정`;
+  document.getElementById('creatorTableBody').innerHTML = creatorRows(rows);
 }
 
-function renderDmQueue(rows) {
-  document.getElementById('dmQueueBody').innerHTML = dmQueueRows(rows);
+function renderInstagramDB(creators) {
+  creatorState.data = creators;
+  const categories = [...new Set(creators.map(c => c.category))];
+  const statuses = [...new Set(creators.map(c => c.status))];
+  document.getElementById('creatorCategoryFilter').innerHTML = `<option value="all">전체 카테고리</option>` + categories.map(v => `<option value="${v}">${v}</option>`).join('');
+  document.getElementById('creatorStatusFilter').innerHTML = `<option value="all">전체 상태</option>` + statuses.map(v => `<option value="${v}">${v}</option>`).join('');
+  applyCreatorFilters();
 }
+
+function renderDmQueue(rows) { document.getElementById('dmQueueBody').innerHTML = dmQueueRows(rows); }
 
 function bindControls(data) {
   const campaignSelect = document.getElementById('campaignFilter');
@@ -160,19 +195,19 @@ function bindControls(data) {
     document.getElementById('outreachTemplateBox').innerHTML = fillTemplate(data.outreachTemplate.performance, candidate).replaceAll('\n', '<br/>');
   });
   document.getElementById('generateBtn').addEventListener('click', render);
+  document.getElementById('creatorSearch').addEventListener('input', (e) => { creatorState.query = e.target.value; applyCreatorFilters(); });
+  document.getElementById('creatorCategoryFilter').addEventListener('change', (e) => { creatorState.category = e.target.value; applyCreatorFilters(); });
+  document.getElementById('creatorStatusFilter').addEventListener('change', (e) => { creatorState.status = e.target.value; applyCreatorFilters(); });
+  document.getElementById('creatorSort').addEventListener('change', (e) => { creatorState.sort = e.target.value; applyCreatorFilters(); });
   document.getElementById('dmQueueBody').addEventListener('click', (e) => {
     const btn = e.target.closest('.send-dm-btn');
     if (!btn) return;
-    btn.textContent = '발송 완료';
-    btn.disabled = true;
-    btn.style.opacity = '.6';
+    btn.textContent = '발송 완료'; btn.disabled = true; btn.style.opacity = '.6';
   });
   document.getElementById('reviewInboxBody').addEventListener('click', (e) => {
     const btn = e.target.closest('.review-btn');
     if (!btn) return;
-    btn.textContent = '검토 완료';
-    btn.disabled = true;
-    btn.style.opacity = '.6';
+    btn.textContent = '검토 완료'; btn.disabled = true; btn.style.opacity = '.6';
   });
 }
 
