@@ -1,0 +1,139 @@
+{
+  "summary": {
+    "activeCampaigns": 3,
+    "priorityCandidates": 28,
+    "contactToday": 14,
+    "zeroFixedCostRatio": 71,
+    "groupbuyCandidates": 6
+  },
+  "campaigns": [
+    {
+      "id": "camp-es808-therapist",
+      "name": "ES-808 치료사 파트너십",
+      "product": "ES-808",
+      "category": "치료사/교정전문가",
+      "model": "추천코드",
+      "budget": "₩1,000,000",
+      "kpi": "고정비 없는 전환 극대화",
+      "status": "active"
+    },
+    {
+      "id": "camp-cs25-parenting",
+      "name": "CS-25 육아 체험단",
+      "product": "CS-25",
+      "category": "육아",
+      "model": "시딩+추천코드",
+      "budget": "₩700,000",
+      "kpi": "카테고리 확장 검증",
+      "status": "active"
+    },
+    {
+      "id": "camp-recovery-running",
+      "name": "회복템 러닝 코드형",
+      "product": "ES-808",
+      "category": "러닝",
+      "model": "공동구매",
+      "budget": "₩1,500,000",
+      "kpi": "직접 매출 + UGC 확보",
+      "status": "active"
+    }
+  ],
+  "candidates": [
+    {
+      "id": "inf-pt-kim",
+      "name": "김OO 물리치료사",
+      "platform": "Instagram",
+      "followers": 23000,
+      "avgViews": 18000,
+      "category": "치료사/교정전문가",
+      "score": 89,
+      "grade": "S",
+      "model": "추천코드형",
+      "costSensitivity": "낮음",
+      "honor": "높음",
+      "reason": "실사용 맥락이 강하고 전문성 기반 신뢰가 높다. 고정비보다 선정 파트너 프레임과 성과형 구조가 잘 맞는다.",
+      "tags": ["실사용", "전문성", "명예형"],
+      "campaignId": "camp-es808-therapist"
+    },
+    {
+      "id": "inf-run-park",
+      "name": "러닝연구소 박OO",
+      "platform": "YouTube",
+      "followers": 41000,
+      "avgViews": 12000,
+      "category": "러닝",
+      "score": 82,
+      "grade": "A",
+      "model": "공동구매 후보",
+      "costSensitivity": "중간",
+      "honor": "중간",
+      "reason": "회복 루틴 콘텐츠와 연결성이 높고 설명력이 좋아 UGC 및 랜딩 재활용 가치가 크다.",
+      "tags": ["UGC", "공동구매", "설명력"],
+      "campaignId": "camp-recovery-running"
+    },
+    {
+      "id": "inf-parent-choi",
+      "name": "육아자세연구소 최OO",
+      "platform": "Instagram",
+      "followers": 17000,
+      "avgViews": 9000,
+      "category": "육아",
+      "score": 77,
+      "grade": "A",
+      "model": "시딩+코드형",
+      "costSensitivity": "낮음",
+      "honor": "중간",
+      "reason": "육아 손목, 어깨, 목 불편 맥락이 명확하다. 직접 매출보다 카테고리 확장 테스트용 가치가 크다.",
+      "tags": ["카테고리확장", "육아", "시딩"],
+      "campaignId": "camp-cs25-parenting"
+    },
+    {
+      "id": "inf-rehab-jung",
+      "name": "정OO 재활코치",
+      "platform": "Instagram",
+      "followers": 12000,
+      "avgViews": 7000,
+      "category": "치료사/교정전문가",
+      "score": 74,
+      "grade": "B",
+      "model": "추천코드 전환 협상",
+      "costSensitivity": "높음",
+      "honor": "중간",
+      "reason": "기본 적합성은 좋지만 고정비 선호가 있어 비용 압축 협상이 필요하다.",
+      "tags": ["협상필요", "재활", "비용압축"],
+      "campaignId": "camp-es808-therapist"
+    }
+  ],
+  "operations": {
+    "discovered": [
+      { "name": "러닝연구소 박OO", "desc": "공동구매 적합성 높음, 컨택 전" },
+      { "name": "육아자세연구소 최OO", "desc": "육아 카테고리 테스트 후보" }
+    ],
+    "contacted": [
+      { "name": "김OO 물리치료사", "desc": "명예형 1차 DM 발송 완료" }
+    ],
+    "negotiating": [
+      { "name": "정OO 재활코치", "desc": "고정비 대신 추천코드형 전환 협상중" }
+    ],
+    "scheduled": [
+      { "name": "송OO 자세코치", "desc": "샘플 발송 완료, 촬영 가이드 전달" }
+    ],
+    "tracking": [
+      { "name": "최OO 러닝코치", "desc": "코드 14회 사용, UGC 재활용 후보" }
+    ]
+  },
+  "performance": [
+    { "partner": "김OO 물리치료사", "model": "추천코드", "cost": "0원", "revenue": "₩2,480,000", "type": "Sales Driver" },
+    { "partner": "박OO 러닝연구소", "model": "공동구매", "cost": "₩300,000", "revenue": "₩4,900,000", "type": "Groupbuy Closer" },
+    { "partner": "송OO 자세코치", "model": "시딩", "cost": "제품 1개", "revenue": "직접매출 미미", "type": "UGC Producer" }
+  ],
+  "reuseQueue": [
+    { "name": "송OO 자세코치 릴스", "desc": "광고 훅 추출 가능, 랜딩 후기 블록 전환 가능" },
+    { "name": "박OO 러닝연구소 리뷰", "desc": "공동구매 상세페이지 문구화 필요" },
+    { "name": "김OO 치료사 사용 팁", "desc": "CRM 후속 문자, FAQ 전환 후보" }
+  ],
+  "outreachTemplate": {
+    "honor": "안녕하세요 {name}님,\n\n최근 {recent_content_reference} 콘텐츠를 보면서 이 분야에서 신뢰를 만들 수 있는 분이라는 인상을 받았습니다.\n\n저희는 단순 협찬보다 실제로 의미 있는 파트너를 찾고 있습니다. 초기 파트너로 함께하실 분께는 단순 노출이 아니라 {honor_frame} 같은 상징성 있는 포지션을 드리는 방향으로 보고 있어요.\n\n관심 있으시면 짧게 소개드리고 싶습니다.",
+    "performance": "안녕하세요 {name}님,\n\n최근 {recent_content_reference}를 보고 연락드렸습니다. {reason_fit}\n\n저희는 {product} 관련 협업을 검토 중인데, 단발성 협찬보다는 추천코드/성과형 구조처럼 서로 부담이 적고 길게 갈 수 있는 방식에 더 관심이 있습니다.\n\n혹시 이런 방향의 협업도 열려 있으실까요?"
+  }
+}
