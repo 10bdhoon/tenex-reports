@@ -1,11 +1,26 @@
 async function loadPartnershipOS() {
-  const res = await fetch('./data/partnership-os-data.json');
+  const res = await fetch('/api/partnership-os/read');
   if (!res.ok) throw new Error('Failed to load partnership OS data');
   return res.json();
 }
 
 let creatorState = { query: '', category: 'all', status: 'all', sort: 'engagement_desc', data: [] };
 let partnershipData = null;
+
+async function savePartnershipState() {
+  const res = await fetch('/api/partnership-os/update', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      instagramCreators: partnershipData.instagramCreators,
+      dmLogs: partnershipData.dmLogs,
+      humanReviewInbox: partnershipData.humanReviewInbox,
+      followupQueue: partnershipData.followupQueue,
+      creatorHistories: partnershipData.creatorHistories,
+    }),
+  });
+  if (!res.ok) throw new Error('Failed to persist partnership state');
+}
 
 function formatNumber(v) { return typeof v === 'number' ? v.toLocaleString('ko-KR') : v; }
 function percent(num, denom) { if (!denom) return '-'; return `${((num / denom) * 100).toFixed(2)}%`; }
@@ -25,7 +40,7 @@ function creatorRows(rows) {
 }
 function followupRows(rows) { return rows.map((r, idx) => `<tr><td>${r.accountName}<div class="small">${r.handle}</div></td><td>${r.nextAction}</td><td>${r.due}</td><td>${r.status}</td><td><button class="next-step-btn" data-index="${idx}">다음 단계</button></td></tr>`).join(''); }
 function historyRows(rows) { return rows.map(r => `<div class="task"><div class="name">${r.event}</div><div class="desc">${r.date} · ${r.detail}</div></div>`).join(''); }
-function humanReviewRows(rows) { return rows.map(r => `<tr><td>${r.accountName}<div class="small">${r.handle}</div></td><td>${r.reply}</td><td>${r.recommendedAction}</td><td>${r.status}</td><td><button class="review-btn">검토 완료</button></td></tr>`).join(''); }
+function humanReviewRows(rows) { return rows.map((r, idx) => `<tr><td>${r.accountName}<div class="small">${r.handle}</div></td><td>${r.reply}</td><td>${r.recommendedAction}</td><td>${r.status}</td><td><button class="review-btn" data-index="${idx}">검토 완료</button></td></tr>`).join(''); }
 function contentPostRows(rows) { return rows.map(r => `<tr><td>${r.creator}</td><td>${r.platform}</td><td><a href="${r.url}" target="_blank">링크 보기</a></td><td>${r.publishedAt}</td><td>${formatNumber(r.views)}</td><td>${formatNumber(r.comments)}</td><td>${formatNumber(r.saves)}</td><td>${r.revenue}</td><td>${r.note}</td></tr>`).join(''); }
 function fillTemplate(template, candidate) { return template.replaceAll('{name}', candidate.name || candidate.accountName).replaceAll('{recent_content_reference}', `${candidate.category} 관련 최근 콘텐츠`).replaceAll('{honor_frame}', '초기 파트너 포지션').replaceAll('{reason_fit}', candidate.reason || candidate.note || '').replaceAll('{product}', candidate.campaignId === 'camp-cs25-parenting' ? 'CS-25' : 'ES-808'); }
 function renderSummary(summary) {
@@ -56,13 +71,7 @@ function applyCreatorFilters() {
   }
   if (creatorState.category !== 'all') rows = rows.filter(r => r.category === creatorState.category);
   if (creatorState.status !== 'all') rows = rows.filter(r => r.status === creatorState.status);
-  const sorters = {
-    engagement_desc: (a, b) => b.engagementScore - a.engagementScore,
-    followers_desc: (a, b) => b.followers - a.followers,
-    views_desc: (a, b) => b.avgViews10 - a.avgViews10,
-    saves_desc: (a, b) => b.avgSaves10 - a.avgSaves10,
-    comments_desc: (a, b) => b.avgComments10 - a.avgComments10
-  };
+  const sorters = { engagement_desc: (a, b) => b.engagementScore - a.engagementScore, followers_desc: (a, b) => b.followers - a.followers, views_desc: (a, b) => b.avgViews10 - a.avgViews10, saves_desc: (a, b) => b.avgSaves10 - a.avgSaves10, comments_desc: (a, b) => b.avgComments10 - a.avgComments10 };
   rows.sort(sorters[creatorState.sort]);
   document.getElementById('creatorCount').textContent = `${rows.length}개 계정`;
   document.getElementById('creatorTableBody').innerHTML = creatorRows(rows);
@@ -81,6 +90,21 @@ function renderCreatorDetail(creator) {
   document.getElementById('creatorDetailBody').innerHTML = `<div class="detail-grid"><div><strong>계정명</strong><div>${creator.accountName}</div></div><div><strong>핸들</strong><div>${creator.handle}</div></div><div><strong>카테고리</strong><div>${creator.category}</div></div><div><strong>상태</strong><div>${creator.status}</div></div><div><strong>추천모델</strong><div>${creator.recommendedModel}</div></div><div><strong>중복 방지</strong><div>${creator.duplicateBlocked ? 'ON' : 'OFF'}</div></div><div><strong>추천코드 상태</strong><div>${creator.codeStatus}</div></div><div><strong>공동구매 상태</strong><div>${creator.groupbuyStatus}</div></div><div><strong>메모</strong><div>${creator.note}</div></div></div>`;
   const history = partnershipData.creatorHistories[creator.id] || [];
   document.getElementById('creatorHistoryBody').innerHTML = historyRows(history);
+}
+function rerenderPersistedSections() {
+  renderInstagramDB(partnershipData.instagramCreators);
+  renderDmQueue(partnershipData.dmQueue);
+  document.getElementById('dmLogBody').innerHTML = dmLogRows(partnershipData.dmLogs);
+  document.getElementById('followupBody').innerHTML = followupRows(partnershipData.followupQueue);
+  document.getElementById('reviewInboxBody').innerHTML = humanReviewRows(partnershipData.humanReviewInbox);
+}
+function appendHistory(creatorId, event, detail) {
+  if (!partnershipData.creatorHistories[creatorId]) partnershipData.creatorHistories[creatorId] = [];
+  partnershipData.creatorHistories[creatorId].unshift({
+    date: new Date().toLocaleString('sv-SE').replace('T', ' '),
+    event,
+    detail,
+  });
 }
 function bindControls(data) {
   const campaignSelect = document.getElementById('campaignFilter');
@@ -108,20 +132,44 @@ function bindControls(data) {
     const creator = creatorState.data.find(c => c.id === row.dataset.id);
     renderCreatorDetail(creator);
   });
-  document.getElementById('dmQueueBody').addEventListener('click', (e) => {
+  document.getElementById('dmQueueBody').addEventListener('click', async (e) => {
     const btn = e.target.closest('.send-dm-btn');
     if (!btn) return;
-    btn.textContent = '발송 완료'; btn.disabled = true; btn.style.opacity = '.6';
+    const idx = Number(btn.dataset.index);
+    const target = partnershipData.dmQueue[idx];
+    const creator = partnershipData.instagramCreators.find(c => c.handle === target.handle);
+    if (!creator || creator.duplicateBlocked) return;
+    creator.status = 'dm_sent';
+    creator.lastContacted = new Date().toLocaleDateString('sv-SE');
+    creator.duplicateBlocked = true;
+    partnershipData.dmLogs.unshift({ accountName: target.accountName, handle: target.handle, sentAt: new Date().toLocaleString('sv-SE').replace('T', ' '), template: target.template, result: 'sent', duplicateBlocked: true });
+    appendHistory(creator.id, 'dm_sent', `${target.template} 1차 DM 발송`);
+    await savePartnershipState();
+    rerenderPersistedSections();
+    renderCreatorDetail(creator);
   });
-  document.getElementById('reviewInboxBody').addEventListener('click', (e) => {
+  document.getElementById('reviewInboxBody').addEventListener('click', async (e) => {
     const btn = e.target.closest('.review-btn');
     if (!btn) return;
-    btn.textContent = '검토 완료'; btn.disabled = true; btn.style.opacity = '.6';
+    const idx = Number(btn.dataset.index);
+    partnershipData.humanReviewInbox[idx].status = 'review_completed';
+    await savePartnershipState();
+    rerenderPersistedSections();
   });
-  document.getElementById('followupBody').addEventListener('click', (e) => {
+  document.getElementById('followupBody').addEventListener('click', async (e) => {
     const btn = e.target.closest('.next-step-btn');
     if (!btn) return;
-    btn.textContent = '처리 완료'; btn.disabled = true; btn.style.opacity = '.6';
+    const idx = Number(btn.dataset.index);
+    const item = partnershipData.followupQueue[idx];
+    item.status = 'completed';
+    const creator = partnershipData.instagramCreators.find(c => c.handle === item.handle);
+    if (creator) {
+      creator.status = 'negotiating';
+      appendHistory(creator.id, 'next_step', item.nextAction);
+    }
+    await savePartnershipState();
+    rerenderPersistedSections();
+    if (creator) renderCreatorDetail(creator);
   });
 }
 
