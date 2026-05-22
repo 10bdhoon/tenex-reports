@@ -3,70 +3,60 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>TENEX 세계관 | 회복 시스템과 생태계</title>
+<title>TENEX 세계관 | 회복 시스템과 성장 엔진</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#08111f;color:#e9eef5;line-height:1.6}
 .hero{padding:54px 24px 38px;background:linear-gradient(135deg,#12305f 0%,#0b1630 45%,#08111f 100%);border-bottom:1px solid rgba(255,255,255,.08)}
-.hero-inner,.container{max-width:1140px;margin:0 auto}
+.hero-inner,.container{max-width:1160px;margin:0 auto}
 .eyebrow{font-size:12px;font-weight:900;letter-spacing:1.8px;color:#8ec5ff;text-transform:uppercase;margin-bottom:10px}
 h1{font-size:42px;line-height:1.12;color:#fff;margin-bottom:14px}
-.hero p{max-width:900px;color:#bfd0e4;font-size:17px}
+.hero p{max-width:920px;color:#bfd0e4;font-size:17px}
 .hero-point{margin-top:18px;display:inline-block;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);padding:12px 16px;border-radius:14px;font-size:14px;color:#fff;font-weight:800}
 .container{padding:28px 24px 72px}
 .section{margin-bottom:24px}
 .section-title{font-size:28px;font-weight:900;color:#fff;margin-bottom:10px}
 .section-desc{font-size:14px;color:#9db0c6;margin-bottom:16px}
-.summary,.panel,.example,.action-box,.timeline-step,.warning,.loop,.ecosystem,.stack-card,.principle{background:#0f1a2b;border:1px solid rgba(255,255,255,.08);border-radius:20px}
-.summary{padding:22px 24px;margin-bottom:24px}
-.summary strong{color:#fff}
+.summary,.panel,.loop,.engine-card,.warning,.timeline-step,.quote-box{background:#0f1a2b;border:1px solid rgba(255,255,255,.08);border-radius:20px}
+.summary,.panel,.loop,.engine-card,.warning,.timeline-step,.quote-box{padding:20px}
+.summary{margin-bottom:24px}
+.summary strong,.panel strong,.loop strong,.engine-card strong,.timeline-step strong{color:#fff}
 .grid{display:grid;gap:14px}
 .grid-2{grid-template-columns:repeat(auto-fit,minmax(320px,1fr))}
 .grid-3{grid-template-columns:repeat(auto-fit,minmax(240px,1fr))}
-.panel,.example,.action-box,.timeline-step,.warning,.loop,.ecosystem,.stack-card,.principle{padding:20px}
-.panel h3,.example h3,.action-box h3,.timeline-step h3,.warning h3,.loop h3,.ecosystem h3,.stack-card h3,.principle h3{font-size:18px;color:#fff;margin-bottom:10px}
-.panel p,.example p,.action-box p,.timeline-step p,.warning p,.loop p,.ecosystem p,.stack-card p,.principle p{font-size:14px;color:#d0d9e5}
-.panel ul,.example ul,.action-box ul,.warning ul,.loop ul,.ecosystem ul,.stack-card ul{padding-left:18px;margin-top:10px}
-.panel li,.example li,.action-box li,.warning li,.loop li,.ecosystem li,.stack-card li{font-size:14px;color:#d0d9e5;margin-bottom:6px}
-.kpi-line{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:12px;margin-top:16px}
-.kpi{background:#0b1322;border:1px solid rgba(142,197,255,.16);border-radius:16px;padding:16px}
-.kpi-label{font-size:12px;font-weight:900;color:#8ec5ff;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px}
-.kpi-value{font-size:20px;font-weight:900;color:#fff;margin-bottom:6px}
-.kpi-desc{font-size:13px;color:#c6d2e1}
+.panel h3,.loop h3,.engine-card h3,.warning h3,.timeline-step h3{font-size:18px;color:#fff;margin-bottom:10px}
+.panel p,.loop p,.engine-card p,.warning p,.timeline-step p{font-size:14px;color:#d0d9e5}
+.panel ul,.loop ul,.engine-card ul,.warning ul{padding-left:18px;margin-top:10px}
+.panel li,.loop li,.engine-card li,.warning li{font-size:14px;color:#d0d9e5;margin-bottom:6px}
 .formula{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
 .formula-step{background:#0b1322;border:1px solid rgba(142,197,255,.18);border-radius:16px;padding:16px}
 .formula-step .num{font-size:12px;font-weight:900;color:#8ec5ff;margin-bottom:8px}
 .formula-step h4{font-size:16px;color:#fff;margin-bottom:8px}
 .formula-step p{font-size:13px;color:#cad5e3}
+.role-map{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px}
+.role-card{background:#0b1322;border:1px solid rgba(255,255,255,.08);border-radius:16px;padding:16px}
+.role-card .tag{display:inline-block;padding:4px 10px;border-radius:999px;background:#173055;color:#8ec5ff;font-size:11px;font-weight:800;margin-bottom:10px}
+.role-card h4{font-size:16px;color:#fff;margin-bottom:8px}
+.role-card p,.role-card li{font-size:13px;color:#d0d9e5}
+.role-card ul{padding-left:18px;margin-top:8px}
 .problem-map{display:grid;gap:12px}
-.problem-row{display:grid;grid-template-columns:1.1fr .9fr .9fr .9fr;gap:10px;align-items:stretch}
+.problem-row{display:grid;grid-template-columns:1.1fr .95fr .95fr .95fr;gap:10px}
 .cell{background:#0b1322;border:1px solid rgba(255,255,255,.08);border-radius:16px;padding:16px}
 .cell-title{font-size:12px;font-weight:900;color:#8ec5ff;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px}
-.cell strong{color:#fff}
 .cell p,.cell li{font-size:13px;color:#d0d9e5}
 .cell ul{padding-left:18px;margin-top:8px}
-.badge{display:inline-block;padding:4px 10px;border-radius:999px;background:#163055;color:#8ec5ff;font-size:11px;font-weight:800;margin-bottom:10px}
-.actions{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px}
-.action-box{background:#101f35}
-.action-box h3{font-size:16px}
-.timeline{display:grid;gap:12px}
-.timeline-step .stage{font-size:12px;font-weight:900;color:#8ec5ff;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px}
-.warning{background:#1f1414;border-color:rgba(255,120,120,.18)}
-.warning h3{color:#ff9b9b}
-.quote{padding:24px;border-radius:20px;background:linear-gradient(135deg,#11284a,#0c1728);border:1px solid rgba(142,197,255,.18);font-size:21px;font-weight:900;color:#fff;line-height:1.5}
-.loop{background:#101d34}
-.loop-steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:12px;margin-top:12px}
+.loop-steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;margin-top:12px}
 .loop-step{background:#0b1322;border:1px solid rgba(142,197,255,.16);border-radius:16px;padding:16px}
 .loop-step .order{font-size:12px;font-weight:900;color:#8ec5ff;margin-bottom:8px}
 .loop-step h4{font-size:16px;color:#fff;margin-bottom:8px}
 .loop-step p{font-size:13px;color:#d0d9e5}
-.stack{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:12px}
-.ecosystem-map{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:12px;margin-top:12px}
-.node{background:#0b1322;border:1px solid rgba(255,255,255,.08);border-radius:16px;padding:16px}
-.node h4{font-size:15px;color:#fff;margin-bottom:8px}
-.node p,.node li{font-size:13px;color:#d0d9e5}
-.node ul{padding-left:18px;margin-top:8px}
-.principles{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}
+.engine-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px}
+.engine-num{font-size:12px;font-weight:900;color:#8ec5ff;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px}
+.warning{background:#1f1414;border-color:rgba(255,120,120,.18)}
+.warning h3{color:#ff9b9b}
+.timeline{display:grid;gap:12px}
+.timeline-step .stage{font-size:12px;font-weight:900;color:#8ec5ff;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px}
+.quote-box{background:linear-gradient(135deg,#11284a,#0c1728);border-color:rgba(142,197,255,.18);font-size:21px;font-weight:900;color:#fff;line-height:1.5}
 .footer{margin-top:34px;padding-top:18px;border-top:1px solid rgba(255,255,255,.08);font-size:12px;color:#7f8fa5;text-align:center}
 @media (max-width:960px){.formula{grid-template-columns:repeat(2,1fr)}.problem-row{grid-template-columns:1fr}}
 @media (max-width:640px){h1{font-size:32px}.formula{grid-template-columns:1fr}}
@@ -75,16 +65,16 @@ h1{font-size:42px;line-height:1.12;color:#fff;margin-bottom:14px}
 <body>
   <div class="hero">
     <div class="hero-inner">
-      <div class="eyebrow">TENEX WORLDVIEW · STRATEGY · MARKETING ECOSYSTEM</div>
-      <h1>TENEX는 병원 밖에서 <br>사람들이 스스로 회복하는 방식을 만드는 회사다.</h1>
-      <p>TENEX는 안마기 회사가 아니다. 목, 어깨, 손목, 무릎처럼 반복되는 근골격계 문제를 병원에서 실제로 하는 회복 루틴의 원리로 풀어내고, 운동·회복·교정·고정의 4단계 시스템으로 집에서도 계속 회복되게 만드는 브랜드다.</p>
+      <div class="eyebrow">TENEX WORLDVIEW · RECOVERY SYSTEM · GROWTH ENGINES</div>
+      <h1>TENEX는 병원 밖에서 <br>사람들이 스스로 회복하는 시스템을 만드는 회사다.</h1>
+      <p>TENEX는 안마기 회사가 아니다. 목, 어깨, 손목, 무릎처럼 반복되는 근골격계 문제를 병원에서 실제로 하는 회복 루틴의 원리로 풀어내고, 운동·회복·교정·고정의 4단계 시스템을 제품, 콘텐츠, CRM, 마케팅 생태계로 연결해 집에서도 계속 회복되게 만드는 브랜드다.</p>
       <div class="hero-point">핵심: 운동은 항상 병렬, 회복은 WS-200 → ES-808, 그 위에 교정과 고정이 올라간다.</div>
     </div>
   </div>
 
   <div class="container">
     <div class="summary">
-      <strong>한 줄 요약</strong><br>
+      <strong>한 줄 정의</strong><br>
       병원은 순간 처치를 해주고, 일반 마사지기는 잠깐 시원하게 해준다. TENEX는 그 사이 빈칸, 즉 집에서 반복 가능한 회복 루틴과 도구, 그리고 다시 아프지 않게 만드는 시스템을 만든다.
     </div>
 
@@ -105,7 +95,7 @@ h1{font-size:42px;line-height:1.12;color:#fff;margin-bottom:14px}
           <ul>
             <li><strong>문제를 부위별로 쪼갠다</strong>: 목, 어깨, 손목, 무릎처럼.</li>
             <li><strong>회복 순서를 설계한다</strong>: 운동을 병렬로 유지하면서, 회복은 WS-200 → ES-808 → 교정 → 고정 순으로 만든다.</li>
-            <li><strong>도구와 습관을 묶는다</strong>: 기기, 통증 크림, 보호대, 콘텐츠, CRM을 하나의 루프로 연결한다.</li>
+            <li><strong>도구와 습관을 묶는다</strong>: 기기, 전용 부스터젤, 통증크림, 보호대, 콘텐츠, CRM을 하나의 루프로 연결한다.</li>
             <li><strong>반복을 만든다</strong>: 한 번 시원한 것이 아니라 계속 따라가게 만드는 회복 시스템이다.</li>
           </ul>
         </div>
@@ -113,7 +103,7 @@ h1{font-size:42px;line-height:1.12;color:#fff;margin-bottom:14px}
     </div>
 
     <div class="section">
-      <div class="section-title">2. TENEX의 진짜 핵심 공식</div>
+      <div class="section-title">2. TENEX의 회복 공식</div>
       <div class="section-desc">표면적으로는 운동 → 회복 → 교정 → 고정이지만, 실제 운영 원리는 더 구체적이다. 운동은 항상 병렬이고, 회복은 병원처럼 WS-200에서 ES-808로 깊어진다.</div>
       <div class="formula">
         <div class="formula-step">
@@ -140,28 +130,38 @@ h1{font-size:42px;line-height:1.12;color:#fff;margin-bottom:14px}
     </div>
 
     <div class="section">
-      <div class="section-title">3. 제품과 소모품은 각각 어떤 문제를 해결하나</div>
-      <div class="section-desc">TENEX는 제품을 따로따로 파는 게 아니라, 각 도구가 회복 루프 안에서 어떤 역할을 하는지 설명해야 한다.</div>
-      <div class="stack">
-        <div class="stack-card">
-          <div class="badge">Recovery Entry</div>
-          <h3>WS-200</h3>
+      <div class="section-title">3. 제품과 소모품은 각각 역할이 다르다</div>
+      <div class="section-desc">이걸 섞으면 안 된다. 각 도구의 역할이 명확해야 루틴도, CRM도, 마케팅도 강해진다.</div>
+      <div class="role-map">
+        <div class="role-card">
+          <div class="tag">Recovery Entry</div>
+          <h4>WS-200</h4>
           <p>회복의 입구다. 몸을 넓고 부드럽게 열어주는 단계라서, 바로 깊은 자극으로 들어가기 어려운 사람도 회복 루틴에 진입할 수 있다.</p>
         </div>
-        <div class="stack-card">
-          <div class="badge">Recovery Core</div>
-          <h3>ES-808</h3>
+        <div class="role-card">
+          <div class="tag">Recovery Core</div>
+          <h4>ES-808</h4>
           <p>회복의 핵심이다. 실제 문제 부위를 포인트로 공략해서 체감을 만들고, 반복 사용 루틴의 중심축이 된다.</p>
         </div>
-        <div class="stack-card">
-          <div class="badge">Correction</div>
-          <h3>CS-25</h3>
-          <p>브랜드 시그니처다. 단순히 시원함이 아니라, 정렬과 교정까지 간다는 걸 보여주는 장치다.</p>
+        <div class="role-card">
+          <div class="tag">ES-808 Amplifier</div>
+          <h4>ES-808 전용 부스터젤</h4>
+          <p>ES-808을 사용할 때 함께 쓰는 전용 증폭재다. ES-808 사용 순간의 체감과 효율을 높여주는 역할이지, 비사용 시간 유지재가 아니다.</p>
         </div>
-        <div class="stack-card">
-          <div class="badge">Retention Engine</div>
-          <h3>통증 크림 · 부스터젤</h3>
-          <p>기기를 쓰지 않는 텀에서 회복을 유지시켜주는 매개체다. 특히 ES-808은 부스터젤을 바를수록 더 좋다고 교육하면서 반복 사용과 재구매를 붙인다.</p>
+        <div class="role-card">
+          <div class="tag">Recovery Keeper</div>
+          <h4>통증크림</h4>
+          <p>기기를 쓰지 않는 텀에서 회복을 유지시키는 매개체다. 일상 중간에도 회복감을 이어가게 만들어주는 유지재다.</p>
+        </div>
+        <div class="role-card">
+          <div class="tag">Correction</div>
+          <h4>CS-25</h4>
+          <p>브랜드 시그니처다. 단순 시원함이 아니라, 정렬과 교정까지 간다는 걸 보여주는 장치다.</p>
+        </div>
+        <div class="role-card">
+          <div class="tag">Stabilizer</div>
+          <h4>보호대</h4>
+          <p>회복 후 다시 무너지지 않게 받쳐주는 지지재다. 고정 단계와 일상 유지 단계에서 중요하다.</p>
         </div>
       </div>
     </div>
@@ -185,7 +185,7 @@ h1{font-size:42px;line-height:1.12;color:#fff;margin-bottom:14px}
           </div>
           <div class="cell">
             <div class="cell-title">유지</div>
-            <p><strong>운동 + 크림 + 루틴</strong><br>기기 없는 시간에도 회복감을 유지시키고 재발을 막는다.</p>
+            <p><strong>운동 + 통증크림 + 보호대</strong><br>기기 없는 시간에도 회복을 유지시키고 재발을 막는다.</p>
           </div>
         </div>
 
@@ -200,11 +200,11 @@ h1{font-size:42px;line-height:1.12;color:#fff;margin-bottom:14px}
           </div>
           <div class="cell">
             <div class="cell-title">보조</div>
-            <p><strong>보호대 + 통증 크림</strong><br>사용 중간 텀을 메우고 생활 속 유지력을 높인다.</p>
+            <p><strong>부스터젤 + 보호대</strong><br>ES-808 사용 순간 효율을 올리고, 일상에서 안정성을 높인다.</p>
           </div>
           <div class="cell">
             <div class="cell-title">유지</div>
-            <p><strong>업무 루틴 + 운동</strong><br>반복 패턴을 안 바꾸면 다시 돌아오기 때문에 병렬 운동이 필수다.</p>
+            <p><strong>운동 + 통증크림</strong><br>반복 패턴을 안 바꾸면 다시 돌아오기 때문에 병렬 운동이 필수다.</p>
           </div>
         </div>
 
@@ -219,18 +219,18 @@ h1{font-size:42px;line-height:1.12;color:#fff;margin-bottom:14px}
           </div>
           <div class="cell">
             <div class="cell-title">보조</div>
-            <p><strong>보호대 + 크림</strong><br>움직이는 중간의 안정성과 회복 지속성을 만든다.</p>
+            <p><strong>부스터젤 + 보호대</strong><br>회복 순간의 효율과 움직이는 중간의 안정성을 동시에 만든다.</p>
           </div>
           <div class="cell">
             <div class="cell-title">유지</div>
-            <p><strong>보행/운동 루틴</strong><br>하중 분산, 보행 패턴, 근육 사용을 같이 바꿔야 한다.</p>
+            <p><strong>운동 + 통증크림</strong><br>하중 분산과 회복 유지가 같이 가야 한다.</p>
           </div>
         </div>
       </div>
     </div>
 
     <div class="section">
-      <div class="section-title">5. 왜 ES-808을 계속 쓰게 만들 수 있나</div>
+      <div class="section-title">5. ES-808은 어떻게 반복 사용 구조가 되나</div>
       <div class="section-desc">기기 단발 브랜드가 되지 않으려면 회복 루틴을 계속 따라가게 만들어야 한다. TENEX는 이 반복 구조를 설계하는 회사여야 한다.</div>
       <div class="loop">
         <h3>ES-808 반복 사용 루프</h3>
@@ -247,48 +247,93 @@ h1{font-size:42px;line-height:1.12;color:#fff;margin-bottom:14px}
           </div>
           <div class="loop-step">
             <div class="order">Step 3</div>
-            <h4>부스터젤 습관화</h4>
-            <p>부스터젤을 바를 때 가장 좋다고 반복 교육하고, 리워드나 큰 할인으로 재구매를 유도한다.</p>
+            <h4>전용 부스터젤 결합</h4>
+            <p>ES-808은 전용 부스터젤과 함께 쓸 때 가장 좋다고 반복 교육하고, 리워드와 큰 할인으로 재구매를 유도한다.</p>
           </div>
           <div class="loop-step">
             <div class="order">Step 4</div>
             <h4>루틴 고정</h4>
-            <p>고객이 제품이 아니라 TENEX 회복 루틴 자체를 따라가게 만든다.</p>
+            <p>고객이 제품이 아니라 TENEX가 제안하는 회복 루틴 자체를 계속 따라가게 만든다.</p>
           </div>
         </div>
       </div>
     </div>
 
     <div class="section">
-      <div class="section-title">6. TENEX의 마케팅 전략은 단순 광고가 아니라 생태계다</div>
-      <div class="section-desc">세계관이 살아 있으려면 마케팅도 제품 단품 광고가 아니라, 신뢰와 루틴을 증폭시키는 생태계로 보여야 한다.</div>
-      <div class="ecosystem">
-        <h3>마케팅 생태계</h3>
-        <div class="ecosystem-map">
-          <div class="node">
-            <h4>의료계 신뢰 콘텐츠</h4>
-            <p>1분도수와 전문가 기반 정보가 시장의 얕은 마사지기 브랜드와 TENEX를 갈라준다.</p>
-          </div>
-          <div class="node">
-            <h4>광고소재</h4>
-            <p>목, 어깨, 손목, 무릎처럼 문제별 소재로 전환을 만든다. “시원함”이 아니라 “왜 아픈지 + 어디에 쓰는지”를 판다.</p>
-          </div>
-          <div class="node">
-            <h4>자사몰 오퍼</h4>
-            <p>ES-808 진입, 부스터젤 attach, 번들, 리워드, 할인 구조로 첫 구매와 재구매를 동시에 설계한다.</p>
-          </div>
-          <div class="node">
-            <h4>CRM</h4>
-            <p>D+0 사용법, D+3 강도 조절, D+7 부위 확장, D+14 젤/크림 재구매, D+21 보호대/루틴 제안으로 이어간다.</p>
-          </div>
-          <div class="node">
-            <h4>리뷰와 후기</h4>
-            <p>“나처럼 아픈 사람도 이렇게 회복했다”는 사례가 다시 광고와 상세페이지의 증거가 된다.</p>
-          </div>
-          <div class="node">
-            <h4>신제품 확장</h4>
-            <p>손목, 팔꿈치, 무릎, 발목, 허리로 부위별 문제 해결 세계관을 점점 넓혀간다.</p>
-          </div>
+      <div class="section-title">6. TENEX의 성장 엔진 8개</div>
+      <div class="section-desc">마케팅도 제품도 따로따로가 아니라, 이 8개 엔진이 서로 물리며 성장 생태계를 만든다.</div>
+      <div class="engine-grid">
+        <div class="engine-card">
+          <div class="engine-num">Engine 1</div>
+          <h3>히어로 SKU 엔진</h3>
+          <ul>
+            <li>ES-808 단일 히어로 체제 고도화</li>
+            <li>부위별 사용 장면과 후기 구조화</li>
+            <li>소모품/보호대/회복도구 번들 설계</li>
+          </ul>
+        </div>
+        <div class="engine-card">
+          <div class="engine-num">Engine 2</div>
+          <h3>의료계 추천 콘텐츠 → 광고소재 엔진</h3>
+          <ul>
+            <li>1분도수, 도수치료사, 재활 전문가 신뢰를 광고소재 원천으로 전환</li>
+            <li>전문가 설명, 사용 장면, 환자형 문제 해결 사례를 숏폼과 상세로 재가공</li>
+            <li>의료계 신뢰가 대중 매출로 넘어오는 브릿지 역할</li>
+          </ul>
+        </div>
+        <div class="engine-card">
+          <div class="engine-num">Engine 3</div>
+          <h3>그로스마케팅 엔진</h3>
+          <ul>
+            <li>메타, 구글, 카카오, 네이버, 틱톡 성과형 채널 통합 운영</li>
+            <li>부위별 문제, 오퍼, 랜딩, 크리에이티브, 리타겟팅 동시 최적화</li>
+            <li>채널별 ROAS가 아니라 채널별 실공헌이익으로 판단</li>
+          </ul>
+        </div>
+        <div class="engine-card">
+          <div class="engine-num">Engine 4</div>
+          <h3>추천코드/공구 엔진</h3>
+          <ul>
+            <li>추천코드 파일럿 10명 → 상위 파트너 승급</li>
+            <li>메가 인플루언서 공구와 마이크로 추천코드 운영을 분리</li>
+            <li>도수치료사/재활/자세 교정 크리에이터 우선</li>
+          </ul>
+        </div>
+        <div class="engine-card">
+          <div class="engine-num">Engine 5</div>
+          <h3>커뮤니티/네이버 카페 엔진</h3>
+          <ul>
+            <li>목·어깨·허리·손목·무릎·족저근막염 커뮤니티별 언어 최적화</li>
+            <li>단순 광고보다 후기, 해결사례, 루틴 콘텐츠 중심 진입</li>
+            <li>카페 운영자는 제휴/공구 파트너로 전환</li>
+          </ul>
+        </div>
+        <div class="engine-card">
+          <div class="engine-num">Engine 6</div>
+          <h3>자사몰 프로모션 / CRM 엔진</h3>
+          <ul>
+            <li>상시 2~3개 프로모션 병렬 운영</li>
+            <li>가격 할인보다 프로토콜 사은품, 번들, 회복 키트 중심</li>
+            <li>마사지볼/마사지봉은 사은품/번들 무기로 활용하고 CRM으로 재구매 회수</li>
+          </ul>
+        </div>
+        <div class="engine-card">
+          <div class="engine-num">Engine 7</div>
+          <h3>오프라인 팝업 엔진</h3>
+          <ul>
+            <li>더현대, 현백 등에서 체험형 팝업으로 브랜드를 증폭</li>
+            <li>현장 매출보다 완판 서사, 체험 후기, CRM 리드, 광고소재 생산을 같이 본다</li>
+            <li>팝업은 단발 이벤트가 아니라 유통 레버리지와 온라인 증폭 엔진으로 설계</li>
+          </ul>
+        </div>
+        <div class="engine-card">
+          <div class="engine-num">Engine 8</div>
+          <h3>해외 확장 엔진</h3>
+          <ul>
+            <li>한국에서 검증된 메시지와 SKU를 복제</li>
+            <li>일본 → 미국 순서</li>
+            <li>해외는 브랜드 소개가 아니라 잘 팔리는 프로토콜 수출</li>
+          </ul>
         </div>
       </div>
     </div>
@@ -301,9 +346,9 @@ h1{font-size:42px;line-height:1.12;color:#fff;margin-bottom:14px}
           <h3>지금 집중할 것</h3>
           <ul>
             <li><strong>목/어깨 점유</strong>: 가장 강한 문제 인식과 콘텐츠 자산이 있다.</li>
-            <li><strong>회복 루틴 설득</strong>: WS-200 → ES-808 순서를 병원 루틴처럼 정착시킨다.</li>
-            <li><strong>ES-808 반복 구조</strong>: 부스터젤, 크림, CRM, 리워드로 계속 쓰게 만든다.</li>
-            <li><strong>CS-25 시그니처 강화</strong>: 교정 서사를 붙여 단순 안마기 브랜드와 갈라선다.</li>
+            <li><strong>ES-808 히어로 SKU 집중</strong>: 단일 히어로 체제를 더 세게 만든다.</li>
+            <li><strong>WS-200 → ES-808 루틴 설득</strong>: 병원 루틴 같은 회복 순서를 정착시킨다.</li>
+            <li><strong>전용 부스터젤/통증크림 역할 분리</strong>: 증폭재와 유지재를 명확히 설명한다.</li>
           </ul>
         </div>
         <div class="warning">
@@ -321,33 +366,29 @@ h1{font-size:42px;line-height:1.12;color:#fff;margin-bottom:14px}
     <div class="section">
       <div class="section-title">8. 그래서 지금 액션은 뭐냐</div>
       <div class="section-desc">이 페이지가 진짜 쓸모 있으려면 읽고 나서 바로 실행 우선순위가 떠야 한다.</div>
-      <div class="actions">
-        <div class="action-box">
+      <div class="grid grid-3">
+        <div class="panel">
           <h3>광고</h3>
           <ul>
-            <li>목/어깨 문제 중심으로 소재를 만든다.</li>
-            <li>WS-200 → ES-808 순서와 체감을 설득한다.</li>
+            <li>목/어깨 문제 중심 소재 강화</li>
+            <li>WS-200 → ES-808 순서 설득</li>
+            <li>의료계 신뢰를 숏폼 소재로 전환</li>
           </ul>
         </div>
-        <div class="action-box">
+        <div class="panel">
           <h3>상세페이지</h3>
           <ul>
-            <li>제품 스펙보다 회복 시스템 전체를 보여준다.</li>
-            <li>무엇이 어떤 문제를 해결하는지 부위별로 설명한다.</li>
+            <li>제품 스펙보다 회복 시스템 구조 강조</li>
+            <li>부스터젤은 ES-808 전용 증폭재로 명확히 표현</li>
+            <li>통증크림은 비사용 시간 유지재로 분리 설명</li>
           </ul>
         </div>
-        <div class="action-box">
+        <div class="panel">
           <h3>CRM</h3>
           <ul>
-            <li>ES-808 반복 사용 루프를 설계한다.</li>
-            <li>부스터젤 리워드, 큰 할인, 루틴 교육을 붙인다.</li>
-          </ul>
-        </div>
-        <div class="action-box">
-          <h3>제품개발</h3>
-          <ul>
-            <li>손목·팔꿈치·무릎·발목으로 문제 확장을 준비한다.</li>
-            <li>기기 단품보다 보호대/크림/콘텐츠 번들을 같이 설계한다.</li>
+            <li>ES-808 반복 사용 루프 설계</li>
+            <li>부스터젤 리워드/큰 할인 구조</li>
+            <li>통증크림으로 텀 메우기</li>
           </ul>
         </div>
       </div>
@@ -381,14 +422,14 @@ h1{font-size:42px;line-height:1.12;color:#fff;margin-bottom:14px}
     </div>
 
     <div class="section">
-      <div class="quote">
+      <div class="quote-box">
         TENEX는 “아픈 사람에게 시원함을 파는 회사”가 아니라,<br>
         “운동을 병렬로 유지하면서, 회복·교정·고정을 통해 집에서도 스스로 회복하게 만드는 회사”다.
       </div>
     </div>
 
     <div class="footer">
-      TENEX Worldview · 문제 정의 → 회복 루틴 → 제품 역할 → 반복 구조 → 마케팅 생태계 → 액션
+      TENEX Worldview · 문제 정의 → 회복 루틴 → 제품 역할 → 반복 구조 → 성장 엔진 → 액션
     </div>
   </div>
 </body>
