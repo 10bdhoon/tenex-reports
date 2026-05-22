@@ -3,238 +3,327 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>TENEX 세계관 | 회복의 설계도</title>
+<title>TENEX 세계관 | 문제부터 액션까지 한 장 정리</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#0b1020;color:#e8edf5;line-height:1.65}
-.hero{padding:56px 24px 40px;background:radial-gradient(circle at top left,#17315f 0,#0b1020 52%,#070b15 100%);border-bottom:1px solid rgba(255,255,255,.08)}
-.hero-inner,.container{max-width:1024px;margin:0 auto}
-.eyebrow{font-size:12px;letter-spacing:1.6px;text-transform:uppercase;color:#7eb6ff;font-weight:800;margin-bottom:10px}
-h1{font-size:40px;line-height:1.15;color:#fff;margin-bottom:14px}
-.hero p{max-width:820px;color:#b9c5d6;font-size:17px}
-.cta{margin-top:18px;display:inline-block;padding:12px 18px;border-radius:999px;background:#fff;color:#0b1020;text-decoration:none;font-weight:800;font-size:14px}
-.container{padding:32px 24px 72px}
-.section{margin-bottom:28px}
-.card,.summary,.flow,.example,.pillar,.timeline-step{background:#111827;border:1px solid rgba(255,255,255,.08);border-radius:18px}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#08111f;color:#e9eef5;line-height:1.6}
+.hero{padding:54px 24px 38px;background:linear-gradient(135deg,#12305f 0%,#0b1630 45%,#08111f 100%);border-bottom:1px solid rgba(255,255,255,.08)}
+.hero-inner,.container{max-width:1120px;margin:0 auto}
+.eyebrow{font-size:12px;font-weight:900;letter-spacing:1.8px;color:#8ec5ff;text-transform:uppercase;margin-bottom:10px}
+h1{font-size:42px;line-height:1.12;color:#fff;margin-bottom:14px}
+.hero p{max-width:860px;color:#bfd0e4;font-size:17px}
+.hero-point{margin-top:18px;display:inline-block;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);padding:12px 16px;border-radius:14px;font-size:14px;color:#fff;font-weight:800}
+.container{padding:28px 24px 72px}
+.section{margin-bottom:24px}
+.section-title{font-size:28px;font-weight:900;color:#fff;margin-bottom:10px}
+.section-desc{font-size:14px;color:#9db0c6;margin-bottom:16px}
+.summary,.panel,.example,.action-box,.timeline-step,.warning{background:#0f1a2b;border:1px solid rgba(255,255,255,.08);border-radius:20px}
 .summary{padding:22px 24px;margin-bottom:24px}
 .summary strong{color:#fff}
-.section-title{font-size:26px;font-weight:900;color:#fff;margin-bottom:10px}
-.section-desc{font-size:14px;color:#9eb0c7;margin-bottom:16px}
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px}
-.card{padding:20px}
-.card h3,.pillar h3,.example h3,.timeline-step h3{font-size:18px;color:#fff;margin-bottom:10px}
-.card p,.pillar p,.example p,.timeline-step p{font-size:14px;color:#ced7e3}
-.card ul,.example ul{padding-left:18px;margin-top:10px}
-.card li,.example li{font-size:14px;color:#ced7e3;margin-bottom:6px}
-.flow{padding:20px}
-.flow-steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;margin-top:14px}
-.flow-step{background:#0b1020;border:1px solid rgba(126,182,255,.18);border-radius:14px;padding:16px}
-.flow-step .num{font-size:12px;font-weight:900;color:#7eb6ff;margin-bottom:8px}
-.flow-step h4{font-size:16px;color:#fff;margin-bottom:8px}
-.flow-step p{font-size:13px;color:#c9d3df}
-.example{padding:22px;margin-bottom:14px}
-.example-tag{display:inline-block;padding:4px 10px;border-radius:999px;background:#1b2b4b;color:#8fc0ff;font-size:11px;font-weight:800;margin-bottom:10px}
-.pillars{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}
-.pillar{padding:18px}
+.grid{display:grid;gap:14px}
+.grid-2{grid-template-columns:repeat(auto-fit,minmax(320px,1fr))}
+.grid-3{grid-template-columns:repeat(auto-fit,minmax(240px,1fr))}
+.panel,.example,.action-box,.timeline-step,.warning{padding:20px}
+.panel h3,.example h3,.action-box h3,.timeline-step h3,.warning h3{font-size:18px;color:#fff;margin-bottom:10px}
+.panel p,.example p,.action-box p,.timeline-step p,.warning p{font-size:14px;color:#d0d9e5}
+.panel ul,.example ul,.action-box ul,.warning ul{padding-left:18px;margin-top:10px}
+.panel li,.example li,.action-box li,.warning li{font-size:14px;color:#d0d9e5;margin-bottom:6px}
+.kpi-line{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:12px;margin-top:16px}
+.kpi{background:#0b1322;border:1px solid rgba(142,197,255,.16);border-radius:16px;padding:16px}
+.kpi-label{font-size:12px;font-weight:900;color:#8ec5ff;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px}
+.kpi-value{font-size:20px;font-weight:900;color:#fff;margin-bottom:6px}
+.kpi-desc{font-size:13px;color:#c6d2e1}
+.formula{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.formula-step{background:#0b1322;border:1px solid rgba(142,197,255,.18);border-radius:16px;padding:16px}
+.formula-step .num{font-size:12px;font-weight:900;color:#8ec5ff;margin-bottom:8px}
+.formula-step h4{font-size:16px;color:#fff;margin-bottom:8px}
+.formula-step p{font-size:13px;color:#cad5e3}
+.problem-map{display:grid;gap:12px}
+.problem-row{display:grid;grid-template-columns:1.15fr .95fr .95fr .95fr;gap:10px;align-items:stretch}
+.cell{background:#0b1322;border:1px solid rgba(255,255,255,.08);border-radius:16px;padding:16px}
+.cell-title{font-size:12px;font-weight:900;color:#8ec5ff;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px}
+.cell strong{color:#fff}
+.cell p,.cell li{font-size:13px;color:#d0d9e5}
+.cell ul{padding-left:18px;margin-top:8px}
+.badge{display:inline-block;padding:4px 10px;border-radius:999px;background:#163055;color:#8ec5ff;font-size:11px;font-weight:800;margin-bottom:10px}
+.actions{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px}
+.action-box{background:#101f35}
+.action-box h3{font-size:16px}
 .timeline{display:grid;gap:12px}
-.timeline-step{padding:18px}
-.timeline-step .stage{font-size:12px;font-weight:900;color:#7eb6ff;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px}
-.quote{padding:22px;border-radius:18px;background:linear-gradient(135deg,#132848,#0d1526);border:1px solid rgba(126,182,255,.16);font-size:20px;font-weight:800;color:#fff;line-height:1.5}
-.footer{margin-top:34px;padding-top:20px;border-top:1px solid rgba(255,255,255,.08);font-size:12px;color:#7f8da3;text-align:center}
-@media (max-width:640px){h1{font-size:32px}}
+.timeline-step .stage{font-size:12px;font-weight:900;color:#8ec5ff;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px}
+.warning{background:#1f1414;border-color:rgba(255,120,120,.18)}
+.warning h3{color:#ff9b9b}
+.quote{padding:24px;border-radius:20px;background:linear-gradient(135deg,#11284a,#0c1728);border:1px solid rgba(142,197,255,.18);font-size:21px;font-weight:900;color:#fff;line-height:1.5}
+.footer{margin-top:34px;padding-top:18px;border-top:1px solid rgba(255,255,255,.08);font-size:12px;color:#7f8fa5;text-align:center}
+@media (max-width:960px){.formula{grid-template-columns:repeat(2,1fr)}.problem-row{grid-template-columns:1fr}}
+@media (max-width:640px){h1{font-size:32px}.formula{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
   <div class="hero">
     <div class="hero-inner">
-      <div class="eyebrow">TENEX WORLDVIEW</div>
-      <h1>우리는 물건을 파는 회사가 아니라, <br>집에서 스스로 회복하는 방식을 설계하는 회사다.</h1>
-      <p>TENEX의 세계관을 가장 쉽게 설명하면 이거다. 아픈 사람을 병원 밖에 방치하지 않고, 운동·회복·교정·고정의 순서로 집에서도 꾸준히 회복할 수 있게 만드는 것. 제품은 그 세계관을 실행하는 도구다.</p>
-      <a class="cta" href="#core">핵심부터 보기</a>
+      <div class="eyebrow">TENEX WORLDVIEW · STRATEGY · ACTION</div>
+      <h1>TENEX는 병원 밖에서 <br>사람들이 스스로 회복하는 방식을 만드는 회사다.</h1>
+      <p>한마디로 TENEX는 안마기 회사가 아니다. 목, 어깨, 손목, 무릎처럼 반복되는 근골격계 문제를 운동·회복·교정·고정의 순서로 풀어내고, 제품·콘텐츠·CRM·소모품을 연결해서 집에서도 회복이 계속되게 만드는 브랜드다.</p>
+      <div class="hero-point">핵심: 제품을 파는 게 아니라, 문제를 푸는 순서를 설계한다.</div>
     </div>
   </div>
 
   <div class="container">
-    <div class="summary" id="core">
-      <strong>한 줄 정의</strong><br>
-      TENEX는 목디스크, 거북목, 어깨 뭉침, 손목 통증처럼 일상적인 근골격계 문제를 병원 안의 일회성 처치가 아니라 집에서 반복 가능한 회복 루틴으로 바꾸는 브랜드다.
+    <div class="summary">
+      <strong>한 줄 요약</strong><br>
+      병원은 순간 처치를 해주고, 일반 마사지기는 잠깐 시원하게 해준다. TENEX는 그 사이 빈칸, 즉 집에서 반복 가능한 회복 시스템을 만든다.
     </div>
 
     <div class="section">
-      <div class="section-title">1. 왜 TENEX가 필요한가</div>
-      <div class="section-desc">대부분의 통증 문제는 병원 한 번으로 끝나지 않는다. 그런데 현실은 병원 갈 시간도 없고, 정확히 어떻게 관리해야 하는지도 모른다. TENEX는 그 빈칸을 메운다.</div>
-      <div class="grid">
-        <div class="card">
-          <h3>기존 시장의 문제</h3>
+      <div class="section-title">1. 기존 시장의 문제, TENEX의 해답</div>
+      <div class="section-desc">세계관이 강하려면 문제 정의가 먼저 선명해야 한다. TENEX는 정확히 어떤 빈칸을 메우는지 한눈에 보여야 한다.</div>
+      <div class="grid grid-2">
+        <div class="panel">
+          <h3>기존 시장의 한계</h3>
           <ul>
-            <li>병원은 진단과 처치는 해주지만, 집에서의 반복 루틴은 약하다.</li>
-            <li>유튜브 정보는 많지만 내 증상에 맞는 순서와 도구가 없다.</li>
-            <li>마사지기 시장은 많지만 왜 아픈지, 어디에 어떻게 써야 하는지 설명이 얕다.</li>
+            <li><strong>병원</strong>: 진단과 처치는 가능하지만, 집에서 어떻게 반복 관리할지는 약하다.</li>
+            <li><strong>일반 마사지기</strong>: 순간적으로 시원할 수는 있지만 왜 아픈지, 어디를 어떻게 써야 하는지 깊게 설명하지 못한다.</li>
+            <li><strong>유튜브/정보</strong>: 정보는 넘치지만 내 증상에 맞는 순서와 도구가 없다.</li>
           </ul>
         </div>
-        <div class="card">
-          <h3>TENEX의 답</h3>
+        <div class="panel">
+          <h3>TENEX의 해답</h3>
           <ul>
-            <li>통증을 부위별 문제로 쪼개고</li>
-            <li>그 문제에 맞는 루틴을 설계하고</li>
-            <li>기기, 보호대, 크림, 콘텐츠를 묶어서</li>
-            <li>집에서도 계속 회복되게 만든다.</li>
+            <li><strong>문제를 부위별로 쪼갠다</strong>: 목, 어깨, 손목, 무릎처럼.</li>
+            <li><strong>회복 순서를 설계한다</strong>: 운동 → 회복 → 교정 → 고정.</li>
+            <li><strong>도구를 연결한다</strong>: 기기, 보호대, 크림, 콘텐츠, CRM을 한 시스템으로 묶는다.</li>
+            <li><strong>결과를 반복시킨다</strong>: 한 번 시원한 게 아니라, 집에서도 계속 회복되게 만든다.</li>
           </ul>
         </div>
-        <div class="card">
-          <h3>쉽게 말하면</h3>
-          <p>“병원 밖에서도 스스로 회복할 수 있게 만드는 홈 회복 시스템”이다. 단순히 시원한 마사지가 아니라, 왜 아픈지 이해하고 어떻게 풀고 어떻게 다시 안 아프게 할지까지 설계하는 방식이다.</p>
+      </div>
+      <div class="kpi-line">
+        <div class="kpi">
+          <div class="kpi-label">병원</div>
+          <div class="kpi-value">순간 처치</div>
+          <div class="kpi-desc">문제는 알지만, 일상 루틴은 약하다.</div>
+        </div>
+        <div class="kpi">
+          <div class="kpi-label">마사지기 시장</div>
+          <div class="kpi-value">일시적 시원함</div>
+          <div class="kpi-desc">체감은 줄 수 있지만 시스템은 약하다.</div>
+        </div>
+        <div class="kpi">
+          <div class="kpi-label">TENEX</div>
+          <div class="kpi-value">반복 가능한 회복</div>
+          <div class="kpi-desc">문제, 순서, 도구, 재발방지까지 묶는다.</div>
         </div>
       </div>
     </div>
 
     <div class="section">
       <div class="section-title">2. TENEX의 회복 공식</div>
-      <div class="section-desc">이 네 단계가 TENEX 세계관의 뼈대다. 제품도, 콘텐츠도, CRM도 이 순서로 맞춰야 한다.</div>
-      <div class="flow">
-        <div class="flow-steps">
-          <div class="flow-step">
-            <div class="num">01</div>
-            <h4>운동</h4>
-            <p>굳은 몸을 올바르게 움직이게 만드는 단계. 앱과 콘텐츠가 이 역할을 맡는다.</p>
+      <div class="section-desc">이 네 단계가 세계관의 중심축이다. 모든 제품, 상세페이지, CRM, 광고소재가 이 구조로 설명돼야 한다.</div>
+      <div class="formula">
+        <div class="formula-step">
+          <div class="num">01</div>
+          <h4>운동</h4>
+          <p>굳은 몸을 올바르게 움직이게 만든다. 앱과 루틴 콘텐츠가 여기를 맡는다.</p>
+        </div>
+        <div class="formula-step">
+          <div class="num">02</div>
+          <h4>회복</h4>
+          <p>당장 뭉친 근육과 긴장을 풀어준다. ES-808, 크림, 온열이 핵심 도구다.</p>
+        </div>
+        <div class="formula-step">
+          <div class="num">03</div>
+          <h4>교정</h4>
+          <p>삐뚤어진 자세와 정렬을 바로잡는다. CS-25 같은 시그니처 제품이 중요하다.</p>
+        </div>
+        <div class="formula-step">
+          <div class="num">04</div>
+          <h4>고정</h4>
+          <p>다시 무너지지 않게 지지한다. 보호대, 생활 습관, 재발방지 루틴이 여기에 해당한다.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title">3. 문제마다 무엇이 어떤 역할을 하는가</div>
+      <div class="section-desc">사용자는 제품 이름보다 “내 문제를 어떻게 풀어주는지”를 본다. 그래서 TENEX는 부위별 문제와 해결 도구가 한눈에 보여야 한다.</div>
+      <div class="problem-map">
+        <div class="problem-row">
+          <div class="cell">
+            <div class="cell-title">문제</div>
+            <p><strong>목/어깨가 늘 뭉치고 목이 잘 안 돌아감</strong><br>장시간 앉아있는 직장인, 스마트폰 사용 많은 사람, 승모 과긴장 고객.</p>
           </div>
-          <div class="flow-step">
-            <div class="num">02</div>
-            <h4>회복</h4>
-            <p>당장 뭉침과 긴장을 풀어주는 단계. ES-808 같은 기기와 크림, 온열이 들어간다.</p>
+          <div class="cell">
+            <div class="cell-title">즉시 회복</div>
+            <p><strong>ES-808</strong><br>뭉친 부위를 직접 자극해서 당장 풀리는 체감을 준다.</p>
           </div>
-          <div class="flow-step">
-            <div class="num">03</div>
-            <h4>교정</h4>
-            <p>삐뚤어진 패턴과 자세를 바로잡는 단계. CS-25 같은 시그니처 제품이 핵심이다.</p>
+          <div class="cell">
+            <div class="cell-title">깊은 교정</div>
+            <p><strong>CS-25</strong><br>자세와 정렬을 바로잡는 브랜드 시그니처 축이다.</p>
           </div>
-          <div class="flow-step">
-            <div class="num">04</div>
-            <h4>고정</h4>
-            <p>다시 무너지지 않게 잡아주는 단계. 보호대, 습관, 재발 방지 루틴이 여기에 속한다.</p>
+          <div class="cell">
+            <div class="cell-title">재발 방지</div>
+            <p><strong>루틴/콘텐츠/고정</strong><br>수면 자세, 스트레칭, 생활 습관까지 붙여야 반복 회복이 된다.</p>
+          </div>
+        </div>
+
+        <div class="problem-row">
+          <div class="cell">
+            <div class="cell-title">문제</div>
+            <p><strong>손목·팔꿈치가 저리고 반복 통증이 있음</strong><br>사무직, 육아, 운동, 반복 노동 고객에게 강한 문제.</p>
+          </div>
+          <div class="cell">
+            <div class="cell-title">즉시 회복</div>
+            <p><strong>ES-808</strong><br>통증 포인트가 명확해서 사용 교육만 잘하면 체감 설득력이 높다.</p>
+          </div>
+          <div class="cell">
+            <div class="cell-title">보완 도구</div>
+            <p><strong>보호대 / 크림</strong><br>업무 중 고정과 사용 편의성을 높여준다.</p>
+          </div>
+          <div class="cell">
+            <div class="cell-title">재발 방지</div>
+            <p><strong>반복 업무 루틴</strong><br>스트레칭, 휴식 주기, 자세 안내가 붙어야 한다.</p>
+          </div>
+        </div>
+
+        <div class="problem-row">
+          <div class="cell">
+            <div class="cell-title">문제</div>
+            <p><strong>무릎·발목이 계단, 러닝, 보행에서 아픔</strong><br>관절 주변 긴장과 하중 문제가 같이 존재한다.</p>
+          </div>
+          <div class="cell">
+            <div class="cell-title">즉시 회복</div>
+            <p><strong>ES-808</strong><br>포인트 회복 도구로 쓰기 좋고 부위별 확장성이 높다.</p>
+          </div>
+          <div class="cell">
+            <div class="cell-title">보완 도구</div>
+            <p><strong>보호대 / 온열 / 크림</strong><br>기기 단독이 아니라 하중 관리와 같이 가야 효과가 커진다.</p>
+          </div>
+          <div class="cell">
+            <div class="cell-title">재발 방지</div>
+            <p><strong>보행·운동 루틴</strong><br>잘못된 패턴을 바꾸지 않으면 다시 돌아온다.</p>
           </div>
         </div>
       </div>
     </div>
 
     <div class="section">
-      <div class="section-title">3. 제품을 어떻게 이해해야 하나</div>
-      <div class="section-desc">제품은 단독 스타가 아니라, 세계관 안에서 각자 다른 역할을 맡는 배우다.</div>
-      <div class="grid">
-        <div class="card">
+      <div class="section-title">4. 제품의 역할은 이렇게 나뉜다</div>
+      <div class="section-desc">제품마다 미션이 다르다. 이 역할 구분이 흐려지면 브랜드도 흐려진다.</div>
+      <div class="grid grid-3">
+        <div class="panel">
+          <div class="badge">Cash Cow</div>
           <h3>ES-808</h3>
-          <p><strong>현재 매출의 코어.</strong> 뭉친 근육과 신경 자극이 필요한 부위에 바로 체감되는 회복 도구다.</p>
-          <ul>
-            <li>목, 어깨, 팔꿈치, 손목, 무릎, 발목처럼 부위 확장성이 높다.</li>
-            <li>“바로 써보고 체감되는” 입문 제품 역할을 한다.</li>
-          </ul>
+          <p>현재 매출의 중심. 부위 확장성이 높고, 체감이 빠르고, 입문 고객을 가장 많이 데려오는 회복 도구다.</p>
         </div>
-        <div class="card">
+        <div class="panel">
+          <div class="badge">Signature</div>
           <h3>CS-25</h3>
-          <p><strong>브랜드 시그니처.</strong> 단순 시원함보다 자세와 정렬, 교정의 의미를 강하게 보여준다.</p>
+          <p>브랜드 깊이를 만드는 시그니처. “우리는 안마기 회사가 아니라 교정까지 하는 브랜드다”를 보여주는 상징축이다.</p>
+        </div>
+        <div class="panel">
+          <div class="badge">LTV Engine</div>
+          <h3>부스터젤 · 크림 · 보호대</h3>
+          <p>기기 단발 회사로 끝나지 않게 만드는 반복 매출 연결부. 사용 경험과 재구매 구조를 동시에 만든다.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title">5. 전략은 어디에 집중해야 하는가</div>
+      <div class="section-desc">세계관이 전략으로 내려오려면 “어디를 먼저 먹고 무엇을 나중에 할지”가 명확해야 한다.</div>
+      <div class="grid grid-2">
+        <div class="panel">
+          <h3>지금 집중할 것</h3>
           <ul>
-            <li>브랜드의 깊이와 전문성을 만드는 축이다.</li>
-            <li>“우리는 안마 브랜드가 아니라 회복 솔루션 브랜드다”를 증명한다.</li>
+            <li><strong>목/어깨 먼저</strong>: 가장 강한 문제 인식과 콘텐츠 자산이 있다.</li>
+            <li><strong>ES-808로 매출 확보</strong>: 회복 도구로서 체감과 확장성이 좋다.</li>
+            <li><strong>CS-25로 브랜드 깊이 확보</strong>: 교정 서사를 만드는 축이다.</li>
+            <li><strong>부스터젤/보호대 attach</strong>: 기기 단발 구조를 보완한다.</li>
           </ul>
         </div>
-        <div class="card">
-          <h3>부스터젤/크림/보호대</h3>
-          <p><strong>반복 매출과 루틴의 연결부.</strong> 기기만 팔고 끝내지 않게 만드는 소모품·보완재다.</p>
+        <div class="warning">
+          <h3>지금 하면 안 되는 것</h3>
           <ul>
-            <li>사용 경험을 더 좋게 만든다.</li>
-            <li>재구매와 교차판매의 기반이 된다.</li>
+            <li>그냥 예쁜 안마기 브랜드처럼 가는 것</li>
+            <li>전신 모든 부위를 동시에 다 하는 것</li>
+            <li>기기 단품만 팔고 CRM 없이 끝내는 것</li>
+            <li>통증 신뢰가 쌓이기 전에 너무 빨리 순수 뷰티로 튀는 것</li>
           </ul>
         </div>
       </div>
     </div>
 
     <div class="section">
-      <div class="section-title">4. 고객은 TENEX를 왜 사는가</div>
-      <div class="section-desc">고객은 제품 스펙보다 “내가 이 문제에서 벗어날 수 있겠구나”를 산다.</div>
-      <div class="example">
-        <div class="example-tag">예시 1 · 직장인</div>
-        <h3>“하루 종일 컴퓨터 앞에 앉아 있으니 목이 안 돌아가요.”</h3>
-        <ul>
-          <li>보통 시장의 답: 작은 마사지기 하나 추천</li>
-          <li>TENEX의 답: 왜 승모가 굳는지 설명 → ES-808로 회복 → 자세/스트레칭 루틴 → 필요하면 CS-25로 교정</li>
-        </ul>
-      </div>
-      <div class="example">
-        <div class="example-tag">예시 2 · 운동/육아</div>
-        <h3>“손목이랑 팔꿈치가 계속 아픈데 병원만 왔다 갔다 해요.”</h3>
-        <ul>
-          <li>보통 시장의 답: 보호대 단품 혹은 통증 크림 단품</li>
-          <li>TENEX의 답: 통증 부위별 사용법 콘텐츠 → ES-808 사용 포인트 → 보호대/회복 루틴 → 재발 방지까지 연결</li>
-        </ul>
-      </div>
-      <div class="example">
-        <div class="example-tag">예시 3 · 부모님 선물</div>
-        <h3>“엄마가 목, 어깨가 늘 불편해하셔서 뭘 사드려야 할지 모르겠어요.”</h3>
-        <ul>
-          <li>보통 시장의 답: 시원한 안마기 선물</li>
-          <li>TENEX의 답: 단순 선물이 아니라 ‘집에서 회복하는 습관’을 선물하는 구조</li>
-        </ul>
-      </div>
-    </div>
-
-    <div class="section">
-      <div class="section-title">5. TENEX 세계관의 핵심 기둥</div>
-      <div class="section-desc">이 네 기둥이 무너지면 TENEX는 그냥 또 하나의 기기 회사가 된다.</div>
-      <div class="pillars">
-        <div class="pillar">
-          <h3>문제 중심</h3>
-          <p>우리는 제품 중심이 아니라 목, 어깨, 손목, 무릎 같은 문제 중심으로 사고한다.</p>
+      <div class="section-title">6. 그래서 지금 액션은 뭐냐</div>
+      <div class="section-desc">이 페이지가 진짜 쓸모 있으려면 읽고 나서 바로 실행 우선순위가 떠야 한다.</div>
+      <div class="actions">
+        <div class="action-box">
+          <h3>광고</h3>
+          <ul>
+            <li>ES-808 중심으로 부위별 문제 광고를 돌린다.</li>
+            <li>“시원함”보다 “왜 아픈지, 어디에 쓰는지”를 보여준다.</li>
+          </ul>
         </div>
-        <div class="pillar">
-          <h3>전문 신뢰</h3>
-          <p>1분도수와 의료계 신뢰가 광고를 설득력 있게 만드는 엔진이다.</p>
+        <div class="action-box">
+          <h3>콘텐츠</h3>
+          <ul>
+            <li>목, 어깨, 손목, 무릎처럼 문제별 루틴 콘텐츠를 만든다.</li>
+            <li>제품 설명이 아니라 회복 순서를 가르친다.</li>
+          </ul>
         </div>
-        <div class="pillar">
-          <h3>집에서의 반복</h3>
-          <p>한 번의 처치가 아니라 집에서 꾸준히 할 수 있는 루틴이 핵심이다.</p>
+        <div class="action-box">
+          <h3>CRM</h3>
+          <ul>
+            <li>D+0 사용법 → D+3 강도 조절 → D+7 부위 확장 → D+14 소모품/보호대 제안 흐름을 만든다.</li>
+            <li>구매 후가 아니라 회복이 계속되게 설계한다.</li>
+          </ul>
         </div>
-        <div class="pillar">
-          <h3>확장 가능성</h3>
-          <p>목에서 시작하지만 정체성은 전신 근골격계 회복 플랫폼이다.</p>
+        <div class="action-box">
+          <h3>제품개발</h3>
+          <ul>
+            <li>목/어깨 다음은 손목·팔꿈치·무릎 순으로 확장한다.</li>
+            <li>제품 하나보다 문제 해결 번들 구조를 먼저 설계한다.</li>
+          </ul>
         </div>
       </div>
     </div>
 
     <div class="section">
-      <div class="section-title">6. 앞으로 어디까지 갈 수 있나</div>
-      <div class="section-desc">TENEX는 목디스크 회사가 아니라, 근골격계 홈 회복 플랫폼으로 가야 한다.</div>
+      <div class="section-title">7. TENEX는 앞으로 어디까지 확장 가능한가</div>
+      <div class="section-desc">정체성은 전신 근골격계 회복이고, 전술은 목에서 시작해 순차 확장이다.</div>
       <div class="timeline">
         <div class="timeline-step">
           <div class="stage">Stage 1</div>
-          <h3>목/어깨에서 압도적 신뢰 확보</h3>
-          <p>ES-808과 CS-25를 축으로 “목은 TENEX”라는 인식을 만든다.</p>
+          <h3>목/어깨 문제 점유</h3>
+          <p>“목은 TENEX”라는 인식을 만드는 단계. 콘텐츠와 제품 역할이 가장 잘 맞는 출발점이다.</p>
         </div>
         <div class="timeline-step">
           <div class="stage">Stage 2</div>
-          <h3>부위별 확장</h3>
-          <p>손목, 팔꿈치, 무릎, 발목, 허리 등으로 문제 지도를 넓힌다.</p>
+          <h3>손목·팔꿈치·무릎·발목 확장</h3>
+          <p>ES-808의 부위 확장성과 보호대/소모품을 묶어 전신 근골격계로 넓힌다.</p>
         </div>
         <div class="timeline-step">
           <div class="stage">Stage 3</div>
-          <h3>루틴과 소모품 강화</h3>
-          <p>기기 판매 회사가 아니라 회복 루틴 회사가 되도록 보호대, 크림, 콘텐츠, CRM을 붙인다.</p>
+          <h3>루틴 회사로 진화</h3>
+          <p>기기 브랜드가 아니라 운동, 회복, 교정, 고정이 묶인 홈 회복 플랫폼으로 올라간다.</p>
         </div>
         <div class="timeline-step">
           <div class="stage">Stage 4</div>
           <h3>메디컬-뷰티 브릿지</h3>
-          <p>회복·순환·라인·에이징웰 영역으로 자연스럽게 확장할 수 있다. 단, 코어는 항상 회복 원리여야 한다.</p>
+          <p>회복, 순환, 라인, 에이징웰 쪽으로 확장 가능하다. 단, 출발점은 항상 회복 원리여야 한다.</p>
         </div>
       </div>
     </div>
 
     <div class="section">
       <div class="quote">
-        TENEX는 “안마기 잘 파는 회사”가 아니라,<br>사람들이 병원 밖에서도 스스로 회복할 수 있게 만드는 브랜드다.
+        TENEX는 “아픈 사람에게 시원함을 파는 회사”가 아니라,<br>
+        “아픈 사람이 집에서도 스스로 회복할 수 있게 만드는 회사”다.
       </div>
     </div>
 
     <div class="footer">
-      TENEX Worldview · 집에서 스스로 회복할 수 있는 세상
+      TENEX Worldview · 문제 정의 → 회복 공식 → 제품 역할 → 전략 → 액션
     </div>
   </div>
 </body>
