@@ -104,13 +104,111 @@
       "campaignId": "camp-es808-therapist"
     }
   ],
+  "instagramCreators": [
+    {
+      "id": "ig-pt-kim",
+      "accountName": "김OO 물리치료사",
+      "handle": "@pt_kim_lab",
+      "category": "치료사/교정전문가",
+      "followers": 23000,
+      "avgViews10": 18000,
+      "avgLikes10": 940,
+      "avgComments10": 63,
+      "avgSaves10": 211,
+      "engagementScore": 91,
+      "trustScore": 90,
+      "costEfficiency": 88,
+      "honorSensitivity": 92,
+      "recommendedModel": "추천코드",
+      "status": "ready_to_dm",
+      "lastContacted": "-",
+      "note": "전문성 강함, 명예형 DM 우선"
+    },
+    {
+      "id": "ig-parent-choi",
+      "accountName": "육아자세연구소 최OO",
+      "handle": "@mom_posture_lab",
+      "category": "육아",
+      "followers": 17000,
+      "avgViews10": 9000,
+      "avgLikes10": 420,
+      "avgComments10": 38,
+      "avgSaves10": 156,
+      "engagementScore": 84,
+      "trustScore": 81,
+      "costEfficiency": 86,
+      "honorSensitivity": 70,
+      "recommendedModel": "시딩+코드",
+      "status": "ready_to_dm",
+      "lastContacted": "-",
+      "note": "육아 카테고리 테스트용"
+    },
+    {
+      "id": "ig-rehab-jung",
+      "accountName": "정OO 재활코치",
+      "handle": "@rehab_jung",
+      "category": "치료사/교정전문가",
+      "followers": 12000,
+      "avgViews10": 7000,
+      "avgLikes10": 331,
+      "avgComments10": 21,
+      "avgSaves10": 88,
+      "engagementScore": 72,
+      "trustScore": 78,
+      "costEfficiency": 58,
+      "honorSensitivity": 62,
+      "recommendedModel": "추천코드 전환 협상",
+      "status": "human_review",
+      "lastContacted": "2026-05-20",
+      "note": "고정비 성향 있어 검토 필요"
+    },
+    {
+      "id": "ig-running-lee",
+      "accountName": "러닝회복 이OO",
+      "handle": "@recovery_runner_lee",
+      "category": "러닝",
+      "followers": 31000,
+      "avgViews10": 14500,
+      "avgLikes10": 502,
+      "avgComments10": 27,
+      "avgSaves10": 133,
+      "engagementScore": 79,
+      "trustScore": 75,
+      "costEfficiency": 73,
+      "honorSensitivity": 68,
+      "recommendedModel": "공동구매 후보",
+      "status": "dm_sent",
+      "lastContacted": "2026-05-21",
+      "note": "답장 대기"
+    }
+  ],
+  "dmQueue": [
+    {
+      "accountName": "김OO 물리치료사",
+      "handle": "@pt_kim_lab",
+      "template": "명예형",
+      "status": "ready_to_send"
+    },
+    {
+      "accountName": "육아자세연구소 최OO",
+      "handle": "@mom_posture_lab",
+      "template": "공감형",
+      "status": "ready_to_send"
+    },
+    {
+      "accountName": "러닝회복 이OO",
+      "handle": "@recovery_runner_lee",
+      "template": "성과형",
+      "status": "waiting_reply"
+    }
+  ],
   "operations": {
     "discovered": [
       { "name": "러닝연구소 박OO", "desc": "공동구매 적합성 높음, 컨택 전" },
       { "name": "육아자세연구소 최OO", "desc": "육아 카테고리 테스트 후보" }
     ],
     "contacted": [
-      { "name": "김OO 물리치료사", "desc": "명예형 1차 DM 발송 완료" }
+      { "name": "김OO 물리치료사", "desc": "명예형 1차 DM 발송 준비 완료" }
     ],
     "negotiating": [
       { "name": "정OO 재활코치", "desc": "고정비 대신 추천코드형 전환 협상중" }

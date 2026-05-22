@@ -46,12 +46,41 @@ function reuseRows(rows) {
   return rows.map(r => `<div class="task"><div class="name">${r.name}</div><div class="desc">${r.desc}</div></div>`).join('');
 }
 
+function dmQueueRows(rows) {
+  return rows.map((r, idx) => `
+    <tr>
+      <td>${r.accountName}</td>
+      <td>${r.handle}</td>
+      <td>${r.template}</td>
+      <td>${r.status}</td>
+      <td><button class="send-dm-btn" data-index="${idx}">1차 DM 보내기</button></td>
+    </tr>
+  `).join('');
+}
+
+function creatorRows(rows) {
+  return rows.map(r => `
+    <tr>
+      <td>${r.accountName}<div class="small">${r.handle}</div></td>
+      <td>${r.category}</td>
+      <td>${formatNumber(r.followers)}</td>
+      <td>${formatNumber(r.avgViews10)}</td>
+      <td>${formatNumber(r.avgComments10)}</td>
+      <td>${formatNumber(r.avgSaves10)}</td>
+      <td>${r.engagementScore}</td>
+      <td>${r.recommendedModel}</td>
+      <td>${r.status}</td>
+      <td>${r.lastContacted}</td>
+    </tr>
+  `).join('');
+}
+
 function fillTemplate(template, candidate) {
   return template
-    .replaceAll('{name}', candidate.name)
+    .replaceAll('{name}', candidate.name || candidate.accountName)
     .replaceAll('{recent_content_reference}', `${candidate.category} 관련 최근 콘텐츠`)
     .replaceAll('{honor_frame}', '초기 파트너 포지션')
-    .replaceAll('{reason_fit}', candidate.reason)
+    .replaceAll('{reason_fit}', candidate.reason || candidate.note || '')
     .replaceAll('{product}', candidate.campaignId === 'camp-cs25-parenting' ? 'CS-25' : 'ES-808');
 }
 
@@ -76,16 +105,17 @@ function renderCandidates(data, campaignId = 'all', grade = 'all') {
 }
 
 function renderOperations(ops) {
-  const labels = {
-    discovered: 'Discovered',
-    contacted: 'Contacted',
-    negotiating: 'Negotiating',
-    scheduled: 'Scheduled',
-    tracking: 'Tracking'
-  };
-  document.getElementById('operationsBoard').innerHTML = Object.entries(labels)
-    .map(([key, label]) => operationLane(label, ops[key] || []))
-    .join('');
+  const labels = { discovered: 'Discovered', contacted: 'Contacted', negotiating: 'Negotiating', scheduled: 'Scheduled', tracking: 'Tracking' };
+  document.getElementById('operationsBoard').innerHTML = Object.entries(labels).map(([key, label]) => operationLane(label, ops[key] || [])).join('');
+}
+
+function renderInstagramDB(creators) {
+  document.getElementById('creatorCount').textContent = `${creators.length}개 계정`;
+  document.getElementById('creatorTableBody').innerHTML = creatorRows(creators);
+}
+
+function renderDmQueue(rows) {
+  document.getElementById('dmQueueBody').innerHTML = dmQueueRows(rows);
 }
 
 function bindControls(data) {
@@ -104,6 +134,13 @@ function bindControls(data) {
     document.getElementById('outreachTemplateBox').innerHTML = fillTemplate(data.outreachTemplate.performance, candidate).replaceAll('\n', '<br/>');
   });
   document.getElementById('generateBtn').addEventListener('click', render);
+  document.getElementById('dmQueueBody').addEventListener('click', (e) => {
+    const btn = e.target.closest('.send-dm-btn');
+    if (!btn) return;
+    btn.textContent = '발송 완료';
+    btn.disabled = true;
+    btn.style.opacity = '.6';
+  });
 }
 
 loadPartnershipOS()
@@ -111,6 +148,8 @@ loadPartnershipOS()
     renderSummary(data.summary);
     renderCandidates(data);
     renderOperations(data.operations);
+    renderInstagramDB(data.instagramCreators);
+    renderDmQueue(data.dmQueue);
     document.getElementById('performanceBody').innerHTML = performanceRows(data.performance);
     document.getElementById('reuseQueue').innerHTML = reuseRows(data.reuseQueue);
     bindControls(data);
