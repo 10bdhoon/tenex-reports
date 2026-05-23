@@ -11,6 +11,13 @@ async function loadPartnershipOS() {
 let creatorState = { query: '', category: 'all', status: 'all', sort: 'engagement_desc', data: [] };
 let partnershipData = null;
 
+function setSaveStatus(message, type = '') {
+  const el = document.getElementById('saveStatus');
+  if (!el) return;
+  el.className = `save-status ${type}`.trim();
+  el.textContent = message;
+}
+
 async function savePartnershipState() {
   const res = await fetch('/api/tasks/update', {
     method: 'POST',
@@ -18,7 +25,11 @@ async function savePartnershipState() {
     body: JSON.stringify({ partnershipState: partnershipData }),
     credentials: 'include',
   });
-  if (!res.ok) throw new Error('Failed to persist partnership state');
+  if (!res.ok) {
+    setSaveStatus('저장 실패, 로그인/권한 또는 서버 상태 확인 필요', 'error');
+    throw new Error('Failed to persist partnership state');
+  }
+  setSaveStatus('저장 완료', 'ok');
   return true;
 }
 
