@@ -1,0 +1,23 @@
+{
+  "date": "2026-05-30",
+  "collected_at": "2026-05-29T21:00:09Z",
+  "youtube": {
+    "channel_id": "UCWywSxMIVgYcE8lqPCwHWfg",
+    "total_views": 30502231,
+    "subscribers": 150000,
+    "video_count": 265,
+    "recent_videos": []
+  },
+  "instagram": {
+    "username": "one_dosu_physio",
+    "followers": 62471,
+    "post_count": 60,
+    "note": "total views require Meta Business API"
+  },
+  "tiktok": {
+    "username": "one_dosu_physio",
+    "followers": 33300,
+    "total_likes": 350600,
+    "video_count": 185
+  }
+}
