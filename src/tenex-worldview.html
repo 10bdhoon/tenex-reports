@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>TENEX 세계관 | 인포그래픽형 버전</title>
+<title>TENEX 세계관 | 원페이퍼</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 :root{
@@ -23,6 +23,7 @@
   --purple-bg:#211633;
   --red:#ff9f9f;
   --red-bg:#211416;
+  --gold:#ffd479;
 }
 body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--bg);color:var(--text);line-height:1.55}
 .wrapper{max-width:1280px;margin:0 auto;padding:20px}
@@ -30,11 +31,11 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 .slide::after{content:"";position:absolute;right:-60px;top:-60px;width:220px;height:220px;background:radial-gradient(circle,rgba(143,197,255,.12) 0%,rgba(143,197,255,0) 70%);pointer-events:none}
 .eyebrow{font-size:12px;font-weight:900;letter-spacing:2px;color:var(--blue);text-transform:uppercase;margin-bottom:12px}
 .hero-title{font-size:46px;line-height:1.08;font-weight:900;color:#fff;max-width:1060px;margin-bottom:14px}
-.hero-sub{font-size:18px;color:var(--sub);max-width:980px}
+.hero-sub{font-size:18px;color:var(--sub);max-width:1000px}
 .hero-chip{display:inline-flex;align-items:center;gap:8px;margin-top:18px;padding:12px 16px;border-radius:999px;background:var(--blue-bg);border:1px solid rgba(143,197,255,.22);color:#fff;font-weight:800;font-size:14px}
 .section-title{font-size:34px;font-weight:900;color:#fff;margin-bottom:8px}
 .section-sub{font-size:15px;color:#9db2c9;margin-bottom:20px}
-.big-quote{font-size:30px;font-weight:900;line-height:1.38;color:#fff;max-width:1040px}
+.big-quote{font-size:30px;font-weight:900;line-height:1.38;color:#fff;max-width:1080px}
 .row{display:grid;gap:16px}
 .cols-2{grid-template-columns:repeat(2,minmax(0,1fr))}
 .cols-3{grid-template-columns:repeat(3,minmax(0,1fr))}
@@ -54,6 +55,18 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 .summary-core{background:linear-gradient(135deg,#12305f,#0d1b34)}
 .summary-problem{background:#0b1526}
 .summary-solution{background:#0b1526}
+/* 사명 3중 */
+.mission-grid{display:grid;grid-template-columns:1.2fr 1fr 1fr;gap:14px}
+.mission{border-radius:22px;padding:22px;border:1px solid var(--line);position:relative;overflow:hidden}
+.mission::before{content:"";position:absolute;left:0;top:0;bottom:0;width:5px}
+.mission.t{background:linear-gradient(135deg,#12305f,#0d1b34)}.mission.t::before{background:var(--blue)}
+.mission.k{background:#0b1526}.mission.k::before{background:var(--green)}
+.mission.m{background:#0b1526}.mission.m::before{background:var(--orange)}
+.mission .brand{font-size:13px;font-weight:900;letter-spacing:1px;text-transform:uppercase;margin-bottom:8px}
+.mission.t .brand{color:var(--blue)}.mission.k .brand{color:var(--green)}.mission.m .brand{color:var(--orange)}
+.mission .say{font-size:18px;font-weight:800;color:#fff;line-height:1.4}
+.mission .role{font-size:13px;color:#9db2c9;margin-top:8px}
+/* flow */
 .flow-line{display:grid;grid-template-columns:1.1fr 70px 1.1fr 70px 1.1fr;gap:14px;align-items:stretch}
 .flow-box{background:var(--card);border:1px solid var(--line);border-radius:22px;padding:20px;position:relative}
 .flow-box h4{font-size:20px;color:#fff;margin-bottom:10px}
@@ -79,201 +92,349 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 .stage.purple .num{color:var(--purple)}
 .stage h4{font-size:20px;color:#fff;margin-bottom:10px}
 .stage p{font-size:14px;color:#d1dbea}
-.role-visual{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:12px}
-.role-node{border-radius:20px;padding:18px;min-height:205px;position:relative;border:1px solid var(--line)}
-.role-node h4{font-size:18px;color:#fff;margin-bottom:10px}
+.role-visual{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+.role-node{border-radius:20px;padding:18px;min-height:175px;position:relative;border:1px solid var(--line)}
+.role-node h4{font-size:18px;color:#fff;margin-bottom:8px}
 .role-node p{font-size:13px;color:#d1dbea}
 .role-node .tag{display:inline-block;padding:5px 10px;border-radius:999px;font-size:11px;font-weight:900;margin-bottom:10px}
 .role-blue{background:#0d1d33}.role-blue .tag{background:var(--blue-bg);color:var(--blue)}
 .role-green{background:var(--green-bg)}.role-green .tag{background:#163a2b;color:var(--green)}
 .role-orange{background:var(--orange-bg)}.role-orange .tag{background:#4a2b15;color:var(--orange)}
 .role-purple{background:var(--purple-bg)}.role-purple .tag{background:#38204f;color:var(--purple)}
-.problem-deck{display:grid;gap:14px}
-.problem-card{background:var(--card);border:1px solid var(--line);border-radius:22px;padding:20px}
-.problem-title{font-size:20px;color:#fff;margin-bottom:14px}
-.problem-steps{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
-.small-step{background:#09111d;border:1px solid var(--line);border-radius:16px;padding:14px;position:relative}
-.small-step::after{content:"→";position:absolute;right:-12px;top:50%;transform:translateY(-50%);color:var(--blue);font-size:22px;font-weight:900}
-.small-step:last-child::after{display:none}
-.small-step .label{font-size:11px;font-weight:900;letter-spacing:1px;text-transform:uppercase;color:var(--blue);margin-bottom:8px}
-.small-step h5{font-size:15px;color:#fff;margin-bottom:6px}
-.small-step p{font-size:12px;color:#d1dbea}
-.loop-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
-.loop-card{background:var(--card);border:1px solid rgba(143,197,255,.16);border-radius:18px;padding:18px;position:relative}
-.loop-card::before{content:"↺";position:absolute;right:14px;top:12px;color:var(--blue);font-size:18px;font-weight:900;opacity:.8}
-.loop-order{font-size:12px;font-weight:900;color:var(--blue);margin-bottom:8px}
-.loop-card h4{font-size:18px;color:#fff;margin-bottom:8px}
-.loop-card p{font-size:13px;color:#d1dbea}
-.engine-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
-.engine{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:18px;min-height:220px;position:relative}
+/* 신뢰 사다리 */
+.trust-ladder{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;align-items:stretch}
+.trust-step{border-radius:22px;padding:20px;position:relative;border:1px solid var(--line);overflow:hidden}
+.trust-step .lv{font-size:12px;font-weight:900;letter-spacing:1px;text-transform:uppercase;margin-bottom:10px;color:var(--gold)}
+.trust-step h4{font-size:19px;color:#fff;margin-bottom:8px}
+.trust-step p{font-size:13px;color:#d1dbea}
+.trust-step .proof{display:inline-block;margin-top:12px;padding:5px 10px;border-radius:999px;font-size:11px;font-weight:900;background:rgba(255,212,121,.12);color:var(--gold);border:1px solid rgba(255,212,121,.25)}
+.trust-1{background:linear-gradient(135deg,#1a2f12,#0d1b34)}
+.trust-2{background:#0b1526}
+.trust-3{background:#0b1526}
+.trust-4{background:linear-gradient(135deg,#2a1d10,#0d1b34)}
+.trust-step .step-no{position:absolute;right:14px;top:10px;font-size:40px;font-weight:900;color:rgba(255,255,255,.06)}
+/* 스크립트 */
+.script-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.script-card{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:20px;position:relative}
+.script-card .who{font-size:12px;font-weight:900;letter-spacing:1px;text-transform:uppercase;color:var(--blue);margin-bottom:10px}
+.script-card .quote{font-size:17px;font-weight:800;color:#fff;line-height:1.45}
+.script-card .quote::before{content:"\201C";color:var(--blue);font-size:24px;font-weight:900}
+.script-card .quote::after{content:"\201D";color:var(--blue);font-size:24px;font-weight:900}
+.script-card .ex{font-size:12px;color:#9db2c9;margin-top:10px}
+/* 문화 */
+.culture-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+.chip-row{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+.chip{padding:7px 12px;border-radius:999px;font-size:13px;font-weight:700;background:var(--blue-bg);color:#fff;border:1px solid rgba(143,197,255,.22)}
+.chip.kw{background:var(--green-bg);color:var(--green);border-color:rgba(91,228,155,.2)}
+.chip.persona{background:var(--purple-bg);color:var(--purple);border-color:rgba(192,151,255,.2)}
+/* 비전 테이블 */
+.vtable{width:100%;border-collapse:separate;border-spacing:0 8px}
+.vtable th{text-align:left;font-size:12px;letter-spacing:1px;text-transform:uppercase;color:#9db2c9;padding:0 14px 6px}
+.vtable td{background:var(--card);border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:14px;font-size:14px;color:#d1dbea;vertical-align:top}
+.vtable td:first-child{border-left:1px solid var(--line);border-radius:14px 0 0 14px;font-weight:900;color:#fff;white-space:nowrap}
+.vtable td:last-child{border-right:1px solid var(--line);border-radius:0 14px 14px 0}
+.vtable .v-letter{display:inline-flex;width:26px;height:26px;border-radius:8px;background:var(--blue-bg);color:var(--blue);align-items:center;justify-content:center;font-weight:900;margin-right:8px}
+.dri{display:inline-block;padding:3px 9px;border-radius:999px;font-size:12px;font-weight:800;background:rgba(143,197,255,.12);color:var(--blue);border:1px solid rgba(143,197,255,.2)}
+.dri.hold{background:rgba(255,159,159,.12);color:var(--red);border-color:rgba(255,159,159,.2)}
+.engine-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.engine{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:20px;position:relative}
 .engine::after{content:"";position:absolute;right:0;top:0;bottom:0;width:4px;background:var(--blue);border-radius:0 20px 20px 0;opacity:.7}
-.engine-num{font-size:12px;font-weight:900;color:var(--blue);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px}
 .engine h4{font-size:18px;color:#fff;margin-bottom:10px}
 .engine p,.engine li{font-size:13px;color:#d1dbea}
-.engine ul{padding-left:18px}
+.engine ul{padding-left:18px;margin-top:6px}
+.engine li{margin-bottom:5px}
 .remember-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
 .warning{background:var(--red-bg);border:1px solid rgba(255,124,124,.2)}
 .warning h3{color:var(--red)}
+.kpi-row{display:flex;flex-wrap:wrap;gap:10px;margin-top:12px}
+.kpi{background:#09111d;border:1px solid var(--line);border-radius:14px;padding:12px 16px;min-width:120px}
+.kpi .n{font-size:22px;font-weight:900;color:#fff}
+.kpi .l{font-size:12px;color:#9db2c9;margin-top:2px}
 .footer{padding:10px 4px 0;color:#7e90a7;font-size:12px;text-align:center}
-@media (max-width:1180px){.summary-grid,.role-visual{grid-template-columns:repeat(3,minmax(0,1fr))}.engine-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.stage-grid,.problem-steps,.loop-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.flow-line{grid-template-columns:1fr}.arrow-wrap{padding:4px 0}.small-step::after{display:none}}
-@media (max-width:760px){.wrapper{padding:14px}.hero-title{font-size:34px}.section-title{font-size:28px}.cols-2,.cols-3,.cols-4,.summary-grid,.role-visual,.engine-grid,.stage-grid,.problem-steps,.loop-grid,.remember-grid{grid-template-columns:1fr}.big-quote{font-size:24px}}
+@media (max-width:1180px){
+  .summary-grid,.mission-grid{grid-template-columns:1fr}
+  .role-visual{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .trust-ladder,.stage-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .culture-grid{grid-template-columns:1fr}
+  .flow-line{grid-template-columns:1fr}.arrow-wrap{padding:4px 0}
+  .engine-grid,.script-grid{grid-template-columns:1fr}
+}
+@media (max-width:760px){
+  .wrapper{padding:14px}.hero-title{font-size:32px}.section-title{font-size:26px}
+  .cols-2,.cols-3,.cols-4,.role-visual,.trust-ladder,.stage-grid,.remember-grid{grid-template-columns:1fr}
+  .big-quote{font-size:23px}
+  .vtable, .vtable tbody, .vtable tr, .vtable td{display:block;width:100%}
+  .vtable thead{display:none}
+  .vtable td{border:1px solid var(--line)!important;border-radius:12px!important;margin-bottom:-1px}
+}
 </style>
 </head>
 <body>
   <div class="wrapper">
+
+    <!-- HERO -->
     <section class="slide">
-      <div class="eyebrow">TENEX WORLDVIEW · INFOGRAPHIC VERSION</div>
-      <div class="hero-title">TENEX는 안마기 회사가 아니라,<br>병원 밖에서 사람들이 스스로 회복하는 시스템을 만드는 회사다.</div>
-      <div class="hero-sub">우리는 제품 하나를 파는 게 아니라, 운동을 병렬로 유지하면서 WS-200 → ES-808 → 교정 → 고정으로 이어지는 회복 루틴을 제품, 콘텐츠, CRM, 마케팅 생태계로 연결한다.</div>
-      <div class="hero-chip"><span>🎯</span><span>핵심 한 줄: 우리는 시원함이 아니라 반복 가능한 회복을 판다.</span></div>
+      <div class="eyebrow">TENEX WORLDVIEW · ONE-PAGER</div>
+      <div class="hero-title">병원에 의존하지 않아도 되는 세상.<br>누구나 집에서, 스스로 회복한다.</div>
+      <div class="hero-sub">TENEX는 안마기 회사가 아니다. <strong>운동 → 회복 → 교정 → 고정</strong> 으로 이어지는 근골격계 회복 루틴을, 제품·콘텐츠·의료계·고객의 <strong>4단계 신뢰</strong> 위에 얹어 집에서도 반복 가능하게 만드는 회사다.</div>
+      <div class="hero-chip"><span>🎯</span><span>핵심 한 줄: 우리는 시원함이 아니라 '반복 가능한 회복'을 판다.</span></div>
     </section>
 
+    <!-- 0. 한 장 요약 -->
     <section class="slide">
-      <div class="section-title">0. 한 장 요약 슬라이드</div>
-      <div class="section-sub">처음 보는 사람도 여기 한 장만 보면 TENEX가 뭔지 이해하게 만드는 슬라이드다.</div>
+      <div class="section-title">한 장 요약</div>
+      <div class="section-sub">처음 보는 사람도 이 한 장이면 TENEX가 뭔지 이해한다.</div>
+      <div class="mission-grid" style="margin-bottom:14px">
+        <div class="mission t"><div class="brand">TENEX · 세계관</div><div class="say">"누구나 집에서, 스스로 회복할 수 있는 세상을 만듭니다."</div><div class="role">지주 — 회복 생태계 전체를 설계</div></div>
+        <div class="mission k"><div class="brand">키네메디칼 · 제품</div><div class="say">"우리는 세계 최고의 의료기기를 만듭니다."</div><div class="role">권위·신뢰의 원천</div></div>
+        <div class="mission m"><div class="brand">1분도수 · 콘텐츠</div><div class="say">"1분이라도 움직이게 만든다."</div><div class="role">운동을 유지시키는 채널</div></div>
+      </div>
       <div class="summary-grid">
         <div class="summary-box summary-core">
           <h3>우리는 누구냐</h3>
-          <p><strong>TENEX는 병원 밖 회복 시스템 회사</strong>다. 제품이 아니라 루틴을 판다.</p>
+          <p><strong>병원 밖 회복 시스템 회사.</strong> 제품 단품이 아니라 회복 '루틴'을 판다. 지금은 목(경추)부터, 나아가 전 근골격계로.</p>
         </div>
         <div class="summary-box summary-problem">
           <h3>어떤 문제를 푸냐</h3>
           <ul>
-            <li>목/어깨/손목/무릎 통증</li>
-            <li>병원 다녀와도 반복되는 문제</li>
-            <li>집에서 뭘 해야 할지 모르는 상태</li>
+            <li>근골격계 통증으로 병원 가도 일시적으로만 나음</li>
+            <li>회복·교정 다 '운동 병행' 해야 유지되는데 집에선 못 함</li>
+            <li>집에서 뭘 어떻게 해야 할지 모름</li>
           </ul>
         </div>
         <div class="summary-box summary-solution">
           <h3>어떻게 푸냐</h3>
           <ul>
-            <li>운동 병렬 유지</li>
-            <li>WS-200 → ES-808 회복</li>
-            <li>CS-25 교정 + 보호대/크림 유지</li>
+            <li>운동→회복→교정→고정 루틴을 집에서 가능하게</li>
+            <li>4단계 신뢰(키네→1분도수→의료계→고객)로 증명</li>
+            <li>고객의 '스크립트(진짜 한마디)'로 바이럴</li>
           </ul>
         </div>
       </div>
     </section>
 
+    <!-- 1. 들어가는 자리 -->
     <section class="slide">
       <div class="section-title">1. TENEX가 들어가는 자리</div>
-      <div class="section-sub">팀원이 제일 먼저 알아야 하는 건 “우리가 어디를 메우는 회사냐”다.</div>
+      <div class="section-sub">병원이 못 메우는 '집에서의 반복'을 우리가 메운다.</div>
       <div class="flow-line">
         <div class="flow-box">
-          <div class="icon">🏥</div>
-          <h4>병원</h4>
-          <ul>
-            <li>진단/처치 가능</li>
-            <li>전문성 높음</li>
-            <li>집에서 반복 루틴은 약함</li>
-          </ul>
+          <div class="icon">🏥</div><h4>병원</h4>
+          <ul><li>회복(근적외선 찜질+전기치료) + 교정(도수·견인)</li><li>전문성 높음</li><li>그러나 집에서의 반복 루틴은 부재</li></ul>
         </div>
         <div class="arrow-wrap"><div class="arrow">→</div></div>
         <div class="flow-box">
-          <div class="icon">😣</div>
-          <h4>고객 현실</h4>
-          <ul>
-            <li>목, 어깨, 손목, 무릎이 반복적으로 아픔</li>
-            <li>병원 다녀와도 다시 돌아옴</li>
-            <li>집에서 뭘 해야 하는지 모름</li>
-          </ul>
+          <div class="icon">😣</div><h4>고객 현실</h4>
+          <ul><li>목·어깨·손목·무릎이 반복적으로 아픔</li><li>병원 다녀와도 다시 돌아옴</li><li>운동을 해야 유지되는데 혼자선 못 함</li></ul>
         </div>
         <div class="arrow-wrap"><div class="arrow">→</div></div>
         <div class="flow-box">
-          <div class="icon">🏠</div>
-          <h4>TENEX</h4>
-          <ul>
-            <li>운동 + 회복 + 교정 + 고정</li>
-            <li>제품 + 콘텐츠 + CRM 연결</li>
-            <li>집에서도 반복 가능한 회복 시스템 제공</li>
-          </ul>
+          <div class="icon">🏠</div><h4>TENEX</h4>
+          <ul><li>운동 + 회복 + 교정 + 고정</li><li>제품 + 콘텐츠(1분도수) + CRM 연결</li><li>집에서도 반복 가능한 회복 시스템</li></ul>
         </div>
       </div>
     </section>
 
+    <!-- 2. 회복 공식 -->
     <section class="slide">
       <div class="section-title">2. TENEX의 회복 공식</div>
-      <div class="section-sub">색 코드를 붙였다. 파랑=운동, 초록=회복 1차, 주황=회복 2차, 보라=교정/고정.</div>
+      <div class="section-sub">파랑=운동(병렬), 초록=회복1차, 주황=회복2차, 보라=교정/고정. 운동은 처음 한 번이 아니라 내내 병렬로 간다.</div>
       <div class="stage-grid">
-        <div class="stage blue"><div class="num">01 · 병렬</div><h4>🏃 운동</h4><p>운동은 맨 앞에 한 번 하고 끝나는 게 아니라 회복/교정 내내 병렬로 간다.</p></div>
-        <div class="stage green"><div class="num">02 · 회복 1차</div><h4>🔥 WS-200</h4><p>넓고 얕게 몸을 열어준다. 찜질, 순환, 이완의 입구 단계다.</p></div>
-        <div class="stage orange"><div class="num">03 · 회복 2차</div><h4>⚡ ES-808</h4><p>포인트를 깊게 자극한다. 병원처럼 넓게 푼 뒤 타겟팅한다.</p></div>
-        <div class="stage purple"><div class="num">04 · 안정화</div><h4>🧭 교정·고정</h4><p>CS-25와 보호대, 습관 교정으로 다시 무너지지 않게 만든다.</p></div>
+        <div class="stage blue"><div class="num">01 · 병렬</div><h4>🏃 운동</h4><p>회복·교정 내내 병렬로 유지. 1분도수 채널이 "1분이라도 움직이게" 유도한다.</p></div>
+        <div class="stage green"><div class="num">02 · 회복</div><h4>🔥 WS-200</h4><p>병원 근적외선 원리. 넓고 얕게 몸을 열어주는 회복 입구.</p></div>
+        <div class="stage orange"><div class="num">03 · 회복</div><h4>⚡ ES-808</h4><p>병원 전기치료 원리. 포인트를 깊게 자극하는 회복의 코어. (TENS 탑재 → KINE-PULSE)</p></div>
+        <div class="stage purple"><div class="num">04 · 안정화</div><h4>🧭 교정·고정</h4><p>CS-25(도수·견인)로 교정, 보호대로 급성기 고정. 다시 무너지지 않게.</p></div>
       </div>
     </section>
 
+    <!-- 3. 제품 역할 맵 -->
     <section class="slide">
       <div class="section-title">3. 제품 역할 맵</div>
-      <div class="section-sub">색 코드와 역할을 붙여서 더 직관적으로 만들었다.</div>
+      <div class="section-sub">제품 담당: 태훈 직접. 회복 / 교정 / 고정 + 유지·증폭재 + 프로모션용 운동용품.</div>
       <div class="role-visual">
-        <div class="role-node role-green"><div class="tag">회복 입구</div><div class="icon">🔥</div><h4>WS-200</h4><p>몸을 넓고 부드럽게 열어주는 회복 1차 도구.</p></div>
-        <div class="role-node role-orange"><div class="tag">회복 핵심</div><div class="icon">⚡</div><h4>ES-808</h4><p>문제 부위를 포인트로 깊게 공략하는 회복의 코어.</p></div>
-        <div class="role-node role-orange"><div class="tag">ES-808 전용</div><div class="icon">💧</div><h4>부스터젤</h4><p>ES-808 사용 순간의 체감과 효율을 올리는 전용 증폭재.</p></div>
-        <div class="role-node role-blue"><div class="tag">비사용 시간 유지</div><div class="icon">🧴</div><h4>통증크림</h4><p>기기를 쓰지 않는 텀에서 회복감을 이어주는 유지재.</p></div>
-        <div class="role-node role-purple"><div class="tag">교정</div><div class="icon">🧭</div><h4>CS-25</h4><p>정렬과 자세 문제를 잡는 시그니처 교정 도구.</p></div>
-        <div class="role-node role-purple"><div class="tag">고정/지지</div><div class="icon">🛡️</div><h4>보호대</h4><p>회복 후 다시 무너지지 않게 지지해주는 안정화 도구.</p></div>
+        <div class="role-node role-green"><div class="tag">회복 입구</div><div class="icon">🔥</div><h4>WS-200</h4><p>근적외선으로 몸을 넓고 부드럽게 여는 회복 1차.</p></div>
+        <div class="role-node role-orange"><div class="tag">회복 핵심</div><div class="icon">⚡</div><h4>ES-808 / Pro</h4><p>문제 부위를 포인트로 깊게 공략. Pro(7~8월): 뾰족 팁 정밀 타겟·고급화·무전류 손잡이 특허.</p></div>
+        <div class="role-node role-orange"><div class="tag">ES-808 전용</div><div class="icon">💧</div><h4>부스터젤</h4><p>ES-808 사용 순간의 체감·효율을 올리는 전용 증폭재.</p></div>
+        <div class="role-node role-purple"><div class="tag">교정</div><div class="icon">🧭</div><h4>CS-25</h4><p>도수·견인 원리의 시그니처 교정기. 굿플과 개선 개발 중.</p></div>
+        <div class="role-node role-purple"><div class="tag">고정/지지</div><div class="icon">🛡️</div><h4>보호대 <span style="font-size:11px;color:#9db2c9">(예정)</span></h4><p>급성기 고정 + 회복 후 다시 무너지지 않게 지지.</p></div>
+        <div class="role-node role-blue"><div class="tag">비사용 시간 유지</div><div class="icon">🧴</div><h4>통증크림</h4><p>기기를 안 쓰는 텀에 회복감을 이어주는 유지재.</p></div>
+        <div class="role-node role-blue"><div class="tag">TENS</div><div class="icon">🔌</div><h4>KINE-PULSE</h4><p>병원 TENS 기능을 담은 라인(ES-808 계열 확장 브랜드명).</p></div>
+        <div class="role-node role-green"><div class="tag">프로모션 명분</div><div class="icon">🧘</div><h4>운동용품(소싱)</h4><p>요가블럭·매트·마사지봉·땅콩볼 등. 자사몰 프로모션을 계속 돌릴 명분.</p></div>
       </div>
     </section>
 
+    <!-- 4. 4단계 신뢰 -->
     <section class="slide">
-      <div class="section-title">4. 고객 문제 해결 플로우</div>
-      <div class="section-sub">문제 해결 과정을 화살표로 더 노골적으로 보이게 만들었다.</div>
-      <div class="problem-deck">
-        <div class="problem-card">
-          <div class="problem-title">예시 A. 목/어깨가 늘 뭉치고 목이 잘 안 돌아가는 직장인</div>
-          <div class="problem-steps">
-            <div class="small-step"><div class="label">운동</div><h5>🏃 병렬 유지</h5><p>스트레칭/자세 루틴을 같이 간다.</p></div>
-            <div class="small-step"><div class="label">회복</div><h5>🔥→⚡ WS-200 → ES-808</h5><p>먼저 넓게 풀고, 다음 포인트를 깊게 푼다.</p></div>
-            <div class="small-step"><div class="label">교정</div><h5>🧭 CS-25</h5><p>자세와 정렬 문제를 잡는다.</p></div>
-            <div class="small-step"><div class="label">유지</div><h5>🧴 + 🛡️ 통증크림 + 보호대</h5><p>기기 없는 시간에도 회복을 유지한다.</p></div>
+      <div class="section-title">4. 4단계 신뢰 공식 <span style="color:var(--gold)">★ 우리의 공식</span></div>
+      <div class="section-sub">자기증명에서 시작해 타인증명으로 번진다. 이 사다리 위에서 모든 비즈니스가 펼쳐진다.</div>
+      <div class="trust-ladder">
+        <div class="trust-step trust-1"><div class="step-no">1</div><div class="lv">Level 1 · 자기증명</div><h4>키네메디칼</h4><p>세계 최고 의료기기를 만드는 회사. 권위적이고 딱딱하지만 정말 신뢰가 가는 느낌(정선근 교수님처럼).</p><span class="proof">자기증명</span></div>
+        <div class="trust-step trust-2"><div class="step-no">2</div><div class="lv">Level 2 · 1차 타인증명</div><h4>1분도수</h4><p>목 전문 도수치료사. "키네는 제품은 최고인데 마케팅을 못한다"며 본인이 발벗고 샤라웃.</p><span class="proof">1차 타인증명</span></div>
+        <div class="trust-step trust-3"><div class="step-no">3</div><div class="lv">Level 3 · 2차 타인증명</div><h4>의료계</h4><p>의사·한의사·물리치료사·교정전문가가 키네+1분도수를 샤라웃. 아프면 병원 가는 신뢰를 적극 활용.</p><span class="proof">2차 타인증명</span></div>
+        <div class="trust-step trust-4"><div class="step-no">4</div><div class="lv">Level 4 · 3차 타인증명</div><h4>고객</h4><p>육아·러닝 인플루언서, 연예인, 운동선수가 셋을 한 번에 샤라웃. 생산자가 아닌 소비자의 찐 후기.</p><span class="proof">3차 타인증명</span></div>
+      </div>
+    </section>
+
+    <!-- 5. 문화 전략 -->
+    <section class="slide">
+      <div class="section-title">5. 제안 · 근거 · 페르소나</div>
+      <div class="section-sub">무엇을 제안하고(제안문화), 어떤 키워드로 공략하며(근거문화), 누가 바이럴해주는가(페르소나).</div>
+      <div class="culture-grid">
+        <div class="card">
+          <h3>🪧 제안문화</h3>
+          <p>우리가 들고 나가는 단 하나의 제안.</p>
+          <div class="chip-row"><span class="chip">유일한 목디스크 회복 솔루션</span></div>
+        </div>
+        <div class="card">
+          <h3>🔎 근거문화 키워드</h3>
+          <p>이 키워드로 검색·근거 지면을 공략한다.</p>
+          <div class="chip-row">
+            <span class="chip kw">목디스크</span><span class="chip kw">목통증</span><span class="chip kw">거북목</span><span class="chip kw">일자목</span><span class="chip kw">버섯목</span>
           </div>
         </div>
-        <div class="problem-card">
-          <div class="problem-title">예시 B. 손목/팔꿈치가 반복적으로 저린 사무직·육아 고객</div>
-          <div class="problem-steps">
-            <div class="small-step"><div class="label">운동</div><h5>🏃 병렬 유지</h5><p>반복 패턴을 바꾸는 루틴이 꼭 같이 가야 한다.</p></div>
-            <div class="small-step"><div class="label">회복</div><h5>🔥→⚡ WS-200 → ES-808</h5><p>긴장을 낮추고 통증 포인트를 정밀하게 자극한다.</p></div>
-            <div class="small-step"><div class="label">보조</div><h5>💧 + 🛡️ 부스터젤 + 보호대</h5><p>ES-808 사용 순간 효율과 안정성을 높인다.</p></div>
-            <div class="small-step"><div class="label">유지</div><h5>🧴 통증크림</h5><p>기기 안 쓰는 시간의 회복 유지재 역할을 한다.</p></div>
+        <div class="card">
+          <h3>💗 찐팬 페르소나</h3>
+          <p>대만족 후 주변에 바이럴해줄 사람들.</p>
+          <div class="chip-row">
+            <span class="chip persona">지성인</span><span class="chip persona">효자</span><span class="chip persona">효녀</span><span class="chip persona">남편</span><span class="chip persona">아내</span><span class="chip persona">부모님</span>
           </div>
         </div>
       </div>
     </section>
 
+    <!-- 6. 스크립트 -->
     <section class="slide">
-      <div class="section-title">5. ES-808 반복 사용 루프</div>
-      <div class="section-sub">반복 구조가 보이도록 루프 성격을 더 강조했다.</div>
-      <div class="loop-grid">
-        <div class="loop-card"><div class="loop-order">Step 1</div><h4>✨ 체감</h4><p>첫 사용에서 바로 “시원하다”는 체감을 만든다.</p></div>
-        <div class="loop-card"><div class="loop-order">Step 2</div><h4>📚 교육</h4><p>어디에 어떻게 쓰는지, 왜 이 루틴이 필요한지 가르친다.</p></div>
-        <div class="loop-card"><div class="loop-order">Step 3</div><h4>💧 부스터젤 결합</h4><p>전용 부스터젤과 함께 쓸 때 가장 좋다고 교육하고 리워드와 할인으로 재구매를 유도한다.</p></div>
-        <div class="loop-card"><div class="loop-order">Step 4</div><h4>🔁 루틴 고정</h4><p>고객이 제품이 아니라 TENEX 회복 루틴 자체를 따라가게 만든다.</p></div>
+      <div class="section-title">6. 스크립트 <span style="color:var(--gold)">★ 바이럴 엔진</span></div>
+      <div class="section-sub">스크립트 = 고객·의료계의 입에서 나오는 "진짜 한마디". 이게 뇌리에 박히면 사업은 떡상한다. 우리는 그 한마디가 <strong>의도적으로 그들의 입에서 나오게</strong> 만든다.</div>
+      <div class="script-grid">
+        <div class="script-card"><div class="who">🙋 고객 스크립트</div><div class="quote">저는 그냥 목이 아파서, 병원·도수치료사들이 쓰는 거 집에 가져다가 씁니다.</div><div class="ex">예시 제품: CS-25</div></div>
+        <div class="script-card"><div class="who">🩺 의료계 스크립트</div><div class="quote">병원에서 쓰는 견인 치료기. 10분이면 목디스크가 편해집니다.</div><div class="ex">예시 제품: CS-25</div></div>
+      </div>
+      <div class="card" style="margin-top:14px">
+        <h3>🗣️ 우리가 고객에게 하는 말</h3>
+        <ul>
+          <li>"아무리 최고의 의료기기라도 제품만으로 목디스크는 해결되지 않습니다. 평소 운동과 꾸준히 병행해야 합니다. 그래서 우리는 국내 No.1 도수치료사 1분도수 채널과 함께 최고의 제품과 운동 콘텐츠를 개발합니다."</li>
+          <li>"우리는 기기만 팔고 끝나는 데가 아닙니다. 기기 + 전문가 운동이 결합되어야 진짜 낫습니다. 그래서 1분도수와 같이 갑니다."</li>
+        </ul>
       </div>
     </section>
 
+    <!-- 7. 확장 -->
     <section class="slide">
-      <div class="section-title">6. TENEX가 커지는 성장 엔진 8개</div>
-      <div class="section-sub">이 8개 엔진이 서로 물려 하나의 생태계를 만든다.</div>
+      <div class="section-title">7. 경추에서 시작해 전 근골격계로</div>
+      <div class="section-sub">근골격계는 원리가 같다. 목에서 성공을 만든 뒤, ES-808을 마중물로 전체 부위로 확장한다.</div>
+      <div class="flow-line">
+        <div class="flow-box"><div class="icon">🎯</div><h4>지금 — 경추</h4><ul><li>목통증/목디스크 솔루션에 집중</li><li>여기서 4단계 신뢰와 스크립트를 완성</li></ul></div>
+        <div class="arrow-wrap"><div class="arrow">→</div></div>
+        <div class="flow-box"><div class="icon">⚡</div><h4>마중물 — ES-808</h4><ul><li>특정 부위에 대면 깊은 전기 자극이 '덜덜덜'</li><li>아주 정확한 부위 타겟은 ES-808만 가능</li><li>무전류 손잡이 특허로 사용성 해결</li></ul></div>
+        <div class="arrow-wrap"><div class="arrow">→</div></div>
+        <div class="flow-box"><div class="icon">🦾</div><h4>확장 — 전신</h4><ul><li>어깨 · 손목 · 무릎 · 허리</li><li>검증된 메시지·SKU를 부위별로 복제</li></ul></div>
+      </div>
+    </section>
+
+    <!-- 8. 비전 A~K -->
+    <section class="slide">
+      <div class="section-title">8. 업무 비전 A~K + DRI 맵</div>
+      <div class="section-sub">업무를 A~Z로 쪼개고 각자 비전을 둔다. 이 비전들을 모두 달성하면 — 우리는 끝장난다.</div>
+      <table class="vtable">
+        <thead><tr><th>비전</th><th>달성 모습</th><th>DRI</th></tr></thead>
+        <tbody>
+          <tr><td><span class="v-letter">A</span>제품</td><td>목 문제의 근본 해결 솔루션 개발 성공 → 타 근골격계로 확장</td><td><span class="dri">태훈</span></td></tr>
+          <tr><td><span class="v-letter">B</span>콘텐츠/채널</td><td>전 국민 마인드에 "목 아프면 ⇒ 1분도수"</td><td><span class="dri">인규</span></td></tr>
+          <tr><td><span class="v-letter">C</span>의료계 파트너십</td><td>의료계가 인정하는 경추 치료 솔루션으로 자리잡기</td><td><span class="dri">단희</span></td></tr>
+          <tr><td><span class="v-letter">D</span>마케팅/광고</td><td>대한민국이 열광하는 경추 치료 솔루션</td><td><span class="dri">정민</span> <span class="dri">MD 김덕유</span> <span class="dri">콘텐츠 단희</span></td></tr>
+          <tr><td><span class="v-letter">E</span>앱/개발</td><td>회복 체감 + 테넥스 생태계 잔류 기술</td><td><span class="dri hold">⏸ 홀드 — 회사 안정화 후</span></td></tr>
+          <tr><td><span class="v-letter">F</span>재무</td><td>지분 희석 없이 성장 자금 확보 + 돈 흐름 관리</td><td><span class="dri">실무 명희</span> <span class="dri">설계 호진</span></td></tr>
+          <tr><td><span class="v-letter">G</span>조직</td><td>태훈이 전략·제품에 집중할 수 있는 팀 구축</td><td><span class="dri">실무 명희</span> <span class="dri">설계 호진</span></td></tr>
+          <tr><td><span class="v-letter">H</span>운영</td><td>매출이 커져도 흔들리지 않는 운영 체계</td><td><span class="dri">실무 명희</span> <span class="dri">설계 호진</span></td></tr>
+          <tr><td><span class="v-letter">I</span>AI 시스템</td><td>반복 업무 자동화로 적은 인원 최대 성과</td><td><span class="dri">태훈</span></td></tr>
+          <tr><td><span class="v-letter">J</span>해외진출</td><td>미국에서 키네메디칼 = "경추 회복의 표준" 브랜드</td><td><span class="dri">호진</span> <span class="dri">+김덕유 관심</span></td></tr>
+          <tr><td><span class="v-letter">K</span>고객성공</td><td>구매자가 실제 회복하고 평생 팬이 되는 구조</td><td><span class="dri">태훈</span> <span class="dri">실행 인규+운영자</span></td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- 9. 핵심 비전 깊이 보기 -->
+    <section class="slide">
+      <div class="section-title">9. 핵심 비전 깊이 보기</div>
+      <div class="section-sub">B·C·D·K가 4단계 신뢰를 실제 매출로 굴리는 핵심 엔진이다.</div>
       <div class="engine-grid">
-        <div class="engine"><div class="engine-num">Engine 1</div><h4>🎯 히어로 SKU</h4><p>ES-808 단일 히어로 체제 고도화, 부위별 사용 장면/후기 구조화, 번들 설계.</p></div>
-        <div class="engine"><div class="engine-num">Engine 2</div><h4>🩺 의료계 콘텐츠 → 광고소재</h4><p>1분도수와 전문가 신뢰를 광고소재 원천으로 전환.</p></div>
-        <div class="engine"><div class="engine-num">Engine 3</div><h4>📈 그로스마케팅</h4><p>메타·구글·카카오·네이버·틱톡을 실공헌이익 기준으로 통합 운영.</p></div>
-        <div class="engine"><div class="engine-num">Engine 4</div><h4>🤝 추천코드/공구</h4><p>메가 공구와 마이크로 추천코드를 분리 운영, 도수치료사/재활 크리에이터 우선.</p></div>
-        <div class="engine"><div class="engine-num">Engine 5</div><h4>💬 커뮤니티/네이버 카페</h4><p>문제별 언어로 후기와 해결사례 중심 진입, 운영자를 파트너로 전환.</p></div>
-        <div class="engine"><div class="engine-num">Engine 6</div><h4>🛒 자사몰 프로모션/CRM</h4><p>가격 할인보다 회복 키트, 번들, 사은품 중심. CRM으로 재구매 회수.</p></div>
-        <div class="engine"><div class="engine-num">Engine 7</div><h4>🏬 오프라인 팝업</h4><p>체험 후기, 리드, 광고소재, 유통 레버리지까지 같이 보는 팝업 엔진.</p></div>
-        <div class="engine"><div class="engine-num">Engine 8</div><h4>🌏 해외 확장</h4><p>한국에서 검증된 메시지와 SKU를 복제. 일본 → 미국 순서로 프로토콜 수출.</p></div>
+        <div class="engine">
+          <h4>B. 콘텐츠/채널 — 1분도수</h4>
+          <p>궁극 목표: "근골격계 질환 = 1분도수". 모든 콘텐츠는 곧 광고소재.</p>
+          <div class="kpi-row">
+            <div class="kpi"><div class="n">160만</div><div class="l">유튜브 목표(정선근 교수 기준)</div></div>
+            <div class="kpi"><div class="n">15.3만</div><div class="l">유튜브 현재</div></div>
+            <div class="kpi"><div class="n">6.4 / 3.4 / 1.5만</div><div class="l">인스타 / 틱톡 / 스레드</div></div>
+          </div>
+        </div>
+        <div class="engine">
+          <h4>C. 의료계 파트너십 (단희)</h4>
+          <ul>
+            <li>온라인 의료계 인플루언서 전부 협력관계로 (오프라인보다 온라인 우선)</li>
+            <li>현재 <strong>물리치료사 ~40명</strong> 파트너십 → 계속 확장</li>
+            <li>메가급은 <strong>어필리에이트/공동구매</strong>로 실질 수익을 주며 명분 확보</li>
+            <li>딜 자체=파트너십(C) / 콘텐츠 제작·운영=마케팅(D) / 모든 파트너십=광고소재</li>
+          </ul>
+        </div>
+        <div class="engine">
+          <h4>D. 마케팅/광고 (정민)</h4>
+          <ul>
+            <li>인스타·구글·카카오 집행 + 틱톡 추가. 그로스 마케팅.</li>
+            <li>자사몰 프로모션(MD 김덕유)으로 그로스 → 외부채널 태핑</li>
+            <li>외부채널: 롯데홈쇼핑 · 대한항공 C&D 면세부터 → 임팩트 채널만</li>
+            <li><strong>원칙: "테스트"라며 리소스 분산 금지. 가장 임팩트 큰 곳에 전 리소스 집중 = 우리 스타일.</strong></li>
+            <li>네이버: ① 검색지면 상위노출(로직) ② 외부 카페 찐 고객 바이럴(맘카페 장악형)</li>
+            <li>오프라인: 더현대·성수 팝업 완판 / B2B·병원 마케팅은 추후</li>
+          </ul>
+        </div>
+        <div class="engine">
+          <h4>K. 고객성공 — 네이버 카페 (태훈)</h4>
+          <p>모든 접점을 카페로 모은다. 카페명 <strong>"매일 1분, 스스로 회복하는 사람들"</strong> — 근골격계 대표 카페.</p>
+          <ul>
+            <li>목표: 고객이 실제 <strong>회복 → 팬</strong>. "병원보다 키네메디칼을 찾는 시대"</li>
+            <li>인규=실제 회복·찐팬화 설계 / 태훈=외부노출·운영 판 설계 / 운영 실행=정민 또는 별도 인원</li>
+          </ul>
+        </div>
       </div>
     </section>
 
+    <!-- 10. 추가 전략 -->
+    <section class="slide">
+      <div class="section-title">10. 더 큰 그림 — 플랫폼 & 공간</div>
+      <div class="section-sub">제품을 넘어, 우리를 팔아주는 사람과 회복하는 공간까지.</div>
+      <div class="cols-2 row">
+        <div class="card">
+          <h3>🤝 플랫폼 전략 — 우리의 영업사원</h3>
+          <p>운동·교정·재활·필라테스·PT헬스장이 고객에게 운동 후 회복기기를 쓰게 한다 → 고객이 평소에도 쓰고 싶어진다 → 구매. 그들에게 <strong>제품판매권</strong>을 준다.</p>
+          <ul>
+            <li><strong>고객 A</strong> = 우리의 영업사원이 될 고객</li>
+            <li><strong>고객 B</strong> = 통증을 해결하고 싶은 고객</li>
+            <li>핫버튼(목디스크·일자목·버섯목)을 꽉 잡으면, 일상 관리 고객도 따라온다</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3>🏛️ 키네메디칼 센터 (장기 비전)</h3>
+          <p>도수 급여 축소로 도수치료사들이 병원 밖으로 나오는 흐름. 잘하는 사람만 모셔 센터를 차릴 수 있다.</p>
+          <ul>
+            <li>나중엔 <strong>사회환원</strong>으로 지방에도 센터</li>
+            <li>센터가 아니어도, 무료로 기기 쓰고 운동하는 <strong>공간</strong> 제공 → 스스로 회복</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- 11. 기억할 것 / 오해 -->
     <section class="slide">
       <div class="remember-grid">
         <div class="card">
-          <h3>팀원이 꼭 기억해야 할 3가지</h3>
+          <h3>팀원이 꼭 기억할 것</h3>
           <ul>
-            <li>우리는 안마기 회사가 아니라 회복 시스템 회사다.</li>
-            <li>운동은 항상 병렬로 간다.</li>
-            <li>기기 단발이 아니라 루틴 반복 구조를 만든다.</li>
+            <li>우리는 안마기 회사가 아니라 <strong>회복 시스템</strong> 회사다.</li>
+            <li>운동은 항상 <strong>병렬</strong>로 간다. 기기만으로는 안 낫는다.</li>
+            <li>모든 건 <strong>4단계 신뢰</strong> 위에서 움직인다.</li>
+            <li>고객/의료계의 <strong>스크립트</strong>가 바이럴의 핵심이다.</li>
+            <li>리소스는 <strong>가장 임팩트 큰 채널 하나</strong>에 집중한다. 테스트 핑계로 분산 금지.</li>
           </ul>
         </div>
         <div class="card warning">
@@ -283,16 +444,18 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
             <li>운동 없이 기기만으로 해결된다고 말하지 말 것</li>
             <li>제품 단품 판매 회사처럼 보이게 만들지 말 것</li>
             <li>통증 신뢰가 쌓이기 전에 순수 뷰티 브랜드처럼 말하지 말 것</li>
+            <li>의료법 위반 소지 표현(과장된 치료 효능)을 쓰지 말 것</li>
           </ul>
         </div>
       </div>
     </section>
 
+    <!-- 마무리 -->
     <section class="slide center">
-      <div class="big-quote">TENEX는 “아픈 사람에게 시원함을 파는 회사”가 아니라,<br>“운동을 병렬로 유지하면서 회복·교정·고정을 통해 집에서도 스스로 회복하게 만드는 회사”다.</div>
+      <div class="big-quote">TENEX는 "아픈 사람에게 시원함을 파는 회사"가 아니라,<br>"운동을 병렬로 유지하면서 회복·교정·고정을 통해<br>집에서도 스스로 회복하게 만드는 회사"다.</div>
     </section>
 
-    <div class="footer">TENEX Worldview Infographic · 한 장 요약 → 시장 구조 → 회복 공식 → 제품 역할 맵 → 문제 해결 플로우 → 반복 루프 → 성장 엔진</div>
+    <div class="footer">TENEX Worldview One-Pager · 사명 → 회복 공식 → 제품 맵 → 4단계 신뢰 → 문화·스크립트 → 비전 A~K → 더 큰 그림</div>
   </div>
 </body>
 </html>
