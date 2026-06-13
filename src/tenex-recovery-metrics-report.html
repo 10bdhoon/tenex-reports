@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<title>TENEX 회복 데이터 전략 보고서</title>
+<style>
+  :root{
+    --ink:#13242b;        /* 차콜 그린 */
+    --ink2:#3a5560;
+    --accent:#0e9488;     /* 의료 청록 */
+    --accent2:#0b6e7d;
+    --gold:#c08a2d;
+    --line:#e2e8ea;
+    --bg:#f6f9f9;
+    --soft:#eef5f4;
+    --warn:#b7472a;
+  }
+  *{box-sizing:border-box;}
+  html{-webkit-print-color-adjust:exact; print-color-adjust:exact;}
+  body{
+    font-family:"Apple SD Gothic Neo","Pretendard","Noto Sans KR",system-ui,sans-serif;
+    color:var(--ink); margin:0; line-height:1.65; font-size:13.5px;
+    background:#fff;
+  }
+  .page{ width:210mm; min-height:297mm; padding:18mm 16mm; margin:0 auto; background:#fff; position:relative; }
+  @page{ size:A4; margin:0; }
+  @media print{ .page{ page-break-after:always; box-shadow:none; } }
+
+  /* ---- cover ---- */
+  .cover{ background:linear-gradient(150deg,#0e9488 0%,#0b3d44 100%); color:#fff; }
+  .cover .kicker{ letter-spacing:.32em; font-size:11px; opacity:.85; font-weight:600; }
+  .cover h1{ font-size:40px; line-height:1.18; margin:18px 0 6px; font-weight:800; letter-spacing:-.5px;}
+  .cover h1 .hl{ color:#ffe9b8; }
+  .cover .sub{ font-size:16px; opacity:.92; margin-top:10px; font-weight:500;}
+  .cover .rule{ width:64px; height:4px; background:#ffe9b8; margin:26px 0; border-radius:2px;}
+  .cover .meta{ position:absolute; bottom:18mm; left:16mm; font-size:12px; opacity:.85; }
+  .cover .tagbox{ margin-top:34px; display:flex; gap:10px; flex-wrap:wrap;}
+  .cover .tag{ border:1px solid rgba(255,255,255,.45); padding:7px 14px; border-radius:30px; font-size:12.5px; }
+  .cover .thesis{ margin-top:40px; background:rgba(255,255,255,.10); border-left:4px solid #ffe9b8; padding:18px 20px; border-radius:0 10px 10px 0; font-size:15px; line-height:1.6;}
+
+  h2{ font-size:22px; font-weight:800; color:var(--ink); margin:0 0 4px; letter-spacing:-.4px;}
+  .sec-no{ color:var(--accent); font-weight:800; }
+  .sec-head{ border-bottom:2px solid var(--ink); padding-bottom:10px; margin-bottom:18px; display:flex; align-items:baseline; gap:12px;}
+  .sec-head .en{ margin-left:auto; font-size:11px; letter-spacing:.2em; color:#9bb0b4; font-weight:600; text-transform:uppercase;}
+  h3{ font-size:16px; font-weight:700; margin:22px 0 8px; color:var(--accent2);}
+  p{ margin:8px 0; }
+  .lead{ font-size:14.5px; color:var(--ink2); }
+  strong{ color:var(--ink); font-weight:700;}
+  .accent{ color:var(--accent2); font-weight:700;}
+
+  .card{ background:var(--bg); border:1px solid var(--line); border-radius:12px; padding:16px 18px; margin:12px 0;}
+  .grid3{ display:grid; grid-template-columns:1fr 1fr 1fr; gap:12px; margin:16px 0;}
+  .stat{ background:var(--soft); border-radius:12px; padding:16px; text-align:center;}
+  .stat .n{ font-size:26px; font-weight:800; color:var(--accent); line-height:1;}
+  .stat .l{ font-size:11.5px; color:var(--ink2); margin-top:7px;}
+
+  table{ width:100%; border-collapse:collapse; margin:12px 0; font-size:12px;}
+  th{ background:var(--ink); color:#fff; text-align:left; padding:9px 10px; font-weight:600; font-size:11.5px;}
+  td{ padding:9px 10px; border-bottom:1px solid var(--line); vertical-align:top;}
+  tr:nth-child(even) td{ background:#fafcfc;}
+  .pill{ display:inline-block; padding:2px 9px; border-radius:20px; font-size:10.5px; font-weight:700; white-space:nowrap;}
+  .p-hi{ background:#0e9488; color:#fff;}
+  .p-mid{ background:#cfe8e4; color:#0b6e7d;}
+  .p-lo{ background:#eef1f1; color:#7b8c8f;}
+  .e3{ color:#0e9488; font-weight:800;}
+  .e2{ color:#c08a2d; font-weight:800;}
+  .e1{ color:#9bb0b4; font-weight:800;}
+
+  .prod-head{ display:flex; align-items:center; gap:14px; margin:6px 0 4px;}
+  .prod-badge{ width:46px;height:46px;border-radius:12px; display:flex;align-items:center;justify-content:center; font-weight:800; color:#fff; font-size:13px;}
+  .b-cs{ background:linear-gradient(135deg,#0b6e7d,#13242b);}
+  .b-es{ background:linear-gradient(135deg,#0e9488,#c08a2d);}
+  .prod-head .t{ font-size:18px; font-weight:800;}
+  .prod-head .d{ font-size:12px; color:var(--ink2);}
+
+  .flow{ display:flex; align-items:stretch; gap:0; margin:14px 0; flex-wrap:wrap;}
+  .flow .step{ flex:1; min-width:90px; background:var(--soft); padding:12px 8px; text-align:center; font-size:11.5px; font-weight:600; position:relative; border-radius:8px; margin:3px;}
+  .flow .step .em{ display:block; color:var(--accent); font-size:11px; font-weight:800; margin-bottom:3px;}
+
+  .callout{ background:var(--soft); border-left:4px solid var(--accent); padding:14px 18px; border-radius:0 10px 10px 0; margin:14px 0;}
+  .callout.gold{ border-color:var(--gold); background:#fbf5e9;}
+  .roadmap{ margin:14px 0;}
+  .phase{ display:flex; gap:14px; margin:10px 0; align-items:flex-start;}
+  .phase .ph{ flex:0 0 92px; font-weight:800; color:#fff; border-radius:8px; padding:10px; text-align:center; font-size:12px;}
+  .ph1{background:#0e9488;} .ph2{background:#0b6e7d;} .ph3{background:#13242b;}
+  .phase .pd{ flex:1; background:var(--bg); border:1px solid var(--line); border-radius:8px; padding:11px 14px; font-size:12.5px;}
+
+  ul.clean{ margin:8px 0; padding-left:18px;} ul.clean li{ margin:5px 0;}
+  .foot{ position:absolute; bottom:10mm; left:16mm; right:16mm; display:flex; justify-content:space-between; font-size:10px; color:#9bb0b4; border-top:1px solid var(--line); padding-top:6px;}
+  .next{ counter-reset:n;}
+  .next .item{ display:flex; gap:12px; padding:11px 0; border-bottom:1px dashed var(--line);}
+  .next .item .num{ flex:0 0 26px; height:26px; background:var(--accent); color:#fff; border-radius:50%; display:flex;align-items:center;justify-content:center; font-weight:800; font-size:12px;}
+  .next .item .b{ font-size:12.5px;}
+  .tl{ font-size:10.5px; color:var(--gold); font-weight:700;}
+</style>
+</head>
+<body>
+
+<!-- ========== COVER ========== -->
+<section class="page cover">
+  <div class="kicker">TENEX · RECOVERY DATA STRATEGY</div>
+  <h1>회복을 <span class="hl">숫자</span>로 만든다</h1>
+  <div class="sub">제품별 측정지표 설계 &amp; 우리만의 통합지수 「KINE Score」 구상</div>
+  <div class="rule"></div>
+  <div class="tagbox">
+    <span class="tag">CS-25 · 경추 교정</span>
+    <span class="tag">ES-808 · 저주파 회복</span>
+    <span class="tag">KINE Score 통합지수</span>
+    <span class="tag">의료기기 신뢰 레이어</span>
+  </div>
+  <div class="thesis">
+    <strong>인바디는 「체성분」을 숫자로 바꿔 평생 재측정 루프를 만들었다.</strong><br>
+    우리는 「회복」을 숫자로 바꾼다. 그 숫자가 데이터로 복리처럼 쌓일 때,<br>
+    그것이 후발주자가 못 넘는 <strong>진짜 해자</strong>가 된다.
+  </div>
+  <div class="meta">기획·작성: 카리나 (COO) &nbsp;|&nbsp; 2026.06.13 &nbsp;|&nbsp; 대상: 지성 대표</div>
+</section>
+
+<!-- ========== P1 : 왜 숫자인가 ========== -->
+<section class="page">
+  <div class="sec-head"><span class="sec-no">01</span><h2>왜 「숫자」가 해자인가</h2><span class="en">The InBody Playbook</span></div>
+
+  <p class="lead">질문에 먼저 답한다. <strong>인바디는 처음부터 의료기기가 맞다.</strong> 1996년 차기철 박사가 창업, 체성분분석기(BIA)는 출시 시점부터 의료기기로 등록됐다. 하지만 인바디의 진짜 무기는 「의료기기 타이틀」이 아니라 그것을 쓴 <span class="accent">전략</span>이었다.</p>
+
+  <div class="grid3">
+    <div class="stat"><div class="n">병원 先</div><div class="l">연구기관·병원에 먼저 깔아<br>의료 신뢰를 선점</div></div>
+    <div class="stat"><div class="n">숫자化</div><div class="l">추상적 「체성분」을<br>누구나 추적할 점수로</div></div>
+    <div class="stat"><div class="n">재측정</div><div class="l">측정→개선확인→재방문<br>평생 반복 루프</div></div>
+  </div>
+
+  <h3>이 플레이북이 우리 그림과 정확히 겹친다</h3>
+  <p>지성 대표가 그리는 <strong>「굿플 의료기기 로고 → 메디스트림·물작메 침투 → 전문가 인증 → 더현대 팝업 → 단계별 확산」</strong>은 인바디의 "병원 선점 후 대중 확산"과 동일한 구조다. 한 가지가 빠져 있을 뿐이다 — <strong>우리만의 숫자.</strong></p>
+
+  <div class="callout gold">
+    <strong>핵심 명제.</strong> 인바디가 「체성분」을 독점했듯, 우리는 <span class="accent">「근골격 회복도」</span>를 숫자로 정의하는 최초 브랜드가 된다. 정의하는 자가 표준이 되고, 표준은 데이터로 굳는다.
+  </div>
+
+  <h3>숫자가 만드는 4가지 자산</h3>
+  <table>
+    <tr><th style="width:24%">자산</th><th>설명</th></tr>
+    <tr><td><strong>① 신뢰</strong></td><td>"좋아졌다"는 주관적 후기 → "목 회전 18° 개선" 객관 수치. 의료계가 받아들이는 언어.</td></tr>
+    <tr><td><strong>② 재구매 트리거</strong></td><td>점수가 떨어지면 운동·제품 사용의 동기가 생긴다. 측정이 루프의 시동 키.</td></tr>
+    <tr><td><strong>③ 광고 무기</strong></td><td>"N천 명 평균 ROM 18° 개선" 같은 임상급 클레임 → 전환율·CPA 개선.</td></tr>
+    <tr><td><strong>④ 진입장벽</strong></td><td>before/after 데이터는 복리로 쌓인다. 후발주자가 시간으로도 못 따라잡는 해자.</td></tr>
+  </table>
+
+  <div class="foot"><span>TENEX Recovery Data Strategy</span><span>01 — 왜 숫자인가</span></div>
+</section>
+
+<!-- ========== P2 : 제품 분리 원칙 + CS-25 ========== -->
+<section class="page">
+  <div class="sec-head"><span class="sec-no">02</span><h2>제품별 측정지표 설계</h2><span class="en">Two Products, Two Number Systems</span></div>
+
+  <p class="lead">대표 지적이 정확하다. <strong>두 제품은 결이 다르므로 숫자 체계도 분리해야 한다.</strong> CS-25는 「구조가 얼마나 틀어졌고 얼마나 펴졌는가」를, ES-808은 「얼마나 아팠고 얼마나 풀렸는가」를 측정한다.</p>
+
+  <table>
+    <tr><th style="width:18%">축</th><th>CS-25 (경추 교정)</th><th>ES-808 (저주파 회복)</th></tr>
+    <tr><td><strong>본질</strong></td><td>공압 견인 + 지압 / 경추 전용</td><td>EMS+TENS 저주파 / 다관절 타겟</td></tr>
+    <tr><td><strong>측정 대상</strong></td><td>자세·정렬·구조 (Structure)</td><td>통증·가동성·회복 (Recovery)</td></tr>
+    <tr><td><strong>핵심 숫자</strong></td><td class="accent">거북목 각도(CVA), 경추 ROM</td><td class="accent">통증강도(NRS), 관절별 ROM</td></tr>
+    <tr><td><strong>지수명</strong></td><td>POSTURE Score</td><td>RECOVERY Score</td></tr>
+  </table>
+
+  <div class="prod-head"><div class="prod-badge b-cs">CS-25</div><div><div class="t">CS-25 · 경추 교정기 — 「구조의 숫자」</div><div class="d">자세가 얼마나 무너졌고, 견인·교정 후 얼마나 회복됐는가</div></div></div>
+
+  <table>
+    <tr><th style="width:21%">지표</th><th style="width:26%">정의 / 정상 기준</th><th>측정 방법</th><th style="width:11%">난이도</th><th style="width:9%">임팩트</th></tr>
+    <tr><td><strong>거북목 각도 (CVA)</strong></td><td>두개척추각. 귀-C7 라인. 정상 &gt;50°, 거북목 &lt;50°</td><td>측면 사진 1장 + AI 포즈추정</td><td><span class="pill p-lo">하</span></td><td><span class="e3">★★★</span></td></tr>
+    <tr><td><strong>두부전방전위 (FHP)</strong></td><td>귀가 어깨선보다 앞으로 나간 거리(cm)</td><td>측면 사진 픽셀 환산</td><td><span class="pill p-lo">하</span></td><td><span class="e3">★★★</span></td></tr>
+    <tr><td><strong>경추 ROM 6방향</strong></td><td>굴곡45°·신전45°·좌우회전60°·좌우측굴45°</td><td>정·측면 동영상 + 각도 추정</td><td><span class="pill p-mid">중</span></td><td><span class="e3">★★★</span></td></tr>
+    <tr><td><strong>어깨 비대칭 / 라운드숄더</strong></td><td>좌우 어깨 높이차(°), 흉추 후만 각도</td><td>정·측면 사진 AI 분석</td><td><span class="pill p-lo">하</span></td><td><span class="e2">★★</span></td></tr>
+    <tr><td><strong>견인 반응값</strong></td><td>견인 직후 신장 변화(mm)·목 둘레 압통 변화</td><td>사용 전후 자가 측정 + 입력</td><td><span class="pill p-mid">중</span></td><td><span class="e2">★★</span></td></tr>
+    <tr><td><strong>순응도 (Adherence)</strong></td><td>주간 착용 횟수·누적 시간</td><td>기기/앱 사용 로그</td><td><span class="pill p-lo">하</span></td><td><span class="e2">★★</span></td></tr>
+  </table>
+
+  <div class="callout"><strong>CS-25의 킬러 지표 = CVA.</strong> 측면 사진 한 장으로 "당신 목은 지금 38°, 정상은 50°"를 보여주는 순간 충격이 발생한다. 더현대 팝업·SNS 광고·병원 상담 어디서나 즉석 시연 가능한 <span class="accent">전환 무기</span>다.</div>
+
+  <div class="foot"><span>TENEX Recovery Data Strategy</span><span>02 — CS-25 측정지표</span></div>
+</section>
+
+<!-- ========== P3 : ES-808 ========== -->
+<section class="page">
+  <div class="sec-head"><span class="sec-no">03</span><h2>ES-808 측정지표</h2><span class="en">Pain &amp; Recovery Numbers</span></div>
+
+  <div class="prod-head"><div class="prod-badge b-es">ES-808</div><div><div class="t">ES-808 · 저주파 회복기 — 「통증·회복의 숫자」</div><div class="d">다관절(목·어깨·팔꿈치·손목·무릎·발목) — 얼마나 아팠고, 얼마나 풀렸는가</div></div></div>
+
+  <p class="lead">ES-808은 회복기기다. CVA 같은 자세 각도가 아니라, <strong>통증의 크기·관절별 가동성·근육 상태</strong>를 숫자로 잡아야 한다. 다관절 기기이므로 <span class="accent">「부위별」</span>로 쪼개는 것이 핵심이다.</p>
+
+  <table>
+    <tr><th style="width:21%">지표</th><th style="width:27%">정의 / 척도</th><th>측정 방법</th><th style="width:11%">난이도</th><th style="width:9%">임팩트</th></tr>
+    <tr><td><strong>통증 강도 (NRS/VAS)</strong></td><td>0~10 숫자 통증척도. 부위별 개별 기록</td><td>앱 자가입력(매 세션)</td><td><span class="pill p-lo">하</span></td><td><span class="e3">★★★</span></td></tr>
+    <tr><td><strong>통증 지도 (Pain Map)</strong></td><td>인체 그림에 아픈 관절·강도 색칠</td><td>앱 인터랙션</td><td><span class="pill p-lo">하</span></td><td><span class="e3">★★★</span></td></tr>
+    <tr><td><strong>관절별 ROM</strong></td><td>어깨180·팔꿈치145·손목80·무릎135·발목배굴20° 등 부위별 정상치 대비</td><td>동영상 + AI 각도추정(부위 선택)</td><td><span class="pill p-mid">중</span></td><td><span class="e3">★★★</span></td></tr>
+    <tr><td><strong>압통 역치 (PPT)</strong></td><td>눌렀을 때 아픈 최소 압력(kgf/cm²). 높을수록 회복</td><td>압통계 / 굿플 의료기기 센서</td><td><span class="pill p-hi">상</span></td><td><span class="e2">★★</span></td></tr>
+    <tr><td><strong>근긴장도·경직도</strong></td><td>진동주파수(Hz)=긴장, 강성(N/m)=경직. 낮을수록 이완</td><td>의료기기 내장 센서(EMG/근경도)</td><td><span class="pill p-hi">상</span></td><td><span class="e2">★★</span></td></tr>
+    <tr><td><strong>회복 속도</strong></td><td>통증 50% 감소까지 걸린 일수·세션수</td><td>NRS 시계열에서 자동 산출</td><td><span class="pill p-lo">하</span></td><td><span class="e2">★★</span></td></tr>
+    <tr><td><strong>트리거포인트 수</strong></td><td>활성 압통점 개수 변화</td><td>자가 체크 + 부위 매핑</td><td><span class="pill p-lo">하</span></td><td><span class="e1">★</span></td></tr>
+  </table>
+
+  <div class="callout gold"><strong>ES-808의 차별화 한 방 = 근긴장도 센서.</strong> 통증·ROM은 경쟁사도 앱으로 흉내 낼 수 있다. 하지만 7월 말 <span class="accent">굿플 의료기기 버전에 근경도/EMG 센서를 내장</span>하면 — "의료기기로 측정한 근육 이완 수치"가 된다. 앱이 못 넘는 하드웨어 해자이자, 의료계 신뢰의 결정타.</div>
+
+  <h3>난이도 ↔ 시점의 분리</h3>
+  <p>난이도 「하」(통증·통증지도·회복속도)는 <strong>지금 당장 앱만으로</strong> 시작한다. 「상」(PPT·근긴장도)은 <strong>굿플 의료기기 버전</strong>에 얹어 신뢰 레이어로 올린다. 모든 걸 한 번에 하지 않고 단계로 쌓는다.</p>
+
+  <div class="foot"><span>TENEX Recovery Data Strategy</span><span>03 — ES-808 측정지표</span></div>
+</section>
+
+<!-- ========== P4 : KINE Score ========== -->
+<section class="page">
+  <div class="sec-head"><span class="sec-no">04</span><h2>통합지수 「KINE Score」</h2><span class="en">One Number to Remember</span></div>
+
+  <p class="lead">사람은 숫자 하나로 기억한다. 인바디가 「InBody Score」로 모든 지표를 묶었듯, 우리는 두 제품 라인을 하나의 <span class="accent">KINE Index (0~100)</span>로 통합한다.</p>
+
+  <div class="grid3">
+    <div class="stat"><div class="n">P-Score</div><div class="l"><strong>POSTURE</strong> · CS-25 라인<br>CVA + 경추ROM + 정렬</div></div>
+    <div class="stat"><div class="n">R-Score</div><div class="l"><strong>RECOVERY</strong> · ES-808 라인<br>통증 + 관절ROM + 근이완</div></div>
+    <div class="stat"><div class="n">KINE</div><div class="l"><strong>통합 INDEX</strong><br>두 점수의 가중 종합</div></div>
+  </div>
+
+  <h3>MVP 산식 (시작 버전)</h3>
+  <div class="card">
+    <p style="margin:2px 0;"><strong>POSTURE Score</strong> = CVA 정규화(50%) + 경추 ROM 6방향 평균(35%) + 어깨 정렬(15%)</p>
+    <p style="margin:2px 0;"><strong>RECOVERY Score</strong> = (10 − NRS)×40% + 관절 ROM 회복률(40%) + 순응도(20%)</p>
+    <p style="margin:8px 0 2px;"><strong>KINE Index</strong> = POSTURE × 0.5 + RECOVERY × 0.5 &nbsp;<span class="tl">(제품 보유에 따라 가중치 자동 조정)</span></p>
+  </div>
+
+  <div class="callout">측정 항목이 적은 초기엔 <strong>보유 지표만으로 산출하고 데이터가 쌓이면 가중치를 보정</strong>한다(인바디도 모델마다 항목이 다르다). 중요한 건 "완벽한 산식"이 아니라 <span class="accent">사용자가 매번 보는 점수가 하나 존재한다는 것</span>이다.</p></div>
+
+  <h3>점수의 시각화 = 재방문 동력</h3>
+  <div class="flow">
+    <div class="step"><span class="em">측정 1회차</span>KINE 54점<br>"위험"</div>
+    <div class="step"><span class="em">4주 후</span>KINE 67점<br>"개선 중"</div>
+    <div class="step"><span class="em">8주 후</span>KINE 78점<br>"양호"</div>
+    <div class="step"><span class="em">유지기</span>주간 리포트<br>알림</div>
+  </div>
+  <p>점수가 <strong>오르는 그래프</strong>를 보면 사람은 멈추지 않는다. 떨어지면 다시 운동·제품을 찾는다. 이 그래프가 곧 BM의 엔진이다.</p>
+
+  <div class="foot"><span>TENEX Recovery Data Strategy</span><span>04 — KINE Score</span></div>
+</section>
+
+<!-- ========== P5 : 로드맵 + BM + 의료계 + Next ========== -->
+<section class="page">
+  <div class="sec-head"><span class="sec-no">05</span><h2>실행 로드맵 · BM 연결 · 다음 액션</h2><span class="en">Execution</span></div>
+
+  <h3>측정수단 3단계 로드맵</h3>
+  <div class="roadmap">
+    <div class="phase"><div class="ph ph1">PHASE 1<br><span style="font-weight:600;font-size:10px;">지금~</span></div><div class="pd"><strong>앱 + 폰카메라 (장비 0)</strong> — CVA·거북목, 관절 ROM(AI 포즈추정), 통증일지·통증지도. 진입장벽 없이 즉시 "우리 숫자" 가동. <span class="tl">→ 데이터 수집 시작이 최우선</span></div></div>
+    <div class="phase"><div class="ph ph2">PHASE 2<br><span style="font-weight:600;font-size:10px;">7월말</span></div><div class="pd"><strong>굿플 의료기기 + 센서</strong> — 근긴장도·근경도, 압통역치(PPT)를 의료기기 버전에 내장. "의료기기로 측정한 수치" = 신뢰 레이어 + 하드웨어 해자.</div></div>
+    <div class="phase"><div class="ph ph3">PHASE 3<br><span style="font-weight:600;font-size:10px;">데이터後</span></div><div class="pd"><strong>임상화</strong> — N천 명 before/after 축적 → "키네 사용 시 경추 ROM 평균 18° 개선" 임상급 클레임 → 논문·학회·광고·진입장벽으로 전환.</div></div>
+  </div>
+
+  <h3>BM 연결 — 측정이 만드는 재구매 루프</h3>
+  <div class="flow">
+    <div class="step"><span class="em">START</span>측정<br>KINE Score</div>
+    <div class="step"><span class="em">자각</span>낮은 점수<br>위험 인지</div>
+    <div class="step"><span class="em">처방</span>맞춤 운동<br>영상</div>
+    <div class="step"><span class="em">전환</span>영상 마무리<br>=제품 사용</div>
+    <div class="step"><span class="em">재측정</span>점수 개선<br>확인</div>
+    <div class="step"><span class="em">LOOP</span>소모품<br>재구매</div>
+  </div>
+  <p>대표가 그린 루프(<strong>기기→소모품 반복→운동 영상→제품사용 마무리→재구매</strong>)에 <span class="accent">측정이 시동과 검증을 모두 담당</span>한다. 숫자가 없으면 루프는 "느낌"으로 끊긴다. 숫자가 있으면 "데이터로 효과가 보여서" 멈출 수 없다.</p>
+
+  <h3>의료계 침투에서 숫자의 역할</h3>
+  <table>
+    <tr><th style="width:24%">단계</th><th>숫자가 하는 일</th></tr>
+    <tr><td><strong>메디스트림·물작메</strong></td><td>"환자 ROM·통증 추적 데이터를 제공하는 기기" → 전문가가 임상에 쓸 명분. 후기가 아니라 데이터로 말한다.</td></tr>
+    <tr><td><strong>전문가 인증</strong></td><td>물리치료사·의사가 측정값으로 효과 검증 → 추천 근거 확보.</td></tr>
+    <tr><td><strong>더현대 팝업</strong></td><td>즉석 CVA 측정 사진 → "당신 목 38°" 충격 → 현장 전환.</td></tr>
+  </table>
+
+  <h3>즉시 실행 (Next Actions)</h3>
+  <div class="next">
+    <div class="item"><div class="num">1</div><div class="b"><strong>Phase 1 MVP 측정 범위 확정</strong> — CVA·경추ROM·관절ROM·통증일지 4종으로 앱 스펙 동결. (의사결정 필요)</div></div>
+    <div class="item"><div class="num">2</div><div class="b"><strong>KINE Score 산식 v0 승인</strong> — 위 MVP 산식으로 시작, 데이터 후 보정 합의.</div></div>
+    <div class="item"><div class="num">3</div><div class="b"><strong>굿플 의료기기 버전 센서 사양 결정</strong> — 근긴장도/PPT 센서 내장 여부·원가 영향 검토 (7월말 데드라인 역산).</div></div>
+    <div class="item"><div class="num">4</div><div class="b"><strong>측정 데이터 수집 설계</strong> — before/after를 처음부터 구조화해 저장(Phase 3 임상화의 연료).</div></div>
+  </div>
+
+  <div class="callout gold" style="margin-top:16px;"><strong>한 줄 결론.</strong> CS-25는 「구조(POSTURE)」, ES-808은 「회복(RECOVERY)」을 각각 숫자로 잡고, 둘을 <span class="accent">KINE Score</span>로 묶는다. 앱으로 지금 시작하고, 굿플 의료기기에 센서로 신뢰를 얹고, 데이터로 해자를 굳힌다. — <strong>대표님, 어디부터 팔지(1번 MVP 범위 / 2번 산식 / 3번 센서 사양) 정해주시면 바로 깊게 들어갑니다.</strong></div>
+
+  <div class="foot"><span>TENEX Recovery Data Strategy · 카리나(COO)</span><span>05 — 실행</span></div>
+</section>
+
+</body>
+</html>
