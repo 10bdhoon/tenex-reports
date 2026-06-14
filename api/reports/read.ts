@@ -4,6 +4,8 @@ const SUPABASE_URL = process.env.SUPABASE_URL || "";
 const SUPABASE_ANON_KEY = process.env.SUPABASE_ANON_KEY || "";
 
 const OVERRIDES_ID = "report-cat-overrides";
+const CARDS_ID = "report-cards-data";
+const CATEGORIES_ID = "report-categories-data";
 
 async function supaFetch(table: string, query = "select=*") {
   const res = await fetch(`${SUPABASE_URL}/rest/v1/${table}?${query}`, {
@@ -17,24 +19,45 @@ async function supaFetch(table: string, query = "select=*") {
   return res.json();
 }
 
+function parseNote(rows: unknown, fallback: unknown) {
+  const note = Array.isArray(rows) && (rows as Array<{ note?: unknown }>)[0]?.note;
+  if (!note) return fallback;
+  try {
+    const parsed = JSON.parse(String(note));
+    return parsed == null ? fallback : parsed;
+  } catch {
+    return fallback;
+  }
+}
+
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   if (req.method !== "GET") {
     return res.status(405).json({ error: "Method not allowed" });
   }
 
   try {
-    const rows = await supaFetch("tasks", `select=note&id=eq.${OVERRIDES_ID}`);
-    const note = Array.isArray(rows) && rows[0]?.note ? String(rows[0].note) : "{}";
-    let overrides: Record<string, string> = {};
-    try {
-      overrides = JSON.parse(note) || {};
-    } catch {
-      overrides = {};
+    // 한 번의 쿼리로 세 행(overrides/cards/categories)을 모두 읽음
+    const rows = await supaFetch(
+      "tasks",
+      `select=id,note&id=in.(${OVERRIDES_ID},${CARDS_ID},${CATEGORIES_ID})`,
+    );
+    const byId: Record<string, unknown> = {};
+    if (Array.isArray(rows)) {
+      for (const r of rows as Array<{ id?: string }>) {
+        if (r && typeof r.id === "string") byId[r.id] = r;
+      }
     }
-    return res.json({ overrides });
+    const overrides = parseNote(byId[OVERRIDES_ID] ? [byId[OVERRIDES_ID]] : [], {});
+    const cards = parseNote(byId[CARDS_ID] ? [byId[CARDS_ID]] : [], null);
+    const categories = parseNote(byId[CATEGORIES_ID] ? [byId[CATEGORIES_ID]] : [], null);
+    return res.json({
+      overrides: overrides && typeof overrides === "object" && !Array.isArray(overrides) ? overrides : {},
+      cards: Array.isArray(cards) ? cards : null,
+      categories: Array.isArray(categories) ? categories : null,
+    });
   } catch (err) {
     const message = err instanceof Error ? err.message : String(err);
-    console.error("report overrides read failed:", message);
-    return res.status(500).json({ error: "Failed to read report overrides", detail: message });
+    console.error("report data read failed:", message);
+    return res.status(500).json({ error: "Failed to read report data", detail: message });
   }
 }

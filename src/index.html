@@ -981,6 +981,43 @@ body.sidebar-collapsed .header-toggle{display:flex}
   .gantt-date-cell{min-width:32px;max-width:32px}
   .gantt-row-cell{min-width:32px;max-width:32px}
 }
+.edit-mode-btn{padding:6px 12px;border-radius:8px;border:1px solid var(--border);background:transparent;color:var(--text-secondary);font-size:13px;font-weight:600;cursor:pointer;transition:all .2s;white-space:nowrap}
+.edit-mode-btn:hover{border-color:var(--accent);color:var(--accent)}
+.edit-mode-btn.on{background:var(--accent);color:#fff;border-color:var(--accent)}
+.edit-toolbar{display:flex;align-items:center;flex-wrap:wrap;gap:10px;padding:10px 14px;margin-bottom:14px;border:1px dashed var(--accent);border-radius:10px;background:rgba(0,40,85,0.04)}
+.edit-toolbar-badge{font-weight:700;color:var(--accent);font-size:13px}
+.edit-toolbar-hint{font-size:12px;color:var(--text-secondary);opacity:.8}
+.edit-tool-btn{padding:6px 12px;border-radius:7px;border:1px solid var(--border);background:var(--bg-card);color:var(--text);font-size:13px;font-weight:600;cursor:pointer;transition:all .2s}
+.edit-tool-btn:hover{border-color:var(--accent);color:var(--accent)}
+.report-card.editable{cursor:default}
+.card-edit-actions{display:flex;gap:4px;margin-left:8px}
+.card-edit-actions button{width:28px;height:28px;border-radius:6px;border:1px solid var(--border);background:var(--bg-card);cursor:pointer;font-size:13px;line-height:1;display:flex;align-items:center;justify-content:center;padding:0}
+.card-edit-actions button:hover{border-color:var(--accent)}
+.card-edit-actions .ce-del:hover{border-color:#dc2626;color:#dc2626}
+.edit-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.45);z-index:10000;display:none}
+.edit-overlay.show{display:block}
+.edit-modal{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);width:min(92vw,440px);max-height:88vh;overflow:auto;background:var(--bg-card);border:1px solid var(--border);border-radius:14px;box-shadow:0 20px 60px rgba(0,0,0,0.3);z-index:10001;display:none;flex-direction:column}
+.edit-modal.show{display:flex}
+.edit-modal-wide{width:min(94vw,560px)}
+.edit-modal-header{display:flex;align-items:center;justify-content:space-between;padding:16px 20px;border-bottom:1px solid var(--border)}
+.edit-modal-header h3{margin:0;font-size:16px}
+.edit-modal-close{background:none;border:none;font-size:18px;cursor:pointer;color:var(--text-secondary)}
+.edit-modal-body{padding:16px 20px;display:flex;flex-direction:column;gap:12px}
+.edit-modal-body label{display:flex;flex-direction:column;gap:4px;font-size:12px;font-weight:600;color:var(--text-secondary)}
+.edit-modal-body label.edit-check{flex-direction:row;align-items:center;gap:8px}
+.edit-modal-body input[type=text],.edit-modal-body select{padding:8px 10px;border-radius:7px;border:1px solid var(--border);background:var(--bg);color:var(--text);font-size:14px;font-weight:400}
+.edit-modal-actions{display:flex;gap:8px;padding:14px 20px;border-top:1px solid var(--border)}
+.edit-btn-save{padding:8px 20px;border-radius:8px;border:none;background:var(--accent);color:#fff;font-size:14px;font-weight:600;cursor:pointer}
+.edit-btn-cancel{padding:8px 16px;border-radius:8px;border:1px solid var(--border);background:transparent;color:var(--text-secondary);font-size:14px;cursor:pointer}
+.cat-manage-list{display:flex;flex-direction:column;gap:8px}
+.cat-manage-row{display:flex;align-items:center;gap:6px;padding:8px;border:1px solid var(--border);border-radius:8px;background:var(--bg)}
+.cat-manage-row input{padding:6px 8px;border-radius:6px;border:1px solid var(--border);background:var(--bg-card);color:var(--text);font-size:13px}
+.cat-manage-row .cm-icon{width:48px;text-align:center}
+.cat-manage-row .cm-label{flex:1;min-width:80px}
+.cat-manage-row .cm-key{width:54px;text-align:center;opacity:.7}
+.cat-manage-row button{width:28px;height:28px;border-radius:6px;border:1px solid var(--border);background:var(--bg-card);cursor:pointer;font-size:13px;padding:0}
+.cat-manage-row button:hover{border-color:var(--accent)}
+.cat-manage-row .cm-del:hover{border-color:#dc2626;color:#dc2626}
 .sync-toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(12px);padding:10px 20px;border-radius:8px;font-size:13px;font-weight:500;color:#fff;z-index:9999;opacity:0;transition:all .3s ease;pointer-events:none}
 .sync-toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
 .sync-toast.success{background:#16a34a}
@@ -1088,6 +1125,7 @@ body.sidebar-collapsed .header-toggle{display:flex}
       <span class="header-title" id="headerHome" style="cursor:pointer" title="홈으로">테넥스 리포트</span>
     </div>
     <div style="display:flex;align-items:center;gap:12px">
+      <button class="edit-mode-btn admin-only" id="editModeBtn" style="display:none" title="허브 편집 모드">✏️ 편집</button>
       <button class="theme-toggle" id="themeToggle"></button>
     </div>
   </header>
@@ -1097,6 +1135,12 @@ body.sidebar-collapsed .header-toggle{display:flex}
       <div class="content-header">
         <div class="breadcrumb"><span>홈</span> / <span id="breadcrumbCat">전체 문서</span></div>
         <h2 id="contentTitle">전체 리포트</h2>
+      </div>
+      <div class="edit-toolbar" id="editToolbar" style="display:none">
+        <span class="edit-toolbar-badge">✏️ 편집 모드</span>
+        <button class="edit-tool-btn" id="addCardBtn">＋ 카드 추가</button>
+        <button class="edit-tool-btn" id="manageCatBtn">📁 카테고리 관리</button>
+        <span class="edit-toolbar-hint">카드의 ✎ 로 수정, 🗑로 삭제</span>
       </div>
       <div class="global-search-wrap">
         <span class="search-icon">🔍</span>
@@ -1213,8 +1257,39 @@ body.sidebar-collapsed .header-toggle{display:flex}
   <div class="glossary-search"><input type="text" id="glossarySearch" placeholder="용어 검색..."></div>
   <div class="glossary-list" id="glossaryList"></div>
 </div>
+<!-- 카드 편집 모달 -->
+<div class="edit-overlay" id="cardEditOverlay"></div>
+<div class="edit-modal" id="cardEditModal">
+  <div class="edit-modal-header"><h3 id="cardEditTitle">카드 편집</h3><button class="edit-modal-close" id="cardEditClose">✕</button></div>
+  <div class="edit-modal-body">
+    <label>아이콘<input type="text" id="ceIcon" maxlength="4" placeholder="📄"></label>
+    <label>제목 *<input type="text" id="ceTitle" placeholder="리포트 제목"></label>
+    <label>설명<input type="text" id="ceDesc" placeholder="간단 설명"></label>
+    <label>링크 (href) *<input type="text" id="ceHref" placeholder="/example.html"></label>
+    <label>날짜<input type="text" id="ceDate" placeholder="3/27"></label>
+    <label>카테고리<select id="ceCat"></select></label>
+    <label>서브카테고리<select id="ceSub"></select></label>
+    <label class="edit-check"><input type="checkbox" id="ceAdminOnly"> 관리자 전용 (adminOnly)</label>
+  </div>
+  <div class="edit-modal-actions">
+    <button class="edit-btn-save" id="ceSave">저장</button>
+    <button class="edit-btn-cancel" id="ceCancel">취소</button>
+  </div>
+</div>
+<!-- 카테고리 관리 모달 -->
+<div class="edit-overlay" id="catManageOverlay"></div>
+<div class="edit-modal edit-modal-wide" id="catManageModal">
+  <div class="edit-modal-header"><h3>📁 카테고리 관리</h3><button class="edit-modal-close" id="catManageClose">✕</button></div>
+  <div class="edit-modal-body">
+    <div id="catManageList" class="cat-manage-list"></div>
+    <button class="edit-tool-btn" id="catAddBtn" style="margin-top:10px">＋ 카테고리 추가</button>
+  </div>
+  <div class="edit-modal-actions">
+    <button class="edit-btn-save" id="catManageSave">완료</button>
+  </div>
+</div>
 <script>
-const CATEGORIES=[
+let CATEGORIES=[
   {key:'★',icon:'🎯',label:'🎯 전체 전략',pinned:true},
   {key:'A',icon:'📦',label:'A 제품',subs:['ES-808','CS-25','WS-200','부스터젤','통증크림 (TH-1)','📌 핵심전략']},
   {key:'B',icon:'🎬',label:'B 콘텐츠/채널',subs:['콘텐츠 기획','채널 분석','커뮤니티','썸네일/크리에이티브','📌 핵심전략']},
@@ -1245,7 +1320,7 @@ const GLOSSARY=[
   {term:'Plaud',def:'녹음 자동 전사 + 요약 파이프라인'},
   {term:'정품등록',def:'구매자 → 자사몰 유입 → 메타 픽셀 시그널 확보'},
 ];
-const DEFAULT_REPORTS=[
+let DEFAULT_REPORTS=[
   {href:'/tenex-strategy.html',icon:'🚀',title:'TENEX 핵심전략 2026',desc:'테넥스 전체 사업 전략',date:'3/25',cat:'★'},
   {href:'/tenex-recovery-metrics-report.html',icon:'📊',title:'TENEX 회복 데이터 전략 보고서',desc:'회복을 숫자로 — 제품별 측정지표·KINE Score·BM 연결 로드맵',date:'6/14',cat:'★'},
   {href:'/cafe-seo-strategy.html',icon:'🎯',title:'네이버 카페 & SEO 장악 전략',desc:'카페 노선·콘텐츠 6분류·주간 라이브·경쟁 돌파',date:'5/29',cat:'K'},
@@ -1306,9 +1381,48 @@ let currentCat='all',currentSub=null,searchQuery='',currentView='reports';
 const expandedCats={};
 // 카테고리 오버라이드: DB(reportCatDb) > localStorage(즉시 캐시) > 코드 기본값(cat)
 let reportCatDb={};
-function getReports(){const o=JSON.parse(localStorage.getItem('tenex-cat-v3')||'{}');const role=localStorage.getItem('tenex_role')||'viewer';const isAdmin=role==='admin';const allowedPaths=JSON.parse(localStorage.getItem('tenex_allowed_paths')||'[]');return DEFAULT_REPORTS.filter(r=>{if(isAdmin)return true;if(r.adminOnly)return false;if(allowedPaths.length===0)return true;return allowedPaths.includes(r.href)||allowedPaths.includes(r.href.replace('.html',''));}).map(r=>({...r,cat:reportCatDb[r.href]||o[r.href]||r.cat}))}
-// DB에서 오버라이드 로드 (전 기기·전 사용자 공유, 영구 저장)
-async function loadReportOverrides(){try{const res=await fetch('/api/reports/read');if(!res.ok)return;const j=await res.json();if(j&&j.overrides&&typeof j.overrides==='object')reportCatDb=j.overrides;}catch(e){console.error('리포트 오버라이드 로드 실패:',e)}}
+// ── 리포트 카드/카테고리 SSOT (DB > localStorage 캐시 > 코드 기본값) ──
+// REPORTS/CATS는 항상 라이브 작업본. CATEGORIES도 같은 배열을 가리키게 해 기존 참조(taskboard 등)와 동기화.
+let REPORTS=DEFAULT_REPORTS.map(r=>({...r}));
+function applyCategories(arr){if(Array.isArray(arr)&&arr.length){CATEGORIES.length=0;arr.forEach(c=>CATEGORIES.push(c));}}
+function getReports(){const o=JSON.parse(localStorage.getItem('tenex-cat-v3')||'{}');const role=localStorage.getItem('tenex_role')||'viewer';const isAdmin=role==='admin';const allowedPaths=JSON.parse(localStorage.getItem('tenex_allowed_paths')||'[]');return REPORTS.filter(r=>{if(editMode)return true;if(isAdmin)return true;if(r.adminOnly)return false;if(allowedPaths.length===0)return true;return allowedPaths.includes(r.href)||allowedPaths.includes(r.href.replace('.html',''));}).map(r=>({...r,cat:reportCatDb[r.href]||o[r.href]||r.cat}))}
+// DB에서 오버라이드/카드/카테고리 로드 (전 기기·전 사용자 공유, 영구 저장)
+async function loadReportOverrides(){
+  try{
+    const res=await fetch('/api/reports/read');if(!res.ok)return;const j=await res.json();
+    if(j&&j.overrides&&typeof j.overrides==='object')reportCatDb=j.overrides;
+    if(Array.isArray(j.cards)&&j.cards.length){REPORTS=j.cards.map(r=>({...r}));try{localStorage.setItem('tenex-reports-cards-v1',JSON.stringify(REPORTS));}catch(_){}}
+    if(Array.isArray(j.categories)&&j.categories.length){applyCategories(j.categories.map(c=>({...c})));try{localStorage.setItem('tenex-reports-cats-v1',JSON.stringify(CATEGORIES));}catch(_){}}
+  }catch(e){console.error('리포트 데이터 로드 실패:',e)}
+}
+// 첫 페인트 전 localStorage 캐시 적용 (DB fetch 전 본인 화면 즉시 반영)
+(function seedFromCache(){
+  try{const c=JSON.parse(localStorage.getItem('tenex-reports-cards-v1')||'null');if(Array.isArray(c)&&c.length)REPORTS=c.map(r=>({...r}));}catch(_){}
+  try{const k=JSON.parse(localStorage.getItem('tenex-reports-cats-v1')||'null');if(Array.isArray(k)&&k.length)applyCategories(k.map(c=>({...c})));}catch(_){}
+})();
+// ── 편집 모드 상태 ──
+let editMode=false;
+function isAdminRole(){return (localStorage.getItem('tenex_role')||'viewer')==='admin';}
+// 카드/카테고리를 DB에 저장 (admin만 통과 — 서버 검증). localStorage 캐시 먼저 반영.
+let _reportsSaveTimer=null;
+function persistReportsCache(){try{localStorage.setItem('tenex-reports-cards-v1',JSON.stringify(REPORTS));localStorage.setItem('tenex-reports-cats-v1',JSON.stringify(CATEGORIES));}catch(_){}}
+function saveReportsData(opts){
+  // opts: {cards:true, categories:true} — 무엇을 보낼지. 기본 둘 다.
+  opts=opts||{cards:true,categories:true};
+  persistReportsCache();
+  if(_reportsSaveTimer)clearTimeout(_reportsSaveTimer);
+  _reportsSaveTimer=setTimeout(async()=>{
+    const body={};
+    if(opts.cards!==false)body.cards=REPORTS.map(r=>({...r}));
+    if(opts.categories!==false)body.categories=CATEGORIES.map(c=>({...c}));
+    try{
+      const res=await fetch('/api/reports/update',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});
+      if(res.ok){showSyncToast&&showSyncToast('✅ 저장됨 (DB)','success');}
+      else if(res.status===401||res.status===403){showSyncToast&&showSyncToast('⚠️ 권한 없음 (관리자 로그인 필요) — 이 기기에만 임시 반영','error');}
+      else{let d='';try{d=' — '+((await res.json()).error||'');}catch(_){}showSyncToast&&showSyncToast('⚠️ DB 저장 실패'+d,'error');}
+    }catch(e){showSyncToast&&showSyncToast('⚠️ DB 연결 실패 — 이 기기에만 임시 반영','error');}
+  },600);
+}
 async function saveCatOverride(href,cat){
   // 1) 즉시 캐시 (localStorage) — 새로고침 전까지 본인 화면 반영
   const o=JSON.parse(localStorage.getItem('tenex-cat-v3')||'{}');o[href]=cat;localStorage.setItem('tenex-cat-v3',JSON.stringify(o));
@@ -1487,9 +1601,21 @@ function renderReports(){
   }
   list.innerHTML=html;
   list.querySelectorAll('.report-card').forEach(card=>{
+    if(editMode){
+      // 편집 모드: 네비게이션 차단 + 편집/삭제 버튼 주입 (드래그 카테고리이동은 유지)
+      card.classList.add('editable');
+      const acts=document.createElement('span');
+      acts.className='card-edit-actions';
+      acts.innerHTML='<button class="ce-edit" title="수정">✎</button><button class="ce-del" title="삭제">🗑</button>';
+      acts.querySelector('.ce-edit').addEventListener('click',e=>{e.preventDefault();e.stopPropagation();openCardEditor(card.dataset.href)});
+      acts.querySelector('.ce-del').addEventListener('click',e=>{e.preventDefault();e.stopPropagation();deleteCard(card.dataset.href)});
+      const nt=card.querySelector('.card-new-tab');if(nt)nt.replaceWith(acts);else card.appendChild(acts);
+    }
     card.addEventListener('dragstart',e=>{e.dataTransfer.setData('text/plain',card.dataset.href);card.classList.add('dragging')});
     card.addEventListener('dragend',()=>card.classList.remove('dragging'));
     card.addEventListener('click',e=>{
+      // 편집 모드에서는 카드 클릭 = 편집 (네비게이션 차단)
+      if(editMode){e.preventDefault();return;}
       // 드래그 중 클릭은 무시 (카테고리 이동용 드래그와 충돌 방지)
       if(card.classList.contains('dragging')){e.preventDefault();return;}
       // 그 외엔 <a href>의 기본 동작(같은 창 이동)을 그대로 둠 → 크롬 뒤로가기로 목록 복귀
@@ -1507,6 +1633,123 @@ function renderGlossary(q){
   list.innerHTML=f.map(g=>'<div class="glossary-item"><div class="term">'+g.term+'</div><div class="def">'+g.def+'</div></div>').join('');
 }
 function renderAll(){renderSidebarCats();renderOverview();renderReports()}
+/* ═══════ 허브 편집 모드 (카드/카테고리 인라인 편집) ═══════ */
+function toggleEditMode(){
+  if(!isAdminRole()){showSyncToast&&showSyncToast('⚠️ 관리자만 편집 가능','error');return;}
+  editMode=!editMode;
+  const btn=document.getElementById('editModeBtn');if(btn){btn.classList.toggle('on',editMode);btn.textContent=editMode?'✓ 편집 종료':'✏️ 편집';}
+  const tb=document.getElementById('editToolbar');if(tb)tb.style.display=editMode?'flex':'none';
+  document.body.classList.toggle('edit-mode-on',editMode);
+  renderAll();
+}
+function findCard(href){return REPORTS.find(r=>r.href===href);}
+// 카테고리 select 채우기 (카드 편집 모달)
+function fillCatSelect(selEl,selectedKey){
+  selEl.innerHTML=CATEGORIES.map(c=>'<option value="'+c.key+'"'+(c.key===selectedKey?' selected':'')+'>'+c.icon+' '+c.key+' '+c.label+'</option>').join('');
+}
+function fillSubSelect(selEl,catKey,selectedSub){
+  const cat=CATEGORIES.find(c=>c.key===catKey);
+  const subs=(cat&&Array.isArray(cat.subs))?cat.subs:[];
+  selEl.innerHTML='<option value="">(없음)</option>'+subs.map(s=>'<option value="'+s.replace(/"/g,'&quot;')+'"'+(s===selectedSub?' selected':'')+'>'+s+'</option>').join('');
+}
+let _editingHref=null; // null이면 신규 카드
+function openCardEditor(href){
+  if(!isAdminRole())return;
+  _editingHref=href||null;
+  const card=href?findCard(href):null;
+  document.getElementById('cardEditTitle').textContent=card?'카드 편집':'새 카드 추가';
+  const cat=card?card.cat:(currentCat!=='all'?currentCat:(CATEGORIES[0]&&CATEGORIES[0].key||'I'));
+  document.getElementById('ceIcon').value=card?card.icon||'':'📄';
+  document.getElementById('ceTitle').value=card?card.title||'':'';
+  document.getElementById('ceDesc').value=card?card.desc||'':'';
+  document.getElementById('ceHref').value=card?card.href||'':'';
+  document.getElementById('ceDate').value=card?card.date||'':'';
+  const catSel=document.getElementById('ceCat');fillCatSelect(catSel,cat);
+  fillSubSelect(document.getElementById('ceSub'),cat,card?card.sub:(currentSub||''));
+  document.getElementById('ceAdminOnly').checked=!!(card&&card.adminOnly);
+  catSel.onchange=()=>fillSubSelect(document.getElementById('ceSub'),catSel.value,'');
+  document.getElementById('cardEditOverlay').classList.add('show');
+  document.getElementById('cardEditModal').classList.add('show');
+  document.getElementById('ceTitle').focus();
+}
+function closeCardEditor(){document.getElementById('cardEditOverlay').classList.remove('show');document.getElementById('cardEditModal').classList.remove('show');_editingHref=null;}
+function saveCardFromEditor(){
+  const icon=document.getElementById('ceIcon').value.trim()||'📄';
+  const title=document.getElementById('ceTitle').value.trim();
+  const desc=document.getElementById('ceDesc').value.trim();
+  const href=document.getElementById('ceHref').value.trim();
+  const date=document.getElementById('ceDate').value.trim();
+  const cat=document.getElementById('ceCat').value;
+  const sub=document.getElementById('ceSub').value;
+  const adminOnly=document.getElementById('ceAdminOnly').checked;
+  if(!title){showSyncToast&&showSyncToast('⚠️ 제목은 필수','error');return;}
+  if(!href){showSyncToast&&showSyncToast('⚠️ 링크(href)는 필수','error');return;}
+  // href 중복 검사 (자기 자신 제외)
+  const dup=REPORTS.find(r=>r.href===href&&r.href!==_editingHref);
+  if(dup){showSyncToast&&showSyncToast('⚠️ 같은 링크의 카드가 이미 있음','error');return;}
+  const obj={href,icon,title,desc,date,cat};
+  if(sub)obj.sub=sub;
+  if(adminOnly)obj.adminOnly=true;
+  if(_editingHref){
+    const idx=REPORTS.findIndex(r=>r.href===_editingHref);
+    if(idx>=0)REPORTS[idx]=obj;else REPORTS.push(obj);
+  }else{
+    REPORTS.push(obj);
+  }
+  saveReportsData({cards:true,categories:false});
+  closeCardEditor();renderAll();
+}
+function deleteCard(href){
+  if(!isAdminRole())return;
+  const card=findCard(href);if(!card)return;
+  if(!confirm('"'+card.title+'" 카드를 삭제할까요?'))return;
+  const idx=REPORTS.findIndex(r=>r.href===href);
+  if(idx>=0){REPORTS.splice(idx,1);saveReportsData({cards:true,categories:false});renderAll();}
+}
+/* ── 카테고리 관리 ── */
+function openCatManage(){
+  if(!isAdminRole())return;
+  renderCatManageList();
+  document.getElementById('catManageOverlay').classList.add('show');
+  document.getElementById('catManageModal').classList.add('show');
+}
+function closeCatManage(){document.getElementById('catManageOverlay').classList.remove('show');document.getElementById('catManageModal').classList.remove('show');}
+function renderCatManageList(){
+  const wrap=document.getElementById('catManageList');
+  wrap.innerHTML='';
+  CATEGORIES.forEach((cat,i)=>{
+    const cnt=REPORTS.filter(r=>(reportCatDb[r.href]||r.cat)===cat.key).length;
+    const row=document.createElement('div');row.className='cat-manage-row';
+    row.innerHTML='<input class="cm-icon" value="'+(cat.icon||'').replace(/"/g,'&quot;')+'" maxlength="4">'
+      +'<span class="cm-key" title="키(고정)">'+cat.key+'</span>'
+      +'<input class="cm-label" value="'+(cat.label||'').replace(/"/g,'&quot;')+'">'
+      +'<button class="cm-up" title="위로">↑</button><button class="cm-down" title="아래로">↓</button>'
+      +'<button class="cm-del" title="삭제 ('+cnt+'개 카드)">🗑</button>';
+    row.querySelector('.cm-icon').onchange=e=>{cat.icon=e.target.value.trim()||'📁';commitCats();};
+    row.querySelector('.cm-label').onchange=e=>{const v=e.target.value.trim();if(!v){e.target.value=cat.label;return;}cat.label=v;commitCats();};
+    row.querySelector('.cm-up').onclick=()=>{if(i>0){const t=CATEGORIES[i-1];CATEGORIES[i-1]=CATEGORIES[i];CATEGORIES[i]=t;commitCats();renderCatManageList();}};
+    row.querySelector('.cm-down').onclick=()=>{if(i<CATEGORIES.length-1){const t=CATEGORIES[i+1];CATEGORIES[i+1]=CATEGORIES[i];CATEGORIES[i]=t;commitCats();renderCatManageList();}};
+    row.querySelector('.cm-del').onclick=()=>{
+      if(cnt>0){if(!confirm('"'+cat.label+'"에 '+cnt+'개 카드가 있습니다. 삭제하면 카드는 I(AI 시스템)로 이동합니다. 계속할까요?'))return;
+        REPORTS.forEach(r=>{if((reportCatDb[r.href]||r.cat)===cat.key)r.cat='I';});}
+      else if(!confirm('"'+cat.label+'" 카테고리를 삭제할까요?'))return;
+      const idx=CATEGORIES.indexOf(cat);if(idx>=0)CATEGORIES.splice(idx,1);
+      commitCats({cards:true});renderCatManageList();
+    };
+    wrap.appendChild(row);
+  });
+}
+function addCategory(){
+  const key=prompt('카테고리 키 (1글자, 예: L, M — 중복 불가):','');
+  if(key==null)return;const k=key.trim();
+  if(!k){showSyncToast&&showSyncToast('⚠️ 키 필요','error');return;}
+  if(CATEGORIES.some(c=>c.key===k)){showSyncToast&&showSyncToast('⚠️ 이미 있는 키','error');return;}
+  const label=prompt('카테고리 이름:',k+' 새 카테고리');if(label==null)return;
+  CATEGORIES.push({key:k,icon:'📁',label:label.trim()||k});
+  commitCats();renderCatManageList();
+}
+// 카테고리 변경 커밋: 캐시+DB 저장, 카드 cat이 바뀌었으면 cards도 보냄
+function commitCats(opts){saveReportsData({cards:!!(opts&&opts.cards),categories:true});renderAll();}
 function setCategory(cat){
   if(currentView!=='reports')switchView('reports');
   currentCat=cat;
@@ -1535,6 +1778,19 @@ document.addEventListener('DOMContentLoaded',()=>{
   document.querySelectorAll('.admin-only').forEach(el=>el.style.display=isAdmin?'':'none');
   document.querySelectorAll('.team-visible').forEach(el=>el.style.display=(isAdmin||role==='team')?'':'none');
   document.getElementById('themeToggle').onclick=toggleTheme;
+  // ── 허브 편집 모드 ──
+  const editBtn=document.getElementById('editModeBtn');
+  if(editBtn){editBtn.style.display=isAdmin?'':'none';editBtn.onclick=toggleEditMode;}
+  document.getElementById('addCardBtn').onclick=()=>openCardEditor(null);
+  document.getElementById('manageCatBtn').onclick=openCatManage;
+  document.getElementById('cardEditClose').onclick=closeCardEditor;
+  document.getElementById('ceCancel').onclick=closeCardEditor;
+  document.getElementById('cardEditOverlay').onclick=closeCardEditor;
+  document.getElementById('ceSave').onclick=saveCardFromEditor;
+  document.getElementById('catManageClose').onclick=closeCatManage;
+  document.getElementById('catManageOverlay').onclick=closeCatManage;
+  document.getElementById('catManageSave').onclick=closeCatManage;
+  document.getElementById('catAddBtn').onclick=addCategory;
   document.getElementById('sidebarCollapse').onclick=()=>document.body.classList.toggle('sidebar-collapsed');
   document.getElementById('headerToggle').onclick=()=>document.body.classList.toggle('sidebar-collapsed');
   document.getElementById('mobileMenuBtn').onclick=()=>{document.getElementById('sidebar').classList.add('open');document.getElementById('sidebarOverlay').classList.add('show')};
