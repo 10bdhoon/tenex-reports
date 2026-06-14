@@ -1,0 +1,628 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KINEMEDICAL App — 기획서 & 마일스톤</title>
+<style>
+  :root {
+    --navy: #002855;
+    --blue: #1a6bcc;
+    --light-blue: #4a9eff;
+    --bg: #0a0f1e;
+    --card: #0f1729;
+    --card2: #141f35;
+    --border: #1e2d4a;
+    --text: #e8edf5;
+    --muted: #7a8fb0;
+    --green: #00d084;
+    --yellow: #f5a623;
+    --red: #ff4d6d;
+    --purple: #9b6dff;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: var(--bg); color: var(--text); font-family: -apple-system, 'Pretendard', sans-serif; line-height: 1.6; }
+
+  /* HEADER */
+  header { background: linear-gradient(135deg, #001a3a 0%, #002855 50%, #003d7a 100%); padding: 80px 24px 60px; text-align: center; border-bottom: 1px solid var(--border); position: relative; overflow: hidden; }
+  header::before { content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%; background: radial-gradient(ellipse at center, rgba(26,107,204,0.15) 0%, transparent 60%); }
+  .header-tag { display: inline-block; background: rgba(26,107,204,0.2); border: 1px solid var(--blue); color: var(--light-blue); font-size: 12px; letter-spacing: 3px; padding: 6px 16px; border-radius: 20px; margin-bottom: 24px; text-transform: uppercase; }
+  header h1 { font-size: clamp(32px, 6vw, 64px); font-weight: 800; letter-spacing: -1px; margin-bottom: 12px; }
+  header h1 span { color: var(--light-blue); }
+  header p { color: var(--muted); font-size: 18px; max-width: 600px; margin: 0 auto; }
+
+  /* NAV */
+  nav { background: var(--card); border-bottom: 1px solid var(--border); padding: 0 24px; position: sticky; top: 0; z-index: 100; display: flex; gap: 0; overflow-x: auto; }
+  nav a { color: var(--muted); text-decoration: none; padding: 16px 20px; font-size: 14px; white-space: nowrap; border-bottom: 2px solid transparent; transition: all 0.2s; }
+  nav a:hover { color: var(--text); border-bottom-color: var(--blue); }
+
+  /* MAIN */
+  main { max-width: 1100px; margin: 0 auto; padding: 60px 24px; }
+  section { margin-bottom: 80px; }
+  .section-label { font-size: 11px; letter-spacing: 3px; color: var(--light-blue); text-transform: uppercase; margin-bottom: 12px; }
+  .section-title { font-size: clamp(24px, 4vw, 36px); font-weight: 700; margin-bottom: 8px; }
+  .section-desc { color: var(--muted); font-size: 16px; margin-bottom: 40px; }
+
+  /* VISION */
+  .vision-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; }
+  .vision-card { background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 28px; position: relative; overflow: hidden; }
+  .vision-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; border-radius: 16px 16px 0 0; }
+  .vision-card.blue::before { background: var(--blue); }
+  .vision-card.green::before { background: var(--green); }
+  .vision-card.purple::before { background: var(--purple); }
+  .vision-card.yellow::before { background: var(--yellow); }
+  .vc-icon { font-size: 32px; margin-bottom: 16px; }
+  .vc-title { font-size: 18px; font-weight: 700; margin-bottom: 8px; }
+  .vc-desc { color: var(--muted); font-size: 14px; }
+
+  /* CORE LOOP */
+  .loop-container { display: flex; align-items: center; gap: 0; overflow-x: auto; padding-bottom: 16px; }
+  .loop-step { flex: 1; min-width: 160px; background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 24px 16px; text-align: center; position: relative; }
+  .loop-arrow { color: var(--blue); font-size: 24px; padding: 0 8px; flex-shrink: 0; }
+  .ls-num { background: var(--blue); color: white; width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 700; margin: 0 auto 12px; }
+  .ls-icon { font-size: 28px; margin-bottom: 10px; }
+  .ls-title { font-weight: 700; font-size: 14px; margin-bottom: 6px; }
+  .ls-desc { color: var(--muted); font-size: 12px; }
+
+  /* DB SCHEMA */
+  .db-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; }
+  .db-table { background: var(--card); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; }
+  .db-header { background: var(--navy); padding: 14px 20px; display: flex; align-items: center; gap: 10px; }
+  .db-header .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--light-blue); }
+  .db-header span { font-weight: 700; font-size: 14px; font-family: monospace; color: var(--light-blue); }
+  .db-row { padding: 10px 20px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; font-size: 13px; }
+  .db-row:last-child { border-bottom: none; }
+  .db-row .col-name { font-family: monospace; color: var(--text); }
+  .db-row .col-type { color: var(--muted); font-family: monospace; font-size: 12px; }
+  .db-row .col-pk { background: rgba(26,107,204,0.3); color: var(--light-blue); font-size: 10px; padding: 2px 6px; border-radius: 4px; font-family: monospace; }
+  .db-row .col-fk { background: rgba(155,109,255,0.2); color: var(--purple); font-size: 10px; padding: 2px 6px; border-radius: 4px; font-family: monospace; }
+
+  /* MILESTONE */
+  .milestone-timeline { position: relative; }
+  .milestone-timeline::before { content: ''; position: absolute; left: 20px; top: 0; bottom: 0; width: 2px; background: linear-gradient(to bottom, var(--blue), var(--purple), var(--green)); }
+  .milestone-item { display: flex; gap: 32px; margin-bottom: 40px; position: relative; }
+  .mi-dot { width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 14px; flex-shrink: 0; z-index: 1; }
+  .mi-dot.phase1 { background: var(--blue); color: white; }
+  .mi-dot.phase2 { background: var(--purple); color: white; }
+  .mi-dot.phase3 { background: var(--green); color: #001a3a; }
+  .mi-dot.phase4 { background: var(--yellow); color: #001a3a; }
+  .mi-content { flex: 1; background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 28px; }
+  .mi-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 16px; flex-wrap: wrap; gap: 10px; }
+  .mi-phase { font-size: 12px; text-transform: uppercase; letter-spacing: 2px; color: var(--muted); }
+  .mi-title { font-size: 22px; font-weight: 800; margin-bottom: 4px; }
+  .mi-period { background: var(--card2); border: 1px solid var(--border); color: var(--muted); font-size: 13px; padding: 6px 14px; border-radius: 20px; white-space: nowrap; }
+  .mi-goal { color: var(--light-blue); font-size: 15px; margin-bottom: 20px; font-weight: 500; }
+  .feature-list { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 20px; }
+  .feature-tag { padding: 6px 14px; border-radius: 20px; font-size: 13px; border: 1px solid; }
+  .ft-core { background: rgba(26,107,204,0.15); border-color: var(--blue); color: var(--light-blue); }
+  .ft-ai { background: rgba(155,109,255,0.15); border-color: var(--purple); color: var(--purple); }
+  .ft-data { background: rgba(0,208,132,0.15); border-color: var(--green); color: var(--green); }
+  .ft-ux { background: rgba(245,166,35,0.15); border-color: var(--yellow); color: var(--yellow); }
+  .mi-metric { display: flex; gap: 12px; margin-top: 16px; flex-wrap: wrap; }
+  .metric-box { background: var(--card2); border: 1px solid var(--border); border-radius: 10px; padding: 12px 16px; }
+  .metric-val { font-size: 22px; font-weight: 800; color: var(--light-blue); }
+  .metric-label { font-size: 12px; color: var(--muted); }
+
+  /* SCREEN MAP */
+  .screen-flow { display: flex; align-items: flex-start; gap: 16px; overflow-x: auto; padding-bottom: 16px; }
+  .screen-card { min-width: 160px; background: var(--card); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; flex-shrink: 0; }
+  .sc-header { background: var(--navy); padding: 10px 14px; font-size: 11px; color: var(--light-blue); letter-spacing: 1px; text-transform: uppercase; font-weight: 600; }
+  .sc-body { padding: 14px; }
+  .sc-item { font-size: 13px; color: var(--muted); padding: 6px 0; border-bottom: 1px solid var(--border); }
+  .sc-item:last-child { border-bottom: none; }
+  .sc-item.active { color: var(--text); }
+  .flow-arrow { color: var(--blue); font-size: 20px; padding-top: 40px; flex-shrink: 0; }
+
+  /* FINAL VISION */
+  .final-vision { background: linear-gradient(135deg, var(--navy) 0%, #001a40 100%); border: 1px solid rgba(26,107,204,0.4); border-radius: 20px; padding: 48px; text-align: center; }
+  .fv-title { font-size: clamp(24px, 5vw, 48px); font-weight: 800; margin-bottom: 16px; }
+  .fv-title span { color: var(--light-blue); }
+  .fv-desc { color: var(--muted); font-size: 16px; max-width: 600px; margin: 0 auto 32px; }
+  .fv-stats { display: flex; justify-content: center; gap: 40px; flex-wrap: wrap; }
+  .fv-stat { text-align: center; }
+  .fv-stat-val { font-size: 36px; font-weight: 800; color: var(--light-blue); }
+  .fv-stat-label { font-size: 14px; color: var(--muted); }
+
+  /* TECH STACK */
+  .tech-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; }
+  .tech-card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 20px; }
+  .tc-label { font-size: 11px; text-transform: uppercase; letter-spacing: 2px; color: var(--muted); margin-bottom: 12px; }
+  .tc-items { display: flex; flex-wrap: wrap; gap: 8px; }
+  .tc-item { background: var(--card2); border: 1px solid var(--border); border-radius: 6px; padding: 6px 12px; font-size: 13px; font-family: monospace; }
+
+  /* KPI */
+  .kpi-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 16px; }
+  .kpi-card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 24px; text-align: center; }
+  .kpi-val { font-size: 32px; font-weight: 800; }
+  .kpi-label { font-size: 13px; color: var(--muted); margin-top: 6px; }
+  .kpi-phase { font-size: 11px; color: var(--blue); margin-top: 4px; }
+
+  footer { border-top: 1px solid var(--border); padding: 40px 24px; text-align: center; color: var(--muted); font-size: 14px; }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-tag">CTO Document v1.0 — 2026.03</div>
+  <h1>KINE<span>MEDICAL</span><br>App 기획서</h1>
+  <p>AI 기반 맞춤형 회복 루틴 플랫폼 — 설계 원칙, DB 구조, 마일스톤</p>
+</header>
+
+<nav>
+  <a href="#vision">비전</a>
+  <a href="#loop">핵심 루프</a>
+  <a href="#screens">화면 구조</a>
+  <a href="#db">DB 설계</a>
+  <a href="#milestone">마일스톤</a>
+  <a href="#kpi">KPI</a>
+  <a href="#tech">기술 스택</a>
+  <a href="#final">최종 모습</a>
+</nav>
+
+<main>
+
+  <!-- VISION -->
+  <section id="vision">
+    <div class="section-label">Product Vision</div>
+    <div class="section-title">왜 이 앱인가</div>
+    <div class="section-desc">기기를 팔고 끝나는 게 아니라, 매일 쓰게 만드는 데이터 플랫폼</div>
+    <div class="vision-grid">
+      <div class="vision-card blue">
+        <div class="vc-icon">🎯</div>
+        <div class="vc-title">단 하나의 가치</div>
+        <div class="vc-desc">구매자의 80%가 기기를 방치한다. 앱은 그 80%를 매일 쓰게 만드는 유일한 수단.</div>
+      </div>
+      <div class="vision-card green">
+        <div class="vc-icon">🧠</div>
+        <div class="vc-title">AI 해자</div>
+        <div class="vc-desc">사용할수록 내 몸을 아는 AI. 3개월 데이터가 쌓이면 어떤 경쟁사도 복제할 수 없는 개인화.</div>
+      </div>
+      <div class="vision-card purple">
+        <div class="vc-icon">📊</div>
+        <div class="vc-title">데이터가 곧 자산</div>
+        <div class="vc-desc">통증 추이 + 루틴 완료율 데이터는 병원 B2B, 보험사, 신제품 개발의 근거가 된다.</div>
+      </div>
+      <div class="vision-card yellow">
+        <div class="vc-icon">🔄</div>
+        <div class="vc-title">이탈 방지 엔진</div>
+        <div class="vc-desc">3일 연속 미사용 → 자동 넛지. 통증 증가 감지 → 루틴 재조정. 이탈률 70% → 30%.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CORE LOOP -->
+  <section id="loop">
+    <div class="section-label">Core Loop</div>
+    <div class="section-title">앱의 핵심 사용 루프</div>
+    <div class="section-desc">매일 반복되어야 하는 단 하나의 루프</div>
+    <div class="loop-container">
+      <div class="loop-step">
+        <div class="ls-num">1</div>
+        <div class="ls-icon">😣</div>
+        <div class="ls-title">통증 체크인</div>
+        <div class="ls-desc">오늘 통증 점수<br>1~10 입력</div>
+      </div>
+      <div class="loop-arrow">→</div>
+      <div class="loop-step">
+        <div class="ls-num">2</div>
+        <div class="ls-icon">🤖</div>
+        <div class="ls-title">AI 루틴 생성</div>
+        <div class="ls-desc">보유 기기 +<br>통증에 맞춤 생성</div>
+      </div>
+      <div class="loop-arrow">→</div>
+      <div class="loop-step">
+        <div class="ls-num">3</div>
+        <div class="ls-icon">▶️</div>
+        <div class="ls-title">루틴 실행</div>
+        <div class="ls-desc">기기 사용 +<br>1분도수 영상</div>
+      </div>
+      <div class="loop-arrow">→</div>
+      <div class="loop-step">
+        <div class="ls-num">4</div>
+        <div class="ls-icon">✅</div>
+        <div class="ls-title">완료 기록</div>
+        <div class="ls-desc">루틴 완료 체크<br>+ 사후 통증 점수</div>
+      </div>
+      <div class="loop-arrow">→</div>
+      <div class="loop-step">
+        <div class="ls-num">5</div>
+        <div class="ls-icon">📈</div>
+        <div class="ls-title">회복 추이 확인</div>
+        <div class="ls-desc">통증 그래프<br>주간 리포트</div>
+      </div>
+      <div class="loop-arrow">↩️</div>
+    </div>
+  </section>
+
+  <!-- SCREENS -->
+  <section id="screens">
+    <div class="section-label">Screen Architecture</div>
+    <div class="section-title">화면 구조 (MVP)</div>
+    <div class="section-desc">최소한의 화면으로 핵심 루프를 완성</div>
+    <div class="screen-flow">
+      <div class="screen-card">
+        <div class="sc-header">🚀 온보딩</div>
+        <div class="sc-body">
+          <div class="sc-item active">1. 카카오 로그인</div>
+          <div class="sc-item active">2. 통증 부위 선택</div>
+          <div class="sc-item active">3. 보유 기기 선택</div>
+          <div class="sc-item active">4. 목표 설정</div>
+        </div>
+      </div>
+      <div class="flow-arrow">→</div>
+      <div class="screen-card">
+        <div class="sc-header">🏠 홈</div>
+        <div class="sc-body">
+          <div class="sc-item active">오늘 통증 체크인</div>
+          <div class="sc-item active">AI 루틴 카드</div>
+          <div class="sc-item active">연속 수행 스트릭</div>
+          <div class="sc-item">회복 예측 배지</div>
+        </div>
+      </div>
+      <div class="flow-arrow">→</div>
+      <div class="screen-card">
+        <div class="sc-header">▶️ 루틴 실행</div>
+        <div class="sc-body">
+          <div class="sc-item active">단계별 타이머</div>
+          <div class="sc-item active">1분도수 영상</div>
+          <div class="sc-item active">기기 설정 가이드</div>
+          <div class="sc-item">완료 체크</div>
+        </div>
+      </div>
+      <div class="flow-arrow">→</div>
+      <div class="screen-card">
+        <div class="sc-header">📊 회복 기록</div>
+        <div class="sc-body">
+          <div class="sc-item active">통증 추이 그래프</div>
+          <div class="sc-item active">주간 완료율</div>
+          <div class="sc-item">AI 인사이트</div>
+          <div class="sc-item">월간 리포트</div>
+        </div>
+      </div>
+      <div class="flow-arrow">→</div>
+      <div class="screen-card">
+        <div class="sc-header">👤 마이</div>
+        <div class="sc-body">
+          <div class="sc-item active">프로필 / 기기</div>
+          <div class="sc-item active">알림 설정</div>
+          <div class="sc-item">제품 재구매</div>
+          <div class="sc-item">1:1 문의</div>
+        </div>
+      </div>
+    </div>
+    <p style="color: var(--muted); font-size: 13px; margin-top: 12px;">✅ 진한 항목 = MVP 포함 &nbsp;|&nbsp; 흐린 항목 = Phase 2 이후</p>
+  </section>
+
+  <!-- DB -->
+  <section id="db">
+    <div class="section-label">Database Design</div>
+    <div class="section-title">DB 스키마 설계</div>
+    <div class="section-desc">AI가 쓸 수 있는 구조로 처음부터 설계. 나중에 바꾸면 데이터 날아감.</div>
+    <div class="db-grid">
+      <div class="db-table">
+        <div class="db-header"><div class="dot"></div><span>users</span></div>
+        <div class="db-row"><span class="col-name">id</span><span><span class="col-pk">PK</span> <span class="col-type">uuid</span></span></div>
+        <div class="db-row"><span class="col-name">kakao_id</span><span class="col-type">text</span></div>
+        <div class="db-row"><span class="col-name">name</span><span class="col-type">text</span></div>
+        <div class="db-row"><span class="col-name">pain_area</span><span class="col-type">text[]</span></div>
+        <div class="db-row"><span class="col-name">devices</span><span class="col-type">text[]</span></div>
+        <div class="db-row"><span class="col-name">push_token</span><span class="col-type">text</span></div>
+        <div class="db-row"><span class="col-name">created_at</span><span class="col-type">timestamptz</span></div>
+      </div>
+      <div class="db-table">
+        <div class="db-header"><div class="dot"></div><span>pain_logs</span></div>
+        <div class="db-row"><span class="col-name">id</span><span><span class="col-pk">PK</span> <span class="col-type">uuid</span></span></div>
+        <div class="db-row"><span class="col-name">user_id</span><span><span class="col-fk">FK</span> <span class="col-type">uuid</span></span></div>
+        <div class="db-row"><span class="col-name">pain_score</span><span class="col-type">int (1-10)</span></div>
+        <div class="db-row"><span class="col-name">pain_area</span><span class="col-type">text</span></div>
+        <div class="db-row"><span class="col-name">note</span><span class="col-type">text</span></div>
+        <div class="db-row"><span class="col-name">logged_at</span><span class="col-type">timestamptz</span></div>
+      </div>
+      <div class="db-table">
+        <div class="db-header"><div class="dot"></div><span>routines</span></div>
+        <div class="db-row"><span class="col-name">id</span><span><span class="col-pk">PK</span> <span class="col-type">uuid</span></span></div>
+        <div class="db-row"><span class="col-name">user_id</span><span><span class="col-fk">FK</span> <span class="col-type">uuid</span></span></div>
+        <div class="db-row"><span class="col-name">pain_score</span><span class="col-type">int</span></div>
+        <div class="db-row"><span class="col-name">devices_used</span><span class="col-type">text[]</span></div>
+        <div class="db-row"><span class="col-name">steps</span><span class="col-type">jsonb</span></div>
+        <div class="db-row"><span class="col-name">generated_by</span><span class="col-type">text (AI model)</span></div>
+        <div class="db-row"><span class="col-name">created_at</span><span class="col-type">timestamptz</span></div>
+      </div>
+      <div class="db-table">
+        <div class="db-header"><div class="dot"></div><span>routine_logs</span></div>
+        <div class="db-row"><span class="col-name">id</span><span><span class="col-pk">PK</span> <span class="col-type">uuid</span></span></div>
+        <div class="db-row"><span class="col-name">user_id</span><span><span class="col-fk">FK</span> <span class="col-type">uuid</span></span></div>
+        <div class="db-row"><span class="col-name">routine_id</span><span><span class="col-fk">FK</span> <span class="col-type">uuid</span></span></div>
+        <div class="db-row"><span class="col-name">completed</span><span class="col-type">bool</span></div>
+        <div class="db-row"><span class="col-name">duration_sec</span><span class="col-type">int</span></div>
+        <div class="db-row"><span class="col-name">after_pain_score</span><span class="col-type">int</span></div>
+        <div class="db-row"><span class="col-name">completed_at</span><span class="col-type">timestamptz</span></div>
+      </div>
+      <div class="db-table">
+        <div class="db-header"><div class="dot"></div><span>ai_insights</span></div>
+        <div class="db-row"><span class="col-name">id</span><span><span class="col-pk">PK</span> <span class="col-type">uuid</span></span></div>
+        <div class="db-row"><span class="col-name">user_id</span><span><span class="col-fk">FK</span> <span class="col-type">uuid</span></span></div>
+        <div class="db-row"><span class="col-name">insight_type</span><span class="col-type">text</span></div>
+        <div class="db-row"><span class="col-name">content</span><span class="col-type">text</span></div>
+        <div class="db-row"><span class="col-name">prediction_score</span><span class="col-type">float</span></div>
+        <div class="db-row"><span class="col-name">created_at</span><span class="col-type">timestamptz</span></div>
+      </div>
+      <div class="db-table">
+        <div class="db-header"><div class="dot"></div><span>nudges</span></div>
+        <div class="db-row"><span class="col-name">id</span><span><span class="col-pk">PK</span> <span class="col-type">uuid</span></span></div>
+        <div class="db-row"><span class="col-name">user_id</span><span><span class="col-fk">FK</span> <span class="col-type">uuid</span></span></div>
+        <div class="db-row"><span class="col-name">trigger_type</span><span class="col-type">text</span></div>
+        <div class="db-row"><span class="col-name">channel</span><span class="col-type">text (push/sms)</span></div>
+        <div class="db-row"><span class="col-name">sent_at</span><span class="col-type">timestamptz</span></div>
+        <div class="db-row"><span class="col-name">opened</span><span class="col-type">bool</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- MILESTONE -->
+  <section id="milestone">
+    <div class="section-label">Roadmap</div>
+    <div class="section-title">개발 마일스톤</div>
+    <div class="section-desc">단계별 목표와 기능 범위</div>
+    <div class="milestone-timeline">
+
+      <div class="milestone-item">
+        <div class="mi-dot phase1">1</div>
+        <div class="mi-content">
+          <div class="mi-header">
+            <div>
+              <div class="mi-phase">Phase 1</div>
+              <div class="mi-title">🚀 MVP — 핵심 루프 완성</div>
+              <div class="mi-goal">목표: "이 앱으로 매일 운동할 수 있다"</div>
+            </div>
+            <div class="mi-period">2026년 3월 → 4월</div>
+          </div>
+          <div class="feature-list">
+            <span class="feature-tag ft-core">카카오 로그인</span>
+            <span class="feature-tag ft-core">통증 부위 온보딩</span>
+            <span class="feature-tag ft-core">보유 기기 선택</span>
+            <span class="feature-tag ft-core">오늘 통증 체크인</span>
+            <span class="feature-tag ft-ai">AI 루틴 생성 (Rule-based)</span>
+            <span class="feature-tag ft-core">루틴 단계별 실행</span>
+            <span class="feature-tag ft-core">1분도수 유튜브 연동</span>
+            <span class="feature-tag ft-data">완료 로그 저장</span>
+            <span class="feature-tag ft-ux">푸시 알림 (매일 리마인드)</span>
+          </div>
+          <div class="mi-metric">
+            <div class="metric-box"><div class="metric-val">100명</div><div class="metric-label">초기 베타 사용자</div></div>
+            <div class="metric-box"><div class="metric-val">40%</div><div class="metric-label">7일 리텐션 목표</div></div>
+            <div class="metric-box"><div class="metric-val">CS-25 구매자</div><div class="metric-label">첫 타겟</div></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="milestone-item">
+        <div class="mi-dot phase2">2</div>
+        <div class="mi-content">
+          <div class="mi-header">
+            <div>
+              <div class="mi-phase">Phase 2</div>
+              <div class="mi-title">🧠 AI 개인화 — 데이터로 차별화</div>
+              <div class="mi-goal">목표: "나만의 회복 패턴을 AI가 학습한다"</div>
+            </div>
+            <div class="mi-period">2026년 5월 → 7월</div>
+          </div>
+          <div class="feature-list">
+            <span class="feature-tag ft-ai">통증 추이 그래프</span>
+            <span class="feature-tag ft-ai">AI 루틴 개인화 (ML 기반)</span>
+            <span class="feature-tag ft-ai">이탈 예측 모델</span>
+            <span class="feature-tag ft-ai">회복 예측 리포트</span>
+            <span class="feature-tag ft-data">주간/월간 인사이트</span>
+            <span class="feature-tag ft-ux">맞춤형 넛지 메시지</span>
+            <span class="feature-tag ft-core">루틴 난이도 자동 조절</span>
+            <span class="feature-tag ft-ux">스트릭 & 뱃지 시스템</span>
+          </div>
+          <div class="mi-metric">
+            <div class="metric-box"><div class="metric-val">1,000명</div><div class="metric-label">MAU 목표</div></div>
+            <div class="metric-box"><div class="metric-val">60%</div><div class="metric-label">30일 리텐션 목표</div></div>
+            <div class="metric-box"><div class="metric-val">3개월</div><div class="metric-label">ML 학습 데이터</div></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="milestone-item">
+        <div class="mi-dot phase3">3</div>
+        <div class="mi-content">
+          <div class="mi-header">
+            <div>
+              <div class="mi-phase">Phase 3</div>
+              <div class="mi-title">🏥 B2B 확장 — 병원·기업 채널</div>
+              <div class="mi-goal">목표: "병원이 키네메디칼 앱을 환자에게 처방한다"</div>
+            </div>
+            <div class="mi-period">2026년 8월 → 2027년 Q1</div>
+          </div>
+          <div class="feature-list">
+            <span class="feature-tag ft-core">의사/치료사 대시보드</span>
+            <span class="feature-tag ft-ai">환자 회복 모니터링</span>
+            <span class="feature-tag ft-data">병원 리포트 출력</span>
+            <span class="feature-tag ft-core">다기기 관리 (전신 확장)</span>
+            <span class="feature-tag ft-ux">그룹 챌린지</span>
+            <span class="feature-tag ft-ai">RAG 기반 Q&A</span>
+            <span class="feature-tag ft-data">보험사 연동 API</span>
+          </div>
+          <div class="mi-metric">
+            <div class="metric-box"><div class="metric-val">10,000명</div><div class="metric-label">MAU 목표</div></div>
+            <div class="metric-box"><div class="metric-val">50개</div><div class="metric-label">제휴 병원</div></div>
+            <div class="metric-box"><div class="metric-val">Pre-A</div><div class="metric-label">투자 라운드</div></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="milestone-item">
+        <div class="mi-dot phase4">4</div>
+        <div class="mi-content">
+          <div class="mi-header">
+            <div>
+              <div class="mi-phase">Phase 4</div>
+              <div class="mi-title">🌏 글로벌 — 미국 시장 진출</div>
+              <div class="mi-goal">목표: "미국 척추 케어 시장 진입"</div>
+            </div>
+            <div class="mi-period">2027년 → 2028년</div>
+          </div>
+          <div class="feature-list">
+            <span class="feature-tag ft-core">영어 현지화</span>
+            <span class="feature-tag ft-ai">FDA SaMD 준비</span>
+            <span class="feature-tag ft-data">미국 EMR 연동</span>
+            <span class="feature-tag ft-core">구독 모델 (SaaS)</span>
+            <span class="feature-tag ft-ux">커뮤니티 기능</span>
+            <span class="feature-tag ft-ai">멀티 언어 AI</span>
+          </div>
+          <div class="mi-metric">
+            <div class="metric-box"><div class="metric-val">100K</div><div class="metric-label">글로벌 MAU</div></div>
+            <div class="metric-box"><div class="metric-val">Series A</div><div class="metric-label">투자 목표</div></div>
+            <div class="metric-box"><div class="metric-val">2,000억+</div><div class="metric-label">기업가치 목표</div></div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- KPI -->
+  <section id="kpi">
+    <div class="section-label">Success Metrics</div>
+    <div class="section-title">단계별 핵심 KPI</div>
+    <div class="section-desc">이 숫자들이 달성되면 다음 Phase로 이동</div>
+    <div class="kpi-grid">
+      <div class="kpi-card">
+        <div class="kpi-val" style="color: var(--blue)">100명</div>
+        <div class="kpi-label">베타 사용자</div>
+        <div class="kpi-phase">Phase 1 클리어</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-val" style="color: var(--blue)">40%</div>
+        <div class="kpi-label">7일 리텐션</div>
+        <div class="kpi-phase">Phase 1 클리어</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-val" style="color: var(--purple)">1,000명</div>
+        <div class="kpi-label">MAU</div>
+        <div class="kpi-phase">Phase 2 클리어</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-val" style="color: var(--purple)">60%</div>
+        <div class="kpi-label">30일 리텐션</div>
+        <div class="kpi-phase">Phase 2 클리어</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-val" style="color: var(--green)">10,000명</div>
+        <div class="kpi-label">MAU</div>
+        <div class="kpi-phase">Phase 3 클리어</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-val" style="color: var(--green)">50개</div>
+        <div class="kpi-label">제휴 병원</div>
+        <div class="kpi-phase">Phase 3 클리어</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-val" style="color: var(--yellow)">100K</div>
+        <div class="kpi-label">글로벌 MAU</div>
+        <div class="kpi-phase">Phase 4 목표</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-val" style="color: var(--yellow)">2,000억</div>
+        <div class="kpi-label">기업가치</div>
+        <div class="kpi-phase">최종 목표</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TECH STACK -->
+  <section id="tech">
+    <div class="section-label">Tech Stack</div>
+    <div class="section-title">기술 스택</div>
+    <div class="section-desc">빠른 개발 + 확장 가능한 구조</div>
+    <div class="tech-grid">
+      <div class="tech-card">
+        <div class="tc-label">📱 Mobile App</div>
+        <div class="tc-items">
+          <span class="tc-item">React Native</span>
+          <span class="tc-item">Expo SDK 55</span>
+          <span class="tc-item">expo-router</span>
+          <span class="tc-item">Reanimated 4</span>
+        </div>
+      </div>
+      <div class="tech-card">
+        <div class="tc-label">🗄️ Backend / DB</div>
+        <div class="tc-items">
+          <span class="tc-item">Supabase</span>
+          <span class="tc-item">PostgreSQL</span>
+          <span class="tc-item">Row Level Security</span>
+          <span class="tc-item">Edge Functions</span>
+        </div>
+      </div>
+      <div class="tech-card">
+        <div class="tc-label">🤖 AI / ML</div>
+        <div class="tc-items">
+          <span class="tc-item">GPT-4o (루틴 생성)</span>
+          <span class="tc-item">Rule Engine (MVP)</span>
+          <span class="tc-item">Python ML (Phase 2)</span>
+          <span class="tc-item">3-tier LLM Routing</span>
+        </div>
+      </div>
+      <div class="tech-card">
+        <div class="tc-label">🔔 Push / CRM</div>
+        <div class="tc-items">
+          <span class="tc-item">expo-notifications</span>
+          <span class="tc-item">Datarize</span>
+          <span class="tc-item">카카오 알림톡</span>
+          <span class="tc-item">SMS 자동화</span>
+        </div>
+      </div>
+      <div class="tech-card">
+        <div class="tc-label">📊 Analytics</div>
+        <div class="tc-items">
+          <span class="tc-item">Mixpanel</span>
+          <span class="tc-item">Supabase Analytics</span>
+          <span class="tc-item">Custom Dashboard</span>
+        </div>
+      </div>
+      <div class="tech-card">
+        <div class="tc-label">🚀 Deploy</div>
+        <div class="tc-items">
+          <span class="tc-item">EAS Build</span>
+          <span class="tc-item">Vercel (Web)</span>
+          <span class="tc-item">App Store</span>
+          <span class="tc-item">Google Play</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FINAL -->
+  <section id="final">
+    <div class="section-label">Final Vision</div>
+    <div class="section-title">최종 모습</div>
+    <div class="final-vision">
+      <div class="fv-title">집이 <span>병원</span>이 되는 날까지</div>
+      <div class="fv-desc">키네메디칼 앱은 단순한 헬스케어 앱이 아니다.<br>기기 + AI + 콘텐츠를 하나로 연결하는 <strong>회복 OS</strong>다.<br>목에서 시작해, 전신으로. 한국에서 시작해, 미국으로.</div>
+      <div class="fv-stats">
+        <div class="fv-stat">
+          <div class="fv-stat-val">100만명</div>
+          <div class="fv-stat-label">회복 데이터 축적</div>
+        </div>
+        <div class="fv-stat">
+          <div class="fv-stat-val">4단계</div>
+          <div class="fv-stat-label">운동-회복-교정-고정</div>
+        </div>
+        <div class="fv-stat">
+          <div class="fv-stat-val">1조+</div>
+          <div class="fv-stat-label">기업가치 목표</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <p>KINEMEDICAL App 기획서 v1.0 — CTO 문서 | 2026.03 | 대외비</p>
+</footer>
+
+</body>
+</html>
