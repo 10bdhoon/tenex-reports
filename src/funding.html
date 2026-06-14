@@ -218,19 +218,21 @@ tbody tr:last-child td{border-bottom:none}
 <!-- ===== TAB 1: 지분 구조 ===== -->
 <div id="tab-1" class="tab-content active">
   <h1>🎯 테넥스 지분구조 시뮬레이션</h1>
-  <p class="subtitle">창업자 지분 보호 전략 · 한국 기준 · 2026.03</p>
+  <p class="subtitle">창업자 지분 보호 전략 · 한국 기준 · 2026.06 (법인전환 완료)</p>
 
   <div class="assumption-box">
-    <strong>시뮬레이션 가정</strong><br>
-    · 총 발행주식: 10,000주 (법인 전환 기준)<br>
-    · 스톡옵션 풀: <strong>12%</strong> (한국 현실 기준)<br>
+    <strong>현재 캡테이블 (법인전환 완료)</strong><br>
+    · 총 발행주식: 10,000주 · <strong>직접지분: 태훈 81 / 인규 5 / 호진 3 / 정민 1 (=90%)</strong><br>
+    · 스톡옵션 풀: <strong>10%</strong> (1,000주 · 전량 미부여, 향후 부여용)<br>
     · 라운드마다 <strong>신주 10% 이하</strong> 발행 (지분 최대한 지키기)<br>
-    · 에이피알 방식: IPO까지 대표 50%+ 유지 목표
+    · 에이피알 방식: IPO까지 대표 50%+ 유지 목표 · Pre-A/Series A는 <em>추정 시뮬레이션</em>
   </div>
 
   <div class="color-legend">
     <div class="cl-item"><div class="cl-dot" style="background:#3B82F6"></div>김태훈 (CEO)</div>
     <div class="cl-item"><div class="cl-dot" style="background:#10B981"></div>인규</div>
+    <div class="cl-item"><div class="cl-dot" style="background:#F472B6"></div>호진</div>
+    <div class="cl-item"><div class="cl-dot" style="background:#2DD4BF"></div>정민</div>
     <div class="cl-item"><div class="cl-dot" style="background:#F59E0B"></div>Pre-A 투자자</div>
     <div class="cl-item"><div class="cl-dot" style="background:#EF4444"></div>Series A 투자자</div>
     <div class="cl-item"><div class="cl-dot" style="background:#8B5CF6"></div>부여된 옵션</div>
@@ -240,27 +242,35 @@ tbody tr:last-child td{border-bottom:none}
   <!-- Stage 1 -->
   <div class="round-card">
     <div class="round-label">Stage 1</div>
-    <div class="round-title">법인 전환</div>
-    <div class="round-valuation">2026 상반기 · 밸류 ~50억</div>
+    <div class="round-title">법인 전환 (완료)</div>
+    <div class="round-valuation">2026.06 완료 · 밸류 ~50억</div>
     <div class="chart-wrap">
       <canvas id="chart1"></canvas>
       <div class="chart-center">
-        <div class="chart-center-pct">83%</div>
+        <div class="chart-center-pct">81%</div>
         <div class="chart-center-label">태훈</div>
       </div>
     </div>
     <div class="legend">
       <div class="legend-item">
         <div class="legend-left"><div class="legend-dot" style="background:#3B82F6"></div><span class="legend-name">김태훈</span></div>
-        <div class="legend-right"><span class="legend-pct">83%</span><span class="legend-sub">8,300주</span></div>
+        <div class="legend-right"><span class="legend-pct">81%</span><span class="legend-sub">8,100주</span></div>
       </div>
       <div class="legend-item">
         <div class="legend-left"><div class="legend-dot" style="background:#10B981"></div><span class="legend-name">인규</span></div>
         <div class="legend-right"><span class="legend-pct">5%</span><span class="legend-sub">500주 · 4년 베스팅</span></div>
       </div>
       <div class="legend-item">
+        <div class="legend-left"><div class="legend-dot" style="background:#F472B6"></div><span class="legend-name">호진</span></div>
+        <div class="legend-right"><span class="legend-pct">3%</span><span class="legend-sub">300주</span></div>
+      </div>
+      <div class="legend-item">
+        <div class="legend-left"><div class="legend-dot" style="background:#2DD4BF"></div><span class="legend-name">정민</span></div>
+        <div class="legend-right"><span class="legend-pct">1%</span><span class="legend-sub">100주</span></div>
+      </div>
+      <div class="legend-item">
         <div class="legend-left"><div class="legend-dot" style="background:#2D3748"></div><span class="legend-name">스톡옵션 풀</span></div>
-        <div class="legend-right"><span class="legend-pct">12%</span><span class="legend-sub">1,200주 · 미부여</span></div>
+        <div class="legend-right"><span class="legend-pct">10%</span><span class="legend-sub">1,000주 · 미부여</span></div>
       </div>
     </div>
   </div>
@@ -273,18 +283,26 @@ tbody tr:last-child td{border-bottom:none}
     <div class="chart-wrap">
       <canvas id="chart2"></canvas>
       <div class="chart-center">
-        <div class="chart-center-pct">75%</div>
+        <div class="chart-center-pct">74.5%</div>
         <div class="chart-center-label">태훈</div>
       </div>
     </div>
     <div class="legend">
       <div class="legend-item">
         <div class="legend-left"><div class="legend-dot" style="background:#3B82F6"></div><span class="legend-name">김태훈</span></div>
-        <div class="legend-right"><span class="legend-pct">75%</span></div>
+        <div class="legend-right"><span class="legend-pct">74.5%</span></div>
       </div>
       <div class="legend-item">
         <div class="legend-left"><div class="legend-dot" style="background:#10B981"></div><span class="legend-name">인규</span></div>
-        <div class="legend-right"><span class="legend-pct">4.5%</span></div>
+        <div class="legend-right"><span class="legend-pct">4.6%</span></div>
+      </div>
+      <div class="legend-item">
+        <div class="legend-left"><div class="legend-dot" style="background:#F472B6"></div><span class="legend-name">호진</span></div>
+        <div class="legend-right"><span class="legend-pct">2.8%</span></div>
+      </div>
+      <div class="legend-item">
+        <div class="legend-left"><div class="legend-dot" style="background:#2DD4BF"></div><span class="legend-name">정민</span></div>
+        <div class="legend-right"><span class="legend-pct">0.9%</span></div>
       </div>
       <div class="legend-item">
         <div class="legend-left"><div class="legend-dot" style="background:#F59E0B"></div><span class="legend-name">Pre-A 투자자</span></div>
@@ -296,7 +314,7 @@ tbody tr:last-child td{border-bottom:none}
       </div>
       <div class="legend-item">
         <div class="legend-left"><div class="legend-dot" style="background:#2D3748"></div><span class="legend-name">미부여 풀</span></div>
-        <div class="legend-right"><span class="legend-pct">11%</span></div>
+        <div class="legend-right"><span class="legend-pct">7.7%</span></div>
       </div>
     </div>
   </div>
@@ -320,11 +338,19 @@ tbody tr:last-child td{border-bottom:none}
       </div>
       <div class="legend-item">
         <div class="legend-left"><div class="legend-dot" style="background:#10B981"></div><span class="legend-name">인규</span></div>
-        <div class="legend-right"><span class="legend-pct">4%</span></div>
+        <div class="legend-right"><span class="legend-pct">4.1%</span></div>
+      </div>
+      <div class="legend-item">
+        <div class="legend-left"><div class="legend-dot" style="background:#F472B6"></div><span class="legend-name">호진</span></div>
+        <div class="legend-right"><span class="legend-pct">2.5%</span></div>
+      </div>
+      <div class="legend-item">
+        <div class="legend-left"><div class="legend-dot" style="background:#2DD4BF"></div><span class="legend-name">정민</span></div>
+        <div class="legend-right"><span class="legend-pct">0.8%</span></div>
       </div>
       <div class="legend-item">
         <div class="legend-left"><div class="legend-dot" style="background:#F59E0B"></div><span class="legend-name">Pre-A 투자자</span></div>
-        <div class="legend-right"><span class="legend-pct">7%</span></div>
+        <div class="legend-right"><span class="legend-pct">7.2%</span></div>
       </div>
       <div class="legend-item">
         <div class="legend-left"><div class="legend-dot" style="background:#EF4444"></div><span class="legend-name">Series A 투자자</span></div>
@@ -336,7 +362,7 @@ tbody tr:last-child td{border-bottom:none}
       </div>
       <div class="legend-item">
         <div class="legend-left"><div class="legend-dot" style="background:#2D3748"></div><span class="legend-name">미부여 풀</span></div>
-        <div class="legend-right"><span class="legend-pct">7.5%</span></div>
+        <div class="legend-right"><span class="legend-pct">3.9%</span></div>
       </div>
     </div>
   </div>
@@ -347,30 +373,36 @@ tbody tr:last-child td{border-bottom:none}
     <div class="bar-row">
       <div class="bar-stage">법인 전환</div>
       <div class="bar">
-        <div class="bar-seg" style="width:83%;background:#3B82F6">태훈 83%</div>
+        <div class="bar-seg" style="width:81%;background:#3B82F6">태훈 81%</div>
         <div class="bar-seg" style="width:5%;background:#10B981">5%</div>
-        <div class="bar-seg" style="width:12%;background:#2D3748">풀 12%</div>
+        <div class="bar-seg" style="width:3%;background:#F472B6"></div>
+        <div class="bar-seg" style="width:1%;background:#2DD4BF"></div>
+        <div class="bar-seg" style="width:10%;background:#2D3748">풀 10%</div>
       </div>
     </div>
     <div class="bar-row">
       <div class="bar-stage">Pre-A (신주 8%)</div>
       <div class="bar">
-        <div class="bar-seg" style="width:75%;background:#3B82F6">75%</div>
-        <div class="bar-seg" style="width:4.5%;background:#10B981"></div>
+        <div class="bar-seg" style="width:74.5%;background:#3B82F6">74.5%</div>
+        <div class="bar-seg" style="width:4.6%;background:#10B981"></div>
+        <div class="bar-seg" style="width:2.8%;background:#F472B6"></div>
+        <div class="bar-seg" style="width:0.9%;background:#2DD4BF"></div>
         <div class="bar-seg" style="width:8%;background:#F59E0B">투자 8%</div>
         <div class="bar-seg" style="width:1.5%;background:#8B5CF6"></div>
-        <div class="bar-seg" style="width:11%;background:#2D3748"></div>
+        <div class="bar-seg" style="width:7.7%;background:#2D3748"></div>
       </div>
     </div>
     <div class="bar-row">
       <div class="bar-stage">Series A (신주 10%)</div>
       <div class="bar">
         <div class="bar-seg" style="width:67%;background:#3B82F6">67%</div>
-        <div class="bar-seg" style="width:4%;background:#10B981"></div>
-        <div class="bar-seg" style="width:7%;background:#F59E0B"></div>
+        <div class="bar-seg" style="width:4.1%;background:#10B981"></div>
+        <div class="bar-seg" style="width:2.5%;background:#F472B6"></div>
+        <div class="bar-seg" style="width:0.8%;background:#2DD4BF"></div>
+        <div class="bar-seg" style="width:7.2%;background:#F59E0B"></div>
         <div class="bar-seg" style="width:10%;background:#EF4444">A 10%</div>
         <div class="bar-seg" style="width:4.5%;background:#8B5CF6">옵션</div>
-        <div class="bar-seg" style="width:7.5%;background:#2D3748"></div>
+        <div class="bar-seg" style="width:3.9%;background:#2D3748"></div>
       </div>
     </div>
     <p class="bar-note">* 에이피알 대표 IPO 후 50%+ 유지 — 테넥스는 Series A 후에도 67% 유지 가능</p>
@@ -382,22 +414,22 @@ tbody tr:last-child td{border-bottom:none}
     <div class="vt-cell">
       <div class="vt-val-label">밸류 200억 (Pre-A)</div>
       <div class="vt-value">~9억</div>
-      <div class="vt-note">희석 4.5% 기준</div>
+      <div class="vt-note">희석 4.6% 기준</div>
     </div>
     <div class="vt-cell">
       <div class="vt-val-label">밸류 500억 (Series A)</div>
       <div class="vt-value">~20억</div>
-      <div class="vt-note">희석 4% 기준</div>
+      <div class="vt-note">희석 4.1% 기준</div>
     </div>
     <div class="vt-cell">
       <div class="vt-val-label">밸류 2,000억 (목표)</div>
       <div class="vt-value vt-value-yellow">~80억</div>
-      <div class="vt-note">희석 4% 기준</div>
+      <div class="vt-note">희석 4.1% 기준</div>
     </div>
     <div class="vt-cell">
       <div class="vt-val-label">밸류 1조 (꿈)</div>
       <div class="vt-value vt-value-red">~400억</div>
-      <div class="vt-note">희석 4% 기준</div>
+      <div class="vt-note">희석 4.1% 기준</div>
     </div>
   </div>
 
@@ -414,7 +446,7 @@ tbody tr:last-child td{border-bottom:none}
     </div>
     <div class="note-item">
       <div class="note-num">3</div>
-      <div class="note-text"><strong>스톡옵션 풀 12%</strong> (한국 현실 기준). 법인 전환 시 정관에 설정, 나중에 이사회 결의로 개별 부여</div>
+      <div class="note-text"><strong>스톡옵션 풀 10%</strong> (정관 설정 완료, 1,000주). 향후 이사회 결의로 개별 부여</div>
     </div>
     <div class="note-item">
       <div class="note-num">4</div>
@@ -438,9 +470,9 @@ tbody tr:last-child td{border-bottom:none}
       }
     });
   };
-  makeChart('chart1', [83, 5, 12], ['김태훈','인규','스톡옵션 풀'], ['#3B82F6','#10B981','#2D3748']);
-  makeChart('chart2', [75, 4.5, 8, 1.5, 11], ['김태훈','인규','Pre-A 투자자','부여된 옵션','미부여 풀'], ['#3B82F6','#10B981','#F59E0B','#8B5CF6','#2D3748']);
-  makeChart('chart3', [67, 4, 7, 10, 4.5, 7.5], ['김태훈','인규','Pre-A 투자자','Series A 투자자','부여된 옵션','미부여 풀'], ['#3B82F6','#10B981','#F59E0B','#EF4444','#8B5CF6','#2D3748']);
+  makeChart('chart1', [81, 5, 3, 1, 10], ['김태훈','인규','호진','정민','스톡옵션 풀'], ['#3B82F6','#10B981','#F472B6','#2DD4BF','#2D3748']);
+  makeChart('chart2', [74.5, 4.6, 2.8, 0.9, 8, 1.5, 7.7], ['김태훈','인규','호진','정민','Pre-A 투자자','부여된 옵션','미부여 풀'], ['#3B82F6','#10B981','#F472B6','#2DD4BF','#F59E0B','#8B5CF6','#2D3748']);
+  makeChart('chart3', [67, 4.1, 2.5, 0.8, 7.2, 10, 4.5, 3.9], ['김태훈','인규','호진','정민','Pre-A 투자자','Series A 투자자','부여된 옵션','미부여 풀'], ['#3B82F6','#10B981','#F472B6','#2DD4BF','#F59E0B','#EF4444','#8B5CF6','#2D3748']);
   </script>
 </div>
 
@@ -449,72 +481,70 @@ tbody tr:last-child td{border-bottom:none}
   <div class="hero">
     <div class="badge">Stock Option Simulation</div>
     <h1>테넥스 <em>스톡옵션</em> 시뮬레이션</h1>
-    <p class="hero-sub">법인 전환 기준 · 2026.03 · 대표 50%+ 유지 전략</p>
+    <p class="hero-sub">법인전환 완료 · 2026.06 · 대표 50%+ 유지 전략</p>
   </div>
 
   <!-- 핵심 전제 -->
-  <div class="section-title">핵심 전제</div>
+  <div class="section-title">핵심 전제 (법인전환 완료)</div>
   <div class="grid-4">
     <div class="stat-box">
       <div class="label">총 발행주식</div>
       <div class="value">10,000주</div>
-      <div class="note">법인 전환 기준</div>
+      <div class="note">법인전환 완료</div>
     </div>
     <div class="stat-box">
-      <div class="label">추천 옵션 풀</div>
-      <div class="value text-yellow">15%</div>
-      <div class="note">1,500주 (12%→상향)</div>
+      <div class="label">스톡옵션 풀 (확정)</div>
+      <div class="value text-yellow">10%</div>
+      <div class="note">1,000주 · 전량 미부여</div>
     </div>
     <div class="stat-box">
       <div class="label">대표 지분 (법인후)</div>
-      <div class="value">80%</div>
-      <div class="note">8,000주 · IPO 목표 50%+</div>
+      <div class="value">81%</div>
+      <div class="note">8,100주 · IPO 목표 50%+</div>
     </div>
     <div class="stat-box">
-      <div class="label">인규 지분</div>
-      <div class="value">5%</div>
-      <div class="note">500주 · 4년 베스팅</div>
+      <div class="label">직접지분 (창업/초기)</div>
+      <div class="value">90%</div>
+      <div class="note">태훈81·인규5·호진3·정민1</div>
     </div>
   </div>
 
-  <!-- 풀 크기 비교 -->
-  <div class="section-title">풀 크기 비교 — 12% vs 15%</div>
+  <!-- 풀 배정 계획 + 직접지분 구분 -->
+  <div class="section-title">스톡옵션 풀 10% 배정 계획 · 직접지분 구분</div>
   <div class="pool-compare">
-    <div class="pool-card">
-      <h3>12%</h3>
-      <div class="sub">기존 계획 · 1,200주</div>
-      <div class="pool-detail"><span>인규 (확정)</span><span>5% / 500주</span></div>
-      <div class="pool-bar"><div class="pool-bar-fill" style="width:42%;background:#10b981"></div></div>
-      <div class="pool-detail"><span>운영매니저</span><span>~1% / 100주</span></div>
-      <div class="pool-bar"><div class="pool-bar-fill" style="width:8%;background:#60a5fa"></div></div>
-      <div class="pool-detail"><span>퍼포마케터</span><span>~0.5% / 50주</span></div>
-      <div class="pool-bar"><div class="pool-bar-fill" style="width:4%;background:#a78bfa"></div></div>
-      <div class="pool-detail"><span>COO (예정)</span><span>~2% / 200주</span></div>
-      <div class="pool-bar"><div class="pool-bar-fill" style="width:17%;background:#fbbf24"></div></div>
-      <div class="pool-detail" style="margin-top:12px"><span>사용 합계</span><span class="text-red" style="font-weight:800">8.5% / 850주</span></div>
-      <div class="pool-detail"><span class="text-red">⚠ 잔여 여유</span><span class="text-red">3.5% / 350주</span></div>
-      <div class="pool-alert">추가 핵심 인재 영입 시 <strong>여유 없음</strong>. 이사회 결의로 증설 필요.</div>
-    </div>
     <div class="pool-card recommended">
-      <div class="rec-badge">✓ 추천</div>
-      <h3 class="text-green">15%</h3>
-      <div class="sub">상향 추천 · 1,500주</div>
-      <div class="pool-detail"><span>인규 (확정)</span><span>5% / 500주</span></div>
-      <div class="pool-bar"><div class="pool-bar-fill" style="width:33%;background:#10b981"></div></div>
+      <div class="rec-badge">✓ 확정</div>
+      <h3 class="text-green">10%</h3>
+      <div class="sub">스톡옵션 풀 · 1,000주 · 현재 전량 미부여 (향후 부여용)</div>
       <div class="pool-detail"><span>운영매니저</span><span>~1% / 100주</span></div>
-      <div class="pool-bar"><div class="pool-bar-fill" style="width:7%;background:#60a5fa"></div></div>
+      <div class="pool-bar"><div class="pool-bar-fill" style="width:10%;background:#60a5fa"></div></div>
       <div class="pool-detail"><span>퍼포마케터</span><span>~0.5% / 50주</span></div>
-      <div class="pool-bar"><div class="pool-bar-fill" style="width:3%;background:#a78bfa"></div></div>
+      <div class="pool-bar"><div class="pool-bar-fill" style="width:5%;background:#a78bfa"></div></div>
       <div class="pool-detail"><span>COO (예정)</span><span>~2% / 200주</span></div>
-      <div class="pool-bar"><div class="pool-bar-fill" style="width:13%;background:#fbbf24"></div></div>
-      <div class="pool-detail" style="margin-top:12px"><span>사용 합계</span><span>8.5% / 850주</span></div>
-      <div class="pool-detail"><span class="text-green">✓ 잔여 여유</span><span class="text-green" style="font-weight:800">6.5% / 650주</span></div>
-      <div class="pool-success">핵심 인재 추가 영입 + 미국 진출 인재까지 <strong>여유 있음</strong></div>
+      <div class="pool-bar"><div class="pool-bar-fill" style="width:20%;background:#fbbf24"></div></div>
+      <div class="pool-detail"><span>미국/미래 핵심</span><span>~3% / 300주</span></div>
+      <div class="pool-bar"><div class="pool-bar-fill" style="width:30%;background:#f472b6"></div></div>
+      <div class="pool-detail" style="margin-top:12px"><span>배정 예상 합계</span><span style="font-weight:800">~6.5% / 650주</span></div>
+      <div class="pool-detail"><span class="text-green">✓ 잔여 여유</span><span class="text-green" style="font-weight:800">~3.5% / 350주</span></div>
+      <div class="pool-success">인규·호진·정민은 풀 밖 <strong>직접지분</strong>이라, 10% 풀은 전부 신규 인재 부여용으로 보존됨.</div>
+    </div>
+    <div class="pool-card">
+      <h3>90%</h3>
+      <div class="sub">직접지분 (풀 외) · 9,000주</div>
+      <div class="pool-detail"><span>태훈 (대표)</span><span>81% / 8,100주</span></div>
+      <div class="pool-bar"><div class="pool-bar-fill" style="width:90%;background:#3B82F6"></div></div>
+      <div class="pool-detail"><span>인규</span><span>5% / 500주 · 4년 베스팅</span></div>
+      <div class="pool-bar"><div class="pool-bar-fill" style="width:33%;background:#10b981"></div></div>
+      <div class="pool-detail"><span>호진</span><span>3% / 300주</span></div>
+      <div class="pool-bar"><div class="pool-bar-fill" style="width:20%;background:#F472B6"></div></div>
+      <div class="pool-detail"><span>정민</span><span>1% / 100주</span></div>
+      <div class="pool-bar"><div class="pool-bar-fill" style="width:7%;background:#2DD4BF"></div></div>
+      <div class="pool-alert">호진·정민 베스팅/락업 조건은 <strong>계약서 확인 필요</strong> (현재 문서엔 미반영).</div>
     </div>
   </div>
 
   <!-- 대상별 배정 시뮬레이션 -->
-  <div class="section-title">대상별 스톡옵션 배정 시뮬레이션 (15% 기준)</div>
+  <div class="section-title">대상별 스톡옵션 배정 시뮬레이션 (풀 10% 기준)</div>
   <div class="card" style="padding:0;overflow:hidden">
     <table>
       <thead>
@@ -530,14 +560,14 @@ tbody tr:last-child td{border-bottom:none}
       <tbody>
         <tr>
           <td>
-            <div class="name-cell">인규</div>
+            <div class="name-cell">인규 <span style="font-size:11px;color:#6e7681">(풀 외 · 직접지분)</span></div>
             <div class="role-cell">콘텐츠 총괄 / 공동창업자 수준</div>
           </td>
           <td><span class="tag green">확정</span></td>
           <td class="pct-cell">5.0%</td>
           <td>500주</td>
           <td class="vest-cell">4년 · 1년 cliff<br>매년 1.25% 확정</td>
-          <td class="vest-cell">법인 전환 즉시</td>
+          <td class="vest-cell">법인전환 완료</td>
         </tr>
         <tr>
           <td>
@@ -584,10 +614,10 @@ tbody tr:last-child td{border-bottom:none}
           <td class="vest-cell">Series A 이후</td>
         </tr>
         <tr class="row-total">
-          <td colspan="2" style="font-size:13px;font-weight:700;color:#94a3b8;padding:14px">총 배정 예상</td>
-          <td class="total-pct">~12.8%</td>
-          <td><span class="total-shares">~1,280주</span></td>
-          <td colspan="2"><span class="total-note">잔여 여유 2.2% / 220주 (15% 기준)</span></td>
+          <td colspan="2" style="font-size:13px;font-weight:700;color:#94a3b8;padding:14px">풀 배정 예상 (인규 제외)</td>
+          <td class="total-pct">~6.5%</td>
+          <td><span class="total-shares">~650주</span></td>
+          <td colspan="2"><span class="total-note">잔여 여유 ~3.5% / 350주 (풀 10% 기준)</span></td>
         </tr>
       </tbody>
     </table>
@@ -605,26 +635,26 @@ tbody tr:last-child td{border-bottom:none}
       </div>
       <div class="val-row">
         <span class="person">태훈</span>
-        <div><div class="amount">~41.5억</div><div class="pct-small">83%</div></div>
+        <div><div class="amount">~40.5억</div><div class="pct-small">81%</div></div>
       </div>
     </div>
     <div class="val-card">
       <div class="stage">Pre-A 직후</div>
       <div class="valuation">밸류 200~300억</div>
       <div class="val-row">
-        <span class="person">인규 (희석 4.5%)</span>
-        <div><div class="amount">~9~13.5억</div><div class="pct-small">4.5%</div></div>
+        <span class="person">인규 (희석 4.6%)</span>
+        <div><div class="amount">~9~14억</div><div class="pct-small">4.6%</div></div>
       </div>
       <div class="val-row">
-        <span class="person">태훈 (75%)</span>
-        <div><div class="amount">~150~225억</div><div class="pct-small">75%</div></div>
+        <span class="person">태훈 (74.5%)</span>
+        <div><div class="amount">~150~225억</div><div class="pct-small">74.5%</div></div>
       </div>
     </div>
     <div class="val-card">
       <div class="stage">Series A 직후</div>
       <div class="valuation">밸류 500~1,000억</div>
       <div class="val-row">
-        <span class="person">인규 (희석 4%)</span>
+        <span class="person">인규 (희석 4.1%)</span>
         <div><div class="amount">~20~40억</div><div class="pct-small">4.0%</div></div>
       </div>
       <div class="val-row">
@@ -636,7 +666,7 @@ tbody tr:last-child td{border-bottom:none}
       <div class="stage">🎯 목표 엑싯</div>
       <div class="valuation valuation-green">밸류 2,000억~1조</div>
       <div class="val-row">
-        <span class="person">인규 (4% 유지)</span>
+        <span class="person">인규 (4.1% 유지)</span>
         <div><div class="amount">~80억~400억</div><div class="pct-small">4.0%</div></div>
       </div>
       <div class="val-row">
@@ -699,7 +729,7 @@ tbody tr:last-child td{border-bottom:none}
       <div class="tl-content">
         <div class="tl-date">2026 Q2 (4~5월)</div>
         <h4>법인 전환 + 정관 설정</h4>
-        <p>세무사·변호사 통해 법인 설립. 정관에 스톡옵션 풀 15% 설정. 발행주식 10,000주. 행사가격 액면가로 낮게 설정.</p>
+        <p>세무사·변호사 통해 법인 설립. 정관에 스톡옵션 풀 10% 설정. 발행주식 10,000주. 행사가격 액면가로 낮게 설정.</p>
       </div>
     </div>
     <div class="tl-item">
@@ -732,7 +762,7 @@ tbody tr:last-child td{border-bottom:none}
       <div class="tl-content">
         <div class="tl-date">2026 Q3~Q4 (Pre-A 전후)</div>
         <h4>퍼포마케터 + Pre-A 투자 집행</h4>
-        <p>퍼포마케터 0.3~0.5% 부여. Pre-A 신주 8% 이하 발행 (밸류 200~300억 목표). 이 시점 태훈 지분 75% 유지.</p>
+        <p>퍼포마케터 0.3~0.5% 부여. Pre-A 신주 8% 이하 발행 (밸류 200~300억 목표). 이 시점 태훈 지분 74.5% 유지.</p>
       </div>
     </div>
     <div class="tl-item">
@@ -759,7 +789,7 @@ tbody tr:last-child td{border-bottom:none}
       labels: ['법인전환','Pre-A 전','Pre-A 후','Series A 후','IPO 목표'],
       datasets: [{
         label: '태훈 지분율 (%)',
-        data: [80, 80, 75, 67, 50],
+        data: [81, 81, 74.5, 67, 50],
         borderColor: '#10b981',
         backgroundColor: 'rgba(16,185,129,.1)',
         borderWidth: 2.5,
