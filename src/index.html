@@ -1471,7 +1471,7 @@ function renderReports(){
         html+='<a href="'+r.href+'" class="report-card" draggable="true" data-href="'+r.href+'"><span class="card-num">'+num+'</span><span class="card-icon">'+r.icon+'</span><div class="card-info"><h3>'+r.title+'</h3>'+(r.desc?'<div class="desc">'+r.desc+'</div>':'')+'<div class="meta"><span class="badge" style="background:rgba(0,40,85,0.08);color:#002855">'+badge+'</span><span>'+r.date+'</span></div></div><span class="card-new-tab" title="새 탭에서 열기">↗</span></a>';
       });
     });
-    const noSub=filtered.filter(r=>!r.sub);
+    const noSub=filtered.filter(r=>!r.sub||!activeCat.subs.includes(r.sub));
     if(noSub.length){
       html+='<div class="subgroup-header">기타 ('+noSub.length+')</div>';
       noSub.forEach(r=>{
