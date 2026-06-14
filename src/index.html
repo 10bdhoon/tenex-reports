@@ -1020,7 +1020,7 @@ body.sidebar-collapsed .header-toggle{display:flex}
 <aside class="sidebar" id="sidebar">
   <div class="sidebar-header">
     <div style="display:flex;align-items:center;justify-content:space-between">
-      <h1><span>🎯</span> 테넥스 리포트</h1>
+      <h1 id="sidebarHome" style="cursor:pointer" title="홈으로"><span>🎯</span> 테넥스 리포트</h1>
       <button class="sidebar-toggle" id="sidebarCollapse">◀</button>
     </div>
     <p>태훈의 A~Z 업무 구조</p>
@@ -1085,7 +1085,7 @@ body.sidebar-collapsed .header-toggle{display:flex}
     <div class="header-left">
       <button class="mobile-menu-btn" id="mobileMenuBtn">☰</button>
       <button class="header-toggle" id="headerToggle">☰</button>
-      <span class="header-title">테넥스 리포트</span>
+      <span class="header-title" id="headerHome" style="cursor:pointer" title="홈으로">테넥스 리포트</span>
     </div>
     <div style="display:flex;align-items:center;gap:12px">
       <button class="theme-toggle" id="themeToggle"></button>
@@ -1395,7 +1395,8 @@ function renderSidebarCats(){
           const docA=document.createElement('div');
           docA.className='nav-sub-item';
           docA.innerHTML='<span style="opacity:.6">'+r.icon+'</span><span style="flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">'+r.title+'</span>';
-          docA.onclick=(e)=>{e.stopPropagation();openSystemPage(r.href,r.title)};
+          docA.style.cursor='pointer';
+          docA.onclick=(e)=>{e.stopPropagation();try{sessionStorage.setItem('tenex-list-state',JSON.stringify({cat:currentCat,sub:currentSub,scrollY:window.scrollY}));}catch(_){}window.location.href=r.href;};
           docList.appendChild(docA);
         });
         sec.appendChild(docList);
@@ -1490,11 +1491,11 @@ function renderReports(){
     card.addEventListener('dragstart',e=>{e.dataTransfer.setData('text/plain',card.dataset.href);card.classList.add('dragging')});
     card.addEventListener('dragend',()=>card.classList.remove('dragging'));
     card.addEventListener('click',e=>{
-      if(card.classList.contains('dragging'))return;
-      e.preventDefault();
-      const href=card.dataset.href;
-      const title=card.querySelector('h3')?.textContent||'';
-      openSystemPage(href,title);
+      // 드래그 중 클릭은 무시 (카테고리 이동용 드래그와 충돌 방지)
+      if(card.classList.contains('dragging')){e.preventDefault();return;}
+      // 그 외엔 <a href>의 기본 동작(같은 창 이동)을 그대로 둠 → 크롬 뒤로가기로 목록 복귀
+      // 떠나기 직전 현재 목록 상태 저장(뒤로가기 시 bfcache가 막혀도 같은 화면으로 복원)
+      try{sessionStorage.setItem('tenex-list-state',JSON.stringify({cat:currentCat,sub:currentSub,scrollY:window.scrollY}));}catch(_){}
     });
   });
   list.querySelectorAll('.card-new-tab').forEach(btn=>{
@@ -1522,7 +1523,13 @@ function initTheme(){if(localStorage.getItem('tenex-theme')==='dark')document.do
 function toggleTheme(){const d=document.documentElement.getAttribute('data-theme')==='dark';d?(document.documentElement.removeAttribute('data-theme'),localStorage.setItem('tenex-theme','light')):(document.documentElement.setAttribute('data-theme','dark'),localStorage.setItem('tenex-theme','dark'))}
 function closeMobile(){document.getElementById('sidebar').classList.remove('open');document.getElementById('sidebarOverlay').classList.remove('show')}
 document.addEventListener('DOMContentLoaded',()=>{
-  initTheme();renderAll();renderGlossary();
+  initTheme();
+  // 카드에서 뒤로가기로 돌아온 경우 직전 목록 상태(카테고리/스크롤) 복원
+  let _restore=null;
+  try{const s=sessionStorage.getItem('tenex-list-state');if(s){_restore=JSON.parse(s);sessionStorage.removeItem('tenex-list-state');}}catch(_){}
+  if(_restore){currentCat=_restore.cat||'all';currentSub=_restore.sub||null;}
+  renderAll();renderGlossary();
+  if(_restore&&typeof _restore.scrollY==='number'){requestAnimationFrame(()=>window.scrollTo(0,_restore.scrollY));}
   loadReportOverrides().then(()=>renderAll());
   const role=localStorage.getItem('tenex_role')||'viewer';
   const isAdmin=role==='admin';
@@ -1534,6 +1541,10 @@ document.addEventListener('DOMContentLoaded',()=>{
   document.getElementById('mobileMenuBtn').onclick=()=>{document.getElementById('sidebar').classList.add('open');document.getElementById('sidebarOverlay').classList.add('show')};
   document.getElementById('sidebarOverlay').onclick=closeMobile;
   document.querySelector('.nav-item[data-cat="all"]').onclick=()=>{currentSub=null;setCategory('all')};
+  // 좌측 상단 로고/타이틀 → 홈(전체 리포트 개요)
+  const goHome=()=>{currentSub=null;switchView('reports');setCategory('all');document.querySelectorAll('[data-nav-href]').forEach(n=>n.classList.remove('active'));window.scrollTo(0,0);closeMobile();};
+  const homeLogo=document.getElementById('sidebarHome');if(homeLogo)homeLogo.onclick=goHome;
+  const homeHeader=document.getElementById('headerHome');if(homeHeader)homeHeader.onclick=goHome;
   const navTaskboard=document.getElementById('navTaskboard');
   if(navTaskboard){
     navTaskboard.onclick=()=>{
