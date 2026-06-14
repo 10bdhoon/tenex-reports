@@ -32,11 +32,11 @@ async function supaPost(table: string, body: unknown) {
   if (!res.ok) throw new Error(`Supabase upsert ${table}: ${res.status} ${await res.text()}`);
 }
 
-async function supaDelete(table: string, notInIds: string[]) {
+async function supaDelete(table: string, notInIds: string[], extraFilter = "") {
   if (!notInIds.length) return;
   const filter = notInIds.map((id) => `"${id}"`).join(",");
   const res = await fetch(
-    `${SUPABASE_URL}/rest/v1/${table}?id=not.in.(${filter})`,
+    `${SUPABASE_URL}/rest/v1/${table}?id=not.in.(${filter})${extraFilter}`,
     {
       method: "DELETE",
       headers: {
@@ -89,7 +89,8 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
       await supaPost("tasks", dbTasks);
       const taskIds = dbTasks.map((t: Record<string, unknown>) => String(t.id));
-      await supaDelete("tasks", taskIds);
+      // status='system' 행(예: report-cat-overrides, partnership-os-state)은 보드 동기화로 삭제되지 않게 보호
+      await supaDelete("tasks", taskIds, "&status=neq.system");
     }
 
     if (partnershipState && typeof partnershipState === "object") {

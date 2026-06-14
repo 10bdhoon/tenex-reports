@@ -1248,7 +1248,7 @@ const GLOSSARY=[
 const DEFAULT_REPORTS=[
   {href:'/tenex-strategy.html',icon:'🚀',title:'TENEX 핵심전략 2026',desc:'테넥스 전체 사업 전략',date:'3/25',cat:'★'},
   {href:'/tenex-recovery-metrics-report.html',icon:'📊',title:'TENEX 회복 데이터 전략 보고서',desc:'회복을 숫자로 — 제품별 측정지표·KINE Score·BM 연결 로드맵',date:'6/14',cat:'★'},
-  {href:'/cafe-seo-strategy.html',icon:'🎯',title:'네이버 카페 & SEO 장악 전략',desc:'카페 노선·콘텐츠 6분류·주간 라이브·경쟁 돌파',date:'5/29',cat:'B',sub:'커뮤니티'},
+  {href:'/cafe-seo-strategy.html',icon:'🎯',title:'네이버 카페 & SEO 장악 전략',desc:'카페 노선·콘텐츠 6분류·주간 라이브·경쟁 돌파',date:'5/29',cat:'K'},
   {href:'/es808.html',icon:'⚡',title:'ES-808 도수펜',desc:'커리큘럼 · 문자 안내',date:'3/19',cat:'A',sub:'ES-808'},
   {href:'/product-roadmap.html',icon:'🗓️',title:'제품 로드맵',desc:'제품 개발 및 출시 타임라인',date:'3/16',cat:'A',sub:'ES-808'},
   {href:'/brand-design-system.html',icon:'🎨',title:'키네메디칼 디자인 시스템',desc:'브랜드 컬러, 로고, 패키지 가이드',date:'3/16',cat:'A',sub:'ES-808'},
@@ -1304,8 +1304,24 @@ const DEFAULT_REPORTS=[
 ];
 let currentCat='all',currentSub=null,searchQuery='',currentView='reports';
 const expandedCats={};
-function getReports(){const o=JSON.parse(localStorage.getItem('tenex-cat-v3')||'{}');const role=localStorage.getItem('tenex_role')||'viewer';const isAdmin=role==='admin';const allowedPaths=JSON.parse(localStorage.getItem('tenex_allowed_paths')||'[]');return DEFAULT_REPORTS.filter(r=>{if(isAdmin)return true;if(r.adminOnly)return false;if(allowedPaths.length===0)return true;return allowedPaths.includes(r.href)||allowedPaths.includes(r.href.replace('.html',''));}).map(r=>({...r,cat:o[r.href]||r.cat}))}
-function saveCatOverride(href,cat){const o=JSON.parse(localStorage.getItem('tenex-cat-v3')||'{}');o[href]=cat;localStorage.setItem('tenex-cat-v3',JSON.stringify(o))}
+// 카테고리 오버라이드: DB(reportCatDb) > localStorage(즉시 캐시) > 코드 기본값(cat)
+let reportCatDb={};
+function getReports(){const o=JSON.parse(localStorage.getItem('tenex-cat-v3')||'{}');const role=localStorage.getItem('tenex_role')||'viewer';const isAdmin=role==='admin';const allowedPaths=JSON.parse(localStorage.getItem('tenex_allowed_paths')||'[]');return DEFAULT_REPORTS.filter(r=>{if(isAdmin)return true;if(r.adminOnly)return false;if(allowedPaths.length===0)return true;return allowedPaths.includes(r.href)||allowedPaths.includes(r.href.replace('.html',''));}).map(r=>({...r,cat:reportCatDb[r.href]||o[r.href]||r.cat}))}
+// DB에서 오버라이드 로드 (전 기기·전 사용자 공유, 영구 저장)
+async function loadReportOverrides(){try{const res=await fetch('/api/reports/read');if(!res.ok)return;const j=await res.json();if(j&&j.overrides&&typeof j.overrides==='object')reportCatDb=j.overrides;}catch(e){console.error('리포트 오버라이드 로드 실패:',e)}}
+async function saveCatOverride(href,cat){
+  // 1) 즉시 캐시 (localStorage) — 새로고침 전까지 본인 화면 반영
+  const o=JSON.parse(localStorage.getItem('tenex-cat-v3')||'{}');o[href]=cat;localStorage.setItem('tenex-cat-v3',JSON.stringify(o));
+  // 2) 메모리 반영
+  reportCatDb[href]=cat;
+  // 3) DB 저장 (admin만 통과 — 서버에서 검증). 전체 맵을 보내 upsert
+  try{
+    const res=await fetch('/api/reports/update',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({overrides:reportCatDb})});
+    if(res.ok){showSyncToast&&showSyncToast('✅ 카테고리 저장됨 (DB)','success');}
+    else if(res.status===401||res.status===403){showSyncToast&&showSyncToast('⚠️ 저장 권한 없음 (관리자 로그인 필요) — 이 기기에만 임시 반영','error');}
+    else{showSyncToast&&showSyncToast('⚠️ DB 저장 실패 — 이 기기에만 임시 반영','error');}
+  }catch(e){showSyncToast&&showSyncToast('⚠️ DB 연결 실패 — 이 기기에만 임시 반영','error');}
+}
 function renderSidebarCats(){
   const sec=document.getElementById('catSection');
   const reports=getReports();
@@ -1506,6 +1522,7 @@ function toggleTheme(){const d=document.documentElement.getAttribute('data-theme
 function closeMobile(){document.getElementById('sidebar').classList.remove('open');document.getElementById('sidebarOverlay').classList.remove('show')}
 document.addEventListener('DOMContentLoaded',()=>{
   initTheme();renderAll();renderGlossary();
+  loadReportOverrides().then(()=>renderAll());
   const role=localStorage.getItem('tenex_role')||'viewer';
   const isAdmin=role==='admin';
   document.querySelectorAll('.admin-only').forEach(el=>el.style.display=isAdmin?'':'none');
@@ -1614,7 +1631,8 @@ async function loadTasksFromJson(){
     const res=await fetch('/api/tasks/read');
     if(!res.ok)throw new Error('API failed: '+res.status);
     const json=await res.json();
-    const jsonTasks=json.tasks.map(mapJsonTask);
+    // status='system' 행(report-cat-overrides, partnership-os-state 등 KV 저장용)은 보드에 표시하지 않음
+    const jsonTasks=json.tasks.filter(t=>t.status!=='system').map(mapJsonTask);
     // DB is the single source of truth — only preserve local sortOrder
     let localTasks=[];
     try{
