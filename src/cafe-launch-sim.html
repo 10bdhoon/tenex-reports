@@ -40,13 +40,16 @@
   @media(max-width:760px){.layout{grid-template-columns:1fr}.side{order:2}}
 
   .side{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:8px;height:max-content;position:sticky;top:12px}
-  .side .grp{margin:6px 4px 2px;font-size:11px;font-weight:800;color:var(--dim);letter-spacing:.03em;padding:6px 8px 2px}
+  .side .grp{margin:10px 2px 3px;font-size:12px;font-weight:800;color:#555;letter-spacing:.02em;padding:7px 8px 5px;border-bottom:1px solid var(--line2)}
   .side a.bd{display:flex;align-items:center;gap:8px;padding:8px 10px;border-radius:8px;font-size:13.5px;color:#333;cursor:pointer;font-weight:600}
   .side a.bd:hover{background:var(--line2)}
   .side a.bd.on{background:var(--green-l);color:var(--green-d);font-weight:800}
   .side a.bd .ic{font-size:14px}
   .side a.bd .ct{margin-left:auto;font-size:11px;color:var(--dim);font-weight:700}
   .side a.bd.all{background:#f7f8fa;font-weight:800;margin-bottom:4px}
+  .side a.bd.cat{font-weight:800;margin-top:8px;color:#222}
+  .side a.bd.sub{padding-left:20px;color:#444;font-weight:600}
+  .side a.bd.sub .tw{color:var(--dim);font-size:12px;font-weight:400;margin-right:1px}
 
   .main{background:var(--card);border:1px solid var(--line);border-radius:12px;min-height:400px}
   .main .mhead{padding:15px 18px;border-bottom:2px solid var(--ink);display:flex;align-items:baseline;gap:8px}
@@ -388,10 +391,17 @@ function renderSide(){
   const counts={}; POSTS.forEach(p=>counts[p.board]=(counts[p.board]||0)+1);
   let h=`<a class="bd all ${curBoard==='all'?'on':''}" onclick="selBoard('all')">전체글보기 <span class="ct">${POSTS.length}</span></a>`;
   GROUP_ORDER.forEach(g=>{
-    h+=`<div class="grp">${g}</div>`;
-    Object.keys(BOARDS).filter(b=>BOARDS[b].group===g).forEach(b=>{
-      h+=`<a class="bd ${curBoard===b?'on':''}" onclick="selBoard('${b}')"><span class="ic">${BOARDS[b].icon}</span>${BOARDS[b].label}<span class="ct">${counts[b]||0}</span></a>`;
-    });
+    const bds=Object.keys(BOARDS).filter(b=>BOARDS[b].group===g);
+    const single=bds.length===1&&BOARDS[bds[0]].label===g;
+    if(single){
+      const b=bds[0];
+      h+=`<a class="bd cat ${curBoard===b?'on':''}" onclick="selBoard('${b}')">${BOARDS[b].label}<span class="ct">${counts[b]||0}</span></a>`;
+    }else{
+      h+=`<div class="grp">${g}</div>`;
+      bds.forEach(b=>{
+        h+=`<a class="bd sub ${curBoard===b?'on':''}" onclick="selBoard('${b}')"><span class="tw">└</span>${BOARDS[b].label}<span class="ct">${counts[b]||0}</span></a>`;
+      });
+    }
   });
   document.getElementById('side').innerHTML=h;
 }
