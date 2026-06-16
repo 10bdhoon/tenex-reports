@@ -54,6 +54,12 @@
   .main .mhead .gd{font-size:12px;color:var(--dim);font-weight:600}
   .main .mhead .cnt{margin-left:auto;font-size:12px;color:var(--sub)}
 
+  /* 말머리 chips */
+  .tagbar{display:flex;flex-wrap:wrap;gap:7px;padding:12px 18px;border-bottom:1px solid var(--line2);background:#fafbfc}
+  .tagbar .chip{border:1px solid var(--line);background:#fff;color:var(--sub);padding:5px 12px;border-radius:999px;font-size:12.5px;font-weight:700;cursor:pointer;user-select:none}
+  .tagbar .chip:hover{border-color:var(--green);color:var(--green-d)}
+  .tagbar .chip.on{background:var(--ink);border-color:var(--ink);color:#fff}
+
   /* list */
   .row{display:flex;align-items:center;gap:10px;padding:12px 18px;border-bottom:1px solid var(--line2);cursor:pointer;font-size:13.5px}
   .row:hover{background:#fafbfc}
@@ -180,6 +186,17 @@
     <p>운영진 2명(매일회지기·회복코치 진) + 준스탭(요가쌤린다) + 통증 수요층 5그룹(사무직·중장년·교통사고재활·운동인·산후여성)을 대표하는 회원 캐릭터. 말투·사연을 일관되게 유지해야 진짜 회원처럼 보인다. <b>운영진은 정중·전문 존댓말(오타·초성 X), 회원은 ㅋㅋ/ㅎㅎ/^^/~~용·가벼운 오타로 생기있게(단 초성체는 모두 X)</b>.</p>
   </div>
   <div class="cast" id="cast"></div>
+
+  <div class="guide">
+    <h3>🗂️ 카페 구조 — 대분류 → 게시판 → 말머리(부위) 3단</h3>
+    <ul>
+      <li><b>대분류 5 · 게시판 7 (확정):</b> ①시작하기(공지·가입인사) ②매일 1분 인증 ③통증 정보·Q&A(정보·QnA) ④1분도수 영상 ⑤수다방. 큰 줄기는 이 5/7로 고정해요.</li>
+      <li><b>말머리=부위(확정 SSOT):</b> "부위 세분은 게시판이 아니라 <b>말머리</b>로." 인증·정보·QnA·영상은 <b>목·거북목 / 허리 / 어깨 / 무릎·발 / 손목</b> 부위 말머리로 거르고, 인증엔 <b>비포&애프터</b>, 정보엔 <b>자세교정</b>, QnA엔 <b>병원·도수</b>를 더해요. 부위별 게시판을 따로 파지 않아 카페가 휑해 보이지 않으면서도 검색·탐색이 쉬워져요.</li>
+      <li><b>수다방 말머리:</b> 자유수다 / 질문 / 고민·하소연 / 꿀팁공유 — 부위와 무관한 생활·정서·팁 글.</li>
+      <li><b>공지·가입인사는 말머리 없음:</b> 공지는 빨간 [공지] 배지, 가입인사는 자유롭게.</li>
+      <li><b>나중에 추가(지금은 X):</b> <b>명예의전당·챌린지·이벤트</b> 게시판은 회원이 어느 정도 모인 뒤에 열 예정이에요. 초반엔 보드만 많고 글이 없으면 죽은 카페로 보이니 지금 구조(5/7)로 단단히 채워요.</li>
+    </ul>
+  </div>
 
   <div class="guide">
     <h3>🛠️ 초기 운영 가이드</h3>
@@ -322,11 +339,11 @@ const SEED_MEDIA=[{"day":1,"board":"영상","headTag":"목·거북목","title":"
 {"day":4,"board":"영상","headTag":"손목","title":"손목터널 예방 1분 스트레칭 영상","author":"매일회지기","body":"마우스 오래 잡는 분, 자영업으로 손 많이 쓰는 분 필수! 손목터널 예방 1분 스트레칭이에요. 포인트는 ①손가락을 아래로 당겨 손목 안쪽 늘리기 ②반대로 위로 젖혀 바깥쪽 늘리기 ③각 10초씩 천천히. 저도 키보드 치다가 중간중간 했더니 저릿한 게 덜해요. 한 시간에 한 번씩만 해줘도 손목이 고마워합니다!","likes":13,"views":98,"comments":[{"author":"사장님손목","text":"이거 진짜 필요했어요. 손목 저린 게 좀 풀리네요 푸념만 하다가 운동하니 낫다"},{"author":"정대리","text":"마우스 손이라 저장해놓고 합니다 깔끔하게 정리된 영상이라 좋아요"}]},
 {"day":5,"board":"수다","headTag":"질문","title":"사무실 의자 추천 좀… 허리 받쳐주는 걸로요","author":"목아픈김과장","body":"하루 8시간 앉아 있는데 의자가 안 좋으니 허리가 남아나질 않네. 요추 받쳐주는 의자 쓰는 분들 뭐 쓰는지 추천 좀. 너무 비싼 건 회사에서 안 사줄 거 같고 가성비로.","likes":11,"views":134,"comments":[{"author":"정대리","text":"등받이 메쉬에 요추 지지대 따로 달린 거 쓰는데 만족해요. 가성비 라인 많아요"},{"author":"러너지은","text":"저는 그냥 쿠션 하나 허리에 받쳐요! 의자 바꾸기 전까진 이게 최고예요"},{"author":"헬스왕민수","text":"의자도 중요한데 30분마다 일어나서 움직이는 게 더 중요함 ㅋㅋ 진짜로"},{"author":"매일회지기","text":"좋은 의자 + 자주 일어나기 조합이 베스트예요. 1분 스트레칭도 잊지 마시고요!"}]},
 {"day":6,"board":"영상","headTag":"목·거북목","title":"[주간 라이브 안내] 이번 주 목요일 저녁 8시, 인규쌤과 같이 운동해요","author":"매일회지기","body":"매주 함께하는 라이브 시간이 돌아왔어요! 이번 주 목요일 저녁 8시, 인규쌤과 실시간으로 같이 1분도수 운동합니다. 이번 주제는 '하루 종일 앉아 있던 몸 풀기' — 목·어깨·허리 순서로 진행해요. 혼자 하면 작심삼일이지만 같이 하면 끝까지 가집니다. 댓글로 신청만 남겨주세요. 운동복 아니어도 괜찮아요, 편하게 오세요!","likes":20,"views":175,"comments":[{"author":"하나둘셋맘","text":"애 재우고 참여할게요! 산후라 허리 풀기 너무 필요해요"},{"author":"거북목준","text":"신청합니다 ㅎㅎ 같이 하면 안 빠질 거 같아서요"},{"author":"무릎튼튼영자","text":"목요일 저녁 비워뒀어요~ 인규쌤 운동 재밌더라고요"},{"author":"헬스왕민수","text":"오 라이브 좋네 나도 들어감"}]},
-{"day":7,"board":"수다","headTag":"고민","title":"찜질, 따뜻한 거 vs 차가운 거 대체 뭐가 맞나요","author":"자보재활현우","body":"교통사고 재활 중인데 어디선 따뜻하게 하라 하고 어디선 얼음찜질 하라 하고… 진짜 헷갈려서 답답합니다. 다친 지 좀 지났는데 지금은 뭘 해야 하나요. 아시는 분 알려주세요.","likes":14,"views":156,"comments":[{"author":"요가쌤린다","text":"보통 급성기(붓고 열날 때)는 냉, 그 이후 뻣뻣하고 굳은 단계는 온찜질이에요. 지금이라면 온찜질이 맞을 가능성이 커요"},{"author":"박부장","text":"저도 온찜질 후에 살살 움직이니 좋더군요. 무리는 금물입니다"},{"author":"매일회지기","text":"온찜질로 살짝 풀고 1분 운동 가볍게 해보세요. 상태 심하면 꼭 전문가 확인이요!"},{"author":"자보재활현우","text":"아 이제 좀 정리됐네요. 온찜질로 가볼게요 감사합니다"}]},
+{"day":7,"board":"수다","headTag":"고민·하소연","title":"찜질, 따뜻한 거 vs 차가운 거 대체 뭐가 맞나요","author":"자보재활현우","body":"교통사고 재활 중인데 어디선 따뜻하게 하라 하고 어디선 얼음찜질 하라 하고… 진짜 헷갈려서 답답합니다. 다친 지 좀 지났는데 지금은 뭘 해야 하나요. 아시는 분 알려주세요.","likes":14,"views":156,"comments":[{"author":"요가쌤린다","text":"보통 급성기(붓고 열날 때)는 냉, 그 이후 뻣뻣하고 굳은 단계는 온찜질이에요. 지금이라면 온찜질이 맞을 가능성이 커요"},{"author":"박부장","text":"저도 온찜질 후에 살살 움직이니 좋더군요. 무리는 금물입니다"},{"author":"매일회지기","text":"온찜질로 살짝 풀고 1분 운동 가볍게 해보세요. 상태 심하면 꼭 전문가 확인이요!"},{"author":"자보재활현우","text":"아 이제 좀 정리됐네요. 온찜질로 가볼게요 감사합니다"}]},
 {"day":8,"board":"영상","headTag":"무릎·발","title":"족저근막염 발바닥 푸는 1분 운동 영상","author":"매일회지기","body":"아침에 첫발 디딜 때 발뒤꿈치가 찌릿한 분들! 족저근막염 1분 운동이에요. 포인트는 ①발바닥으로 공이나 페트병 천천히 굴리기 ②종아리 스트레칭 같이 하기 ③아픈 부위 무리하게 누르지 않기. 저도 따라 굴려봤는데 발바닥이 노곤하게 풀려요. 자기 전이랑 아침에 일어나서 하면 첫발 통증이 한결 줄어요!","likes":16,"views":129,"comments":[{"author":"러너지은","text":"족저근막염 러너라 이거 완전 제 영상이네요! 페트병 굴리기 시원해요 발바닥 살았다"},{"author":"하나둘셋맘","text":"애 안고 다니느라 발이 아팠는데 자기 전에 해볼게요"},{"author":"사장님손목","text":"종일 서서 일하는데 저도 발바닥이 늘 아파서… 따라했더니 낫네요"}]},
-{"day":9,"board":"수다","headTag":"수다","title":"운동 작심삼일 끊은 비결, 1분이라 그런가봐요","author":"러너지은","body":"솔직히 운동 30분 하라 하면 안 했을 거예요 ㅋㅋ 근데 딱 1분이니까 부담이 없어서 벌써 2주째 빼먹질 않네요! 다들 꾸준히 하는 본인만의 꿀팁 있어요? 저는 양치할 때마다 발바닥 운동 같이 해요.","likes":19,"views":147,"comments":[{"author":"정대리","text":"저는 알람 맞춰놔요. 정시마다 1분 일어나서 목 운동 깔끔하게"},{"author":"헬스왕민수","text":"1분은 핑계가 안 통하지 ㅋㅋ 나도 매일 함"},{"author":"거북목준","text":"양치할 때 같이 하는 거 좋은 아이디어네요 저도 따라할게용 ^^"},{"author":"무릎튼튼영자","text":"맞아요~ 1분이라 부담이 없어서 나 같은 사람도 하게 돼요 ㅎㅎ"},{"author":"매일회지기","text":"습관에 붙이는 게 최고예요! 양치·커피·알람… 각자 방식 공유 너무 좋아요"}]},
+{"day":9,"board":"수다","headTag":"꿀팁공유","title":"운동 작심삼일 끊은 비결, 1분이라 그런가봐요","author":"러너지은","body":"솔직히 운동 30분 하라 하면 안 했을 거예요 ㅋㅋ 근데 딱 1분이니까 부담이 없어서 벌써 2주째 빼먹질 않네요! 다들 꾸준히 하는 본인만의 꿀팁 있어요? 저는 양치할 때마다 발바닥 운동 같이 해요.","likes":19,"views":147,"comments":[{"author":"정대리","text":"저는 알람 맞춰놔요. 정시마다 1분 일어나서 목 운동 깔끔하게"},{"author":"헬스왕민수","text":"1분은 핑계가 안 통하지 ㅋㅋ 나도 매일 함"},{"author":"거북목준","text":"양치할 때 같이 하는 거 좋은 아이디어네요 저도 따라할게용 ^^"},{"author":"무릎튼튼영자","text":"맞아요~ 1분이라 부담이 없어서 나 같은 사람도 하게 돼요 ㅎㅎ"},{"author":"매일회지기","text":"습관에 붙이는 게 최고예요! 양치·커피·알람… 각자 방식 공유 너무 좋아요"}]},
 {"day":10,"board":"영상","headTag":"목·거북목","title":"일자목 교정 1분 운동 — 폰 보는 자세 그대로 풀기","author":"매일회지기","body":"고개 숙이고 폰 보다 보면 목 커브가 사라져 일자목 되기 쉬워요. 오늘은 일자목 교정 1분 운동! 포인트는 ①수건을 목 뒤에 받쳐 살짝 위로 당기기 ②턱은 당긴 채 시선만 천장 ③뻐근한 지점에서 10초 멈추기. 저도 따라했더니 굳었던 목 뒤가 풀려요. 폰 오래 본 날 저녁에 딱 좋습니다!","likes":12,"views":104,"comments":[{"author":"정대리","text":"일자목 진단받았는데 수건 받치는 거 효과 좋네요 깔끔하게 잘 풀려요"},{"author":"거북목준","text":"폰을 못 끊으니 운동이라도… 따라했더니 시원합니다"}]},
-{"day":11,"board":"수다","headTag":"수다","title":"산후에 손목이 이렇게 아플 줄 몰랐어요 ㅠㅠ","author":"하나둘셋맘","body":"애 안고 수유하고 하다 보니 손목이 너무 아파요. 이게 그 손목 건초염인가 봐요. 엄마들 다 겪는다는데 어떻게들 버티셨어요? 그래도 여기 1분 손목 운동 따라하면서 조금씩 나아지는 중이에요!","likes":17,"views":138,"comments":[{"author":"사장님손목","text":"손목 통증 동지네요 ㅠ 보호대 하나 차보세요 한결 나아요"},{"author":"무릎튼튼영자","text":"아이고 산후엔 손목이 진짜 약해져요~ 무리 말고 살살 하세요"},{"author":"요가쌤린다","text":"수유 자세에서 손목이 꺾이지 않게 쿠션으로 받쳐보세요. 부담이 확 줄어요"},{"author":"매일회지기","text":"산후 손목은 흔하지만 그냥 두면 오래가요. 보호대 + 1분 운동 같이 챙기세요!"}]},
+{"day":11,"board":"수다","headTag":"고민·하소연","title":"산후에 손목이 이렇게 아플 줄 몰랐어요 ㅠㅠ","author":"하나둘셋맘","body":"애 안고 수유하고 하다 보니 손목이 너무 아파요. 이게 그 손목 건초염인가 봐요. 엄마들 다 겪는다는데 어떻게들 버티셨어요? 그래도 여기 1분 손목 운동 따라하면서 조금씩 나아지는 중이에요!","likes":17,"views":138,"comments":[{"author":"사장님손목","text":"손목 통증 동지네요 ㅠ 보호대 하나 차보세요 한결 나아요"},{"author":"무릎튼튼영자","text":"아이고 산후엔 손목이 진짜 약해져요~ 무리 말고 살살 하세요"},{"author":"요가쌤린다","text":"수유 자세에서 손목이 꺾이지 않게 쿠션으로 받쳐보세요. 부담이 확 줄어요"},{"author":"매일회지기","text":"산후 손목은 흔하지만 그냥 두면 오래가요. 보호대 + 1분 운동 같이 챙기세요!"}]},
 {"day":12,"board":"영상","headTag":"어깨","title":"어깨 뭉침 1분 도수 운동 — 라운드숄더 펴기","author":"매일회지기","body":"어깨가 앞으로 말리고 등이 굽는 라운드숄더, 1분이면 펴집니다. 포인트는 ①양손 깍지 껴 등 뒤로 쭉 펴기 ②가슴 열고 날개뼈 모으기 ③숨 내쉬며 어깨 끝까지 내리기. 저도 모니터 앞에서 따라했는데 답답하던 가슴이 시원하게 열려요. 어깨 뭉친 날 한 번씩 펴주세요!","likes":21,"views":162,"comments":[{"author":"목아픈김과장","text":"날개뼈 모으는 거 하니까 등 뭉친 게 풀리네. 괜찮은데"},{"author":"헬스왕민수","text":"라운드숄더 교정 운동으로도 굿이다 데드리프트 전에 풀어도 좋음"},{"author":"박부장","text":"가슴이 시원하게 열린다는 표현 딱 맞습니다. 잘 따라했어요"}]},
 {"day":13,"board":"수다","headTag":"질문","title":"여러분은 통증 있을 때 파스 붙이세요? 효과 있나요","author":"사장님손목","body":"가게 일하다 보면 여기저기 안 아픈 데가 없어서 파스를 달고 삽니다. 근데 이게 진짜 효과가 있는 건지 그냥 기분인지 모르겠네요 ㅎㅎ 다들 파스 자주 쓰세요? 푸념 겸 물어봅니다.","likes":13,"views":119,"comments":[{"author":"목아픈김과장","text":"나도 어깨에 붙이고 다님. 시원한 느낌은 확실히 있음"},{"author":"요가쌤린다","text":"파스는 일시적 완화엔 도움 되지만 근본은 자세랑 움직임이에요. 1분 운동 병행 추천!"},{"author":"자보재활현우","text":"저도 재활 중에 많이 써봤는데 붙이고 가만히 있는 것보단 살살 움직이는 게 낫더라고요"},{"author":"무릎튼튼영자","text":"나는 온찜질파~ 파스보다 따뜻한 게 나한텐 잘 맞아요 ㅎㅎ"}]},
 {"day":14,"board":"영상","headTag":"목·거북목","title":"[주간 라이브 후기] 인규쌤과 함께한 1분도수, 다음 주 예고","author":"매일회지기","body":"이번 주 라이브에 함께해주신 분들 정말 감사해요! 다 같이 목·어깨·허리 풀고 나니 채팅창이 '시원하다'로 도배됐었죠 ㅎㅎ 못 오신 분들을 위해 다음 주 라이브는 '아침에 뻣뻣한 몸 깨우기' 주제로 같은 목요일 저녁 8시에 진행해요. 인규쌤이 부위별 1분 루틴 천천히 짚어주실 거예요. 미리 댓글로 신청 받습니다!","likes":24,"views":188,"comments":[{"author":"러너지은","text":"지난주 라이브 너무 좋았어요! 다음 주도 신청합니다 활기차게 가요~"},{"author":"하나둘셋맘","text":"아침 루틴 너무 필요해요. 애 깨기 전에 같이 할게요!"},{"author":"박부장","text":"좋은 시간이었습니다. 다음 주도 참여하겠습니다"},{"author":"정대리","text":"채팅창 시원하다 도배 ㅋㅋ 진짜 그랬어요. 다음 주도 신청이요"}]}];
@@ -356,15 +373,27 @@ function renderSide(){
   });
   document.getElementById('side').innerHTML=h;
 }
-function selBoard(b){curBoard=b;renderSide();renderList();window.scrollTo({top:0,behavior:'smooth'})}
+function selBoard(b){curBoard=b;curTag='all';renderSide();renderList();window.scrollTo({top:0,behavior:'smooth'})}
+function selTag(t){curTag=t;renderList()}
 
 /* ========== RENDER: LIST ========== */
 function renderList(){
-  const list=POSTS.filter(p=>curBoard==='all'?true:p.board===curBoard)
-    .sort((a,b)=> b.day-a.day || a.id-b.id);
+  const tags=(curBoard!=='all'&&BOARD_TAGS[curBoard])?BOARD_TAGS[curBoard]:[];
+  if(curTag!=='all'&&!tags.includes(curTag))curTag='all';
+  let list=POSTS.filter(p=>curBoard==='all'?true:p.board===curBoard);
+  if(curTag!=='all')list=list.filter(p=>p.headTag===curTag);
+  list=list.sort((a,b)=> b.day-a.day || a.id-b.id);
   const title=curBoard==='all'?'전체글보기':BOARDS[curBoard].label;
   const grp=curBoard==='all'?'최신순':BOARDS[curBoard].group;
   let h=`<div class="mhead"><h2>${title}</h2><span class="gd">${grp}</span><span class="cnt">${list.length}건</span></div>`;
+  if(tags.length){
+    const col=BOARDS[curBoard].color;
+    h+=`<div class="tagbar"><span class="chip ${curTag==='all'?'on':''}" onclick="selTag('all')">전체</span>`;
+    tags.forEach(t=>{
+      h+=`<span class="chip ${curTag===t?'on':''}" onclick="selTag('${t}')" style="${curTag===t?`background:${col};border-color:${col};color:#fff`:''}">${t}</span>`;
+    });
+    h+=`</div>`;
+  }
   list.forEach(p=>{
     const b=BOARDS[p.board];const isN=p.board==='공지';
     const ht=p.headTag?`<span class="ht">[${p.headTag}]</span>`:'';
