@@ -78,7 +78,7 @@ body{background:#0d1117;color:#e0e0e0;font-family:-apple-system,BlinkMacSystemFo
 <div class="hero-inner">
 <div class="hero-badge">KINEMEDICAL · 추천 시스템 구조 가이드</div>
 <h1>정품등록 추천 시스템 — 이게 어떻게 돌아가는가</h1>
-<div class="hero-sub">개발 넘기기 전에 "구조"부터 완벽히 이해하기 · 2026-06-18</div>
+<div class="hero-sub">구조 가이드 + 진행 현황 · 2026-06-18 업데이트</div>
 </div>
 </div>
 
@@ -91,6 +91,33 @@ body{background:#0d1117;color:#e0e0e0;font-family:-apple-system,BlinkMacSystemFo
 친구가 그 코드로 사면 → <b>친구는 10% 할인, 나는 5천원 적립</b>.
 모든 정산은 별도 시스템 없이 <b>카페24 적립금</b>으로 끝난다.
 </div>
+</div>
+
+<!-- 진행 현황 -->
+<div class="section">
+<div class="section-title">🚦 진행 현황 (2026-06-18 기준) — 거의 완성</div>
+<div class="section-desc">설계 확정 → 개실장 개발·조사 → 카페24 쿠폰 3,000개 등록까지 진행됨. 마지막 "첫 추천구매 1건"만 대기.</div>
+<div class="split">
+<div class="split-card split-new">
+<div class="split-h">✅ 완료</div>
+<ul>
+<li>추천코드 형식 최종: <b>KMES+6자</b> (10자리·하이픈 없음, 예 KMES229PQR) — 카페24 쿠폰코드 제약에 맞춤</li>
+<li>시리얼 3,000개 생성 + <b>4곳(카페24·박스·DB·등록폼) 글자단위 통일</b></li>
+<li>카페24에 <b>쿠폰 3,000개 등록</b> 완료 (10% 할인)</li>
+<li>장부 DB(cashback_queue) + 자동적립 엔진 코드 완성·배포 (대기모드)</li>
+<li>쿠폰 유효기간 <b>14일</b> 확정 (발급일 기준)</li>
+</ul>
+</div>
+<div class="split-card split-keep">
+<div class="split-h">⏳ 남은 것</div>
+<ul>
+<li><b>첫 추천구매 1건</b> 대기 → 카페24가 시리얼코드를 돌려주는지 확인 = 자동적립 최종 판정</li>
+<li>안 되면 정품등록 매칭으로 자동 대체 (인프라 준비됨 → 어느 쪽이든 적립은 보장)</li>
+<li>어드민 쿠폰 유효기간 3일→14일 반영 확인</li>
+</ul>
+</div>
+</div>
+<div class="callout"><b>🔑 기술 메모:</b> 카페24 주문이 쿠폰을 "문자코드(KMES…)"가 아니라 "숫자 ID"로 줘서, 자동적립 연결은 <b>첫 실주문 1건으로 최종 검증</b>이 필요. 안 돼도 정품등록 폼 매칭 폴백이 있어 적립 자체는 보장됨.</div>
 </div>
 
 <!-- 큰 그림 -->
@@ -108,7 +135,7 @@ body{background:#0d1117;color:#e0e0e0;font-family:-apple-system,BlinkMacSystemFo
 <div class="dnode d-exist">
 <div class="dnode-tag tag-exist">이미 있음</div>
 <div class="dnode-title">📝 정품등록 페이지</div>
-<div class="dnode-desc">"내 시리얼 KM-7F3Q는 나" → 장부에 주인 등록</div>
+<div class="dnode-desc">"내 시리얼 KMES229PQR은 나" → 장부에 주인 등록</div>
 </div>
 <div class="arrow"><span>↓ 주인 정보 저장</span></div>
 <div class="dnode d-new">
@@ -213,9 +240,9 @@ body{background:#0d1117;color:#e0e0e0;font-family:-apple-system,BlinkMacSystemFo
 
 <!-- 다음 -->
 <div class="section">
-<div class="section-title">🚀 다음 단계</div>
-<div class="section-desc">개발 한 흐름: 시리얼 생성 → 회원매칭 → 쿠폰할인 등록(노코드) → 시리얼 주인 자동적립(개발 본체)</div>
-<div class="lead">개발 담당(개실장)이 착수하며 카페24에 확인할 3가지: ①대량 쿠폰코드(3,000개) 등록 방식 ②결제 webhook이 입력 시리얼값을 주는지 ③기존 등록폼의 회원연동 현황.</div>
+<div class="section-title">🚀 마지막 관문 — 첫 추천구매 1건</div>
+<div class="section-desc">시리얼 생성 → 회원매칭 → 쿠폰등록까지 끝. 이제 실전 1건이 시스템 마지막 검증.</div>
+<div class="lead">친구가 <b>KMES 시리얼코드로 첫 구매</b>를 하는 순간 → 카페24가 그 주문에 쿠폰 정보를 어떤 형태로 주는지 확인 = <b>자동적립이 바로 도느냐 / 정품등록 매칭으로 도느냐</b> 최종 판정. 어느 쪽이든 추천인 5,000원 적립은 보장돼. 그 1건만 뜨면 시스템 완성.</div>
 </div>
 
 </div>
