@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>1분도수쌤 신격화 캐릭터 설계서 v1 | 원페이퍼</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#060d18;--panel:#0d1830;--card:#0b1526;--line:rgba(255,255,255,.08);
+  --text:#eef3fa;--sub:#c7d4e5;--blue:#8fc5ff;--blue-bg:#143055;
+  --green:#5be49b;--green-bg:#10281f;--orange:#ffb86b;--orange-bg:#2a1d10;
+  --purple:#c097ff;--purple-bg:#211633;--red:#ff9f9f;--red-bg:#211416;--gold:#ffd479;
+}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--bg);color:var(--text);line-height:1.55}
+.wrapper{max-width:1280px;margin:0 auto;padding:20px}
+.slide{position:relative;background:linear-gradient(180deg,var(--panel) 0%,#08111f 100%);border:1px solid var(--line);border-radius:30px;padding:32px;margin-bottom:22px;box-shadow:0 24px 60px rgba(0,0,0,.28);overflow:hidden}
+.slide::after{content:"";position:absolute;right:-60px;top:-60px;width:220px;height:220px;background:radial-gradient(circle,rgba(143,197,255,.12) 0%,rgba(143,197,255,0) 70%);pointer-events:none}
+.eyebrow{font-size:12px;font-weight:900;letter-spacing:2px;color:var(--blue);text-transform:uppercase;margin-bottom:12px}
+.hero-title{font-size:46px;line-height:1.1;font-weight:900;color:#fff;max-width:1060px;margin-bottom:14px}
+.hero-sub{font-size:18px;color:var(--sub);max-width:1000px}
+.hero-chip{display:inline-flex;align-items:center;gap:8px;margin-top:18px;padding:12px 16px;border-radius:999px;background:var(--blue-bg);border:1px solid rgba(143,197,255,.22);color:#fff;font-weight:800;font-size:14px}
+.section-title{font-size:32px;font-weight:900;color:#fff;margin-bottom:8px}
+.section-sub{font-size:15px;color:#9db2c9;margin-bottom:22px}
+.big-quote{font-size:28px;font-weight:900;line-height:1.4;color:#fff;max-width:1080px}
+.big-quote .hl{color:var(--gold)}
+.row{display:grid;gap:16px}
+.cols-2{grid-template-columns:repeat(2,minmax(0,1fr))}
+.cols-3{grid-template-columns:repeat(3,minmax(0,1fr))}
+.cols-4{grid-template-columns:repeat(4,minmax(0,1fr))}
+.card{background:var(--card);border:1px solid var(--line);border-radius:22px;padding:20px}
+.card h3{font-size:19px;color:#fff;margin-bottom:10px}
+.card p,.card li{font-size:14px;color:#d1dbea}
+.card ul{padding-left:18px;margin-top:10px}.card li{margin-bottom:6px}
+.icon{font-size:26px;display:inline-block;margin-bottom:10px}
+.lede{font-size:16px;color:var(--sub);max-width:1080px;margin-bottom:22px}
+/* 진단 4요소 */
+.diag{border-radius:22px;padding:20px;position:relative;border:1px solid var(--line);overflow:hidden}
+.diag .step-no{position:absolute;right:14px;top:6px;font-size:40px;font-weight:900;color:rgba(255,255,255,.06)}
+.diag .lv{font-size:12px;font-weight:900;letter-spacing:1px;text-transform:uppercase;margin-bottom:10px}
+.diag h4{font-size:19px;color:#fff;margin-bottom:8px}.diag p{font-size:13px;color:#d1dbea}
+.diag .nowtag{display:block;margin-top:12px;font-size:12px;font-weight:800}
+.diag.ok{background:linear-gradient(135deg,#10281f,#0d1b34)}.diag.ok .lv{color:var(--green)}
+.diag.gap{background:linear-gradient(135deg,#2a1d10,#0d1b34)}.diag.gap .lv{color:var(--orange)}
+.done{color:var(--green)}.prog{color:var(--orange)}
+/* before-after */
+.ba{border-radius:22px;padding:22px;border:1px solid var(--line);position:relative;overflow:hidden}
+.ba::before{content:"";position:absolute;left:0;top:0;bottom:0;width:5px}
+.ba.before{background:#0b1526}.ba.before::before{background:#6b7787}
+.ba.after{background:linear-gradient(135deg,#143055,#0d1b34)}.ba.after::before{background:var(--blue)}
+.ba .tag{font-size:12px;font-weight:900;letter-spacing:1px;text-transform:uppercase;margin-bottom:8px}
+.ba.before .tag{color:#9db2c9}.ba.after .tag{color:var(--blue)}
+.ba .say{font-size:21px;font-weight:900;color:#fff;line-height:1.35;margin-bottom:10px}
+.ba p,.ba li{font-size:14px;color:#d1dbea}.ba ul{padding-left:18px;margin-top:8px}.ba li{margin-bottom:5px}
+/* lever */
+.lever{border-radius:22px;padding:22px;position:relative;overflow:hidden;border:1px solid}
+.lever.l1{background:#0d1d33;border-color:rgba(143,197,255,.2)}
+.lever.l2{background:var(--purple-bg);border-color:rgba(192,151,255,.2)}
+.lever.l3{background:var(--green-bg);border-color:rgba(91,228,155,.2)}
+.lever::before{content:"";position:absolute;left:0;top:0;bottom:0;width:5px}
+.lever.l1::before{background:var(--blue)}.lever.l2::before{background:var(--purple)}.lever.l3::before{background:var(--green)}
+.lever .num{font-size:12px;font-weight:900;letter-spacing:1px;text-transform:uppercase;margin-bottom:10px}
+.lever.l1 .num{color:var(--blue)}.lever.l2 .num{color:var(--purple)}.lever.l3 .num{color:var(--green)}
+.lever h4{font-size:20px;color:#fff;margin-bottom:8px}.lever p{font-size:14px;color:#d1dbea}
+.lever .ex{display:block;margin-top:12px;padding:10px 12px;border-radius:12px;background:rgba(0,0,0,.25);font-size:13px;color:#e7eefb;border:1px solid var(--line)}
+/* origin */
+.origin{background:linear-gradient(135deg,#11203a,#0a1424);border:1px solid rgba(143,197,255,.18);border-radius:24px;padding:30px}
+.origin .story{font-size:22px;font-weight:800;color:#fff;line-height:1.55;max-width:980px}
+.origin .story .hl{color:var(--gold)}
+.origin .engine{margin-top:20px;padding:16px 18px;border-radius:16px;background:rgba(255,212,121,.08);border:1px solid rgba(255,212,121,.22);font-size:15px;color:#ffe9b8;font-weight:700}
+/* ritual */
+.ritual{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:18px}
+.ritual .k{font-size:12px;font-weight:900;letter-spacing:1px;text-transform:uppercase;color:var(--blue);margin-bottom:8px}
+.ritual .v{font-size:17px;font-weight:800;color:#fff;line-height:1.4}
+.ritual .note{font-size:13px;color:#9db2c9;margin-top:8px}
+/* dont */
+.dont{background:linear-gradient(135deg,#241317,#0d1526);border:1px solid rgba(255,159,159,.2);border-radius:18px;padding:18px}
+.dont .x{color:var(--red);font-weight:900;font-size:14px;margin-bottom:6px}
+.dont p{font-size:13px;color:#d1dbea}
+/* road */
+.road{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+.road-col{border-radius:22px;padding:20px;border:1px solid var(--line);position:relative;overflow:hidden}
+.road-col::before{content:"";position:absolute;left:0;top:0;bottom:0;width:5px}
+.road-now{background:linear-gradient(135deg,#10281f,#0d1526)}.road-now::before{background:var(--green)}
+.road-next{background:linear-gradient(135deg,#143055,#0d1526)}.road-next::before{background:var(--blue)}
+.road-later{background:linear-gradient(135deg,#211633,#0d1526)}.road-later::before{background:var(--purple)}
+.road-col .when{font-size:13px;font-weight:900;letter-spacing:1px;text-transform:uppercase;margin-bottom:12px}
+.road-now .when{color:var(--green)}.road-next .when{color:var(--blue)}.road-later .when{color:var(--purple)}
+.road-col ul{padding-left:18px}.road-col li{font-size:13px;color:#d1dbea;margin-bottom:7px}
+.divider{height:1px;background:var(--line);margin:20px 0}
+.foot{font-size:13px;color:#6f8099;text-align:center;padding:10px 0 30px}
+@media(max-width:900px){.cols-2,.cols-3,.cols-4,.road{grid-template-columns:1fr}.hero-title{font-size:32px}.big-quote{font-size:22px}}
+</style>
+</head>
+<body>
+<div class="wrapper">
+
+  <!-- HERO -->
+  <div class="slide">
+    <div class="eyebrow">1분도수쌤 · 신격화 캐릭터 설계서 v1</div>
+    <h1 class="hero-title">"친절한 형"에서,<br>매일 우리를 일으켜 세우는 사람으로.</h1>
+    <p class="hero-sub">27만 <b>시청자</b>를, 정체성을 맡기는 <b>신도</b>로 바꾸는 캐릭터 OS. 따뜻함은 1도 버리지 않고, 그 위에 <b>서사·신비</b>를 쌓아 올린다.</p>
+    <div class="hero-chip">🧭 사명 — "누구나 집에서, 스스로 회복하는 세상을 만듭니다"</div>
+  </div>
+
+  <!-- 진단 -->
+  <div class="slide">
+    <div class="section-title">진단 — 신격화 4요소</div>
+    <div class="section-sub">신격화는 "더 유명해지기"가 아니라 "관계의 종류를 바꾸기"다. 4개 중 2개는 이미 만점, 2개가 과제다.</div>
+    <div class="row cols-4">
+      <div class="diag ok"><span class="step-no">①</span><div class="lv">규모 · Reach</div><h4>27만 ✅</h4><p>경쟁자가 0에서 5년 걸릴 자산. 점화할 연료가 이미 손에 있다.</p><span class="nowtag done">● 만점</span></div>
+      <div class="diag ok"><span class="step-no">②</span><div class="lv">권위 · Authority</div><h4>자격+임상 ✅</h4><p>도수치료사 자격 + 수천 명 임상. "재야 고수" 서사의 자격 충분.</p><span class="nowtag done">● 만점</span></div>
+      <div class="diag gap"><span class="step-no">③</span><div class="lv">서사 · Narrative</div><h4>비어있음 ❓</h4><p>"왜 이 사람이 통증에 미쳤나." 신격화의 진짜 연료가 아직 없다.</p><span class="nowtag prog">▲ 이번 과제</span></div>
+      <div class="diag gap"><span class="step-no">④</span><div class="lv">거리 · Mystique</div><h4>부족 ⚠️</h4><p>"친절한 운동 유튜버"는 '옆집 형'이지 아직 '신'이 아니다.</p><span class="nowtag prog">▲ 이번 과제</span></div>
+    </div>
+  </div>
+
+  <!-- 핵심 통찰 -->
+  <div class="slide">
+    <div class="eyebrow">핵심 통찰</div>
+    <p class="big-quote">27만은 <span class="hl">신도가 아니라 시청자</span>다.<br>지금은 "꿀팁 보러 온 약한 유대(정보 거래)" —<br>신격화 = 이걸 <span class="hl">"정체성을 맡기는 강한 유대(신도)"</span>로 전환하는 일.</p>
+    <div class="divider"></div>
+    <div class="row cols-2">
+      <div class="card"><span class="icon">🔁</span><h3>약한 유대 (지금)</h3><p>"이 사람 설명 잘하네, 고맙다" → 다음 영상도 보지만, 다른 더 좋은 정보가 나오면 갈아탄다. 관계의 주어는 <b>정보</b>다.</p></div>
+      <div class="card"><span class="icon">🤝</span><h3>강한 유대 (목표)</h3><p>"이 사람과 함께라면 나는 회복한다" → 정보가 아니라 <b>사람과 사명</b>에 소속된다. 경쟁 콘텐츠가 못 빼간다. 이게 해자다.</p></div>
+    </div>
+  </div>
+
+  <!-- 포지셔닝 전환 -->
+  <div class="slide">
+    <div class="section-title">포지셔닝 전환</div>
+    <div class="section-sub">자산(따뜻함·고마움·실제 성장)은 그대로 두고, 정체성의 층위만 한 칸 올린다.</div>
+    <div class="row cols-2">
+      <div class="ba before">
+        <div class="tag">BEFORE — 지금</div>
+        <div class="say">"꿀팁 주는 친절한 도수쌤"</div>
+        <ul>
+          <li>친절하고 따뜻함 · 설명을 정말 잘함</li>
+          <li>"고맙습니다" 댓글이 쌓임 → 신뢰는 이미 있음</li>
+          <li>하지만 관계의 주어가 '정보'라 신비가 없음</li>
+        </ul>
+      </div>
+      <div class="ba after">
+        <div class="tag">AFTER — 설계</div>
+        <div class="say">"통증으로 무너진 사람을<br>매일 일으켜 세우는 회복의 길잡이"</div>
+        <ul>
+          <li>따뜻함 유지 + <b>사명</b>을 사람 앞에 세움</li>
+          <li>구루(의료 권위)가 아닌 <b>리더(매일 이끄는 사람)</b></li>
+          <li>"고맙다"가 "당신이 있어 제가 회복했어요"로 격상</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- 기원 서사 -->
+  <div class="slide">
+    <div class="section-title">기원 서사 — 임상·목격자형</div>
+    <div class="section-sub">개인 부상 서사가 없어도 된다. 더 강한 축이 있다: "수천 명을 만지며 본 진실." 이게 사명("집에서 스스로 회복")의 출발점이 된다.</div>
+    <div class="origin">
+      <p class="story">"나는 수천 명의 몸을 만졌다.<br>그리고 알게 됐다 — <span class="hl">병원도, 시술도 그들을 끝까지 책임지지 않는다</span>는 걸.<br>진짜 회복은 치료실이 아니라 그들의 <span class="hl">'매일'</span>에서 일어난다는 걸.<br>그래서 나는 <span class="hl">치료실을 나왔다.</span> 모두의 집 안으로 들어가기 위해."</p>
+      <div class="engine">🔥 신비의 엔진 = 풀리지 않는 질문: <b>"그는 왜 잘 나가던 치료실을 버리고, 매일 무료로 사람들을 일으키나?"</b> — 이 질문에 답을 다 주지 않을수록 신비가 쌓인다.</div>
+    </div>
+  </div>
+
+  <!-- 신비주의 설계 -->
+  <div class="slide">
+    <div class="section-title">신비주의 설계 — 핵심 난제</div>
+    <p class="lede"><b>오해부터 깬다.</b> 신비주의 ≠ 차갑고 멀게 구는 것. 그러면 자산(따뜻함)이 죽는다. <b>신비 = 절제 · 깊이 · 사명</b>, 이 셋으로 따뜻함을 <u>버리지 않고</u> 쌓아 올린다.</p>
+    <div class="row cols-3">
+      <div class="lever l1">
+        <div class="num">레버 1 · 절제</div>
+        <h4>다 보여주지 않는다</h4>
+        <p>화면엔 늘 '회복'이라는 주제만. 사생활·일상 브이로그·소비 자랑 없음. <b>사람이 아니라 사명이 앞에 선다.</b></p>
+        <span class="ex">신비는 "이 사람은 왜 이렇게까지 하지?"라는, 끝내 다 풀리지 않는 여백에서 나온다.</span>
+      </div>
+      <div class="lever l2">
+        <div class="num">레버 2 · 깊이</div>
+        <h4>고수만 아는 진실</h4>
+        <p>친절한 설명은 유지하되, 가끔 일반인이 모르는 한 겹을 던진다. <b>"병원에서 안 알려주는 것."</b> 재야 고수의 깊이.</p>
+        <span class="ex">"대부분 여기서 풀려 합니다. 근데 진짜는 그 1cm 아래예요." — 친절하되 출처가 깊다.</span>
+      </div>
+      <div class="lever l3">
+        <div class="num">레버 3 · 사명</div>
+        <h4>사적 욕망이 안 보인다</h4>
+        <p>돈·유명세가 아니라 <b>"무너진 사람을 일으키는 것"</b>에 미쳐 보일 때 신성이 생긴다. 상업성은 늘 사명 뒤에 숨긴다.</p>
+        <span class="ex">신은 자기 욕망이 없어 보일 때 만들어진다. 판매 멘트가 전면에 나오는 순간 신성은 깨진다.</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- 리더형 신격화 -->
+  <div class="slide">
+    <div class="section-title">리더형 신격화 — 의료법 안전판</div>
+    <div class="section-sub">물리치료사이므로 의사식 '절대 권위(구루형)'는 불가. 대신 더 세고 안전한 '리더형'으로 간다.</div>
+    <div class="row cols-2">
+      <div class="ba before">
+        <div class="tag">✕ 구루형 (금지·위험)</div>
+        <div class="say">"내가 낫게 해준다"</div>
+        <ul>
+          <li>진단·완치 단정 → 의료법 천장에 막힘</li>
+          <li>권위가 '그 사람의 손'에 갇혀 확장 불가</li>
+          <li>안티·사생활·일관성 리스크가 1인에 집중</li>
+        </ul>
+      </div>
+      <div class="ba after">
+        <div class="tag">○ 리더형 (안전·확장)</div>
+        <div class="say">"내가 매일 당신을 일으켜 세운다"</div>
+        <ul>
+          <li>권위의 원천 = <b>의학</b>이 아니라 <b>의지·동행·매일</b></li>
+          <li>매일 아침 1분 루틴 = 의식(ritual), 그는 <b>집전자</b></li>
+          <li>"낫는다"가 아니라 "스스로 회복하게 이끈다"</li>
+        </ul>
+      </div>
+    </div>
+    <div class="divider"></div>
+    <div class="card" style="border-color:rgba(255,212,121,.25)"><h3 style="color:var(--gold)">⚖️ 가드레일</h3><p>진단·치료·완치 <b>단정 금지</b>. 위험 신호는 늘 "병원으로". 신격화의 연료는 의학적 권위가 아니라 <b>"매일 거기 있는 사람"</b>이라는 항상성에서 나온다. 이건 의료법이 건드릴 수 없는 영역이다.</p></div>
+  </div>
+
+  <!-- 언어·리추얼 코드 -->
+  <div class="slide">
+    <div class="section-title">언어 · 리추얼 코드</div>
+    <div class="section-sub">신격화는 반복되는 의식에서 굳는다. 매번 같은 자리에 같은 말이 와야 '성스러움'이 쌓인다.</div>
+    <div class="row cols-3">
+      <div class="ritual"><div class="k">시그니처 클로징</div><div class="v">"오늘도, 딱 1분."</div><div class="note">모든 영상·매일글 끝에 고정. 만트라가 된다.</div></div>
+      <div class="ritual"><div class="k">핵심 신념 문장</div><div class="v">"당신의 몸은, 당신이 포기하지 않는 한 반드시 답합니다."</div><div class="note">리더형 권위의 선언. 의학 아닌 의지의 언어.</div></div>
+      <div class="ritual"><div class="k">호칭 자산</div><div class="v">'쌤' 유지 · 회원 = "회복하는 사람들"</div><div class="note">따뜻함의 자산은 그대로. 군림 아닌 동행.</div></div>
+      <div class="ritual"><div class="k">계율 (카페 5약속과 연결)</div><div class="v">"어제의 나와만 비교한다."</div><div class="note">이미 카페 [필독] 공지에 심어둠 → 캐릭터와 카페가 한 우주.</div></div>
+      <div class="ritual"><div class="k">깊이 시그널</div><div class="v">"병원에서 안 알려주는 건…"</div><div class="note">가끔만. 남발하면 깊이가 헐값이 된다.</div></div>
+      <div class="ritual"><div class="k">매일 의식</div><div class="v">매일 아침 카페 '오늘의 1분' 한 마디</div><div class="note">집전자가 매일 같은 시각 거기 있다 = 신성의 핵심.</div></div>
+    </div>
+  </div>
+
+  <!-- 채널별 적용 -->
+  <div class="slide">
+    <div class="section-title">채널별 적용</div>
+    <div class="section-sub">새 콘텐츠를 만드는 게 아니라, 지금 하는 것 위에 캐릭터 레이어를 입힌다.</div>
+    <div class="row cols-3">
+      <div class="card"><span class="icon">▶️</span><h3>유튜브 (27만)</h3><ul><li>인트로 5초에 사명 한 줄 고정</li><li>가끔 '깊이 컷' 하나로 신비 충전</li><li>일상/예능 브이로그 금지 (절제)</li></ul></div>
+      <div class="card"><span class="icon">🏠</span><h3>카페 (매일회)</h3><ul><li>매일 아침 '오늘의 1분' = 집전 의식</li><li>[필독] 5약속이 계율로 작동 중</li><li>인증탭 = 신도들의 회복 간증</li></ul></div>
+      <div class="card"><span class="icon">🛠️</span><h3>제품 (키네메디칼)</h3><ul><li>판매는 늘 사명 뒤에. "도와주는 도구"</li><li>ES-808 = 1분 루틴의 동반자 포지션</li><li>상업 멘트가 전면에 서면 신성 깨짐</li></ul></div>
+    </div>
+  </div>
+
+  <!-- 금기 -->
+  <div class="slide">
+    <div class="section-title">금기 — 신성을 깨는 것들</div>
+    <div class="section-sub">신격화는 쌓기보다 깨지기 쉽다. 아래 하나면 한 번에 '옆집 형'으로 돌아간다.</div>
+    <div class="row cols-2">
+      <div class="dont"><div class="x">✕ 사생활·일상 과다 노출</div><p>브이로그·소비 자랑·셀프 디스 예능톤 → 절제(레버1)가 무너지고 신비가 증발한다.</p></div>
+      <div class="dont"><div class="x">✕ 판매 멘트 전면화</div><p>"이거 사세요"가 사명보다 앞에 서는 순간, 사적 욕망이 드러나 신성이 깨진다.</p></div>
+      <div class="dont"><div class="x">✕ 의학적 단정</div><p>"낫는다·완치·진단" → 의료법 위반이자 리더형 포지션 붕괴. 늘 "스스로 회복하게 돕는다".</p></div>
+      <div class="dont"><div class="x">✕ 깊이 시그널 남발</div><p>"병원에서 안 알려주는…"을 매번 쓰면 깊이가 헐값이 된다. 희소해야 신비다.</p></div>
+    </div>
+  </div>
+
+  <!-- 로드맵 -->
+  <div class="slide">
+    <div class="section-title">실행 로드맵</div>
+    <div class="section-sub">서사·신비 두 빈칸을 채우는 순서.</div>
+    <div class="road">
+      <div class="road-col road-now">
+        <div class="when">NOW · 이번 주</div>
+        <ul>
+          <li>기원 서사 1편 영상/고정글로 공표 ("치료실을 나온 이유")</li>
+          <li>시그니처 클로징 "오늘도, 딱 1분." 전 채널 적용</li>
+          <li>카페 매일 '오늘의 1분' 의식 시작</li>
+        </ul>
+      </div>
+      <div class="road-col road-next">
+        <div class="when">NEXT · 1개월</div>
+        <ul>
+          <li>'깊이 컷' 시리즈 (병원에서 안 알려주는 1cm)</li>
+          <li>인증탭 간증 → 회복 코칭으로 강한 유대 전환</li>
+          <li>유튜브 인트로 사명 한 줄 표준화</li>
+        </ul>
+      </div>
+      <div class="road-col road-later">
+        <div class="when">LATER · 분기</div>
+        <ul>
+          <li>신도→전도사: 회원이 새 회원을 데려오는 자가증식</li>
+          <li>오프라인/라이브 의식으로 강한 유대 정점</li>
+          <li>캐릭터 = 키네메디칼 브랜드 신뢰 자산으로 연결</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- 요약 -->
+  <div class="slide">
+    <div class="eyebrow">한 장 요약</div>
+    <p class="big-quote">자산(따뜻함)은 그대로. 그 위에 <span class="hl">임상·목격자 기원 서사</span>와 <span class="hl">절제·깊이·사명의 신비</span>를 쌓고, <span class="hl">구루가 아닌 리더</span>로 매일 의식을 집전한다. → 27만 시청자가 "함께 회복하는 신도"가 된다.</p>
+  </div>
+
+  <div class="foot">1분도수쌤 신격화 캐릭터 설계서 v1 · 매일 1분 회복(매일회) · 내부 전략 문서</div>
+
+</div>
+</body>
+</html>
