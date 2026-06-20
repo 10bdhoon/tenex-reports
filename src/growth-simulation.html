@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>테넥스 성장 시뮬레이션 — 고객·매출·밸류 (2026~2027)</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#0d1117;color:#e6edf3;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;line-height:1.6}
+.wrap{max-width:900px;margin:0 auto;padding:0 16px 80px}
+.hero{text-align:center;padding:44px 16px 20px}
+.hero-label{font-size:11px;letter-spacing:3px;text-transform:uppercase;color:#58a6ff;margin-bottom:14px;font-weight:600}
+.hero h1{font-size:28px;font-weight:800;letter-spacing:-.5px;margin-bottom:10px}
+.hero p{font-size:14px;color:#8b949e;max-width:600px;margin:0 auto}
+/* transparency banner */
+.banner{display:flex;gap:10px;align-items:flex-start;background:#1c1408;border:1px solid #9e6a03;border-radius:10px;padding:12px 16px;margin:20px 0 8px;font-size:12.5px;color:#d6a849}
+.banner b{color:#f0c674}
+.sec-label{font-size:11px;letter-spacing:2px;text-transform:uppercase;color:#58a6ff;margin:38px 0 14px;font-weight:600;border-bottom:1px solid #21262d;padding-bottom:8px}
+/* KPI */
+.kpi{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+@media(max-width:680px){.kpi{grid-template-columns:repeat(2,1fr)}}
+.k{background:#161b22;border:1px solid #21262d;border-radius:12px;padding:16px;text-align:center}
+.k .v{font-size:23px;font-weight:800;color:#58a6ff;display:block}
+.k .l{font-size:11.5px;color:#8b949e;margin-top:3px}
+.k .s{font-size:10px;color:#3fb950;margin-top:3px}
+.k.real{border-color:#238636}.k.real .v{color:#3fb950}
+.tag-real{font-size:9px;background:#0d2b1a;color:#3fb950;border-radius:4px;padding:1px 5px;font-weight:700}
+.tag-model{font-size:9px;background:#2d2305;color:#d29922;border-radius:4px;padding:1px 5px;font-weight:700}
+/* bar chart */
+.chart{background:#161b22;border:1px solid #21262d;border-radius:14px;padding:20px 18px}
+.chart h3{font-size:14px;font-weight:700;margin-bottom:4px}
+.chart .cap{font-size:12px;color:#8b949e;margin-bottom:18px}
+.bars{display:flex;align-items:flex-end;gap:6px;height:220px;padding-top:10px}
+.bar-col{flex:1;display:flex;flex-direction:column;align-items:center;height:100%;justify-content:flex-end;position:relative}
+.bar{width:100%;max-width:46px;display:flex;flex-direction:column-reverse;border-radius:4px 4px 0 0;overflow:hidden;transition:.3s}
+.seg-new{background:linear-gradient(180deg,#1f6feb,#388bfd)}
+.seg-rep{background:linear-gradient(180deg,#f0883e,#db61a2)}
+.bar-val{font-size:10px;font-weight:700;color:#e6edf3;margin-bottom:4px;white-space:nowrap}
+.bar-lab{font-size:10px;color:#6e7681;margin-top:6px}
+.bar-col.real .bar-lab{color:#3fb950;font-weight:700}
+.bar-col.real::after{content:'실측';position:absolute;top:-2px;font-size:8px;color:#3fb950;background:#0d2b1a;border-radius:3px;padding:0 3px}
+.lgnd{display:flex;gap:16px;justify-content:center;margin-top:16px;font-size:12px;color:#8b949e;flex-wrap:wrap}
+.lgnd i{display:inline-block;width:11px;height:11px;border-radius:3px;margin-right:5px;vertical-align:middle}
+/* repeat curve */
+.curve{display:flex;align-items:flex-end;gap:6px;height:120px;margin-top:6px}
+.cc{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;height:100%}
+.cc .dot{width:100%;background:linear-gradient(180deg,#db61a2,#f0883e);border-radius:3px 3px 0 0;position:relative}
+.cc .pct{font-size:9px;color:#db61a2;font-weight:700;margin-bottom:2px}
+.cc .ml{font-size:9px;color:#6e7681;margin-top:4px}
+/* table */
+table{width:100%;border-collapse:collapse;font-size:13px;margin-top:6px}
+th,td{text-align:right;padding:9px 10px;border-bottom:1px solid #21262d}
+th{font-size:11px;color:#8b949e;text-transform:uppercase;letter-spacing:.5px;font-weight:600}
+td:first-child,th:first-child{text-align:left}
+tbody tr:hover{background:#161b22}
+.pos{color:#3fb950;font-weight:700}.accent{color:#58a6ff;font-weight:700}.warn{color:#d29922}
+/* milestone */
+.mile{display:flex;flex-direction:column;gap:0}
+.ms{display:flex;gap:16px;padding:14px 0}
+.ms-rail{display:flex;flex-direction:column;align-items:center}
+.ms-dot{width:14px;height:14px;border-radius:50%;background:#58a6ff;box-shadow:0 0 0 4px #0d2137;flex-shrink:0}
+.ms-line{width:2px;flex:1;background:#21262d;margin:4px 0}
+.ms:last-child .ms-line{display:none}
+.ms-body{flex:1;padding-bottom:6px}
+.ms-when{font-size:11px;color:#58a6ff;font-weight:700;letter-spacing:.5px}
+.ms-body h4{font-size:15px;margin:2px 0}
+.ms-body p{font-size:12.5px;color:#8b949e}
+.ms-val{font-size:13px;color:#3fb950;font-weight:700}
+/* thesis box */
+.thesis{background:linear-gradient(135deg,#0d2137,#161b22);border:1px solid #1d4ed8;border-radius:14px;padding:20px 22px;margin-top:8px}
+.thesis h3{font-size:15px;color:#58a6ff;margin-bottom:8px}
+.thesis p{font-size:13.5px;color:#c9d1d9}
+.thesis b{color:#fff}
+.assume{background:#161b22;border:1px solid #21262d;border-radius:12px;padding:16px 18px;font-size:12.5px;color:#8b949e}
+.assume li{margin-bottom:5px}.assume b{color:#c9d1d9}
+.foot{text-align:center;color:#484f58;font-size:11px;margin-top:36px;line-height:1.8}
+.q-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+@media(max-width:680px){.q-grid{grid-template-columns:repeat(2,1fr)}}
+.qc{background:#161b22;border:1px solid #21262d;border-radius:12px;padding:16px;text-align:center}
+.qc .qv{font-size:20px;font-weight:800;color:#58a6ff}.qc .ql{font-size:11px;color:#8b949e;margin-top:2px}
+.qc .qr{font-size:10px;color:#db61a2;margin-top:3px}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="hero">
+    <div class="hero-label">TENEX · Growth Simulation</div>
+    <h1>고객 · 매출 · 밸류 성장 시뮬레이션</h1>
+    <p>실측 데이터 2점(5월 1.9억 · 6월 3억)을 앵커로, 공식 목표(2026 50억 → 2027 200억)에 연착륙하는 궤적을 모델링했다. 핵심 동력은 <b style="color:#db61a2">소모품 재구매 layer</b> — 광고비를 비례로 안 늘려도 매출이 복리로 쌓이는 구조.</p>
+  </div>
+
+  <div class="banner">
+    <span>⚠️</span>
+    <div><b>데이터 투명성</b> — <span class="tag-real">실측</span>은 facts.json SSOT 확정값(5·6월 매출, ROAS 250~300%, 영업이익률 40%, 목표 50/200억, SNS 27만). <span class="tag-model">모델</span>은 가정 기반 추정(고객수·재구매비중·AOV). 고객수는 <b>AOV 15만원 가정</b>으로 역산한 모델값이라 실제 주문 데이터로 교정 필요.</div>
+  </div>
+
+  <!-- 현황 -->
+  <div class="sec-label">▸ 현재 현황 (2026년 6월)</div>
+  <div class="kpi">
+    <div class="k real"><span class="v">3.0억</span><div class="l">6월 월매출 <span class="tag-real">실측</span></div><div class="s">▲ 5월 1.9억 대비 +58%</div></div>
+    <div class="k real"><span class="v">40%</span><div class="l">영업이익률 <span class="tag-real">실측</span></div><div class="s">월 영업이익 ~1.2억</div></div>
+    <div class="k real"><span class="v">250~300%</span><div class="l">광고 ROAS <span class="tag-real">실측</span></div><div class="s">메타광고 효율 우량</div></div>
+    <div class="k real"><span class="v">27만</span><div class="l">SNS 팔로워 <span class="tag-real">실측</span></div><div class="s">자체 유입 채널</div></div>
+    <div class="k"><span class="v">~5,800명</span><div class="l">누적 고객 <span class="tag-model">모델</span></div><div class="s">월 ~2,000건 기준</div></div>
+    <div class="k"><span class="v">~15만</span><div class="l">블렌디드 AOV <span class="tag-model">모델</span></div><div class="s">기기 믹스 가정</div></div>
+    <div class="k"><span class="v">50명</span><div class="l">치료사 인플루언서 <span class="tag-real">실측</span></div><div class="s">신뢰→매출 번역</div></div>
+    <div class="k"><span class="v">~50억</span><div class="l">현재 밸류 <span class="tag-real">실측</span></div><div class="s">2026.06 기준</div></div>
+  </div>
+
+  <!-- 월매출 차트 -->
+  <div class="sec-label">▸ 2026 월별 매출 — 신규 vs 재구매 분해</div>
+  <div class="chart">
+    <h3>월매출 궤적 (단위: 억원)</h3>
+    <div class="cap">5·6월은 실측, 이후는 6월 기준 성장으로 연 50억 도달 모델. 주황색(재구매)이 빠르게 두꺼워지는 게 핵심.</div>
+    <div class="bars" id="bars"></div>
+    <div class="lgnd">
+      <span><i style="background:#388bfd"></i>신규 고객 매출 (기기)</span>
+      <span><i style="background:#db61a2"></i>재구매 매출 (소모품·추가구매)</span>
+    </div>
+  </div>
+
+  <!-- 재구매 비중 -->
+  <div class="sec-label">▸ 재구매 비중 상승 곡선 (THE 핵심 지표)</div>
+  <div class="chart">
+    <h3>전체 매출 중 재구매 비중 (%)</h3>
+    <div class="cap">소모품 라인업(부스터젤→파라핀 왁스→크림) 출시 + 설치고객 누적으로 3% → 24%까지. 이게 200억의 엔진.</div>
+    <div class="curve" id="curve"></div>
+  </div>
+
+  <!-- 고객 누적 -->
+  <div class="sec-label">▸ 고객 베이스 누적 성장 <span style="color:#d29922;font-weight:400">(모델 추정)</span></div>
+  <div class="chart">
+    <h3>누적 고객 수 (명)</h3>
+    <div class="cap">AOV 15만 가정 역산. 6월 ~5,800명 → 연말 ~26,600명. 재구매 엔진이 켜지면 이 베이스가 매출 복리의 원금.</div>
+    <div class="bars" id="custbars" style="height:170px"></div>
+  </div>
+
+  <!-- 2027 -->
+  <div class="sec-label">▸ 2027 분기별 → 연 200억</div>
+  <div class="q-grid">
+    <div class="qc"><div class="qv">36억</div><div class="ql">2027 1Q</div><div class="qr">재구매 27%</div></div>
+    <div class="qc"><div class="qv">45억</div><div class="ql">2027 2Q</div><div class="qr">재구매 30%</div></div>
+    <div class="qc"><div class="qv">56억</div><div class="ql">2027 3Q</div><div class="qr">재구매 33%</div></div>
+    <div class="qc"><div class="qv">63억</div><div class="ql">2027 4Q</div><div class="qr">재구매 36%</div></div>
+  </div>
+  <p style="text-align:center;color:#3fb950;font-weight:700;margin-top:12px;font-size:15px">2027 합계 200억 · 재구매만 65억 (32%)</p>
+
+  <!-- Unit economics -->
+  <div class="sec-label">▸ 제품별 Unit Economics <span class="tag-real">실측 원가</span></div>
+  <div class="chart" style="padding:14px 12px">
+    <table>
+      <thead><tr><th>제품</th><th>판매가</th><th>원가</th><th>배송</th><th>공헌이익</th><th>마진율</th></tr></thead>
+      <tbody>
+        <tr><td>ES-808 도수펜</td><td>129,000</td><td>12,000</td><td>2,900</td><td class="pos">114,100</td><td class="pos">88%</td></tr>
+        <tr><td>CS-25 도수넥</td><td>398,000</td><td>140,250</td><td>4,400</td><td class="pos">253,350</td><td class="accent">64%</td></tr>
+        <tr><td>부스터젤 <span style="color:#db61a2">♻</span></td><td>9,900</td><td>1,000</td><td>2,900</td><td class="pos">6,000</td><td class="accent">61%</td></tr>
+        <tr><td>WS-200 도수워머</td><td>128,000</td><td>66,400</td><td>2,900</td><td class="pos">58,700</td><td class="warn">46%</td></tr>
+      </tbody>
+    </table>
+    <p style="font-size:11.5px;color:#6e7681;margin-top:8px;padding:0 6px">ES-808 마진 88%가 볼륨 드라이버 + 부스터젤로 재구매 락인 → razor-and-blades 구조의 면도기. WS-200은 원가율 높아 가격/소싱 재검토 여지.</p>
+  </div>
+
+  <!-- 재구매 LTV -->
+  <div class="sec-label">▸ 재구매 엔진 — 1인 LTV 시뮬 (18개월)</div>
+  <div class="chart" style="padding:14px 12px">
+    <table>
+      <thead><tr><th>소모품</th><th>재구매 주기</th><th>단가</th><th>18개월 횟수</th><th>누적 매출</th></tr></thead>
+      <tbody>
+        <tr><td>부스터젤 (ES-808)</td><td>~2개월</td><td>9,900</td><td>9회</td><td class="accent">89,100</td></tr>
+        <tr><td>파라핀 왁스 <span class="tag-model">신규</span></td><td>~1.5개월</td><td>12,000</td><td>12회</td><td class="accent">144,000</td></tr>
+        <tr><td>통증크림 TH-1 <span class="tag-model">예정</span></td><td>~2개월</td><td>19,000</td><td>9회</td><td class="accent">171,000</td></tr>
+      </tbody>
+    </table>
+    <p style="font-size:12.5px;color:#c9d1d9;margin-top:10px;padding:0 6px"><b style="color:#fff">기기 1대(13~40만) + 소모품 18개월 = LTV 2~3배.</b> 신규 획득(광고비)은 1회, 소모품은 평생 — CAC는 고정인데 LTV가 올라가니 <span class="pos">단위경제가 매달 개선</span>됨.</p>
+  </div>
+
+  <div class="thesis">
+    <h3>💡 시뮬레이션 한 줄 요약</h3>
+    <p>지금은 <b>신규 기기 판매(광고 의존)</b>가 매출의 95%. 50억→200억의 갭은 광고비를 4배 쓰는 게 아니라, <b>설치 고객 베이스 × 소모품 재구매</b>로 메운다. 그래서 파라핀·크림·패드 같은 <b>소모품 라인업 소싱이 곧 성장 레버</b> — 회복 루틴 엔진(증상→제품)이 그 재구매를 자동 처방하는 깔때기다.</p>
+  </div>
+
+  <!-- 밸류 -->
+  <div class="sec-label">▸ 기업가치 마일스톤</div>
+  <div class="mile">
+    <div class="ms"><div class="ms-rail"><div class="ms-dot"></div><div class="ms-line"></div></div>
+      <div class="ms-body"><div class="ms-when">2026.06 · 완료</div><h4>밸류 ~50억 <span class="ms-val">현재</span></h4><p>연매출 50억 궤적, 영업이익률 40%, 외부펀딩 없이 자력 성장</p></div></div>
+    <div class="ms"><div class="ms-rail"><div class="ms-dot"></div><div class="ms-line"></div></div>
+      <div class="ms-body"><div class="ms-when">2026 하반기 · Pre-A</div><h4>밸류 200~300억 <span class="ms-val">5~6배</span></h4><p>신주 8% 이하 발행, 대표 지분 74.5% 유지 · 재구매 layer 본격 가동</p></div></div>
+    <div class="ms"><div class="ms-rail"><div class="ms-dot"></div><div class="ms-line"></div></div>
+      <div class="ms-body"><div class="ms-when">2027~2028 · Series A</div><h4>밸류 500~1,000억 <span class="ms-val">10~20배</span></h4><p>연매출 200억 달성, 신주 10%, 대표 67% 유지 (에이피알 모델)</p></div></div>
+    <div class="ms"><div class="ms-rail"><div class="ms-dot"></div><div class="ms-line"></div></div>
+      <div class="ms-body"><div class="ms-when">목표</div><h4>밸류 2,000억 <span class="ms-val">40배</span></h4><p>RAG 운동추천 앱 + 회복 루틴 구독 생태계로 LTV·리텐션 재정의</p></div></div>
+  </div>
+
+  <!-- 가정 -->
+  <div class="sec-label">▸ 모델 가정 (조정 가능 레버)</div>
+  <ul class="assume">
+    <li><b>실측 앵커:</b> 5월 1.9억 · 6월 3.0억(예상) · ROAS 250~300% · 영업이익률 40% · 목표 50/200억 — facts.json SSOT</li>
+    <li><b>AOV 15만원(가정):</b> ES-808(129k) 볼륨 + 워머·넥 믹스 + 소모품. 실제 주문 데이터로 교정 시 고객수 ±30% 변동</li>
+    <li><b>재구매 비중:</b> 3%(현재)→24%(연말)→36%(2027말). 소모품 라인업 출시 속도가 핵심 변수</li>
+    <li><b>월 성장률:</b> 6월 이후 월 ~18~22%로 12월 9.5억 도달 (연 46.6억 ≈ 목표 50억)</li>
+    <li><b>미반영(보수적):</b> RAG 앱 구독매출, 의료기기 모델(KES-8080/KWS-2000) 객단가 상승, 해외 — 모두 상방 요인</li>
+  </ul>
+
+  <div class="foot">
+    테넥스 성장 시뮬레이션 · v1 · 2026-06-20<br>
+    실측값=facts.json SSOT / 모델값=가정 기반 추정. 투자·내부 의사결정 전 실제 주문·코호트 데이터로 재보정 필요.
+  </div>
+
+</div>
+
+<script>
+const months=['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'];
+const newRev=[0.68,0.87,1.15,1.44,1.80,2.82,3.40,4.05,4.70,5.46,6.24,7.22];
+const repRev=[0.02,0.03,0.05,0.06,0.10,0.18,0.30,0.45,0.70,1.04,1.56,2.28];
+const repPct=[3,3,4,4,5,6,8,10,13,16,20,24];
+const cum=[453,1035,1803,2763,3966,5846,8115,10815,13947,17587,21747,26561];
+const realIdx=[4,5];
+const maxRev=10;
+
+// 매출 스택바
+let bh='';
+months.forEach((m,i)=>{
+  const total=newRev[i]+repRev[i];
+  const hNew=newRev[i]/maxRev*100, hRep=repRev[i]/maxRev*100;
+  const real=realIdx.includes(i)?' real':'';
+  bh+=`<div class="bar-col${real}">
+    <div class="bar-val">${total.toFixed(1)}</div>
+    <div class="bar" style="height:${(hNew+hRep)*1.9}px">
+      <div class="seg-new" style="height:${hNew/(hNew+hRep)*100}%"></div>
+      <div class="seg-rep" style="height:${hRep/(hNew+hRep)*100}%"></div>
+    </div>
+    <div class="bar-lab">${m}</div>
+  </div>`;
+});
+document.getElementById('bars').innerHTML=bh;
+
+// 재구매 곡선
+let ch='';
+repPct.forEach((p,i)=>{
+  ch+=`<div class="cc"><div class="pct">${p}%</div><div class="dot" style="height:${p/24*100}px"></div><div class="ml">${months[i]}</div></div>`;
+});
+document.getElementById('curve').innerHTML=ch;
+
+// 고객 누적
+const maxCum=27000;
+let xh='';
+cum.forEach((c,i)=>{
+  const real=realIdx.includes(i)?' real':'';
+  xh+=`<div class="bar-col${real}">
+    <div class="bar-val">${(c/1000).toFixed(1)}천</div>
+    <div class="bar" style="height:${c/maxCum*140}px"><div class="seg-new" style="height:100%;background:linear-gradient(180deg,#238636,#3fb950)"></div></div>
+    <div class="bar-lab">${months[i]}</div>
+  </div>`;
+});
+document.getElementById('custbars').innerHTML=xh;
+</script>
+</body>
+</html>
