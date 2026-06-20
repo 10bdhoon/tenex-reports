@@ -144,6 +144,45 @@
   .warn{border-left:3px solid var(--amber);background:#fffbeb;padding:11px 14px;border-radius:0 8px 8px 0;font-size:13px;color:#7a5b00;margin-top:10px}
   .warn b{color:#7a4f00}
   .ftnote{text-align:center;color:var(--dim);font-size:11.5px;padding:24px 0}
+
+  /* ===== 주간 운영 OS 탭 ===== */
+  table.os{width:100%;border-collapse:collapse;margin-top:10px;font-size:12.8px;overflow:hidden;border-radius:10px}
+  table.os th,table.os td{border:1px solid var(--line);padding:9px 11px;text-align:left;vertical-align:top}
+  table.os th{background:#f7f8fa;font-weight:800;color:#333;font-size:12.5px}
+  table.os td{color:#444}
+  table.os td b{color:var(--ink)}
+  table.os td.lab{background:var(--green-l);color:#0a6b34;font-weight:800;white-space:nowrap}
+  .tblwrap{overflow-x:auto}
+  .eng{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:6px}
+  @media(max-width:760px){.eng{grid-template-columns:1fr}}
+  .engc{border:1px solid var(--line);border-radius:12px;padding:14px 15px;background:#fff}
+  .engc .er{font-size:11px;font-weight:800;color:#fff;padding:2px 9px;border-radius:6px;display:inline-block;margin-bottom:7px}
+  .engc .et{font-weight:800;font-size:14.5px;margin-bottom:5px}
+  .engc .ed{font-size:12px;color:var(--sub);margin-bottom:7px}
+  .engc ul{list-style:none}
+  .engc li{font-size:12.6px;color:#444;padding-left:14px;position:relative;margin:4px 0}
+  .engc li::before{content:"";position:absolute;left:2px;top:8px;width:5px;height:5px;border-radius:50%;background:var(--green)}
+  .week{display:grid;grid-template-columns:repeat(7,1fr);gap:8px}
+  @media(max-width:900px){.week{grid-template-columns:repeat(2,1fr)}}
+  @media(max-width:520px){.week{grid-template-columns:1fr}}
+  .wd{border:1px solid var(--line);border-radius:11px;overflow:hidden;background:#fff;display:flex;flex-direction:column}
+  .wd .wdh{padding:8px 10px;font-weight:800;font-size:12.5px;color:#fff;display:flex;align-items:center;gap:6px}
+  .wd .wdh small{font-weight:600;font-size:10.5px;opacity:.92}
+  .wd ul{list-style:none;padding:8px 10px;flex:1}
+  .wd li{font-size:11.8px;color:#3a3a3a;padding:5px 0;border-bottom:1px dashed #eee;line-height:1.5}
+  .wd li:last-child{border-bottom:none}
+  .wd li b{color:var(--ink)}
+  .bait{border:1px solid var(--line);border-radius:11px;padding:13px 15px;background:#fff;margin-top:10px}
+  .bait .bt{font-weight:800;font-size:13.5px;margin-bottom:3px;display:flex;gap:7px;align-items:center;flex-wrap:wrap}
+  .bait .bt .em{font-size:10.5px;font-weight:800;padding:1px 7px;border-radius:5px;background:#fff3e0;color:#d97706}
+  .bait .bm{font-size:12.5px;color:var(--sub);margin:3px 0}
+  .bait .bx{font-size:12.5px;color:#222;background:#f7f8fa;border-left:3px solid var(--green);padding:7px 11px;border-radius:0 7px 7px 0;margin-top:5px}
+  .bnew{background:#a855f7;color:#fff;font-size:10px;font-weight:800;padding:1px 7px;border-radius:5px;margin-left:6px}
+  .sop{counter-reset:s;list-style:none;margin-top:6px}
+  .sop li{position:relative;padding:7px 0 7px 30px;font-size:13px;color:#444;border-bottom:1px dashed #eee}
+  .sop li:last-child{border-bottom:none}
+  .sop li::before{counter-increment:s;content:counter(s);position:absolute;left:0;top:7px;width:20px;height:20px;border-radius:6px;background:var(--green);color:#fff;font-size:11px;font-weight:800;display:grid;place-items:center}
+  .sop li b{color:var(--ink)}
 </style>
 </head>
 <body>
@@ -151,6 +190,7 @@
 <div class="topbar"><div class="wrap">
   <div class="logo"><span class="mk">매일회</span> 매일 1분 회복 <small>카페 런칭 시뮬레이터</small></div>
   <div class="tabs">
+    <button id="tab-os" onclick="showPane('os')" style="background:#a855f7;color:#fff;border-color:#a855f7">★ 주간 운영 OS</button>
     <button id="tab-cafe" class="on" onclick="showPane('cafe')">카페 미리보기</button>
     <button id="tab-cal" onclick="showPane('cal')">14일 시딩 캘린더</button>
     <button id="tab-cast" onclick="showPane('cast')">부계정·운영</button>
@@ -236,6 +276,194 @@
     </ul>
     <div class="warn"><b>들통 방지:</b> 1) 같은 시간에 여러 계정 몰아쓰기 금지(시간 분산) 2) IP 분산(데이터/와이파이 번갈아) 3) 말투·이모지 캐릭터별로 구분(운영진=존댓말·무오타, 회원=ㅋㅋ/^^/~~용·가벼운 오타, 초성체는 전원 금지) 4) 효능 단정("치료됐다") 표현은 한 번 거르기 — 일반 공산품이라 의료 효능 주장은 법적 리스크.</div>
   </div>
+</div>
+</div>
+
+<!-- ============ 주간 운영 OS PANE ============ -->
+<div id="pane-os" class="pane">
+<div class="wrap" style="padding-top:18px">
+
+  <div class="intro" style="border-left:4px solid #a855f7">
+    <h3>주간 운영 OS — 콘실장이 그대로 돌리는 실행판</h3>
+    <p>시혁 대표님 피드백 반영본. <b>챌린지는 '활성화 엔진'이 아니라 '신뢰 깔때기'</b>다. 활성화는 따로 설계한다. 아래는 매주 반복하는 운영 설계서 — 요일 캘린더·떡밥·진단 코너·라이브·주간 도전·KPI까지 "읽고 그대로 실행"하는 수준으로.</p>
+  </div>
+
+  <!-- 1. 진단: 왜 챌린지만으론 안 도나 -->
+  <div class="guide">
+    <h3>① 왜 매일 인증(챌린지)만으론 카페가 안 도나</h3>
+    <ul>
+      <li><b>챌린지(인증)는 '과업'이라 감정이 없다.</b> 그래서 글은 쌓여도 조회·댓글이 안 달린다. 도배처럼 보이는 게 정상이다. → <b>챌린지의 역할은 활성화가 아니라 습관·신뢰·유입</b>이다.</li>
+      <li><b>활성화를 만드는 건 '감정'이다.</b> 잠백이=욕망/재미(직원 떡밥+UGC), 역류성식도염 카페=두려움/불안(안 나으니 계속 머묾), 톰더글로우=도전욕구+FOMO(토요일만·고난이도·고보상). 공통점은 강한 감정 트리거.</li>
+      <li><b>우리는 이미 최강 엔진을 갖고 있다 — '통증 불안'.</b> 목·허리는 "안 나으면 어쩌지"가 깔려 있어 역식 카페와 구조가 같다. 새로 만들 게 아니라 꺼내 쓰면 된다.</li>
+      <li><b>그래서 카페를 3개의 엔진으로 분리한다.</b> 각 엔진은 목표·KPI·콘텐츠가 다르다. (아래 ②)</li>
+    </ul>
+    <div class="warn"><b>한 줄 원칙:</b> 글 수를 목표로 두지 마라. 사람들이 필요로 하는 건 "내 통증이 나을 거란 확신"이다 — 챌린지는 그걸 못 주고, <b>전문가 답변(진단 코너)·회복 서사(떡밥)·같이 함(라이브)</b>이 준다.</div>
+  </div>
+
+  <!-- 2. 3엔진 -->
+  <div class="guide">
+    <h3>② 카페 3엔진 — 역할·콘텐츠·KPI 분리</h3>
+    <div class="eng">
+      <div class="engc">
+        <span class="er" style="background:#e8462f">엔진 A · 신뢰 깔때기</span>
+        <div class="et">매일 1분 인증 (챌린지)</div>
+        <div class="ed">습관·신뢰·신규 유입. 댓글은 기대하지 않는다.</div>
+        <ul>
+          <li>매일 인증판이 살아있게 (빈 날 0)</li>
+          <li>신규 가입자 안심시키는 "활성 카페" 외형</li>
+          <li>KPI = 가입·재방문·개근율 (댓글 수 ✕)</li>
+        </ul>
+      </div>
+      <div class="engc">
+        <span class="er" style="background:#a855f7">엔진 B · 활성화 (핵심)</span>
+        <div class="et">진단 코너 + 떡밥 + 라이브</div>
+        <div class="ed">불안+공감+답. 감정으로 조회·댓글·체류를 만든다.</div>
+        <ul>
+          <li>증상 진단 코너 (도수치료사 답변)</li>
+          <li>직원 떡밥 5종 (공포·희망·비밀)</li>
+          <li>월요일 라이브 + 다시보기 카페 독점</li>
+        </ul>
+      </div>
+      <div class="engc">
+        <span class="er" style="background:#03c75a">엔진 C · 전환</span>
+        <div class="et">주간 도전 + 키네메디칼</div>
+        <div class="ed">2단계(회원 모인 뒤). 충성→구매로 연결.</div>
+        <ul>
+          <li>토요일 주간 도전 (톰더글로우식)</li>
+          <li>완주 보상 = 키네메디칼 제품</li>
+          <li>1분도수 루틴 위에 제품을 얹기</li>
+        </ul>
+      </div>
+    </div>
+    <div class="warn"><b>지금(런칭 1단계)은 A+B에 올인.</b> C(주간 도전·제품)는 회원이 모인 뒤 켠다. 초기엔 인증판에서 "토요일 인증 강조" 약식으로만.</div>
+  </div>
+
+  <!-- 3. 주간 리듬 캘린더 -->
+  <div class="guide">
+    <h3>③ 주간 리듬 캘린더 — 요일별로 누가 뭘 올리나</h3>
+    <ul>
+      <li><b>매일 공통(엔진 A·B):</b> ㉠ 인증글 전부에 환대 댓글(응답률 100%) ㉡ 진단 코너 요청글 <b>24시간 내 1차 답변</b> ㉢ 신규 가입인사엔 회복코치 진이 1:1 환영.</li>
+    </ul>
+    <div class="week">
+      <div class="wd"><div class="wdh" style="background:#e8462f">월 <small>라이브 데이</small></div><ul>
+        <li><b>20:00 유튜브 라이브</b> (인규+치료사, 같이 1분 운동)</li>
+        <li>라이브 후 <b>다시보기 카페 독점</b> 업로드(영상보드)</li>
+        <li>떡밥① "이 자세 지금 멈추세요" (공포)</li>
+      </ul></div>
+      <div class="wd"><div class="wdh" style="background:#2d6cdf">화 <small>진단 데이</small></div><ul>
+        <li><b>쌓인 진단요청 집중 답변</b>(도수치료사)</li>
+        <li>떡밥③ "병원에서 안 알려주는 것" (비밀)</li>
+      </ul></div>
+      <div class="wd"><div class="wdh" style="background:#03c75a">수 <small>희망 데이</small></div><ul>
+        <li>떡밥② 충격 비포&애프터 (회복 사례)</li>
+        <li>회원 인증·후기 환대 댓글 집중</li>
+      </ul></div>
+      <div class="wd"><div class="wdh" style="background:#2d6cdf">목 <small>진단 모집</small></div><ul>
+        <li>떡밥④ "사진/증상 올리면 도수쌤이 봐드려요" 모집글</li>
+        <li>진단요청 2차 답변</li>
+      </ul></div>
+      <div class="wd"><div class="wdh" style="background:#f59e0b">금 <small>서사 데이</small></div><ul>
+        <li>떡밥⑤ "이주의 회복 일기" 픽업</li>
+        <li>주말 도전 예고글(2단계부터)</li>
+      </ul></div>
+      <div class="wd"><div class="wdh" style="background:#a855f7">토 <small>도전 데이</small></div><ul>
+        <li><b>주간 도전 미션 공개</b> — 당일 인증만 인정</li>
+        <li>실시간 독려 댓글 (2단계부터, 초기엔 토요일 인증 강조)</li>
+      </ul></div>
+      <div class="wd"><div class="wdh" style="background:#0891b2">일 <small>결산 데이</small></div><ul>
+        <li>이주의 회복왕·베스트 진단·라이브 하이라이트</li>
+        <li>다음주 라이브 주제 예고 + <b>사연 모집</b></li>
+      </ul></div>
+    </div>
+  </div>
+
+  <!-- 4. 떡밥 5종 -->
+  <div class="guide">
+    <h3>④ 직원 떡밥 5종 — '잠백이의 비키니' 자리 <span class="bnew">엔진 B</span></h3>
+    <p style="font-size:12.8px;color:var(--sub);margin-bottom:4px">잠백이 직원이 비키니를 올리듯, 우리 운영진이 감정을 건드리는 떡밥을 정기 투척한다. 제목 템플릿·주기·담당 고정.</p>
+    <div class="bait"><div class="bt">① "지금 당장 멈추세요" <span class="em">공포 · 주1(월)</span></div>
+      <div class="bm">목·허리 망가뜨리는 일상 습관을 경고. 담당: 매일회지기·요가쌤린다</div>
+      <div class="bx">제목 예) "[목 망가지는 습관] 자기 전 폰 이렇게 보면 5년 뒤…"</div></div>
+    <div class="bait"><div class="bt">② 충격 비포&애프터 <span class="em">희망 · 주1(수)</span></div>
+      <div class="bm">실제 회복 사례를 사진·기록으로. 담당: 회복코치 진(회원 사례 큐레이션)</div>
+      <div class="bx">제목 예) "[12일 변화] 오십견 만세 각도, 이렇게 달라졌어요"</div></div>
+    <div class="bait"><div class="bt">③ "병원에서 안 알려주는 것" <span class="em">비밀·소속 · 주1(화)</span></div>
+      <div class="bm">전문가만 아는 솔직한 팁. 담당: 요가쌤린다·전문가 캐릭터</div>
+      <div class="bx">제목 예) "도수치료사가 솔직히 말하는, 도수치료 100% 뽑아먹는 법"</div></div>
+    <div class="bait"><div class="bt">④ 증상 진단 모집 <span class="em">참여 유발 · 주1(목)+상시</span></div>
+      <div class="bm">진단 코너로 사람을 끌어오는 모집글. 담당: 회복코치 진</div>
+      <div class="bx">제목 예) "[무료 진단] 아픈 부위 사진/증상 댓글 남기면 도수쌤이 봐드려요"</div></div>
+    <div class="bait"><div class="bt">⑤ 회복 일기 픽업 <span class="em">장기 체류·서사 · 주1(금)</span></div>
+      <div class="bm">회원의 누적 기록을 주인공으로. 담당: 매일회지기</div>
+      <div class="bx">제목 예) "[이주의 회복 일기] OO님의 4주, 통증점수 8→3 기록 전문"</div></div>
+  </div>
+
+  <!-- 5. 증상 진단 코너 SOP -->
+  <div class="guide">
+    <h3>⑤ 증상 진단 코너 — 활성화 핵심 엔진 SOP <span class="bnew">신설</span></h3>
+    <ul>
+      <li><b>게시판:</b> 기존 '통증 Q&A'를 <b>"증상 진단 코너"</b>로 간판 격상(런칭부터). 다른 운동카페가 절대 못 따라하는 차별점.</li>
+      <li><b>회원 글 양식:</b> 부위 말머리 + [증상/언제부터/사진(선택)/지금 제일 불편한 것].</li>
+    </ul>
+    <p style="font-size:12.8px;font-weight:800;margin:8px 0 2px">도수치료사 답변 4단 템플릿 (효능 단정 ✕, 경험·일반정보 톤)</p>
+    <ol class="sop">
+      <li><b>공감</b> — "그 통증, 정말 답답하셨겠어요." (불안 인정)</li>
+      <li><b>가능성 설명</b> — 증상으로 본 일반적 원인 (단정 금지: "~인 경우가 많아요")</li>
+      <li><b>1분 운동 처방</b> — 오늘 당장 할 1분 동작 1개</li>
+      <li><b>위험신호 분기</b> — 저림·힘빠짐 등은 "병원 진료 권유"로 안전장치</li>
+    </ol>
+    <div class="warn"><b>락인 한 줄:</b> 답변 끝에 "더 자세한 건 <b>이번 주 라이브에서</b> 풀어드릴게요" → 진단 코너 독자를 라이브·재방문으로 묶는다. <b>SLA: 진단요청 24시간 내 1차 응답 필수</b>(빈 진단글 = 카페 죽음).</div>
+  </div>
+
+  <!-- 6. 월요일 라이브 -->
+  <div class="guide">
+    <h3>⑥ 월요일 라이브(저녁 8시) + 다시보기 카페 독점 <span class="bnew">엔진 B</span></h3>
+    <ul>
+      <li><b>D-3(금):</b> 카페에 "다음주 라이브 사연 모집" 글 — 증상·고민 댓글로 받기.</li>
+      <li><b>D-day 오전:</b> 리마인드 글 + 어제 받은 사연 중 풀 것 예고.</li>
+      <li><b>20:00 라이브:</b> ㉠ 같이 1분 운동 루틴 ㉡ <b>받은 사연 즉석 풀이</b>("OO님 목 사연 보고 왔어요") ㉢ 라이브 중 카페 채팅 미션.</li>
+      <li><b>종료 직후:</b> 다시보기를 <b>카페에만 독점 공개</b>(영상보드/회원공개). 유튜브엔 비공개 또는 하이라이트만 → "풀버전 보려면 카페로" 가입 유인.</li>
+    </ul>
+    <div class="warn"><b>핵심 효과:</b> 사연 주인공은 카페 활동 폭발 + 다른 사람도 "나도 사연 올려야지" → 진단 코너·참여 자가증식. 라이브를 <b>카페 참여의 보상</b>으로 묶는 게 포인트.</div>
+  </div>
+
+  <!-- 7. 토요일 주간 도전 -->
+  <div class="guide">
+    <h3>⑦ 토요일 주간 도전 — 톰더글로우 모델 <span class="bnew">엔진 C · 2단계</span></h3>
+    <ul>
+      <li><b>원리(톰더글로우 차용):</b> 희소성(<b>토요일 그 시간만 인정</b>) + 고난이도(완수가 쉽지 않게) + 고보상(<b>키네메디칼 제품</b>) + FOMO.</li>
+      <li><b>주간 미션 설계 예:</b> "라이브 풀세트 + 통증점수 기록 + 비포&애프터 사진"을 <b>토요일 당일 한 글</b>로. 당일·완전체만 인정.</li>
+      <li><b>누적 완주제:</b> "N주 연속 완수" 시 제품 증정 — 연속성을 요구해 의도적으로 완주를 어렵게(=톰더글로우식). 중간 이탈해도 그동안의 <b>신뢰·습관은 남는다</b>(이게 진짜 목적).</li>
+      <li><b>단계:</b> 회원이 충분히 모인 뒤 게시판 신설. 런칭 초기엔 인증판에서 "토요일 인증 강조"로 가볍게 워밍업.</li>
+    </ul>
+  </div>
+
+  <!-- 8. KPI 분리 -->
+  <div class="guide">
+    <h3>⑧ KPI 분리 — 챌린지 KPI ≠ 활성화 KPI</h3>
+    <div class="tblwrap">
+    <table class="os">
+      <tr><th>구분</th><th>엔진 A · 챌린지(깔때기)</th><th>엔진 B · 활성화(핵심)</th></tr>
+      <tr><td class="lab">북극성</td><td><b>D7 인증 재방문율</b></td><td><b>주간 진단요청 수 · 댓글 단 회원 비율</b></td></tr>
+      <tr><td class="lab">보는 지표</td><td>신규가입·재방문·인증 개근율</td><td>진단요청 글 수 · 글당 댓글 수 · 라이브 동접 · 다시보기 조회</td></tr>
+      <tr><td class="lab">안 보는 것</td><td>인증글 댓글 수(원래 안 달림 = 정상)</td><td>단순 글 개수(양으로 속지 말 것)</td></tr>
+      <tr><td class="lab">실패 신호</td><td>인증판 빈 날 발생</td><td>진단요청 24h 무응답 / 댓글 0 진단글</td></tr>
+    </table>
+    </div>
+    <div class="warn"><b>측정 한 줄:</b> 챌린지를 댓글 수로 평가하면 멀쩡한 엔진을 "고장났다"고 오판한다. 챌린지=가입·재방문으로, 활성화=진단·댓글·라이브로 <b>따로</b> 본다.</div>
+  </div>
+
+  <!-- 9. 신설 게시판 -->
+  <div class="guide">
+    <h3>⑨ 신설/격상 게시판 3 — 기존 5대분류 위에 얹기</h3>
+    <ul>
+      <li><b>증상 진단 코너</b> (통증 Q&A 격상) — <b>런칭부터</b>. 활성화 엔진의 심장.</li>
+      <li><b>라이브 다시보기</b> (1분도수 영상 그룹 하위) — <b>라이브 시작부터</b>. 카페 독점 락인.</li>
+      <li><b>주간 도전</b> (토) — <b>2단계(회원 모인 뒤)</b>. 그 전엔 인증판 토요일 강조로 갈음.</li>
+    </ul>
+    <div class="warn"><b>주의:</b> 초반엔 보드만 많고 글이 없으면 죽은 카페로 보인다. 진단 코너·다시보기는 글이 바로 차는 보드이므로 OK, <b>주간 도전 보드는 사람이 모인 뒤 개설</b>해야 휑함을 피한다.</div>
+  </div>
+
 </div>
 </div>
 
@@ -496,7 +724,7 @@ function renderCast(){
 
 /* ========== TABS ========== */
 function showPane(n){
-  ['cafe','cal','cast'].forEach(x=>{
+  ['os','cafe','cal','cast'].forEach(x=>{
     document.getElementById('pane-'+x).classList.toggle('on',x===n);
     document.getElementById('tab-'+x).classList.toggle('on',x===n);
   });
