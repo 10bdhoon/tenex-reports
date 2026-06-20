@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>테넥스 회복 루틴 — 증상별 RAG 추천 엔진 (프로토타입)</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#0d1117;color:#e6edf3;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;min-height:100vh;line-height:1.6}
+.wrap{max-width:880px;margin:0 auto;padding:0 16px 80px}
+
+/* hero */
+.hero{text-align:center;padding:44px 20px 28px}
+.hero-label{font-size:11px;letter-spacing:3px;text-transform:uppercase;color:#58a6ff;margin-bottom:14px;font-weight:600}
+.hero h1{font-size:28px;font-weight:800;letter-spacing:-.5px;margin-bottom:10px;line-height:1.3}
+.hero p{font-size:14px;color:#8b949e;max-width:560px;margin:0 auto 16px}
+.hero .proto{display:inline-flex;flex-wrap:wrap;gap:6px;justify-content:center;align-items:center;font-size:12px;color:#6e7681}
+.hero .proto b{color:#58a6ff;background:#0d2137;border:1px solid #1d4ed8;border-radius:20px;padding:3px 11px;font-weight:600}
+.hero .proto span{color:#484f58}
+
+/* selector */
+.sec-label{font-size:11px;letter-spacing:2px;text-transform:uppercase;color:#58a6ff;margin:32px 0 14px;font-weight:600}
+.chips{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+@media(max-width:680px){.chips{grid-template-columns:repeat(2,1fr)}}
+.chip{background:#161b22;border:1px solid #21262d;border-radius:12px;padding:14px 10px;text-align:center;cursor:pointer;transition:.15s;user-select:none}
+.chip:hover{border-color:#388bfd;transform:translateY(-2px)}
+.chip.active{border-color:#58a6ff;background:#0d2137;box-shadow:0 0 0 1px #58a6ff inset}
+.chip .ico{font-size:26px;display:block;margin-bottom:6px;line-height:1}
+.chip .nm{font-size:13px;font-weight:600;color:#e6edf3}
+.chip .sub{font-size:10px;color:#6e7681;margin-top:2px}
+
+/* routine card */
+.routine{margin-top:26px;animation:fade .3s ease}
+@keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.rt-head{background:linear-gradient(135deg,#0d2137 0%,#161b22 100%);border:1px solid #1d4ed8;border-radius:14px;padding:22px 22px 18px;margin-bottom:8px}
+.rt-head .ico{font-size:32px}
+.rt-head h2{font-size:22px;font-weight:800;margin:8px 0 4px}
+.rt-head .cause{font-size:13px;color:#8b949e}
+.rt-meta{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
+.rt-meta .m{background:#0d1117;border:1px solid #21262d;border-radius:8px;padding:6px 12px;font-size:12px;color:#8b949e}
+.rt-meta .m b{color:#58a6ff;font-weight:700}
+
+/* steps */
+.steps{position:relative;padding-left:8px;margin-top:14px}
+.step{display:flex;gap:14px;padding:0 0 6px}
+.step-rail{display:flex;flex-direction:column;align-items:center;flex-shrink:0}
+.step-dot{width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:800;flex-shrink:0;border:2px solid}
+.step-line{width:2px;flex:1;background:#21262d;margin:3px 0}
+.step:last-child .step-line{display:none}
+.step-body{flex:1;background:#161b22;border:1px solid #21262d;border-radius:12px;padding:14px 16px;margin-bottom:12px}
+.step-phase{font-size:10px;letter-spacing:1.5px;text-transform:uppercase;font-weight:700;margin-bottom:4px}
+.step-body h3{font-size:15px;font-weight:700;margin-bottom:4px}
+.step-body p{font-size:13px;color:#8b949e}
+.step-prod{display:inline-flex;align-items:center;gap:6px;margin-top:9px;background:#0d1117;border:1px solid #30363d;border-radius:8px;padding:6px 11px;font-size:12.5px;font-weight:600;color:#e6edf3}
+.step-prod .tag{font-size:9px;font-weight:700;border-radius:4px;padding:2px 6px;letter-spacing:.5px}
+.t-sell{background:#0d2b1a;color:#3fb950}
+.t-soon{background:#2d2305;color:#d29922}
+.t-scout{background:#2d1416;color:#f85149}
+.t-none{background:#1c2128;color:#8b949e}
+.step-prod.refill{border-color:#1f6feb}
+.refill-badge{font-size:9px;font-weight:700;color:#58a6ff;background:#0d2137;border:1px solid #1d4ed8;border-radius:4px;padding:2px 6px;margin-left:6px}
+
+/* phase colors */
+.p-heat{color:#f0883e}.dot-heat{border-color:#f0883e;color:#f0883e;background:#2a1a0d}
+.p-release{color:#58a6ff}.dot-release{border-color:#58a6ff;color:#58a6ff;background:#0d2137}
+.p-move{color:#3fb950}.dot-move{border-color:#3fb950;color:#3fb950;background:#0d2b1a}
+.p-align{color:#bc8cff}.dot-align{border-color:#bc8cff;color:#bc8cff;background:#1d1530}
+.p-finish{color:#db61a2}.dot-finish{border-color:#db61a2;color:#db61a2;background:#2a0f1f}
+.p-support{color:#8b949e}.dot-support{border-color:#484f58;color:#8b949e;background:#161b22}
+
+/* monetize strip */
+.money{margin-top:14px;background:#0d2137;border:1px solid #1d4ed8;border-radius:12px;padding:14px 16px}
+.money h4{font-size:13px;color:#58a6ff;margin-bottom:6px;font-weight:700}
+.money p{font-size:12.5px;color:#a0c4e8}
+.money b{color:#fff}
+
+/* legend */
+.legend{margin-top:40px;background:#161b22;border:1px solid #21262d;border-radius:14px;padding:20px}
+.legend h3{font-size:14px;font-weight:700;margin-bottom:12px}
+.legend-row{display:flex;flex-wrap:wrap;gap:8px}
+.lg{display:inline-flex;align-items:center;gap:6px;font-size:12px;color:#8b949e;background:#0d1117;border:1px solid #21262d;border-radius:8px;padding:5px 10px}
+.foot{text-align:center;color:#484f58;font-size:11px;margin-top:36px;line-height:1.8}
+.hint{text-align:center;color:#6e7681;font-size:13px;margin-top:18px}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="hero">
+    <div class="hero-label">TENEX · Recovery Routine Engine</div>
+    <h1>증상을 고르면, 회복 루틴이 나온다</h1>
+    <p>병원 물리치료실 프로토콜을 그대로 집으로. RAG 운동추천 앱이 증상별로 <b style="color:#c9d1d9">"오늘 뭘 할지"</b>를 처방하고, 그 안에 우리 제품이 단계로 박힌다. 운동(리텐션)과 제품(매출)이 한 루틴 안에서 같이 돈다.</p>
+    <div class="proto">
+      <b>🔥 데운다</b><span>→</span><b>⚡ 푼다</b><span>→</span><b>🤸 움직인다</b><span>→</span><b>🧲 교정한다</b><span>→</span><b>🧴 바른다</b><span>→</span><b>🛡 지지한다</b>
+    </div>
+  </div>
+
+  <div class="sec-label">▸ 증상 선택 <span style="color:#6e7681;font-weight:400;text-transform:none;letter-spacing:0">(탭하면 루틴이 펼쳐집니다)</span></div>
+  <div class="chips" id="chips"></div>
+
+  <div id="routine"></div>
+  <div class="hint" id="hint">⬆️ 증상을 선택하면 단계별 회복 루틴과 제품 매핑이 표시됩니다</div>
+
+  <div class="legend">
+    <h3>제품 상태 범례</h3>
+    <div class="legend-row">
+      <span class="lg"><span class="tag t-sell" style="font-size:9px;padding:2px 6px;border-radius:4px">판매중</span> 지금 판매 — CS-25·ES-808·WS-200·부스터젤</span>
+      <span class="lg"><span class="tag t-soon" style="font-size:9px;padding:2px 6px;border-radius:4px">예정</span> 개발/디자인 — TH-1 통증크림·보호대·ES-808 Pro</span>
+      <span class="lg"><span class="tag t-scout" style="font-size:9px;padding:2px 6px;border-radius:4px">소싱검토</span> 라인업 후보 — 파라핀·패드EMS·요추견인·충격파</span>
+      <span class="lg"><span class="tag t-none" style="font-size:9px;padding:2px 6px;border-radius:4px">운동</span> 제품 0원 — 앱이 지도하는 리텐션 엔진</span>
+      <span class="lg"><span class="refill-badge" style="margin:0">♻ 재구매</span> 소모품 반복매출(왁스·젤·패드·크림)</span>
+    </div>
+  </div>
+
+  <div class="foot">
+    테넥스 회복 루틴 엔진 · 프로토타입 v1 · 2026-06-20<br>
+    루틴은 물리치료 표준 프로토콜(온열→전기자극→운동→견인→외용) 기반 가설 — 실제 앱 탑재 전 의료 카피 검수 필요
+  </div>
+
+</div>
+
+<script>
+const SELL='<span class="tag t-sell">판매중</span>', SOON='<span class="tag t-soon">예정</span>', SCOUT='<span class="tag t-scout">소싱검토</span>', MOVE='<span class="tag t-none">운동</span>';
+// phase: heat/release/move/align/finish/support
+const P={heat:['🔥','데운다','heat'],release:['⚡','푼다','release'],move:['🤸','움직인다','move'],align:['🧲','교정한다','align'],finish:['🧴','바른다','finish'],support:['🛡','지지한다','support']};
+
+const DATA=[
+ {id:'neck',ico:'🦒',nm:'거북목·일자목',sub:'직장인 No.1',cause:'장시간 화면 → 머리 전방 이동, 뒷목·승모근 과부하',meta:['하루 1회','약 30분','경추'],
+  steps:[
+   ['heat','뒷목 온열 10분','WS-200을 뒷목·상부 승모근에 둘러 혈류 확보',SELL,'WS-200 도수워머',false],
+   ['release','뒷목·승모근 저주파 5분','ES-808 펜으로 뭉친 포인트 타겟 자극 (부스터젤 도포)',SELL,'ES-808 도수펜 + 부스터젤',true],
+   ['move','친턱 + 목 신전 스트레칭','턱 당기기 10회×3세트, 가슴 열기 — 앱이 카운트·영상 가이드',MOVE,'앱 운동 가이드',false],
+   ['align','경추 견인 15분','CS-25 도수넥으로 전방 이동된 경추 정렬',SELL,'CS-25 도수넥',false],
+   ['finish','통증크림 마무리','데워져 열린 조직에 TH-1 도포',SOON,'TH-1 통증크림',true],
+  ],
+  money:'WS-200·CS-25·ES-808 <b>3종이 한 루틴에서 동시 가동</b> → 객단가 최대 라인. 부스터젤·크림이 재구매로 매달 회수.'},
+
+ {id:'shoulder',ico:'💪',nm:'어깨 결림·오십견',sub:'상부 승모근',cause:'라운드숄더·과사용 → 견갑 주변 경직, 가동범위 저하',meta:['하루 1~2회','약 25분','견관절'],
+  steps:[
+   ['heat','어깨 온열 10분','WS-200으로 견갑·삼각근 부위 데우기',SELL,'WS-200 도수워머',false],
+   ['release','승모근·견갑 저주파','ES-808로 상부 승모근 트리거포인트 자극',SELL,'ES-808 도수펜 + 부스터젤',true],
+   ['move','벽 엔젤 + 흉추 회전','어깨 으쓱-내리기 15회, 벽 슬라이드 — 가동범위 회복 운동',MOVE,'앱 운동 가이드',false],
+   ['finish','통증크림 마무리','어깨 광범위 도포',SOON,'TH-1 통증크림',true],
+  ],
+  money:'온열+저주파 2종 + 크림 재구매. 오십견은 <b>회복까지 수개월</b> → 장기 반복사용 = LTV 최강 세그먼트.'},
+
+ {id:'lowback',ico:'🪑',nm:'허리 통증',sub:'요추 근막',cause:'장시간 좌식·코어 약화 → 기립근 과긴장, 디스크 부담',meta:['하루 1회','약 30분','요추'],
+  steps:[
+   ['heat','허리 온열 10분','WS-200을 요추·기립근에 밀착',SELL,'WS-200 도수워머',false],
+   ['release','기립근 저주파','ES-808로 척추기립근 좌우 자극',SELL,'ES-808 도수펜 + 부스터젤',true],
+   ['move','맥길 빅3 + 고양이-소','컬업·사이드플랭크·버드독 — 코어 안정화 핵심 운동',MOVE,'앱 운동 가이드',false],
+   ['align','요추 견인','요추 견인기로 디스크 공간 감압 (라인업 후보)',SCOUT,'요추 견인기',false],
+   ['support','급성기 허리보호대','통증 심한 날 지지·가동 제한',SOON,'허리 보호대',false],
+  ],
+  money:'목(CS-25) 다음 <b>가장 큰 시장</b>. 요추견인 신규기기 + 보호대 + 크림으로 허리 풀세트 구성 가능.'},
+
+ {id:'wrist',ico:'⌨️',nm:'손목터널·손목통증',sub:'키보드·폰',cause:'반복 사용 → 정중신경 압박, 전완 근육 과긴장',meta:['하루 2회','약 20분','손목'],
+  steps:[
+   ['heat','손·손목 파라핀 온열','왁스가 손가락 사이·손목까지 감싸 360° 습열 — WS-200이 못 닿는 자리',SCOUT,'파라핀 + 왁스',true],
+   ['release','전완 저주파','ES-808로 전완 굴근 자극',SELL,'ES-808 도수펜 + 부스터젤',true],
+   ['move','손목 신전 + 신경 활주','정중신경 글라이드, 손목 스트레칭 — 앱 가이드',MOVE,'앱 운동 가이드',false],
+   ['finish','크림 + 손목보호대','도포 후 야간 보호대 착용',SOON,'TH-1 크림 · 손목보호대',true],
+  ],
+  money:'<b>파라핀이 빛나는 첫 부위.</b> WS-200 사각지대(손)를 열고, 왁스 재구매가 핵심 엔진. 보호대까지 묶음.'},
+
+ {id:'finger',ico:'🖐',nm:'손가락 관절염·아침 강직',sub:'류마티스·퇴행',cause:'관절 염증·연골 마모 → 기상 시 뻣뻣함, 쥐는 힘 약화',meta:['아침 1회','약 20분','수지관절'],
+  steps:[
+   ['heat','손 전체 파라핀','습열은 관절염 손 통증의 물리치료 표준 — 굳은 관절을 부드럽게',SCOUT,'파라핀 + 왁스',true],
+   ['release','손등·손가락 저주파','ES-808로 손가락 주변 순환 자극',SELL,'ES-808 도수펜 + 부스터젤',true],
+   ['move','주먹쥐기-펴기 + 외전','관절 가동범위 운동 10회×3 — 앱이 매일 트래킹',MOVE,'앱 운동 가이드',false],
+   ['finish','크림 마무리','손가락 관절 도포',SOON,'TH-1 통증크림',true],
+  ],
+  money:'관절염은 <b>매일·평생</b> 관리 → 왁스 재구매 빈도 최상. 시니어 타겟, 충성도·LTV 모두 높음.'},
+
+ {id:'knee',ico:'🦵',nm:'무릎 통증·관절염',sub:'퇴행성',cause:'연골 마모·대퇴사두 약화 → 계단·앉았다 일어설 때 통증',meta:['하루 1회','약 25분','슬관절'],
+  steps:[
+   ['heat','무릎 온열 10분','WS-200으로 슬관절 주변 데우기',SELL,'WS-200 도수워머',false],
+   ['release','무릎 주변 저주파','ES-808로 슬개골 주변·대퇴 자극',SELL,'ES-808 도수펜 + 부스터젤',true],
+   ['move','대퇴사두 세팅 + 직거상','벽 스쿼트, SLR — 무릎 지지근 강화 운동',MOVE,'앱 운동 가이드',false],
+   ['finish','크림 + 무릎보호대','도포 후 활동 시 보호대',SOON,'TH-1 크림 · 무릎보호대',true],
+  ],
+  money:'온열+저주파+크림+보호대 풀체인. 중장년 핵심 부위, 보호대 묶음으로 객단가 상향.'},
+
+ {id:'foot',ico:'🦶',nm:'족저근막염·발통증',sub:'발바닥',cause:'발바닥 근막 미세손상 → 아침 첫발·오래 서면 찌릿',meta:['아침+저녁','약 20분','족부'],
+  steps:[
+   ['heat','발 파라핀 온열','발가락·발바닥을 왁스로 감싸 습열 — 또 하나의 WS-200 사각지대',SCOUT,'파라핀 + 왁스',true],
+   ['release','종아리·발바닥 저주파','ES-808로 비복근·족저근막 라인 자극',SELL,'ES-808 도수펜 + 부스터젤',true],
+   ['move','발바닥 스트레칭 + 타월컬','종아리 신전, 족저근막 스트레칭 — 앱 가이드',MOVE,'앱 운동 가이드',false],
+   ['align','체외충격파 (중증)','만성 족저근막염 홈케어 충격파 (라인업 후보)',SCOUT,'체외충격파 홈형',false],
+   ['finish','크림 마무리','발바닥·아킬레스 도포',SOON,'TH-1 통증크림',true],
+  ],
+  money:'파라핀 세 번째 부위 + 충격파라는 <b>화제성 1등 신기기</b> 진입로. 명분·단가 모두 상위.'},
+
+ {id:'calf',ico:'🫧',nm:'다리 부종·순환',sub:'하지 피로',cause:'장시간 서기/앉기 → 정맥 순환 저하, 종아리 묵직·부종',meta:['저녁 1회','약 20분','하지'],
+  steps:[
+   ['heat','종아리 온열','WS-200으로 비복근 데워 혈류 촉진',SELL,'WS-200 도수워머',false],
+   ['release','공기압 마사지 / 저주파','레그 슬리브 공기압 또는 ES-808 (후보+현행)',SCOUT,'공기압 마사지기 · ES-808',true],
+   ['move','카프레이즈 + 다리올리기','종아리 펌프 운동, 레그 업 더 월 — 앱 가이드',MOVE,'앱 운동 가이드',false],
+   ['finish','크림 마무리','종아리 도포',SOON,'TH-1 통증크림',true],
+  ],
+  money:'공기압 마사지기 신규 카테고리 진입. 부종은 <b>매일 반복</b> 니즈 → 데일리 사용 습관화.'},
+];
+
+const chips=document.getElementById('chips');
+const routine=document.getElementById('routine');
+const hint=document.getElementById('hint');
+
+DATA.forEach(d=>{
+  const c=document.createElement('div');
+  c.className='chip';c.dataset.id=d.id;
+  c.innerHTML=`<span class="ico">${d.ico}</span><span class="nm">${d.nm}</span><span class="sub">${d.sub}</span>`;
+  c.onclick=()=>select(d.id);
+  chips.appendChild(c);
+});
+
+function select(id){
+  document.querySelectorAll('.chip').forEach(c=>c.classList.toggle('active',c.dataset.id===id));
+  const d=DATA.find(x=>x.id===id);
+  hint.style.display='none';
+  const stepsHtml=d.steps.map((s,i)=>{
+    const[phase,title,desc,tag,prod,refill]=s;
+    const[ico,phName,pk]=P[phase];
+    const refillBadge=refill?'<span class="refill-badge">♻ 재구매</span>':'';
+    const refillCls=refill?' refill':'';
+    return `<div class="step">
+      <div class="step-rail">
+        <div class="step-dot dot-${pk}">${i+1}</div>
+        <div class="step-line"></div>
+      </div>
+      <div class="step-body">
+        <div class="step-phase p-${pk}">${ico} ${phName}</div>
+        <h3>${title}</h3>
+        <p>${desc}</p>
+        <div class="step-prod${refillCls}">${tag} ${prod}${refillBadge}</div>
+      </div>
+    </div>`;
+  }).join('');
+  routine.innerHTML=`<div class="routine">
+    <div class="rt-head">
+      <span class="ico">${d.ico}</span>
+      <h2>${d.nm}</h2>
+      <div class="cause">${d.cause}</div>
+      <div class="rt-meta">${d.meta.map(m=>`<span class="m">${m}</span>`).join('')}</div>
+    </div>
+    <div class="steps">${stepsHtml}</div>
+    <div class="money"><h4>💰 이 루틴의 수익 구조</h4><p>${d.money}</p></div>
+  </div>`;
+  routine.scrollIntoView({behavior:'smooth',block:'start'});
+}
+// 기본 선택
+select('neck');
+</script>
+</body>
+</html>
