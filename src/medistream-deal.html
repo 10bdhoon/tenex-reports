@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TENEX × 메디스트림 — 거부할 수 없는 제안</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg: #07111f;
+      --panel: rgba(13, 27, 49, 0.72);
+      --panel-2: rgba(18, 34, 60, 0.85);
+      --text: #e5eefc;
+      --text-strong: #ffffff;
+      --muted: #8ea3c7;
+      --line: rgba(148, 163, 184, 0.16);
+      --blue: #4f8cff;
+      --cyan: #32c6ff;
+      --green: #11c88f;
+      --amber: #f59e0b;
+      --red: #f87171;
+      --shadow: 0 24px 60px rgba(0, 0, 0, 0.30);
+    }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Apple SD Gothic Neo', sans-serif;
+      background:
+        radial-gradient(circle at top left, rgba(79, 140, 255, 0.16), transparent 26%),
+        radial-gradient(circle at top right, rgba(50, 198, 255, 0.12), transparent 22%),
+        linear-gradient(180deg, #040a14 0%, #07111f 45%, #091321 100%);
+      color: var(--text);
+      line-height: 1.55;
+      min-height: 100vh;
+      -webkit-font-smoothing: antialiased;
+    }
+    .wrap { max-width: 920px; margin: 0 auto; padding: 56px 28px 80px; }
+
+    /* ---- Cover ---- */
+    .eyebrow {
+      display: inline-flex; align-items: center; gap: 8px;
+      font-size: 12px; letter-spacing: .14em; text-transform: uppercase;
+      color: var(--cyan); font-weight: 800;
+      border: 1px solid var(--line); border-radius: 999px; padding: 7px 14px;
+      background: rgba(50, 198, 255, 0.06);
+    }
+    h1 {
+      font-size: 40px; line-height: 1.18; color: var(--text-strong);
+      margin: 22px 0 14px; letter-spacing: -0.02em; font-weight: 900;
+    }
+    h1 .grad {
+      background: linear-gradient(120deg, var(--blue), var(--cyan));
+      -webkit-background-clip: text; background-clip: text; color: transparent;
+    }
+    .lede { font-size: 18px; color: var(--muted); max-width: 720px; }
+    .lede b { color: var(--text); font-weight: 700; }
+
+    .cover-meta {
+      display: flex; flex-wrap: wrap; gap: 10px; margin-top: 26px;
+    }
+    .chip {
+      font-size: 13px; color: var(--text); background: var(--panel);
+      border: 1px solid var(--line); border-radius: 12px; padding: 9px 14px;
+    }
+    .chip b { color: var(--cyan); }
+
+    /* ---- Section ---- */
+    section { margin-top: 52px; }
+    .sec-num {
+      font-size: 12px; letter-spacing: .16em; color: var(--blue);
+      font-weight: 800; text-transform: uppercase;
+    }
+    h2 {
+      font-size: 25px; color: var(--text-strong); margin: 8px 0 6px;
+      letter-spacing: -0.01em; font-weight: 800;
+    }
+    .sub { font-size: 15px; color: var(--muted); margin-bottom: 22px; }
+
+    .card {
+      background: var(--panel); border: 1px solid var(--line);
+      border-radius: 18px; padding: 24px; box-shadow: var(--shadow);
+    }
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+
+    .mini-title { font-size: 15px; color: var(--text-strong); font-weight: 800; margin-bottom: 8px; }
+    .mini-title .ico { margin-right: 8px; }
+    .card p { font-size: 14.5px; color: var(--text); }
+    .card p .muted { color: var(--muted); }
+
+    /* mission align */
+    .align { display: grid; grid-template-columns: 1fr 48px 1fr; align-items: center; gap: 14px; }
+    .align .vs { text-align: center; color: var(--cyan); font-weight: 900; font-size: 20px; }
+    .align .box { background: var(--panel-2); border: 1px solid var(--line); border-radius: 14px; padding: 18px; }
+    .align .box small { color: var(--muted); font-size: 12px; letter-spacing: .04em; }
+    .align .box .q { font-size: 16px; color: var(--text-strong); font-weight: 700; margin-top: 6px; }
+    .merge {
+      margin-top: 16px; text-align: center; font-size: 16px; color: var(--text-strong);
+      background: linear-gradient(90deg, rgba(79,140,255,.12), rgba(50,198,255,.12));
+      border: 1px solid var(--line); border-radius: 14px; padding: 16px; font-weight: 700;
+    }
+    .merge b { color: var(--cyan); }
+
+    /* flow */
+    .flow { display: grid; grid-template-columns: 1fr 36px 1fr 36px 1fr; align-items: stretch; gap: 8px; }
+    .flow .node {
+      background: var(--panel-2); border: 1px solid var(--line); border-radius: 14px;
+      padding: 16px; text-align: center;
+    }
+    .flow .node .h { font-size: 15px; font-weight: 800; color: var(--text-strong); }
+    .flow .node .d { font-size: 12.5px; color: var(--muted); margin-top: 4px; }
+    .flow .arrow { display: grid; place-items: center; color: var(--cyan); font-size: 22px; font-weight: 900; }
+    .flow-note { margin-top: 14px; font-size: 13.5px; color: var(--muted); }
+    .flow-note b { color: var(--green); }
+
+    /* lever / leverage */
+    .lever { border-left: 3px solid var(--cyan); padding-left: 18px; }
+    .lever p { font-size: 15.5px; }
+    .lever .punch { font-size: 17px; color: var(--text-strong); font-weight: 800; margin-top: 10px; }
+    .lever .punch b { color: var(--cyan); }
+
+    /* table */
+    table { width: 100%; border-collapse: collapse; font-size: 14px; }
+    th, td { text-align: left; padding: 12px 14px; border-bottom: 1px solid var(--line); }
+    th { color: var(--muted); font-size: 12px; letter-spacing: .06em; text-transform: uppercase; font-weight: 800; }
+    td { color: var(--text); }
+    td.k { color: var(--text-strong); font-weight: 700; }
+    .pill { display: inline-block; font-size: 11px; font-weight: 800; padding: 3px 9px; border-radius: 999px; }
+    .pill.win { background: rgba(17,200,143,.14); color: var(--green); }
+    .pill.warn { background: rgba(245,158,11,.14); color: var(--amber); }
+    .recommend { color: var(--green); font-weight: 800; }
+
+    /* sim table emphasis */
+    .sim td.hl { color: var(--cyan); font-weight: 800; }
+    .sim caption { caption-side: bottom; text-align: left; color: var(--muted); font-size: 12.5px; padding-top: 12px; }
+
+    /* cards list */
+    .keep { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .keep .box { border-radius: 14px; padding: 18px; border: 1px solid var(--line); }
+    .keep .give { background: rgba(245,158,11,.06); }
+    .keep .hold { background: rgba(248,113,113,.07); }
+    .keep .box h4 { font-size: 14px; margin-bottom: 10px; color: var(--text-strong); }
+    .keep .box ul { list-style: none; }
+    .keep .box li { font-size: 13.5px; color: var(--text); padding: 5px 0 5px 20px; position: relative; }
+    .keep .box li::before { content: ""; position: absolute; left: 0; top: 11px; width: 7px; height: 7px; border-radius: 2px; }
+    .keep .give li::before { background: var(--amber); }
+    .keep .hold li::before { background: var(--red); }
+
+    /* roadmap */
+    .road { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .road .step { background: var(--panel-2); border: 1px solid var(--line); border-radius: 14px; padding: 18px; }
+    .road .step .s { font-size: 12px; color: var(--blue); font-weight: 800; letter-spacing: .08em; }
+    .road .step h4 { font-size: 16px; color: var(--text-strong); margin: 6px 0 8px; }
+    .road .step p { font-size: 13.5px; color: var(--muted); }
+
+    .callout {
+      margin-top: 16px; background: rgba(79,140,255,.08); border: 1px solid var(--line);
+      border-radius: 14px; padding: 16px 18px; font-size: 14px; color: var(--text);
+    }
+    .callout b { color: var(--cyan); }
+
+    footer { margin-top: 60px; padding-top: 22px; border-top: 1px solid var(--line); color: var(--muted); font-size: 12.5px; }
+    footer b { color: var(--text); }
+
+    @media (max-width: 760px) {
+      h1 { font-size: 30px; }
+      .grid-2, .grid-3, .keep, .road { grid-template-columns: 1fr; }
+      .align { grid-template-columns: 1fr; }
+      .align .vs { display: none; }
+      .flow { grid-template-columns: 1fr; }
+      .flow .arrow { transform: rotate(90deg); }
+    }
+    @media print {
+      body { background: #fff; color: #0d1b31; }
+      .wrap { max-width: 100%; padding: 0; }
+      .card, .align .box, .flow .node, .road .step { box-shadow: none; }
+      section { break-inside: avoid; }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+
+    <!-- COVER -->
+    <span class="eyebrow">● Strategic Partnership Memo · 내부 검토용</span>
+    <h1>거부할 수 없는 제안:<br><span class="grad">TENEX × 메디스트림</span></h1>
+    <p class="lede">
+      메디스트림이 만든 <b>한의원 인프라</b> 위에, 테넥스가 <b>환자 수요</b>를 얹는다.<br>
+      우리는 입점 벤더가 아니라 — 인티그레이션 커머스의 <b>D2C 수요 엔진</b>으로 들어간다.
+    </p>
+    <div class="cover-meta">
+      <span class="chip">1분도수 채널 <b>27만</b></span>
+      <span class="chip">메디스트림 한의사 <b>85%</b></span>
+      <span class="chip">인티그레이션 투자유치 <b>275억</b></span>
+      <span class="chip">주력 SKU <b>ES-808 Pro · 149,000원</b></span>
+    </div>
+
+    <!-- 01 MISSION -->
+    <section>
+      <div class="sec-num">01 — 왜 이 둘인가</div>
+      <h2>미션이 같은 문장을 가리킨다</h2>
+      <p class="sub">제안서 첫 문장에 박을 명분. 거래가 아니라 공통의 사명으로 시작한다.</p>
+      <div class="card">
+        <div class="align">
+          <div class="box">
+            <small>TENEX</small>
+            <div class="q">"스스로 회복하는 세상"</div>
+          </div>
+          <div class="vs">×</div>
+          <div class="box">
+            <small>메디스트림 / 인티그레이션</small>
+            <div class="q">"의료인이 진료에 집중할수록 사람들은 더 건강해진다"</div>
+          </div>
+        </div>
+        <div class="merge">
+          교집합 → <b>환자의 자가회복(집)과 의료인의 진료(한의원)를 하나의 루틴으로 잇는다.</b><br>
+          우리 제품(집)은 그들의 진료(한의원)를 잡아먹지 않고 <b>완성</b>시킨다.
+        </div>
+      </div>
+    </section>
+
+    <!-- 02 LEVERAGE -->
+    <section>
+      <div class="sec-num">02 — 거부 불가의 본질</div>
+      <h2>그들이 275억으로도 못 산 단 하나</h2>
+      <p class="sub">거부 못 하는 제안 = ① 상대 KPI에 직접 꽂히고 ② 그 가치를 상대가 돈으로 못 살 때.</p>
+      <div class="card lever">
+        <p>인티그레이션은 275억으로 <b>공급 인프라</b>(커머스·EMR·한의 브랜드)를 다 깔았다.
+        하지만 한의원 커머스의 구조적 약점은 영원히 남는다 — <span style="color:var(--amber)">"환자가 왜 이 기기를 먼저 원해야 하나"라는 B2C 수요가 0이라는 것.</span>
+        기기를 매대에 깔아둬도 환자가 안 찾으면 GMV는 돌지 않는다.</p>
+        <p class="punch">우리는 <b>'환자가 먼저 찾게 만드는' 능력</b>을 가진 국내 유일의 회복기기사다.<br>
+        이건 돈으로 못 사는 자산 — 그래서 협상의 칼자루를 우리가 쥔다.</p>
+      </div>
+    </section>
+
+    <!-- 03 DEAL STRUCTURE -->
+    <section>
+      <div class="sec-num">03 — 딜 구조</div>
+      <h2>3중으로 묶어 '빠지면 그들도 손해'로 만든다</h2>
+      <p class="sub">단순 입점이면 마진 후려치기 당하는 벤더 1/N. 세 겹으로 엮어 상호 인질 구조를 만든다.</p>
+      <div class="grid-3">
+        <div class="card">
+          <div class="mini-title"><span class="ico">📣</span>① 수요 송출</div>
+          <p>27만 채널 + 대표카페가 환자를 '회복 의식화' → <span class="muted">"ES-808 Pro 받으러" 한의원으로 걸어 들어오게 만든다. 네트워크 내원·트래픽↑</span></p>
+        </div>
+        <div class="card">
+          <div class="mini-title"><span class="ico">🛒</span>② 유통 GMV</div>
+          <p>ES-808 Pro를 인티그레이션 커머스로 우선 공급. <span class="muted">그들 거래액↑, 한의원은 재고·정산 리스크 0.</span></p>
+        </div>
+        <div class="card">
+          <div class="mini-title"><span class="ico">🔒</span>③ EMR 임베드 <span style="color:var(--cyan)">★</span></div>
+          <p>"회복 프로토콜"을 EMR/CRM 표준 모듈로 탑재. <span class="muted">우리를 빼면 그들 EMR 가치도 깎인다 — 입점은 빼도 표준은 못 뺀다.</span></p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 04 REVENUE FLOW -->
+    <section>
+      <div class="sec-num">04 — 매출은 어디로 흐르나</div>
+      <h2>한의원에 매출을 '넘기는' 게 아니다. 파이를 키워 나눈다.</h2>
+      <p class="sub">우리 마진을 떼주는 자선이 아니라 — 한의원의 신뢰를 빌려 신규 판매를 폭증시키고, 그 증분 일부만 떼준다.</p>
+      <div class="card">
+        <div class="flow">
+          <div class="node"><div class="h">환자</div><div class="d">우리 채널이 만든 수요</div></div>
+          <div class="arrow">→</div>
+          <div class="node"><div class="h">한의원</div><div class="d">추천·코칭 (리스크 0)</div></div>
+          <div class="arrow">→</div>
+          <div class="node"><div class="h">TENEX</div><div class="d">매출 인식·고객데이터 보유</div></div>
+        </div>
+        <p class="flow-note">매출은 <b>환자 → 우리</b>로 흐르고, 커미션만 <b>우리 → 한의원</b>으로 역류한다.
+        청구 주체(매출 인식)는 절대 안 놓는다 — 놓는 순간 우리가 하청 공급사로 전락한다.</p>
+
+        <table style="margin-top:18px">
+          <thead><tr><th>모델</th><th>매출 인식</th><th>한의원 수익원</th><th>우리 통제력</th><th>판정</th></tr></thead>
+          <tbody>
+            <tr><td class="k">A. 한의원 도매 재판매</td><td>한의원</td><td>재판매 마진</td><td>낮음</td><td><span class="pill warn">재고·가격교란</span></td></tr>
+            <tr><td class="k">B. D2C + 추천코드 커미션</td><td><span style="color:var(--cyan)">TENEX</span></td><td>추천 커미션</td><td>높음</td><td><span class="pill win">베이스 채택</span></td></tr>
+            <tr><td class="k">C. 인티 커머스 위탁</td><td>인티그레이션</td><td>플랫폼 정산</td><td>중간</td><td><span class="pill win">병행 옵션</span></td></tr>
+          </tbody>
+        </table>
+        <p class="flow-note" style="margin-top:12px"><span class="recommend">권장 = B(베이스) + C(병행).</span>
+        한의원엔 "재고 0, 추천만 하면 커미션", 매입 원하는 곳엔 커머스 위탁을 열어 그들 GMV도 채운다.</p>
+      </div>
+    </section>
+
+    <!-- 05 SIMULATION -->
+    <section>
+      <div class="sec-num">05 — 한의원 수익 시뮬레이션</div>
+      <h2>"진료 안 늘리고" 한의원이 실제 버는 돈</h2>
+      <p class="sub">ES-808 Pro 판매가 149,000원 · 원가 ~16,000원(샘플 후 확정) → 대당 마진 ~133,000원. 그중 한의원에 떼주는 커미션별 시나리오.</p>
+      <div class="card">
+        <table class="sim">
+          <thead>
+            <tr><th>한의원 월 판매</th><th>커미션 2만/대</th><th>커미션 3만/대</th><th>커미션 4만/대</th></tr>
+          </thead>
+          <tbody>
+            <tr><td class="k">50대 (하루 ~1.7)</td><td>100만원</td><td class="hl">150만원</td><td>200만원</td></tr>
+            <tr><td class="k">100대 (하루 ~3.3)</td><td>200만원</td><td class="hl">300만원</td><td>400만원</td></tr>
+            <tr><td class="k">200대 (하루 ~6.7)</td><td>400만원</td><td class="hl">600만원</td><td>800만원</td></tr>
+            <tr><td class="k">300대 (상위 한의원)</td><td>600만원</td><td class="hl">900만원</td><td>1,200만원</td></tr>
+          </tbody>
+          <caption>
+            ※ 정직한 메인 카피 = <b style="color:var(--text)">"월 수백~천만원, 진료 시간 안 늘리고."</b>
+            "월 수천만원"은 상위 한의원 한정 — 과장은 한의사가 제일 먼저 냄새 맡는다.<br>
+            ※ 커미션 3만/대 기준 우리 잔여 마진 ~103,000원/대 유지. 가격(149k)은 테스트 중, 원가는 샘플 확정 후 갱신.
+          </caption>
+        </table>
+      </div>
+    </section>
+
+    <!-- 06 REGULATION -->
+    <section>
+      <div class="sec-num">06 — 규제는 오히려 우리 편</div>
+      <h2>"비의료기기"가 약점이 아니라 무기다</h2>
+      <div class="grid-2">
+        <div class="card">
+          <div class="mini-title" style="color:var(--green)">✓ ES-808 Pro = 비의료기기(공산품)</div>
+          <p>의료기기판매업 신고·광고심의·리베이트 규정 <b style="color:var(--green)">전부 비해당.</b>
+          <span class="muted">한의원이 "홈케어 추천템"으로 가볍게 권할 수 있고, 추천 커미션도 일반 어필리에이트로 합법.</span></p>
+        </div>
+        <div class="card">
+          <div class="mini-title" style="color:var(--amber)">⚠ 단 하나의 선</div>
+          <p>한의사가 환자에게 권할 때 <b>"치료 효능" 표방은 금지.</b>
+          <span class="muted">"치료한다(X) → 집에서 회복 루틴을 돕는다(O)". 우리가 한의원용 멘트 가이드라인을 제공해 선을 지킨다.</span></p>
+        </div>
+      </div>
+      <div class="callout">
+        <b>라인 이원화 카드:</b> 집은 <b>ES-808 Pro</b>(비의료기기·대량 회전), 진료실은 <b>의료기기 라인</b>(처방·고신뢰).
+        한의원 한 곳에서 두 층의 매출이 난다.
+      </div>
+    </section>
+
+    <!-- 07 NEGOTIATION -->
+    <section>
+      <div class="sec-num">07 — 협상 카드</div>
+      <h2>내줄 것과, 죽어도 안 내줄 것</h2>
+      <p class="sub">단 하나의 함정: 인티그레이션은 자체 한의 브랜드가 있다 → 우리를 경쟁자로 인식하면 딜은 0초에 죽는다. "너희 포트폴리오의 빈칸을 채운다"로 첫 줄부터 못 박는다.</p>
+      <div class="keep">
+        <div class="box give">
+          <h4>🤝 먼저 양보할 카드</h4>
+          <ul>
+            <li>유통 마진율 · 정산 조건</li>
+            <li>초기 독점 기간</li>
+            <li>커머스 위탁(C) 병행 허용</li>
+          </ul>
+        </div>
+        <div class="box hold">
+          <h4>🛡 절대 안 내줄 카드</h4>
+          <ul>
+            <li>EMR 프로토콜의 브랜딩 주체 — <b>1분도수 명의 유지</b></li>
+            <li>27만 채널의 통제권 — 그들 광고판으로 전락 금지</li>
+            <li>매출 인식(청구 주체)</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- 08 ROADMAP -->
+    <section>
+      <div class="sec-num">08 — 들어가는 길</div>
+      <h2>작게 시작, 크게 약속</h2>
+      <div class="road">
+        <div class="step">
+          <div class="s">PHASE 1 · 파일럿</div>
+          <h4>한의원 20~30곳 + 프로토콜 1개</h4>
+          <p>EMR에 회복 프로토콜 모듈 1개 탑재 → 4주간 내원·재구매·커미션 데이터 확보. 숫자로 증명한다.</p>
+        </div>
+        <div class="step">
+          <div class="s">PHASE 2 · 전면</div>
+          <h4>85% 네트워크 + 공동 브랜딩</h4>
+          <p>파일럿 데이터 검증 시 전 네트워크 확장. "1분도수와 함께하는 한의원" 공동 브랜딩으로 후광 제공.</p>
+        </div>
+      </div>
+      <div class="callout">
+        <b>다음 액션:</b> 배재민(前 메디스트림 CPO) · 강형구 연결은 <b>딱 한 번뿐인 카드.</b>
+        이 메모를 1페이지로 굳히고 → ES-808 Pro 가격·원가 확정 후 콜드 인트로 발송.
+      </div>
+    </section>
+
+    <footer>
+      <b>TENEX × 메디스트림(인티그레이션) 전략 제휴 메모</b> · 내부 검토용 · 2026-06-21<br>
+      숫자 출처: facts.json (SSOT). ES-808 Pro 가격 149,000원은 테스트 중, 원가 ~16,000원은 샘플 확정 후 갱신 예정.
+    </footer>
+
+  </div>
+</body>
+</html>
