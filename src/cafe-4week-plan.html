@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex,nofollow">
+<title>대표카페 4주차 종합 기획서 · 근골격계 회복모임</title>
+<style>
+  :root{
+    --navy:#002855; --navy2:#0a3a6e; --navy-l:#e0e8f0;
+    --bg:#f4f6f9; --card:#ffffff; --line:#dfe4ec;
+    --ink:#1a2432; --sub:#4a586b; --dim:#7a8598;
+    --acc:#c8a24b; --good:#1f9d5b; --warn:#d98a1f; --bad:#c0392b;
+    --shadow:0 1px 3px rgba(0,40,85,.06); --shadow-lg:0 6px 22px rgba(0,40,85,.12);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{
+    background:var(--bg); color:var(--ink);
+    font-family:-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Pretendard","Segoe UI",sans-serif;
+    line-height:1.72; -webkit-font-smoothing:antialiased; padding-bottom:80px;
+  }
+  .wrap{max-width:940px;margin:0 auto;padding:0 18px}
+  header{
+    padding:56px 18px 40px; text-align:center; color:#fff;
+    background:linear-gradient(140deg,#002855,#0a3a6e 70%,#134b8a);
+  }
+  .kicker{color:#a9c6e8;font-weight:700;letter-spacing:.16em;font-size:12px;text-transform:uppercase}
+  h1{font-size:clamp(24px,4.6vw,38px);font-weight:800;margin:14px 0 12px;letter-spacing:-.02em;line-height:1.28}
+  .cafename{display:inline-block;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.22);
+    border-radius:10px;padding:9px 15px;font-size:14px;font-weight:600;color:#eaf1fa;margin:4px 0 8px}
+  .lede{color:#c7d6e8;font-size:15px;max-width:680px;margin:8px auto 0}
+  .meta{margin-top:18px;font-size:12px;color:#9db6d4}
+  .meta b{color:#d3e0ef}
+
+  .toc{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin:26px 0 4px}
+  .toc a{font-size:12.5px;color:var(--navy);text-decoration:none;background:var(--card);border:1px solid var(--line);
+    padding:7px 13px;border-radius:999px;transition:.15s;box-shadow:var(--shadow)}
+  .toc a:hover{border-color:var(--navy);background:var(--navy);color:#fff}
+
+  section{margin-top:52px;scroll-margin-top:20px}
+  .eyebrow{display:inline-flex;align-items:center;gap:9px;color:var(--navy);font-weight:800;font-size:13px;letter-spacing:.03em;margin-bottom:6px}
+  .eyebrow .n{display:inline-grid;place-items:center;width:26px;height:26px;border-radius:8px;background:var(--navy);color:#fff;font-size:13px;font-weight:800}
+  h2{font-size:clamp(20px,3.4vw,27px);font-weight:800;letter-spacing:-.01em;margin-bottom:6px;line-height:1.3;color:var(--ink)}
+  .sub{color:var(--sub);font-size:14.8px;margin-bottom:20px}
+  h3.sec{font-size:16px;font-weight:750;margin:22px 0 8px;color:var(--navy);display:flex;align-items:center;gap:8px}
+  h3.sec .dot{width:8px;height:8px;border-radius:50%;background:var(--acc);flex:none}
+
+  .card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:20px 22px;margin-top:14px;box-shadow:var(--shadow)}
+  .card h4{font-size:15.5px;font-weight:750;margin-bottom:8px;color:var(--ink)}
+  .card p{color:var(--sub);font-size:14.5px}
+
+  ul.clean{list-style:none;margin-top:8px}
+  ul.clean li{position:relative;padding-left:20px;color:var(--sub);font-size:14.6px;margin:7px 0}
+  ul.clean li::before{content:"";position:absolute;left:2px;top:11px;width:6px;height:6px;border-radius:50%;background:var(--navy)}
+  ul.clean li b{color:var(--ink);font-weight:700}
+
+  .tbl-wrap{overflow-x:auto;margin-top:12px;border-radius:12px;border:1px solid var(--line);box-shadow:var(--shadow)}
+  table{width:100%;border-collapse:collapse;font-size:13.6px;background:var(--card)}
+  th,td{border-bottom:1px solid var(--line);border-right:1px solid var(--line);padding:11px 12px;text-align:left;vertical-align:top}
+  th:last-child,td:last-child{border-right:none}
+  tr:last-child td{border-bottom:none}
+  th{background:var(--navy);color:#fff;font-weight:700;font-size:12.8px;white-space:nowrap}
+  td.lab{background:var(--navy-l);color:var(--navy);font-weight:700;white-space:nowrap}
+  .num{display:inline-grid;place-items:center;width:22px;height:22px;border-radius:6px;background:var(--navy-l);color:var(--navy);font-weight:800;font-size:12px}
+
+  .tag{display:inline-block;font-size:11px;font-weight:700;padding:2px 8px;border-radius:6px;margin:1px 3px 1px 0}
+  .t-new{background:rgba(200,162,75,.18);color:#9a751f}
+  .t-keep{background:rgba(31,157,91,.14);color:var(--good)}
+  .t-gate{background:rgba(0,40,85,.1);color:var(--navy)}
+
+  .callout{border-left:4px solid var(--navy);background:#eef3f9;padding:15px 17px;border-radius:0 12px 12px 0;margin-top:16px;font-size:14.4px;color:var(--sub)}
+  .callout.acc{border-color:var(--acc);background:#faf6ec}
+  .callout.warn{border-color:var(--warn);background:#fdf6ea}
+  .callout b{color:var(--ink)}
+
+  .grid{display:grid;gap:14px}
+  .g2{grid-template-columns:1fr 1fr}
+  @media(max-width:700px){.g2{grid-template-columns:1fr}}
+
+  .persona{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px 20px;margin-top:14px;box-shadow:var(--shadow)}
+  .persona .ph{display:flex;align-items:center;gap:11px;margin-bottom:6px}
+  .persona .pav{width:38px;height:38px;border-radius:10px;background:var(--navy);color:#fff;display:grid;place-items:center;font-weight:800;font-size:16px;flex:none}
+  .persona .pname{font-size:16px;font-weight:750;color:var(--ink)}
+  .persona .prole{font-size:12.5px;color:var(--acc);font-weight:700}
+  .persona .pmeta{font-size:13px;color:var(--dim);margin:2px 0 8px}
+  .script{background:#f7f9fc;border:1px solid var(--line);border-radius:10px;padding:11px 13px;margin-top:8px;font-size:13.6px}
+  .script .who{font-weight:700;color:var(--navy);font-size:12.5px}
+  .script .body{color:var(--sub);margin-top:2px}
+
+  .flow{display:flex;align-items:stretch;gap:10px;flex-wrap:wrap;margin-top:10px}
+  .flow .step{flex:1;min-width:140px;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:13px;font-size:13.4px;box-shadow:var(--shadow)}
+  .flow .step .lbl{color:var(--navy);font-weight:800;font-size:11px;text-transform:uppercase;letter-spacing:.05em;margin-bottom:5px}
+  .flow .step b{color:var(--ink)}
+  .arrow{align-self:center;color:var(--dim);font-size:20px}
+  @media(max-width:700px){.arrow{display:none}.flow .step{min-width:100%}}
+
+  footer{margin-top:64px;padding-top:24px;border-top:1px solid var(--line);text-align:center;color:var(--dim);font-size:12.5px}
+  footer a{color:var(--navy);text-decoration:none}
+  .backtop{display:inline-block;margin-top:8px;font-size:12px;color:var(--navy);text-decoration:none}
+</style>
+</head>
+<body>
+<a id="top"></a>
+<header>
+  <div class="kicker">TENEX · 네창사 4주차 종합 기획서</div>
+  <h1>대표카페 4주차 종합 기획서</h1>
+  <div class="cafename">근골격계 회복모임 [목 · 허리 · 디스크 · 무릎 · 어깨 · 손목 · 발목 통증]</div>
+  <p class="lede">공간은 중립, 리더는 1분도수. 회원의 <b>회복 인증</b>을 화폐로 삼아 인정욕구로 굴리고,
+  등급·리워드·페르소나·C랭크 SEO로 3개월 안에 자가증식하는 대표카페를 만든다.</p>
+  <div class="meta">작성 <b>2026-07-05</b> · 카페명 확정 <b>2026-07-03</b> · 근골격계 통증 전반 · 1분도수/키네메디칼 입점 리드</div>
+</header>
+
+<div class="wrap">
+  <nav class="toc">
+    <a href="#lens">관통 원리</a>
+    <a href="#boards">1. 게시판 최종안</a>
+    <a href="#grades">2. 등급 시스템</a>
+    <a href="#rewards">3. 리워드 설계</a>
+    <a href="#persona">4. 페르소나 대본</a>
+    <a href="#roadmap">5. C랭크 로드맵</a>
+  </nav>
+
+  <!-- ============ 관통 원리 ============ -->
+  <section id="lens">
+    <div class="eyebrow"><span class="n">◎</span> 관통 원리 (렌즈)</div>
+    <h2>모든 카페는 인정욕구로 돈다. 우리의 화폐는 <span style="color:var(--navy)">"회복"</span></h2>
+    <p class="sub">디시매니아 회원이 '착샷 + 브랜드'로 인정받듯, 우리 회원은 <b>'회복 인증'</b>으로 인정받는다.</p>
+    <div class="card">
+      <h4>인정 루프 (자가증식 엔진)</h4>
+      <div class="flow">
+        <div class="step"><div class="lbl">쓴다</div>"나 이렇게 나았어요" <b>회복 인증</b></div>
+        <div class="arrow">→</div>
+        <div class="step"><div class="lbl">인정받는다</div>댓글·응원·등업으로 <b>사회적 인정</b></div>
+        <div class="arrow">→</div>
+        <div class="step"><div class="lbl">계속 쓴다</div>인정이 연료 → <b>재방문·재인증</b></div>
+        <div class="arrow">→</div>
+        <div class="step"><div class="lbl">퍼진다</div>UGC 누적 → 검색·입소문 <b>자가증식</b></div>
+      </div>
+    </div>
+    <div class="callout">
+      <b>핵심 관점 전환:</b> 챌린지(매일 1분 인증)는 활성화 엔진이 아니라 <b>신뢰 깔때기</b>다 — 글은 쌓여도
+      조회·댓글이 안 달리는 게 정상. 활성화는 <b>인정 루프(회복 인증 → 댓글 인정)</b>로 따로 설계한다.
+      그래서 아래 5개 파트는 "회복 인증을 어떻게 인정 화폐로 만들 것인가"의 각론이다.
+    </div>
+  </section>
+
+  <!-- ============ 1. 게시판 ============ -->
+  <section id="boards">
+    <div class="eyebrow"><span class="n">1</span> 게시판 최종안</div>
+    <h2>기존 좋은 구조 유지 + 4주차 핵심 구멍 3개 메우기</h2>
+    <p class="sub">신생 카페라 게시판은 압축해서 시작한다. 부위 세분은 게시판이 아니라 <b>말머리</b>로.</p>
+
+    <h3 class="sec"><span class="dot"></span> 유지하는 좋은 구조</h3>
+    <ul class="clean">
+      <li><b>[필독] 5가지 약속</b> — "필독공지 = 수익모델" 자리. 1분도수/키네메디칼 입점 리드를 세계관으로 심는다(제품 도배 아님, 세계관).</li>
+      <li><b>가입인사(회복선언)</b> — 글쓰기 전 통과의례. 동질감·소속감을 만드는 진입 게이트.</li>
+      <li><b>[치료 경험담] 3종</b> — 보존치료담 / 병원치료담 / 수술담. 인정욕구 엔진(자랑·기여).</li>
+    </ul>
+
+    <h3 class="sec"><span class="dot"></span> 추가하는 3개 (4주차 핵심 구멍)</h3>
+    <ul class="clean">
+      <li><b>[오늘의 회복] 매일 인증 게시판</b> <span class="tag t-new">NEW · 제일 큰 구멍</span> — 3종 인증 통합: ①진단샷(MRI/X-ray) ②오늘 1분도수 운동 ③회복 경과. <b>하루 15글 · 조회 1000+는 여기서 나온다.</b></li>
+      <li><b>[회복 코칭실]</b> <span class="tag t-new">NEW · 상위등급 전용</span> — 도수치료사 심화 Q&A, 부위별 시크릿 운동법. <b>접근 제한이 곧 미끼</b>(희소성).</li>
+      <li><b>[건강토론]</b> <span class="tag t-new">NEW · 정상적 논쟁</span> — "디스크 수술 해야 하나", "보존치료 vs 도수" 등 열띤 토론 = 트래픽 콘텐츠.</li>
+    </ul>
+
+    <h3 class="sec"><span class="dot"></span> 게시판 트리 전체 (9개 보드)</h3>
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr><th>게시판명</th><th>목적</th><th>접근권한</th><th>트래픽 역할</th><th>운영 넛지</th></tr></thead>
+        <tbody>
+          <tr><td class="lab">[필독] 5가지 약속</td><td>세계관·수익모델 심기(1분도수/키네 입점 리드)</td><td>전체 열람 / 운영진 작성</td><td>신뢰 앵커</td><td>가입 즉시 필독 유도, 세계관 문구 고정</td></tr>
+          <tr><td class="lab">가입인사(회복선언)</td><td>통과의례·동질감·소속감</td><td>준회원+</td><td>온보딩 게이트</td><td>1시간 내 환대 댓글 2개+ (신규 환대 페르소나)</td></tr>
+          <tr><td class="lab">[오늘의 회복] <span class="tag t-new">NEW</span></td><td>매일 인증 3종(진단샷·운동·경과) 통합</td><td>정회원+</td><td><b>메인 트래픽</b> 15글/일·조회1000+</td><td>07:00 루틴 게시, 인증 1시간 내 반응 2개+</td></tr>
+          <tr><td class="lab">[치료 경험담·보존]</td><td>보존치료 후기 = 인정욕구 엔진</td><td>정회원+</td><td>UGC 신뢰·검색</td><td>회복왕 후보 발굴, 상단 고정 큐레이션</td></tr>
+          <tr><td class="lab">[치료 경험담·병원]</td><td>병원치료 후기</td><td>정회원+</td><td>UGC 신뢰·검색</td><td>말머리(부위) 정리, 댓글 질문 유도</td></tr>
+          <tr><td class="lab">[치료 경험담·수술]</td><td>수술 후기(가장 무거운 경험담)</td><td>정회원+</td><td>깊은 몰입·체류</td><td>공감 댓글, 회복 코칭실 유도</td></tr>
+          <tr><td class="lab">[건강토론] <span class="tag t-new">NEW</span></td><td>정상적 논쟁으로 트래픽 발생</td><td>정회원+</td><td>토론 트래픽·체류</td><td>주 1회 토론 떡밥 투척, 양측 페르소나 배치</td></tr>
+          <tr><td class="lab">[회복 코칭실] <span class="tag t-new">NEW</span></td><td>도수치료사 심화 Q&A·시크릿 운동</td><td><span class="tag t-gate">상위등급 전용</span></td><td>전환·락인(희소성)</td><td>접근 제한 = 미끼, 등업 동기 강화</td></tr>
+          <tr><td class="lab">라이브 다시보기</td><td>줌 코칭 녹화본 = 카페 독점 락인</td><td>정회원+</td><td>재방문·독점 자산</td><td>당일 업로드 + 3줄 요약</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="callout acc">
+      <b>제품 등장 원칙(점진형 브랜드 아키텍처):</b> 키네메디칼은 "방(라운지)"이 아니라 "프로그램(챌린지)·후기"로 등장.
+      1단계는 1분도수만 전면 → 회원 모이면 챌린지가 두 브랜드 합류점 → 기기 사용자 늘면 사용자방. 대표카페는 중립·신뢰가 생명.
+    </div>
+  </section>
+
+  <!-- ============ 2. 등급 ============ -->
+  <section id="grades">
+    <div class="eyebrow"><span class="n">2</span> 등급 + 리워드 시스템</div>
+    <h2>회복 단계로 등급을 나누고, 키네메디칼 제품을 리워드로</h2>
+    <p class="sub">사회적 지위 욕구를 자극한다. 주얼리클럽(53주·글500·댓글1만)·딜공 모델처럼 <b>조건이 빡세도 미친듯이 쓴다</b>.</p>
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr><th>등급</th><th>승급 조건(정량)</th><th>혜택·권한</th><th>리워드</th></tr></thead>
+        <tbody>
+          <tr><td class="lab"><span class="num">1</span> 새싹회원</td><td>가입 + 가입인사(회복선언) 1글</td><td>전 게시판 열람, 일반 게시판 작성</td><td>웰컴 — 카페 초대장·회복 가이드 PDF</td></tr>
+          <tr><td class="lab"><span class="num">2</span> 회복러</td><td>글 5 + 댓글 10 + 인증 7일(누적)</td><td>[오늘의 회복] 인증 배지, 등급 아이콘</td><td>추천코드(KMES) 발급 → 커미션 시작</td></tr>
+          <tr><td class="lab"><span class="num">3</span> 회복 30일러</td><td>인증 30일 누적 + 글 15 + 댓글 40</td><td>말머리 커스텀, 우선 답변</td><td><b>부스터젤</b> 증정</td></tr>
+          <tr><td class="lab"><span class="num">4</span> 회복 100일러</td><td>인증 100일 누적 + 경험담 3 + 댓글 150</td><td><b>[회복 코칭실] 접근권</b>(희소성 코너)</td><td><b>ES-808</b> 증정 + TH-1 크림</td></tr>
+          <tr><td class="lab"><span class="num">5</span> 회복코치</td><td>인증 200일 + 코칭실 활동 + 후기 5</td><td>코칭실 답변권, MRI 판독 도움, 준스탭</td><td><b>WS-200</b> 증정 + 커미션율 상향</td></tr>
+          <tr><td class="lab"><span class="num">6</span> 명예의전당(회복왕)</td><td>월간 회복왕 선정 / 인증 365일</td><td>대문 노출, 전용 배지, 오프 초대</td><td><b>CS-25</b> + 키네 전제품 라인업</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="callout">
+      <b>정량 조건 원칙:</b> 인증(일수) · 글수 · 댓글수 · 기간을 <b>모두 정량</b>으로 못박아 자동 판정 가능하게 한다.
+      "회복 100일 달성 → 회복 100일러 + ES-808 증정"처럼 목표가 뚜렷할수록 인증 글이 폭발한다.
+    </div>
+  </section>
+
+  <!-- ============ 3. 리워드 ============ -->
+  <section id="rewards">
+    <div class="eyebrow"><span class="n">3</span> 리워드 설계 (네쇼라 3자 이득)</div>
+    <h2>회원도 돈 버는 구조 — 등급 리워드 × 추천 커미션</h2>
+    <p class="sub">등급 리워드에 <b>정품등록 추천 시스템(추천코드 커미션)</b>을 연결해, 광고주·회원·운영자가 모두 이득 보는 네쇼라 구조를 만든다.</p>
+    <div class="grid g2">
+      <div class="card"><h4>회원이 얻는 것</h4><p>회복(즉각 시원함) + 인정(댓글·등업) + 리워드(제품 증정) + <b>추천코드 커미션</b>(회원도 돈 번다).</p></div>
+      <div class="card"><h4>우리(키네/1분도수)가 얻는 것</h4><p>제품 리드(코칭실·후기로 자연 노출) + 브랜드(회복 커뮤니티 권위) + CAC 절감(자가증식 UGC).</p></div>
+    </div>
+    <h3 class="sec"><span class="dot"></span> 추천코드 = 시리얼 = 할인 3-in-1</h3>
+    <ul class="clean">
+      <li>한 코드가 ①정품 시리얼 ②그 회원의 추천코드 ③친구가 쓰는 10% 할인쿠폰을 <b>동시에</b> 수행.</li>
+      <li>포맷 <b>KMES + 6자(총 10자, 하이픈 없음)</b> — 예 <code>KMESBXFF7M</code>. 혼동문자(O·0·I·1·L) 제외.</li>
+      <li>카페24 쿠폰 / 박스 인쇄 / Supabase <code>serial_codes</code> 장부 / 입력폼·API 정규식 <b>4곳이 글자 단위로 동일</b>해야 동작.</li>
+      <li>등급 2(회복러)부터 코드 발급 → 등급이 오를수록 커미션율 상향으로 활동 유지.</li>
+    </ul>
+    <div class="flow">
+      <div class="step"><div class="lbl">회원</div>회복 + 인정 + 리워드 획득</div>
+      <div class="arrow">→</div>
+      <div class="step"><div class="lbl">추천</div>KMES 코드로 친구 10% 할인</div>
+      <div class="arrow">→</div>
+      <div class="step"><div class="lbl">우리</div>제품 리드 + 브랜드 권위</div>
+      <div class="arrow">→</div>
+      <div class="step"><div class="lbl">회원(재)</div>추천 커미션 적립 → 재활동</div>
+    </div>
+    <div class="callout warn">
+      <b>연동 관문(운영 참고):</b> 카페24 자동적립은 첫 추천구매 1건의 <code>coupon_code</code> 반환값에 달려 있음 —
+      KMES 문자열이면 자동 적립, 숫자면 정품등록폼의 추천코드 입력 매칭으로 폴백. 폴백 경로(폼 입력란)는 이미 라이브.
+    </div>
+  </section>
+
+  <!-- ============ 4. 페르소나 ============ -->
+  <section id="persona">
+    <div class="eyebrow"><span class="n">4</span> 페르소나 대본 (4주차 "물소" 구조)</div>
+    <h2>초반엔 이 5명이 카페를 살아있게 만든다</h2>
+    <p class="sub">회복 인증하는 페르소나를 만들고, 그들이 서로 댓글을 달아준다. 부계정 5역할 = 운영자가 아니라 <b>"먼저 회복한 동료"</b>. 회사 냄새 금지. 운영진 톤=존댓말·이모지 X, 일반 회원 톤=ㅋㅋ/ㅎㅎ/^^ OK.</p>
+
+    <div class="persona">
+      <div class="ph"><div class="pav">①</div><div><div class="pname">매일 회복인증 열성러 · "허리편해진직장인"</div><div class="prole">회복러(선배1) · 신뢰 핵심</div></div></div>
+      <div class="pmeta">캐릭터: 앉아일하다 허리 굳은 30대 직장인, 인증 100일 돌파. 말투: 담백·꾸준, 오타·ㅋㅋ 가끔 · 주 활동: [오늘의 회복]</div>
+      <div class="script"><div class="who">[오늘의 회복] 게시글</div><div class="body">"오늘로 인증 <b>103일차</b>ㅎㅎ 아침에 목→허리 1분 깨우기 하고 왔어요. 처음엔 앉았다 일어날 때마다 "억" 소리 났는데 요샌 그게 없어졌네요. 사진은 오늘 아침 스트레칭 각도(어제보다 손끝 5cm 더 내려감!). 다들 오늘도 1분!"</div></div>
+      <div class="script"><div class="who">댓글(다른 인증글에)</div><div class="body">"오 첫 인증 축하해요~ 저도 3일차 때 진짜 때려치우고 싶었는데 딱 일주일만 버티면 시원함이 습관돼요. 화이팅!"</div></div>
+    </div>
+
+    <div class="persona">
+      <div class="ph"><div class="pav">②</div><div><div class="pname">응원댓글 치어리더 · "하루한번맘"</div><div class="prole">응원단1 · 에너지·빠른 반응</div></div></div>
+      <div class="pmeta">캐릭터: 밝고 다정한 40대, 모든 인증에 제일 먼저 반응. 말투: 경쾌·따뜻, 하트 💕 가끔 OK · 주 활동: 전 게시판 댓글</div>
+      <div class="script"><div class="who">댓글(신규 인증글)</div><div class="body">"우와 오늘도 인증 완료~! 이렇게 매일 올리는 거 진짜 대단해요 💕 저는 이 카페 와서 아침 루틴이 생겼어요. 우리 같이 오래 가요!"</div></div>
+      <div class="script"><div class="who">댓글(경험담)</div><div class="body">"읽는데 눈물 나네요ㅠㅠ 고생하셨어요 정말. 이제 좋아지는 일만 남았어요!"</div></div>
+    </div>
+
+    <div class="persona">
+      <div class="ph"><div class="pav">③</div><div><div class="pname">도수치료사 전문가 · "회복코치 진"</div><div class="prole">스탭1(전문가) · 권위·신뢰</div></div></div>
+      <div class="pmeta">캐릭터: 1분도수 도수치료사 리더 페르소나. 말투: 정중·전문 존댓말, 이모지·초성 X · 주 활동: [회복 코칭실]·Q&A·라이브</div>
+      <div class="script"><div class="who">[회복 코칭실] 답변</div><div class="body">"목 통증이 오후에 심해진다면 자세보다 <b>지속 시간</b>이 원인일 가능성이 큽니다. 30분마다 10초, 턱을 뒤로 당기는 '턱 당기기'를 넣어보세요. 통증이 팔 저림으로 이어지면 그건 자가 운동 영역이 아니니 정형외과 진료를 먼저 권합니다."</div></div>
+      <div class="script"><div class="who">라이브 예고</div><div class="body">"이번 주 월요일 저녁 8시, '앉아서 굳는 허리' 1:1 동작 교정 라이브를 진행합니다. 평소 앉을 때 어떤 자세가 불편한지 댓글로 남겨주시면 라이브에서 직접 봐드리겠습니다."</div></div>
+    </div>
+
+    <div class="persona">
+      <div class="ph"><div class="pav">④</div><div><div class="pname">MRI 판독 도우미 · "영상보는아빠"</div><div class="prole">응원단2 · 질문 유발 → 전문가 답변 유도</div></div></div>
+      <div class="pmeta">캐릭터: 디스크 진단받고 공부 많이 한 회원(비전문가). 말투: 차분·설명형 · 주 활동: [오늘의 회복] 진단샷·건강토론</div>
+      <div class="script"><div class="who">[오늘의 회복] 진단샷 글</div><div class="body">"MRI 결과지 올려봅니다(개인정보 가림). L4-L5 라고 적혀 있는데 이게 흔한 부위 맞을까요? 저처럼 여기 디스크 있으신 분들 어떤 운동 하시는지 궁금해요."</div></div>
+      <div class="script"><div class="who">댓글(다른 진단샷에)</div><div class="body">"이건 제 소견은 아니고 경험상인데요, 저도 비슷한 위치였어요. 정확한 건 회복코치 진님이 봐주실 거예요~ @회복코치 진"</div></div>
+    </div>
+
+    <div class="persona">
+      <div class="ph"><div class="pav">⑤</div><div><div class="pname">신규 환대 담당 · "먼저와본선배"</div><div class="prole">선배2(페이스메이커) · 온보딩 리텐션</div></div></div>
+      <div class="pmeta">캐릭터: 반 발 앞선 선배, 가입인사마다 환대. 말투: 다정·안내형 · 주 활동: 가입인사(회복선언)</div>
+      <div class="script"><div class="who">댓글(가입인사)</div><div class="body">"환영해요! 저도 딱 두 달 전에 여기 처음 왔었는데 그때 이 댓글 받고 되게 든든했거든요ㅎㅎ 처음엔 [오늘의 회복]에 오늘 한 스트레칭 한 줄만 올려보세요. 그게 시작이에요!"</div></div>
+      <div class="script"><div class="who">넛지 댓글(2일 미인증 회원에게)</div><div class="body">"어? 이틀 안 보이시네요~ 저도 초반에 하루 빠지면 다음날 더 하기 싫더라고요. 딱 1분이면 되니까 오늘 목만 살짝 풀고 인증 한 줄 남겨봐요!"</div></div>
+    </div>
+
+    <div class="callout acc">
+      <b>운영 리듬:</b> 07:00 루틴 게시 → 출근길 인증러시 → 오전 즉시 반응(10분 내) → 13:00 질문글→전문가 답변 → 18~21시 선배 경험담 댓글(밀도 최고) → 22:00 집계 + 미인증 넛지.
+      목표 = 모든 인증글 <b>1시간 내 반응 2개+</b>, 빈 인증글 0.
+    </div>
+  </section>
+
+  <!-- ============ 5. C랭크 로드맵 ============ -->
+  <section id="roadmap">
+    <div class="eyebrow"><span class="n">5</span> 3개월 C랭크(네이버 카페 SEO) 로드맵</div>
+    <h2>기반 → 확산 → 전환</h2>
+    <p class="sub">C-Rank는 주제 집중도 · 활동성 · 인기도(재방문·클릭)로 오른다. 키워드는 볼륨이 아니라 <b>intent 질</b>로 판단한다.</p>
+
+    <div class="flow">
+      <div class="step"><div class="lbl">1개월차</div><b>기반</b> — 게시판 세팅·페르소나 시딩·인증 습관화·키워드 intent 검증</div>
+      <div class="arrow">→</div>
+      <div class="step"><div class="lbl">2개월차</div><b>확산</b> — 등급/리워드 가동·UGC 누적·활동성 지표·토론 콘텐츠</div>
+      <div class="arrow">→</div>
+      <div class="step"><div class="lbl">3개월차</div><b>전환</b> — 코칭실 활성·추천 커미션 본격화·입점 리드 전환·회복왕 이벤트</div>
+    </div>
+
+    <h3 class="sec"><span class="dot"></span> 월별 실행 + 목표지표</h3>
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr><th>월</th><th>핵심 실행</th><th>회원수</th><th>일 글수</th><th>일 조회</th><th>등급 달성자</th><th>전환</th></tr></thead>
+        <tbody>
+          <tr>
+            <td class="lab">1개월<br>기반</td>
+            <td>게시판 9개 세팅 · 페르소나 5명 시딩 · 가입인사/인증 습관화 · 앵커 키워드 intent 검증(척추 유력)</td>
+            <td>300+</td><td>8~15</td><td>500~1,000</td><td>회복러 30명+</td><td>추천코드 발급 시작</td>
+          </tr>
+          <tr>
+            <td class="lab">2개월<br>확산</td>
+            <td>등급/리워드 가동 · UGC 인증 누적 · C랭크 활동성·신뢰도 지표 쌓기 · 건강토론 콘텐츠</td>
+            <td>1,000+</td><td>20~30</td><td>2,000~4,000</td><td>30일러 50명+ · 100일러 첫 배출</td><td>추천 구매 10건+/월</td>
+          </tr>
+          <tr>
+            <td class="lab">3개월<br>전환</td>
+            <td>상위등급 코칭실 활성 · 추천 커미션 본격화 · 입점 리드 전환 · 월간 회복왕 이벤트</td>
+            <td>3,000+</td><td>40~60</td><td>6,000~10,000</td><td>회복코치 10명+ · 회복왕 선정</td><td>추천 구매 50건+/월</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="callout warn">
+      <b>키워드 함정(실측 근거):</b> 도수치료 14만 = 실비·과잉진료 논란의 <b>부정 트래픽</b> → 앵커로 쓰면 독.
+      족저근막염 9.6만 = intent는 깨끗하나 첫 타겟 아님. 근골격계 2,560 = 검색 거의 없음 → 카페명 검색어로 무의미.
+      <b>앵커는 첫 타겟(척추 목/허리 유력) 확정 후 intent 검증을 거쳐 선정</b> — 볼륨만으로 밀지 않는다.
+    </div>
+    <div class="callout">
+      <b>C랭크 실전 원칙:</b> 검색 유입은 카페명이 아니라 <b>게시판·글 제목 완성형</b>이 담당(허리통증 2.2만·어깨통증 3.1만·목디스크 1.7만).
+      제목 앞에 실검색 키워드, 본문 1,000자+ 를 2~3줄로 끊기, 이미지-텍스트 교차 + 캡션에도 키워드, 인증 댓글 = 재방문·클릭 누적 = C랭크 인기도.
+      규모 주장("국내 최대")은 신생엔 거짓·어뷰징 흔적 → 안 씀. 27만 SNS 찐트래픽으로 콜드스타트 해결.
+    </div>
+  </section>
+
+  <footer>
+    TENEX · 대표카페 4주차 종합 기획서 · 근골격계 회복모임 · 2026-07-05<br>
+    관련 문서: <a href="/cafe-seo-strategy.html">네이버 카페 & SEO 장악 전략</a> · <a href="/cafe-launch-sim.html">카페 런칭 시뮬레이터</a> · <a href="/referral-system.html">추천 시스템</a> · <a href="/package-spec-es808.html">ES-808 패키지 기획서</a>
+    <br><a class="backtop" href="#top">↑ 맨 위로</a>
+  </footer>
+</div>
+</body>
+</html>
