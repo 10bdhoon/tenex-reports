@@ -1,6 +1,6 @@
 {
   "date": "2026-07-05",
-  "collected_at": "2026-07-05T05:45:46Z",
+  "collected_at": "2026-07-05T05:55:04Z",
   "youtube": {
     "channel_id": "UCWywSxMIVgYcE8lqPCwHWfg",
     "total_views": 33417082,
@@ -16,36 +16,12 @@
         "published": "2026-07-02"
       },
       {
-        "id": "LvPK7dCNsj4",
-        "title": "엎드려서 1분, 굳은 골반 앞·윗가슴 펴고 척추 깨우기",
-        "views": 26168,
-        "likes": 573,
-        "comments": 4,
-        "published": "2026-06-30"
-      },
-      {
-        "id": "J59X3MD0z1M",
-        "title": "딱딱거리는 턱, 굳은 턱 근육 1분에 푸는 셀프 관리 4가지",
-        "views": 37744,
-        "likes": 1127,
-        "comments": 8,
-        "published": "2026-06-29"
-      },
-      {
         "id": "i9b7b0cDSGU",
         "title": "엎드려서 1분, 굳은 허리·골반·고관절 한 번에 푸는 4가지",
         "views": 108236,
         "likes": 1769,
         "comments": 8,
         "published": "2026-06-22"
-      },
-      {
-        "id": "tdMYEWsjbwM",
-        "title": "어깨 뚝뚝 소리, 굳은 어깨,등 1분만에 푸는 4가지 동작",
-        "views": 29399,
-        "likes": 766,
-        "comments": 8,
-        "published": "2026-06-16"
       },
       {
         "id": "Pph4gEAd1tc",
@@ -72,26 +48,50 @@
         "published": "2026-06-08"
       },
       {
-        "id": "E_eJHMhjY9w",
-        "title": "와.. 엉덩이 허벅지 운동 제대로 되는 운동 소개드려요!",
-        "views": 8079,
-        "likes": 82,
-        "comments": 8,
-        "published": "2026-06-08"
+        "id": "jM27XJt7OJQ",
+        "title": "굽은 등·라운드숄더, 밴드 하나로 하루 1분이면 잡힙니다",
+        "views": 256003,
+        "likes": 4396,
+        "comments": 36,
+        "published": "2026-05-27"
       },
       {
-        "id": "Z_i9jNzxYKo",
-        "title": "굽은 등·약해진 척추 기립근, 엎드려서 하루 1분이면 됩니다",
-        "views": 218166,
-        "likes": 4340,
-        "comments": 19,
-        "published": "2026-06-02"
+        "id": "IXwTM82Px1E",
+        "title": "3년간 목디스크 고생한 간호조무사 구독자님 이렇게 좋아졌습니다",
+        "views": 1624,
+        "likes": 43,
+        "comments": 10,
+        "published": "2026-05-26"
+      },
+      {
+        "id": "zXIJYBvhHWM",
+        "title": "런칭 당일 4시간에 1000대 팔았지만, 전량 폐기했습니다",
+        "views": 9234,
+        "likes": 32,
+        "comments": 1,
+        "published": "2026-05-26"
+      },
+      {
+        "id": "rOYbOuOCyPQ",
+        "title": "틀어지고 찝히는 골반, 기름칠 필수 운동 4가지",
+        "views": 106068,
+        "likes": 1894,
+        "comments": 11,
+        "published": "2026-05-22"
+      },
+      {
+        "id": "TLcz_yCGFHY",
+        "title": "고관절 풀기, 이 5가지면 무릎이 바닥에 닿습니다",
+        "views": 427916,
+        "likes": 5747,
+        "comments": 26,
+        "published": "2026-05-15"
       }
     ]
   },
   "instagram": {
     "username": "one_dosu_physio",
-    "followers": 69474,
+    "followers": 69477,
     "post_count": 66,
     "note": "total views require Meta Business API"
   },
