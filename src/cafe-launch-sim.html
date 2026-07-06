@@ -183,6 +183,16 @@
   .sop li:last-child{border-bottom:none}
   .sop li::before{counter-increment:s;content:counter(s);position:absolute;left:0;top:7px;width:20px;height:20px;border-radius:6px;background:var(--green);color:#fff;font-size:11px;font-weight:800;display:grid;place-items:center}
   .sop li b{color:var(--ink)}
+  /* OS탭 셀 내부 리스트 */
+  ul.cl{list-style:none;margin:0}
+  ul.cl li{padding:4px 0;border-bottom:1px dashed #eee;line-height:1.6;position:relative;padding-left:14px}
+  ul.cl li::before{content:"";position:absolute;left:2px;top:12px;width:5px;height:5px;border-radius:50%;background:#c8cdd4}
+  ul.cl li:last-child{border-bottom:none}
+  ul.cl li b{color:var(--ink)}
+  table.os td{line-height:1.65}
+  .warn ul{list-style:none;margin-top:6px}
+  .warn li{padding:3px 0 3px 14px;position:relative}
+  .warn li::before{content:"";position:absolute;left:2px;top:11px;width:5px;height:5px;border-radius:50%;background:var(--amber)}
 </style>
 </head>
 <body>
@@ -286,17 +296,36 @@
 
   <div class="intro" style="border-left:4px solid #a855f7">
     <h3>주간 운영 OS — 이수빈이 그대로 돌리는 실행판 <span class="bnew">ops-daily.md</span></h3>
-    <p>DRI: 태훈 | 운영 실무: <b>이수빈</b> (2026-07-07 출근, 수습 ~10/07). 하루 코어 타임 약 3~4시간(오픈 초기 기준, M3부터 축소 예상). 전략·구조는 PLAN.md, 계정 설정은 personas-30day.md — 이 탭은 "매일 아침 뭘 하면 되는지"만 담는다.</p>
+    <p>DRI: 태훈 · 운영 실무: <b>이수빈</b> (2026-07-07 출근, 수습 ~10/07) · 하루 코어 타임 약 <b>3~4시간</b> (오픈 초기 기준, M3부터 축소 예상)</p>
+    <p style="margin-top:4px">전략·구조는 <b>PLAN.md</b>, 계정 설정은 <b>personas-30day.md</b> — 이 탭은 "매일 아침 뭘 하면 되는지"만 담는다.</p>
   </div>
 
   <div class="guide" style="border-left:4px solid #a855f7">
     <h3>⓪ 온보딩 (Day 1~3) — 첫 3일이 전부다</h3>
     <div class="tblwrap">
     <table class="os">
-      <tr><th>날</th><th>할 일</th></tr>
-      <tr><td class="lab">Day 1 (7/7)</td><td><b>읽고, 세팅하고, 아무것도 게시하지 않는다.</b> ① 문서 읽기(순서대로, 반나절): PLAN → anchor-1-필독글 → rules-5약속 → grade-system → post-templates → personas-30day → copy-set → warranty-policy → ops-daily ② <b>보안 세팅(가장 중요):</b> 페르소나 4계정 기기·IP 분리 — 계정별 브라우저 프로필 + 모바일 데이터/별도 회선. 사무실 공용 와이파이 4계정 동시 접속 절대 금지. 계정-기기 매핑표를 태훈·카리나에 공유 ③ 카페 세팅 체크: 게시판 구조(PLAN §3) / 등급 6단계·등업 조건(grade-system v5) / 가입 전체공개 / 글양식 5종 등록 / 대문 배너 ④ 지표 시트 생성(아래 ⑥)</td></tr>
-      <tr><td class="lab">Day 2</td><td><b>앵커 투하.</b> 카페지기(인규 명의)로 필독글 + 5가지 약속 게시 (회복점수 표는 카드 이미지 — copy-set 시안) → 댓글 시딩 15~20개(양식: 와닿은 문장+오늘 점수, 팀 협조) → 페르소나 3계정 가입 → 각자 회복선언 + 필독글 댓글</td></tr>
-      <tr><td class="lab">Day 3~</td><td><b>시딩 캘린더 가동.</b> personas-30day Week 1 스케줄 그대로 (김대리 매일 인증 개시). ⚠️ C2R은 캘린더 표기와 무관하게 <b>~7/20부터</b> (태훈 확정 2026-07-06)</td></tr>
+      <tr><th style="width:110px">날</th><th>할 일</th></tr>
+      <tr><td class="lab">Day 1 (7/7)<br><small style="font-weight:600;color:#0a6b34">읽고, 세팅하고,<br>게시하지 않는다</small></td><td>
+        <ul class="cl">
+          <li><b>문서 읽기 (반나절, 순서대로):</b> PLAN → anchor-1-필독글 → rules-5약속 → grade-system → post-templates → personas-30day → copy-set → warranty-policy → ops-daily</li>
+          <li><b>보안 세팅 ⚠️ 가장 중요:</b> 페르소나 4계정 <b>기기·IP 분리</b> — 계정별 브라우저 프로필 + 모바일 데이터/별도 회선<br>사무실 공용 와이파이로 4계정 동시 접속 <b>절대 금지</b> · 계정-기기 매핑표를 태훈·카리나에 공유</li>
+          <li><b>카페 세팅 체크:</b> 게시판 구조(PLAN §3) · 등급 6단계+등업 조건(grade-system v5) · 가입 전체공개 · 글양식 5종 등록 · 대문 배너</li>
+          <li><b>지표 시트 생성</b> (아래 ⑥ 양식)</li>
+        </ul>
+      </td></tr>
+      <tr><td class="lab">Day 2<br><small style="font-weight:600;color:#0a6b34">앵커 투하</small></td><td>
+        <ul class="cl">
+          <li>카페지기(인규 명의)로 <b>필독글 + 5가지 약속</b> 게시 — 회복점수 표는 카드 이미지(copy-set 시안)</li>
+          <li><b>댓글 시딩 15~20개</b> (양식: 와닿은 문장 + 오늘 점수 · 팀 협조 포함)</li>
+          <li>페르소나 3계정 가입 → 각자 회복선언 + 필독글 댓글</li>
+        </ul>
+      </td></tr>
+      <tr><td class="lab">Day 3~<br><small style="font-weight:600;color:#0a6b34">캘린더 가동</small></td><td>
+        <ul class="cl">
+          <li>personas-30day <b>Week 1 스케줄 그대로</b> 시작 (김대리 매일 인증 개시)</li>
+          <li>⚠️ C2R은 캘린더 표기와 무관하게 <b>~7/20부터</b> (태훈 확정 2026-07-06)</li>
+        </ul>
+      </td></tr>
     </table>
     </div>
   </div>
@@ -305,11 +334,33 @@
     <h3>① 데일리 루틴 (매일, 주말 축소판)</h3>
     <div class="tblwrap">
     <table class="os">
-      <tr><th>블록</th><th>시간</th><th>할 일</th></tr>
-      <tr><td class="lab">아침 (60분)</td><td>출근 직후</td><td>① 밤새 새 글/댓글 전수 확인 — <b>광고·병원 바이럴 발견 즉시 삭제</b> ② <b>가입인사 100% 댓글</b> (졸업한언니 계정, 24시간 SLA — 카페의 첫인상) ③ 김대리 "매일 1분" 인증글 게시</td></tr>
-      <tr><td class="lab">점심 (30분)</td><td>유동</td><td>① Q&amp;A 새 질문 답변 (페르소나 분담: 목=김대리, 수술=재활러, 허리=L45아빠) ② 필독글 새 댓글에 하트/답글</td></tr>
-      <tr><td class="lab">오후 (60~90분)</td><td>집중 시간</td><td>① 시딩 캘린더상 오늘 분량 글 작성 ② <b>등업 신청(회복 확정) 수동 심사</b> — 필독글 댓글·회복선언 링크 검증 ③ Pro 사용 가이드 게시글 관리(댓글 응대·가입 문의) — 정품등록은 인증 사이트/CS 담당이라 카페 업무 아님</td></tr>
-      <tr><td class="lab">마감 (15분)</td><td>퇴근 전</td><td>지표 시트 기입 (아래 ⑥) + 특이사항 1줄 슬랙 보고</td></tr>
+      <tr><th style="width:110px">블록</th><th>할 일</th></tr>
+      <tr><td class="lab">아침 (60분)<br><small style="font-weight:600;color:#0a6b34">출근 직후</small></td><td>
+        <ul class="cl">
+          <li>밤새 새 글/댓글 전수 확인 — <b>광고·병원 바이럴 발견 즉시 삭제</b></li>
+          <li><b>가입인사 100% 댓글</b> (졸업한언니 계정, 24시간 SLA — 카페의 첫인상)</li>
+          <li>김대리 "매일 1분" 인증글 게시</li>
+        </ul>
+      </td></tr>
+      <tr><td class="lab">점심 (30분)<br><small style="font-weight:600;color:#0a6b34">유동</small></td><td>
+        <ul class="cl">
+          <li>Q&amp;A 새 질문 답변 — 페르소나 분담: 목=김대리 · 수술=재활러 · 허리=L45아빠</li>
+          <li>필독글 새 댓글에 하트/답글</li>
+        </ul>
+      </td></tr>
+      <tr><td class="lab">오후 (60~90분)<br><small style="font-weight:600;color:#0a6b34">집중 시간</small></td><td>
+        <ul class="cl">
+          <li>시딩 캘린더상 오늘 분량 글 작성</li>
+          <li><b>등업 신청(④ 회복 확정) 수동 심사</b> — 필독글 댓글·회복선언 링크 검증 (아래 ⑤ SOP)</li>
+          <li>Pro 사용 가이드 게시글 관리 (댓글 응대·가입 문의) — 정품등록은 인증 사이트/CS 담당, 카페 업무 아님</li>
+        </ul>
+      </td></tr>
+      <tr><td class="lab">마감 (15분)<br><small style="font-weight:600;color:#0a6b34">퇴근 전</small></td><td>
+        <ul class="cl">
+          <li>지표 시트 기입 (아래 ⑥)</li>
+          <li>특이사항 1줄 슬랙 보고</li>
+        </ul>
+      </td></tr>
     </table>
     </div>
   </div>
@@ -317,7 +368,7 @@
   <div class="guide">
     <h3>② 댓글 품질 기준 — 기계적 댓글 금지</h3>
     <ul>
-      <li>글 내용의 <b>구체 포인트 1개</b>를 반드시 언급 ("좌골신경 저림 저도 그랬어요" — "힘내세요" 단독 금지)</li>
+      <li>글 내용의 <b>구체 포인트 1개</b>를 반드시 언급 — "좌골신경 저림 저도 그랬어요" (O) · "힘내세요" 단독 (X)</li>
       <li><b>회복 점수 물어보기</b> → 상대가 답하면 재댓글 (스레드 육성)</li>
       <li><b>"회복확정" 도장은 경과 좋은 글에만</b> — 남발하면 밈이 죽음</li>
     </ul>
@@ -327,13 +378,13 @@
     <h3>③ 위클리 루틴</h3>
     <div class="tblwrap">
     <table class="os">
-      <tr><th>요일</th><th>할 일</th></tr>
-      <tr><td class="lab">월</td><td>주간 지표 리뷰 → 태훈 보고 (아래 ⑥ 양식). 이번 주 캘린더 확인</td></tr>
+      <tr><th style="width:110px">요일</th><th>할 일</th></tr>
+      <tr><td class="lab">월</td><td>주간 지표 리뷰 → 태훈 보고 (아래 ⑥ 양식) · 이번 주 캘린더 확인</td></tr>
       <tr><td class="lab">수</td><td>재활러 연재글 (디스크 수술담)</td></tr>
-      <tr><td class="lab">금</td><td><b>4계정 서사 정합성 점검</b> — 설정 충돌·날짜 모순·제품 언급 횟수(합산 주 3회 이하) 체크</td></tr>
-      <tr><td class="lab">일(또는 금)</td><td>다음 주 콘텐츠 초안 준비 (글 제목/소재 리스트만)</td></tr>
+      <tr><td class="lab">금</td><td><b>4계정 서사 정합성 점검</b> — 설정 충돌 · 날짜 모순 · 제품 언급 횟수(합산 주 3회 이하)</td></tr>
+      <tr><td class="lab">일(또는 금)</td><td>다음 주 콘텐츠 초안 준비 — 글 제목/소재 리스트만</td></tr>
       <tr><td class="lab">월 1회</td><td>30일 캘린더 리뷰 → 다음 달 버전 카리나와 갱신</td></tr>
-      <tr><td class="lab">C2R 가동 후 (~7/20)</td><td>납품 원고 <b>전수 검수</b> — 의료법 표현·양식 준수·중복 확인 후 게시 승인 (주 2회 배치)</td></tr>
+      <tr><td class="lab">C2R 가동 후<br><small style="font-weight:600;color:#0a6b34">~7/20</small></td><td>납품 원고 <b>전수 검수</b> (주 2회 배치) — 의료법 표현 · 양식 준수 · 중복 확인 후 게시 승인</td></tr>
     </table>
     </div>
   </div>
@@ -341,20 +392,20 @@
   <div class="guide">
     <h3>④ 절대 금지 5 (위반 = 카페 존폐 리스크)</h3>
     <ul>
-      <li><b>의료법:</b> "치료/완치/진단" 표현 금지 → "회복/교정/관리/케어". TENS는 "통증완화"가 아니라 "신경 자극", 견인은 "견인의 원리로 경추 정렬". MRI 판독 게시판은 "정확한 판독·진단은 병원에서" 고지 유지</li>
-      <li><b>페르소나 보안:</b> 동일 IP 다계정 금지 / 한 글에 최대 2계정 / 페르소나 계정으로 운영자 톤 금지("삭제하겠습니다" 등)</li>
-      <li><b>제품 언급:</b> 4계정 합산 주 3회 이하, 흘리듯 노출만. 설명은 질문받았을 때만</li>
-      <li><b>외부 제휴광고:</b> 대표카페 달성 전 0건 — 제휴 문의는 답하지 말고 태훈 에스컬레이션</li>
+      <li><b>의료법:</b> "치료/완치/진단" 금지 → "회복/교정/관리/케어"<br>TENS는 "통증완화"가 아니라 "신경 자극" · 견인은 "견인의 원리로 경추 정렬" · MRI 판독 게시판은 "정확한 판독·진단은 병원에서" 고지 유지</li>
+      <li><b>페르소나 보안:</b> 동일 IP 다계정 금지 · 한 글에 최대 2계정 · 페르소나 계정으로 운영자 톤 금지 ("삭제하겠습니다" 등)</li>
+      <li><b>제품 언급:</b> 4계정 합산 <b>주 3회 이하</b>, 흘리듯 노출만 — 설명은 질문받았을 때만</li>
+      <li><b>외부 제휴광고:</b> 대표카페 달성 전 <b>0건</b> — 제휴 문의는 답하지 말고 태훈 에스컬레이션</li>
       <li><b>단발 후기 계정 금지:</b> 모든 후기는 서사 축적 후에만 (맘이테라스 역풍 사례)</li>
     </ul>
   </div>
 
   <div class="guide">
-    <h3>⑤ 등업 수동 심사 SOP — "회복 확정" (등급 v5 최상위 일반등급, 60일·글30·댓글150+신청글)</h3>
+    <h3>⑤ 등업 수동 심사 SOP — "④ 회복 확정" (등급 v5 최상위 일반등급 · 60일 + 글 30 + 댓글 150 + 신청글)</h3>
     <ol class="sop">
-      <li><b>신청글 확인</b> — [등업 신청] 게시판, 양식 3항목이 다 채워졌는지 (①필독글 댓글 링크 ②회복선언 글 링크 ③가장 도움받은 글+이유)</li>
+      <li><b>신청글 확인</b> — [등업 신청] 게시판, 양식 3항목 완비 여부 (①필독글 댓글 링크 ②회복선언 글 링크 ③가장 도움받은 글+이유)</li>
       <li><b>필독글 댓글 검증</b> — 링크 타고 가서 실제 본인 댓글인지, 양식(와닿은 문장+오늘 점수)을 지켰는지</li>
-      <li><b>활동 조건 확인</b> — 가입 60일 + 글 30 + 댓글 150. (그 아래 ③ 회복 안정까지는 30일·글15·댓글80 <b>자동</b> 등업 — 손 안 댐)</li>
+      <li><b>활동 조건 확인</b> — 가입 60일 + 글 30 + 댓글 150 <small style="color:#999">(③ 회복 안정까지는 30일·글15·댓글80 자동 등업 — 손 안 댐)</small></li>
       <li><b>승인 + 환영</b> — 등업 처리 후 신청글에 축하 댓글 ("회복확정 등업 축하드려요" — 밈과 등급이 만나는 순간)</li>
       <li><b>미달 시</b> — 부족한 항목을 구체적으로 안내하고 재신청 유도 (신청글 자체가 콘텐츠가 되게 정중히)</li>
     </ol>
@@ -363,19 +414,27 @@
   <div class="guide">
     <h3>⑥ 지표 &amp; 보고</h3>
     <div class="bait"><div class="bt">일일 지표 시트 (마감 블록, 5분)</div>
-      <div class="bm">날짜 | 신규가입 | 총회원 | 오늘 글 수(실/페르소나/C2R) | 댓글 수 | 필독글 댓글 누적 | 가입인사 응답률 | 특이사항</div>
-      <div class="bx">M1 목표선: <b>일 글 15개</b>(육성 3개 게시판: 질환/증상 Q&amp;A · 보존치료 후기 · 자유게시판), 조회수 1,000+ — <b>미달 3일 연속이면 태훈·카리나에 플래그.</b> M2 목표선: 가입 누적 500~1,000</div></div>
+      <div class="bm">날짜 · 신규가입 · 총회원 · 오늘 글 수(실/페르소나/C2R) · 댓글 수 · 필독글 댓글 누적 · 가입인사 응답률 · 특이사항</div>
+      <div class="bx"><b>M1 목표선:</b> 일 글 15개 (육성 3개 게시판: 질환/증상 Q&amp;A · 보존치료 후기 · 자유게시판) + 조회수 1,000+<br><b>미달 3일 연속 → 태훈·카리나에 플래그</b><br><b>M2 목표선:</b> 가입 누적 500~1,000</div></div>
     <div class="bait"><div class="bt">주간 보고 양식 (월요일, 슬랙)</div>
-      <div class="bx">📊 카페 주간 (M/D~M/D)<br>회원 N (+n) | 글 n/일 평균 | 가입인사 응답률 n%<br>잘된 것 1줄 / 안 된 것 1줄 / 이번 주 계획 1줄 / 필요한 결정·지원: ○○</div></div>
+      <div class="bx">📊 카페 주간 (M/D~M/D)<br>회원 N (+n) · 글 n/일 평균 · 가입인사 응답률 n%<br>잘된 것 1줄 / 안 된 것 1줄 / 이번 주 계획 1줄 / 필요한 결정·지원: ○○</div></div>
   </div>
 
   <div class="guide">
     <h3>⑦ 에스컬레이션 &amp; 역할 경계</h3>
-    <div class="warn"><b>즉시 태훈+카리나:</b> 의료법 관련 신고/민원/기관 연락 · 페르소나 의심 댓글(절대 페르소나 계정으로 방어 금지, 침묵 후 보고) · 언론/타 커뮤니티의 카페 언급 · 회원 분쟁이 법적 언급("고소")까지 간 경우 · 제휴/광고 제안 전부</div>
+    <div class="warn"><b>다음 5가지는 즉시 태훈 + 카리나:</b>
+      <ul>
+        <li>의료법 관련 신고 / 민원 / 기관 연락</li>
+        <li>페르소나 의심 댓글 ("이 계정들 수상한데?") — <b>절대 페르소나 계정으로 방어 금지, 침묵 후 보고</b></li>
+        <li>언론 / 타 커뮤니티에서 카페 언급</li>
+        <li>회원 분쟁이 법적 언급("고소")까지 간 경우</li>
+        <li>제휴 / 광고 제안 전부</li>
+      </ul>
+    </div>
     <ul style="margin-top:10px">
       <li><b>이수빈:</b> 이 탭 전부 (운영 실행 전권)</li>
-      <li><b>태훈:</b> 전략·게시판 구조 변경·제휴·예산 결정, 간증 후기 원문 소스 제공(게시 시)</li>
-      <li><b>카리나:</b> 콘텐츠 원고 지원(요청 시), 캘린더 월간 갱신, CRM·정품등록 시스템 연동 지휘</li>
+      <li><b>태훈:</b> 전략 · 게시판 구조 변경 · 제휴 · 예산 결정 · 간증 후기 원문 소스 제공(게시 시)</li>
+      <li><b>카리나:</b> 콘텐츠 원고 지원(요청 시) · 캘린더 월간 갱신 · CRM·정품등록 시스템 연동 지휘</li>
       <li><b>최지은:</b> 체험단·공동구매 (M5, PLAN §8) — 카페 내 실행 시 이수빈과 협업</li>
     </ul>
   </div>
