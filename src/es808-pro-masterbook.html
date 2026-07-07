@@ -4,188 +4,557 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="robots" content="noindex, nofollow">
-<title>ES-808 Pro 런칭 CX 마스터북</title>
+<title>ES-808 Pro 런칭 CX — 마스터북</title>
 <style>
-:root{
-  --navy:#002855; --ink:#22303f; --muted:#5c6b7a;
-  --paper:#f7f8f7; --sheet:#ffffff; --line:#d9dee3; --gold:#a8862f; --green:#0f6e56;
-  --serif:'Nanum Myeongjo','AppleMyungjo','Noto Serif KR',Georgia,serif;
-  --sans:-apple-system,BlinkMacSystemFont,'Apple SD Gothic Neo','Pretendard','Malgun Gothic',sans-serif;
-}
+:root{--navy:#002855;--ink:#22303f;--muted:#5c6b7a;--paper:#f7f8f7;--sheet:#fff;--line:#d9dee3;--gold:#a8862f;
+--serif:'Nanum Myeongjo','AppleMyungjo','Noto Serif KR',Georgia,serif;
+--sans:-apple-system,BlinkMacSystemFont,'Apple SD Gothic Neo','Pretendard','Malgun Gothic',sans-serif}
 body{background:var(--paper);color:var(--ink);font-family:var(--sans);line-height:1.75;margin:0}
 .wrap{max-width:900px;margin:0 auto;padding:56px 24px 80px}
 .eyebrow{font-size:12px;letter-spacing:.18em;color:var(--gold);font-weight:600;text-transform:uppercase}
-h1{font-family:var(--serif);font-size:34px;line-height:1.35;color:var(--navy);margin:10px 0 8px;font-weight:700;text-wrap:balance}
+h1.book{font-family:var(--serif);font-size:34px;line-height:1.35;color:var(--navy);margin:10px 0 8px;font-weight:700}
 .sub{color:var(--muted);font-size:15px;max-width:64ch}
-h2{font-family:var(--serif);font-size:22px;color:var(--navy);margin:0 0 6px;font-weight:700}
-h3{font-size:15px;color:var(--navy);margin:20px 0 8px;font-weight:700}
 .meta{display:flex;flex-wrap:wrap;gap:10px;margin:22px 0 0}
 .chip{background:var(--sheet);border:1px solid var(--line);padding:6px 14px;font-size:13px}
 .chip b{color:var(--navy)}
-section{margin-top:60px}
-.sechead{display:flex;align-items:baseline;gap:14px;border-bottom:2px solid var(--navy);padding-bottom:10px;margin-bottom:20px}
-.secno{font-family:var(--serif);font-size:15px;color:var(--gold);white-space:nowrap}
-.lede{color:var(--muted);font-size:14.5px;max-width:66ch;margin:0 0 18px}
-table{width:100%;border-collapse:collapse;font-size:13.5px;background:var(--sheet)}
-th{background:var(--navy);color:#fff;text-align:left;font-weight:600;padding:9px 14px;font-size:12.5px;letter-spacing:.04em}
-td{border-bottom:1px solid var(--line);padding:10px 14px;vertical-align:top}
-td:first-child{white-space:nowrap;color:var(--navy);font-weight:600}
-.tablebox{overflow-x:auto;border:1px solid var(--line);margin-bottom:8px}
-.quote{background:var(--sheet);border:1px solid var(--line);border-left:3px solid var(--gold);padding:20px 26px;margin:18px 0;font-family:var(--serif);font-size:16px;color:var(--navy)}
-.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px}
-.card{background:var(--sheet);border:1px solid var(--line);border-top:3px solid var(--navy);padding:16px 18px}
-.card .t{font-size:14px;font-weight:700;color:var(--navy)}
-.card .d{font-size:13px;color:var(--muted);margin-top:6px;line-height:1.65}
-ul.dir{margin:12px 0 0;padding-left:0;list-style:none;display:grid;gap:8px}
-ul.dir li{background:var(--sheet);border:1px solid var(--line);padding:10px 16px;font-size:13.5px}
-ul.dir li b{color:var(--navy)}
-.warn{background:#fdf1f0;border:1px solid #eec6c0;padding:12px 16px;font-size:13.5px;margin-top:12px}
-.warn b{color:#993c1d}
-.flow{display:flex;flex-wrap:wrap;gap:8px}
-.flow .step{flex:1 1 110px;background:var(--sheet);border:1px solid var(--line);border-top:3px solid var(--navy);padding:11px 13px;min-width:104px}
-.flow .step .k{font-size:10.5px;letter-spacing:.1em;color:var(--gold);font-weight:600}
-.flow .step .t{font-size:13.5px;font-weight:700;color:var(--navy);margin-top:2px}
-.flow .step .d{font-size:11.5px;color:var(--muted);margin-top:3px;line-height:1.5}
-.block{background:var(--navy);color:#fff;padding:26px 30px;margin-top:60px}
-.block h2{color:#fff;margin-bottom:12px}
-.block ol{margin:0;padding-left:20px;font-size:14.5px;line-height:2}
-.block li::marker{color:var(--gold)}
-.foot{margin-top:40px;color:var(--muted);font-size:12.5px;border-top:1px solid var(--line);padding-top:16px}
-a{color:var(--navy)}
+.toc{margin-top:44px}
+.toc-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:12px;margin-top:14px}
+.toc-card{display:block;background:var(--sheet);border:1px solid var(--line);border-top:3px solid var(--navy);padding:14px 16px;text-decoration:none;color:var(--ink)}
+.toc-card:hover{border-color:var(--navy)}
+.toc-card .n{font-family:var(--serif);font-size:12px;color:var(--gold)}
+.toc-card .t{font-size:14.5px;font-weight:700;color:var(--navy);margin-top:2px}
+.toc-card .d{font-size:12.5px;color:var(--muted);margin-top:4px;line-height:1.55}
+.toc-card .p{font-size:11px;color:var(--muted);margin-top:6px;font-family:ui-monospace,monospace}
+.chapter{margin-top:72px}
+.chap-head{border-bottom:3px solid var(--navy);padding-bottom:12px;margin-bottom:24px;display:flex;justify-content:space-between;align-items:flex-end;gap:12px;flex-wrap:wrap}
+.chap-head .no{font-family:var(--serif);font-size:13px;color:var(--gold)}
+.chap-head h2{font-family:var(--serif);font-size:24px;color:var(--navy);margin:2px 0 0;font-weight:700}
+.chap-head .src{font-size:11.5px;color:var(--muted);font-family:ui-monospace,monospace}
+.chap-head a.up{font-size:12px;color:var(--muted);text-decoration:none;white-space:nowrap}
+.md{font-size:14.5px}
+.md h1{font-family:var(--serif);font-size:20px;color:var(--navy);margin:34px 0 10px;font-weight:700}
+.md h2{font-family:var(--serif);font-size:19px;color:var(--navy);margin:34px 0 10px;font-weight:700;border-bottom:1px solid var(--line);padding-bottom:6px}
+.md h3{font-size:15.5px;color:var(--navy);margin:24px 0 8px;font-weight:700}
+.md h4{font-size:14px;color:var(--navy);margin:18px 0 6px;font-weight:700}
+.md p{margin:0 0 12px;max-width:72ch}
+.md ul,.md ol{margin:0 0 14px;padding-left:22px}
+.md li{margin:4px 0}
+.md table{width:100%;border-collapse:collapse;font-size:13px;background:var(--sheet);margin:12px 0 18px;display:block;overflow-x:auto}
+.md th{background:var(--navy);color:#fff;text-align:left;font-weight:600;padding:8px 12px;font-size:12px;white-space:nowrap}
+.md td{border-bottom:1px solid var(--line);padding:8px 12px;vertical-align:top}
+.md blockquote{background:var(--sheet);border:1px solid var(--line);border-left:3px solid var(--gold);margin:12px 0 16px;padding:12px 18px;color:var(--ink)}
+.md blockquote p{margin:0 0 8px}
+.md blockquote p:last-child{margin:0}
+.md code{background:#ecefee;padding:1px 6px;font-size:12.5px;font-family:ui-monospace,monospace;color:var(--navy)}
+.md pre{background:var(--sheet);border:1px solid var(--line);padding:14px 16px;overflow-x:auto;font-size:12px;line-height:1.6}
+.md pre code{background:none;padding:0}
+.md hr{border:0;border-top:1px solid var(--line);margin:26px 0}
+.md a{color:var(--navy)}
+.md strong{color:var(--navy)}
+.foot{margin-top:60px;color:var(--muted);font-size:12.5px;border-top:1px solid var(--line);padding-top:16px}
+.foot a{color:var(--navy)}
 </style>
 </head>
 <body>
-
-<div class="wrap">
+<div class="wrap" id="top">
 <header>
-  <div class="eyebrow">Kinemedical · 런칭 CX 마스터북 · 2026-07-06</div>
-  <h1>ES-808 Pro 런칭 CX</h1>
-  <p class="sub">구매 → 개봉 → 등록 → 카페 → 추천으로 이어지는 고객 여정 전체 설계. 인쇄물 4종, 보증 1년, 시리얼=추천코드가 한 루프로 맞물린다.</p>
-  <div class="meta">
-    <span class="chip">출시 <b>9월 중순</b> (통증크림 +2주)</span>
-    <span class="chip">가격 <b>~20만</b> · SUS316L 팁</span>
-    <span class="chip">제조 <b>소싱차이나</b> 경유</span>
-    <span class="chip">목표 <b>100개 완판</b> + 스마트스토어 1등</span>
-  </div>
+  <div class="eyebrow">Kinemedical · 런칭 CX 마스터북 (전 문서 수록)</div>
+  <h1 class="book">🖊️ ES-808 Pro 런칭 CX</h1>
+  <p class="sub">구매 → 개봉 → 등록 → 카페 → 추천 루프의 모든 문서 전문. 9월 중순 출시, 100개 완판 + 스마트스토어 카테고리 1등.</p>
+  <div class="meta"><span class="chip">출시 <b>9월 중순</b></span><span class="chip">가격 <b>~20만</b> · SUS316L 팁</span><span class="chip">제조 <b>소싱차이나</b> 경유</span><span class="chip">시리얼 <b>KMES+6자리</b> (2,999개)</span><span class="chip">SSOT <b>workspace/es808-pro/</b></span></div>
 </header>
-
-<section>
-  <div class="sechead"><span class="secno">01</span><h2>CX 루프 — 나은 사람이 아픈 사람을 데려온다</h2></div>
-  <div class="flow">
-    <div class="step"><div class="k">1</div><div class="t">구매·개봉</div><div class="d">패키지 4종: 편지→카드→가이드→초대장</div></div>
-    <div class="step"><div class="k">2</div><div class="t">정품등록</div><div class="d">7일 내 인증 사이트 → 보증 1년</div></div>
-    <div class="step"><div class="k">3</div><div class="t">카페 가입</div><div class="d">사용법 QR 게이팅 (필수 동선)</div></div>
-    <div class="step"><div class="k">4</div><div class="t">회복선언</div><div class="d">D+3 쿠폰 훅 → 첫 글</div></div>
-    <div class="step"><div class="k">5</div><div class="t">추천</div><div class="d">시리얼=추천코드 → 신규 구매 순환</div></div>
-  </div>
-  <h3>레버 분리 원칙 — 한 레버에 목적 하나</h3>
-  <div class="tablebox"><table>
-    <tr><th>목적</th><th>담당 장치</th><th>관리</th></tr>
-    <tr><td>보증 1년</td><td>정품인증 사이트 (시리얼+구매자 정보, 7일 판정)</td><td>kinemedical-register /admin.html</td></tr>
-    <tr><td>카페 가입</td><td>사용 가이드 QR — 카페 게시글 가입 열람</td><td>이수빈 (게시글)</td></tr>
-    <tr><td>첫 글 (회복선언)</td><td>D+3 CRM 부스터젤 쿠폰</td><td>데이터라이즈</td></tr>
-    <tr><td>추천 확산</td><td>시리얼=추천코드 (등록 시 활성화)</td><td>Cafe24 쿠폰+적립금</td></tr>
-  </table></div>
-</section>
-
-<section>
-  <div class="sechead"><span class="secno">02</span><h2>인쇄물 4종 — 랜딩 구조</h2></div>
-  <p class="lede">개봉 순서 = 감정(편지) → 행동(카드) → 사용(가이드) → 소속(초대장). 카톡 플친이 랜딩 2곳을 관통해 CRM 채널을 확보한다. 지면 목업·카피 전문은 인쇄물 기획안(목업·카피 전문은 카리나에게 요청).</p>
-  <div class="tablebox"><table>
-    <tr><th>인쇄물</th><th>QR 랜딩</th><th>혜택</th><th>랜딩 안에 강력하게</th></tr>
-    <tr><td>① 감동편지</td><td>없음</td><td>—</td><td>브랜딩 전용 (CTA 없음). 원고 확정 — SUS316L 문구는 Pro 전용, 기존 제품 혼입 금지</td></tr>
-    <tr><td>② 정품인증 카드</td><td>인증 사이트</td><td>보증 3개월→1년</td><td>카톡 플친 + 카페 CTA + 추천코드 활성화</td></tr>
-    <tr><td>③ 사용 가이드</td><td>카페 게시글 (가입 열람)</td><td>디테일 사용법</td><td>영상 임베드(unlisted) + 카톡 플친 + 등록 CTA</td></tr>
-    <tr><td>④ 카페 초대장</td><td>카페 필독글</td><td>소속감·희망·정보</td><td>철학이 곧 랜딩 → 회복선언 초대</td></tr>
-  </table></div>
-  <div class="warn"><b>가이드 게이팅 가드레일.</b> 안전·필수 정보(3스텝+법정 주의사항)는 지면에 전부 인쇄 — QR은 "심화 영상 가이드". 열람은 가입 즉시(새싹), 등업 조건 금지.</div>
-</section>
-
-<section>
-  <div class="sechead"><span class="secno">03</span><h2>제품 스펙 (7/6 확정분)</h2></div>
-  <div class="tablebox"><table>
-    <tr><th>모드</th><th>타입</th><th>느낌</th><th>이럴 때</th></tr>
-    <tr><td>1</td><td>EMS</td><td>탕, 탕, 두드리듯 (반복 펄스)</td><td>단단하게 뭉친 근육 집중</td></tr>
-    <tr><td>2</td><td>EMS</td><td>주르륵, 주무르듯 (구 1번)</td><td>넓은 부위 부드럽게</td></tr>
-    <tr><td>3</td><td>TENS</td><td>지잉— 지잉— 끊어지는 자극 (구 5번)</td><td>뻐근하고 저린 부위 신경 자극</td></tr>
-    <tr><td>4</td><td>TENS</td><td>끊김 없는 연속 자극</td><td>저림 지속 관리</td></tr>
-  </table></div>
-  <ul class="dir">
-    <li><b>강도:</b> 전원 온 시 기본 5 시작 · 7~9 구간 출력 40% 상향 → 마케팅 카피 "최대 출력 40% 강화"</li>
-    <li><b>UX 경고 필수:</b> "목 등 예민한 부위는 켠 직후 강도부터 낮추세요" (기본 5 시작이라 첫 사용 리스크)</li>
-    <li><b>팁:</b> SUS316L 의료용 스테인리스 (기존 크롬 → 고급화) — 편지·가이드의 프리미엄 포인트</li>
-    <li>🔴 <b>잔여 TBD:</b> 버튼 조작 · LED 표시 · 구성품(전용 크림/젤) · 팁 형태 — 샘플 확인 대기</li>
-  </ul>
-</section>
-
-<section>
-  <div class="sechead"><span class="secno">04</span><h2>보증 정책 v3</h2></div>
-  <div class="quote">"보증 3개월? 7일 안에 등록하면 1년. 1분이면 됩니다."</div>
-  <div class="tablebox"><table>
-    <tr><th>구분</th><th>조건</th><th>보증</th></tr>
-    <tr><td>기본</td><td>구매만</td><td>3개월</td></tr>
-    <tr><td>정품등록</td><td>수령 후 7일 내, 인증 사이트에서 시리얼+구매자 정보 입력</td><td><b>1년</b></td></tr>
-  </table></div>
-  <ul class="dir">
-    <li>범위: 제조 결함 무상 수리/교환. 소비자 과실(파손)·소모품·외관 제외. 7일 경과 시 예외 없음</li>
-    <li><b>등록 완료 화면 = 2차 전환:</b> ①추천코드 활성화 안내 ②카페 가이드 CTA ③카톡 플친</li>
-    <li>시리얼: <b>KMES + 6자리 랜덤</b> (배치 2,999개 수령). 구 KM- 쿠폰 배치와 혼용 금지. Pro부터 도입 후 확대</li>
-    <li>⏸ 기존 구매자 소급 이벤트 — 보류 (카페 M2 시점 재검토)</li>
-  </ul>
-</section>
-
-<section>
-  <div class="sechead"><span class="secno">05</span><h2>추천 프로그램 — 시리얼 = 추천코드</h2></div>
-  <div class="quote">"이제 회복을 돕는 사람이 되셨습니다."</div>
-  <div class="tablebox"><table>
-    <tr><th>대상</th><th>보상</th><th>확정값</th></tr>
-    <tr><td>추천받는 지인</td><td>구매 할인</td><td><b>10%</b></td></tr>
-    <tr><td>추천인 (등록 고객)</td><td>자사몰 적립금</td><td><b>5,000P 정액</b> (건당)</td></tr>
-  </table></div>
-  <ul class="dir">
-    <li>등록해야 코드 활성화 (등록 유인 +1) · 정체성 프레임 필수 — "친구 초대하고 돈 버세요" 문법 금지</li>
-    <li>접점: 카드 뒷면 1줄 → 등록 완료 화면(코드 복사) → D+14 CRM → 카페 공지 글. <b>5번째 인쇄물 없음</b></li>
-    <li>가드: 본인 주문 사용 불가 · 지급은 구매확정 후 · <b>카페 내 코드 게시 금지</b> (커뮤니티 오염 방지)</li>
-    <li>비교: 광고 고객획득비(blended 2.0 기준 매출의 ~50%) 대비 총 인센티브 ~13%는 3배 이상 효율</li>
-  </ul>
-</section>
-
-<section>
-  <div class="sechead"><span class="secno">06</span><h2>워크스트림 — 누가 뭘 만드나</h2></div>
-  <div class="grid2">
-    <div class="card"><div class="t">임지우 (디자인)</div><div class="d">공통 가이드 → 편지 → 카드 → 초대장 → 가이드(스펙 확정 후). 네이비 의료 미니멀, 이모지·과장 폐기, 지류 고급화</div></div>
-    <div class="card"><div class="t">개실장 (개발)</div><div class="d">인증 사이트: 시리얼 필드 + KMES 발번 대조 + 7일 판정 + 완료 화면 크로스링크 3종 + admin 만료일·추천 실적. Cafe24 쿠폰(시리얼=코드) 연동</div></div>
-    <div class="card"><div class="t">명희 (공정)</div><div class="d">KMES 스티커 인쇄 발주 → 출고 시 카드 부착 + 시리얼-주문 매핑 (이지어드민 라인) → 9월 초 물류 리허설</div></div>
-    <div class="card"><div class="t">인규 (콘텐츠)</div><div class="d">Pro 사용법 영상 신규 촬영 (유튜브 unlisted → 카페 게시글 임베드)</div></div>
-    <div class="card"><div class="t">이수빈 (카페)</div><div class="d">사용설명서 게시글 작성·관리 (영상+카톡 플친+등록 CTA), 가입 문의 응대</div></div>
-    <div class="card"><div class="t">태훈 (컨펌)</div><div class="d">초대장 카피 · Pro 잔여 스펙 · 추천 적용 범위 — 아래 03 참조</div></div>
-  </div>
-</section>
-
-<section>
-  <div class="sechead"><span class="secno">07</span><h2>타임라인 — 9월 중순 출시 역산</h2></div>
-  <div class="tablebox"><table>
-    <tr><th>시점</th><th>액션</th><th>담당</th></tr>
-    <tr><td>7월</td><td>초대장 카피 컨펌 + Pro 샘플 잔여 스펙 확정 (버튼·LED·구성품·팁)</td><td>태훈 · 소싱차이나</td></tr>
-    <tr><td>7~8월 초</td><td>디자인: 편지 → 카드 → 초대장 → 가이드</td><td>임지우</td></tr>
-    <tr><td>병행</td><td>인증 사이트 개발 + Cafe24 쿠폰 연동</td><td>개실장</td></tr>
-    <tr><td>병행</td><td>Pro 사용법 영상 촬영</td><td>인규</td></tr>
-    <tr><td>8월 말</td><td>인쇄·스티커 입고, 출고 공정·매핑 셋업</td><td>명희</td></tr>
-    <tr><td>9월 초</td><td>물류 리허설 (삽입 순서: 편지 맨 위)</td><td>명희</td></tr>
-    <tr><td>9월 중순</td><td><b>Pro 출시</b> — 패키지 동봉 개시, 카페 유입 엔진 가동, 스마트스토어는 추석 직후</td><td>전원</td></tr>
-  </table></div>
-</section>
-
-<div class="block">
-  <h2>태훈 컨펌 대기 (3)</h2>
-  <ol>
-    <li>초대장 카피 v1 — "물리치료사가 직접 답합니다" 유지 vs 완화 포함해서 컨펌 (즉시 임지우 착수)</li>
-    <li>Pro 잔여 스펙 — 버튼 조작·LED·구성품·팁 형태 (샘플 사진이면 충분, 가이드 카피 확정 조건)</li>
-    <li>추천코드 적용 범위 — Pro부터(권고) vs 전 제품 + 카페 내 코드 게시 금지 규정 동의</li>
-  </ol>
-</div>
-
-<p class="foot">SSOT: workspace/es808-pro/ (print-package·warranty-policy·referral-program) + serial-coupons/ · 인쇄물 목업 상세는 카리나에게 요청 · 카페 운영은 <a href="/cafe-masterbook">카페 마스터북</a> 참조 · 2026-07-06 카리나</p>
-</div>
-</body>
+<nav class="toc"><div class="eyebrow">목차 — 수록 문서 3건</div>
+<div class="toc-grid"><a class="toc-card" href="#ch1"><span class="n">CH 01</span><div class="t">배송 인쇄물 4종 패키지</div><div class="d">랜딩 구조·편지 원고·초대장 카피·가이드 카피·타임라인</div><div class="p">es808-pro/print-package.md</div></a><a class="toc-card" href="#ch2"><span class="n">CH 02</span><div class="t">보증 정책 v3</div><div class="d">3개월 → 7일 내 인증 사이트 등록 시 1년</div><div class="p">es808-pro/warranty-policy.md</div></a><a class="toc-card" href="#ch3"><span class="n">CH 03</span><div class="t">시리얼 = 추천코드</div><div class="d">지인 10% / 추천인 5,000P — &quot;회복을 돕는 사람&quot;</div><div class="p">es808-pro/referral-program.md</div></a></div></nav>
+<section class="chapter" id="ch1"><div class="chap-head"><div><div class="no">CHAPTER 01</div><h2>배송 인쇄물 4종 패키지</h2><div class="src">es808-pro/print-package.md</div></div><a class="up" href="#top">↑ 목차</a></div><div class="md"><h1>ES-808 Pro 배송 동봉 인쇄물 4종 패키지 — 마스터 기획 (v2, 2026-07-06)</h1>
+<blockquote>
+<p>📁 <code>es808-pro/</code> = Pro 런칭 CX (인쇄물·보증·추천). 카페 운영·콘텐츠 문서는 <code>../cafe/</code> (PLAN.md·anchor·ops-daily 등)</p>
+<p><strong>대상 제품: ES-808 Pro</strong> (2026-09 중순 출시, 상시할인가 ~20만, SUS316L 팁, 소싱차이나 경유 중국공장). ES-808 기존 모델용 아님 — 이 패키지를 기존 제품 출고에 혼입하지 말 것.
+목적: Pro 수령 순간(관심 최고점)에 ①카페 유입 ②브랜드 신뢰 ③올바른 사용법 ④정품등록(보증 1년)을 한 번에 전환. Pro 런칭("100개 완판" + 스마트스토어 카테고리 1등 전략)의 CX 기반.
+방향: <strong>전체 고급화.</strong> 디자인 SSOT = 키네메디칼 디자인 시스템 — Pantone 282C 딥 네이비(#002855), "의료 미니멀"(예쁜 미니멀 금지), K+ 로고. Pro의 "완전 고급화" 포지셔닝과 인쇄물 톤을 일치시킨다.
+제작: 디자인 임지우 / 발주·검수 태훈 / 문서 관리 카리나
+<strong>데드라인 역산</strong>: 9월 중순 출시 → 8월 말 인쇄·스티커 입고 → 8월 중순 디자인 확정 → <strong>7~8월 초 카피·스펙 확정</strong></p>
+</blockquote>
+<hr />
+<h2>랜딩 구조 최종 (2026-07-06 태훈 점검 확정)</h2>
+<table>
+<thead>
+<tr>
+<th>인쇄물</th>
+<th>QR 랜딩</th>
+<th>고객 혜택</th>
+<th>랜딩 안에 강력하게</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>③ 사용 가이드</td>
+<td><strong>카페 [사용설명서 게시글]</strong> (가입 열람)</td>
+<td>디테일한 사용법</td>
+<td>설명 영상(unlisted 임베드) + <strong>카톡 플친 유도</strong> + 정품등록 CTA</td>
+</tr>
+<tr>
+<td>② 정품인증 카드</td>
+<td><strong>kinemedical-register.vercel.app</strong></td>
+<td>보증 3개월 → 12개월</td>
+<td><strong>카톡 플친 유도</strong> + 카페 가이드 CTA + 추천코드 활성화</td>
+</tr>
+<tr>
+<td>① 카페 초대장</td>
+<td><strong>카페 필독글</strong> (anchor-1 — 철학·미션)</td>
+<td>소속감·희망·정보·동질감·1분도수 피드백·<strong>"회복 습관 21일"</strong> (프로그램명 확정 2026-07-06, 상세 설계 전이라 인쇄 반영은 보류)</td>
+<td>필독글이 곧 랜딩 — 회복선언 초대로 종결</td>
+</tr>
+<tr>
+<td>④ 감동편지</td>
+<td>랜딩 없음</td>
+<td>—</td>
+<td><strong>브랜딩 전용</strong> (CTA 없음, 감정만)</td>
+</tr>
+</tbody>
+</table>
+<p>카톡 플친이 3개 랜딩 중 2개에 들어감 = CRM 채널 확보가 서브 목표로 전체 관통.</p>
+<h2>패키지 공통 디자인 지침 (고급화)</h2>
+<ul>
+<li>컬러: 딥 네이비(#002855) + 화이트 + 절제된 골드/은박 포인트 1개 이하. 현행 인쇄물의 초록·노랑·이모지 톤 전면 폐기</li>
+<li>타이포: 세리프(명조 계열) 헤드라인 허용 — 편지·인증 카드는 세리프가 프리미엄 톤에 맞음. 본문은 산세리프</li>
+<li>이모지·과한 아이콘 금지. 아이콘은 라인 스타일 1종으로 통일</li>
+<li>지류 제안: 편지 = 코튼 질감지, 인증 카드 = 두꺼운 카드지(0.8mm+) 무광 코팅, 설명서 = 무광 스노우지. "만졌을 때 고급"이 목표</li>
+<li>개봉 순서 설계: 상자 열면 <strong>①감동편지가 맨 위</strong> → ②정품인증 카드 → ③사용 가이드 → ④카페 초대장 (감정 → 행동 순서)</li>
+</ul>
+<hr />
+<h2>① 네이버 카페 초대장</h2>
+<ul>
+<li>✅ 동봉 확정 (2026-07-06 태훈: "우리의 철학이 담겨 있어서 넣는다") — 철학 컨셉 그대로 진행</li>
+<li>✅ 컨셉 확정 (2026-07-06 태훈): 기존 시안("매일회" 챌린지형)은 초안 — <strong>[근골격계 회복모임]으로 변경.</strong> 공식 브랜드 카페 아님. "아픈 사람들이 모여 서로 콘텐츠를 만들어내는 커뮤니티", 6개월 내 대표카페 목표 (PLAN.md 세계관 그대로). 챌린지·이벤트 물품은 미확정 → <strong>카피에 미확정 혜택 넣지 않는다</strong> (확정 요소만: 보증 1년·물치사 답변·자료실·선공개)</li>
+<li>역할: 카페 가입 + 정품등록 플로의 입구. <strong>정품인증 카드(④)와 한 세트로 동작</strong> — 초대장이 감정을 열고, 카드가 행동(1년 보증)을 만든다</li>
+<li>고급화 노트: 초록 톤 → 네이비 기반 재디자인, 세리프 헤드라인. 과장형 수사("놀라운", "평생 무료") 제거 — 절제가 프리미엄</li>
+</ul>
+<h3>초대장 카피 초안 v1 (카리나, 2026-07-06)</h3>
+<p><strong>[앞면]</strong></p>
+<blockquote>
+<p>(상단 소개선) 근골격계 회복모임 초대장</p>
+<p><strong>치료는 병원에서 끝나지만,</strong>
+<strong>회복은 집에서 시작됩니다.</strong></p>
+<p>목·허리·어깨·무릎 — 같은 통증을 겪는 사람들이 모여
+서로의 회복을 기록하고, 다 나으면 '졸업'하는 커뮤니티가 있습니다.</p>
+<p>회복 점수로 인사하고, 현직 물리치료사가 답하고,
+졸업글로 끝나는 곳.</p>
+<p><strong>이 카페의 목표는 단 하나, 당신의 졸업입니다.</strong>
+(QR — <strong>랜딩 = 카페 필독글</strong> anchor-1. 철학을 읽고 회복선언으로 이어지는 동선 — 2026-07-06 확정)</p>
+</blockquote>
+<p><strong>[뒷면] 지금 가입해야 하는 이유 4가지</strong> (v2 — 보증은 인증 카드로 분리, 2026-07-06)</p>
+<blockquote>
+<ol>
+<li><strong>부위별 심화 사용 가이드는 카페에만</strong> — 지면 가이드는 기본편. 부위·증상별 영상 가이드는 카페 회원에게만 공개됩니다</li>
+<li><strong>물리치료사가 직접 답합니다</strong> — 부위·증상 사연을 남기면 현직 물리치료사가 답변합니다</li>
+<li><strong>부위별 풀 루틴은 카페에만</strong> — 영상은 1분 버전, 전체 루틴표와 마스터 가이드는 카페 자료실에 있습니다</li>
+<li><strong>신제품을 가장 먼저</strong> — 회원 선공개·체험단은 카페에서만 진행합니다</li>
+</ol>
+<p>(하단 각주) 보증 1년 정품등록은 동봉된 인증 카드를 확인하세요 — 마감은 수령 후 7일입니다. (QR — 카페 입장)</p>
+</blockquote>
+<ul>
+<li>카피 원칙: 필독글(anchor-1)과 같은 세계관 언어 사용 — "졸업", "회복 점수". 가짜 조기마감 대신 <strong>진짜 데드라인(7일)</strong> 을 압박 장치로 사용</li>
+<li>시점 정합: Pro 출시(9월 중순) = 카페 M2~M3 → 물리치료사 답변 게시판(M3 오픈, PLAN §8)과 맞물림. 오픈이 늦어지면 "물리치료사가 함께합니다"로 완화</li>
+</ul>
+<h2>② 고객 감동편지</h2>
+<ul>
+<li>원고: 태훈 확정본 (아래 §원고 수록 — 이 문서가 원고 SSOT)</li>
+<li>형식: 세리프 타이포, 편지지 1장, 인쇄 서명("1분도수 드림" 손글씨 스캔 권장). 봉투 없이 맨 위에 놓는 것으로 개봉 첫 접점</li>
+<li>의료법 체크: 통과 — "낫게/치료/통증완화" 표현 없음, "뭉친 근육 풀기/한결 가벼워짐" 승인 표현 범위 내</li>
+<li>✅ 사실 확인 완료 (2026-07-06 태훈): SUS316L = ES-808 Pro 사양 확정 → <strong>이 패키지는 Pro 전용이므로 원문 그대로 사용</strong> (수정 불필요)</li>
+<li>⚠️ 단 하나의 금지: 이 편지를 <strong>기존 ES-808(크롬 팁) 출고에 동봉 금지</strong> — 허위 표시가 됨. 기존 제품용 인쇄물을 만들게 되면 SUS316L 문장만 소재명 없는 버전으로 교체 (<em>"피부에 직접 닿는 팁의 소재부터 강도 한 단계까지…"</em>)</li>
+</ul>
+<h2>③ 사용 가이드 (ES-808 Pro, 프리미엄 리디자인)</h2>
+<ul>
+<li>참고 이미지(기존 ES-808 가이드)의 문제: 노랑 배지·이모지·구어체("이 1장이면 끝!👍") = 캐주얼 톤, Pro 고급화 방향과 충돌</li>
+<li>✅ <strong>Pro 스펙 부분 확정 (2026-07-06 태훈)</strong> — facts.json <code>ES-808 Pro.spec</code> (SSOT):</li>
+<li>모드 4개 재구성: 1번 EMS 반복 펄스(탕탕탕탕) / 2번 EMS 구 1번(주르륵) / 3번 TENS 구 5번(지이잉 지이잉) / 4번 TENS 연속 전류(끊김 없음)</li>
+<li>강도: <strong>전원 온 시 기본 5로 시작</strong> / 7~9 구간 세기 40% 상향 (구 모델 대비)</li>
+<li>⚠️ UX 경고 필수: 기본 5 시작 → "목 등 예민한 부위는 켠 직후 강도부터 낮추세요" 지면 명기</li>
+<li>마케팅 포인트: "최대 출력 40% 강화" — 고급화 카피로 활용 가능</li>
+<li>🔴 잔여 TBD: 버튼 조작 방식·LED 표시·구성품(전용 젤/크림)·팁 형태 — 샘플 확인 대기. <strong>내용은 Pro 실물 기준, 기존 가이드 복붙 금지</strong></li>
+</ul>
+<h3>가이드 뒷면 카피 초안 v1 (카리나, 2026-07-06 — TBD 채워지면 확정)</h3>
+<p><strong>STEP 01 — 크림 도포</strong> <em>(구성품 확정 대기)</em></p>
+<blockquote>
+<p>전용 크림을 먼저 발라주세요. 팁 2개가 모두 피부에 닿아야 작동합니다.</p>
+</blockquote>
+<p><strong>STEP 02 — 모드 선택 (4가지)</strong></p>
+<blockquote>
+<table>
+<thead>
+<tr>
+<th>모드</th>
+<th>타입</th>
+<th>느낌</th>
+<th>이럴 때</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>EMS</td>
+<td>탕, 탕, 두드리듯</td>
+<td>단단하게 뭉친 근육을 집중해서 풀 때</td>
+</tr>
+<tr>
+<td>2</td>
+<td>EMS</td>
+<td>주르륵, 주무르듯</td>
+<td>넓은 부위를 부드럽게 풀 때</td>
+</tr>
+<tr>
+<td>3</td>
+<td>TENS</td>
+<td>지잉— 지잉— 끊어지는 자극</td>
+<td>뻐근하고 저린 부위의 신경 자극</td>
+</tr>
+<tr>
+<td>4</td>
+<td>TENS</td>
+<td>끊김 없는 연속 자극</td>
+<td>저림이 오래가는 부위를 지속 관리할 때</td>
+</tr>
+</tbody>
+</table>
+</blockquote>
+<p><strong>STEP 03 — 강도 조절 (1~9)</strong></p>
+<blockquote>
+<p>전원을 켜면 <strong>5단계</strong>에서 시작합니다.
+✔ 목처럼 예민한 부위 — 사용 전 <strong>1~4단계로 먼저 낮춰주세요</strong>
+✔ 팔꿈치·손목·무릎·발목 — 5~9단계
+✔ 7단계부터는 출력이 크게 올라갑니다. 처음엔 6단계 이하를 권장합니다</p>
+</blockquote>
+<ul>
+<li>의료법 체크: EMS="뭉친 근육 풀기" / TENS="신경 자극·저린 느낌" — 승인 표현만 사용, "통증완화" 없음 ✅</li>
+<li>의성어(탕·주르륵·지잉)는 직관 전달용으로 표 안에만 절제 사용 — 본문 톤은 프리미엄 유지</li>
+<li>리디자인 지시서:</li>
+<li>표지 톤: 네이비 헤더 유지하되 배지/이모지 제거. 타이틀 "ES-808 Pro 사용 가이드" + 영문 병기</li>
+<li>앞면(부위): <strong>Pro 실물로 재촬영</strong> (동일 배경·조도) 또는 라인 일러스트 — 일러스트가 의료 미니멀에 더 부합, 권고. 기존 크롬팁 제품 사진 사용 금지 (외형 다름)</li>
+<li>뒷면(조작): STEP 구조 유지. 노랑 하이라이트 → 네이비 라인 박스. SUS316L 팁은 고급화 포인트로 1줄 명기. 의료법 승인 표현 유지 ("통증완화"·"전기치료" 금지 — TENS는 "신경 자극")</li>
+<li>주의사항: 법정 고지 유지 (상처 부위·임산부·암환자·체내금속 금지, 12세 미만 보호자 지도) — 축약 금지</li>
+<li><strong>QR 중심 구조 — 랜딩 = 카페 게시글 (2026-07-06 태훈 확정)</strong>: QR → 카페 [Pro 사용 가이드] 게시글, <strong>가입해야 열람</strong> (Pro 구매자 전원 자동 가입 퍼널). 가드레일 3개:<ol>
+<li>안전·필수 정보(3스텝+법정 주의사항)는 지면에 전부 인쇄 — QR은 "심화 영상 가이드" 포지셔닝 (사용법 인질 불만 차단)</li>
+<li>열람 등급 = <strong>새싹(가입 즉시)</strong> — 등업 조건 금지, 문턱은 가입 1분까지만. 희소성은 기존대로 마스터 가이드·풀 루틴표(회복 시작 등급)가 담당</li>
+<li>영상 = 유튜브 <strong>미등록(unlisted)</strong> 업로드 → 게시글 임베드 (유튜브 검색 노출 차단, 카페에서만)</li>
+</ol>
+</li>
+<li>게시글 필수 구성 (2026-07-06 태훈 확정): ①설명 영상 임베드 ②<strong>카톡 플친 유도</strong> (쿠폰+사용법 알림) ③정품등록 CTA ("보증 1년, 마감 7일")</li>
+<li>Pro용 영상 신규 촬영 (인규/콘텐츠 라인). 가이드 게시글 작성·관리 = 이수빈</li>
+<li>템플릿 확장: Pro 템플릿 확정 후 → KES-8080/KWS-2000(의료기기, 심의 문구 별도 검토)·기존 라인에 순차 적용</li>
+</ul>
+<h2>④ 정품인증 카드 (+ 시리얼 스티커)</h2>
+<ul>
+<li><strong>신규: 시리얼 넘버 도입</strong> — 카드에 시리얼 스티커 부착. 기존 "시리얼 없음, 구매자 정보 확인" 체계 대체</li>
+<li>✅ 시리얼 형식 확정 (2026-07-06 태훈 샘플 수령): <strong><code>KMES</code> + 영숫자 6자리 랜덤</strong> (예: KMESBXFF7M). 순번 아닌 랜덤 = 위조·추측 방지. 샘플 배치 2,999개 → <code>workspace/serial-coupons/es808-serials-sample.csv</code></li>
+<li>⚠️ 기존 <code>KM-XXXX</code> 형식 3,000개 배치(<code>serial-coupons/serials-3000.txt</code>, 쿠폰 체계용)와 <strong>별개 배치 — 혼용 금지.</strong> 정품인증 카드는 KMES 배치만 사용</li>
+<li>적용 범위: <strong>시리얼 카드 체계는 Pro부터 도입.</strong> 기존 제품(ES-808/CS-25/WS-200)은 당분간 기존 정품등록 방식(구매자 정보 확인) 유지, Pro에서 검증 후 확대</li>
+<li>카드 내용: 시리얼 스티커 / 보증 정책 요약 / <strong>등록 QR = 정품인증 사이트</strong> (kinemedical-register.vercel.app — 기존 방식, 카페 경유 안 함. 2026-07-06 태훈 확정)</li>
+<li>보증 문구 (확정, warranty-policy.md v3과 일치):<blockquote>
+<p>"기본 보증 3개월. <strong>수령 후 1주일 내 정품등록 시 12개월로 연장</strong>됩니다. (파손 등 고객 과실 제외)"</p>
+</blockquote>
+</li>
+<li>등록 플로: QR → 인증 사이트에서 시리얼+구매자 정보 입력, 1분. <strong>등록 완료 화면에서 카페 가이드 CTA + 카톡 채널 친추 + 추천코드 활성화 안내</strong> (크로스링크, warranty-policy §3 / referral-program.md)</li>
+<li><strong>추천코드 한 줄 추가 (2026-07-06)</strong>: 카드 뒷면 하단에 — <em>"등록을 마치면 이 시리얼 넘버가 나의 추천코드가 됩니다."</em> 별도 5번째 인쇄물은 만들지 않음 (추천은 만족 후 행동 — 접점은 완료 화면·D+14 CRM·카페 글이 담당, referral-program.md §3)</li>
+<li>운영: 스티커 인쇄 발주 + 출고 시 카드 부착 + <strong>시리얼-주문 매핑 기록</strong>(이지어드민 라인) 공정은 명희와 확정. 인증 사이트에 시리얼 필드 + 유효성 검증 + 7일 판정 + admin 만료일 표시 — 개실장 개발 범위</li>
+</ul>
+<hr />
+<h2>실행 순서 (9월 중순 출시 역산)</h2>
+<table>
+<thead>
+<tr>
+<th>시점</th>
+<th>액션</th>
+<th>담당</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>7월</td>
+<td>초대장 카피 컨펌(태훈) + Pro 샘플로 조작 체계·구성품 스펙 확정</td>
+<td>태훈/소싱차이나</td>
+</tr>
+<tr>
+<td>7~8월 초</td>
+<td>공통 디자인 가이드 → ②편지 → ④카드 → ①초대장 → ③가이드(스펙 확정 후)</td>
+<td>임지우</td>
+</tr>
+<tr>
+<td>병행</td>
+<td>정품등록 폼 개발 (KMES 시리얼 검증 + 7일 판정)</td>
+<td>개실장</td>
+</tr>
+<tr>
+<td>병행</td>
+<td>Pro 사용법 영상 촬영 (QR 연결용 재생목록)</td>
+<td>인규/콘텐츠</td>
+</tr>
+<tr>
+<td>8월 말</td>
+<td>인쇄·시리얼 스티커 입고 + 출고 부착 공정·시리얼-주문 매핑 셋업</td>
+<td>명희</td>
+</tr>
+<tr>
+<td>9월 초</td>
+<td>물류 리허설 — 삽입 순서(편지 맨 위) 검수</td>
+<td>명희</td>
+</tr>
+<tr>
+<td>9월 중순</td>
+<td>Pro 출시 + 패키지 동봉 개시. 카페는 이 시점 M2 — 구매자 유입 엔진 가동</td>
+<td>전원</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>§원고 — 고객 감동편지 (태훈 확정본, 2026-07-06)</h2>
+<p>사랑하는 고객님께</p>
+<p>안녕하세요, 1분도수입니다. 늦은 새벽, 후기를 읽고 고객님을 떠올리며 이 편지를 씁니다.</p>
+<p>어깨가 묵직해도, 손목이 시큰해도, 무릎이 뻐근해도 우리는 늘 "이따 풀지 뭐" 하고 하루를 넘깁니다. 나 하나쯤은 뒤로 미뤄도 괜찮다고, 그렇게 며칠이, 몇 년이 쌓여왔을지도 모릅니다. 아파도 참고, 참다가 또 하루를 버팁니다.</p>
+<p>그러다 어느 날 문득 서글퍼집니다. '내 몸이 예전 같지 않구나.' 하지만 고객님, 그건 몸이 약해진 게 아니라, 그동안 누구보다 열심히 살아온 흔적입니다.</p>
+<p>우리는 모두 누군가의 엄마로, 아빠로, 딸로, 아들로, 그리고 동료로 살아갑니다. 하루하루가 벅찬데도 늘 그 이상을 해내야 하는 현실 속에서, 정작 내 몸을 돌보는 시간은 자꾸만 뒤로 밀립니다.</p>
+<p>그래서 저희는 매일 딱 1분을 이야기합니다. 거창한 운동도, 큰맘 먹은 결심도 아닌, 하루 1분. 뭉친 그 자리에 잠깐 대어주는 그 1분이 쌓여 몸이 한결 가벼워진다는 걸, 저희는 수많은 고객님을 통해 확인해왔습니다.</p>
+<p>"다시 편해지는 데 늦은 때는 없습니다."</p>
+<p>최근 저희 채널과 카페를 통해 수백 개의 사연을 마주했습니다. 아침마다 목이 안 돌아갔는데 이제 한결 가벼워졌다는 이야기, 무릎이 시큰해 계단을 피하던 부모님이 다시 산책을 나가셨다는 이야기, 일하느라 굳은 어깨를 밤마다 도수펜으로 풀며 하루를 마무리한다는 이야기까지. 눈물 없이 읽기 어려운 사연이 참 많았습니다.</p>
+<p>그 이야기들을 마주하며 다시 느꼈습니다. 저희가 직접 만든 제품이 단지 뭉친 근육을 풀어주는 기기에 그치지 않고, 누군가의 하루와 삶 전체에 따뜻한 울림을 줄 수 있다는 것을요.</p>
+<p>그래서 저희는 더 무겁게 책임을 느낍니다. 정말 안전하고, 제대로 효과를 전하는 제품을 만드는 것이 이 감사한 마음에 보답하는 유일한 길이라고 믿습니다. 저희가 키네메디칼이라는 이름으로 자체 품질 기준을 세우고, 피부에 직접 닿는 팁 하나도 저가형 크롬이 아닌 고가의 의료용 스테인리스 SUS316L 소재를 사용하고, 강도 한 단계까지 몸에 닿는 모든 요소를 철저히 검토하는 이유도 바로 여기에 있습니다.</p>
+<p>몸을 돌보는 일은 한 번으로 끝나지 않습니다. 매일의 짧은 1분이 쌓여, 어느새 달라진 내일을 만듭니다. 그 1분을 저희가 곁에서 함께하겠습니다.</p>
+<p>다만 한 가지, 꼭 부탁드리고 싶은 게 있습니다. 같은 기기라도 어떤 부위에, 어떤 각도로, 몇 강도로 대느냐에 따라 시원함이 완전히 달라집니다. 목이 뻐근할 때, 손목이 시큰할 때, 종일 걸어 무릎이 무거울 때 부위마다 가장 효과적인 사용법이 따로 있습니다.</p>
+<p>그래서 저희 채널과 카페에 부위별 사용 가이드와, 먼저 써보신 분들이 찾아낸 노하우를 차곡차곡 모아두었습니다. 잠깐 들러 내 몸에 맞는 방법 하나만 익혀 가셔도, 오늘 이 기기의 효과가 몇 배는 달라질 겁니다. 궁금한 점이 있으시면 언제든 편하게 여쭤봐 주세요. 저희가 끝까지 함께 답을 찾아드리겠습니다.</p>
+<p>이 작은 기기가 고객님 곁에 오래 머물며, 지친 하루의 끝을 조금은 가볍게 만들어드리길 진심으로 바랍니다.</p>
+<p>오늘도 애쓰신 고객님, 진심으로 감사합니다.</p>
+<p>1분도수 드림</p></div></section><section class="chapter" id="ch2"><div class="chap-head"><div><div class="no">CHAPTER 02</div><h2>보증 정책 v3</h2><div class="src">es808-pro/warranty-policy.md</div></div><a class="up" href="#top">↑ 목차</a></div><div class="md"><h1>보증연장 정책 v3 — "1주일 내 등록하면 1년" (2026-07-06 확정)</h1>
+<blockquote>
+<p>📁 <code>es808-pro/</code> (Pro 런칭 CX). 카페 문서는 <code>../cafe/</code></p>
+<p>v3 변경 (태훈): <strong>정품등록 = 기존 정품인증 사이트에서, 기존 방식대로.</strong> 카페 가입·회복선언을 등록 요건에 넣었던 v2.1 설계 폐기 — 운영 복잡도만 높였음. 카페 가입은 사용법 QR 게이팅(print-package §③)이 이미 해결하므로 레버 분리.
+인증 사이트: https://kinemedical-register.vercel.app/ · 관리자: /admin.html</p>
+</blockquote>
+<hr />
+<h2>0. 레버 분리 (설계 원칙)</h2>
+<table>
+<thead>
+<tr>
+<th>목적</th>
+<th>담당 장치</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>보증 1년 (등록 전환)</td>
+<td><strong>정품인증 사이트</strong> — 시리얼+구매자 정보, 7일 판정</td>
+</tr>
+<tr>
+<td>카페 가입</td>
+<td><strong>사용법 QR 게이팅</strong> — 가이드 게시글 가입 열람 (필수 동선)</td>
+</tr>
+<tr>
+<td>첫 글 (회복선언)</td>
+<td><strong>D+3 CRM 부스터젤 쿠폰</strong> — "회복선언 남기면 쿠폰"</td>
+</tr>
+</tbody>
+</table>
+<p>한 레버에 목적 하나. 보증에 카페 요건을 섞지 않는다.</p>
+<h2>1. 정책 (확정)</h2>
+<table>
+<thead>
+<tr>
+<th>구분</th>
+<th>조건</th>
+<th>보증</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>기본</td>
+<td>구매만 (조건 없음)</td>
+<td><strong>3개월</strong></td>
+</tr>
+<tr>
+<td>정품등록</td>
+<td><strong>수령 후 7일(1주일) 이내</strong> 인증 사이트에서 등록 완료</td>
+<td><strong>1년</strong></td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>등록 = 인증 사이트에서 <strong>시리얼 넘버(카드 스티커) + 구매자 정보</strong> 입력. 1분.</li>
+<li>7일 지나면 소멸 (기본 3개월만). 예외 없음.</li>
+<li>파손 등 고객 과실 제외 (아래 §2). 전 제품 공통 정책, 시리얼 카드는 Pro부터 도입.</li>
+</ul>
+<h3>핵심 카피 (전 채널 공용)</h3>
+<blockquote>
+<p><strong>"보증 3개월? 7일 안에 등록하면 1년. 1분이면 됩니다."</strong></p>
+</blockquote>
+<h2>2. 보증 범위 가드 (등록 페이지·카드 고지)</h2>
+<ul>
+<li>대상: 제조 결함 무상 수리/교환. <strong>소비자 과실(파손 포함)·소모품(부스터젤·패드류)·외관 손상 제외</strong></li>
+<li>왕복 배송비: 결함 확인 시 회사 부담 / 결함 아님 판정 시 고객 부담 (CS-25 왕복 14,000원 기존 규정 준수)</li>
+<li>기산일: 배송완료일. 양도 불가 (등록 구매자 본인 기준)</li>
+</ul>
+<h2>3. 등록 완료 화면 = 크로스링크 3종 (전환 이어가기)</h2>
+<p>등록이 끝난 순간이 두 번째 전환 타이밍. 완료 화면에 배치:
+1. <strong>추천코드 활성화 안내</strong> — "이제 회복을 돕는 사람이 되셨습니다" + 시리얼=추천코드 + 복사 버튼 (referral-program.md §2)
+2. <strong>"부위별 사용법 가이드 보러가기" 버튼</strong> → 카페 가이드 게시글 (가입 열람 — QR 안 찍은 구매자도 여기서 카페 퍼널 진입)
+3. <strong>카카오톡 채널 친구추가</strong> — "채널 추가하면 부스터젤 쿠폰 + 사용법 알림"</p>
+<h2>4. 시스템/운영</h2>
+<ul>
+<li><strong>인증 사이트 개발 (개실장)</strong>: ①시리얼 필드 추가 + 유효성 검증(KMES 발번 리스트 대조, <code>serial-coupons/es808-serials-sample.csv</code>) ②7일 판정(시리얼→출고일 매핑 or 배송완료일 입력 대조) ③완료 화면 카페 CTA·카톡 버튼 ④admin.html에 보증 만료일 표시</li>
+<li><strong>시리얼 공정 (명희)</strong>: KMES 스티커 인쇄 → 출고 시 정품인증 카드 부착 + 시리얼-주문 매핑 기록. 기존 KM-XXXX 쿠폰 배치와 혼용 금지</li>
+<li><strong>CS (오은옥)</strong>: 보증 문의 시 admin.html 기준 판정 — 별도 수동 대조 시트 불필요 (v2.1의 카페 닉네임/글 링크 대조 업무 전부 폐기)</li>
+<li>참고: 기존 "카카오 친구 10% 할인"은 이 체계가 대체. 기본 3개월+정품 +3개월(최대 6개월) 구 정책도 이 정책으로 대체</li>
+</ul>
+<h2>5. 채널별 배치</h2>
+<table>
+<thead>
+<tr>
+<th>접점</th>
+<th>내용</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>정품인증 카드 (패키지 ④)</td>
+<td>시리얼 스티커 + "기본 보증 3개월. 수령 후 1주일 내 정품등록 시 12개월로 연장 (파손 등 고객 과실 제외)" + <strong>등록 QR = 인증 사이트</strong></td>
+</tr>
+<tr>
+<td>배송완료 문자</td>
+<td>등록 안내 + "7일" 카운트 시작 고지</td>
+</tr>
+<tr>
+<td>D+3 CRM (데이터라이즈)</td>
+<td>"등록 마감 4일 전" 리마인드 + "회복선언 남기면 부스터젤 쿠폰" (첫 글 훅)</td>
+</tr>
+<tr>
+<td>등록 완료 화면</td>
+<td>카페 가이드 CTA + 카톡 채널 친추 (§3)</td>
+</tr>
+<tr>
+<td>상세페이지 하단</td>
+<td>정책 표 + "회복 기록 보러가기"</td>
+</tr>
+</tbody>
+</table>
+<h2>6. 소급 이벤트 — ⏸ 보류 (2026-07-06 태훈: "나중으로, 우선순위 낮음")</h2>
+<ul>
+<li>기존 구매자 "등록 시 1년" CRM 문자 1회 — v3에서 회복선언 시딩 효과가 사라져 기대효과 하향(DB 정비+크로스링크 노출만 남음)</li>
+<li>재검토 시점: <strong>카페 M2(유입 개통) 구간</strong>에 CRM 카드로 활용</li>
+</ul>
+<p>확정 시 실행 순서 (카리나 지휘): ① 개실장 — 인증 사이트 개발(§4) ② CS 매뉴얼 갱신 ③ CRM 문자·카톡 웰컴 세팅 ④ 카드·패키지 인쇄 (print-package.md 타임라인)</p></div></section><section class="chapter" id="ch3"><div class="chap-head"><div><div class="no">CHAPTER 03</div><h2>시리얼 = 추천코드</h2><div class="src">es808-pro/referral-program.md</div></div><a class="up" href="#top">↑ 목차</a></div><div class="md"><h1>시리얼 = 추천코드 프로그램 기획 (v1, 2026-07-06 태훈 아이디어)</h1>
+<blockquote>
+<p>📁 <code>es808-pro/</code> (Pro 런칭 CX). 카페 규정(rules-5약속 등)은 <code>../cafe/</code></p>
+<p>구조: 정품등록 완료 → 그 시리얼 넘버(KMES-)가 본인의 추천코드로 활성화.
+정체성 프레임: <strong>"당신은 회복을 돕는 사람입니다"</strong> — 추천 = 영업이 아니라 아픈 지인을 돕는 행위. 필독글 서사("정직하게 낫게 하면 나은 사람이 아픈 사람을 데려온다")의 시스템 버전.
+상위 전략: 마이프로틴 모델(MEMORY.md 인플루언서 추천코드 전략)의 <strong>일반 고객 확장판.</strong> 인플루언서(최지은 라인)와 코드 체계 공유 가능.</p>
+</blockquote>
+<hr />
+<h2>1. 인센티브 구조 (✅ 2026-07-06 태훈 확정)</h2>
+<table>
+<thead>
+<tr>
+<th>대상</th>
+<th>보상</th>
+<th>확정값</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>추천받는 사람 (신규 구매자)</td>
+<td>구매 할인</td>
+<td><strong>10%</strong></td>
+</tr>
+<tr>
+<td>추천한 사람 (등록 고객)</td>
+<td>자사몰 적립금</td>
+<td><strong>5,000P 정액</strong> (건당)</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>
+<p>정액(5,000P)의 장점: 정산 단순, 제품 가격 무관하게 공평, 어뷰징 노출 시 손실 상한 예측 가능</p>
+</li>
+<li>
+<p>발동: 신규 구매자가 결제 시 코드 입력 → 즉시 할인 / 구매확정 후 추천인에게 적립금</p>
+</li>
+<li>적립금 = Cafe24 적립금 체계 사용 (시리얼→구매자 매핑이 있으므로 계정 연결 가능)</li>
+<li>코드 = 시리얼 그대로 (KMES + 6자리). 별도 발급 절차 없음 — 등록이 곧 활성화</li>
+</ul>
+<h2>2. 정체성 카피 (핵심 — 할인 프로그램이 아니라 역할 부여)</h2>
+<p>등록 완료 화면:</p>
+<blockquote>
+<p><strong>"이제 회복을 돕는 사람이 되셨습니다."</strong>
+주변에 목·허리·어깨로 고생하는 분이 있다면, 내 시리얼 넘버를 알려주세요.
+그분은 할인을 받고, 당신에게는 포인트가 쌓입니다.</p>
+</blockquote>
+<ul>
+<li>금지 톤: "친구 초대하고 돈 버세요" 류 리워드 앱 문법 — 프리미엄·의료 미니멀과 충돌. 항상 "돕는다"가 주어, 보상은 부차로</li>
+</ul>
+<h2>3. 접점 배치 (5번째 인쇄물 없음 — 2026-07-06 결정)</h2>
+<table>
+<thead>
+<tr>
+<th>접점</th>
+<th>내용</th>
+<th>시점</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>인증 카드 뒷면 (인쇄물 ④)</td>
+<td>한 줄: "등록을 마치면 이 시리얼 넘버가 나의 추천코드가 됩니다"</td>
+<td>개봉</td>
+</tr>
+<tr>
+<td>등록 완료 화면</td>
+<td>§2 정체성 카피 + 코드 복사 버튼 (크로스링크 4종: 카페 CTA·카톡·추천코드)</td>
+<td>등록 직후</td>
+</tr>
+<tr>
+<td>D+14 CRM 문자</td>
+<td>기존 재구매 시퀀스에 추천 유도 결합 ("만족하셨다면, 아픈 지인에게…")</td>
+<td>만족 확인 후</td>
+</tr>
+<tr>
+<td>카페 공지 글</td>
+<td>프로그램 소개 + 졸업생 서사 연결 (태훈: "카페에 글로 올릴 것")</td>
+<td>상시</td>
+</tr>
+<tr>
+<td>카톡 채널</td>
+<td>웰컴 시퀀스에 코드 리마인드</td>
+<td>친추 후</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><strong>인쇄물 5종 확장 안 함</strong>: 개봉 순간의 메시지 예산 보존(감정→행동→사용→소속으로 완결). 추천은 "제품 만족 후" 행동이라 개봉 시점 인쇄물은 타이밍 미스매치</li>
+</ul>
+<h2>4. 카페와의 관계 (⚠️ 오염 방지)</h2>
+<ul>
+<li>카페 공지로 프로그램 <strong>소개는 OK</strong>, 그러나 <strong>카페 내 코드 나눔/홍보 글 금지</strong> — 회복 커뮤니티가 할인코드 장터가 되면 세계관 붕괴 + 네이버 카페 상업성 리스크</li>
+<li>코드 공유는 1:1 지인 채널(카톡 등)로 유도. 카페 운영규정(rules-5약속)에 "추천코드 게시 금지" 1줄 추가 필요 (이수빈)</li>
+</ul>
+<h2>5. 어뷰징 가드 (v1은 최소한만)</h2>
+<ol>
+<li>본인 주문에 본인 코드 사용 불가 (구매자 정보 대조)</li>
+<li>적립금 지급은 구매확정(반품 기간 경과) 후</li>
+<li>대량 살포 계정(쿠폰 수집 사이트 등) 발견 시 코드 비활성화 권한 — admin에서 시리얼 단위 on/off</li>
+<li>상한은 일단 없음 — 많이 도울수록 많이 쌓이는 게 프로그램 취지. 이상 패턴만 모니터링</li>
+</ol>
+<h2>6. 구현 (개실장 범위 — 인증 사이트 개발과 한 묶음)</h2>
+<ol>
+<li>Cafe24 쿠폰: 시리얼 = 쿠폰코드 등록 (기존 <code>serial-coupons/cafe24-coupons-3000.xlsx</code> 체계 참고 — KM- 구배치 경험 재사용)</li>
+<li>등록 완료 시 해당 시리얼 쿠폰 활성화 (미등록 시리얼 코드는 비활성 = 등록 유인 유지)</li>
+<li>추천 발생 → 추천인 적립금 지급: 초기 수동(월 1회 정산, admin에서 추천 건 조회) → 자동화</li>
+<li>admin.html: 시리얼별 추천 실적(사용 횟수·발생 매출·지급 적립금) 컬럼</li>
+</ol>
+<h2>7. 태훈 컨펌</h2>
+<ol>
+<li>✅ 인센티브 확정 (2026-07-06): 받는 지인 10% 할인 / 추천인 적립금 5,000P 정액</li>
+<li>🔴 적용 범위 — Pro부터? 전 제품 동시? (권고: Pro부터, 시리얼 카드와 함께 검증 후 확대)</li>
+<li>🔴 카페 운영규정에 코드 게시 금지 추가 (§4) 동의 여부</li>
+</ol></div></section>
+<p class="foot">이 페이지는 레포 원본(md)의 파생본 — 갱신은 원본 수정 후 <code>scripts/build-masterbooks.py</code> 재실행. ·
+연결: <a href="/cafe-masterbook">🌱 근골격계 회복모임 마스터북</a> · 빌드 2026-07-07 카리나</p>
+</div></body>
 </html>

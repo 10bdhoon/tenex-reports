@@ -4,200 +4,1262 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="robots" content="noindex, nofollow">
-<title>근골격계 회복모임 — 카페 마스터북</title>
+<title>근골격계 회복모임 — 마스터북</title>
 <style>
-:root{
-  --navy:#002855; --ink:#22303f; --muted:#5c6b7a;
-  --paper:#f7f8f7; --sheet:#ffffff; --line:#d9dee3; --gold:#a8862f; --green:#0f6e56;
-  --serif:'Nanum Myeongjo','AppleMyungjo','Noto Serif KR',Georgia,serif;
-  --sans:-apple-system,BlinkMacSystemFont,'Apple SD Gothic Neo','Pretendard','Malgun Gothic',sans-serif;
-}
+:root{--navy:#002855;--ink:#22303f;--muted:#5c6b7a;--paper:#f7f8f7;--sheet:#fff;--line:#d9dee3;--gold:#a8862f;
+--serif:'Nanum Myeongjo','AppleMyungjo','Noto Serif KR',Georgia,serif;
+--sans:-apple-system,BlinkMacSystemFont,'Apple SD Gothic Neo','Pretendard','Malgun Gothic',sans-serif}
 body{background:var(--paper);color:var(--ink);font-family:var(--sans);line-height:1.75;margin:0}
 .wrap{max-width:900px;margin:0 auto;padding:56px 24px 80px}
 .eyebrow{font-size:12px;letter-spacing:.18em;color:var(--gold);font-weight:600;text-transform:uppercase}
-h1{font-family:var(--serif);font-size:34px;line-height:1.35;color:var(--navy);margin:10px 0 8px;font-weight:700;text-wrap:balance}
+h1.book{font-family:var(--serif);font-size:34px;line-height:1.35;color:var(--navy);margin:10px 0 8px;font-weight:700}
 .sub{color:var(--muted);font-size:15px;max-width:64ch}
-h2{font-family:var(--serif);font-size:22px;color:var(--navy);margin:0 0 6px;font-weight:700}
-h3{font-size:15px;color:var(--navy);margin:20px 0 8px;font-weight:700}
 .meta{display:flex;flex-wrap:wrap;gap:10px;margin:22px 0 0}
 .chip{background:var(--sheet);border:1px solid var(--line);padding:6px 14px;font-size:13px}
 .chip b{color:var(--navy)}
-section{margin-top:60px}
-.sechead{display:flex;align-items:baseline;gap:14px;border-bottom:2px solid var(--navy);padding-bottom:10px;margin-bottom:20px}
-.secno{font-family:var(--serif);font-size:15px;color:var(--gold);white-space:nowrap}
-.lede{color:var(--muted);font-size:14.5px;max-width:66ch;margin:0 0 18px}
-table{width:100%;border-collapse:collapse;font-size:13.5px;background:var(--sheet)}
-th{background:var(--navy);color:#fff;text-align:left;font-weight:600;padding:9px 14px;font-size:12.5px;letter-spacing:.04em}
-td{border-bottom:1px solid var(--line);padding:10px 14px;vertical-align:top}
-td:first-child{white-space:nowrap;color:var(--navy);font-weight:600}
-.tablebox{overflow-x:auto;border:1px solid var(--line);margin-bottom:8px}
-.quote{background:var(--sheet);border:1px solid var(--line);border-left:3px solid var(--gold);padding:20px 26px;margin:18px 0;font-family:var(--serif);font-size:16px;color:var(--navy)}
-.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px}
-.card{background:var(--sheet);border:1px solid var(--line);border-top:3px solid var(--navy);padding:16px 18px}
-.card .t{font-size:14px;font-weight:700;color:var(--navy)}
-.card .d{font-size:13px;color:var(--muted);margin-top:6px;line-height:1.65}
-ul.dir{margin:12px 0 0;padding-left:0;list-style:none;display:grid;gap:8px}
-ul.dir li{background:var(--sheet);border:1px solid var(--line);padding:10px 16px;font-size:13.5px}
-ul.dir li b{color:var(--navy)}
-.warn{background:#fdf1f0;border:1px solid #eec6c0;padding:12px 16px;font-size:13.5px;margin-top:12px}
-.warn b{color:#993c1d}
-.flow{display:flex;flex-wrap:wrap;gap:8px}
-.flow .step{flex:1 1 100px;background:var(--sheet);border:1px solid var(--line);border-top:3px solid var(--green);padding:10px 12px;min-width:96px}
-.flow .step .k{font-size:10.5px;letter-spacing:.1em;color:var(--gold);font-weight:600}
-.flow .step .t{font-size:13.5px;font-weight:700;color:var(--navy);margin-top:2px}
-.flow .step .d{font-size:11.5px;color:var(--muted);margin-top:3px;line-height:1.5}
-.block{background:var(--navy);color:#fff;padding:26px 30px;margin-top:60px}
-.block h2{color:#fff;margin-bottom:12px}
-.block ul{margin:0;padding-left:20px;font-size:14.5px;line-height:2}
-.block li::marker{color:var(--gold)}
-.foot{margin-top:40px;color:var(--muted);font-size:12.5px;border-top:1px solid var(--line);padding-top:16px}
-a{color:var(--navy)}
+.toc{margin-top:44px}
+.toc-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:12px;margin-top:14px}
+.toc-card{display:block;background:var(--sheet);border:1px solid var(--line);border-top:3px solid var(--navy);padding:14px 16px;text-decoration:none;color:var(--ink)}
+.toc-card:hover{border-color:var(--navy)}
+.toc-card .n{font-family:var(--serif);font-size:12px;color:var(--gold)}
+.toc-card .t{font-size:14.5px;font-weight:700;color:var(--navy);margin-top:2px}
+.toc-card .d{font-size:12.5px;color:var(--muted);margin-top:4px;line-height:1.55}
+.toc-card .p{font-size:11px;color:var(--muted);margin-top:6px;font-family:ui-monospace,monospace}
+.chapter{margin-top:72px}
+.chap-head{border-bottom:3px solid var(--navy);padding-bottom:12px;margin-bottom:24px;display:flex;justify-content:space-between;align-items:flex-end;gap:12px;flex-wrap:wrap}
+.chap-head .no{font-family:var(--serif);font-size:13px;color:var(--gold)}
+.chap-head h2{font-family:var(--serif);font-size:24px;color:var(--navy);margin:2px 0 0;font-weight:700}
+.chap-head .src{font-size:11.5px;color:var(--muted);font-family:ui-monospace,monospace}
+.chap-head a.up{font-size:12px;color:var(--muted);text-decoration:none;white-space:nowrap}
+.md{font-size:14.5px}
+.md h1{font-family:var(--serif);font-size:20px;color:var(--navy);margin:34px 0 10px;font-weight:700}
+.md h2{font-family:var(--serif);font-size:19px;color:var(--navy);margin:34px 0 10px;font-weight:700;border-bottom:1px solid var(--line);padding-bottom:6px}
+.md h3{font-size:15.5px;color:var(--navy);margin:24px 0 8px;font-weight:700}
+.md h4{font-size:14px;color:var(--navy);margin:18px 0 6px;font-weight:700}
+.md p{margin:0 0 12px;max-width:72ch}
+.md ul,.md ol{margin:0 0 14px;padding-left:22px}
+.md li{margin:4px 0}
+.md table{width:100%;border-collapse:collapse;font-size:13px;background:var(--sheet);margin:12px 0 18px;display:block;overflow-x:auto}
+.md th{background:var(--navy);color:#fff;text-align:left;font-weight:600;padding:8px 12px;font-size:12px;white-space:nowrap}
+.md td{border-bottom:1px solid var(--line);padding:8px 12px;vertical-align:top}
+.md blockquote{background:var(--sheet);border:1px solid var(--line);border-left:3px solid var(--gold);margin:12px 0 16px;padding:12px 18px;color:var(--ink)}
+.md blockquote p{margin:0 0 8px}
+.md blockquote p:last-child{margin:0}
+.md code{background:#ecefee;padding:1px 6px;font-size:12.5px;font-family:ui-monospace,monospace;color:var(--navy)}
+.md pre{background:var(--sheet);border:1px solid var(--line);padding:14px 16px;overflow-x:auto;font-size:12px;line-height:1.6}
+.md pre code{background:none;padding:0}
+.md hr{border:0;border-top:1px solid var(--line);margin:26px 0}
+.md a{color:var(--navy)}
+.md strong{color:var(--navy)}
+.foot{margin-top:60px;color:var(--muted);font-size:12.5px;border-top:1px solid var(--line);padding-top:16px}
+.foot a{color:var(--navy)}
 </style>
 </head>
 <body>
-
-<div class="wrap">
+<div class="wrap" id="top">
 <header>
-  <div class="eyebrow">Tenex · 커뮤니티 마스터북 · 2026-07-06</div>
-  <h1>근골격계 회복모임</h1>
-  <p class="sub">아픈 사람이 들어와서, 낫는 과정을 인정받고, 다 나으면 '졸업'하는 카페. 아픈 사람들이 모여 서로 콘텐츠를 만들어내는 커뮤니티 — 공식 브랜드 카페가 아니다.</p>
-  <div class="meta">
-    <span class="chip">목표 <b>6개월 내 대표카페</b> (~2027-01)</span>
-    <span class="chip">DRI <b>태훈</b> · 실무 <b>이수빈</b> (7/7 출근)</span>
-    <span class="chip"><b>cafe.naver.com/insidesoccernj</b></span>
-  </div>
+  <div class="eyebrow">Tenex · 커뮤니티 마스터북 (전 문서 수록)</div>
+  <h1 class="book">🌱 근골격계 회복모임</h1>
+  <p class="sub">네이버 카페 프로젝트의 모든 문서 전문. 아픈 사람이 들어와서, 낫는 과정을 인정받고, 다 나으면 '졸업'하는 카페 — 6개월 내 대표카페.</p>
+  <div class="meta"><span class="chip">목표 <b>6개월 내 대표카페</b> (~2027-01)</span><span class="chip">DRI <b>태훈</b> · 실무 <b>이수빈</b></span><span class="chip"><b>cafe.naver.com/insidesoccernj</b></span><span class="chip">SSOT <b>workspace/cafe/</b></span></div>
 </header>
+<nav class="toc"><div class="eyebrow">목차 — 수록 문서 9건</div>
+<div class="toc-grid"><a class="toc-card" href="#ch1"><span class="n">CH 01</span><div class="t">마스터 기획서</div><div class="d">전략·세계관·게시판·등급·로드맵 — 모든 것의 시작점</div><div class="p">cafe/PLAN.md</div></a><a class="toc-card" href="#ch2"><span class="n">CH 02</span><div class="t">일상 운영 플레이북</div><div class="d">이수빈 데일리 — 온보딩·루틴·금지·보고</div><div class="p">cafe/ops-daily.md</div></a><a class="toc-card" href="#ch3"><span class="n">CH 03</span><div class="t">등급 시스템 v5</div><div class="d">6단계: 새싹 → 회복 시작·적응·안정·확정 → V</div><div class="p">cafe/grade-system.md</div></a><a class="toc-card" href="#ch4"><span class="n">CH 04</span><div class="t">[필독] 5가지 약속</div><div class="d">카페 규칙 원고</div><div class="p">cafe/rules-5약속.md</div></a><a class="toc-card" href="#ch5"><span class="n">CH 05</span><div class="t">글양식 5종</div><div class="d">게시판별 작성 양식</div><div class="p">cafe/post-templates.md</div></a><a class="toc-card" href="#ch6"><span class="n">CH 06</span><div class="t">페르소나 + 30일 캘린더</div><div class="d">4계정 프로필·운영보안·주차별 스케줄</div><div class="p">cafe/personas-30day.md</div></a><a class="toc-card" href="#ch7"><span class="n">CH 07</span><div class="t">카피 세트</div><div class="d">대문·등업·CTA·CRM 문자</div><div class="p">cafe/copy-set.md</div></a><a class="toc-card" href="#ch8"><span class="n">CH 08</span><div class="t">앵커글 ① 필독글 원고</div><div class="d">&quot;고백합니다…&quot; — 초대장 QR의 랜딩</div><div class="p">cafe/anchor-1-필독글.md</div></a><a class="toc-card" href="#ch9"><span class="n">CH 09</span><div class="t">앵커글 ② 찐 후기 원고</div><div class="d">L45아빠 — 타인증명 대형 후기</div><div class="p">cafe/anchor-2-찐후기.md</div></a></div></nav>
+<section class="chapter" id="ch1"><div class="chap-head"><div><div class="no">CHAPTER 01</div><h2>마스터 기획서</h2><div class="src">cafe/PLAN.md</div></div><a class="up" href="#top">↑ 목차</a></div><div class="md"><h1>[근골격계 회복모임] 네이버 카페 마스터 기획서</h1>
+<blockquote>
+<p>작성: 2026-07-05 | 근거: 네창사 4주차 강의 + facts.json (SSOT)
+DRI: 태훈 (네이버 카페 SEO 및 커뮤니티 총괄) | 운영 실무: 이수빈 (2026-07-07 출근) — 데일리 플레이북 <code>ops-daily.md</code>
+<strong>카페명 확정: 근골격계 회복모임 [목 허리 디스크 무릎 어깨 손목 발목 통증]</strong>
+<strong>URL: https://cafe.naver.com/insidesoccernj</strong>
+목표: <strong>6개월 내(~2027-01) 근골격계 대표카페</strong></p>
+</blockquote>
+<hr />
+<h2>0. 전략 포지션</h2>
+<p><strong>"아픈 사람이 들어와서, 낫는 과정을 인정받고, 다 나으면 '졸업'하는 카페"</strong></p>
+<ul>
+<li>스텔스가 아닌 <strong>오픈 브랜드 앵커 커뮤니티</strong>: 1분도수/키네메디칼이 운영 철학으로 정면에 선다.</li>
+<li>1분도수 전 채널(합산 27.7만) + 키네메디칼 구매자 = <strong>모든 트래픽의 종착지</strong>.</li>
+<li>기회: 직전 대표카페(척추카페)가 외부 제휴광고 과다로 대표 딱지 박탈 → 자리가 비어 있음.</li>
+<li>구조적 우위: 우리 수익모델은 자사 제품이라 <strong>카페 안에서 광고를 팔 필요가 없다.</strong> 네이버가 원하는 깨끗한 카페와 우리 매출 구조가 충돌하지 않음 (척추카페가 못 하던 것).</li>
+<li>광고 원칙 (2026-07-05 태훈 방향 확정):</li>
+<li><strong>대표카페 달성 전(~M6): 외부 제휴광고 0건.</strong> 자사 노출도 필독글·글양식·베네핏 구조 안에서만.</li>
+<li><strong>달성 후: 결이 맞는 전략적 제휴만 선별 수용.</strong> 기준 4가지 — ①회원 이익이 명확한가 ②회복 세계관에 부합하는가(예: 인체공학 의자/매트리스/베개, 재활운동 시설, 자세·수면 카테고리) ③'제휴' 투명 표시(표시광고법) ④빈도 절제 + 네이버 정책 준수 (척추카페 실패 원인 = 과다 + 경고 무시)</li>
+<li>대외 약속은 "무광고"가 아니라 <strong>"몰래 심는 광고 없음 + 제휴는 투명 표시"</strong> — 필독글 문구 기준.</li>
+</ul>
+<h2>1. 타겟 &amp; 동질성</h2>
+<ul>
+<li>타겟: 목/허리 디스크·협착·거북목 2040. 병원 다녀봤고, 수술 무섭고, 스스로 해보려는 사람.</li>
+<li>가입질문: 통증 부위 + 통증점수(1~10) 필수 → 입구에서 "나도 아픈 사람" 동질성 확보.</li>
+<li>공통 욕망: "통증 없던 몸으로 돌아가고 싶다" + "남도 나았으면"(질병 커뮤니티형 인정욕구).</li>
+</ul>
+<h2>2. 세계관 · 은어 · 문화</h2>
+<table>
+<thead>
+<tr>
+<th>장치</th>
+<th>내용</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>회원 호칭</td>
+<td><strong>회복러</strong></td>
+</tr>
+<tr>
+<td>인사 문화</td>
+<td>통증점수로 인사: "오늘 4점입니다"</td>
+</tr>
+<tr>
+<td>완치</td>
+<td><strong>"졸업"</strong> — 졸업글이 킬러 콘텐츠 (완치=이탈이 아니라 완치=최고 지위)</td>
+</tr>
+<tr>
+<td>응원 밈</td>
+<td><strong>"회복확정"</strong> 도장 댓글</td>
+</tr>
+<tr>
+<td>시각 문화</td>
+<td>착샷 대신 MRI 사진·운동 인증샷·통증일지 캡처</td>
+</tr>
+</tbody>
+</table>
+<p>은어는 2~3개만 시드, 나머지는 페르소나가 퍼뜨려 자연 발생 유도.</p>
+<h2>3. 게시판 구조 &amp; 심리 장치</h2>
+<h3>[시작하기]</h3>
+<ul>
+<li><strong>공지사항</strong></li>
+<li><strong>[필독] 5가지 약속</strong> — "필독공지=수익모델" 자리. 규칙 5개로 시작 → 회복 가이드로 확장.</li>
+<li><strong>가입인사(회복선언)</strong> — 의식(ritual). 양식: 병명/부위 + 통증점수 + 회복 목표 선언. 페르소나가 24시간 내 100% 댓글.</li>
+</ul>
+<h3>[통증 정보 · Q&amp;A]</h3>
+<ul>
+<li><strong>질환/증상 · Q&amp;A</strong> ★집중육성 #1 — 검색 유입 핵심 (C랭크 타겟 키워드 글).</li>
+<li><strong>MRI 판독</strong> (태훈 확정: "판독"이 더 신뢰감 있어 유지) — 글쓰기 필수: MRI/X-ray 사진 첨부. 의료법 방어는 게시판명 대신 운영규정으로: 댓글은 경험담 형태 규정, "정확한 판독과 진단은 병원에서" 고지 상단 고정.</li>
+</ul>
+<h3>[치료 경험담] — 카페의 심장</h3>
+<ul>
+<li><strong>1분도수 운동 후기</strong> (실카페 신설 확인 2026-07-06) — 브랜드 UGC 게시판. 유튜브 시청자의 운동 후기 + 김대리 매일 인증 앵커. 자기증명↔타인증명이 매일 쌓이는 곳.</li>
+<li><strong>보존치료 후기</strong> ★집중육성 #2 — 필수 양식: 기간 + 통증점수 변화(7→3) + 뭘 했는지.</li>
+<li><strong>병원진료 후기</strong> — 지역/병원 후기. 훗날 병원 제휴 기반.</li>
+<li><strong>디스크 수술담</strong> — 희소성 게시판(등업 열람 잠금, 딜공 원칙).</li>
+</ul>
+<h3>[이야기나눠요]</h3>
+<ul>
+<li><strong>자유게시판</strong> ★집중육성 #3 — 활동성 주력.</li>
+<li><strong>건강토론</strong> — 싸움=콘텐츠=트래픽. 상시 떡밥(수술파vs보존파, 맥켄지vs필라테스, 도수치료 가성비). 분기 1회 인위적 사건(정상적인 것: 내부고발형 "물리치료사입니다, 솔직히…" 류).</li>
+</ul>
+<h2>4. 등급 &amp; 리워드</h2>
+<p>등급명 최종 확정 (2026-07-06 태훈 — 6단계, 4번="졸업 직전" 포지션 추가. 단계마다 잠금 해제 1개):</p>
+<table>
+<thead>
+<tr>
+<th>등급</th>
+<th>조건</th>
+<th>잠금 해제</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>🌱 새싹</td>
+<td>가입 즉시</td>
+<td>기본 열람 + 가입인사·Q&amp;A·자게 쓰기 + Pro 가이드</td>
+</tr>
+<tr>
+<td>① 회복 시작</td>
+<td>3일 + 글 1(회복선언) + 댓글 5 (자동)</td>
+<td>전 게시판 쓰기 + 자료실(루틴표)</td>
+</tr>
+<tr>
+<td>② 회복 적응</td>
+<td>14일 + 글 5 + 댓글 30 (자동)</td>
+<td>디스크 수술담 열람</td>
+</tr>
+<tr>
+<td>③ 회복 안정</td>
+<td>30일 + 글 15 + 댓글 80 (자동)</td>
+<td>이벤트·공동구매 자격</td>
+</tr>
+<tr>
+<td>④ 회복 확정</td>
+<td>60일 + 글 30 + 댓글 150 + 신청글 (수동, 필독글 댓글 검증)</td>
+<td>체험단·신제품 선공개</td>
+</tr>
+<tr>
+<td>🎓 V (졸업생)</td>
+<td>졸업글 심사 (점수 8+, Before→After)</td>
+<td>V 뱃지, 졸업생 라운지, 졸업 키트</td>
+</tr>
+</tbody>
+</table>
+<p>"회복 확정"(V 직전) = 응원 밈 "회복확정" 도장과 일치 (밈↔등급 상호 강화). 상세: <code>grade-system.md</code> v5</p>
+<ul>
+<li>등업 조건의 댓글 수 = 칭찬 댓글 문화 엔진 (디매 "댓글 30개" 원리).</li>
+<li>리워드(주얼리클럽식): 졸업생 중 고활동자(예: 52주+글 300+댓글 5,000)에게 <strong>한정수량 실물 졸업 키트</strong>. "운영 상황에 따라 발송 중단 가능" 문구로 시간 압박.</li>
+</ul>
+<h2>5. 두 개의 앵커글 (카페의 성경)</h2>
+<h3>① 필독글 "회복의 본질" (자기증명)</h3>
+<p>제목안: "[필독] 병원 밖에서 회복이 안 되는 진짜 이유 — 그리고 우리가 이 카페를 만든 이유"
+구조: 공감 훅(도수 10회 재발 경험) → 본질(회복=습관, 기기+매일 1분 운동 공식, 통증 단계론 선포) → 단계별 루틴 → 철학("누구나 집에서 스스로 회복") → 제품=철학의 물화(도수펜/도수넥/도수워머, "병원에서 쓰는 원리") → 회복선언 초대.
+- 통증 단계론(급성기 1-3 / 아급성 4-6 / 호전기 7-10)이 등급명·글양식·인사문화의 공용 언어가 됨.</p>
+<h3>② 찐 후기 (타인증명)</h3>
+<p>제목안: "허리 터지고 14개월, 도수치료 300만원 쓰고 나서야 알게 된 것들 (장문+사진)"
+원칙: 실패의 역사가 절반 이상(추나→도수→주사→재발, 금액 명시) / 제품이 아닌 루틴이 주인공 / 증거 밀도(점수 그래프 7→2, 통증일지, 날짜 사진, 단점 1개 명시) / 말미에 필독글 링크(상호 순환 참조).
+⚠️ 운영보안: 작성 계정은 가입인사→질문→중간경과→최종후기 순으로 몇 주에 걸쳐 서사 축적. 단발 후기 계정 금지 (맘이테라스 역풍 사례). 체험단 전환 시점부터 대가 고지.</p>
+<h2>6. 100% 도달 장치</h2>
+<ol>
+<li>등업 조건에 "필독글 댓글" (양식: 와닿은 문장 + 내 통증점수) → 댓글 수천 개 = 사회적 증거</li>
+<li>모든 게시판 글양식 상단: "처음이신가요? [회복의 본질] 먼저 읽기" + <strong>카톡 플친 링크</strong> + 통증점수 기입란 (2026-07-06 태훈 확정 — 상단 = 철학+관계 채널)
+2-1. 모든 글 하단 배너 (2026-07-06): 기본값 = <strong>"아직 회복선언 안 하셨나요? → 회복선언 쓰기"</strong> (행동 유도). 로테이션: 이달의 회복 스토리(졸업글) / 신제품 선공개 기간엔 선공개 공지. <strong>제품 직링크 배너 금지</strong> — §0 광고 원칙(자사 노출은 필독글·글양식·베네핏 구조 안에서만)과 필독글의 "몰래 심은 광고 없음" 약속 보호. 상단=철학, 하단=행동으로 역할 분리</li>
+<li>대문 배너 = 필독글 / "이달의 회복 스토리" = 찐 후기 고정</li>
+<li>가입 플로우에 "필독글 읽으셨나요?" 체크</li>
+<li>댓글요정 페르소나가 신규 글마다 "저 이거 보고 시작했어요" 링크</li>
+</ol>
+<h2>7. 트래픽 종착지 설계 (전 채널 CTA 통일)</h2>
+<ul>
+<li><strong>유튜브 15.8만</strong>: 영상엔 1분 버전만, 풀 루틴표는 카페 자료실(등업 열람). 고정댓글/설명란/커뮤니티탭 전부 카페. 인규 Q&amp;A는 "카페에서만".</li>
+<li><strong>인스타 6.9만 / 틱톡 3.5만 / 스레드 1.5만</strong>: 프로필·스토리 링크 카페로. "MRI 같이보기에 올려주세요."</li>
+<li><strong>키네메디칼 구매자</strong>: ①패키지 사용법 QR(카페 게시글) + 인증 사이트 완료 화면 크로스링크 ②데이터라이즈 CRM D+3 "회복선언 남기면 부스터젤 쿠폰" ③구매확정 문자 링크. (5월 매출 1.9억/6월 ~3억 규모의 구매자 풀 — 월 수백 명 실사용자 유입 엔진)</li>
+<li><strong>Pro 사용 가이드 QR (2026-07-06)</strong>: 인쇄물 QR 랜딩 = 카페 게시글, <strong>가입(새싹 등급) 열람</strong> — 구매자의 필수 동선(사용법)을 카페 입구로. 영상은 유튜브 미등록 임베드. 상세 가드레일 → <code>../es808-pro/print-package.md</code> §③</li>
+<li><strong>광고 랜딩</strong>: 상세페이지 하단 카페 후기 캡처 + "회복 기록 보러가기".</li>
+</ul>
+<h2>8. 안 들어갈 수 없는 베네핏</h2>
+<table>
+<thead>
+<tr>
+<th>대상</th>
+<th>베네핏</th>
+<th>심리</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>구매자</td>
+<td><strong>7일 내 정품등록(인증 사이트) 시 보증 3개월→1년</strong> (<code>../es808-pro/warranty-policy.md</code> v3) + 완료 화면에서 카페·카톡 크로스링크 / 카톡 친추 시 부스터젤 쿠폰</td>
+<td>손실 회피 + 시간 압박</td>
+</tr>
+<tr>
+<td>시청자</td>
+<td>주차별 풀 루틴표·PDF = 카페 자료실 등업 열람</td>
+<td>딜공식 희소성</td>
+</tr>
+<tr>
+<td>환자</td>
+<td><strong>물리치료사 답변 게시판 — 협업 물치사 인플루언서 ~50명 로테이션</strong></td>
+<td>경쟁 카페가 복제 불가능한 해자</td>
+</tr>
+<tr>
+<td>활동 회원</td>
+<td>카페 전용 체험단·신제품 선공개·공동구매 (담당: 최지은)</td>
+<td>내부자 특권</td>
+</tr>
+<tr>
+<td>졸업생</td>
+<td>한정판 졸업 키트 + 멘토 뱃지</td>
+<td>지위 + 희소성</td>
+</tr>
+</tbody>
+</table>
+<h2>9. 신제품 캘린더 연계 (facts.json 2026-07-05 기준)</h2>
+<table>
+<thead>
+<tr>
+<th>시점</th>
+<th>제품</th>
+<th>카페 활용</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>7월 말</td>
+<td>KES-8080 저주파 자극기(의료기기, 168만) / KWS-2000 레이저 조사기(88만)</td>
+<td>고가 의료기기 = 커뮤니티 신뢰 기반 판매가 필수인 가격대. 카페 회원 선공개 + 물치사 답변 게시판과 연계 ("뉴스사사: 고가 파는 사람은 커뮤니티 침투" 원리)</td>
+</tr>
+<tr>
+<td>8월 초중순</td>
+<td>파라핀베스(~20만)</td>
+<td>체험단 1기 후보</td>
+</tr>
+<tr>
+<td>9월 중순</td>
+<td>ES-808 Pro(~20만)</td>
+<td>M3 구간 — 카페 회원 선공개/선구매 이벤트, 스마트스토어 확장과 동시</td>
+</tr>
+</tbody>
+</table>
+<h2>10. 초기 부스팅 &amp; 운영 (C2R)</h2>
+<ul>
+<li>게시판 10개 중 <strong>육성은 3개만</strong>: 질환/증상 Q&amp;A, 보존치료 후기, 자유게시판. 나머지 구색.</li>
+<li>C2R: 실명비율+초기 부스팅용 <strong>최대 3개월</strong> 컷, 한 게시판 집중(150/300/450). 원고는 카페차트 상위글 각색.</li>
+<li>목표 지표: 육성 게시판 글 15개/일, 조회수 1,000+.</li>
+<li>페르소나 3종 (강의 ⭐⭐⭐):
+  1. <strong>수술인증러</strong> — 수술 전 고민→수술→재활 실시간 연재 (수술담 앵커)
+  2. <strong>운동인증러</strong> — "터진 지 N일차, 오늘도 1분 운동" 매일 인증 (1분 루틴을 카페 표준으로)
+  3. <strong>회복졸업러(댓글요정)</strong> — 모든 신규 글에 댓글, 필독글 전파. <strong>1순위 가동</strong></li>
+</ul>
+<h2>11. 6개월 로드맵</h2>
+<table>
+<thead>
+<tr>
+<th>월</th>
+<th>목표</th>
+<th>핵심 액션</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>M1</td>
+<td>뼈대</td>
+<td>앵커글 2개 발행, 게시판/등급/양식 세팅, 페르소나 가동, C2R 시작</td>
+</tr>
+<tr>
+<td>M2</td>
+<td>유입 개통</td>
+<td>구매자 CRM 파이프, 유튜브 CTA 전환, KES-8080/KWS-2000 회원 선공개. 가입 500~1,000 / 일 글 15</td>
+</tr>
+<tr>
+<td>M3</td>
+<td>문화 형성</td>
+<td>물치사 답변 게시판 오픈, 첫 졸업글 이벤트, "회복확정" 밈 정착, C2R 종료. ES-808 Pro 선공개</td>
+</tr>
+<tr>
+<td>M4</td>
+<td>자생 전환</td>
+<td>회원발 글 &gt; 운영발, 건강토론 떡밥 시즌, 인위적 사건 1건</td>
+</tr>
+<tr>
+<td>M5</td>
+<td>스퍼트</td>
+<td>체험단 1기(최지은), 통증일지 30일 챌린지</td>
+</tr>
+<tr>
+<td>M6</td>
+<td>대표카페 신청</td>
+<td>카페차트 '최적' 확인 후 신청. 목표: 회원 5천~1만, 일 글 50+</td>
+</tr>
+</tbody>
+</table>
+<h2>12. 리스크 관리</h2>
+<ol>
+<li><strong>의료법</strong>: "치료/완치" 금지, "회복/교정/관리/케어"만. MRI 게시판은 경험담 규정 + "진단은 병원에서" 고지.</li>
+<li><strong>뒷광고/기만 후기</strong>: 페르소나 후기 계정 서사 축적 필수, 체험단부터 대가 고지 (표시광고법).</li>
+<li><strong>들키면 역풍</strong> (맘이테라스): 운영 계정 보안, 사무실 IP/기기 분리.</li>
+<li><strong>척추카페 전철</strong>: 외부 제휴광고 6개월 0건 원칙.</li>
+</ol>
+<h2>13. 결정 사항 (2026-07-05 태훈 확정)</h2>
+<ul>
+<li>✅ 카페명: 근골격계 회복모임 [목 허리 디스크 무릎 어깨 손목 발목 통증] — cafe.naver.com/insidesoccernj</li>
+<li>✅ "MRI 판독" 게시판명 유지 (신뢰감) — 의료법 방어는 운영규정/고지로</li>
+<li>✅ 오픈: 즉시. C2R은 오픈 약 2주 뒤(~2026-07-20)부터 투입 (2026-07-06 태훈 변경 — 기존 "즉시 투입" 폐기)</li>
+<li>✅ 가입: 누구나 (가입질문 없음) → 동질성 확보는 가입인사(회복선언) 양식과 등업 구조에서</li>
+<li>✅ 운영 실무: 이수빈 채용 완료, 2026-07-07 출근</li>
+<li>✅ 전체 운영 체계(누가 뭘 매일 하는지) 상세 설계 — <code>ops-daily.md</code> (2026-07-06)</li>
+<li>✅ 등급명 최종 확정 (2026-07-06 태훈, 6단계): 새싹→①회복 시작→②회복 적응→③회복 안정→④회복 확정→V(졸업생) — <code>grade-system.md</code> v5</li>
+<li>✅ 카페 정체성 재확인 (2026-07-06): 공식 브랜드 카페 <strong>아님</strong> — 아픈 사람들이 모여 서로 콘텐츠를 만들어내는 커뮤니티. 구 "매일회" 초대장 시안은 초안으로 폐기, 카페명·세계관은 이 문서 기준. 챌린지·이벤트 물품은 미확정</li>
+<li>✅ 기간형 프로그램 이름 확정 (2026-07-06 태훈): <strong>"회복 습관 21일"</strong> — 카페 철학 문장("회복은 이벤트가 아니라 습관")을 그대로 이름으로. "챌린지"(캐주얼)·"약속"(상호작용 부담) 폐기. 프로그램 상세 설계는 추후</li>
+<li>✅ 글양식 상단(필독글+카톡 플친) / 하단 배너(회복선언 기본값, 제품 직링크 금지) — §6 참조 (2026-07-06)</li>
+<li>✅ 글양식: <code>post-templates.md</code> 5종 완료</li>
+<li>✅ 보증연장 베네핏의 실제 정책 — <code>../es808-pro/warranty-policy.md</code> <strong>v3 확정</strong> (2026-07-06: 기본 3개월, 수령 7일 내 <strong>인증 사이트</strong>[kinemedical-register]에서 등록 시 1년. 카페 가입·회복선언은 등록 요건 아님 — 레버 분리: 가입=사용법 QR, 첫 글=D+3 쿠폰. 소급 이벤트는 보류)</li>
+</ul>
+<h2>14. TODO (2026-07-05 기준)</h2>
+<h3>A. 콘텐츠 제작 (카리나/AI) — ✅ 전체 완료 (2026-07-05)</h3>
+<ol>
+<li>[x] 앵커글 ① 필독글 — <code>anchor-1-필독글.md</code> (v2 확정)</li>
+<li>[x] 앵커글 ② 찐 후기 + 계정 서사 타임라인 — <code>anchor-2-찐후기.md</code> (L45아빠, 게시 전 운영 노트 필독)</li>
+<li>[x] [필독] 5가지 약속 — <code>rules-5약속.md</code></li>
+<li>[x] 글쓰기 양식 5종 — <code>post-templates.md</code></li>
+<li>[x] 등급 시스템 — <code>grade-system.md</code> (v4 최종 확정: 새싹→회복 시작→회복 적응→회복 확정→V)</li>
+<li>[x] 페르소나 3인+30일 캘린더 — <code>personas-30day.md</code> (졸업한언니/매일1분김대리/수술후재활러 + L45아빠 4계정 체제)</li>
+<li>[x] 카피 세트 — <code>copy-set.md</code> (대문/등업/환영/채널 CTA/CRM 문자/QR 인서트/점수 카드 시안)</li>
+</ol>
+<h3>B. 태훈 결정 대기</h3>
+<ul>
+<li>✅ 등급명: v4 최종 확정 (새싹→회복 시작→회복 적응→회복 확정→V) — 태훈 안. v1 점수형·v2 학교형·v3 서사형 폐기. '회복 확정' 등급=응원 밈 일체화</li>
+<li>✅ 필독글 "1년 남짓" 확정 (2026-07-06) — 원고 반영 완료</li>
+<li>✅ 간증 후기 2개 원문/캡처: 태훈이 게시 시 직접 첨부하기로 (2026-07-06)</li>
+<li>✅ 보증연장 정책 — <code>../es808-pro/warranty-policy.md</code> v3 확정</li>
+<li>🌓 C2R: 시점 확정 = 오픈 2주 뒤(~2026-07-20)부터. <strong>예산은 미정 (태훈 결정 대기)</strong></li>
+</ul>
+<h2>15. 구매자 여정 통합 (2026-07-06 — 분산 기획 단일화)</h2>
+<p>전 접점이 카페로 수렴하는 하나의 여정. 각 단계의 상세는 해당 문서가 SSOT.</p>
+<pre><code>광고(메타/유튜브)·오가닉(1분도수) 
+  → 구매 (자사몰)
+  → 배송 패키지 4종 개봉 (Pro부터 도입, 9월~): 편지(감정) → 정품인증 카드(행동) → 사용 가이드 → 초대장   [../es808-pro/print-package.md]
+  → 7일 내 정품등록 (인증 사이트, 시리얼+구매자 정보) → 보증 1년 → 완료 화면에서 카페·카톡 크로스링크   [../es808-pro/warranty-policy.md v3]
+  → 사용법 QR = 카페 게시글 가입 열람 (가입 퍼널) / 회복선언은 D+3 쿠폰 훅 담당 (레버 분리)
+  → 카톡 채널 친추 (쿠폰+사용법 알림) + D+3 CRM 문자 (마감 리마인드 + 회복선언 쿠폰)
+  → 카페 활동: 회복 점수 인사 → 등업(새싹→회복 시작→적응→확정) → 통증일지·후기               [grade-system.md / ops-daily.md]
+  → 신제품 선공개·체험단 (7월말 의료기기 2종 → 8월 파라핀 → 9월 Pro)                [§9]
+  → 시리얼 = 추천코드: 지인 10% + 추천인 5,000P (&quot;회복을 돕는 사람&quot; 정체성)          [../es808-pro/referral-program.md]
+  → 재구매 (현 4.8% → 개선) + 졸업글·추천 = 사회적 증거 → 신규 유입 순환
+</code></pre>
+<h3>문서 지도 (2026-07-06 폴더 분리 — 카페 운영 vs Pro 런칭 CX)</h3>
+<p><strong><code>cafe/</code> — 카페 운영·콘텐츠 (이 폴더)</strong>
+| 문서 | 담당 영역 |
+|---|---|
+| <code>PLAN.md</code> (이 문서) | 전략·세계관·로드맵 마스터 |
+| <code>ops-daily.md</code> | 이수빈 일상 운영 플레이북 |
+| <code>grade-system.md</code> / <code>rules-5약속.md</code> / <code>post-templates.md</code> | 등급·규칙·글양식 |
+| <code>anchor-1-필독글.md</code> / <code>anchor-2-찐후기.md</code> | 앵커글 원고 |
+| <code>personas-30day.md</code> / <code>copy-set.md</code> | 페르소나·카피 |</p>
+<p><strong><code>../es808-pro/</code> — Pro 런칭 CX (인쇄물·보증·추천)</strong>
+| 문서 | 담당 영역 |
+|---|---|
+| <code>print-package.md</code> | 배송 인쇄물 4종 마스터 (편지 원고·초대장 카피·가이드 카피·타임라인) |
+| <code>warranty-policy.md</code> | 보증 v3 (7일 내 인증 사이트 등록 시 1년) |
+| <code>referral-program.md</code> | 시리얼=추천코드 (지인 10%+추천인 5,000P) |
+| <code>../serial-coupons/es808-serials-sample.csv</code> | KMES 시리얼 배치 2,999개 |</p>
+<h3>C. 운영 세팅 (신입 직원 — 콘텐츠 나오는 대로)</h3>
+<ul>
+<li>🔲 카페 기본 세팅: 게시판 구조/등급/가입(전체 공개) 설정</li>
+<li>🔲 필독글 게시 + 네이버 에디터 포맷팅 (회복점수 표는 카드 이미지로)</li>
+<li>🔲 게시 직후 댓글 시딩 15~20개 (양식: 와닿은 문장 + 오늘 점수)</li>
+<li>🔲 C2R 발주 (집중 게시판 3개: Q&amp;A/보존후기/자게, 최대 3개월)</li>
+<li>🔲 전 채널 CTA 교체: 유튜브 설명란·고정댓글·커뮤니티탭, 인스타/틱톡/스레드 프로필</li>
+<li>🔲 CRM 파이프: 구매 D+3 카페 유도 문자(데이터라이즈), 패키지 QR 인서트 제작</li>
+<li>🔲 물치사 답변 게시판 협의 (인플루언서 50명 풀 로테이션, M3 오픈 목표)</li>
+<li>🔲 페르소나 계정 3개 생성 + 운영보안 (IP/기기 분리)</li>
+</ul></div></section><section class="chapter" id="ch2"><div class="chap-head"><div><div class="no">CHAPTER 02</div><h2>일상 운영 플레이북</h2><div class="src">cafe/ops-daily.md</div></div><a class="up" href="#top">↑ 목차</a></div><div class="md"><h1>카페 일상 운영 플레이북 — 이수빈 (v1, 2026-07-06 카리나 설계)</h1>
+<blockquote>
+<p>DRI: 태훈 | 실무 전담: 이수빈 (2026-07-07 출근, 수습 ~2026-10-07)
+이 문서 = "매일 아침 뭘 하면 되는지"의 SSOT. 전략/구조가 궁금하면 <code>PLAN.md</code>, 계정 설정은 <code>personas-30day.md</code>.
+하루 코어 타임 약 3~4시간 (오픈 초기 기준. M3부터 축소 예상)</p>
+</blockquote>
+<hr />
+<h2>0. 온보딩 (Day 1~3)</h2>
+<h3>Day 1 (7/7) — 읽고, 세팅하고, 아무것도 게시하지 않는다</h3>
+<ol>
+<li>문서 읽기 (순서대로, 반나절): <code>PLAN.md</code> → <code>anchor-1-필독글.md</code> → <code>rules-5약속.md</code> → <code>grade-system.md</code> → <code>post-templates.md</code> → <code>personas-30day.md</code> → <code>copy-set.md</code> → <code>../es808-pro/warranty-policy.md</code>(보증·등록 이해용) → 이 문서</li>
+<li>보안 세팅 (⚠️ 가장 중요): 페르소나 4계정(졸업한언니/매일1분김대리/수술후재활러/L45아빠) <strong>기기·IP 분리</strong> — 계정별 브라우저 프로필 분리 + 모바일 데이터/별도 회선 배정. <strong>사무실 공용 와이파이로 4계정 동시 접속 절대 금지.</strong> 계정-기기 매핑표를 만들어 태훈·카리나에게 공유</li>
+<li>카페 세팅 체크리스트: 게시판 구조(PLAN §3) / 등급 6단계·등업 조건(grade-system v5: 새싹→①시작→②적응→③안정→④확정→V) / 가입 전체공개 / 글양식 5종 등록(post-templates) / 대문 배너 자리 확인</li>
+<li>지표 시트 생성 (아래 §4 양식)</li>
+</ol>
+<h3>Day 2 — 앵커 투하</h3>
+<ul>
+<li>카페지기(인규 명의) 계정으로 필독글 + 5가지 약속 게시 (회복점수 표는 카드 이미지로 — copy-set 시안)</li>
+<li>댓글 시딩 15~20개 (양식: 와닿은 문장 + 오늘 점수) — 팀 협조 포함</li>
+<li>페르소나 3계정 가입 → 각자 회복선언 + 필독글 댓글</li>
+</ul>
+<h3>Day 3~ — 30일 캘린더 가동</h3>
+<ul>
+<li><code>personas-30day.md</code> Week 1 스케줄 그대로 시작 (김대리 매일 인증 개시)</li>
+<li>⚠️ 캘린더의 "D6~7 C2R 투입"은 변경됨 → <strong>C2R은 ~7/20부터</strong> (태훈 확정 2026-07-06)</li>
+</ul>
+<h2>1. 데일리 루틴 (매일, 주말 축소판)</h2>
+<table>
+<thead>
+<tr>
+<th>블록</th>
+<th>시간</th>
+<th>할 일</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>아침 (60분)</td>
+<td>출근 직후</td>
+<td>① 밤새 새 글/댓글 전수 확인 — 광고·병원 바이럴 발견 즉시 삭제 ② <strong>가입인사 100% 댓글</strong> (졸업한언니 계정, 24시간 SLA — 카페의 첫인상) ③ 김대리 "매일 1분" 인증글 게시</td>
+</tr>
+<tr>
+<td>점심 (30분)</td>
+<td>유동</td>
+<td>① Q&amp;A 새 질문에 답변 (페르소나 분담: 목=김대리, 수술=재활러, 허리=L45아빠) ② 필독글 새 댓글에 하트/답글</td>
+</tr>
+<tr>
+<td>오후 (60~90분)</td>
+<td>집중 시간</td>
+<td>① 30일 캘린더상 오늘 분량 글 작성 ② 등업 신청(회복 확정) 수동 심사 — 필독글 댓글·회복선언 링크 검증 ③ Pro 사용 가이드 게시글 관리(댓글 응대·가입 문의) — 정품등록은 인증 사이트/CS 담당이라 카페 업무 아님</td>
+</tr>
+<tr>
+<td>마감 (15분)</td>
+<td>퇴근 전</td>
+<td>지표 시트 기입 (§4) + 특이사항 1줄 슬랙 보고</td>
+</tr>
+</tbody>
+</table>
+<h3>댓글 품질 기준 (기계적 댓글 금지)</h3>
+<ul>
+<li>글 내용의 구체 포인트 1개를 반드시 언급 ("좌골신경 저림 저도 그랬어요" — "힘내세요" 단독 금지)</li>
+<li>회복 점수 물어보기 → 상대가 답하면 재댓글 (스레드 육성)</li>
+<li>"회복확정" 도장은 경과 좋은 글에만 (남발하면 밈이 죽음)</li>
+</ul>
+<h2>2. 위클리 루틴</h2>
+<table>
+<thead>
+<tr>
+<th>요일</th>
+<th>할 일</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>월</td>
+<td>주간 지표 리뷰 → 태훈 보고 (아래 §6 양식). 이번 주 캘린더 확인</td>
+</tr>
+<tr>
+<td>수</td>
+<td>재활러 연재글 (수술담)</td>
+</tr>
+<tr>
+<td>금</td>
+<td><strong>4계정 서사 정합성 점검</strong> — 설정 충돌·날짜 모순·제품 언급 횟수(합산 주 3회 이하) 체크</td>
+</tr>
+<tr>
+<td>일(또는 금)</td>
+<td>다음 주 콘텐츠 초안 준비 (글 제목/소재 리스트만)</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>월 1회: 30일 캘린더 리뷰 → 다음 달 버전 카리나와 함께 갱신</li>
+<li>C2R 가동 후(~7/20): 납품 원고 전수 검수 — 의료법 표현·양식 준수·중복 확인 후 게시 승인 (주 2회 배치)</li>
+</ul>
+<h2>3. 절대 금지 (위반 = 카페 존폐 리스크)</h2>
+<ol>
+<li><strong>의료법</strong>: "치료/완치/진단" 표현 금지 → "회복/교정/관리/케어". TENS는 "통증완화" 아니라 "신경 자극". 견인은 "견인의 원리로 경추 정렬". MRI 게시판은 "정확한 판독·진단은 병원에서" 고지 유지</li>
+<li><strong>페르소나 보안</strong>: 동일 IP 다계정 금지 / 한 글에 최대 2계정 / 페르소나 계정으로 실수로 운영자 톤 금지 ("삭제하겠습니다" 등)</li>
+<li><strong>제품 언급</strong>: 4계정 합산 주 3회 이하, 흘리듯 노출만. 설명은 질문받았을 때만</li>
+<li><strong>외부 제휴광고</strong>: 대표카페 달성 전 0건 — 제휴 문의 오면 답하지 말고 태훈 에스컬레이션</li>
+<li><strong>단발 후기 계정 금지</strong>: 모든 후기는 서사 축적 후에만 (맘이테라스 역풍 사례)</li>
+</ol>
+<h2>4. 일일 지표 시트 (5분, 마감 블록)</h2>
+<p>| 날짜 | 신규가입 | 총회원 | 오늘 글 수(실/페르소나/C2R) | 댓글 수 | 필독글 댓글 누적 | 가입인사 응답률 | 특이사항 |</p>
+<ul>
+<li>M1 목표선: 일 글 15개(육성 3개 게시판), 조회수 1,000+ — 미달이 3일 연속이면 태훈·카리나에 플래그</li>
+<li>M2 목표선: 가입 누적 500~1,000</li>
+</ul>
+<h2>5. 에스컬레이션 (즉시 태훈 + 카리나)</h2>
+<ul>
+<li>의료법 관련 신고/민원/기관 연락</li>
+<li>페르소나 의심 댓글 ("이 계정들 수상한데?") — 절대 페르소나 계정으로 방어하지 말 것. 침묵 후 보고</li>
+<li>언론/타 커뮤니티에서 카페 언급</li>
+<li>회원 간 분쟁이 법적 언급("고소")까지 간 경우</li>
+<li>제휴/광고 제안 전부</li>
+</ul>
+<h2>6. 주간 보고 양식 (월요일, 슬랙)</h2>
+<pre><code>📊 카페 주간 (M/D~M/D)
+회원 N (+n) | 글 n/일 평균 | 가입인사 응답률 n%
+잘된 것 1줄 / 안 된 것 1줄 / 이번 주 계획 1줄 / 필요한 결정·지원: ○○
+</code></pre>
+<h2>7. 역할 경계</h2>
+<ul>
+<li>이수빈: 위 전부 (운영 실행 전권)</li>
+<li>태훈: 전략·게시판 구조 변경·제휴·예산 결정, 간증 후기 원문 소스 제공(게시 시)</li>
+<li>카리나: 콘텐츠 원고 지원(요청 시), 캘린더 월간 갱신, CRM·정품등록 시스템 연동 지휘</li>
+<li>최지은: 체험단·공동구매 (M5, PLAN §8) — 카페 내 실행 시 이수빈과 협업</li>
+</ul></div></section><section class="chapter" id="ch3"><div class="chap-head"><div><div class="no">CHAPTER 03</div><h2>등급 시스템 v5</h2><div class="src">cafe/grade-system.md</div></div><a class="up" href="#top">↑ 목차</a></div><div class="md"><h1>등급 시스템 확정안 (v5 — 최종, 2026-07-06)</h1>
+<blockquote>
+<p>v1 점수형 폐기(아픈 상태 이름표) / v2 학교형 폐기(유치) / v3 서사형 폐기(어감) / v4 5단계 → <strong>v5 6단계 확정 (태훈: 4번 추가, "졸업 직전" 포지션)</strong></p>
+</blockquote>
+<hr />
+<h2>확정 등급 (6단계)</h2>
+<p><strong>🌱 새싹 → ①회복 시작 → ②회복 적응 → ③회복 안정 → ④회복 확정 → 🎓 V (졸업생)</strong></p>
+<ul>
+<li><strong>새싹</strong>: 방금 온 아픈 사람. 부담 없는 출발점</li>
+<li><strong>① 회복 시작</strong>: 회복선언을 쓰고 첫 발을 뗀 사람</li>
+<li><strong>② 회복 적응</strong>: 카페와 루틴이 일상이 된 사람</li>
+<li><strong>③ 회복 안정</strong>: 흔들리던 회복이 안정권에 들어온 사람 — 재발하지 않는 몸</li>
+<li><strong>④ 회복 확정</strong>: 졸업 직전. 사실상 다 나은 사람 — <strong>응원 밈 "회복확정" 도장과 등급명 일치.</strong> V 바로 앞이라 가장 갖고 싶은 이름 (밈↔등급 상호 강화)</li>
+<li><strong>🎓 V (졸업생)</strong>: 다 나은 사람. Victory의 V</li>
+</ul>
+<p>읽는 것만으로 회복 서사: 시작 → 적응 → 안정 → 확정 → V.</p>
+<h2>상세 스펙 (단계마다 잠금 해제 하나씩)</h2>
+<table>
+<thead>
+<tr>
+<th>등급</th>
+<th>조건</th>
+<th>방식</th>
+<th>잠금 해제</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>🌱 새싹</strong></td>
+<td>가입 즉시 (전체 공개)</td>
+<td>자동</td>
+<td>대부분 읽기 + 가입인사·Q&amp;A·자유게시판 쓰기. Pro 사용 가이드 열람</td>
+</tr>
+<tr>
+<td><strong>① 회복 시작</strong></td>
+<td>3일 + 글 1(회복선언) + 댓글 5</td>
+<td>자동</td>
+<td>전 게시판 쓰기 + <strong>[자료실] 주차별 풀 루틴표 PDF</strong> (유튜브 유입 미끼)</td>
+</tr>
+<tr>
+<td><strong>② 회복 적응</strong></td>
+<td>14일 + 글 5 + 댓글 30</td>
+<td>자동</td>
+<td><strong>[디스크 수술담] 열람</strong> (희소성 게시판)</td>
+</tr>
+<tr>
+<td><strong>③ 회복 안정</strong></td>
+<td>30일 + 글 15 + 댓글 80</td>
+<td>자동</td>
+<td><strong>이벤트 우선 참여 + 공동구매 자격</strong></td>
+</tr>
+<tr>
+<td><strong>④ 회복 확정</strong></td>
+<td>60일 + 글 30 + 댓글 150 + <strong>신청글</strong></td>
+<td><strong>수동</strong> (딜공식)</td>
+<td><strong>체험단 지원 · 신제품 선공개</strong></td>
+</tr>
+<tr>
+<td><strong>🎓 V (졸업생)</strong></td>
+<td><strong>졸업글 심사</strong> (회복 점수 8+ / Before→After)</td>
+<td>수동</td>
+<td>V 뱃지, 졸업생 라운지, 체험단 최우선, 연 1회 졸업 키트</td>
+</tr>
+</tbody>
+</table>
+<h3>수동 등업(④ 회복 확정) 신청 양식 — [등업 신청] 게시판</h3>
+<pre><code>■ 필독글에 남긴 내 댓글 링크:
+■ 내 회복선언 글 링크:
+■ 가장 도움받은 카페 글 하나와 이유:
+</code></pre>
+<p>→ "필독글 댓글" 조건은 자동화 불가 → 수동 등업에서 검증. 신청글 자체가 콘텐츠.</p>
+<h3>설계 근거 (강의 매핑)</h3>
+<ul>
+<li>단계별 잠금 해제 1개씩 (루틴표→수술담→공동구매→체험단) = 딜공 사다리, 등업 동기 단절 없음</li>
+<li>① 문턱 최소(3일·글1·댓5) = 유튜브 유입 전환 마찰 최소화 + 회복선언 작성 강제</li>
+<li>댓글 수 조건 = 디매 "글쓰기 조건 댓글 N개" (응원 댓글 문화 엔진)</li>
+<li>④ 수동 + V 심사 + 한정 졸업 키트 = 주얼리클럽 (지위+리워드+시간 압박)</li>
+<li>"회복 확정"이 V 직전 = 커뮤니티 밈과 등급의 일체화, 최상위 열망 지점에 배치</li>
+</ul>
+<h3>졸업 키트 (연 1회, 한정 수량 — 상세 추후)</h3>
+<ul>
+<li>대상: V 중 활동 조건 충족자 (예: 가입 26주+ / 글 100+ / 댓글 1,000+)</li>
+<li>구성안: V 메달(각인) + 회복 굿즈. "카페 운영 상황에 따라 발송 중단될 수 있습니다" 문구 필수</li>
+</ul></div></section><section class="chapter" id="ch4"><div class="chap-head"><div><div class="no">CHAPTER 04</div><h2>[필독] 5가지 약속</h2><div class="src">cafe/rules-5약속.md</div></div><a class="up" href="#top">↑ 목차</a></div><div class="md"><h1>[필독] 5가지 약속 원고 (v1, 2026-07-05)</h1>
+<blockquote>
+<p>게시 위치: [시작하기] &gt; [필독] 5가지 약속 (공지 고정)
+작성 명의: 카페지기 (인규 계정)</p>
+</blockquote>
+<hr />
+<p>제목: <strong>[필독] 우리끼리의 약속 5가지 (이것만 지키면 됩니다)</strong></p>
+<hr />
+<p>이 카페의 규칙은 다섯 개뿐입니다. 대신 이 다섯 개는 진짜로 지킵니다. 운영진부터요.</p>
+<h3>약속 1. 점수로 인사합니다</h3>
+<p>글과 댓글에 오늘의 <strong>회복 점수(1~10점, 높을수록 좋음)</strong>를 적어주세요. "오늘 4점입니다" 한 마디면 서로의 상태를 바로 알 수 있고, 조언도 점수에 맞게 갈 수 있습니다. 점수가 처음이라면 → [회복의 본질 필독글 링크] 4번을 읽어주세요.</p>
+<h3>약속 2. 진단과 치료는 병원에서</h3>
+<p>여기는 경험과 회복 습관을 나누는 곳이지, 병원을 대신하는 곳이 아닙니다. <strong>1~3점이 계속되거나, 저림·마비·대소변 이상이 있다면 글 쓰기 전에 병원부터 가세요.</strong> [MRI 판독]을 포함한 모든 게시판의 댓글은 회원들의 경험담이며, 정확한 판독과 진단은 의료기관의 몫입니다.</p>
+<h3>약속 3. 후기에는 기간과 점수 변화를 씁니다</h3>
+<p>"좋아졌어요"는 마음이고, <strong>"6개월, 3점→7점"은 정보</strong>입니다. 치료·운동 후기에는 기간, 점수 변화, 그리고 아쉬웠던 점 하나를 꼭 적어주세요. 여러분의 솔직한 기록 하나가 지금 새벽에 검색하고 있는 누군가의 이정표가 됩니다.</p>
+<h3>약속 4. 경과글에는 응원부터 합니다</h3>
+<p>먼저 온 사람이 손을 잡아주는 카페입니다. 좋아진 글에는 "회복확정" 도장을, 떨어진 글에는 위로를 먼저. <strong>비난, 훈수, 공포 조장("그거 무조건 수술이에요")은 금지</strong>입니다. 치료법 논쟁이 하고 싶다면 [건강토론] 게시판에서 주제로만 다룹니다 — 사람을 공격하는 순간 삭제됩니다.</p>
+<h3>약속 5. 광고는 없습니다 — 우리도, 여러분도</h3>
+<p>병원·업체의 바이럴, 홍보글, 쪽지 영업은 <strong>1회 경고 없이 삭제+차단</strong>입니다. 운영진(1분도수·키네메디칼)도 같은 약속을 집니다: 몰래 심는 광고는 없고, 협력이 생기면 반드시 '제휴'라고 표시한 뒤 소개합니다. 왜 저희가 이렇게 운영하는지는 [필독글 링크]에 다 적어뒀습니다.</p>
+<hr />
+<p><strong>위반 처리</strong>: 약속 1~4 위반은 안내 → 반복 시 경고 → 3회 누적 시 활동정지. 약속 5(광고)는 즉시 삭제+차단.</p>
+<p>이 다섯 줄이 지켜지는 한, 이 카페는 계속 진짜 기록만 쌓입니다.</p>
+<p>오늘도 1분, 같이 갑시다. — 운영진 드림</p></div></section><section class="chapter" id="ch5"><div class="chap-head"><div><div class="no">CHAPTER 05</div><h2>글양식 5종</h2><div class="src">cafe/post-templates.md</div></div><a class="up" href="#top">↑ 목차</a></div><div class="md"><h1>게시판별 글쓰기 양식 5종 (v1, 2026-07-05)</h1>
+<blockquote>
+<p>네이버 카페 [글양식] 기능에 등록. 회원이 글쓰기 누르면 자동 삽입되는 템플릿.
+공통 원칙: 모든 양식 최상단에 필독글 링크 + 회복 점수 기입란.</p>
+</blockquote>
+<hr />
+<h2>공통 헤더 (모든 양식 맨 위)</h2>
+<pre><code>📌 처음이신가요? 이 카페의 사용법 → [회복의 본질] 필독글 (링크)
+오늘의 회복 점수: __점 / 10  (높을수록 좋음 · 기준은 필독글 4번)
+</code></pre>
+<hr />
+<h2>① 가입인사(회복선언)</h2>
+<p><strong>제목 양식</strong>: <code>[회복선언] 부위 / 오늘 점수</code> (예: [회복선언] 허리 L4-5, 오늘 4점)</p>
+<pre><code>■ 아픈 부위 / 진단명 (아는 만큼만):
+■ 아픈 지 얼마나 됐나요:
+■ 오늘의 회복 점수: __점 / 10
+■ 지금까지 해본 것 (병원/운동/기기 등):
+■ 회복해서 꼭 하고 싶은 것 한 가지:
 
-<section>
-  <div class="sechead"><span class="secno">01</span><h2>전략 포지션</h2></div>
-  <div class="grid2">
-    <div class="card"><div class="t">기회 — 왕좌가 비어 있다</div><div class="d">직전 대표카페(척추카페)가 외부 제휴광고 과다로 대표 딱지 박탈. 그 자리를 6개월 안에 가져간다.</div></div>
-    <div class="card"><div class="t">구조적 우위</div><div class="d">수익모델이 자사 제품이라 카페 안에서 광고를 팔 필요가 없다. 네이버가 원하는 깨끗한 카페와 우리 매출 구조가 충돌하지 않는다.</div></div>
-    <div class="card"><div class="t">오픈 브랜드 앵커</div><div class="d">스텔스가 아니다 — 1분도수·키네메디칼이 운영 철학으로 정면에 선다. "몰래 심는 광고 없음"이 대외 약속.</div></div>
-    <div class="card"><div class="t">전 채널의 종착지</div><div class="d">1분도수 합산 27.7만 + 키네메디칼 구매자(월 수백 명) — 모든 트래픽이 카페로 수렴한다.</div></div>
-  </div>
-  <div class="warn"><b>광고 원칙.</b> 대표카페 달성 전 외부 제휴광고 0건. 자사 노출도 필독글·글양식·베네핏 구조 안에서만. 달성 후엔 결이 맞는 제휴만 '제휴' 투명 표시로 선별 수용.</div>
-</section>
+(예: &quot;6개월 뒤에 아이를 번쩍 안아주고 싶습니다&quot;)
+</code></pre>
+<p>하단 고정 문구: <em>선언은 기록이 되고, 기록은 습관이 됩니다. 환영합니다, 회복러님. 모든 회복선언에는 먼저 온 회복러들이 댓글로 응답합니다.</em></p>
+<h2>② 보존치료 후기</h2>
+<p><strong>제목 양식</strong>: <code>[후기] 방법 / 기간 / 점수변화</code> (예: [후기] 도수치료+1분운동 / 6개월 / 3점→7점)</p>
+<pre><code>■ 시작할 때 상태 (시기 / 점수 / 진단):
+■ 무엇을 했나요 (기간 · 횟수 · 대략 비용):
+■ 점수 변화 타임라인 (예: 1개월 3점 → 3개월 5점 → 지금 7점):
+■ 좋았던 점:
+■ 아쉬웠던 점 (필수! 이게 있어야 진짜 후기입니다):
+■ 지금 상태와 다음 목표:
+</code></pre>
+<p>하단: <em>통증일지·운동 인증 사진을 함께 올리면 더 많은 분께 도움이 됩니다. "좋아졌어요"는 마음, "6개월 3→7점"은 정보입니다.</em></p>
+<h2>③ MRI 판독</h2>
+<p><strong>제목 양식</strong>: <code>[MRI] 부위 / 병원 소견</code> (예: [MRI] 목 C5-6, 협착 소견 들었습니다)</p>
+<pre><code>⚠️ 사진 필수: MRI/X-ray 첨부 (이름·등록번호 등 개인정보는 꼭 가려주세요)
 
-<section>
-  <div class="sechead"><span class="secno">02</span><h2>세계관 · 문화</h2></div>
-  <div class="tablebox"><table>
-    <tr><th>장치</th><th>내용</th></tr>
-    <tr><td>회원 호칭</td><td>회복러</td></tr>
-    <tr><td>인사 문화</td><td>회복 점수(1~10)로 인사 — "오늘 4점입니다"</td></tr>
-    <tr><td>완치</td><td><b>"졸업"</b> — 완치=이탈이 아니라 완치=최고 지위. 졸업글이 킬러 콘텐츠</td></tr>
-    <tr><td>응원 밈</td><td>"회복확정" 도장 댓글 (등급 ④와 이름 일치 — 밈↔등급 상호 강화)</td></tr>
-    <tr><td>시각 문화</td><td>착샷 대신 MRI 사진·운동 인증샷·통증일지 캡처</td></tr>
-    <tr><td>프로그램</td><td><b>"회복 습관 21일"</b> (확정 명칭 — 상세 설계 예정)</td></tr>
-  </table></div>
-  <div class="quote">"이 카페의 목표는 단 하나, 당신의 졸업입니다."</div>
-</section>
-
-<section>
-  <div class="sechead"><span class="secno">03</span><h2>게시판 구조</h2></div>
-  <p class="lede">게시판 10개 중 육성은 3개만(★) — Q&A·보존치료 후기·자유게시판. 나머지는 구색.</p>
-  <div class="tablebox"><table>
-    <tr><th>그룹</th><th>게시판</th></tr>
-    <tr><td>시작하기</td><td>공지 · [필독] 5가지 약속 · 가입인사(회복선언 — 의식)</td></tr>
-    <tr><td>통증 정보</td><td>질환/증상 Q&A ★ (검색 유입 핵심) · MRI 판독 (사진 필수, "진단은 병원에서" 고지)</td></tr>
-    <tr><td>치료 경험담</td><td>1분도수 운동 후기 (브랜드 UGC) · 보존치료 후기 ★ (점수 변화 양식) · 병원진료 후기 · 디스크 수술담 (등급 잠금 — 희소성)</td></tr>
-    <tr><td>이야기나눠요</td><td>자유게시판 ★ · 건강토론 (상시 떡밥: 수술파vs보존파 등 — 싸움=트래픽)</td></tr>
-  </table></div>
-</section>
-
-<section>
-  <div class="sechead"><span class="secno">04</span><h2>등급 — 6단계 (v5 확정)</h2></div>
-  <p class="lede">단계마다 잠금 해제 1개. 등급표 자체가 회복 서사가 되도록 설계.</p>
-  <div class="tablebox"><table>
-    <tr><th>등급</th><th>조건</th><th>잠금 해제</th></tr>
-    <tr><td>🌱 새싹</td><td>가입 즉시</td><td>기본 열람 + 가입인사·Q&A·자게 + Pro 사용 가이드</td></tr>
-    <tr><td>① 회복 시작</td><td>3일 + 글 1(회복선언) + 댓글 5 (자동)</td><td>전 게시판 쓰기 + 자료실(루틴표)</td></tr>
-    <tr><td>② 회복 적응</td><td>14일 + 글 5 + 댓글 30 (자동)</td><td>디스크 수술담 열람</td></tr>
-    <tr><td>③ 회복 안정</td><td>30일 + 글 15 + 댓글 80 (자동)</td><td>이벤트·공동구매 자격</td></tr>
-    <tr><td>④ 회복 확정</td><td>60일 + 글 30 + 댓글 150 + 신청글 (수동)</td><td>체험단·신제품 선공개</td></tr>
-    <tr><td>🎓 V (졸업생)</td><td>졸업글 심사 (점수 8+, Before→After)</td><td>V 뱃지 · 졸업생 라운지 · 졸업 키트</td></tr>
-  </table></div>
-</section>
-
-<section>
-  <div class="sechead"><span class="secno">05</span><h2>앵커글 2개 — 카페의 성경</h2></div>
-  <div class="grid2">
-    <div class="card"><div class="t">① 필독글 (자기증명) — 원고 완성</div><div class="d">"고백합니다. 저는 환자가 낫지 않아야 돈을 버는 직업이었습니다" — 인규 임상 서사 → 운동·회복·교정·고정 공식 → 회복 점수 선포 → 제품=철학의 물화 → 회복선언 초대. 초대장 QR의 랜딩.</div></div>
-    <div class="card"><div class="t">② 찐 후기 (타인증명) — 원고 완성</div><div class="d">"허리 터지고 14개월, 도수치료 300만원 쓰고 나서야…" — L45아빠 계정, 실패의 역사 절반 이상 + 증거 밀도. 가입인사→질문→경과→후기로 몇 주 서사 축적 후 D+18 게시.</div></div>
-  </div>
-  <h3>100% 도달 장치</h3>
-  <ul class="dir">
-    <li>등업 조건에 <b>필독글 댓글</b> (와닿은 문장 + 내 점수) → 댓글 수천 개 = 사회적 증거</li>
-    <li>글양식 상단 = <b>필독글 링크 + 카톡 플친</b> (철학+관계) / 하단 배너 = <b>회복선언 유도</b> (행동) — 제품 직링크 배너 금지</li>
-    <li>대문 배너 = 필독글 · "이달의 회복 스토리" = 찐 후기 고정 · 댓글요정이 신규 글마다 전파</li>
-  </ul>
-</section>
-
-<section>
-  <div class="sechead"><span class="secno">06</span><h2>유입 엔진 — 전 채널 종착지</h2></div>
-  <div class="tablebox"><table>
-    <tr><th>채널</th><th>장치</th></tr>
-    <tr><td>유튜브 15.8만</td><td>영상엔 1분 버전만 — 풀 루틴표는 카페 자료실(등급 열람). 고정댓글·설명란·커뮤니티탭 전부 카페</td></tr>
-    <tr><td>인스타·틱톡·스레드</td><td>프로필·스토리 링크 카페로. "MRI 같이보기에 올려주세요"</td></tr>
-    <tr><td>Pro 구매자 (9월~)</td><td>사용 가이드 QR = 카페 게시글 <b>가입 열람</b> (필수 동선이 곧 가입 퍼널) + 인증 사이트 완료 화면 크로스링크</td></tr>
-    <tr><td>CRM</td><td>D+3 "회복선언 남기면 부스터젤 쿠폰" (첫 글 전환 담당)</td></tr>
-    <tr><td>광고 랜딩</td><td>상세페이지 하단 카페 후기 캡처 + "회복 기록 보러가기"</td></tr>
-  </table></div>
-</section>
-
-<section>
-  <div class="sechead"><span class="secno">07</span><h2>운영 체계</h2></div>
-  <h3>이수빈 데일리 (하루 3~4시간, ops-daily.md)</h3>
-  <div class="flow">
-    <div class="step"><div class="k">아침 60분</div><div class="t">가입인사 100% 댓글</div><div class="d">24h SLA + 바이럴 삭제 + 김대리 인증</div></div>
-    <div class="step"><div class="k">점심 30분</div><div class="t">Q&A 답변</div><div class="d">페르소나 분담 + 필독글 댓글 관리</div></div>
-    <div class="step"><div class="k">오후 90분</div><div class="t">캘린더 글 작성</div><div class="d">등업 심사 + 가이드 게시글 관리</div></div>
-    <div class="step"><div class="k">마감 15분</div><div class="t">지표 기록</div><div class="d">가입·글·응답률 시트 + 슬랙 1줄</div></div>
-  </div>
-  <h3>페르소나 4계정 (기기·IP 분리 필수)</h3>
-  <div class="tablebox"><table>
-    <tr><th>계정</th><th>역할</th><th>제품 연결</th></tr>
-    <tr><td>졸업한언니</td><td>댓글요정 — 모든 가입인사·후기에 첫 댓글, 필독글 전파 (1순위 가동)</td><td>없음 (의도적 — 신뢰의 뿌리)</td></tr>
-    <tr><td>매일1분김대리</td><td>"매일 1분" 인증 시리즈 — 1분 운동을 카페 표준으로</td><td>도수넥 (목/교정)</td></tr>
-    <tr><td>수술후재활러</td><td>수술담 연재 + 수술 Q&A 답변</td><td>도수펜·도수워머 (재활)</td></tr>
-    <tr><td>L45아빠</td><td>찐 후기 계정 — D+18 대형 후기 후 주 1 근황</td><td>도수펜·도수워머 (허리)</td></tr>
-  </table></div>
-  <p class="lede" style="margin-top:10px">제품 언급 4계정 합산 주 3회 이하 · 한 글에 최대 2계정 · C2R은 ~7/20부터 (Q&A·보존후기·자게 집중, 최대 3개월 컷)</p>
-</section>
-
-<section>
-  <div class="sechead"><span class="secno">08</span><h2>6개월 로드맵</h2></div>
-  <div class="tablebox"><table>
-    <tr><th>월</th><th>목표</th><th>핵심 액션</th></tr>
-    <tr><td>M1 (7월)</td><td>뼈대</td><td>앵커글 2개 발행 · 게시판/등급/양식 세팅 · 페르소나 가동 · C2R 시작(~7/20)</td></tr>
-    <tr><td>M2 (8월)</td><td>유입 개통</td><td>구매자 CRM 파이프 · 유튜브 CTA 전환 · 의료기기 2종 선공개 — 가입 500~1,000</td></tr>
-    <tr><td>M3 (9월)</td><td>문화 형성</td><td>물치사 답변 게시판 오픈 · 첫 졸업글 이벤트 · <b>Pro 출시 = 구매자 유입 엔진 가동</b> · C2R 종료</td></tr>
-    <tr><td>M4 (10월)</td><td>자생 전환</td><td>회원발 글 > 운영발 · 건강토론 떡밥 시즌</td></tr>
-    <tr><td>M5 (11월)</td><td>스퍼트</td><td>체험단 1기(최지은) · 통증일지 30일 챌린지</td></tr>
-    <tr><td>M6 (12월~)</td><td>대표카페 신청</td><td>카페차트 '최적' 확인 후 신청 — 회원 5천~1만, 일 글 50+</td></tr>
-  </table></div>
-</section>
-
-<section>
-  <div class="sechead"><span class="secno">09</span><h2>절대 금지 — 카페 존폐 리스크</h2></div>
-  <ul class="dir">
-    <li><b>의료법:</b> "치료/완치/진단" 금지 → "회복/교정/관리/케어". MRI 게시판은 "진단은 병원에서" 고지</li>
-    <li><b>페르소나 보안:</b> 동일 IP 다계정 금지 · 들키면 역풍 (맘이테라스 사례) — 계정별 기기/회선 분리</li>
-    <li><b>외부 제휴광고 0건</b> (대표카페 전) — 제안 오면 무응답 + 태훈 에스컬레이션 · 추천코드 게시 금지</li>
-    <li><b>단발 후기 계정 금지</b> — 모든 후기는 서사 축적 후에만. 체험단부터 대가 고지 (표시광고법)</li>
-  </ul>
-</section>
-
-<div class="block">
-  <h2>현재 상태 (7/6 밤)</h2>
-  <ul>
-    <li>✅ 확정 — 카페명·URL, 등급 v5, 콘텐츠 전량(앵커 2·규칙·양식 5종·카피), 운영 플레이북, "회복 습관 21일", 글양식 상단/하단 정책, C2R ~7/20</li>
-    <li>🟡 대기 — 간증 후기 원문(태훈 게시 시 첨부) · C2R 예산 · "회복 습관 21일" 상세 설계 · 물치사 게시판 협의(M3)</li>
-    <li>📌 내일(7/7) — 이수빈 출근 → ops-daily.md Day 1 (문서 읽기 → 보안 세팅 → 게시 없음)</li>
-  </ul>
-</div>
-
-<p class="foot">SSOT: workspace/cafe/ (PLAN.md 외 8개 문서) · <a href="/es808-pro-masterbook">Pro 런칭 CX 마스터북</a> 참조 · 2026-07-06 카리나</p>
-</div>
-</body>
+■ 촬영 시기:
+■ 병원에서 들은 소견:
+■ 현재 회복 점수: __점 / 10
+■ 궁금한 점 / 같은 소견이었던 분들의 경과가 궁금합니다:
+</code></pre>
+<p>상단 고정 고지: <em>이 게시판의 댓글은 같은 경험을 한 회원들의 경험담입니다. 정확한 판독과 진단은 반드시 병원에서 받으세요.</em></p>
+<h2>④ 질환/증상 · Q&amp;A</h2>
+<p><strong>제목 양식</strong>: <code>[질문] 부위 / 점수 / 핵심 질문</code> (예: [질문] 목·어깨 5점, 팔저림은 언제 없어지나요)</p>
+<pre><code>■ 부위와 증상:
+■ 언제부터:
+■ 오늘의 회복 점수: __점 / 10
+■ 병원 진단을 받았나요 (예/아니오, 받았다면 뭐라고):
+■ 질문:
+</code></pre>
+<p>상단 고정 고지: <em>1~3점이 계속되거나 저림·마비·대소변 이상이 있다면, 질문보다 병원이 먼저입니다.</em></p>
+<h2>⑤ 디스크 수술담 (등업 회원 열람)</h2>
+<p><strong>제목 양식</strong>: <code>[수술담] 수술명 / 시기 / 현재 점수</code> (예: [수술담] L5-S1 내시경, 8개월차, 7점)</p>
+<pre><code>■ 수술을 결정하기까지 (보존치료는 뭘 해봤고, 왜 수술로 갔나):
+■ 수술 정보 (수술명 / 시기 / 입원 기간 / 대략 비용·실비 처리):
+■ 수술 직후 ~ 지금까지의 재활 과정 (점수 타임라인):
+■ 좋았던 점 / 힘들었던 점:
+■ 수술을 고민하는 분들에게:
+</code></pre>
+<p>하단: <em>병원 실명 언급은 자유이나 근거 없는 비방은 삭제됩니다. 수술은 끝이 아니라 재활의 시작입니다 — 재활 기록도 계속 남겨주세요.</em></p>
+<hr />
+<h2>운영 메모</h2>
+<ul>
+<li>네이버 글양식은 게시판별 1개씩 등록. 제목 양식은 게시판 공지에 예시로 안내 (제목 자동화는 불가).</li>
+<li>말머리 설정: 각 게시판에 [회복선언] [후기] [MRI] [질문] [수술담] + 후기 게시판에 [졸업] 말머리 추가 — 졸업글은 별도 말머리로 모아서 대문 노출.</li>
+<li>양식 준수율이 곧 카페 품질. 미준수 글은 삭제하지 말고 댓글로 양식 안내 (초기엔 페르소나가 이 역할).</li>
+</ul></div></section><section class="chapter" id="ch6"><div class="chap-head"><div><div class="no">CHAPTER 06</div><h2>페르소나 + 30일 캘린더</h2><div class="src">cafe/personas-30day.md</div></div><a class="up" href="#top">↑ 목차</a></div><div class="md"><h1>페르소나 3인 프로필 + 첫 30일 콘텐츠 캘린더 (v1, 2026-07-05)</h1>
+<blockquote>
+<p>운영 실무(신입 직원) 인수인계용. L45아빠(찐 후기 계정, anchor-2 참조)까지 총 4계정 체제.
+⚠️ 운영보안: 계정별 기기/IP 분리 필수. 사무실 공용 와이파이로 4계정 동시 접속 금지.</p>
+</blockquote>
+<hr />
+<h2>페르소나 프로필</h2>
+<h3>① 졸업한언니 — 댓글요정 (최우선 가동 ★)</h3>
+<ul>
+<li><strong>인물</strong>: 44세 주부, 목디스크 C5-6. 2년 전 극심한 팔저림 → 보존치료+운동으로 회복, "졸업" 상태</li>
+<li><strong>말투</strong>: 따뜻하고 수다스러움. 이모티콘 적당히. "저도 그랬어요~"가 입버릇. 반말 안 함</li>
+<li><strong>역할</strong>: <strong>모든 가입인사·후기·일지글에 24시간 내 첫 댓글.</strong> 필독글 전파 담당 ("저 이 글 보고 시작했어요"). 회복확정 도장 문화 시딩</li>
+<li><strong>활동량</strong>: 댓글 일 10~20개, 글 주 1~2개 (졸업생 시점의 회고, 목 관리 꿀팁)</li>
+<li><strong>제품 연결</strong>: 없음(의도적). 이 계정은 순수 온기 담당 — 그래서 신뢰의 뿌리</li>
+</ul>
+<h3>② 매일1분김대리 — 운동인증러</h3>
+<ul>
+<li><strong>인물</strong>: 31세 남, IT회사 대리. 거북목+목디스크 초기(C5-6 팽윤), 현재 6점. 재택·사무 반반</li>
+<li><strong>말투</strong>: 짧고 건조, 숫자 좋아함. "N일차. 오늘도 함." 스타일</li>
+<li><strong>역할</strong>: <strong>매일 아침 1분 운동 인증글</strong> — [1분도수 운동 후기] 게시판 (실카페 신설 게시판, "매일 1분" 시리즈). 1분 운동을 카페의 표준 루틴으로 만드는 반복 장치이자 이 게시판의 앵커</li>
+<li><strong>활동량</strong>: 인증글 일 1개(짧게, 사진 1장) + 댓글 5개</li>
+<li><strong>제품 연결</strong>: <strong>도수넥(교정 단계) 사용자.</strong> 인증글에 가끔 자연 노출 ("운동 뒤 10분 견인"). 목·교정 라인 담당</li>
+</ul>
+<h3>③ 수술후재활러 — 수술인증러</h3>
+<ul>
+<li><strong>인물</strong>: 41세 남, 물류 관리직. 작년 L5-S1 내시경 수술, 현재 재활 5점. "수술은 끝이 아니라 시작이었다"가 서사의 축</li>
+<li><strong>말투</strong>: 진지, 장문형. 정보 정리를 잘함 (표·목록 사용)</li>
+<li><strong>역할</strong>: [디스크 수술담] 게시판 앵커. 수술 결정 과정~재활 과정 연재. 수술 고민 Q&amp;A의 현실적 답변자 ("수술 무섭죠. 저도 그랬는데…")</li>
+<li><strong>활동량</strong>: 연재글 주 1~2개 + 수술 관련 질문 답변 댓글</li>
+<li><strong>제품 연결</strong>: <strong>도수펜+도수워머(회복 단계)</strong> — 재활 루틴에서 자연 노출. 수술 후 재활 시장 담당</li>
+</ul>
+<h3>④ L45아빠 — 찐 후기 (anchor-2 문서 참조)</h3>
+<ul>
+<li>허리·보존치료·450만원 서사. 도수펜/도수워머. D+18 대형 후기 → 이후 주 1회 근황</li>
+</ul>
+<h3>계정 간 관계 규칙</h3>
+<ul>
+<li>서로의 글에 자연스럽게 댓글 (단, 4계정이 한 글에 다 모이지 않기 — 최대 2계정)</li>
+<li>제품 언급은 <strong>4계정 합산 주 3회 이하.</strong> 노출은 흘리듯, 설명은 질문받았을 때만</li>
+<li>부위·제품 분담: L45아빠(허리/도수펜·워머) · 김대리(목/도수넥) · 재활러(수술후/도수펜·워머) · 언니(무제품)</li>
+</ul>
+<hr />
+<h2>첫 30일 캘린더</h2>
+<h3>Week 1 — 뼈대 세우기 (오픈 주)</h3>
+<table>
+<thead>
+<tr>
+<th>일</th>
+<th>활동</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>D1</td>
+<td>카페지기: 필독글 + 5가지 약속 게시. 언니·김대리·재활러 가입 → 각자 회복선언 + 필독글 댓글 (팀 계정 포함 댓글 시딩 15개)</td>
+</tr>
+<tr>
+<td>D2</td>
+<td>김대리: "매일 1분" 1일차 인증 시작 (이후 매일). 언니: 첫 회고글 "목디스크 졸업하고 2년, 아직도 하는 것 3가지"</td>
+</tr>
+<tr>
+<td>D3</td>
+<td>재활러: 수술담 연재 1편 "수술 결정까지 6개월, 내가 따져본 것들". L45아빠 가입 → 회복선언</td>
+</tr>
+<tr>
+<td>D4</td>
+<td>L45아빠: MRI 판독에 사진글. 언니가 첫 댓글</td>
+</tr>
+<tr>
+<td>D5</td>
+<td>김대리: Q&amp;A에 질문글 ("모니터 높이 조절하고 나서…"). 재활러 답변</td>
+</tr>
+<tr>
+<td>D6~7</td>
+<td>전 계정 댓글 상호작용. C2R 1차 원고 투입 시작 (Q&amp;A/자유게시판)</td>
+</tr>
+</tbody>
+</table>
+<h3>Week 2 — 문화 만들기</h3>
+<ul>
+<li>김대리 인증 지속 (7일차 기념 짧은 회고 + 도수넥 첫 자연 노출)</li>
+<li>언니: "회복확정이 뭔가요?" 문화 설명글 (밈 공식화)</li>
+<li>재활러: 연재 2편 "수술 당일과 일주일, 아무도 말 안 해주는 것들"</li>
+<li>L45아빠: 자유게시판 "통증일지 14개월 쓰면서 배운 것 (양식 공유)"</li>
+<li>실제 신규 유입 시작 (유튜브 CTA 전환 시점) → 언니가 모든 가입인사에 댓글</li>
+</ul>
+<h3>Week 3 — 앵커 후기 투하</h3>
+<ul>
+<li><strong>D18: L45아빠 대형 후기 게시</strong> (anchor-2). 언니·김대리가 질문형 댓글로 스레드 육성</li>
+<li>후기를 대문 "이달의 회복 스토리" 고정 + 유튜브 커뮤니티탭에 공유</li>
+<li>재활러: 연재 3편 "재활 1개월차, 수술보다 힘든 것"</li>
+</ul>
+<h3>Week 4 — 자생 전환 준비</h3>
+<ul>
+<li>김대리: "매일 1분" 30일차 — 한 달 결산글 (점수 6→7 상승 서사)</li>
+<li>언니: 신규 회원 중 활동 좋은 실회원 3~5명 골라 집중 케어 (댓글+쪽지 환영)</li>
+<li>재활러: Q&amp;A 수술 질문 몰아 답변</li>
+<li>운영 점검: 일 글 수 / 실회원 비율 / 필독글 댓글 수 리뷰 → M2 계획 조정</li>
+</ul>
+<h3>지속 리듬 (Week 5~)</h3>
+<ul>
+<li>김대리 매일 인증 / 언니 상시 댓글 / 재활러 주 1 연재 / L45아빠 주 1 근황</li>
+<li>월 1회: 4계정 서사 정합성 점검 (설정 충돌, 날짜 모순 체크) — 이 문서가 SSOT</li>
+</ul></div></section><section class="chapter" id="ch7"><div class="chap-head"><div><div class="no">CHAPTER 07</div><h2>카피 세트</h2><div class="src">cafe/copy-set.md</div></div><a class="up" href="#top">↑ 목차</a></div><div class="md"><h1>대문·등업·환영·채널 CTA 카피 세트 (v1, 2026-07-05)</h1>
+<hr />
+<h2>1. 카페 대문</h2>
+<p><strong>메인 배너 (필독글 링크)</strong></p>
+<blockquote>
+<p><strong>"저는 환자가 낫지 않아야 돈을 버는 직업이었습니다"</strong>
+물리치료사의 고백으로 시작된 카페 — 필독글 읽기 →</p>
+</blockquote>
+<p><strong>서브 배너 (이달의 회복 스토리 = L45아빠 후기)</strong></p>
+<blockquote>
+<p>허리 터지고 14개월, 병원비 450만원의 기록
+"치료를 산 거지, 회복을 산 게 아니었구나" →</p>
+</blockquote>
+<p><strong>카페 소개글 (검색 노출용 — 키워드 포함)</strong></p>
+<blockquote>
+<p>목·허리 디스크, 협착증, 거북목, 어깨·무릎·손목·발목 통증까지 — 근골격계 회복러들의 기록 창고입니다. 보존치료 후기, 병원·수술 경험담, MRI 공유, 매일 1분 운동 습관. 회복 점수로 인사하고, 다 나으면 졸업하는 카페. 운영: 1분도수(유튜브 15만) · 키네메디칼</p>
+</blockquote>
+<h2>2. 등업 안내문 (등업 신청 게시판 공지)</h2>
+<blockquote>
+<p><strong>새싹으로 와서 — 시작하고, 적응하고, 안정되고, 확정받고 — V로 졸업합니다.</strong>
+🌱 <strong>새싹</strong> — 방금 오신 분 (가입 즉시)
+<strong>① 회복 시작</strong> — 회복선언을 쓴 분 (3일 · 글 1 · 댓글 5 → 자동. <strong>자료실[주차별 루틴표] 열림</strong>)
+<strong>② 회복 적응</strong> — 루틴이 일상이 된 분 (14일 · 글 5 · 댓글 30 → 자동. <strong>디스크 수술담 열림</strong>)
+<strong>③ 회복 안정</strong> — 재발하지 않는 몸이 된 분 (30일 · 글 15 · 댓글 80 → 자동. <strong>이벤트·공동구매 자격</strong>)
+<strong>④ 회복 확정</strong> — 졸업 직전, 사실상 다 나은 분 (60일 · 글 30 · 댓글 150 + 신청글 → 수동. <strong>체험단·신제품 선공개</strong>)
+🎓 <strong>V (졸업생)</strong> — 다 나은 분 (졸업글 심사 — 우리 모두의 목표)</p>
+<p>※ 등급은 통증 상태가 아니라 여정의 단계입니다. 지금 몇 점이든, 등급은 앞으로만 갑니다.
+※ ④회복 확정 신청 양식: ①필독글에 남긴 내 댓글 링크 ②내 회복선언 링크 ③가장 도움받은 글 하나와 이유</p>
+</blockquote>
+<h2>3. 가입 환영 자동 댓글 (가입인사 게시판)</h2>
+<blockquote>
+<p>회복선언 남겨주셔서 감사합니다, 회복러님 🙌 이 카페 사용법 3가지만 알려드릴게요.
+① 서로 <strong>회복 점수(1~10)</strong>로 인사해요 → 기준은 [필독글]
+② 지금 점수에 맞는 오늘 할 일도 필독글 4~5번에 있어요
+③ 궁금한 건 [질환/증상 Q&amp;A]에 — 먼저 겪은 분들이 답해드립니다
+내일 아침 1분, 같이 시작해요!</p>
+</blockquote>
+<h2>4. 채널 CTA</h2>
+<p><strong>유튜브 설명란 (전 영상 공통)</strong></p>
+<blockquote>
+<p>📌 이 운동, 일주일치 루틴표로 받기 → 카페 자료실 (무료)
+근골격계 회복모임 — 회복러 N천 명의 후기·MRI·경과 기록
+https://cafe.naver.com/insidesoccernj</p>
+</blockquote>
+<p><strong>유튜브 고정댓글</strong></p>
+<blockquote>
+<p>영상 속 운동의 주차별 풀 루틴표는 카페 자료실에 있습니다 (무료, 등업만). 질문은 유튜브 댓글보다 카페 [질환/증상 Q&amp;A]에 남겨주세요 — 놓치지 않고 답변드립니다. 지금 나의 회복 점수가 몇 점인지부터 확인해보세요 → [필독글 링크]</p>
+</blockquote>
+<p><strong>인스타/틱톡/스레드 프로필</strong></p>
+<blockquote>
+<p>매일 1분, 스스로 회복 | 회복러들의 기록 창고 ⬇️
+(링크: 카페)</p>
+</blockquote>
+<p><strong>인스타 스토리 유도 문구 (반복 사용)</strong></p>
+<blockquote>
+<p>"안 아픈 것과 나은 것은 다릅니다" — 오늘 몇 점인지 확인하러 가기 →</p>
+</blockquote>
+<h2>5. 구매자 전환 (CRM)</h2>
+<p><strong>구매 D+3 알림톡/문자 (데이터라이즈)</strong></p>
+<blockquote>
+<p>[키네메디칼] ○○님, 도구는 잘 도착했나요? 회복은 도구가 아니라 매일 1분이 만듭니다. 회복러들의 카페에서 ①내 회복 점수 확인 ②회복선언 쓰면 → 젤패드 쿠폰 드려요 🎁 (링크)</p>
+</blockquote>
+<p><strong>패키지 QR 인서트 카드 (앞/뒤)</strong></p>
+<blockquote>
+<p>(앞) <strong>여기서 멈추면, 다시 아파집니다.</strong>
+기기는 시작일 뿐 — 낫는 건 매일 1분입니다.
+(뒤) QR 찍고 카페에서: ✔ 내 회복 점수 확인 ✔ 부위별 1분 루틴 ✔ 회복선언 쓰고 소모품 쿠폰 받기
+— 1분도수 · 키네메디칼 근골격계 회복모임</p>
+</blockquote>
+<h2>6. 회복 점수 카드 이미지 시안 (디자인 발주용 텍스트)</h2>
+<ul>
+<li>제목: <strong>내 회복 점수는 몇 점? (이 카페의 공용어)</strong></li>
+<li>3단 구성 (색: 빨강→주황→초록 그라데이션):</li>
+<li><strong>1~3점 급성기</strong> "많이 아파요" → 병원 먼저 + 회복 집중</li>
+<li><strong>4~6점 아급성기</strong> "움직일 만해요" → 회복+교정, 1분 운동 시작</li>
+<li><strong>7~10점 호전기</strong> "괜찮아요" → 교정+강화, 멈추면 재발하는 구간!</li>
+<li>하단: "글·댓글에 오늘 점수로 인사해요 — 오늘 몇 점이신가요?" + 카페 로고</li>
+<li>규격: 정방형 1080px (인스타 겸용) + 가로형 (카페 대문용) 2종</li>
+</ul>
+<hr />
+<h2>운영 메모</h2>
+<ul>
+<li>모든 카피에서 금지어: 치료 효과 주장("낫습니다", "완치") — "회복/관리/습관"으로.</li>
+<li>CTA의 자료실 미끼는 ①회복 시작 등업 조건과 연동 — 등업이 쉬워야(3일·글1·댓5) 미끼가 작동함.</li>
+<li>D+3 문자의 쿠폰은 B. 태훈 결정(보증연장/쿠폰 정책) 확정 후 발송 시작.</li>
+</ul></div></section><section class="chapter" id="ch8"><div class="chap-head"><div><div class="no">CHAPTER 08</div><h2>앵커글 ① 필독글 원고</h2><div class="src">cafe/anchor-1-필독글.md</div></div><a class="up" href="#top">↑ 목차</a></div><div class="md"><h1>앵커글 ① 필독글 원고 (v2 — 전면 재작성, 2026-07-05)</h1>
+<blockquote>
+<p>게시 위치: [시작하기] 공지사항 (전체공지 + 대문 배너 고정)
+작성 명의: 인규 (1분도수쌤) — 카페지기 계정
+모든 글양식/등업 안내/배너가 이 글로 링크됨</p>
+</blockquote>
+<hr />
+<p>제목: <strong>[필독] 고백합니다. 저는 환자가 낫지 않아야 돈을 버는 직업이었습니다</strong></p>
+<hr />
+<p>"선생님, 저 이제 안 아파서 안 가요."</p>
+<p>물리치료사한테 이것보다 기분 좋은 말은 없습니다. 잘 오시던 분이 2주째 안 보여서 전화를 걸면, 수화기 너머로 이 말이 돌아옵니다. 그런 날은 하루 종일 기분이 좋습니다.</p>
+<p>그런데 몇 달 뒤, 그분 이름이 다시 예약 명단에 올라옵니다.
+처음보다 더 아파져서요.</p>
+<p>저는 압구정 도수치료실에서 팀장으로 일했던 물리치료사 인규입니다. 목디스크, 허리디스크로 고생하는 분들을 2,000명 넘게 만났고, 방금 그 장면을 수도 없이 봤습니다. 왜 이런 일이 반복되는지, 어떻게 하면 그 고리를 끊는지 — 그걸 말씀드리려고 이 카페에서 가장 중요한 글을 씁니다. 5분만 읽어주세요.</p>
+<hr />
+<h2>1. 이상한 직업</h2>
+<p>먼저 고백부터 하겠습니다.</p>
+<p>도수치료사는 이상한 직업입니다. 환자를 낫게 하는 게 일인데, 진짜 낫게 하면 그 환자를 잃습니다. 환자가 계속 와야 매출이 나오는데, 제 일은 환자가 더 이상 안 와도 되게 만드는 것입니다. 이 직업은 태생부터 모순 위에 서 있습니다.</p>
+<p>그래서 이 바닥에는 조용한 유혹이 있습니다.</p>
+<p>낫지도, 나빠지지도 않을 만큼만. 다음 예약이 끊기지 않을 만큼만.</p>
+<p>오해는 마세요. 제가 아는 치료사 대부분은 그 유혹에 넘어가지 않습니다. 문제는 사람이 아니라 구조입니다. 여러분이 '스스로 회복하는 법'을 끝까지 배우지 못한 건 누가 숨겨서가 아니라, <strong>그걸 가르쳐줄 시간이 시스템 어디에도 없기 때문입니다.</strong> 진료 10분, 도수 30분. 그 안에 여러분의 남은 인생의 자세와 습관까지 들어갈 자리는 없습니다.</p>
+<p>저는 반대로 걸어봤습니다. 오늘 온 환자가 다시 안 와도 되게 만드는 데에 제 30분을 전부 썼습니다. 매출로 보면 바보 같은 짓입니다. 그런데 결과는 반대였습니다. "이제 안 아파서 안 가요"라던 그분들이, 자기 부모님을 모시고 왔습니다. 직장 동료를, 친구를 데려왔습니다. 저는 환자를 잃은 만큼 신뢰를 얻었고, 그 신뢰가 저를 이 바닥에서 가장 바쁜 치료사로 만들었습니다.</p>
+<p><strong>정직하게 낫게 하는 것이, 제가 아는 가장 강력한 영업이었습니다.</strong></p>
+<p>이 카페는 그 경험 위에 세운 곳입니다.</p>
+<h2>2. 그런데 왜 자꾸 다시 아파질까요</h2>
+<p>'안 아픈 것'과 '나은 것'이 다르기 때문입니다.</p>
+<p>치료실에서 통증이 줄어드는 건 회복의 끝이 아니라 <strong>시작</strong>입니다. 안 아프다는 건, 이제서야 몸을 다시 만들 수 있는 상태가 됐다는 뜻입니다.</p>
+<p>그런데 대부분 여기서 멈춥니다. 안 아프니까 병원에 안 가고, 병원도 구조상 여기까지밖에 못 지켜줍니다. 그다음의 길 — 운동, 자세, 습관 — 은 아무도 안 챙겨줍니다.</p>
+<p>그래서 돌아옵니다. 처음보다 더 아파져서.</p>
+<p>도수치료 10회에 몇십만 원을 쓰고도 다시 아픈 이유가 여기 있습니다. 치료가 잘못돼서가 아닙니다. <strong>치료가 끝난 곳에서 회복이 시작되는데, 그 구간을 함께 걸어주는 사람이 없었던 겁니다.</strong></p>
+<p>이 카페는 정확히 그 구간을 위해 존재합니다.</p>
+<h2>3. 근골격계 회복에는 공식이 있습니다</h2>
+<p><strong>"아파서 못 움직이던 몸을, 다시 움직이는 몸으로."</strong></p>
+<p>기기가 낫게 해주는 게 아닙니다. 주사가, 시술이 낫게 해주는 것도 아닙니다. 그것들의 역할은 통증을 줄여서 '움직일 수 있는 상태'를 만들어주는 것까지입니다.</p>
+<p>거기서 움직이지 않으면 — 운동하지 않고, 자세를 바로잡지 않으면 — 몸은 반드시 원래 자리로 돌아갑니다. 2,000명을 보면서 단 한 번의 예외도 못 본 법칙입니다.</p>
+<p>그래서 근골격계 회복에는 순서가 있습니다. 제가 치료실에서 2,000명에게 적용했던, 그리고 지금 저희 팀이 병원 밖에서 완성하려는 공식입니다.</p>
+<blockquote>
+<h2><strong>운동 → 회복 → 교정 → 고정</strong></h2>
+</blockquote>
+<ul>
+<li><strong>운동</strong> — 아프면 안 움직이게 되고, 안 움직이면 더 약해집니다. 통증이 허락하는 범위에서 매일 1분이라도 몸을 깨우는 것이 모든 회복의 시작입니다.</li>
+<li><strong>회복</strong> — 뭉치고 긴장한 조직을 풀어 통증을 가라앉힙니다. '움직일 수 있는 몸'을 만드는 단계입니다.</li>
+<li><strong>교정</strong> — 통증을 만든 원인, 틀어진 자세와 정렬을 바로잡습니다. 이 단계를 건너뛰면 반드시 재발합니다.</li>
+<li><strong>고정</strong> — 좋아진 상태가 일상의 기본값이 되도록 습관으로 굳힙니다. 회복의 완성은 병원이 아니라 생활에서 일어납니다.</li>
+</ul>
+<p>여기서 분명히 해둘 것이 있습니다. <strong>저희는 병원을 배제하려는 게 아닙니다. 역할이 다른 겁니다.</strong> 많이 아플 때(1~3점)의 진단과 치료는 병원의 영역입니다. 반드시 병원에서 받으셔야 하고, 거기에 예외는 없습니다.</p>
+<p>다만 회복은 진료실 안에서만 일어나지 않습니다. 매일 움직이고, 풀어주고, 바로잡고, 유지하는 일은 여러분의 일상에서 일어나야 하는데, 병원에 매일 갈 수는 없습니다. 다시 아파지는 이유가 여기 있고, 이 카페가 존재하는 이유도 여기 있습니다.</p>
+<p><strong>병원은 치료를 맡고, 우리는 치료와 치료 사이의 매일을 맡습니다.</strong></p>
+<p>실천 버전은 간단합니다.</p>
+<blockquote>
+<p><strong>정교한 도구(회복·교정) + 매일 1분 운동(운동·고정) = 평생 지속 가능한 건강</strong></p>
+</blockquote>
+<p>거창한 운동이 아니어도 됩니다. 하루 1분. 대신 매일. 그게 10회짜리 패키지보다 강합니다.</p>
+<h2>4. 내 상태부터 압시다 — '회복 점수' (이 카페의 공용어)</h2>
+<p>이 카페에서는 서로의 상태를 <strong>회복 점수 1~10점</strong>으로 말합니다. 점수가 높을수록 좋은 겁니다.</p>
+<table>
+<thead>
+<tr>
+<th>점수</th>
+<th>단계</th>
+<th>상태</th>
+<th>지금 할 일</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>1~3점</strong></td>
+<td>급성기</td>
+<td>많이 아프다. 일상이 힘들다</td>
+<td>운동·교정은 무리입니다. 통증 관리와 이완, 즉 <strong>회복에만 집중.</strong> 병원 진료가 우선입니다</td>
+</tr>
+<tr>
+<td><strong>4~6점</strong></td>
+<td>아급성기</td>
+<td>불편하지만 움직일 만하다</td>
+<td><strong>회복 + 교정 병행.</strong> 1분 운동을 시작할 때입니다</td>
+</tr>
+<tr>
+<td><strong>7~10점</strong></td>
+<td>호전기</td>
+<td>괜찮다. 가끔 신호가 온다</td>
+<td><strong>교정 + 운동 강화.</strong> 재발 방지 습관을 만들 때입니다</td>
+</tr>
+</tbody>
+</table>
+<p>앞으로 글을 쓰거나 댓글을 달 때 "오늘 4점입니다"라고 해주세요. 점수 하나면 서로의 상태를 바로 알 수 있고, 어떤 조언이 지금의 나에게 맞는 조언인지도 구분할 수 있습니다.</p>
+<p>(중요: 1~3점이 계속되거나 다리 저림·마비·대소변 이상 같은 신호가 있다면, 카페가 아니라 병원부터 가셔야 합니다. 진단은 반드시 병원에서 받으세요.)</p>
+<h2>5. 오늘부터 시작하는 회복 루틴</h2>
+<p><strong>급성기(1~3점)라면</strong>
+- 병원 진료 먼저. 지금은 버티는 시기가 아니라 관리하는 시기입니다
+- 무리한 스트레칭 금지. "아픈데 참고 늘리기"가 급성기를 망칩니다
+- 통증이 허락하는 만큼만 걷기, 잘 자기, 몸을 따뜻하게
+- [질환/증상 Q&amp;A]와 [MRI 판독] 게시판에서 비슷한 사례를 찾아보세요. '나만 이런 게 아니구나'가 급성기의 절반입니다</p>
+<p><strong>아급성기(4~6점)라면</strong>
+- 아침에 일어나서 1분 운동, 오늘부터. (유튜브 '1분도수'에 부위별로 다 있습니다 — 뭐부터 할지 모르겠으면 이 글에 댓글로 부위와 점수를 남겨주세요)
+- 앉아서 일한다면 50분마다 한 번 일어나서 자세 리셋
+- 통증 일지 쓰기: 날짜 + 점수 + 오늘 한 것. 카페에 올리면 그게 곧 당신의 회복 기록이 됩니다</p>
+<p><strong>호전기(7~10점)라면</strong>
+- 1분 운동을 강화 운동으로 업그레이드
+- 여기가 제일 위험한 구간입니다. 안 아프니까 다 나은 줄 알고 멈추는 시기 — '다시 돌아오는 환자'가 전부 이 구간에서 멈춘 분들입니다
+- 후기 게시판에 경과를 남겨주세요. 지금 급성기인 누군가에게는 그 글이 유일한 희망입니다</p>
+<h2>6. 우리가 만들어가고 있는 것</h2>
+<p>치료실에서 나은 환자분을 배웅할 때마다 늘 같은 아쉬움이 남았습니다.</p>
+<p>'이분이 우리 부모님이었다면, 나은 다음의 길을 끝까지 알려드렸을 텐데.'</p>
+<p>치료실 구조상 그럴 수 없었습니다. 그 아쉬움에서 저희 팀(1분도수 · 키네메디칼)이 시작됐고, 미션은 하나입니다.</p>
+<blockquote>
+<p><strong>"누구나 집에서 스스로 회복할 수 있는 세상."</strong></p>
+</blockquote>
+<p>구체적으로는, 3번에서 말씀드린 <strong>운동→회복→교정→고정 공식을 병원 밖에서도 완성할 수 있게</strong> 하나씩 만들어가고 있습니다.</p>
+<p>"매일 1분씩 움직이세요"라고 말해놓고 끝내면 무책임하다는 것도 압니다. 움직이기 시작하면 뻐근함과 불편이 따라오거든요. 치료실에서라면 제가 그때그때 풀어드렸을 텐데, 여러분이 매번 병원에 갈 수는 없습니다. 그래서 저희는 회복기기를 만듭니다. <strong>움직이는 사람의 불편을 그 자리에서 풀어줘서, 내일도 움직일 수 있게 하는 도구</strong>입니다.</p>
+<p>솔직히 말씀드리면, 저희는 실제 병원에서 쓰는 의료기기도 만들어서 판매합니다. 그런데 그런 장비는 100만 원을 훌쩍 넘습니다. 좋은 걸 알면서도 "집에 하나 들이세요"라고 말하기 어려운 가격입니다. 그래서 저희는 <strong>병원에서 쓰는 원리를 그대로 가져와, 집에서 매일 쓸 수 있는 가격과 크기로 다시 만들었습니다.</strong> 회복 단계(1~6점)의 도수펜(타겟형 저주파)과 도수워머(근적외선 온열), 교정 단계(4~10점)의 도수넥(경추 관리)이 그렇게 나온 도구들입니다. 카페 곳곳에서 이 도구들 이야기가 보일 겁니다. 저희가 만든 게 맞고, 숨기지 않겠습니다.</p>
+<p>그런데 공식의 앞뒤 — <strong>운동과 고정 — 은 도구로 해결되지 않습니다.</strong> 그래서 매일 따라 할 1분 운동을 유튜브에 전부 무료로 올렸고, 마지막으로 이 카페를 만들었습니다. 혼자서는 3일을 못 가는 습관도, 같이 아파봤던 사람들이 지켜봐주면 3개월을 갑니다. <strong>이 카페가 바로 '고정' 단계입니다.</strong> 여러분이 회복선언을 쓰고, 점수를 나누고, 서로의 일지에 댓글을 다는 것 — 그게 공식의 마지막 조각입니다.</p>
+<p>이렇게 본질에만 집중했더니 신기한 일이 생겼습니다. 유튜브는 시작 1년 남짓 만에 15만 명을 넘었고, 인스타그램도 7만을 눈앞에 두고 있습니다. 제품 후기에는 이런 문장들이 쌓이고 있습니다.</p>
+<blockquote>
+<p>"안 돌아가던 목이 돌아갑니다."</p>
+<p>"10년차 물리치료사인데 이런 제품 처음 봤습니다. 제가 씁니다."</p>
+</blockquote>
+<p>저희가 잘나서라고 생각하지 않습니다. <strong>방향이 맞았다는 증거</strong>라고 읽고 있습니다.</p>
+<p>다만 분명히 해둘 게 있습니다. <strong>여러분을 회복시키는 건 도구가 아니라 여러분의 매일 1분입니다.</strong> 도구는 그 1분을 가능하게 하고, 꾸준하게 만들어줄 뿐입니다. 그래서 이 카페는 도구가 없는 분께도 똑같이 열려 있고, 똑같이 유용해야 합니다. 그게 저희 기준입니다.</p>
+<p>그리고 이 카페에 <strong>몰래 심어진 광고는 없습니다.</strong> 저희가 직접 운영하기 때문에 아무 광고나 받을 이유가 없습니다. 병원 바이럴, 업체 홍보글은 발견 즉시 삭제합니다. 언젠가 회원분들께 진짜 도움이 된다고 판단한 협력이 생긴다면, 그때는 숨기지 않고 '제휴'라고 명확히 표시한 뒤에 소개하겠습니다.</p>
+<p>1번에서 말씀드린 그대로입니다. 저희는 여러분이 계속 아파야 돈을 버는 구조가 아닙니다. 여러분이 나아서 졸업하고, 주변의 아픈 사람에게 "여기 한번 가봐"라고 말해줄 때 저희가 성장합니다.</p>
+<p><strong>저희는 여러분이 낫는 쪽에 돈을 걸었습니다. 그러니 저희를 시험하셔도 됩니다.</strong></p>
+<hr />
+<p><strong>바쁜 분들을 위한 세 줄 요약</strong></p>
+<ol>
+<li>'안 아픈 것'은 나은 게 아닙니다. 회복은 <strong>운동→회복→교정→고정</strong>, 4단계가 완성돼야 끝납니다.</li>
+<li>병원이 해주는 건 가운데 두 단계까지. 나머지는 일상에서 — <strong>하루 1분 운동과 습관</strong>으로 만듭니다.</li>
+<li>이 카페는 그 마지막 단계를 함께하는 곳입니다. <strong>회복선언 쓰고, 점수로 인사하고, 졸업하면 됩니다.</strong></li>
+</ol>
+<hr />
+<h2>7. 시작하는 방법 (2분이면 됩니다)</h2>
+<p><strong>① 회복선언 남기기</strong> — [가입인사(회복선언)] 게시판에 세 줄만 적어주세요.</p>
+<blockquote>
+<p>아픈 부위 / 오늘의 회복 점수 / 회복해서 하고 싶은 것 한 가지</p>
+</blockquote>
+<p>"6개월 뒤에 아이를 번쩍 안아주고 싶습니다" 같은 것이요. 선언은 기록이 되고, 기록은 습관이 됩니다. 모든 회복선언에는 저희와 먼저 온 회복러들이 댓글로 응답합니다.</p>
+<p><strong>② 이 글에 댓글 남기기</strong> — 가장 와닿은 문장 하나 + 오늘의 점수. (등업 조건이기도 합니다)</p>
+<p><strong>③ 내일 아침, 1분.</strong></p>
+<hr />
+<p>이 카페의 회원을 저희는 '회복러'라고 부릅니다. 다 나은 회복러는 졸업글을 쓰고 '졸업생'이 됩니다. 졸업생은 카페를 떠나도 되고, 남아서 지금 아픈 분들의 손을 잡아줘도 됩니다. (놀랍게도, 대부분 남더라고요.)</p>
+<p><strong>이 카페의 목표는 단 하나, 당신의 졸업입니다.</strong></p>
+<p>오늘 몇 점이신가요. 댓글에서 뵙겠습니다.</p>
+<p>— 1분도수 인규 드림</p>
+<hr />
+<p><em>본 카페의 모든 콘텐츠는 경험 공유와 일반적인 건강·운동 정보이며, 의료행위(진단·치료)가 아닙니다. 정확한 진단과 치료는 반드시 의료기관에서 받으시기 바랍니다.</em></p></div></section><section class="chapter" id="ch9"><div class="chap-head"><div><div class="no">CHAPTER 09</div><h2>앵커글 ② 찐 후기 원고</h2><div class="src">cafe/anchor-2-찐후기.md</div></div><a class="up" href="#top">↑ 목차</a></div><div class="md"><h1>앵커글 ② 찐 후기 원고 + 계정 서사 타임라인 (v1, 2026-07-05)</h1>
+<blockquote>
+<p>게시 위치: [치료 경험담] 보존치료 후기 → 대문 "이달의 회복 스토리" 고정
+목적: 타인증명. 필독글(자기증명)과 상호 순환 참조
+⚠️ 운영 노트는 문서 맨 아래 — 게시 전 반드시 확인</p>
+</blockquote>
+<hr />
+<h2>1. 계정 프로필</h2>
+<table>
+<thead>
+<tr>
+<th>항목</th>
+<th>설정</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>닉네임</td>
+<td><strong>L45아빠</strong></td>
+</tr>
+<tr>
+<td>인물</td>
+<td>38세 사무직(주 50시간 앉아서 일함), 5살 딸 아빠</td>
+</tr>
+<tr>
+<td>병력</td>
+<td>2025년 4월 허리 터짐 — L4-5 추간판 탈출(팽윤 동반), 보존치료 선택</td>
+</tr>
+<tr>
+<td>현재</td>
+<td>14개월차, 회복 점수 8점. 졸업 직전이지만 "10점 찍고 졸업글 쓰겠다"는 캐릭터</td>
+</tr>
+<tr>
+<td>말투</td>
+<td>담백, 숫자로 말함, 감정 절제하다 가끔 터짐. 이모티콘 거의 안 씀</td>
+</tr>
+<tr>
+<td>역할</td>
+<td>보존치료 후기 게시판의 앵커. 이후 급성기 신규 회원에게 "선배" 포지션</td>
+</tr>
+</tbody>
+</table>
+<h2>2. 계정 서사 타임라인 (후기 게시 전 3주)</h2>
+<table>
+<thead>
+<tr>
+<th>시점</th>
+<th>게시판</th>
+<th>활동</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>D+1</td>
+<td>가입인사(회복선언)</td>
+<td>"허리 터진 지 14개월차인데 회복선언 늦게 합니다 (오늘 8점)" — 짧게. 필독글 읽고 왔다는 언급</td>
+</tr>
+<tr>
+<td>D+2</td>
+<td>필독글 댓글</td>
+<td>"'안 아픈 것과 나은 것은 다르다'에서 뜨끔했습니다. 제가 그걸 400만원 주고 배웠거든요. 오늘 8점"</td>
+</tr>
+<tr>
+<td>D+4</td>
+<td>MRI 판독</td>
+<td>"14개월 전 터졌을 때 MRI입니다. L4-5 같은 분들 경과 어떠세요?" — MRI 사진 1장, 담담한 톤</td>
+</tr>
+<tr>
+<td>D+7~14</td>
+<td>Q&amp;A/자유게시판</td>
+<td>신규 회원 질문에 경험담 댓글 5~8개. "저도 그 구간 겪었어요" 톤. 글 1개: "통증일지 14개월 쓰면서 배운 것 (양식 공유)"</td>
+</tr>
+<tr>
+<td>D+18</td>
+<td><strong>보존치료 후기</strong></td>
+<td><strong>★ 본 후기 게시 (아래 원고)</strong></td>
+</tr>
+<tr>
+<td>D+19~</td>
+<td>전체</td>
+<td>후기에 달리는 댓글 전부 답댓글. 이후 주 1회 근황글 + 상시 댓글 활동</td>
+</tr>
+</tbody>
+</table>
+<p>포인트: 후기가 첫 글이면 광고로 읽힌다. <strong>3주간 '받기만 하는 활동'(질문·댓글·일지 공유)을 먼저 쌓고</strong>, 후기는 커뮤니티에 진 빚을 갚는 톤으로 나간다.</p>
+<hr />
+<h2>3. 후기 본문 원고</h2>
+<p>제목: <strong>허리 터지고 14개월. 병원비 450만원 쓰고 알게 된 것들 (장문, 사진 많음)</strong></p>
+<hr />
+<p>오늘 아침 회복 점수 8점입니다.</p>
+<p>딸을 안고 어린이집까지 걸어갔다 왔습니다. 별거 아닌 문장인 거 압니다. 근데 저는 이 문장을 쓰는 데 14개월 걸렸습니다.</p>
+<p>작년에 가입인사랑 MRI 글에서 몇 번 인사드렸던 L45아빠입니다. 댓글로 경과 궁금하다는 분들이 계속 계셔서, 큰맘 먹고 처음부터 끝까지 정리합니다. 깁니다. 근데 지금 1~3점에서 밤에 잠 못 주무시는 분들은 끝까지 읽어보셨으면 합니다. 저도 그 시절에 이런 글 하나를 새벽 세 시에 찾아 헤맸거든요.</p>
+<p>[사진1: 오늘 아침 통증일지 앱 캡처 — 8점]</p>
+<h3>터진 날</h3>
+<p>2025년 4월 14일 월요일. 날짜도 안 잊어버립니다.</p>
+<p>거창하게 다친 것도 아닙니다. 세수하다가 허리를 숙였는데, 뚝 하는 느낌이 나더니 그대로 주저앉았습니다. 5살 딸이 화장실 문 앞에서 "아빠 왜 그래?" 하는데 대답을 못 했습니다. 그날 회복 점수로 치면 1점. 양말을 못 신어서 아내가 신겨줬습니다.</p>
+<p>[사진2: 당시 MRI — L4-5 탈출. 판독 게시판에 올렸던 그 사진]</p>
+<p>정형외과에서 MRI 찍고 L4-5 추간판 탈출 진단받았습니다. 수술 권유는 안 받았고, 보존치료로 가보자고 했습니다. 여기까지는 교과서적인 경로입니다. 문제는 그다음 14개월입니다.</p>
+<h3>돈의 기록 (실제 지출)</h3>
+<p>먼저 결론부터. 저는 이 허리에 <strong>약 450만원</strong>을 썼습니다.</p>
+<table>
+<thead>
+<tr>
+<th>기간</th>
+<th>뭘 했나</th>
+<th>비용</th>
+<th>결과</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1~3개월</td>
+<td>한의원 추나+침, 주 2회</td>
+<td>약 80만원</td>
+<td>받은 날은 시원. 이틀 지나면 원위치</td>
+</tr>
+<tr>
+<td>2개월차</td>
+<td>MRI + 신경차단주사 2회</td>
+<td>약 95만원</td>
+<td>주사는 진짜 살 것 같았습니다. 2~3주 가더니 다시</td>
+</tr>
+<tr>
+<td>4~9개월</td>
+<td>도수치료 25회 (회당 12만)</td>
+<td><strong>300만원</strong></td>
+<td>아래에 자세히 씁니다</td>
+</tr>
+</tbody>
+</table>
+<p>도수치료 얘기를 안 할 수가 없는데, 오해 마세요. <strong>저는 도수치료가 사기라고 생각하지 않습니다.</strong> 받는 동안은 확실히 좋아졌습니다. 선생님도 실력 있는 분이었고요. 문제는 제가 그걸 '치료받으러 다니는 것'으로만 소비했다는 겁니다. 화요일에 풀어주시면, 수요일부터 금요일까지 다시 12시간씩 앉아서 일하고, 주말에 소파에 누워 있었습니다. 그리고 다음 화요일에 또 풀러 갔습니다.</p>
+<p>25회가 끝나고 3주 뒤, 다시 4점으로 떨어졌을 때 알았습니다. <strong>나는 치료를 산 거지, 회복을 산 게 아니었구나.</strong></p>
+<h3>전환점</h3>
+<p>작년 가을쯤, 새벽에 허리가 아파서 잠이 깼습니다. 유튜브에 "허리디스크 운동"을 검색하다가 1분도수 영상을 봤습니다. 무슨 영상이었는지도 기억 안 나는데, 딱 한 마디가 남았습니다.</p>
+<p>"기계를 끄고 나서도 낫는 몸을 만들어야 합니다."</p>
+<p>그날 밤에 그 채널 영상을 스무 개쯤 연달아 봤습니다. 짜증이 났습니다. 9개월 동안 450만원을 쓰면서, 저는 제 허리를 위해 제가 직접 한 게 단 하나도 없었다는 걸 그때 처음 인정했거든요.</p>
+<h3>그래서 뭘 했나 (여기가 핵심입니다)</h3>
+<p>거창한 거 없습니다. 딱 세 가지입니다.</p>
+<p><strong>① 아침 1분 운동.</strong> 눈 뜨자마자, 침대에서. 1분도수 영상 보고 허리 신전 동작부터 시작했습니다. 처음엔 1분도 힘들었습니다. 지금은 아침 루틴이 7분쯤 됩니다. 1분으로 시작 안 했으면 지금까지 못 왔을 겁니다. 3일 하고 말았겠죠. 지난 9개월간 놓친 날은 손에 꼽습니다.</p>
+<p><strong>② 50분마다 일어나기.</strong> 회사에서 타이머 맞춰놓고, 50분마다 일어나서 30초 걷고 허리 폈습니다. 처음 한 달은 동료들이 놀렸는데 지금은 옆자리 과장님도 같이 합니다.</p>
+<p><strong>③ 운동 뒤에 풀어주기.</strong> 솔직히 말하면, 움직이기 시작하니까 안 쓰던 데가 뻐근하고 불편했습니다. 예전 같으면 "역시 난 안 되나" 하고 접었을 타이밍인데, 이번엔 도구를 썼습니다. 1분도수에서 만든 도수펜(저주파)을 운동 후에 뻐근한 자리에 10분씩, 자기 전엔 도수워머로 허리를 데웠습니다. 치료실에서 선생님이 풀어주던 걸, 집에서 제가 하는 방식으로 바꾼 겁니다.</p>
+<p>[사진3: 책상 위 타이머 + 도수펜]</p>
+<p>미리 말해두는데, 이 글은 협찬이 아니고 제 돈 주고 샀습니다. 그리고 단점도 있습니다. 도수펜은 젤을 매번 발라야 해서 처음엔 귀찮았고(지금은 습관), 첫 주엔 강도 조절을 못 해서 깜짝 놀란 적도 있습니다. 그리고 분명히 하는데 — <strong>이거 산다고 낫는 거 아닙니다.</strong> 운동 안 하고 이것만 썼으면 저는 지금도 4점일 겁니다. 도구는 제가 다음 날도 움직일 수 있게 해준 거고, 낫게 한 건 매일의 1분이었습니다.</p>
+<h3>점수의 기록 (직선이 아닙니다)</h3>
+<table>
+<thead>
+<tr>
+<th>시점</th>
+<th>점수</th>
+<th>메모</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>터진 날</td>
+<td>1점</td>
+<td>양말을 아내가 신겨줌</td>
+</tr>
+<tr>
+<td>3개월 (한의원+주사)</td>
+<td>4점</td>
+<td>좋아졌다고 착각한 첫 번째 시기</td>
+</tr>
+<tr>
+<td>9개월 (도수 끝나고 3주)</td>
+<td>4점</td>
+<td><strong>450만원의 성적표. 여기가 바닥이었습니다 (마음이)</strong></td>
+</tr>
+<tr>
+<td>10개월 (루틴 1개월차)</td>
+<td>5점</td>
+<td>솔직히 반신반의</td>
+</tr>
+<tr>
+<td>11개월차</td>
+<td><strong>3점</strong></td>
+<td><strong>재발. 회식 다음날 무리해서 골프연습장 간 제 잘못.</strong> 여기서 접을 뻔했는데, 일지 다시 보니 그래도 두 달 전보단 나았음. 일주일 쉬고 1분부터 다시</td>
+</tr>
+<tr>
+<td>12개월</td>
+<td>6점</td>
+<td>아침에 허리 안 잡고 일어나기 시작</td>
+</tr>
+<tr>
+<td>14개월 (지금)</td>
+<td><strong>8점</strong></td>
+<td>딸 안고 등원. 주 2회 수영 시작</td>
+</tr>
+</tbody>
+</table>
+<p>[사진4: 통증일지 앱 14개월 그래프 — 11개월차 꺾인 부분 포함]</p>
+<p>11개월차 재발을 굳이 쓰는 이유가 있습니다. 회복은 직선이 아닙니다. 떨어지는 날 옵니다. 그날 일지가 없었으면 저는 "역시 안 돼"라고 결론 내고 접었을 겁니다. 기록이 있으니까 "그래도 두 달 전보다는 낫네"가 보였고, 그래서 다시 했습니다. 이 카페에서 다들 점수로 인사하고 일지 쓰라고 하는 거, 그게 인정욕구 채우라는 게 아니라 <strong>접을 뻔한 날 자기를 붙잡는 장치</strong>라는 걸 겪어보고 알았습니다.</p>
+<h3>450만원 주고 배운 것 세 가지</h3>
+<p><strong>1. '안 아픈 것'과 '나은 것'은 다릅니다.</strong> 주사 맞고 안 아팠던 2주, 도수 받고 좋았던 날들 — 그건 나은 게 아니라 회복을 시작할 수 있는 상태였던 겁니다. 저는 그 상태를 아홉 달 동안 소비만 했습니다. (필독글에 이게 정리돼 있습니다. 저는 이 글을 터지고 14개월 뒤에 읽었는데, 여러분은 지금 읽으세요: [필독글 링크])</p>
+<p><strong>2. 병원은 꼭 가세요. 근데 병원이 끝이 아닙니다.</strong> 1~3점일 때 버티지 말고 병원 가서 진단받으세요. 저는 MRI 찍은 거 후회 안 합니다. 주사도 필요했습니다. 병원이 통증을 잡아주는 역할이라면, 그다음 매일의 회복은 제 몫이었던 겁니다. 이걸 반대로 알고 있어서 — 병원이 다 해줄 거라 믿어서 — 9개월을 돌았습니다.</p>
+<p><strong>3. 돈은 치료에 썼는데, 회복은 습관에서 왔습니다.</strong> 450만원어치 치료보다 0원짜리 아침 1분이 제 허리를 더 많이 바꿨습니다. 도구 값 얼마 쓰긴 했지만, 그건 치료비가 아니라 습관 유지비라고 생각합니다.</p>
+<h3>마지막으로</h3>
+<p>아직 졸업글 아닙니다. 10점 찍으면, 그러니까 골프 다시 치고 딸이랑 트램펄린 뛰고도 다음 날 멀쩡하면 그때 졸업글 쓰겠습니다.</p>
+<p>지금 1~3점에서 이 글 읽고 계신 분. 저 그 새벽 세 시를 압니다. 검색해도 검색해도 수술 광고랑 기적의 후기밖에 안 나오던 그 새벽이요. 제 글이 광고인지 의심되시면 의심하셔도 됩니다. 대신 딱 하나만 가져가세요. <strong>오늘 병원 예약하시고, 내일 아침 1분만 움직여보세요.</strong> 그리고 여기 회복선언 하나 쓰세요. 댓글은 제가 답니다.</p>
+<p>오늘 몇 점이신가요.</p>
+<p>— L45아빠, 14개월차, 8점</p>
+<hr />
+<h2>4. 운영 노트 (게시 전 필수 확인 — 외부 비공개)</h2>
+<ol>
+<li><strong>실화 소싱</strong>: 이 원고는 템플릿이다. 게시 전 실제 고객 사례(CS 기록/실후기/인터뷰)에서 인물·수치·사진을 가져와 정합시킬 것. 특히 MRI 사진·통증일지 그래프는 실물 필요 — 없이 올리면 언젠가 반드시 털린다 (서초구 김수현 사례).</li>
+<li><strong>"협찬 아니고 내돈내산" 문장</strong>: 페르소나 계정이 쓰는 경우 이 문장은 표시광고법상 기만 리스크의 핵심. 두 가지 경로 중 택1 — (a) 실제 자발적 고객을 섭외해 본인 명의로 게시(각색 지원만) ← <strong>권장</strong>, (b) 페르소나 유지 시 해당 문장 삭제하고 협찬 여부 언급 자체를 안 함.</li>
+<li><strong>필독글과의 교차 검증</strong>: "안 아픈 것≠나은 것", "기계를 끄고 나서도", 점수 언어 — 필독글 어휘를 고객 입으로 재진술하는 구조 유지. 수정 시 양쪽 함께.</li>
+<li><strong>댓글 운영</strong>: 게시 직후 페르소나(댓글요정·운동인증러)가 첫 댓글 3~5개. 질문형 댓글("도수펜 강도 몇으로 쓰세요?")을 심어 작성자가 답하며 스레드가 자라게.</li>
+<li><strong>재발 삽화(11개월차 3점)는 절대 삭제 금지</strong> — 이 글의 신뢰도 절반이 그 줄에 있다.</li>
+</ol></div></section>
+<p class="foot">이 페이지는 레포 원본(md)의 파생본 — 갱신은 원본 수정 후 <code>scripts/build-masterbooks.py</code> 재실행. ·
+연결: <a href="/es808-pro-masterbook">🖊️ ES-808 Pro 런칭 CX 마스터북</a> · 빌드 2026-07-07 카리나</p>
+</div></body>
 </html>
