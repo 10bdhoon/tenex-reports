@@ -1,0 +1,104 @@
+{
+  "date": "2026-07-17",
+  "collected_at": "2026-07-16T21:00:07Z",
+  "youtube": {
+    "channel_id": "UCWywSxMIVgYcE8lqPCwHWfg",
+    "total_views": 34277468,
+    "subscribers": 161000,
+    "video_count": 284,
+    "recent_videos": [
+      {
+        "id": "AiejbiC0cVw",
+        "title": "뱃살 늘어지고 몸이 뻣뻣한 분들! 하루 20번이면 됩니다",
+        "views": 155028,
+        "likes": 4400,
+        "comments": 27,
+        "published": "2026-07-15"
+      },
+      {
+        "id": "wVBYTjiiTVs",
+        "title": "목 디스크에 염증을 만드는 적이 살고 있어요\" 염증,통증 폭발적으로 줄이는 최고의 관리 법",
+        "views": 1867,
+        "likes": 46,
+        "comments": 3,
+        "published": "2026-07-13"
+      },
+      {
+        "id": "7B9Nhsjc09c",
+        "title": "버섯목 비벼서 없앤다고요? 그렇게 하면 절대 안 빠집니다",
+        "views": 25889,
+        "likes": 505,
+        "comments": 1,
+        "published": "2026-07-13"
+      },
+      {
+        "id": "dE-_VxG3uI0",
+        "title": "10년 굳은 목, 수건 하나로 1분에 푸는 법",
+        "views": 20398,
+        "likes": 506,
+        "comments": 1,
+        "published": "2026-07-08"
+      },
+      {
+        "id": "6HmMO9UgYcw",
+        "title": "6번 부수고 만든 기기, 드디어 특허증 나왔어요 #특허 #재활 #의료기기",
+        "views": 5511,
+        "likes": 33,
+        "comments": 10,
+        "published": "2026-07-06"
+      },
+      {
+        "id": "5jq67v77y_Y",
+        "title": "굽은등·라운드숄더 펴고 등 균형 잡는 스트레칭 4가지",
+        "views": 50523,
+        "likes": 1353,
+        "comments": 9,
+        "published": "2026-07-05"
+      },
+      {
+        "id": "VfQz77DPh8I",
+        "title": "라운드숄더·거북목 잡는 필수 루틴 4가지 (쉬운/어려운 버전)",
+        "views": 20450,
+        "likes": 442,
+        "comments": 3,
+        "published": "2026-07-02"
+      },
+      {
+        "id": "LvPK7dCNsj4",
+        "title": "엎드려서 1분, 굳은 골반 앞·윗가슴 펴고 척추 깨우기",
+        "views": 30262,
+        "likes": 635,
+        "comments": 4,
+        "published": "2026-06-30"
+      },
+      {
+        "id": "J59X3MD0z1M",
+        "title": "딱딱거리는 턱, 굳은 턱 근육 1분에 푸는 셀프 관리 4가지",
+        "views": 39165,
+        "likes": 1146,
+        "comments": 13,
+        "published": "2026-06-29"
+      },
+      {
+        "id": "i9b7b0cDSGU",
+        "title": "엎드려서 1분, 굳은 허리·골반·고관절 한 번에 푸는 4가지",
+        "views": 109807,
+        "likes": 1797,
+        "comments": 9,
+        "published": "2026-06-22"
+      }
+    ]
+  },
+  "instagram": {
+    "username": "one_dosu_physio",
+    "followers": 73212,
+    "post_count": 68,
+    "note": "total views require Meta Business API"
+  },
+  "tiktok": {
+    "username": "one_dosu_physio",
+    "followers": null,
+    "total_likes": null,
+    "video_count": null
+  }
+}
