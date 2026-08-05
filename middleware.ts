@@ -46,6 +46,11 @@ export default async function middleware(req: Request) {
     url.pathname === "/careers-jobs.html" ||
     url.pathname === "/careers-faq" ||
     url.pathname === "/careers-faq.html" ||
+    // 채용 페이지에서 쓰는 공개 이미지 (인증 걸리면 깨져 보임)
+    url.pathname === "/cs-25.jpg" ||
+    url.pathname === "/es-808.jpg" ||
+    url.pathname === "/ws-200.jpg" ||
+    url.pathname === "/youtube-channel.jpg" ||
     url.pathname === "/2026-team-structure" ||
     url.pathname === "/2026-team-structure.html" ||
     url.pathname === "/onboarding-guide" ||
