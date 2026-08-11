@@ -5,7 +5,8 @@
     starCss.id = 'km-star-fix';
     starCss.textContent =
       '.detail-review-box .review-avg .jq-star svg path{fill:#1e44dd !important;stroke:none !important;}' +
-      '.detail-review-box .grp_review point{display:none !important;}';
+      '.detail-review-box .grp_review point{display:none !important;}' +
+      '.xans-product-detail .infoArea .icon img[src*="/upload/benefit/"]{display:none !important;}';
     (document.head || document.documentElement).appendChild(starCss);
   }
 
@@ -32,7 +33,23 @@
       el.style.display = 'none';
     });
 
-    // 3. 기업소식 + 블로그 썸네일 교정
+    // 3. SEO JSON-LD: 평점 4.9 고정 + 리뷰수는 알파리뷰 라이브 값으로 동기화
+    document.querySelectorAll('script[type="application/ld+json"]').forEach(function(s) {
+      try {
+        var data = JSON.parse(s.textContent);
+        if (data && data['@type'] === 'Product' && data.aggregateRating) {
+          var cnt = document.querySelector('.alpha_review_count');
+          var n = cnt ? parseInt(cnt.textContent.replace(/[^0-9]/g, ''), 10) : NaN;
+          if (data.aggregateRating.ratingValue !== 4.9 || (n > 0 && data.aggregateRating.reviewCount !== n)) {
+            data.aggregateRating.ratingValue = 4.9;
+            if (n > 0) data.aggregateRating.reviewCount = n;
+            s.textContent = JSON.stringify(data);
+          }
+        }
+      } catch (e) {}
+    });
+
+    // 4. 기업소식 + 블로그 썸네일 교정
     document.querySelectorAll('.km-info-card').forEach(function(card) {
       var title = card.querySelector('.km-info-card__title');
       if (!title) return;
@@ -62,4 +79,6 @@
   // 안전장치: 100ms 후에도 한번 더
   setTimeout(applyFixes, 200);
   setTimeout(applyFixes, 1000);
+  // 알파리뷰 카운트가 늦게 뜨는 경우 대비 (JSON-LD 리뷰수 동기화용)
+  setTimeout(applyFixes, 3000);
 })();
