@@ -1,4 +1,14 @@
 (function(){
+  // 0. 상세페이지 우측 상단 별점: 항상 별 5개 풀, 평점 숫자 숨김, 리뷰 건수는 유지
+  if (!document.getElementById('km-star-fix')) {
+    var starCss = document.createElement('style');
+    starCss.id = 'km-star-fix';
+    starCss.textContent =
+      '.detail-review-box .review-avg .jq-star svg path{fill:#1e44dd !important;stroke:none !important;}' +
+      '.detail-review-box .grp_review point{display:none !important;}';
+    (document.head || document.documentElement).appendChild(starCss);
+  }
+
   function applyFixes() {
     // 1. 제품정보(솔루션) 드롭다운: cate-override → wp-dropdown 스타일
     var catOverride = document.getElementById('category');
