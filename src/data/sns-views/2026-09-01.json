@@ -1,0 +1,104 @@
+{
+  "date": "2026-09-01",
+  "collected_at": "2026-08-31T21:00:59Z",
+  "youtube": {
+    "channel_id": "UCWywSxMIVgYcE8lqPCwHWfg",
+    "total_views": 39668512,
+    "subscribers": 185000,
+    "video_count": 297,
+    "recent_videos": [
+      {
+        "id": "6lLnqq6RXu4",
+        "title": "오늘 자정 마감이에요! (50대 남았네요 ㅠ)",
+        "views": 1358,
+        "likes": 4,
+        "comments": 0,
+        "published": "2026-08-31"
+      },
+      {
+        "id": "JRqnRKyRXrI",
+        "title": "하루에도 몇 번씩 항의 전화를 하시던 고객님의 진짜 이유",
+        "views": 2503,
+        "likes": 33,
+        "comments": 1,
+        "published": "2026-08-31"
+      },
+      {
+        "id": "jnmcF0BNnBM",
+        "title": "키네펜으로 전한 따뜻한 응원🎁",
+        "views": 1498,
+        "likes": 5,
+        "comments": 1,
+        "published": "2026-08-31"
+      },
+      {
+        "id": "J5sOhjX4iPU",
+        "title": "ES-808 PRO, 4가지 갈아엎었습니다 (300대 중 200대 완판)",
+        "views": 2487,
+        "likes": 7,
+        "comments": 0,
+        "published": "2026-08-28"
+      },
+      {
+        "id": "CK6V5FJwPIs",
+        "title": "제품 좀 공짜로 받을 수 있을까요...ㅎㅎ",
+        "views": 1930,
+        "likes": 21,
+        "comments": 21,
+        "published": "2026-08-28"
+      },
+      {
+        "id": "1X3pZo9tQDU",
+        "title": "허리 부수는 그 운동, 따라 하지 마세요. 이렇게 하세요",
+        "views": 26249,
+        "likes": 281,
+        "comments": 4,
+        "published": "2026-08-05"
+      },
+      {
+        "id": "wx3IvCnMg2I",
+        "title": "의료기기 오픈 라이브!",
+        "views": 1318,
+        "likes": 17,
+        "comments": 0,
+        "published": "2026-07-27"
+      },
+      {
+        "id": "R933AEBOM0c",
+        "title": "한의원 뜸을 집에서, 광레이져 온열 의료기기 (키네메디칼 KWS-2000 레이져 뜸)",
+        "views": 5519,
+        "likes": 33,
+        "comments": 8,
+        "published": "2026-07-25"
+      },
+      {
+        "id": "aiu7rmzBNG4",
+        "title": "자기 전 침대에서 허리 긴장 싹 푸는 루틴 3가지",
+        "views": 14033,
+        "likes": 210,
+        "comments": 11,
+        "published": "2026-07-25"
+      },
+      {
+        "id": "UNsCOuQuX28",
+        "title": "목·어깨·허리 뭉침, 가정용 저주파 의료기기 하나로 (의료기기 3등급)",
+        "views": 6697,
+        "likes": 22,
+        "comments": 3,
+        "published": "2026-07-23"
+      }
+    ]
+  },
+  "instagram": {
+    "username": "one_dosu_physio",
+    "followers": null,
+    "post_count": null,
+    "note": "total views require Meta Business API"
+  },
+  "tiktok": {
+    "username": "one_dosu_physio",
+    "followers": null,
+    "total_likes": null,
+    "video_count": null
+  }
+}
