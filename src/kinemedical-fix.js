@@ -97,6 +97,16 @@
     }
   }
 
+  // 0-2-2. 리뷰 배치: 포토리뷰+게시판 블록(#kmReviewBelow)을 제품상세(#prdDetail) 바로 뒤로
+  //        (스킨에서는 다른 컨테이너에 렌더돼 '상품구매안내' 뒤로 밀리기 때문)
+  function kmMoveReviewBelow() {
+    var b = document.getElementById('kmReviewBelow');
+    var d = document.getElementById('prdDetail');
+    if (!b || !d) return;
+    if (d.nextElementSibling === b) return;
+    d.parentNode.insertBefore(b, d.nextElementSibling);
+  }
+
   // 0-3. 알파리뷰 스크립트가 나중에 값을 덮어써도 되돌리기
   function kmWatch() {
     var box = document.querySelector('.detail-review-box');
@@ -115,6 +125,7 @@
     kmApplyCount();
     kmWatch();
     kmReviewHeader();
+    kmMoveReviewBelow();
 
     // 1. 제품정보(솔루션) 드롭다운: cate-override → wp-dropdown 스타일
     var catOverride = document.getElementById('category');
@@ -190,6 +201,7 @@
   var kmTries = 0;
   var kmTimer = setInterval(function() {
     kmReviewHeader();
+    kmMoveReviewBelow();
     if (++kmTries > 40) clearInterval(kmTimer);
   }, 500);
 })();
