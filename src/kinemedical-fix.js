@@ -23,7 +23,9 @@
       '.naver-kakao-pay #NaverChk_Button{flex:1 1 auto;width:100%;min-width:0;margin-top:4px !important;}' +
       '.naver-kakao-pay .npay_storebtn_bx{display:block !important;width:100% !important;}' +
       '.naver-kakao-pay .npay_btn_list{width:100% !important;table-layout:fixed;}' +
-      '.naver-kakao-pay .npay_btn_item.btn_width{width:40px;}';
+      '.naver-kakao-pay .npay_btn_item.btn_width{width:40px;}' +
+      // 리뷰 탭 영역 상단 여백 축소 (72px → 24px)
+      '#prdReview{margin-top:24px !important;}';
     (document.head || document.documentElement).appendChild(starCss);
   }
 
@@ -69,6 +71,29 @@
       .catch(function() {});
   }
 
+  // 0-2-1. 리뷰목록 위젯 헤더 "리뷰 1,053" 옆에 평점 (4.9) 표기 (shadow DOM)
+  function kmReviewHeader() {
+    var w = document.querySelector('review-board-widget');
+    if (!w || !w.shadowRoot) return;
+    var sr = w.shadowRoot;
+    if (!sr.__kmObserved) {
+      sr.__kmObserved = true;
+      new MutationObserver(function() { kmReviewHeader(); }).observe(sr, { childList: true, subtree: true });
+    }
+    var ps = sr.querySelectorAll('p');
+    for (var i = 0; i < ps.length; i++) {
+      var p = ps[i];
+      if (!/^리뷰\s*[\d,]+/.test(p.textContent.trim())) continue;
+      if (p.querySelector('.km-avg')) return;
+      var s = document.createElement('span');
+      s.className = 'km-avg';
+      s.textContent = '(' + KM_SCORE + ')';
+      s.style.cssText = 'margin-left:6px;color:#1e44dd;font-weight:700;';
+      p.appendChild(s);
+      return;
+    }
+  }
+
   // 0-3. 알파리뷰 스크립트가 나중에 값을 덮어써도 되돌리기
   function kmWatch() {
     var box = document.querySelector('.detail-review-box');
@@ -86,6 +111,7 @@
     kmFetchCount();
     kmApplyCount();
     kmWatch();
+    kmReviewHeader();
 
     // 1. 제품정보(솔루션) 드롭다운: cate-override → wp-dropdown 스타일
     var catOverride = document.getElementById('category');
@@ -157,4 +183,10 @@
   setTimeout(applyFixes, 1000);
   // 알파리뷰 카운트가 늦게 뜨는 경우 대비 (JSON-LD 리뷰수 동기화용)
   setTimeout(applyFixes, 3000);
+  // 리뷰목록 위젯은 스크롤 진입 시점에 렌더되므로 20초간 폴링 (이후는 MutationObserver가 담당)
+  var kmTries = 0;
+  var kmTimer = setInterval(function() {
+    kmReviewHeader();
+    if (++kmTries > 40) clearInterval(kmTimer);
+  }, 500);
 })();
