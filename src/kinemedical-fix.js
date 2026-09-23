@@ -25,7 +25,10 @@
       '.naver-kakao-pay .npay_btn_list{width:100% !important;table-layout:fixed;}' +
       '.naver-kakao-pay .npay_btn_item.btn_width{width:40px;}' +
       // 리뷰 탭 영역 상단 여백 축소 (72px → 24px)
-      '#prdReview{margin-top:24px !important;}';
+      '#prdReview{margin-top:24px !important;}' +
+      // 상품 간략설명(🎁 …) 2px 확대: PC 16→18, 모바일 14→16 (테마 변수 --pc/m-detail-simple-size 덮어씀)
+      '.xans-product-detail .headingArea .simple_desc_css{font-size:18px !important;}' +
+      '@media (max-width:1024px){.xans-product-detail .headingArea .simple_desc_css{font-size:16px !important;}}';
     (document.head || document.documentElement).appendChild(starCss);
   }
 
