@@ -30,7 +30,14 @@
       '#prdReview review-board-widget{display:none !important;}' +
       // 상품 간략설명(🎁 …) 2px 확대: PC 16→18, 모바일 14→16 (테마 변수 --pc/m-detail-simple-size 덮어씀)
       '.xans-product-detail .headingArea .simple_desc_css{font-size:18px !important;}' +
-      '@media (max-width:1024px){.xans-product-detail .headingArea .simple_desc_css{font-size:16px !important;}}';
+      '@media (max-width:1024px){.xans-product-detail .headingArea .simple_desc_css{font-size:16px !important;}}' +
+      // kp2 실험군(448 2층 구조, SEO 블록이 html에 kp2-exp를 붙임) 전용 — 일반 접속엔 클래스가 없어 무영향
+      //  · 상단 여백 축소: #detailTab 기본 margin 39px 제거 + 상세 맨 앞 빈 줄(<div data-empty><br>) 숨김 (첫 이미지 127→73px)
+      'html.kp2-exp #detailTab{margin-top:0 !important;}' +
+      'html.kp2-exp #prdDetail .cont > div[data-empty]{display:none !important;}' +
+      //  · 스크롤 업 시 헤더 복귀: 스킨이 스크롤 중 #header>.inner를 숨기고 상세 탭바를 상단 고정하는데,
+      //    kp2가 탭바를 숨겨 아무것도 안 남음 → 위로 스크롤하는 동안만 고정 헤더를 다시 보여준다
+      'html.kp2-exp.kp2-hdr #header.fixed > .inner{display:block !important;}';
     (document.head || document.documentElement).appendChild(starCss);
   }
 
@@ -270,6 +277,18 @@
       }
     });
   }
+
+  // 0-6. kp2 실험군: 스크롤 방향 감지 → 위로 올릴 때만 kp2-hdr 부착 (헤더 복귀는 위 CSS가 담당)
+  //      kp2-exp 클래스는 SEO 코드직접입력의 kp2 스크립트가 붙인다 — 없으면 매 스크롤 즉시 반환
+  var kmHdrLastY = window.scrollY || 0;
+  window.addEventListener('scroll', function () {
+    var html = document.documentElement;
+    if (!html.classList.contains('kp2-exp')) return;
+    var y = window.scrollY;
+    if (y < kmHdrLastY - 5 && y > 80) html.classList.add('kp2-hdr');
+    else if (y > kmHdrLastY + 5 || y <= 80) html.classList.remove('kp2-hdr');
+    kmHdrLastY = y;
+  }, { passive: true });
 
   // 즉시 실행 + DOMContentLoaded 양쪽 대비
   if (document.readyState === 'loading') {
