@@ -36,8 +36,9 @@
       'html.kp2-exp #detailTab{margin-top:0 !important;}' +
       'html.kp2-exp #prdDetail .cont > div[data-empty]{display:none !important;}' +
       //  · 스크롤 업 시 헤더 복귀: 스킨이 스크롤 중 #header>.inner를 숨기고 상세 탭바를 상단 고정하는데,
-      //    kp2가 탭바를 숨겨 아무것도 안 남음 → 위로 스크롤하는 동안만 고정 헤더를 다시 보여준다
-      'html.kp2-exp.kp2-hdr #header.fixed > .inner{display:block !important;}';
+      //    kp2가 탭바를 숨겨 아무것도 안 남음 → 위로 스크롤하는 동안 + 맨 위 근처에서 헤더를 다시 보여준다
+      //    (.fixed 없이도 매칭: 실기기 사파리는 최상단에서 스킨이 헤더를 복원하지 않는 경우가 있다)
+      'html.kp2-exp.kp2-hdr #header > .inner{display:block !important;}';
     (document.head || document.documentElement).appendChild(starCss);
   }
 
@@ -278,17 +279,22 @@
     });
   }
 
-  // 0-6. kp2 실험군: 스크롤 방향 감지 → 위로 올릴 때만 kp2-hdr 부착 (헤더 복귀는 위 CSS가 담당)
-  //      kp2-exp 클래스는 SEO 코드직접입력의 kp2 스크립트가 붙인다 — 없으면 매 스크롤 즉시 반환
+  // 0-6. kp2 실험군: 맨 위 근처(≤80px)는 무조건 헤더 표시, 그 아래는 위로 올릴 때만 (헤더 복귀는 위 CSS가 담당)
+  //      kp2-exp 클래스는 SEO 코드직접입력의 kp2 스크립트가 붙인다 — 없으면 즉시 반환
+  //      스크롤 이벤트가 실기기에서 씹히는 경우 대비 400ms 폴링 병행 (최상단 판정은 이벤트 없이도 맞아야 함)
   var kmHdrLastY = window.scrollY || 0;
-  window.addEventListener('scroll', function () {
+  function kmHdrUpdate() {
     var html = document.documentElement;
     if (!html.classList.contains('kp2-exp')) return;
     var y = window.scrollY;
-    if (y < kmHdrLastY - 5 && y > 80) html.classList.add('kp2-hdr');
-    else if (y > kmHdrLastY + 5 || y <= 80) html.classList.remove('kp2-hdr');
+    if (y <= 80) html.classList.add('kp2-hdr');
+    else if (y < kmHdrLastY - 5) html.classList.add('kp2-hdr');
+    else if (y > kmHdrLastY + 5) html.classList.remove('kp2-hdr');
     kmHdrLastY = y;
-  }, { passive: true });
+  }
+  window.addEventListener('scroll', kmHdrUpdate, { passive: true });
+  setInterval(kmHdrUpdate, 400);
+  kmHdrUpdate();
 
   // 즉시 실행 + DOMContentLoaded 양쪽 대비
   if (document.readyState === 'loading') {
