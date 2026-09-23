@@ -149,6 +149,55 @@
     }).observe(box, { childList: true, subtree: true, characterData: true });
   }
 
+  // 0-5. 모바일 사이드바 기업소개 드롭다운 (PC 헤더 .wp-dropdown-menu와 동일한 3개)
+  var KM_BRAND_SUB = [
+    ['기업소개', '/brand/index.html', ''],
+    ['블로그', 'https://blog.kinemedical.co.kr', '_blank'],
+    ['기업소식', '/front/php/b/board_list.php?board_no=2&is_pcver=T', '']
+  ];
+  function kmAsideBrandMenu() {
+    var list = document.querySelector('#aside .categoryList');
+    if (!list) return;
+    var li = null, kids = list.children;
+    for (var i = 0; i < kids.length; i++) {
+      var a = kids[i].querySelector('a');
+      if (a && (a.getAttribute('href') || '').indexOf('/brand/index') === 0) { li = kids[i]; break; }
+    }
+    if (!li || li.querySelector('.km-aside-sub')) return;
+
+    // 하위 목록: 스킨 기본 클래스(sub02) 재사용 → 제품정보 하위메뉴와 동일한 서체/색/들여쓰기
+    var ul = document.createElement('ul');
+    ul.className = 'sub02 sub02_brand km-aside-sub';
+    ul.style.display = 'none';
+    KM_BRAND_SUB.forEach(function(it) {
+      var l = document.createElement('li'), a2 = document.createElement('a');
+      a2.href = it[1];
+      a2.textContent = it[0];
+      if (it[2]) { a2.target = it[2]; a2.rel = 'noopener'; }
+      l.appendChild(a2);
+      ul.appendChild(l);
+    });
+
+    // 펼침 화살표: 스킨 기본 클래스(cate view toggle-cate) 재사용 → 화살표 모양/회전 CSS 그대로 적용
+    var tg = document.createElement('a');
+    tg.href = '#none';
+    tg.className = 'cate view toggle-cate km-aside-toggle';
+    tg.setAttribute('data-expand-target', 'sub02_brand');
+    tg.addEventListener('click', function(e) {
+      e.preventDefault();
+      e.stopPropagation();
+      var open = ul.classList.contains('active');
+      ul.classList.toggle('active', !open);
+      tg.classList.toggle('expand', !open);
+      li.classList.toggle('selected', !open);
+      if (window.jQuery) window.jQuery(ul).stop(true, true).slideToggle(200);
+      else ul.style.display = open ? 'none' : 'block';
+    });
+
+    li.appendChild(tg);
+    li.appendChild(ul);
+  }
+
   function applyFixes() {
     // 0-4. 상단 리뷰 요약 (평점 4.9 고정 + 건수 동기화)
     kmApplyScore();
@@ -175,6 +224,10 @@
         catOverride.classList.add('wp-dropdown');
       }
     }
+
+      // 1-1. 모바일 사이드바(#aside) "기업소개" 하위메뉴 — PC 헤더 드롭다운과 동일 구성
+    //      스킨 JS의 .toggle-cate 핸들러는 로드시점 바인딩이라 동적 추가분은 잡지 못함 → 클릭 핸들러 직접 부착
+    kmAsideBrandMenu();
 
     // 2. +20,000P (join_point) 완전 제거
     document.querySelectorAll('.pointbox').forEach(function(el) {
