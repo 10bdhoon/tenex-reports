@@ -17,7 +17,13 @@
     starCss.textContent =
       '.detail-review-box .review-avg .jq-star svg path{fill:#1e44dd !important;stroke:none !important;}' +
       '.detail-review-box .grp_review point{display:inline-block !important;margin:0 2px 0 6px;font-weight:700;color:#111;vertical-align:middle;}' +
-      '.xans-product-detail .infoArea .icon img[src*="/upload/benefit/"]{display:none !important;}';
+      '.xans-product-detail .infoArea .icon img[src*="/upload/benefit/"]{display:none !important;}' +
+      // 네이버페이 영역: 컨테이너 폭 꽉 채우고 초록 구매버튼만 가변, 바깥 여백 축소 (메아리셋 레퍼런스)
+      '.naver-kakao-pay{margin:8px 0 !important;}' +
+      '.naver-kakao-pay #NaverChk_Button{flex:1 1 auto;width:100%;min-width:0;margin-top:4px !important;}' +
+      '.naver-kakao-pay .npay_storebtn_bx{display:block !important;width:100% !important;}' +
+      '.naver-kakao-pay .npay_btn_list{width:100% !important;table-layout:fixed;}' +
+      '.naver-kakao-pay .npay_btn_item.btn_width{width:40px;}';
     (document.head || document.documentElement).appendChild(starCss);
   }
 
