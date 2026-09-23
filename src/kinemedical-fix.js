@@ -19,7 +19,7 @@
       '.detail-review-box .review-avg .jq-star{display:none !important;}' +
       '.detail-review-box .km-stars{position:relative;display:inline-block;vertical-align:middle;font-size:18px !important;line-height:1;letter-spacing:2px !important;font-family:Arial,Helvetica,sans-serif;color:#dfe3ea;}' +
       '.detail-review-box .km-stars:before{content:"\\2605\\2605\\2605\\2605\\2605";}' +
-      '.detail-review-box .km-stars i{position:absolute;left:0;top:0;width:' + KM_SCORE_PCT + ';overflow:hidden;white-space:nowrap;font-style:normal;color:#1e44dd;}' +
+      '.detail-review-box .km-stars i{position:absolute;left:0;top:0;font-size:inherit !important;letter-spacing:inherit !important;width:' + KM_SCORE_PCT + ';overflow:hidden;white-space:nowrap;font-style:normal;color:#1e44dd;}' +
       '.detail-review-box .km-stars i:before{content:"\\2605\\2605\\2605\\2605\\2605";}' +
       '.detail-review-box .grp_review point{display:inline-block !important;margin:0 2px 0 6px;font-weight:700;color:#111;vertical-align:middle;}' +
       '.xans-product-detail .infoArea .icon img[src*="/upload/benefit/"]{display:none !important;}';
