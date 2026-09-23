@@ -1,9 +1,8 @@
 (function(){
   // ── 상세 상단 리뷰 요약 (2026-09-23) ─────────────────────────────
-  //   · 평점: 4.9 하드코딩 (별 4.9칸 + 숫자 4.9). 실측 표본평균 4.93
+  //   · 평점: 숫자 4.9 하드코딩 (별은 테마 기본 5개 풀). 실측 표본평균 4.93
   //   · 건수: 알파리뷰 "리뷰목록" 위젯 총계와 동기화 (상단 1,051 ≠ 목록 1,053 불일치 제거)
   var KM_SCORE = '4.9';
-  var KM_SCORE_PCT = '98%';                 // 4.9 / 5
   var KM_BOARD_WIDGET = '02a605b0';         // 알파리뷰 리뷰목록 위젯 코드 (건수 SSOT)
   var KM_COUNT_SEL = '.detail-review-box .alpha_review_count'
                    + ', a[href="#prdReview"] .alpha_review_count'
@@ -16,27 +15,17 @@
     var starCss = document.createElement('style');
     starCss.id = 'km-star-fix';
     starCss.textContent =
-      '.detail-review-box .review-avg .jq-star{display:none !important;}' +
-      '.detail-review-box .km-stars{position:relative;display:inline-block;vertical-align:middle;font-size:18px !important;line-height:1;letter-spacing:2px !important;font-family:Arial,Helvetica,sans-serif;color:#dfe3ea;}' +
-      '.detail-review-box .km-stars:before{content:"\\2605\\2605\\2605\\2605\\2605";}' +
-      '.detail-review-box .km-stars i{position:absolute;left:0;top:0;font-size:inherit !important;letter-spacing:inherit !important;width:' + KM_SCORE_PCT + ';overflow:hidden;white-space:nowrap;font-style:normal;color:#1e44dd;}' +
-      '.detail-review-box .km-stars i:before{content:"\\2605\\2605\\2605\\2605\\2605";}' +
+      '.detail-review-box .review-avg .jq-star svg path{fill:#1e44dd !important;stroke:none !important;}' +
       '.detail-review-box .grp_review point{display:inline-block !important;margin:0 2px 0 6px;font-weight:700;color:#111;vertical-align:middle;}' +
       '.xans-product-detail .infoArea .icon img[src*="/upload/benefit/"]{display:none !important;}';
     (document.head || document.documentElement).appendChild(starCss);
   }
 
-  // 0-1. 별 4.9칸 + 숫자 4.9 고정
+  // 0-1. 별은 테마 기본(5개 풀 블루), 숫자만 4.9 고정
   function kmApplyScore() {
     var grp = document.querySelector('.detail-review-box .grp_review');
     if (!grp) return;
     var avg = grp.querySelector('.review-avg');
-    if (avg && !avg.querySelector('.km-stars')) {
-      var stars = document.createElement('span');
-      stars.className = 'km-stars';
-      stars.appendChild(document.createElement('i'));
-      avg.appendChild(stars);
-    }
     var pt = grp.querySelector('point');
     if (!pt && avg && avg.parentNode) {
       pt = document.createElement('point');
