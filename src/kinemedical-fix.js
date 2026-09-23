@@ -26,6 +26,8 @@
       '.naver-kakao-pay .npay_btn_item.btn_width{width:40px;}' +
       // 리뷰 탭 영역 상단 여백 축소 (72px → 24px)
       '#prdReview{margin-top:24px !important;}' +
+      // 상단 리뷰영역은 포토리뷰만 (같은 위젯 세트라 게시판이 함께 렌더됨 → 상단에서만 숨김)
+      '#prdReview review-board-widget{display:none !important;}' +
       // 상품 간략설명(🎁 …) 2px 확대: PC 16→18, 모바일 14→16 (테마 변수 --pc/m-detail-simple-size 덮어씀)
       '.xans-product-detail .headingArea .simple_desc_css{font-size:18px !important;}' +
       '@media (max-width:1024px){.xans-product-detail .headingArea .simple_desc_css{font-size:16px !important;}}';
@@ -76,7 +78,7 @@
 
   // 0-2-1. 리뷰목록 위젯 헤더 "리뷰 1,053" 옆에 평점 (4.9) 표기 (shadow DOM)
   function kmReviewHeader() {
-    var w = document.querySelector('review-board-widget');
+    var w = document.querySelector('#kmReviewBelow review-board-widget') || document.querySelector('review-board-widget');
     if (!w || !w.shadowRoot) return;
     var sr = w.shadowRoot;
     if (!sr.__kmObserved) {
