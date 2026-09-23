@@ -17,7 +17,7 @@
     starCss.id = 'km-star-fix';
     starCss.textContent =
       '.detail-review-box .review-avg .jq-star{display:none !important;}' +
-      '.detail-review-box .km-stars{position:relative;display:inline-block;vertical-align:middle;font-size:18px;line-height:1;letter-spacing:2px;font-family:Arial,Helvetica,sans-serif;color:#dfe3ea;}' +
+      '.detail-review-box .km-stars{position:relative;display:inline-block;vertical-align:middle;font-size:18px !important;line-height:1;letter-spacing:2px !important;font-family:Arial,Helvetica,sans-serif;color:#dfe3ea;}' +
       '.detail-review-box .km-stars:before{content:"\\2605\\2605\\2605\\2605\\2605";}' +
       '.detail-review-box .km-stars i{position:absolute;left:0;top:0;width:' + KM_SCORE_PCT + ';overflow:hidden;white-space:nowrap;font-style:normal;color:#1e44dd;}' +
       '.detail-review-box .km-stars i:before{content:"\\2605\\2605\\2605\\2605\\2605";}' +
