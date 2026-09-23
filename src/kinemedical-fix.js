@@ -112,14 +112,29 @@
   // 0-2-3. 포토리뷰: 모바일에서 한 페이지에 2x2(4개)만 노출
   //        알파리뷰가 일부 페이지를 PC 기준(2x5=10개)으로 렌더하는 현상 보정 (shadow DOM에 직접 주입)
   function kmPhotoGridFix() {
+    var css = '@media (max-width:768px){.photo-swiper-slide > *:nth-child(n+5){display:none !important;}}';
     var list = document.querySelectorAll('review-photo-widget');
     for (var i = 0; i < list.length; i++) {
       var sr = list[i].shadowRoot;
-      if (!sr || sr.__kmGridFixed) continue;
-      var st = document.createElement('style');
-      st.textContent = '@media (max-width:768px){.photo-swiper-slide > *:nth-child(n+5){display:none !important;}}';
-      sr.appendChild(st);
-      sr.__kmGridFixed = true;
+      if (!sr) continue;
+      try {
+        // adoptedStyleSheets에 얹어야 Lit 재렌더에도 살아남는다 (style 태그는 지워짐)
+        var sheets = sr.adoptedStyleSheets || [];
+        var has = false;
+        for (var j = 0; j < sheets.length; j++) { if (sheets[j].__kmGrid) { has = true; break; } }
+        if (has) continue;
+        var sheet = new CSSStyleSheet();
+        sheet.replaceSync(css);
+        sheet.__kmGrid = true;
+        sr.adoptedStyleSheets = sheets.concat(sheet);
+      } catch (e) {
+        var exists = false, st2 = sr.querySelectorAll('style');
+        for (var k = 0; k < st2.length; k++) { if ((st2[k].textContent || '').indexOf('nth-child(n+5)') >= 0) { exists = true; break; } }
+        if (exists) continue;
+        var st = document.createElement('style');
+        st.textContent = css;
+        sr.appendChild(st);
+      }
     }
   }
 
