@@ -109,6 +109,20 @@
     d.parentNode.insertBefore(b, d.nextElementSibling);
   }
 
+  // 0-2-3. 포토리뷰: 모바일에서 한 페이지에 2x2(4개)만 노출
+  //        알파리뷰가 일부 페이지를 PC 기준(2x5=10개)으로 렌더하는 현상 보정 (shadow DOM에 직접 주입)
+  function kmPhotoGridFix() {
+    var list = document.querySelectorAll('review-photo-widget');
+    for (var i = 0; i < list.length; i++) {
+      var sr = list[i].shadowRoot;
+      if (!sr || sr.__kmGridFixed) continue;
+      var st = document.createElement('style');
+      st.textContent = '@media (max-width:768px){.photo-swiper-slide > *:nth-child(n+5){display:none !important;}}';
+      sr.appendChild(st);
+      sr.__kmGridFixed = true;
+    }
+  }
+
   // 0-3. 알파리뷰 스크립트가 나중에 값을 덮어써도 되돌리기
   function kmWatch() {
     var box = document.querySelector('.detail-review-box');
@@ -128,6 +142,7 @@
     kmWatch();
     kmReviewHeader();
     kmMoveReviewBelow();
+    kmPhotoGridFix();
 
     // 1. 제품정보(솔루션) 드롭다운: cate-override → wp-dropdown 스타일
     var catOverride = document.getElementById('category');
@@ -204,6 +219,7 @@
   var kmTimer = setInterval(function() {
     kmReviewHeader();
     kmMoveReviewBelow();
+    kmPhotoGridFix();
     if (++kmTries > 40) clearInterval(kmTimer);
   }, 500);
 })();
