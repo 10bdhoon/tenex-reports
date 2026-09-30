@@ -51,6 +51,10 @@ export default async function middleware(req: Request) {
     url.pathname === "/es-808.jpg" ||
     url.pathname === "/ws-200.jpg" ||
     url.pathname === "/youtube-channel.jpg" ||
+    // 키네펜 465 히든링크 구매옵션 세트 카드 이미지 (카페24가 base64 차단 → 외부 URL 호스팅)
+    url.pathname === "/kinepen-set1.jpg" ||
+    url.pathname === "/kinepen-set2.jpg" ||
+    url.pathname === "/kinepen-set3.jpg" ||
     url.pathname === "/2026-team-structure" ||
     url.pathname === "/2026-team-structure.html" ||
     url.pathname === "/onboarding-guide" ||
