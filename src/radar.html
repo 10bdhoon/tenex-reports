@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TENEX 산업 레이더</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📡</text></svg>">
+<style>
+:root{
+  --ink:#1a202c; --sub:#64748b; --line:#e2e8f0; --bg:#f6f8fb; --card:#ffffff;
+  --accent:#1d4ed8; --accent-bg:#eff6ff; --hot:#dc2626; --hot-bg:#fef2f2;
+  --mark:#fef08a; --ok:#059669; --ok-bg:#ecfdf5; --warn-bg:#fffbeb; --warn:#b45309;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Pretendard","Noto Sans KR",sans-serif;background:var(--bg);color:var(--ink);font-size:16px;line-height:1.65;-webkit-font-smoothing:antialiased}
+.wrap{max-width:760px;margin:0 auto;padding:0 16px 80px}
+a{color:var(--accent);text-decoration:none}
+a:hover{text-decoration:underline}
+mark{background:var(--mark);padding:0 3px;border-radius:3px;font-weight:700}
+.src{font-size:13px;color:var(--sub);white-space:nowrap}
+.src a{color:var(--sub);border-bottom:1px dotted var(--sub)}
+
+header{padding:28px 0 14px}
+.kicker{font-size:13px;font-weight:700;letter-spacing:.12em;color:var(--accent)}
+h1{font-size:26px;font-weight:800;margin:2px 0 4px}
+.date{font-size:14px;color:var(--sub)}
+
+nav{position:sticky;top:0;background:rgba(246,248,251,.95);backdrop-filter:blur(8px);padding:10px 0;margin-bottom:8px;overflow-x:auto;white-space:nowrap;z-index:10;border-bottom:1px solid var(--line)}
+nav a{display:inline-block;font-size:13px;font-weight:600;color:var(--ink);background:var(--card);border:1px solid var(--line);border-radius:999px;padding:6px 12px;margin-right:6px}
+nav a:hover{border-color:var(--accent);color:var(--accent);text-decoration:none}
+
+section{margin-top:28px}
+h2{font-size:19px;font-weight:800;margin-bottom:12px;display:flex;align-items:center;gap:8px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px 18px;margin-bottom:10px;box-shadow:0 1px 2px rgba(15,23,42,.04)}
+.card h3{font-size:16px;font-weight:700;margin-bottom:6px;line-height:1.45}
+.card p{margin-bottom:6px}
+.card p:last-child{margin-bottom:0}
+
+.badge{display:inline-block;font-size:11.5px;font-weight:800;border-radius:6px;padding:2px 8px;vertical-align:2px;margin-right:6px}
+.badge.act{background:var(--hot-bg);color:var(--hot)}
+.badge.watch{background:var(--warn-bg);color:var(--warn)}
+.badge.cat{background:var(--accent-bg);color:var(--accent)}
+.action{background:var(--hot-bg);border-left:4px solid var(--hot);border-radius:8px;padding:8px 12px;font-size:14.5px;font-weight:600;margin-top:8px}
+.insight{background:var(--accent-bg);border-left:4px solid var(--accent);border-radius:8px;padding:8px 12px;font-size:14.5px;margin-top:8px}
+
+ul.plain{list-style:none}
+ul.plain li{padding:10px 0;border-bottom:1px solid var(--line);font-size:15.5px}
+ul.plain li:last-child{border-bottom:none}
+
+table{width:100%;border-collapse:collapse;font-size:15px}
+th{font-size:12.5px;color:var(--sub);font-weight:700;text-align:left;padding:6px 8px;border-bottom:2px solid var(--line)}
+td{padding:10px 8px;border-bottom:1px solid var(--line);vertical-align:top}
+tr:last-child td{border-bottom:none}
+.num{font-weight:800;font-size:16px;white-space:nowrap}
+.dir{font-size:20px;font-weight:800;text-align:center}
+.up{color:var(--hot)} .down{color:var(--accent)} .flat{color:var(--sub)}
+.why{font-size:13.5px;color:var(--sub)}
+
+.study{border:2px solid var(--accent);border-radius:16px;background:var(--card);padding:20px;margin-bottom:12px}
+.study .tag{font-size:12px;font-weight:800;color:#fff;background:var(--accent);border-radius:6px;padding:3px 10px;display:inline-block;margin-bottom:8px}
+.study h3{font-size:20px;font-weight:800;margin-bottom:14px}
+.step{margin-bottom:14px}
+.step .label{font-size:13px;font-weight:800;color:var(--accent);letter-spacing:.04em;display:block;margin-bottom:4px}
+.dialog{background:var(--bg);border-radius:10px;padding:12px 14px;margin-bottom:14px}
+.dialog .en{font-weight:700;font-size:15.5px}
+.dialog .ko{font-size:13.5px;color:var(--sub);margin-bottom:10px}
+.dialog div:last-child .ko{margin-bottom:0}
+.phrase{padding:9px 0;border-bottom:1px dashed var(--line);font-size:14.5px}
+.phrase:last-child{border-bottom:none}
+.phrase b{color:var(--ink)}
+.oneline{background:#1e293b;color:#fff;border-radius:12px;padding:16px 18px;margin-top:12px}
+.oneline .en{font-size:17px;font-weight:800;line-height:1.5}
+.oneline .why2{font-size:13.5px;color:#cbd5e1;margin-top:6px}
+
+footer{margin-top:48px;font-size:13px;color:var(--sub);text-align:center}
+@media (max-width:480px){ h1{font-size:22px} .card{padding:14px} .study{padding:16px} }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <div class="kicker">TENEX INDUSTRY RADAR</div>
+  <h1>📡 산업 레이더 제1호</h1>
+  <div class="date">2026년 10월 1일 (목) / 매일 아침 6시 발행</div>
+</header>
+
+<nav>
+  <a href="#must">🎯 꼭 알 것</a><a href="#three">오늘의 3줄</a><a href="#world">🌏 세상</a><a href="#money">💰 돈 공부</a><a href="#concept">📖 개념</a><a href="#english">🗣 영어</a><a href="#industry">산업</a>
+</nav>
+
+<section id="must">
+  <h2>🎯 오늘 꼭 알아야 할 것</h2>
+  <div class="card">
+    <h3><span class="badge watch">모니터링</span>미 연준, 10월 추가인상 전망 <mark>급락</mark></h3>
+    <p>NY연은 윌리엄스 "서두를 필요 없다" 발언 + 8월 PCE 3.4%로 전망 하회. 원달러 <b>1,352원대</b>로 하향 안정.</p>
+    <div class="action">▸ 수입 OEM / 달러 광고비 부담 완화 신호 — <mark>10월 대량 발주 환율 타이밍 유리</mark>, 환율 추이 모니터링</div>
+    <p class="src"><a href="https://www.mt.co.kr/world/2026/09/30/2026093008584379127">머니투데이 ↗</a></p>
+  </div>
+  <div class="card">
+    <h3><span class="badge act">액션 필요</span>식약처, AI '가짜 전문가' 추천광고 <mark>금지 추진</mark></h3>
+    <p>의료기기법 개정 추진 + 실시간 AI 광고감시 강화.</p>
+    <div class="action">▸ 메타/유튜브 소재에 가상 전문가, 효능오인 표현 있으면 직격 — <mark>소재 전수 점검 필요</mark></div>
+    <p class="src"><a href="https://www.mt.co.kr/thebio/2026/09/14/2026091410203364231">머니투데이 더바이오 ↗</a></p>
+  </div>
+  <div class="card">
+    <h3><span class="badge watch">추적만</span>트럼프, 한국 대미투자 발표 (알래스카 LNG 540억달러 포함)</h3>
+    <p>한국 정부는 "추후 협의"로 온도차. 미국 진출 관점의 통상/관세 환경 변수 — 당장 액션은 없음.</p>
+    <p class="src"><a href="https://www.fnnews.com/news/202609301829100166">파이낸셜뉴스 ↗</a></p>
+  </div>
+</section>
+
+<section id="three">
+  <h2>오늘의 3줄</h2>
+  <div class="card">
+    <ul class="plain">
+      <li>1️⃣ <b>미 연준 10월 인상 전망 급락</b>, 환율 <mark>1,352.8원</mark>까지 하락 안정 <span class="src"><a href="https://www.mt.co.kr/economy/2026/09/30/2026093015352291632">머니투데이 ↗</a></span></li>
+      <li>2️⃣ <b>식약처 AI 가짜 전문가 광고 금지</b> + 실시간 감시 — 의료기기 광고 심의 <mark>리스크 상승</mark> <span class="src"><a href="https://www.mt.co.kr/thebio/2026/09/14/2026091410203364231">더바이오 ↗</a></span></li>
+      <li>3️⃣ <b>바디프랜드/세라젬</b>, AI 안마의자/순환매트로 <mark>'근육통 완화' 영역 근접</mark> <span class="src"><a href="https://www.thevaluenews.co.kr/news/201188">더밸류뉴스 ↗</a></span></li>
+    </ul>
+  </div>
+</section>
+
+<section id="world">
+  <h2>🌏 세상 돌아가는 것</h2>
+  <div class="card">
+    <ul class="plain">
+      <li><b>트럼프, 2,000억달러 규모 한국 대미투자 발표</b> (알래스카 LNG 540억달러 등) — 한국 정부는 "아직 협의 단계"라며 온도차. 통상 빅딜의 밀고당기기가 공개된 것. <span class="src"><a href="https://www.fnnews.com/news/202609301829100166">파이낸셜뉴스 ↗</a></span></li>
+      <li><b>DMZ 지뢰 폭발로 장병 3명 부상</b>, 군은 '북한 목함지뢰'로 결론. 대북 확성기 재개 검토 중. <span class="src"><a href="https://www.dailian.co.kr/news/view/1696467">데일리안 ↗</a></span></li>
+    </ul>
+  </div>
+</section>
+
+<section id="money">
+  <h2>💰 돈 공부 — 지금 판 어디쯤</h2>
+  <div class="card">
+    <table>
+      <tr><th>항목</th><th>지금</th><th>방향</th><th>왜</th></tr>
+      <tr><td><b>한국 기준금리</b></td><td class="num">3.00%</td><td class="dir up">↑</td><td class="why">8/27 +0.25%p 인상. 고환율/물가 방어 기조. 다음 금통위 <b>10/22</b></td></tr>
+      <tr><td><b>미국 기준금리</b></td><td class="num">3.75~4.00%</td><td class="dir flat">→</td><td class="why">9월 +0.25%p 후 관망. 10월 인상 확률 급락. FOMC <b>10/27~28</b></td></tr>
+      <tr><td><b>원달러 환율</b></td><td class="num">1,352.8원</td><td class="dir down">↓</td><td class="why">전일 -3.9원, 하향 안정. 다만 여전히 높은 레벨</td></tr>
+      <tr><td><b>증시</b></td><td class="num">코스피 7,000선</td><td class="dir up">↑</td><td class="why">삼성전자/SK하이닉스 3Q 최대실적(HBM) 기대가 견인, 나스닥도 강세</td></tr>
+      <tr><td><b>서울 부동산</b></td><td class="num">86주 연속 상승</td><td class="dir up">↑</td><td class="why">상승세지만 주담대 한도 축소(25억 초과 2억)로 둔화 시도 중</td></tr>
+    </table>
+  </div>
+  <div class="card">
+    <h3>머니 뉴스 헤드라인</h3>
+    <ul class="plain">
+      <li>연준 윌리엄스 <b>"추가 인상 서두를 필요 없다"</b> — 10월 인상 전망 급락 <span class="src"><a href="https://www.mt.co.kr/world/2026/09/30/2026093008584379127">머니투데이 ↗</a></span></li>
+      <li>미 8월 PCE <b>3.4%</b>, 전망 하회 — 10월 금리 부담 완화 <span class="src"><a href="https://fnnews.com/news/202610010625027673">파이낸셜뉴스 ↗</a></span></li>
+      <li>삼성전자/SK하이닉스 3Q 영업이익 합산 <b>190조 '역대 최대' 전망</b> (HBM4) <span class="src"><a href="https://www.fnnews.com/news/202609280631163675">파이낸셜뉴스 ↗</a></span></li>
+      <li>글로벌 M&A <b>4.5조달러</b> — 4년 만에 4조 돌파, 전년비 50%↑ <span class="src"><a href="https://www.sedaily.com/article/14163638">서울경제 ↗</a></span></li>
+      <li>수도권 규제지역 <b>주담대 한도 축소</b> — 25억 초과 주택 2억까지만 <span class="src"><a href="https://www.korea.kr/news/policyNewsView.do?newsId=148950959">정책브리핑 ↗</a></span></li>
+    </ul>
+  </div>
+</section>
+
+<section id="concept">
+  <div class="study">
+    <span class="tag">오늘의 개념 #1</span>
+    <h3>점도표 (dot plot)</h3>
+    <div class="step"><span class="label">① 정의</span>
+      FOMC 위원들이 각자 "연말/내년 금리가 이쯤 될 것 같다"고 <b>점 하나씩 찍어 모은 익명 투표판</b>. 반에서 다음 시험 평균을 학생 19명이 각자 예상 점수로 칠판에 점 찍어두는 것과 똑같다. 의장의 공식 예보는 아니지만, <mark>점들이 위에 몰렸나 아래에 몰렸나만 봐도 연준 전체 분위기가 한눈에</mark> 보인다.
+    </div>
+    <div class="step"><span class="label">② 게임의 법칙</span>
+      돈 시장은 '지금 금리'가 아니라 <b>'앞으로의 경로'에 베팅</b>한다. 점도표 중간값이 올라가면(매파) → 채권금리↑, 달러 강세, 성장주부터 하락. 내려가면(비둘기) 정반대. <mark>버는 쪽은 발표 '전에' 경로를 먼저 읽은 사람, 잃는 쪽은 발표 '후에' 따라붙는 사람</mark>. 숫자 자체보다 "지난번보다 점이 위로 갔나 아래로 갔나"의 변화가 시장을 흔든다.
+    </div>
+    <div class="step"><span class="label">③ 태훈 연결</span>
+      이번 점도표 연말 중간값은 <b>4.1%</b> = '한 번 더 올릴 수도'. 미 금리가 높게 유지되면 달러 강세 → 원화 약세 → <b>OEM 수입 원가와 메타/구글 달러 광고비가 올라간다</b>. 반대로 점도표가 비둘기로 꺾이면 환율이 내려 발주/마진에 유리.
+      <div class="insight">💡 대량 발주와 환전 타이밍은 "점도표가 어느 쪽으로 움직였나"를 보고 선제적으로 잡는 게 실전 무기</div>
+    </div>
+    <div class="step"><span class="label">④ 오늘 뉴스와 연결</span>
+      윌리엄스 "추가 인상 서두를 필요 없다" → 10월 인상 확률 급락 = <mark>시장이 점도표 경로를 아래로 당기는 중</mark>이고, 오늘 원달러 1,352원 하락과 맞물린다.
+    </div>
+  </div>
+</section>
+
+<section id="english">
+  <div class="study">
+    <span class="tag">비즈니스 영어 — 오늘의 상황 #1</span>
+    <h3>미국 박람회 부스: 제품 피치 & 스몰톡</h3>
+    <div class="step"><span class="label">상황</span>
+      라스베이거스 전시 부스. 미국 바이어가 ES-808 데모를 흘끗 보다가 다가온다. <mark>첫 30초가 승부</mark>.
+    </div>
+    <div class="dialog">
+      <div><div class="en">🧑‍💼 "So what exactly am I looking at here?"</div><div class="ko">여기 이거, 정확히 뭔가요?</div></div>
+      <div><div class="en">🙋 "This is our ES-808 — a handheld TENS recovery pen for muscle care. <b>Want to feel it on your hand?</b>"</div><div class="ko">저희 ES-808입니다 — 근육 케어용 휴대형 저주파 회복 펜이에요. 손에 한번 느껴보실래요?</div></div>
+      <div><div class="en">🧑‍💼 "Oh, that's a nice tingle. How's it different from a Theragun?"</div><div class="ko">오, 찌릿한 게 좋네요. 테라건이랑 뭐가 다른가요?</div></div>
+      <div><div class="en">🙋 "Theragun pounds the muscle; we send micro-current to the nerve point — <b>targeted, quiet, pocket-sized.</b>"</div><div class="ko">테라건은 근육을 두드리죠. 저흰 신경점에 미세전류를 보냅니다 — 타겟형, 조용함, 주머니에 쏙.</div></div>
+      <div><div class="en">🧑‍💼 "Nice. What's your MOQ and lead time?"</div><div class="ko">좋네요. 최소주문수량이랑 납기는요?</div></div>
+      <div><div class="en">🙋 "<b>Let's grab a coffee</b> and I'll walk you through the numbers."</div><div class="ko">커피 한잔하면서 숫자 하나씩 짚어드릴게요.</div></div>
+    </div>
+    <div class="step"><span class="label">핵심 표현</span>
+      <div class="phrase"><b>"Want to feel it on your hand?"</b> — 데모를 '만지게' 유도. 한국인은 "Do you want to try?"만 쓰는데, 촉감 제품엔 <mark>feel이 훨씬 생생</mark>하다.</div>
+      <div class="phrase"><b>"How's it different from ~?"</b> — 경쟁사 비교 질문. 방어하지 말고 <mark>'한 문장 차별점'으로 받아치는</mark> 게 핵심.</div>
+      <div class="phrase"><b>"targeted, quiet, pocket-sized"</b> — 형용사 3연타. 미국식 피치는 길게 설명 않고 <mark>짧은 3박자로 각인</mark>. (한국인은 문장을 길게 푸는 습관 주의)</div>
+      <div class="phrase"><b>"MOQ / lead time"</b> — MOQ는 그냥 "엠-오-큐". lead time = 납기. 바이어가 이 둘을 물으면 <mark>'진짜 관심 있다'는 신호</mark>.</div>
+      <div class="phrase"><b>"Let's grab a coffee."</b> — 가격 얘기를 부스에 선 채로 말고 자리 옮겨서 하자는 관계 신호. 바로 숫자로 들어가면 '거래' 느낌, 이 한마디가 <mark>'관계' 느낌</mark>을 만든다.</div>
+    </div>
+    <div class="oneline">
+      <div style="font-size:12px;font-weight:800;color:#94a3b8;margin-bottom:4px">오늘의 한 문장 (통암기)</div>
+      <div class="en">"Theragun pounds the muscle;<br>we send micro-current to the nerve point."</div>
+      <div class="why2">경쟁사를 한 방에 정의하고 우리 차별점을 한 문장으로 못 박는 엘리베이터 피치. 세미콜론 대비가 세련됨의 포인트.</div>
+    </div>
+  </div>
+</section>
+
+<section id="industry">
+  <h2>산업 헤드라인</h2>
+  <div class="card">
+    <h3><span class="badge cat">경쟁/시장</span>바디프랜드 생성형AI 안마의자, 세라젬 '셀트론 순환매트'</h3>
+    <p>혈액순환/근육통 완화 식약처 인증 — 홈헬스케어 'AI 초개인화' 경쟁 격화.</p>
+    <div class="insight">💡 대기업들이 <b>'근육통 완화' 클레임으로 우리 영역에 근접</b> 중 — 포지셔닝 주시</div>
+    <p class="src"><a href="https://www.thevaluenews.co.kr/news/201188">더밸류뉴스 ↗</a></p>
+  </div>
+  <div class="card">
+    <h3><span class="badge cat">규제/정책</span>식약처, AI 생성 가짜 의사/전문가 추천광고 금지 입법</h3>
+    <p>실시간 AI 감시 체계 도입 — 효능오인/가상전문가 소재 리스크.</p>
+    <div class="action">▸ 우리 소재 전수 점검 필요 (🎯 섹션 참조)</div>
+    <p class="src"><a href="https://www.mt.co.kr/thebio/2026/09/14/2026091410203364231">머니투데이 더바이오 ↗</a></p>
+  </div>
+  <div class="card">
+    <h3><span class="badge cat">커머스/마케팅</span>카페24×메타 크리에이터 커머스 전략 발표</h3>
+    <p>재구매율 5%↑ = 이익 최대 75%↑ 강조. 9월 구글 'YouTube Watch While Ads' 런칭, 메타 캠페인 세팅 변경.</p>
+    <div class="insight">💡 우리 메타 세팅/CAPI 재점검 포인트</div>
+    <p class="src"><a href="https://www.openads.co.kr/content/contentDetail?contsId=20519">오픈애즈 ↗</a></p>
+  </div>
+  <div class="card">
+    <h3><span class="badge cat">글로벌 리커버리</span>Therabody, IFA 2026에서 '다중요법 생태계'로 확장</h3>
+    <p>단일 타격건 → 타격+온열+적외선+압박 통합. NMES-TENS 전극은 FDA 등록 의료기기 라인으로.</p>
+    <div class="insight">💡 미국 시장은 <b>'FDA 등록 + 다중요법'이 표준</b>이 되는 중 — ES-808 미국 포지셔닝 참고</div>
+    <p class="src"><a href="https://www.smarthometested.com/post/therabody-at-ifa-2026-multi-therapy-massage-guns-triple-action-jetboots-smart-facial-tech">SmartHomeTested ↗</a></p>
+  </div>
+</section>
+
+<footer>
+  TENEX 산업 레이더 — 매일 아침 6시 자동 발행 / 슬랙 DM 다이제스트와 함께
+</footer>
+
+</div>
+</body>
+</html>
