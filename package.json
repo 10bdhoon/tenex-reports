@@ -1,5 +1,8 @@
 {
   "private": true,
+  "engines": {
+    "node": "22.x"
+  },
   "dependencies": {
     "@vercel/edge": "^1.2.2",
     "bcryptjs": "^3.0.3",
