@@ -206,6 +206,23 @@
     li.appendChild(ul);
   }
 
+  // 0-5. 스킨 절대주소 링크 상대경로화 (2026-10-05, kinepen 멀티도메인)
+  //      스킨에 kinemedical.co.kr 풀주소로 박힌 배너·게시판 링크가 kinepen 착지 고객을
+  //      구 도메인으로 끌고 가 새 픽셀 측정이 끊김 → 어느 도메인에서든 자기 도메인 유지.
+  //      주의: pathname이 //shop5/... 처럼 이중 슬래시면 protocol-relative로 오인되므로 단일화.
+  function kmRelativizeLinks() {
+    var as = document.querySelectorAll('a[href*="kinemedical.co.kr"]');
+    for (var i = 0; i < as.length; i++) {
+      try {
+        var u = new URL(as[i].getAttribute('href'), location.href);
+        if (/(^|\.)kinemedical\.co\.kr$/.test(u.hostname)) {
+          var p = u.pathname.replace(/^\/+/, '/');
+          as[i].setAttribute('href', p + u.search + u.hash);
+        }
+      } catch (e) {}
+    }
+  }
+
   function applyFixes() {
     // 0-4. 상단 리뷰 요약 (평점 4.9 고정 + 건수 동기화)
     kmApplyScore();
@@ -215,6 +232,7 @@
     kmReviewHeader();
     kmMoveReviewBelow();
     kmPhotoGridFix();
+    kmRelativizeLinks();
 
     // 1. 제품정보(솔루션) 드롭다운: cate-override → wp-dropdown 스타일
     var catOverride = document.getElementById('category');
@@ -313,6 +331,7 @@
     kmReviewHeader();
     kmMoveReviewBelow();
     kmPhotoGridFix();
+    kmRelativizeLinks();
     if (++kmTries > 40) clearInterval(kmTimer);
   }, 500);
 })();
