@@ -390,11 +390,13 @@
     sending = true;
     setTimeout(function () { sending = false; }, 3000);
     var payload = JSON.stringify({ t: c.t, id: c.id, p: productNo(), v: amount() });
+    // Content-Type 은 text/plain 이어야 한다. application/json 은 CORS 사전요청(preflight)을
+    // 유발하는데 sendBeacon 은 사전요청을 못 해서 브라우저가 조용히 버린다(true 를 반환함).
     try {
-      if (navigator.sendBeacon && navigator.sendBeacon(ENDPOINT, new Blob([payload], { type: 'application/json' }))) return;
+      if (navigator.sendBeacon && navigator.sendBeacon(ENDPOINT, new Blob([payload], { type: 'text/plain;charset=UTF-8' }))) return;
     } catch (e) {}
     try {
-      fetch(ENDPOINT, { method: 'POST', body: payload, headers: { 'Content-Type': 'application/json' }, keepalive: true, mode: 'cors' });
+      fetch(ENDPOINT, { method: 'POST', body: payload, headers: { 'Content-Type': 'text/plain;charset=UTF-8' }, keepalive: true, mode: 'cors' });
     } catch (e2) {}
   }
 
