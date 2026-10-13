@@ -370,12 +370,21 @@
     return m ? m[1] : '';
   }
   function amount() {
+    // 옵션·수량이 반영된 "총 상품금액"을 우선 읽는다. 상세페이지 표시가는 옵션을 반영하지 못해
+    // 주문 금액과 어긋나고, 그러면 매칭 변별력이 사라져 엉뚱한 주문에 붙을 수 있다.
+    try {
+      var el = document.querySelector('#totalPrice');
+      if (el) {
+        var m = (el.innerText || '').replace(/\s/g, '').match(/([0-9][0-9,]{2,})/);
+        if (m) { var n = Number(m[1].replace(/,/g, '')); if (n > 0) return n; }
+      }
+    } catch (e) {}
     try {
       var dl = window.dataLayer || [];
       for (var i = dl.length - 1; i >= 0; i--) {
-        var e = dl[i];
-        if (e && e.event === 'detail' && e.productInfo && e.productInfo[0]) {
-          return Number(String(e.productInfo[0].price).replace(/[^0-9]/g, '')) || 0;
+        var ev = dl[i];
+        if (ev && ev.event === 'detail' && ev.productInfo && ev.productInfo[0]) {
+          return Number(String(ev.productInfo[0].price).replace(/[^0-9]/g, '')) || 0;
         }
       }
     } catch (err) {}
