@@ -335,3 +335,73 @@
     if (++kmTries > 40) clearInterval(kmTimer);
   }, 500);
 })();
+
+/* ── 네이버페이 S2S 비컨 (2026-10-13) ──────────────────────────────────────
+ *  주문형 네이버페이는 결제가 네이버 도메인에서 끝나고 주문만 카페24로 돌아온다.
+ *  돌아온 주문에는 광고 클릭 식별자가 없고, 구매자는 100% 비회원이라
+ *  카페24 향상된 전환(로그인 회원 전용)도 작동하지 않는다 → 구글 매칭이 구조적으로 0.
+ *  그래서 "버튼을 누르는 순간" = 이탈 직전에 gclid 를 남겨 둔다.
+ *  서버에서 이 기록을 들어온 주문과 맞춰 Data Manager API 로 올린다.
+ *  화면에는 아무 변화도 주지 않고, 실패해도 구매 흐름을 막지 않는다.
+ */
+(function () {
+  var ENDPOINT = 'https://tenex-dashboard.vercel.app/api/npay/beacon';
+
+  function ck(n) {
+    var r = document.cookie.match('(?:^|; )' + n + '=([^;]+)');
+    return r ? decodeURIComponent(r[1]) : '';
+  }
+  function clickId() {
+    var m = location.search.match(/[?&](gclid|gbraid|wbraid)=([^&]+)/);
+    if (m) return { t: m[1], id: decodeURIComponent(m[2]) };
+    var aw = ck('_gcl_aw'), p = aw ? aw.split('.') : [];   // GCL.<ts>.<gclid>
+    if (p.length >= 3) return { t: 'gclid', id: p.slice(2).join('.') };
+    var gb = ck('_gcl_gb'), q = gb ? gb.split('.') : [];
+    if (q.length >= 3) return { t: 'gbraid', id: q.slice(2).join('.') };
+    var cl = ck('_cl_gclid');
+    if (cl) {
+      var ty = ck('_cl_gclid_type');
+      return { t: (ty === 'gbraid' || ty === 'wbraid') ? ty : 'gclid', id: cl };
+    }
+    return null;
+  }
+  function productNo() {
+    var m = location.search.match(/[?&]product_no=(\d+)/);
+    return m ? m[1] : '';
+  }
+  function amount() {
+    try {
+      var dl = window.dataLayer || [];
+      for (var i = dl.length - 1; i >= 0; i--) {
+        var e = dl[i];
+        if (e && e.event === 'detail' && e.productInfo && e.productInfo[0]) {
+          return Number(String(e.productInfo[0].price).replace(/[^0-9]/g, '')) || 0;
+        }
+      }
+    } catch (err) {}
+    return 0;
+  }
+
+  var sending = false;
+  function fire() {
+    if (sending) return;
+    var c = clickId();
+    if (!c || !c.id) return;                 // 광고 클릭이 아니면 아무것도 보내지 않는다
+    sending = true;
+    setTimeout(function () { sending = false; }, 3000);
+    var payload = JSON.stringify({ t: c.t, id: c.id, p: productNo(), v: amount() });
+    try {
+      if (navigator.sendBeacon && navigator.sendBeacon(ENDPOINT, new Blob([payload], { type: 'application/json' }))) return;
+    } catch (e) {}
+    try {
+      fetch(ENDPOINT, { method: 'POST', body: payload, headers: { 'Content-Type': 'application/json' }, keepalive: true, mode: 'cors' });
+    } catch (e2) {}
+  }
+
+  // 캡처 단계로 듣는다 — 네이버 핸들러가 페이지를 넘기기 전에 먼저 실행되도록.
+  document.addEventListener('click', function (ev) {
+    var t = ev.target;
+    if (!t || !t.closest) return;
+    if (t.closest('#NaverChk_Button') || t.closest('.npay_storebtn_bx') || t.closest('#NPAY_BUTTON_BOX_ID')) fire();
+  }, true);
+})();
