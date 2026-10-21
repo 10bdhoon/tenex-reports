@@ -47,7 +47,10 @@
     var grp = document.querySelector('.detail-review-box .grp_review');
     if (!grp) return;
     var avg = grp.querySelector('.review-avg');
-    var pt = grp.querySelector('point');
+    // 스킨 JS가 비동기로 <point>를 따로 끼워 넣어서, 우리가 먼저 만들면 2개가 됨("4.9 4.9") → 1개만 남김
+    var pts = grp.querySelectorAll('point');
+    for (var i = 1; i < pts.length; i++) pts[i].parentNode.removeChild(pts[i]);
+    var pt = pts[0];
     if (!pt && avg && avg.parentNode) {
       pt = document.createElement('point');
       avg.parentNode.insertBefore(pt, avg.nextSibling);
