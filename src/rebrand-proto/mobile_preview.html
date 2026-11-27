@@ -1,0 +1,17 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><title>모바일 미리보기 · another minute.</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<style>body{margin:0;background:#F5F1E8;font-family:Pretendard,sans-serif;display:flex;flex-direction:column;align-items:center;padding:28px 0}
+h1{font-size:20px;color:#263D40;margin:0 0 6px}p{font-size:13px;color:#727977;margin:0 0 16px}
+select{font:inherit;font-size:14px;padding:8px 12px;border-radius:8px;border:1px solid #DCD9D1;margin-bottom:18px}
+.phone{width:390px;height:844px;border:12px solid #292E2E;border-radius:44px;overflow:hidden;box-shadow:0 20px 50px rgba(0,0,0,.18);background:#fff}
+iframe{width:390px;height:844px;border:0;display:block}</style></head><body>
+<h1>모바일 미리보기</h1><p>휴대폰 화면(390px)으로 보여요 · 화면 안에서 스크롤·클릭·메뉴(≡) 모두 동작</p>
+<select onchange="document.getElementById('f').src=this.value">
+<option value="index.html">M00 메인</option><option value="S10_shop_all.html">S10 SHOP</option><option value="S10_shop_all.html#beauty">S10 SHOP · BEAUTY</option><option value="S20_shop_pdp.html">S20 제품 상세</option>
+<option value="E11_explore_routines.html">E11 나에게 맞는 회복 루틴</option><option value="E20_explore_guides.html">E20 am. 코치</option><option value="E21_explore_guide_detail.html">E21 가이드 상세</option>
+<option value="C10_community_rcc.html">C10 RCC 소개</option><option value="C11_community_crew.html">C11 크루 소개</option><option value="C12_community_routines.html">C12 RCC 루틴</option><option value="C13_community_routine_detail.html">C13 루틴 상세</option>
+<option value="C20_community_journal.html">C20 Journal</option><option value="C21_community_article.html">C21 아티클</option>
+<option value="B10_brand_story.html">B10 브랜드 이야기</option><option value="B20_brand_experts.html">B20 전문가와 함께</option>
+<option value="U10_support_home.html">U10 고객지원</option><option value="U11_support_faq.html">U11 FAQ</option><option value="U15_support_register.html">U15 정품등록</option><option value="U16_support_b2b.html">U16 B2B 문의</option>
+</select>
+<div class="phone"><iframe id="f" src="index.html"></iframe></div></body></html>
